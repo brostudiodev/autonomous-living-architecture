@@ -2,25 +2,37 @@
 date: 2026-01-16
 weekday: Friday
 mood:
-  - 😐 ok
+- 😐 ok
 energy:
-  - 3 - normal
-sleep_start: 22:00
+- 3 - normal
+sleep_start: 1320
 sleep_end: 06:00
 sleep_duration: 8
 sleep_quality: 3
-calories: "2000"
-protein: "150"
-steps: "5000"
-workout_type:
-highlight: ""
-frustration: ""
-automation_win: ""
-north_star: "[[P - Goals - 2026 Automation-First Living]]"
-goals_touched: []
-goals_activities: {}
+calories: '2000'
+protein: '150'
+steps: '5000'
+workout_type: null
+highlight: ''
+frustration: ''
+automation_win: ''
+north_star: '[[P - Goals - 2026 Automation-First Living]]'
+goals_touched:
+- '[[P - Workout - Reach Target Body Fat]]'
+- '[[P - System - Complete Process Documentation]]'
+goals_activities:
+  G01:
+    name: P - Workout - Reach Target Body Fat
+    did: HIT trening
+    next: Wymyslic jak trackowac kalorie i workouty
+    code: autonomous-living/goal-01/
+  G09:
+    name: P - System - Complete Process Documentation
+    did: Poprawa automatycznego daily template i automation-living
+    next: Pena automatyzacja
+    code: autonomous-living/goal-09/
 tags:
-  - daily
+- daily
 ---
 # 2026-01-16 – Daily
 
