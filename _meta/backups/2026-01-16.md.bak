@@ -2,31 +2,22 @@
 date: 2026-01-16
 weekday: Friday
 mood:
-  - 😄 great
-  - 🙂 good
   - 😐 ok
-  - 😞 low
-  - 💀 dead
 energy:
-  - 5 - peak
-  - 4 - high
   - 3 - normal
-  - 2 - low
-  - 1 - exhausted
-sleep start: 23:00
-sleep end: 05:30
-sleep duration_hours:
-sleep quality_1-5: "3"
-calories:
-protein:
-steps:
-workout_type: ""
+sleep_start: 22:00
+sleep_end: 06:00
+sleep_duration: 8
+sleep_quality: 3
+calories: "2000"
+protein: "150"
+steps: "5000"
+workout_type:
 highlight: ""
 frustration: ""
 automation_win: ""
 north_star: "[[P - Goals - 2026 Automation-First Living]]"
-goals_touched:
-  - G01
+goals_touched: []
 goals_activities: {}
 tags:
   - daily
@@ -37,11 +28,9 @@ Linked week: [[2026-W03]]
 Check and remember daily routines: [[A - System - Life Routines]] 
 Vision:  [[P - Goals - 2026 Automation-First Living]]
 
-```yaml
 > [!info]- 📊 Live Dashboard (Click to expand)
 > **Energy:** `= this.energy`/5 | **Mood:** `= this.mood` | **Sleep:** `= this.sleep_duration`h (`= this.sleep_quality`/5)
 > **Goals Today:** `= length(this.goals_touched)` | **Calories:** `= this.calories` | **Steps:** `= this.steps`
-```
 
 ---
 ## One thing to remember from today
@@ -67,13 +56,10 @@ sort by path
 ## Tasks (manual planning)
 
 ### Work
-- [ ] #work #today Sprawdzic UiPath upgrade
 ### Personal
 
 ### Life / Family
-- [ ] #personal #family #today Dzisiaj praca dopiero wieczorem!
 ### Deep Work (optional – high-focus tasks)
-
 
 ---
 ## After Work - Overview
@@ -84,71 +70,71 @@ sort by path
 ## After Work – Power Goals
 _(Fill this when you open Obsidian after work.)_
 
+> [!info]- 📋 Quick Reference: All 12 Goals
+> 1. [[P - Workout - Reach Target Body Fat]]
+> 2. [[P - Automation - Automationbro]]
+> 3. [[P - Personal - Autonomous Household Operations System]]
+> 4. [[P - AI - Digital Twin Ecosystem - Virtual Assistant]]
+> 5. [[P - Finance - Autonomous Financial Command Center]]
+> 6. [[P - Learning - Pass Certification Exams]]
+> 7. [[P - Health - Predictive Health Management & Performance Optimization System]]
+> 8. [[P - Smart Home - Predictive Smart Home Orchestration]]
+> 9. [[P - System - Complete Process Documentation]]
+> 10. [[P - Automation - Automated Career Intelligence & Positioning System]]
+> 11. [[P - Automation - Intelligent Productivity & Time Architecture System]]
+> 12. [[P - Automation - Meta-System Integration & Continuous Optimization Engine]]
+
 ### Choose Today’s Power Goals (max 3)
 _From the 12, pick **only what you commit to touch today (max 3)**:_
-
-> [!todo]- Goal Tracker (Click to expand when logging)
-> 
-> -  **G01** – [[P - Workout - Reach Target Body Fat]]
->     
->     - **Did:** HIT Training
->     - **Next:** Try to find a way how to track data
->     - **Code:** `autonomous-living/goal-01/`
-> -  **G02** – [[P - Automation - Automationbro]]
->     
->     - **Did:**
->     - **Next:**
->     - **Code:** `autonomous-living/goal-02/`
-> -  **G03** – [[P - Personal - Autonomous Household Operations System]]
->     
->     - **Did:**
->     - **Next:**
->     - **Code:** `autonomous-living/goal-03/`
-> -  **G04** – [[P - AI - Digital Twin Ecosystem - Virtual Assistant]]
->     
->     - **Did:**
->     - **Next:**
->     - **Code:** `autonomous-living/goal-04/`
-> -  **G05** – [[P - Finance - Autonomous Financial Command Center]]
->     
->     - **Did:**
->     - **Next:**
->     - **Code:** `autonomous-living/goal-05/`
-> -  **G06** – [[P - Learning - Pass Certification Exams]]
->     
->     - **Did:**
->     - **Next:**
->     - **Code:** `autonomous-living/goal-06/`
-> -  **G07** – [[P - Health - Predictive Health Management & Performance Optimization System]]
->     
->     - **Did:**
->     - **Next:**
->     - **Code:** `autonomous-living/goal-07/`
-> -  **G08** – [[P - Smart Home - Predictive Smart Home Orchestration]]
->     
->     - **Did:**
->     - **Next:**
->     - **Code:** `autonomous-living/goal-08/`
-> -  **G09** – [[P - System - Complete Process Documentation]]
->     
->     - **Did:**
->     - **Next:**
->     - **Code:** `autonomous-living/goal-09/`
-> -  **G10** – [[P - Automation - Automated Career Intelligence & Positioning System]]
->     
->     - **Did:**
->     - **Next:**
->     - **Code:** `autonomous-living/goal-10/`
-> -  **G11** – [[P - Automation - Intelligent Productivity & Time Architecture System]]
->     
->     - **Did:**
->     - **Next:**
->     - **Code:** `autonomous-living/goal-11/`
-> -  **G12** – [[P - Automation - Meta-System Integration & Continuous Optimization Engine]]
->     
->     - **Did:**
->     - **Next:**
->     - **Code:** `autonomous-living/goal-12/`
+ 
+ - [x] **G01** – [[P - Workout - Reach Target Body Fat]] ✅ 2026-01-16
+     - **Did:** HIT trening
+     - **Next:** Wymyslic jak trackowac kalorie i workouty
+     - **Code:** `autonomous-living/goal-01/`
+ - [ ] **G02** – [[P - Automation - Automationbro]]
+     - **Did:**
+     - **Next:**
+     - **Code:** `autonomous-living/goal-02/`
+ - [ ] **G03** – [[P - Personal - Autonomous Household Operations System]]
+     - **Did:**
+     - **Next:**
+     - **Code:** `autonomous-living/goal-03/`
+ - [ ] **G04** – [[P - AI - Digital Twin Ecosystem - Virtual Assistant]]
+     - **Did:**
+     - **Next:**
+     - **Code:** `autonomous-living/goal-04/`
+ - [ ] **G05** – [[P - Finance - Autonomous Financial Command Center]]
+     - **Did:**
+     - **Next:**
+     - **Code:** `autonomous-living/goal-05/`
+ - [ ] **G06** – [[P - Learning - Pass Certification Exams]]
+     - **Did:**
+     - **Next:**
+     - **Code:** `autonomous-living/goal-06/`
+ - [ ] **G07** – [[P - Health - Predictive Health Management & Performance Optimization System]]
+     - **Did:**
+     - **Next:**
+     - **Code:** `autonomous-living/goal-07/`
+ - [ ] **G08** – [[P - Smart Home - Predictive Smart Home Orchestration]]
+     - **Did:**
+     - **Next:**
+     - **Code:** `autonomous-living/goal-08/`
+ - [x] **G09** – [[P - System - Complete Process Documentation]] ✅ 2026-01-16
+     - **Did:** Poprawa automatycznego daily template i automation-living
+     - **Next:** Pena automatyzacja
+     - **Code:** `autonomous-living/goal-09/`
+ - [ ] **G10** – [[P - Automation - Automated Career Intelligence & Positioning System]]
+     - **Did:**
+     - **Next:**
+     - **Code:** `autonomous-living/goal-10/`
+ - [ ] **G11** – [[P - Automation - Intelligent Productivity & Time Architecture System]]
+     - **Did:**
+     - **Next:**
+     - **Code:** `autonomous-living/goal-11/`
+ - [ ] **G12** – [[P - Automation - Meta-System Integration & Continuous Optimization Engine]]
+     - **Did:**
+     - **Next:**
+     - **Code:** `autonomous-living/goal-12/`
 
 > [!tip] 🤖 Automation Trigger After checking goals above, run: `Ctrl+Shift+G` or `python sync-daily-goals.py` This updates YAML fields and syncs to autonomous-living repository.
 

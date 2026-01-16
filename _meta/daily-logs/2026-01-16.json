@@ -1,0 +1,40 @@
+{
+  "date": "2026-01-16",
+  "weekday": "Friday",
+  "metadata": {
+    "energy": "3 - normal",
+    "mood": "😐 ok",
+    "sleep_duration": 8,
+    "sleep_quality": 3,
+    "calories": "2000",
+    "protein": "150",
+    "steps": "5000",
+    "workout_type": null,
+    "highlight": "",
+    "frustration": "",
+    "automation_win": ""
+  },
+  "goals_summary": {
+    "total_touched": 2,
+    "goals_list": [
+      "[[P - Workout - Reach Target Body Fat]]",
+      "[[P - System - Complete Process Documentation]]"
+    ]
+  },
+  "activities": [
+    {
+      "id": "G01",
+      "name": "P - Workout - Reach Target Body Fat",
+      "did": "HIT trening",
+      "next": "Wymyslic jak trackowac kalorie i workouty",
+      "code_path": "autonomous-living/goal-01/"
+    },
+    {
+      "id": "G09",
+      "name": "P - System - Complete Process Documentation",
+      "did": "Poprawa automatycznego daily template i automation-living",
+      "next": "Pena automatyzacja",
+      "code_path": "autonomous-living/goal-09/"
+    }
+  ]
+}
