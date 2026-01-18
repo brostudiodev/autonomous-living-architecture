@@ -9,13 +9,13 @@ sleep_start: 24:00
 sleep_end: 06:00
 sleep_duration: 6
 sleep_quality: 3
-calories:
-protein:
-steps:
+calories: "2000"
+protein: "150"
+steps: "5000"
 workout_type: ""
-highlight: ""
+highlight: Trzeba wymyslic szablon na dokumentacje
 frustration: ""
-automation_win: ""
+automation_win: Telegram automation start
 north_star: "[[P - Goals - 2026 Automation-First Living]]"
 goals_touched:
   - "[[P - Automation - Meta-System Integration & Continuous Optimization Engine]]"
@@ -40,7 +40,7 @@ Vision:  [[P - Goals - 2026 Automation-First Living]]
 
 ---
 ## One thing to remember from today
-- 
+- Starac sie miec konkretna liste todo codziennie! Retrospekcja tygodniowa potrzebna!
 
 ---
 ## Today's backlog – tasks from everywhere
@@ -55,22 +55,22 @@ sort by path
 ---
 ## Schedule / Time Blocks
 - 06:00–09:00 – Praca do 8 nad projektami 
-- 09:00–12:00 – 
-- 12:00–18:00 – 
-- 18:00–22:00 – 
+- 09:00–12:00 –  Przygotowania
+- 12:00–18:00 – Bedziemy u babci
+- 18:00–22:00 – Nic nie pracowac - a jesli to tylko 1 godzine max
 ---
 ## Tasks (manual planning)
 
 ### Work
-- [ ] #work #today 
+
 
 ### Personal
-- [ ] #personal #today 
+
 
 ### Life / Family
-- [ ] #personal #family #today 
+- [x] #personal #family #today Jedziemy do babci ✅ 2026-01-18
 ### Deep Work (optional – high-focus tasks)
-- [ ] ⏫ #deep #today 
+
 
 ---
 ## After Work - Overview
@@ -174,7 +174,7 @@ _From the 12, pick **only what you commit to touch today (max 3)**:_
 ## 🧠 Reflection
 
 - What moved me closer to [[P - Goals - 2026 Automation-First Living]]?
-- Bottlenecks noticed?
+- Bottlenecks noticed? ZA DUZO CZASU MI TO ZAJMUJE! 
 - What worked?
 - One good thing today
 - → **1 tweak for next time:**
