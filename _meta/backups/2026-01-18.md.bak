@@ -2,23 +2,23 @@
 date: 2026-01-18
 weekday: Sunday
 mood:
-  - 😐 ok
+- 😐 ok
 energy:
-  - 3 - normal
-sleep_start: 24:00
+- 3 - normal
+sleep_start: 1440
 sleep_end: 06:00
 sleep_duration: 6
 sleep_quality: 3
-calories: "2000"
-protein: "150"
-steps: "5000"
-workout_type: ""
+calories: '2000'
+protein: '150'
+steps: '5000'
+workout_type: ''
 highlight: Trzeba wymyslic szablon na dokumentacje
-frustration: ""
+frustration: ''
 automation_win: Telegram automation start
-north_star: "[[P - Goals - 2026 Automation-First Living]]"
+north_star: '[[P - Goals - 2026 Automation-First Living]]'
 goals_touched:
-  - "[[P - Automation - Meta-System Integration & Continuous Optimization Engine]]"
+- '[[P - Automation - Meta-System Integration & Continuous Optimization Engine]]'
 goals_activities:
   G12:
     name: P - Automation - Meta-System Integration & Continuous Optimization Engine
@@ -26,7 +26,7 @@ goals_activities:
     next: Automatic goal extraction from Obsidian Inbox note!
     code: autonomous-living/goal-12/
 tags:
-  - daily
+- daily
 ---
 # 2026-01-18 – Daily
 
