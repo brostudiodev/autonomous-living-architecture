@@ -1,12 +1,12 @@
 ---
-title: "G12: Complete Process Documentation"
+title: "G09: Complete Process Documentation"
 type: "goal"
 status: "active"
 owner: "Michał"
 updated: "2026-01-15"
 ---
 
-# G12: Complete Process Documentation
+# G09: Complete Process Documentation
 
 ## Intent
 What outcome are we actually buying here (not vanity metrics)?

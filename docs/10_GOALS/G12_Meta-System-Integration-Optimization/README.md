@@ -1,12 +1,12 @@
 ---
-title: "G11: Meta-System Integration & Optimization"
+title: "G12: Meta-System Integration & Optimization"
 type: "goal"
 status: "active"
 owner: "Michał"
 updated: "2026-01-15"
 ---
 
-# G11: Meta-System Integration & Optimization
+# G12: Meta-System Integration & Optimization
 
 ## Intent
 What outcome are we actually buying here (not vanity metrics)?

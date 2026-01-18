@@ -1,12 +1,12 @@
 ---
-title: "G10: Productivity & Time Architecture"
+title: "G10: Automated Career Intelligence"
 type: "goal"
 status: "active"
 owner: "Michał"
 updated: "2026-01-15"
 ---
 
-# G10: Productivity & Time Architecture
+# G10: Automated Career Intelligence
 
 ## Intent
 What outcome are we actually buying here (not vanity metrics)?
