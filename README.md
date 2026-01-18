@@ -4,7 +4,7 @@ This repository contains execution artifacts, logs, and code for the 12 Power Go
 
 ## Structure
 - `_meta/daily-logs/` - JSON logs from daily notes automation
-- `goal-XX/` - Individual goal execution artifacts and activity logs
+- `goal-gXX/` - Individual goal execution artifacts and activity logs
 - `_meta/backups/` - Safety backups of daily notes
 
 ## Automation
