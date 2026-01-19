@@ -2,25 +2,37 @@
 date: 2026-01-19
 weekday: Monday
 mood:
-  - 😐 ok
+- 😐 ok
 energy:
-  - 3 - normal
-sleep_start: 23:00
+- 3 - normal
+sleep_start: 1380
 sleep_end: 06:30
 sleep_duration: 7.5
 sleep_quality: 3
-calories:
-protein:
-steps:
-workout_type: ""
-highlight: ""
-frustration: ""
-automation_win: ""
-north_star: "[[P - Goals - 2026 Automation-First Living]]"
-goals_touched: []
-goals_activities: {}
+calories: null
+protein: null
+steps: null
+workout_type: ''
+highlight: ''
+frustration: ''
+automation_win: ''
+north_star: '[[P - Goals - 2026 Automation-First Living]]'
+goals_touched:
+- '[[P - Workout - Reach Target Body Fat]]'
+- '[[P - System - Complete Process Documentation]]'
+goals_activities:
+  G01:
+    name: P - Workout - Reach Target Body Fat
+    did: Trzymanie diety!
+    next: Mierzenie wagi i bodyfat automatycznie
+    code: autonomous-living/goal-g01/
+  G09:
+    name: P - System - Complete Process Documentation
+    did: Create Documentation dummy document and prompt
+    next: Check how documentation look like
+    code: autonomous-living/goal-g09/
 tags:
-  - daily
+- daily
 ---
 # 2026-01-19 – Daily
 
