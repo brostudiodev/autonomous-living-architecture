@@ -9,7 +9,7 @@
 
 **Next Step:** artykul pokazujacy ktore automatyzacje sa warte zrobienia!
 
-**Code:** `autonomous-living/goal-02/`
+**Code:** `autonomous-living/goal-g02/`
 
 ---
 

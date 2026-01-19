@@ -19,7 +19,7 @@
 
 **Next Step:** Automatic goal extraction from Obsidian Inbox note!
 
-**Code:** `autonomous-living/goal-12/`
+**Code:** `autonomous-living/goal-g12/`
 
 ---
 

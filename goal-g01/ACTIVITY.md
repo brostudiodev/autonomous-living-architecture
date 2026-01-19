@@ -9,7 +9,7 @@
 
 **Next Step:** Wymyslic jak trackowac kalorie i workouty
 
-**Code:** `autonomous-living/goal-01/`
+**Code:** `autonomous-living/goal-g01/`
 
 ---
 
@@ -20,5 +20,15 @@
 **Next Step:** Wymyslic jak trackowac kalorie i workouty
 
 **Code:** `autonomous-living/goal-01/`
+
+---
+
+## 2026-01-19 (Monday)
+
+**Action:** Trzymanie diety!
+
+**Next Step:** Mierzenie wagi i bodyfat automatycznie
+
+**Code:** `autonomous-living/goal-g01/`
 
 ---

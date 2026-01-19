@@ -73,7 +73,7 @@ Input: Daily Note Format
 - [x] **G02** – [[P - Automation - Automationbro]]
     - **Did:** Published automation best practices article
     - **Next:** Create follow-up on AI integration patterns  
-    - **Code:** `autonomous-living/goal-02/articles/`
+    - **Code:** `autonomous-living/goal-g02/articles/`
 
 Output: Structured Data
 
@@ -85,7 +85,7 @@ goals_activities:
     name: "P - Automation - Automationbro"
     did: "Published automation best practices article"
     next: "Create follow-up on AI integration patterns"
-    code: "autonomous-living/goal-02/articles/"
+    code: "autonomous-living/goal-g02/articles/"
 
 JSON Telemetry:
 
@@ -101,7 +101,7 @@ Activity Log:
 
 **Action:** Published automation best practices article
 **Next Step:** Create follow-up on AI integration patterns
-**Code:** `autonomous-living/goal-02/articles/`
+**Code:** `autonomous-living/goal-g02/articles/`
 
 Configuration
 
@@ -428,7 +428,7 @@ weekday: Saturday
 - [ ] **G01** – [[P - Workout - Reach Target Body Fat]]
     - **Did:**
     - **Next:**
-    - **Code:** `autonomous-living/goal-01/`
+    - **Code:** `autonomous-living/goal-g01/`
 
 Execute Full Test
 
