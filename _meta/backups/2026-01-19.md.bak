@@ -2,24 +2,24 @@
 date: 2026-01-19
 weekday: Monday
 mood:
-- 😐 ok
+  - 😐 ok
 energy:
-- 3 - normal
-sleep_start: 1380
+  - 3 - normal
+sleep_start: '"23:30"'
 sleep_end: 06:30
 sleep_duration: 7.5
 sleep_quality: 3
-calories: null
-protein: null
-steps: null
-workout_type: ''
-highlight: ''
-frustration: ''
-automation_win: ''
-north_star: '[[P - Goals - 2026 Automation-First Living]]'
+calories: "2500"
+protein: "180"
+steps: "1000"
+workout_type: ""
+highlight: ""
+frustration: ""
+automation_win: Telegram automation in implementation
+north_star: "[[P - Goals - 2026 Automation-First Living]]"
 goals_touched:
-- '[[P - Workout - Reach Target Body Fat]]'
-- '[[P - System - Complete Process Documentation]]'
+  - "[[P - Workout - Reach Target Body Fat]]"
+  - "[[P - System - Complete Process Documentation]]"
 goals_activities:
   G01:
     name: P - Workout - Reach Target Body Fat
@@ -32,7 +32,7 @@ goals_activities:
     next: Check how documentation look like
     code: autonomous-living/goal-g09/
 tags:
-- daily
+  - daily
 ---
 # 2026-01-19 – Daily
 
@@ -68,11 +68,11 @@ sort by path
 ## Tasks (manual planning)
 
 ### Work
-- [ ] #work #today Testy M365
-- [ ]  #work #today DAC przygotowanie
+- [x] #work #today Testy M365 ✅ 2026-01-19
+- [x] #work #today DAC przygotowanie ✅ 2026-01-19
 
 ### Personal
-- [ ] #personal #today Dentysta 15 godzina
+- [x] #personal #today Dentysta 15 godzina ✅ 2026-01-19
 
 ### Life / Family
 
@@ -190,7 +190,8 @@ _From the 12, pick **only what you commit to touch today (max 3)**:_
 
 ## 📎 Links / Capture
 
-- [[ ]] Dodac link do AI Powered House
+- [[ ]] AI-Powered Homes: Predictive and Context-Aware: Experts discuss the future of smart living, where homes use AI to predict needs and respond intelligently to residents, emphasizing the importance of devices from different brands working together. 
+  Source: [https://www.smarthomeworld.in/ai-powered-homes-the-new-era-of-predictive-context-aware-living/](https://www.smarthomeworld.in/ai-powered-homes-the-new-era-of-predictive-context-aware-living/)
 
 ---
 

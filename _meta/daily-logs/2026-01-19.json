@@ -9,9 +9,9 @@
       "😐 ok"
     ],
     "sleep_duration": 7.5,
-    "calories": null,
-    "protein": null,
-    "steps": null,
+    "calories": "2500",
+    "protein": "180",
+    "steps": "1000",
     "workout_type": ""
   },
   "goals_summary": {
