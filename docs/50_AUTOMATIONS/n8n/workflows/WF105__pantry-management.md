@@ -12,8 +12,78 @@ updated: "2026-01-15"
 # WF105: Pantry Management AI Agent
 
 ## Overview
-
 This n8n workflow implements an intelligent home pantry management system that allows users to track inventory through natural language commands. The system supports multiple input channels (Telegram, Webhook, n8n Chat) and uses an AI Agent powered by Google Gemini to process natural language requests for adding, removing, and checking pantry items.
+
+## Naming Conventions (n8n)
+- **WF*** = main workflows (end-to-end, user-facing orchestration)
+- **SVC_*** = services / sub-workflows (single-responsibility building blocks called by WF workflows)
+
+This pantry automation is currently implemented as a single WF workflow (WF105). If parts of it are reused elsewhere, extract them into services like:
+- `SVC_Pantry-InventoryStore` (read/write inventory)
+- `SVC_Pantry-TextParser` (parse “2 mleka in/out”)
+
+## SVC Contract Template (recommended)
+Goal: any `SVC_*` workflow should be callable from a `WF*` workflow **without custom glue code**.
+
+### Invariants
+- Accept **1 item** in, return **1 item** out.
+- Preserve `metadata.trace_id` for observability.
+- Prefer **idempotent** behavior (safe to retry).
+- Avoid side-effects by default (don’t send Telegram messages / write to external systems) unless the SVC is explicitly an “executor” service.
+
+### Standard Input (minimum)
+Every SVC should accept this shape (extra fields are allowed):
+```json
+{
+  "metadata": {
+    "trace_id": "string",
+    "source": "telegram|webhook|chat|…",
+    "timestamp": "ISO-8601"
+  },
+  "input": {
+    "format": "text|youtube_url|web_url|voice|document|…",
+    "raw_content": "string|null",
+    "file_id": "string|null",
+    "extraction_method": "direct|youtube_transcript|…",
+    "additional_data": {}
+  },
+  "normalized": {
+    "text": "string (optional)",
+    "extraction_source": "string (optional)"
+  },
+  "intent": {
+    "primary": "command|question|capture|task|… (optional)",
+    "secondary": "string|null",
+    "confidence": 0.0,
+    "entities": {}
+  }
+}
+```
+
+### Standard Output (minimum)
+Every SVC should return this shape (extra fields are allowed):
+```json
+{
+  "ok": true,
+  "service": "SVC_<Domain>-<Capability>",
+  "stage": "service_done",
+  "metadata": {
+    "trace_id": "string",
+    "timestamp": "ISO-8601"
+  },
+  "result": {
+    "type": "text|json|mixed",
+    "text": "string|null",
+    "data": {},
+    "warnings": []
+  },
+  "enrichment": {}
+}
+```
+
+### Error Contract
+- If recoverable: set `ok: true` + add a warning in `result.warnings`.
+- If not recoverable: set `ok: false` + include `error.code`, `error.message`, and any safe debug context.
 
 ## Architecture Diagram
 
@@ -239,4 +309,4 @@ Is Chat? = true → Send to Chat
 - [Sub-Project Master](../../../10_GOALS/G03_Autonomous-Household-Operations/Pantry-Management-System.md)
 - [Data Schema](../../../20_SYSTEMS/S03_Data-Layer/Pantry-Schema.md)
 - [Daily Operations SOP](../../../30_SOPS/Home/Pantry-Management.md)
-- [Workflow Export](WF105__pantry-management.json)
+- Workflow Export: `WF105__pantry-management.json` (not committed yet; export from n8n and add here)

@@ -1,0 +1,1632 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message",
+          "callback_query"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -96,
+        768
+      ],
+      "id": "777686c5-84dd-4759-b0a1-656d628276c9",
+      "name": "Telegram Input",
+      "webhookId": "master-telegram-router",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "intelligence-hub",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -96,
+        944
+      ],
+      "id": "944af419-5f7d-4099-9e87-3116baceb3de",
+      "name": "Webhook Input",
+      "webhookId": "b322fc58-b623-43b3-8d4f-849617bd26e8"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// ============================================\n// STAGE 1: FORMAT DETECTION & NORMALIZATION\n// ============================================\n\n// Handle Telegram, Webhook, and Chat inputs\nconst telegramMessage = $json.message || {};\nconst callbackQuery = $json.callback_query || null;\nconst webhookBody = $json.body || null;\nconst chatInput = $json.chatInput || $json.input || null;\n\n// Generate trace ID\nconst traceId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;\n\n// Determine source and extract base data\nlet source = 'unknown';\nlet chatId = null;\nlet messageId = null;\nlet userId = null;\nlet username = null;\nlet sessionId = null;\n\n// 1. TELEGRAM SOURCE\nif (telegramMessage.chat || callbackQuery) {\n  source = 'telegram';\n  chatId = telegramMessage.chat?.id || callbackQuery?.message?.chat?.id;\n  messageId = telegramMessage.message_id || callbackQuery?.message?.message_id;\n  userId = telegramMessage.from?.id || callbackQuery?.from?.id;\n  username = telegramMessage.from?.username || callbackQuery?.from?.username;\n}\n\n// 2. CHAT INPUT SOURCE (n8n Chat Trigger)\nelse if (chatInput) {\n  source = 'chat';\n  sessionId = $json.sessionId || `chat-${traceId}`;\n  userId = $json.userId || 'chat-user';\n}\n\n// 3. WEBHOOK SOURCE\nelse if (webhookBody) {\n  source = 'webhook';\n  userId = webhookBody.user_id || 'webhook-user';\n  sessionId = webhookBody.session_id || `webhook-${traceId}`;\n}\n\nconst metadata = {\n  trace_id: traceId,\n  source: source,\n  chat_id: chatId,\n  message_id: messageId,\n  user_id: userId,\n  username: username,\n  session_id: sessionId,\n  timestamp: new Date().toISOString()\n};\n\n// Detect input format\nlet inputFormat = 'unknown';\nlet rawContent = null;\nlet extractionMethod = null;\nlet fileId = null;\nlet additionalData = {};\n\n// ============================================\n// TELEGRAM MESSAGE DETECTION\n// ============================================\n\nif (source === 'telegram') {\n  const message = telegramMessage;\n  \n  // 1. Callback query (button press)\n  if (callbackQuery) {\n    inputFormat = 'callback';\n    rawContent = callbackQuery.data;\n    extractionMethod = 'direct';\n  }\n  \n  // 2. Voice message\n  else if (message.voice) {\n    inputFormat = 'voice';\n    fileId = message.voice.file_id;\n    extractionMethod = 'whisper_stt';\n    additionalData = {\n      duration: message.voice.duration,\n      mime_type: message.voice.mime_type\n    };\n  }\n  \n  // 3. Audio file\n  else if (message.audio) {\n    inputFormat = 'audio';\n    fileId = message.audio.file_id;\n    extractionMethod = 'whisper_stt';\n    additionalData = {\n      duration: message.audio.duration,\n      title: message.audio.title,\n      performer: message.audio.performer,\n      mime_type: message.audio.mime_type\n    };\n  }\n  \n  // 4. Video file\n  else if (message.video) {\n    inputFormat = 'video';\n    fileId = message.video.file_id;\n    extractionMethod = 'extract_audio_then_whisper';\n    additionalData = {\n      duration: message.video.duration,\n      width: message.video.width,\n      height: message.video.height\n    };\n  }\n  \n  // 5. Video note (round video message)\n  else if (message.video_note) {\n    inputFormat = 'video_note';\n    fileId = message.video_note.file_id;\n    extractionMethod = 'extract_audio_then_whisper';\n    additionalData = {\n      duration: message.video_note.duration\n    };\n  }\n  \n  // 6. Photo\n  else if (message.photo && message.photo.length > 0) {\n    inputFormat = 'photo';\n    const largest = message.photo[message.photo.length - 1];\n    fileId = largest.file_id;\n    extractionMethod = 'vision_ocr';\n    rawContent = message.caption || '';\n    additionalData = {\n      width: largest.width,\n      height: largest.height,\n      caption: message.caption\n    };\n  }\n  \n  // 7. Document\n  else if (message.document) {\n    inputFormat = 'document';\n    fileId = message.document.file_id;\n    const fileName = message.document.file_name?.toLowerCase() || '';\n    \n    if (fileName.endsWith('.pdf')) {\n      extractionMethod = 'pdf_parser';\n    } else if (fileName.endsWith('.mp3') || fileName.endsWith('.wav') || fileName.endsWith('.ogg') || fileName.endsWith('.m4a')) {\n      extractionMethod = 'whisper_stt';\n    } else if (fileName.endsWith('.mp4') || fileName.endsWith('.mov') || fileName.endsWith('.avi')) {\n      extractionMethod = 'extract_audio_then_whisper';\n    } else if (fileName.endsWith('.txt') || fileName.endsWith('.md')) {\n      extractionMethod = 'direct_text';\n    } else {\n      extractionMethod = 'document_parser';\n    }\n    \n    additionalData = {\n      file_name: message.document.file_name,\n      mime_type: message.document.mime_type,\n      file_size: message.document.file_size\n    };\n  }\n  \n  // 8. Text message\n  else if (message.text) {\n    rawContent = message.text;\n    \n    // Check for YouTube URL\n    const youtubeMatch = message.text.match(/(?:youtube\\.com\\/watch\\?v=|youtu\\.be\\/|youtube\\.com\\/shorts\\/)([a-zA-Z0-9_-]+)/);\n    \n    // Check for other URLs\n    const urlMatch = message.text.match(/https?:\\/\\/[^\\s]+/);\n    \n    if (youtubeMatch) {\n      inputFormat = 'youtube_url';\n      extractionMethod = 'youtube_transcript';\n      additionalData = {\n        video_id: youtubeMatch[1],\n        full_url: youtubeMatch[0],\n        additional_text: message.text.replace(youtubeMatch[0], '').trim()\n      };\n    } else if (urlMatch) {\n      inputFormat = 'web_url';\n      extractionMethod = 'web_scraper';\n      additionalData = {\n        url: urlMatch[0],\n        additional_text: message.text.replace(urlMatch[0], '').trim()\n      };\n    } else {\n      inputFormat = 'text';\n      extractionMethod = 'direct';\n    }\n  }\n}\n\n// ============================================\n// CHAT INPUT DETECTION (n8n Chat Trigger)\n// ============================================\n\nelse if (source === 'chat' && chatInput) {\n  rawContent = typeof chatInput === 'string' ? chatInput : chatInput.text || chatInput.message || JSON.stringify(chatInput);\n  \n  // Check for YouTube URL\n  const youtubeMatch = rawContent.match(/(?:youtube\\.com\\/watch\\?v=|youtu\\.be\\/|youtube\\.com\\/shorts\\/)([a-zA-Z0-9_-]+)/);\n  \n  // Check for other URLs\n  const urlMatch = rawContent.match(/https?:\\/\\/[^\\s]+/);\n  \n  if (youtubeMatch) {\n    inputFormat = 'youtube_url';\n    extractionMethod = 'youtube_transcript';\n    additionalData = {\n      video_id: youtubeMatch[1],\n      full_url: youtubeMatch[0],\n      additional_text: rawContent.replace(youtubeMatch[0], '').trim()\n    };\n  } else if (urlMatch) {\n    inputFormat = 'web_url';\n    extractionMethod = 'web_scraper';\n    additionalData = {\n      url: urlMatch[0],\n      additional_text: rawContent.replace(urlMatch[0], '').trim()\n    };\n  } else {\n    inputFormat = 'text';\n    extractionMethod = 'direct';\n  }\n}\n\n// ============================================\n// WEBHOOK INPUT DETECTION\n// ============================================\n\nelse if (source === 'webhook' && webhookBody) {\n  rawContent = webhookBody.text || webhookBody.content || webhookBody.message || '';\n  \n  // Check if type is explicitly specified\n  if (webhookBody.type) {\n    inputFormat = webhookBody.type;\n    extractionMethod = webhookBody.extraction_method || 'direct';\n    additionalData = webhookBody.additional_data || {};\n  } else if (typeof rawContent === 'string' && rawContent.length > 0) {\n    // Auto-detect from content\n    const youtubeMatch = rawContent.match(/(?:youtube\\.com\\/watch\\?v=|youtu\\.be\\/|youtube\\.com\\/shorts\\/)([a-zA-Z0-9_-]+)/);\n    const urlMatch = rawContent.match(/https?:\\/\\/[^\\s]+/);\n    \n    if (youtubeMatch) {\n      inputFormat = 'youtube_url';\n      extractionMethod = 'youtube_transcript';\n      additionalData = {\n        video_id: youtubeMatch[1],\n        full_url: youtubeMatch[0],\n        additional_text: rawContent.replace(youtubeMatch[0], '').trim()\n      };\n    } else if (urlMatch) {\n      inputFormat = 'web_url';\n      extractionMethod = 'web_scraper';\n      additionalData = {\n        url: urlMatch[0],\n        additional_text: rawContent.replace(urlMatch[0], '').trim()\n      };\n    } else {\n      inputFormat = 'text';\n      extractionMethod = 'direct';\n    }\n  }\n}\n\nconsole.log(`[${traceId}] SOURCE: ${source}, FORMAT: ${inputFormat}, METHOD: ${extractionMethod}`);\n\nreturn {\n  stage: 'format_detected',\n  metadata: metadata,\n  input: {\n    format: inputFormat,\n    raw_content: rawContent,\n    file_id: fileId,\n    extraction_method: extractionMethod,\n    additional_data: additionalData\n  },\n  original_message: $json\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        144,
+        944
+      ],
+      "id": "0c1cde0d-d0ae-4acf-b532-cd1835368e36",
+      "name": "Stage 1: Detect Format"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.input.extraction_method }}",
+                    "rightValue": "direct",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "2a23f9d9-a8f9-4e8e-ae37-2d7479461018"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "direct"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.input.extraction_method }}",
+                    "rightValue": "whisper_stt",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "05dda4c3-677a-4c73-9681-20a0cfa0004b"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "whisper"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.input.extraction_method }}",
+                    "rightValue": "extract_audio_then_whisper",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "9fccb610-e649-4f02-b0d1-976687d87d21"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "video_whisper"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.input.extraction_method }}",
+                    "rightValue": "youtube_transcript",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "a145457b-6ac3-49be-b25c-262ab83081ab"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "youtube"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.input.extraction_method }}",
+                    "rightValue": "web_scraper",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "af54b460-dd59-4fd2-ac13-64c83e78176b"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "web"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.input.extraction_method }}",
+                    "rightValue": "vision_ocr",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "be2c4a84-488e-4650-a274-199e82bfba36"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "vision"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.input.extraction_method }}",
+                    "rightValue": "pdf_parser",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "9dfd4314-d5b0-4ab9-8850-4b3f5d631c3f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "pdf"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.input.extraction_method }}",
+                    "rightValue": "document_parser",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "4b8620de-0930-4680-92d0-00ec255932ad"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "document"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.input.extraction_method }}",
+                    "rightValue": "direct_text",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "6db603c1-9f28-432d-bd2b-90560cbcaa62"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "direct_text"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        384,
+        816
+      ],
+      "id": "0745826e-435e-458d-8e13-b8868dd2363d",
+      "name": "Route to Extractor"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// DIRECT TEXT - No extraction needed\nconst data = $json;\n\nreturn {\n  ...data,\n  stage: 'text_extracted',\n  extracted_text: data.input.raw_content || '',\n  extraction_source: 'direct_input'\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        624,
+        384
+      ],
+      "id": "679836ae-6913-4ea6-828a-d4e05ed31548",
+      "name": "Direct Text (No Extraction)"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.metadata.chat_id }}",
+        "text": "🎙️ Processing voice/audio...",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        624,
+        576
+      ],
+      "id": "f9f5d9ab-b778-4a4c-92ed-9f86f6ee61d0",
+      "name": "Whisper: Notify",
+      "webhookId": "d3a1df05-46ac-4540-8144-a5e2b71ce87d",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        864,
+        576
+      ],
+      "id": "d08124f9-075c-4a48-9a76-820710342d32",
+      "name": "Whisper: Download File",
+      "webhookId": "50571bc9-93b1-4dff-9cd6-9efcf7a9fe77",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.4,
+      "position": [
+        1104,
+        576
+      ],
+      "id": "3d1b1994-ac3a-4781-876e-5ff2225ddaf6",
+      "name": "Whisper: Transcribe",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Format Whisper transcription output\nconst transcription = $json.text || '';\nconst originalData = $('Stage 1: Detect Format').first().json;\n\nreturn {\n  ...originalData,\n  stage: 'text_extracted',\n  extracted_text: transcription,\n  extraction_source: 'whisper_stt'\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1344,
+        576
+      ],
+      "id": "a084dca6-a04f-4a54-a464-5df7489ce18c",
+      "name": "Whisper: Format Output"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.extracted_text }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        896,
+        768
+      ],
+      "id": "350040aa-4d39-4d7d-8c0d-9b3fad79d007",
+      "name": "YouTube: Has Transcript?"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// No transcript available - use description as fallback\nconst originalData = $('YouTube: Format Details').first().json;\n\nreturn {\n  ...originalData,\n  stage: 'text_extracted',\n  extracted_text: `[No transcript available]\\n\\nVideo: ${originalData.youtube_metadata.title}\\nChannel: ${originalData.youtube_metadata.channel}\\n\\nDescription:\\n${originalData.youtube_metadata.description}`,\n  extraction_source: 'youtube_description_fallback',\n  transcript_error: 'No transcript available for this video'\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1248,
+        864
+      ],
+      "id": "2707432e-b0fa-466e-b425-90de89cbbbb8",
+      "name": "YouTube: No Transcript Fallback"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.metadata.chat_id }}",
+        "text": "🔗 Processing web page...",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        624,
+        1024
+      ],
+      "id": "109c649d-14ba-4d11-a5a3-4b9c3895d0a8",
+      "name": "Web: Notify",
+      "webhookId": "fb1f9d23-208f-47e9-8870-e2a4a0fca4ab",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.input.additional_data.url }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        864,
+        1024
+      ],
+      "id": "0b7a8319-5e48-406b-85f2-f45820ee59dd",
+      "name": "Web: Fetch Page"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Extract text content from HTML\nconst html = $json.data || '';\nconst originalData = $('Stage 1: Detect Format').first().json;\n\n// Simple HTML to text extraction\nlet text = html\n  .replace(/<script[^>]*>[\\s\\S]*?<\\/script>/gi, '')\n  .replace(/<style[^>]*>[\\s\\S]*?<\\/style>/gi, '')\n  .replace(/<[^>]+>/g, ' ')\n  .replace(/&nbsp;/g, ' ')\n  .replace(/&amp;/g, '&')\n  .replace(/&lt;/g, '<')\n  .replace(/&gt;/g, '>')\n  .replace(/&quot;/g, '\"')\n  .replace(/\\s+/g, ' ')\n  .trim();\n\n// Extract title\nconst titleMatch = html.match(/<title>([^<]+)<\\/title>/i);\nconst title = titleMatch ? titleMatch[1].trim() : 'Untitled Page';\n\nreturn {\n  ...originalData,\n  stage: 'text_extracted',\n  extracted_text: text.substring(0, 50000), // Limit to 50k chars\n  extraction_source: 'web_scraper',\n  web_metadata: {\n    url: originalData.input.additional_data.url,\n    title: title\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1104,
+        1024
+      ],
+      "id": "0c0f28a5-525e-465b-81e8-71730d20c80c",
+      "name": "Web: Extract Text"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.metadata.chat_id }}",
+        "text": "📷 Processing image...",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        624,
+        1168
+      ],
+      "id": "362edf88-735b-4f68-9e08-731dc9fc49fd",
+      "name": "Vision: Notify",
+      "webhookId": "fa063f54-bdef-46f6-a56d-a576b4f251b1",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        864,
+        1168
+      ],
+      "id": "2f7dfbfc-8d13-492c-a80d-f6dc6698f819",
+      "name": "Vision: Download",
+      "webhookId": "2addf490-a689-4dd4-88b3-672009b4c63b",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Placeholder for Vision OCR - implement with your preferred service\nconst originalData = $('Stage 1: Detect Format').first().json;\nconst caption = originalData.input.additional_data?.caption || '';\n\n// TODO: Implement actual OCR/Vision API call here\n// For now, just use the caption if available\n\nreturn {\n  ...originalData,\n  stage: 'text_extracted',\n  extracted_text: caption || '[Image received - OCR not yet implemented]',\n  extraction_source: 'vision_ocr'\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1104,
+        1168
+      ],
+      "id": "a1c1ae7a-1eb3-4b72-8c2d-19bc86273a41",
+      "name": "Vision: Process"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Placeholder for PDF parsing\nconst originalData = $('Stage 1: Detect Format').first().json;\n\nreturn {\n  ...originalData,\n  stage: 'text_extracted',\n  extracted_text: '[PDF received - parsing not yet implemented]',\n  extraction_source: 'pdf_parser'\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        624,
+        1328
+      ],
+      "id": "dfe7292b-5ece-4a0e-9535-6bc5c19bbe5a",
+      "name": "PDF: Process (Placeholder)"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Placeholder for document parsing\nconst originalData = $('Stage 1: Detect Format').first().json;\n\nreturn {\n  ...originalData,\n  stage: 'text_extracted',\n  extracted_text: '[Document received - parsing not yet implemented]',\n  extraction_source: 'document_parser'\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        624,
+        1472
+      ],
+      "id": "f35f3e6a-c229-4bce-9b1d-fb6d3393994e",
+      "name": "Document: Process (Placeholder)"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// ============================================\n// STAGE 2: NORMALIZE ALL OUTPUTS TO STANDARD FORMAT\n// ============================================\n\nconst data = $json;\n\n// Ensure we have extracted text\nconst extractedText = data.extracted_text || data.input?.raw_content || '';\nconst metadata = data.metadata || {};\nconst inputData = data.input || {};\n\nconsole.log(`[${metadata.trace_id}] NORMALIZED: ${extractedText.length} chars from ${data.extraction_source}`);\n\nreturn {\n  stage: 'text_normalized',\n  metadata: metadata,\n  input: inputData,\n  normalized: {\n    text: extractedText,\n    text_length: extractedText.length,\n    word_count: extractedText.split(/\\s+/).filter(w => w).length,\n    extraction_source: data.extraction_source || 'unknown'\n  },\n  enrichment: {\n    youtube_metadata: data.youtube_metadata || null,\n    web_metadata: data.web_metadata || null\n  },\n  original_message: data.original_message || null\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1888,
+        800
+      ],
+      "id": "180ebe72-7bbc-4761-a0cd-b3aeccda4cc1",
+      "name": "Stage 2: Normalize to Text"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// ============================================\n// STAGE 3: INTENT CLASSIFICATION\n// ============================================\n\nconst data = $json;\nconst text = data.normalized.text || '';\nconst inputFormat = data.input.format;\nconst traceId = data.metadata.trace_id;\n\nconst lowerText = text.toLowerCase().trim();\nconst firstLine = lowerText.split('\\n')[0];\n\nlet intent = 'unknown';\nlet subIntent = null;\nlet confidence = 0;\nlet extractedEntities = {};\n\n// ============================================\n// RULE-BASED INTENT DETECTION\n// ============================================\n\n// 1. COMMANDS (highest priority)\nif (lowerText.startsWith('/')) {\n  intent = 'command';\n  confidence = 1.0;\n  \n  const cmdMatch = lowerText.match(/^\\/([a-z_]+)(?:_(.+))?(?:\\s+(.*))?/);\n  if (cmdMatch) {\n    const fullCommand = cmdMatch[1];\n    \n    // Intelligence Activator commands\n    if (fullCommand === 'approve' || lowerText.startsWith('/approve_all_')) {\n      subIntent = 'intelligence_activator';\n      extractedEntities.action = 'approve';\n      extractedEntities.file_suffix = lowerText.replace('/approve_all_', '');\n    } else if (lowerText.startsWith('/review_')) {\n      subIntent = 'intelligence_activator';\n      extractedEntities.action = 'review';\n      extractedEntities.file_suffix = lowerText.replace('/review_', '');\n    } else if (lowerText.startsWith('/skip_')) {\n      subIntent = 'intelligence_activator';\n      extractedEntities.action = 'skip';\n      extractedEntities.file_suffix = lowerText.replace('/skip_', '');\n    }\n    // System commands\n    else if (['help', 'start', 'status', 'goals'].includes(fullCommand)) {\n      subIntent = 'system_command';\n      extractedEntities.command = fullCommand;\n    }\n    // Unknown command\n    else {\n      subIntent = 'custom_command';\n      extractedEntities.command = fullCommand;\n      extractedEntities.args = cmdMatch[3] || '';\n    }\n  }\n}\n\n// 2. QUESTIONS\nelse if (\n  firstLine.endsWith('?') ||\n  /^(what|who|where|when|why|how|is|are|can|could|would|should|do|does|did|tell me|explain|describe)/i.test(lowerText) ||\n  /^(co|kto|gdzie|kiedy|dlaczego|jak|czy|powiedz|wyjaśnij|opisz)/i.test(lowerText)\n) {\n  intent = 'question';\n  subIntent = 'ask_llm';\n  confidence = 0.85;\n  extractedEntities.question = text;\n}\n\n// 3. TASK CREATION\nelse if (/^(task:|todo:|zadanie:|zrób:|przypomnij|remind me|add task)/i.test(lowerText)) {\n  intent = 'task';\n  subIntent = 'create_todoist';\n  confidence = 0.95;\n  extractedEntities.task_text = text.replace(/^(task:|todo:|zadanie:|zrób:|przypomnij|remind me|add task)\\s*/i, '');\n}\n\n// 4. NOTE/CAPTURE\nelse if (/^(note:|notatka:|zapisz:|save:|capture:)/i.test(lowerText)) {\n  intent = 'capture';\n  subIntent = 'quick_note';\n  confidence = 0.95;\n  extractedEntities.note_text = text.replace(/^(note:|notatka:|zapisz:|save:|capture:)\\s*/i, '');\n}\n\n// 5. IDEA\nelse if (/^(idea:|pomysł:|koncept:)/i.test(lowerText)) {\n  intent = 'capture';\n  subIntent = 'idea';\n  confidence = 0.95;\n  extractedEntities.idea_text = text.replace(/^(idea:|pomysł:|koncept:)\\s*/i, '');\n}\n\n// 6. CONTENT PROCESSING (YouTube, Web, Documents)\nelse if (['youtube_url', 'web_url', 'document', 'pdf'].includes(inputFormat)) {\n  intent = 'capture';\n  subIntent = 'process_content';\n  confidence = 0.9;\n  extractedEntities.content_type = inputFormat;\n}\n\n// 7. VOICE/AUDIO - typically capture\nelse if (['voice', 'audio', 'video_note'].includes(inputFormat)) {\n  if (firstLine.endsWith('?') || /^(what|who|where|when|why|how|czy|co|kto)/i.test(lowerText)) {\n    intent = 'question';\n    subIntent = 'ask_llm';\n    confidence = 0.8;\n  } else {\n    intent = 'capture';\n    subIntent = 'voice_note';\n    confidence = 0.85;\n  }\n}\n\n// 8. PLAIN TEXT\nelse if (inputFormat === 'text' && text.length > 0) {\n  if (text.length < 50) {\n    if (/^(hi|hello|hey|cześć|hej|siema)/i.test(lowerText)) {\n      intent = 'conversation';\n      subIntent = 'greeting';\n      confidence = 0.9;\n    } else {\n      intent = 'question';\n      subIntent = 'ask_llm';\n      confidence = 0.6;\n    }\n  } else {\n    intent = 'capture';\n    subIntent = 'text_note';\n    confidence = 0.7;\n  }\n}\n\n// 9. PHOTO\nelse if (inputFormat === 'photo') {\n  const caption = data.input.additional_data?.caption?.toLowerCase() || '';\n  if (caption.includes('?') || /^(what|who|describe|co to|kto to)/i.test(caption)) {\n    intent = 'question';\n    subIntent = 'ask_about_image';\n    confidence = 0.85;\n  } else {\n    intent = 'capture';\n    subIntent = 'image_note';\n    confidence = 0.8;\n  }\n}\n\n// 10. CALLBACK\nelse if (inputFormat === 'callback') {\n  intent = 'callback';\n  subIntent = 'button_press';\n  confidence = 1.0;\n  extractedEntities.callback_data = data.input.raw_content;\n}\n\n// Default fallback\nif (intent === 'unknown') {\n  intent = 'question';\n  subIntent = 'ask_llm';\n  confidence = 0.5;\n}\n\nconsole.log(`[${traceId}] INTENT: ${intent}/${subIntent} (confidence: ${confidence})`);\n\nreturn {\n  ...data,\n  stage: 'intent_classified',\n  intent: {\n    primary: intent,\n    secondary: subIntent,\n    confidence: confidence,\n    entities: extractedEntities\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2128,
+        800
+      ],
+      "id": "7fab6093-7617-4120-9eb4-32142acbcfea",
+      "name": "Stage 3: Classify Intent"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.intent.primary }}",
+                    "rightValue": "command",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "5ca1fb6a-f317-4d79-b879-34afd0c13eef"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "command"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.intent.primary }}",
+                    "rightValue": "question",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "d9b8a70d-7e71-490d-8437-5e15d9b381e5"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "question"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.intent.primary }}",
+                    "rightValue": "capture",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "6dba368f-34aa-4c28-afd6-d5fd92fd47f8"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "capture"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.intent.primary }}",
+                    "rightValue": "task",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "daf9bb08-754c-40ee-9660-7ae0937725b9"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "task"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.intent.primary }}",
+                    "rightValue": "conversation",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "3376d8cc-efaa-4122-8edc-cf0c6e246fda"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "conversation"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.intent.primary }}",
+                    "rightValue": "callback",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "f6e6d5b2-63c5-48bd-90f6-d855c56c62bc"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "callback"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2368,
+        704
+      ],
+      "id": "b93583cf-cc52-4be0-8c82-85cf33891d97",
+      "name": "Stage 4: Route by Intent"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Handle system commands locally\nconst data = $json;\nconst subIntent = data.intent.secondary;\nconst entities = data.intent.entities;\nconst chatId = data.metadata.chat_id;\n\nlet responseText = '';\n\nif (subIntent === 'system_command') {\n  const cmd = entities.command;\n  \n  const responses = {\n    'start': '👋 Welcome to your Second Brain Bot!\\n\\nSend me:\\n• YouTube links\\n• Article URLs\\n• Voice notes\\n• Text (prefix with note:, task:, idea:)\\n• Documents/PDFs\\n• Photos\\n\\nType /help for more info.',\n    'help': '📚 Commands:\\n\\n/status - System status\\n/goals - Show Power Goals\\n\\nPrefixes:\\n• note: - Save a note\\n• task: - Create a task\\n• idea: - Capture an idea\\n• Just ask a question!',\n    'status': '✅ All systems operational.\\n\\n🤖 Router: Active\\n📝 Capture: Ready\\n🎯 Goals: Loaded',\n    'goals': '🎯 Power Goals:\\n\\n1. Body Fat Target\\n2. Automationbro Brand\\n3. Household Operations\\n4. Digital Twin\\n5. Financial Center\\n6. Certifications\\n7. Health Management\\n8. Smart Home\\n9. Career Intelligence\\n10. Productivity System\\n11. Meta-System\\n12. Documentation'\n  };\n  \n  responseText = responses[cmd] || `Unknown command: /${cmd}\\n\\nType /help for available commands.`;\n} else if (subIntent === 'intelligence_activator') {\n  // Route to Intelligence Activator workflow\n  return {\n    ...data,\n    route_to: 'intelligence_activator'\n  };\n} else {\n  responseText = `Unknown command.\\n\\nType /help for available commands.`;\n}\n\nreturn {\n  ...data,\n  response_text: responseText,\n  send_response: true\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2608,
+        512
+      ],
+      "id": "1a685b7b-5b1f-45cc-bd1c-fde43b05b515",
+      "name": "Handle Commands"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.route_to }}",
+              "operation": "equals",
+              "value2": "intelligence_activator"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        2848,
+        512
+      ],
+      "id": "914ef72a-56c9-46d3-ae64-36ce5db261ed",
+      "name": "Route to Intel Activator?"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_INTELLIGENCE_ACTIVATOR_WEBHOOK_URL",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3088,
+        464
+      ],
+      "id": "3b03fdf6-aebe-460b-bc47-be818b22e78d",
+      "name": "Call Intelligence Activator"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.metadata.chat_id }}",
+        "text": "={{ $json.response_text }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3088,
+        608
+      ],
+      "id": "d75fa656-356f-4613-bd5f-7d8769d159fc",
+      "name": "Send Command Response",
+      "webhookId": "58837d63-c41e-43d6-b41e-d78a58c3bcd1",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_LLM_CHAT_WEBHOOK_URL",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2608,
+        656
+      ],
+      "id": "32469826-95ae-4ea2-831f-08270f6b638a",
+      "name": "Route: LLM Chat"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "original_context",
+              "type": "object",
+              "value": "={{ $json }}"
+            },
+            {
+              "id": "2",
+              "name": "transcript",
+              "type": "string",
+              "value": "={{ $json.normalized.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2608,
+        800
+      ],
+      "id": "d7c41e04-2460-47ab-abe0-6a06c167a40a",
+      "name": "Preserve Metadata for AI"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are Michał's Intelligence Processing System. Analyze this content and extract actionable intelligence.\n\n**CONTEXT:**\n- Content Type: {{ $json.original_context.input.format }}\n- Source: {{ $json.original_context.metadata.source }}\n- Extraction: {{ $json.original_context.normalized.extraction_source }}\n{% if $json.original_context.enrichment.youtube_metadata %}\n- Video: {{ $json.original_context.enrichment.youtube_metadata.title }}\n- Channel: {{ $json.original_context.enrichment.youtube_metadata.channel }}\n- Duration: {{ $json.original_context.enrichment.youtube_metadata.duration }}\n{% endif %}\n\n**MICHAŁ'S 12 POWER GOALS:**\n1. Reach Target Body Fat\n2. Be recognizable Automationbro\n3. Autonomous Household Operations\n4. Digital Twin Ecosystem\n5. Autonomous Financial Command Center\n6. Pass Certification Exams\n7. Predictive Health Management\n8. Predictive Smart Home\n9. Automated Career Intelligence\n10. Intelligent Productivity System\n11. Meta-System Integration\n12. Complete Process Documentation\n\n**OUTPUT FORMAT:**\n\n## MARKDOWN NOTE (for Obsidian):\n\n```markdown\n---\nsource: {{ $json.original_context.enrichment.youtube_metadata.video_id ? 'https://youtube.com/watch?v=' + $json.original_context.enrichment.youtube_metadata.video_id : $json.original_context.metadata.source }}\ntitle: {{ $json.original_context.enrichment.youtube_metadata.title || 'Captured Note' }}\ncontent_type: {{ $json.original_context.input.format }}\ndate_captured: {{ $json.original_context.metadata.timestamp }}\nstatus: inbox\npower_goals: [list relevant goal numbers]\ntags: [relevant tags]\n---\n\n## Summary\n[2-3 sentence overview]\n\n## Key Insights\n[3-5 main takeaways]\n\n## Actionable Items\n[Specific tasks - if none: \"None identified\"]\n\n## Automation Opportunities\n[Processes to automate - if none: \"None identified\"]\n\n## Connections to Goals\n[How this relates to Power Goals]\n```\n\n## JSON OUTPUT:\n\n```json\n{\n  \"power_goals\": [2, 4, 9],\n  \"priority\": \"high\",\n  \"action_items\": [\n    {\n      \"task\": \"Specific task\",\n      \"power_goals\": [9, 12],\n      \"priority\": 3\n    }\n  ]\n}\n```\n\n**CONTENT:**\n{{ $json.transcript }}",
+        "hasOutputParser": true,
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.8,
+      "position": [
+        2848,
+        800
+      ],
+      "id": "eefb50d7-d914-412d-8553-269ed84e0c63",
+      "name": "AI: Intelligence Analysis"
+    },
+    {
+      "parameters": {
+        "options": {
+          "temperature": 0.3
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        2848,
+        1024
+      ],
+      "id": "8422ba58-7179-4a0d-818f-33b52b2a3d3a",
+      "name": "Google Gemini Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "x9Jp7ab2PivcIEj9",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Extract JSON and Markdown from AI response\nconst fullText = $json.text || $json.output || '';\n\n// Extract JSON block\nconst jsonMatch = fullText.match(/```json\\s*([\\s\\S]*?)\\s*```/);\nlet structuredData = {};\n\nif (jsonMatch) {\n  try {\n    structuredData = JSON.parse(jsonMatch[1]);\n  } catch (error) {\n    structuredData = { parse_error: error.message };\n  }\n}\n\n// Extract Markdown block\nconst markdownMatch = fullText.match(/```markdown\\s*([\\s\\S]*?)\\s*```/);\nconst markdownContent = markdownMatch ? markdownMatch[1] : fullText;\n\n// Generate filename\nfunction cleanFilename(text) {\n  return text\n    .replace(/[@#$%^&*()+=\\[\\]{};':\"\\\\|,.<>\\/?…!]/g, '')\n    .replace(/\\s+/g, '-')\n    .substring(0, 80);\n}\n\nconst titleMatch = markdownContent.match(/title:\\s*(.+)/);\nconst title = titleMatch ? titleMatch[1] : 'untitled';\nconst timestamp = new Date().toISOString().split('T')[0];\nconst filename = `${timestamp}-${cleanFilename(title)}`;\n\nconst originalContext = $('Preserve Metadata for AI').first().json.original_context;\n\nreturn {\n  ...originalContext,\n  structured_data: structuredData,\n  markdown_content: markdownContent,\n  filename: filename,\n  has_actions: !!(structuredData.action_items?.length)\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3152,
+        800
+      ],
+      "id": "20d06e51-8808-42bd-a5b7-8ea0dc05fd0c",
+      "name": "Extract Intelligence"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "owner": "brostudiodev",
+        "repository": "michal-second-brain-obsidian",
+        "filePath": "=00_Inbox/{{ $json.filename }}.md",
+        "fileContent": "={{ $json.markdown_content }}",
+        "commitMessage": "=Create {{ $json.filename }}.md via Intelligence Hub"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        3360,
+        800
+      ],
+      "id": "1d6b14a2-4373-4026-912e-b71f0fa10f5f",
+      "name": "Save to GitHub",
+      "webhookId": "9918a94b-ccc0-4729-860a-2fed033331fb",
+      "credentials": {
+        "githubApi": {
+          "id": "SWpOnkLoKO1C9hQn",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $('Extract Intelligence').item.json.metadata.source }}",
+              "value2": "telegram"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        3568,
+        800
+      ],
+      "id": "2699f7e9-cb87-4328-98b8-3a5793a1626a",
+      "name": "Is Telegram Source?"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.metadata.chat_id }}",
+        "text": "=✅ INTELLIGENCE PROCESSED\\n\\n📄 File: {{ $json.filename }}.md\\n🎯 Goals: [{{ $json.structured_data.power_goals?.join(', ') || 'None' }}]\\n📋 Actions: {{ $json.structured_data.action_items?.length || 0 }} tasks\\n\\nSaved to Obsidian inbox.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3808,
+        752
+      ],
+      "id": "1c799661-1486-4f24-8af5-77d197b6f2f0",
+      "name": "Send Telegram Summary",
+      "webhookId": "eb776368-673d-4b81-a8f4-0808d912f812",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { success: true, filename: $json.filename, structured_data: $json.structured_data } }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        3792,
+        960
+      ],
+      "id": "0c8ab5db-bd36-48fc-baa6-90935a663bd2",
+      "name": "Webhook Response"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_TASK_CREATOR_WEBHOOK_URL",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2608,
+        960
+      ],
+      "id": "3ca90419-4afd-4b2a-8c99-9435d670075c",
+      "name": "Route: Task Creator"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.metadata.chat_id }}",
+        "text": "=👋 Hello! How can I help you today?\\n\\nSend me YouTube links, articles, voice notes, or just ask a question!",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2608,
+        1104
+      ],
+      "id": "6714b383-38a4-4129-9f8f-c0e9e8e308de",
+      "name": "Handle Greeting",
+      "webhookId": "8da501d2-2d04-4eba-884b-a5d00d502ca6",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_CALLBACK_HANDLER_WEBHOOK_URL",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2608,
+        1264
+      ],
+      "id": "97a3da37-bb99-42eb-b757-a22c949429e1",
+      "name": "Route: Callback Handler"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.metadata.chat_id }}",
+        "text": "❓ I couldn't understand this input.\\n\\nTry:\\n• Sending a YouTube link\\n• Starting with note:, task:, or idea:\\n• Asking a question\\n• Sending a voice memo\\n\\nType /help for more options.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1648,
+        1440
+      ],
+      "id": "e1580a2e-ac00-4afe-b8b1-a3670d36e953",
+      "name": "Fallback Response",
+      "webhookId": "cff63ad0-bbc6-4389-963e-455d8518860c",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -96,
+        1120
+      ],
+      "id": "c0705aaa-2d96-4ca4-9d27-603f382e1ca3",
+      "name": "When chat message received",
+      "webhookId": "e981762d-4d02-46cb-bb77-22206beed332"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "wH4hbIMadI4Gh2lq",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/wH4hbIMadI4Gh2lq",
+          "cachedResultName": "SVC_Youtube-Youtube_transcript"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        608,
+        768
+      ],
+      "id": "c1bc561f-ebf2-437c-8653-6f4408252b01",
+      "name": "Call YouTube Transcript Service"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $('Extract Intelligence').item.json.metadata.source }}",
+              "value2": "webhook"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        3568,
+        976
+      ],
+      "id": "7b9d0595-f42e-4ae5-94db-7746cdb4e7a1",
+      "name": "Is Webhook Source?"
+    }
+  ],
+  "connections": {
+    "Telegram Input": {
+      "main": [
+        [
+          {
+            "node": "Stage 1: Detect Format",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook Input": {
+      "main": [
+        [
+          {
+            "node": "Stage 1: Detect Format",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stage 1: Detect Format": {
+      "main": [
+        [
+          {
+            "node": "Route to Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route to Extractor": {
+      "main": [
+        [
+          {
+            "node": "Direct Text (No Extraction)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Whisper: Notify",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Whisper: Notify",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Call YouTube Transcript Service",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Web: Notify",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Vision: Notify",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "PDF: Process (Placeholder)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Document: Process (Placeholder)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Direct Text (No Extraction)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Fallback Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Direct Text (No Extraction)": {
+      "main": [
+        [
+          {
+            "node": "Stage 2: Normalize to Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Whisper: Notify": {
+      "main": [
+        [
+          {
+            "node": "Whisper: Download File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Whisper: Format Output": {
+      "main": [
+        [
+          {
+            "node": "Stage 2: Normalize to Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "YouTube: Has Transcript?": {
+      "main": [
+        [
+          {
+            "node": "Stage 2: Normalize to Text",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "YouTube: No Transcript Fallback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "YouTube: No Transcript Fallback": {
+      "main": [
+        [
+          {
+            "node": "Stage 2: Normalize to Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Web: Notify": {
+      "main": [
+        [
+          {
+            "node": "Web: Fetch Page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Web: Fetch Page": {
+      "main": [
+        [
+          {
+            "node": "Web: Extract Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Web: Extract Text": {
+      "main": [
+        [
+          {
+            "node": "Stage 2: Normalize to Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vision: Notify": {
+      "main": [
+        [
+          {
+            "node": "Vision: Download",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vision: Download": {
+      "main": [
+        [
+          {
+            "node": "Vision: Process",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vision: Process": {
+      "main": [
+        [
+          {
+            "node": "Stage 2: Normalize to Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PDF: Process (Placeholder)": {
+      "main": [
+        [
+          {
+            "node": "Stage 2: Normalize to Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Document: Process (Placeholder)": {
+      "main": [
+        [
+          {
+            "node": "Stage 2: Normalize to Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stage 2: Normalize to Text": {
+      "main": [
+        [
+          {
+            "node": "Stage 3: Classify Intent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stage 3: Classify Intent": {
+      "main": [
+        [
+          {
+            "node": "Stage 4: Route by Intent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stage 4: Route by Intent": {
+      "main": [
+        [
+          {
+            "node": "Handle Commands",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Route: LLM Chat",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preserve Metadata for AI",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Route: Task Creator",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Handle Greeting",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Route: Callback Handler",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Fallback Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Handle Commands": {
+      "main": [
+        [
+          {
+            "node": "Route to Intel Activator?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route to Intel Activator?": {
+      "main": [
+        [
+          {
+            "node": "Call Intelligence Activator",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Command Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preserve Metadata for AI": {
+      "main": [
+        [
+          {
+            "node": "AI: Intelligence Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI: Intelligence Analysis": {
+      "main": [
+        [
+          {
+            "node": "Extract Intelligence",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI: Intelligence Analysis",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Intelligence": {
+      "main": [
+        [
+          {
+            "node": "Save to GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save to GitHub": {
+      "main": [
+        [
+          {
+            "node": "Is Telegram Source?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Telegram Source?": {
+      "main": [
+        [
+          {
+            "node": "Send Telegram Summary",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Is Webhook Source?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Stage 1: Detect Format",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call YouTube Transcript Service": {
+      "main": [
+        [
+          {
+            "node": "YouTube: Has Transcript?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Webhook Source?": {
+      "main": [
+        [
+          {
+            "node": "Webhook Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "81cc10ea6b788f60f6b37813323b2059e6c191e6d5df313ba5494deeb59b8540"
+  }
+}
