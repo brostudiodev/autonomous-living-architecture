@@ -32,3 +32,13 @@
 **Code:** `autonomous-living/goal-g01/`
 
 ---
+
+## 2026-01-20 (Tuesday)
+
+**Action:** HIT Split legs
+
+**Next Step:** HIT split
+
+**Code:** `autonomous-living/goal-g01/`
+
+---
