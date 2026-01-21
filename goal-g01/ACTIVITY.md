@@ -9,7 +9,7 @@
 
 **Next Step:** Wymyslic jak trackowac kalorie i workouty
 
-**Code:** `autonomous-living/goal-01/`
+**Code:** `autonomous-living/goal-g01/`
 
 ---
 
@@ -23,11 +23,21 @@
 
 ---
 
-## 2026-01-21 (Wednesday)
+## 2026-01-19 (Monday)
 
-**Action:** Trzymanie diety
+**Action:** Trzymanie diety!
 
-**Next Step:** - **Code:** `autonomous-living/goal-g01/`
+**Next Step:** Mierzenie wagi i bodyfat automatycznie
+
+**Code:** `autonomous-living/goal-g01/`
+
+---
+
+## 2026-01-20 (Tuesday)
+
+**Action:** HIT Split legs
+
+**Next Step:** HIT split
 
 **Code:** `autonomous-living/goal-g01/`
 

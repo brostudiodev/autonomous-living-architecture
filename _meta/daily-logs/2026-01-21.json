@@ -26,15 +26,15 @@
       "id": "G01",
       "name": "P - Workout - Reach Target Body Fat",
       "did": "Trzymanie diety",
-      "next": "- **Code:** `autonomous-living/goal-g01/`",
-      "code_path": "autonomous-living/goal-g01/"
+      "next": "- **Code:** `autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/`",
+      "code_path": "autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/"
     },
     {
       "id": "G11",
       "name": "P - Automation - Intelligent Productivity & Time Architecture System",
       "did": "Planning n8n template to check actual goals",
-      "next": "- **Code:** `autonomous-living/goal-g11/`",
-      "code_path": "autonomous-living/goal-g11/"
+      "next": "- **Code:** `autonomous-living/docs/10_GOALS/G11_Intelligent-Productivity-Time-Architecture/`",
+      "code_path": "autonomous-living/docs/10_GOALS/G11_Intelligent-Productivity-Time-Architecture/"
     }
   ]
 }

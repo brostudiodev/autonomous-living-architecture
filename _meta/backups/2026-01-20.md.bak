@@ -1,40 +1,28 @@
 ---
-date: 2026-01-21
-weekday: Wednesday
+date: 2026-01-20
+weekday: Tuesday
 mood:
-- 😐 ok
+  - 😐 ok
 energy:
-- 3 - normal
+  - 3 - normal
 sleep_start: '"23:00"'
-sleep_end: 06:00
-sleep_duration: 7
+sleep_end: 05:30
+sleep_duration: 6.5
 sleep_quality: 3
-calories: '2000'
-protein: '150'
-steps: '1000'
-workout_type: ''
-highlight: Main Route template added Goal Evening Planner
-frustration: Not everything ready
-automation_win: ''
-north_star: '[[P - Goals - 2026 Automation-First Living]]'
-goals_touched:
-- '[[P - Workout - Reach Target Body Fat]]'
-- '[[P - Automation - Intelligent Productivity & Time Architecture System]]'
-goals_activities:
-  G01:
-    name: P - Workout - Reach Target Body Fat
-    did: Trzymanie diety
-    next: '- **Code:** `autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/`'
-    code: autonomous-living/goal-g01/
-  G11:
-    name: P - Automation - Intelligent Productivity & Time Architecture System
-    did: Planning n8n template to check actual goals
-    next: '- **Code:** `autonomous-living/docs/10_GOALS/G11_Intelligent-Productivity-Time-Architecture/`'
-    code: autonomous-living/goal-g11/
+calories: "2000"
+protein: "150"
+steps: "1000"
+workout_type: HIT - split legs
+highlight: ""
+frustration: ""
+automation_win: ""
+north_star: "[[P - Goals - 2026 Automation-First Living]]"
+goals_touched: []
+goals_activities: {}
 tags:
-- daily
+  - daily
 ---
-# 2026-01-21 – Daily
+# 2026-01-20 – Daily
 
 Linked week: [[2026-W04]]
 Check and remember daily routines: [[A - System - Life Routines]] 
@@ -60,23 +48,25 @@ sort by path
 
 ---
 ## Schedule / Time Blocks
-- 06:00–09:00 – Jak co dzien
-- 09:00–12:00 – Praca
-- 12:00–18:00 – Praca
-- 18:00–22:00 –  Godzina pracy nad projektem
+- 06:00–09:00 – 
+- 09:00–12:00 – 
+- 12:00–18:00 – 
+- 18:00–22:00 – 
 ---
 ## Tasks (manual planning)
 
 ### Work
-
-
+- [x] #work #today DAC testy ✅ 2026-01-20
+- [x] #work #today skończyć screen z hyperautomatyzacją ✅ 2026-01-20
+- [ ] #work #today test M365
+ 
 ### Personal
-
+- [x] #personal #today Z Capim pojechac do lekarza ✅ 2026-01-20
+- [x] #personal #today Jajka odebrac ✅ 2026-01-20
 
 ### Life / Family
-
+- [x] #personal #family #today Pracowac malo dzisiaj ✅ 2026-01-20
 ### Deep Work (optional – high-focus tasks)
-
 
 ---
 ## After Work - Overview
@@ -104,54 +94,54 @@ _(Fill this when you open Obsidian after work.)_
 ### Choose Today’s Power Goals (max 3)
 _From the 12, pick **only what you commit to touch today (max 3)**:_
  
- - [x] **G01** – [[P - Workout - Reach Target Body Fat]] ✅ 2026-01-21
-     - **Did:** Trzymanie diety
-     - **Next:**
-     - **Code:** `autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/`
+ - [x] **G01** – [[P - Workout - Reach Target Body Fat]] ✅ 2026-01-20
+     - **Did:** HIT Split legs
+     - **Next:** HIT split 
+     - **Code:** `autonomous-living/goal-g01/`
  - [ ] **G02** – [[P - Automation - Automationbro]]
      - **Did:**
      - **Next:**
-     - **Code:** `autonomous-living/docs/10_GOALS/G02_Automationbro-Recognition/`
+     - **Code:** `autonomous-living/goal-g02/`
  - [ ] **G03** – [[P - Personal - Autonomous Household Operations System]]
      - **Did:**
      - **Next:**
-     - **Code:** `autonomous-living/docs/10_GOALS/G03_Autonomous-Household-Operations/`
- - [ ] **G04** – [[P - AI - Digital Twin Ecosystem - Virtual Assistant]]
-     - **Did:**
-     - **Next:**
-     - **Code:** `autonomous-living/docs/10_GOALS/G04_Digital-Twin-Ecosystem/`
+     - **Code:** `autonomous-living/goal-g03/`
+ - [x] **G04** – [[P - AI - Digital Twin Ecosystem - Virtual Assistant]] ✅ 2026-01-20
+     - **Did:** Router + Youtube Service starting
+     - **Next:** Add proper voice
+     - **Code:** `autonomous-living/goal-g04/`
  - [ ] **G05** – [[P - Finance - Autonomous Financial Command Center]]
      - **Did:**
      - **Next:**
-     - **Code:** `autonomous-living/docs/10_GOALS/G05_Autonomous-Financial-Command-Center/`
+     - **Code:** `autonomous-living/goal-g05/`
  - [ ] **G06** – [[P - Learning - Pass Certification Exams]]
      - **Did:**
      - **Next:**
-     - **Code:** `autonomous-living/docs/10_GOALS/G06_Certification-Exams/`
+     - **Code:** `autonomous-living/goal-g06/`
  - [ ] **G07** – [[P - Health - Predictive Health Management & Performance Optimization System]]
      - **Did:**
      - **Next:**
-     - **Code:** `autonomous-living/docs/10_GOALS/G07_Predictive-Health-Management/`
+     - **Code:** `autonomous-living/goal-g07/`
  - [ ] **G08** – [[P - Smart Home - Predictive Smart Home Orchestration]]
      - **Did:**
      - **Next:**
-     - **Code:** `autonomous-living/docs/10_GOALS/G08_Predictive-Smart-Home-Orchestration/`
+     - **Code:** `autonomous-living/goal-g08/`
  - [ ] **G09** – [[P - System - Complete Process Documentation]]
      - **Did:**
      - **Next:**
-     - **Code:** `autonomous-living/docs/10_GOALS/G09_Complete-Process-Documentation/`
+     - **Code:** `autonomous-living/goal-g09/`
  - [ ] **G10** – [[P - Automation - Automated Career Intelligence & Positioning System]]
      - **Did:**
      - **Next:**
-     - **Code:** `autonomous-living/docs/10_GOALS/G10_Automated-Career-Intelligence/`
- - [x] **G11** – [[P - Automation - Intelligent Productivity & Time Architecture System]] ✅ 2026-01-21
-     - **Did:** Planning n8n template to check actual goals
+     - **Code:** `autonomous-living/goal-g10/`
+ - [ ] **G11** – [[P - Automation - Intelligent Productivity & Time Architecture System]]
+     - **Did:**
      - **Next:**
-     - **Code:** `autonomous-living/docs/10_GOALS/G11_Intelligent-Productivity-Time-Architecture/`
+     - **Code:** `autonomous-living/goal-g11/`
  - [ ] **G12** – [[P - Automation - Meta-System Integration & Continuous Optimization Engine]]
      - **Did:**
      - **Next:**
-     - **Code:** `autonomous-living/docs/10_GOALS/G12_Meta-System-Integration-Optimization/`
+     - **Code:** `autonomous-living/goal-g12/`
 
 > [!tip] 🤖 Automation Trigger After checking goals above, run: `Ctrl+Shift+G` or `python sync-daily-goals.py` This updates YAML fields and syncs to autonomous-living repository.
 
@@ -180,11 +170,10 @@ _From the 12, pick **only what you commit to touch today (max 3)**:_
 ## 🧠 Reflection
 
 - What moved me closer to [[P - Goals - 2026 Automation-First Living]]?
-  n8n template started.
-- Bottlenecks noticed? I need to finalize concept till end of the month
+- Bottlenecks noticed? Proba skonczenia Routera
 - What worked?
 - One good thing today
-- → **1 tweak for next time:** More plan, less work
+- → **1 tweak for next time:**
 
 ---
 

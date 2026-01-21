@@ -1,0 +1,40 @@
+{
+  "date": "2026-01-20",
+  "weekday": "Tuesday",
+  "metadata": {
+    "energy": [
+      "3 - normal"
+    ],
+    "mood": [
+      "😐 ok"
+    ],
+    "sleep_duration": 6.5,
+    "calories": "2000",
+    "protein": "150",
+    "steps": "1000",
+    "workout_type": "HIT - split legs"
+  },
+  "goals_summary": {
+    "total_touched": 2,
+    "goals_list": [
+      "[[P - Workout - Reach Target Body Fat]]",
+      "[[P - AI - Digital Twin Ecosystem - Virtual Assistant]]"
+    ]
+  },
+  "activities": [
+    {
+      "id": "G01",
+      "name": "P - Workout - Reach Target Body Fat",
+      "did": "HIT Split legs",
+      "next": "HIT split",
+      "code_path": "autonomous-living/goal-g01/"
+    },
+    {
+      "id": "G04",
+      "name": "P - AI - Digital Twin Ecosystem - Virtual Assistant",
+      "did": "Router + Youtube Service starting",
+      "next": "Add proper voice",
+      "code_path": "autonomous-living/goal-g04/"
+    }
+  ]
+}

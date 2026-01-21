@@ -37,3 +37,13 @@ updated: "2026-01-15"
 
 ### Next Milestone
 - [ ] Immediate next steps
+
+## 2026-01-20 (Tuesday)
+
+**Action:** Router + Youtube Service starting
+
+**Next Step:** Add proper voice
+
+**Code:** `autonomous-living/goal-g04/`
+
+---
