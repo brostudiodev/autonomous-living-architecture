@@ -49,10 +49,10 @@ Start here: [docs/00_START-HERE/North-Star.md](docs/00_START-HERE/North-Star.md)
 - [G06 Certification Exams](docs/10_GOALS/G06_Certification-Exams/README.md)
 - [G07 Predictive Health Management](docs/10_GOALS/G07_Predictive-Health-Management/README.md)
 - [G08 Predictive Smart Home Orchestration](docs/10_GOALS/G08_Predictive-Smart-Home-Orchestration/README.md)
-- [G09 Complete Process Documentation](docs/10_GOALS/G09_Complete-Process-Documentation/README.md)
-- [G10 Automated Career Intelligence](docs/10_GOALS/G10_Automated-Career-Intelligence/README.md)
-- [G11 Productivity & Time Architecture](docs/10_GOALS/G11_Intelligent-Productivity-Time-Architecture/README.md)
-- [G12 Meta-System Integration & Optimization](docs/10_GOALS/G12_Meta-System-Integration-Optimization/README.md)
+- [G09 Automated Career Intelligence](docs/10_GOALS/G09_Automated-Career-Intelligence/README.md)
+- [G10 Productivity & Time Architecture](docs/10_GOALS/G10_Intelligent-Productivity-Time-Architecture/README.md)
+- [G11 Meta-System Integration & Optimization](docs/10_GOALS/G11_Meta-System-Integration-Optimization/README.md)
+- [G12 Complete Process Documentation](docs/10_GOALS/G12_Complete-Process-Documentation/README.md)
 
 ## Systems (high level)
 - [Homelab Platform](docs/20_SYSTEMS/S00_Homelab-Platform/README.md)
@@ -631,13 +631,13 @@ create_goal "G05" "Autonomous Financial Command Center" "G05_Autonomous-Financia
 create_goal "G06" "Certification Exams" "G06_Certification-Exams"
 create_goal "G07" "Predictive Health Management" "G07_Predictive-Health-Management"
 create_goal "G08" "Predictive Smart Home Orchestration" "G08_Predictive-Smart-Home-Orchestration"
-create_goal "G09" "Complete Process Documentation" "G09_Complete-Process-Documentation"
-create_goal "G10" "Automated Career Intelligence" "G10_Automated-Career-Intelligence"
-create_goal "G11" "Productivity & Time Architecture" "G11_Intelligent-Productivity-Time-Architecture"
-create_goal "G12" "Meta-System Integration & Optimization" "G12_Meta-System-Integration-Optimization"
+create_goal "G09" "Automated Career Intelligence" "G09_Automated-Career-Intelligence"
+create_goal "G10" "Productivity & Time Architecture" "G10_Intelligent-Productivity-Time-Architecture"
+create_goal "G11" "Meta-System Integration & Optimization" "G11_Meta-System-Integration-Optimization"
+create_goal "G12" "Complete Process Documentation" "G12_Complete-Process-Documentation"
 
-# Extend Goal 09 with extra docs (overwrite those specific files with richer templates)
-cat > docs/10_GOALS/G09_Complete-Process-Documentation/Documentation-Standard.md <<EOF
+# Extend Goal 12 with extra docs (overwrite those specific files with richer templates)
+cat > docs/10_GOALS/G12_Complete-Process-Documentation/Documentation-Standard.md <<EOF
 ---
 title: "Documentation Standard"
 type: "standard"
@@ -668,7 +668,7 @@ Documentation is not a diary. It's an operational artifact that must survive tim
 
 EOF
 
-cat > docs/10_GOALS/G09_Complete-Process-Documentation/AI-Update-Policy.md <<EOF
+cat > docs/10_GOALS/G12_Complete-Process-Documentation/AI-Update-Policy.md <<EOF
 ---
 title: "AI Update Policy"
 type: "policy"
@@ -697,7 +697,7 @@ updated: "${TODAY}"
 
 EOF
 
-cat > docs/10_GOALS/G09_Complete-Process-Documentation/Publishing.md <<EOF
+cat > docs/10_GOALS/G12_Complete-Process-Documentation/Publishing.md <<EOF
 ---
 title: "Publishing"
 type: "process"

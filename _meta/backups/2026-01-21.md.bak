@@ -1,20 +1,20 @@
 ---
-date: 2026-01-20
-weekday: Tuesday
+date: 2026-01-21
+weekday: Wednesday
 mood:
   - 😐 ok
 energy:
   - 3 - normal
 sleep_start: '"23:00"'
-sleep_end: 05:30
-sleep_duration: 6.5
+sleep_end: 06:00
+sleep_duration: 7
 sleep_quality: 3
 calories: "2000"
 protein: "150"
 steps: "1000"
-workout_type: HIT - split legs
-highlight: ""
-frustration: ""
+workout_type: ""
+highlight: Main Route template added Goal Evening Planner
+frustration: Not everything ready
 automation_win: ""
 north_star: "[[P - Goals - 2026 Automation-First Living]]"
 goals_touched: []
@@ -22,7 +22,7 @@ goals_activities: {}
 tags:
   - daily
 ---
-# 2026-01-20 – Daily
+# 2026-01-21 – Daily
 
 Linked week: [[2026-W04]]
 Check and remember daily routines: [[A - System - Life Routines]] 
@@ -48,25 +48,23 @@ sort by path
 
 ---
 ## Schedule / Time Blocks
-- 06:00–09:00 – 
-- 09:00–12:00 – 
-- 12:00–18:00 – 
-- 18:00–22:00 – 
+- 06:00–09:00 – Jak co dzien
+- 09:00–12:00 – Praca
+- 12:00–18:00 – Praca
+- 18:00–22:00 –  Godzina pracy nad projektem
 ---
 ## Tasks (manual planning)
 
 ### Work
-- [x] #work #today DAC testy ✅ 2026-01-20
-- [x] #work #today skończyć screen z hyperautomatyzacją ✅ 2026-01-20
-- [ ] #work #today test M365
- 
+
+
 ### Personal
-- [x] #personal #today Z Capim pojechac do lekarza ✅ 2026-01-20
-- [x] #personal #today Jajka odebrac ✅ 2026-01-20
+
 
 ### Life / Family
-- [x] #personal #family #today Pracowac malo dzisiaj ✅ 2026-01-20
+
 ### Deep Work (optional – high-focus tasks)
+
 
 ---
 ## After Work - Overview
@@ -94,9 +92,9 @@ _(Fill this when you open Obsidian after work.)_
 ### Choose Today’s Power Goals (max 3)
 _From the 12, pick **only what you commit to touch today (max 3)**:_
  
- - [x] **G01** – [[P - Workout - Reach Target Body Fat]] ✅ 2026-01-20
-     - **Did:** HIT Split legs
-     - **Next:** HIT split 
+ - [x] **G01** – [[P - Workout - Reach Target Body Fat]] ✅ 2026-01-21
+     - **Did:** Trzymanie diety
+     - **Next:**
      - **Code:** `autonomous-living/goal-g01/`
  - [ ] **G02** – [[P - Automation - Automationbro]]
      - **Did:**
@@ -106,9 +104,9 @@ _From the 12, pick **only what you commit to touch today (max 3)**:_
      - **Did:**
      - **Next:**
      - **Code:** `autonomous-living/goal-g03/`
- - [x] **G04** – [[P - AI - Digital Twin Ecosystem - Virtual Assistant]] ✅ 2026-01-20
-     - **Did:** Router + Youtube Service starting
-     - **Next:** Add proper voice
+ - [ ] **G04** – [[P - AI - Digital Twin Ecosystem - Virtual Assistant]]
+     - **Did:**
+     - **Next:**
      - **Code:** `autonomous-living/goal-g04/`
  - [ ] **G05** – [[P - Finance - Autonomous Financial Command Center]]
      - **Did:**
@@ -134,8 +132,8 @@ _From the 12, pick **only what you commit to touch today (max 3)**:_
      - **Did:**
      - **Next:**
      - **Code:** `autonomous-living/goal-g10/`
- - [ ] **G11** – [[P - Automation - Intelligent Productivity & Time Architecture System]]
-     - **Did:**
+ - [x] **G11** – [[P - Automation - Intelligent Productivity & Time Architecture System]] ✅ 2026-01-21
+     - **Did:** Planning n8n template to check actual goals
      - **Next:**
      - **Code:** `autonomous-living/goal-g11/`
  - [ ] **G12** – [[P - Automation - Meta-System Integration & Continuous Optimization Engine]]
@@ -170,10 +168,11 @@ _From the 12, pick **only what you commit to touch today (max 3)**:_
 ## 🧠 Reflection
 
 - What moved me closer to [[P - Goals - 2026 Automation-First Living]]?
-- Bottlenecks noticed? Proba skonczenia Routera
+  n8n template started.
+- Bottlenecks noticed? I need to finalize concept till end of the month
 - What worked?
 - One good thing today
-- → **1 tweak for next time:**
+- → **1 tweak for next time:** More plan, less work
 
 ---
 

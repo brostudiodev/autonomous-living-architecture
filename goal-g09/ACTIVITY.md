@@ -9,7 +9,7 @@
 
 **Next Step:** Pena automatyzacja
 
-**Code:** `autonomous-living/goal-g09/`
+**Code:** `autonomous-living/goal-09/`
 
 ---
 
@@ -20,15 +20,5 @@
 **Next Step:** Pena automatyzacja
 
 **Code:** `autonomous-living/goal-09/`
-
----
-
-## 2026-01-19 (Monday)
-
-**Action:** Create Documentation dummy document and prompt
-
-**Next Step:** Check how documentation look like
-
-**Code:** `autonomous-living/goal-g09/`
 
 ---
