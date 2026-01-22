@@ -1,0 +1,43 @@
+name: G01 Training Sync (Sheets -> CSV)
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"   # every 15 minutes
+  workflow_dispatch: {}       # allow manual run
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Download CSV exports from Google Sheets
+        run: |
+          set -e
+
+          curl -L "$SETS_CSV_URL" -o docs/10_GOALS/G01_Target-Body-Fat/Training/data/sets.csv
+          curl -L "$WORKOUTS_CSV_URL" -o docs/10_GOALS/G01_Target-Body-Fat/Training/data/workouts.csv
+          curl -L "$MEASUREMENTS_CSV_URL" -o docs/10_GOALS/G01_Target-Body-Fat/Training/data/measurements.csv
+
+      - name: Commit changes if any
+        run: |
+          git config user.name "g01-training-bot"
+          git config user.email "g01-training-bot@users.noreply.github.com"
+
+          git add docs/10_GOALS/G01_Target-Body-Fat/Training/data/*.csv
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git commit -m "G01: sync training CSVs from Google Sheets"
+          git push
+        env:
+          SETS_CSV_URL: ${{ secrets.G01_SETS_CSV_URL }}
+          WORKOUTS_CSV_URL: ${{ secrets.G01_WORKOUTS_CSV_URL }}
+          MEASUREMENTS_CSV_URL: ${{ secrets.G01_MEASUREMENTS_CSV_URL }}
