@@ -1,18 +1,18 @@
 date,workout_id,exercise_id,weight_kg,tut_s,max_effort,form_ok,notes
-2026-01-22,hit_fullbody_a,ex_leg_press,220,94,true,true,"over 90s -> consider increase"
-2026-01-22,hit_fullbody_a,ex_chest_press_machine,80,63,true,true,"hard grind"
-2026-01-22,hit_fullbody_a,ex_lat_pulldown,70,58,true,true,"close to 60"
-2026-01-22,hit_fullbody_a,ex_lateral_raise_db,16,46,true,false,"form broke at end; hold"
-2026-01-20,hit_upper_a,ex_chest_press_machine,80,67,true,true,"hard; clean reps"
-2026-01-20,hit_upper_a,ex_lat_pulldown,70,92,true,true,"signal: consider increase (TUT>90)"
-2026-01-20,hit_upper_a,ex_seated_row_machine,75,58,true,true,"close to target"
-2026-01-20,hit_upper_a,ex_lateral_raise_db,16,44,true,false,"form broke last 10s; hold weight"
-2026-01-20,hit_upper_a,ex_biceps_curl_cable,35,61,true,true,"good pump"
-2026-01-20,hit_upper_a,ex_triceps_pushdown,45,55,true,true,"kept strict"
-2026-01-23,hit_lower_a,ex_leg_press,220,95,true,true,"signal: consider increase (TUT>90)"
-2026-01-23,hit_lower_a,ex_leg_curl_machine,55,62,true,true,"hamstrings cooked"
-2026-01-23,hit_lower_a,ex_back_extension,40,57,true,true,"lower back ok"
-2026-01-23,hit_lower_a,ex_calf_raise_machine,80,71,true,true,"burn"
-2026-01-23,hit_lower_a,ex_ab_crunch_machine,50,49,true,true,"ok"
-2026-01-26,hit_upper_a,ex_chest_press_machine,80,52,false,true,"not feeling it; maintained form"
-2026-01-26,hit_upper_a,ex_lat_pulldown,70,54,false,true,"work stress; no max effort"
+2026-01-20,hit_lower_a,ex_squat,78,67,TRUE,TRUE,hard; clean reps
+2026-01-20,hit_lower_a,ex_stiff_legged_deadlift,78,92,TRUE,TRUE,signal: consider increase (TUT>90)
+2026-01-20,hit_lower_a,ex_leg_curl_machine,25,58,TRUE,TRUE,close to target
+2026-01-20,hit_lower_a,ex_calf_raise_machine,10,44,TRUE,FALSE,form broke last 10s; hold weight
+2026-01-23,hit_fullbody_a,ex_biceps_curl_cable,35,61,TRUE,TRUE,good pump
+2026-01-20,hit_upper_a,ex_triceps_pushdown,45,55,TRUE,TRUE,kept strict
+2026-01-23,hit_lower_a,ex_leg_press,220,95,TRUE,TRUE,signal: consider increase (TUT>90)
+2026-01-23,hit_lower_a,ex_leg_curl_machine,55,62,TRUE,TRUE,hamstrings cooked
+2026-01-23,hit_lower_a,ex_back_extension,40,57,TRUE,TRUE,lower back ok
+2026-01-23,hit_lower_a,ex_calf_raise_machine,80,71,TRUE,TRUE,burn
+2026-01-23,hit_lower_a,ex_ab_crunch_machine,50,49,TRUE,TRUE,ok
+2026-01-26,hit_upper_a,ex_chest_press_machine,80,52,FALSE,TRUE,not feeling it; maintained form
+2026-01-26,hit_upper_a,ex_lat_pulldown,70,54,FALSE,TRUE,work stress; no max effort
+2026-01-22,hit_fullbody_a,ex_leg_press,220,94,TRUE,TRUE,over 90s -> consider increase
+2026-01-22,hit_fullbody_a,ex_chest_press_machine,80,63,TRUE,TRUE,hard grind
+2026-01-22,hit_fullbody_a,ex_lat_pulldown,70,58,TRUE,TRUE,close to 60
+2026-01-22,hit_upper_a,ex_lateral_raise_db,16,46,TRUE,FALSE,form broke at end; hold
