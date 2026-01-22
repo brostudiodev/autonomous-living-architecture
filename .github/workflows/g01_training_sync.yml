@@ -16,15 +16,25 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download CSV exports from Google Sheets
+        env:
+          SETS_CSV_URL: ${{ secrets.G01_SETS_CSV_URL }}
+          WORKOUTS_CSV_URL: ${{ secrets.G01_WORKOUTS_CSV_URL }}
+          MEASUREMENTS_CSV_URL: ${{ secrets.G01_MEASUREMENTS_CSV_URL }}
         run: |
-          set -e
+          set -euo pipefail
 
-          curl -L "$SETS_CSV_URL" -o docs/10_GOALS/G01_Target-Body-Fat/Training/data/sets.csv
-          curl -L "$WORKOUTS_CSV_URL" -o docs/10_GOALS/G01_Target-Body-Fat/Training/data/workouts.csv
-          curl -L "$MEASUREMENTS_CSV_URL" -o docs/10_GOALS/G01_Target-Body-Fat/Training/data/measurements.csv
+          echo "SETS_CSV_URL length: ${#SETS_CSV_URL}"
+          echo "WORKOUTS_CSV_URL length: ${#WORKOUTS_CSV_URL}"
+          echo "MEASUREMENTS_CSV_URL length: ${#MEASUREMENTS_CSV_URL}"
+
+          curl -fL "$SETS_CSV_URL" -o docs/10_GOALS/G01_Target-Body-Fat/Training/data/sets.csv
+          curl -fL "$WORKOUTS_CSV_URL" -o docs/10_GOALS/G01_Target-Body-Fat/Training/data/workouts.csv
+          curl -fL "$MEASUREMENTS_CSV_URL" -o docs/10_GOALS/G01_Target-Body-Fat/Training/data/measurements.csv
 
       - name: Commit changes if any
         run: |
+          set -e
+
           git config user.name "g01-training-bot"
           git config user.email "g01-training-bot@users.noreply.github.com"
 
@@ -37,7 +47,3 @@ jobs:
 
           git commit -m "G01: sync training CSVs from Google Sheets"
           git push
-        env:
-          SETS_CSV_URL: ${{ secrets.G01_SETS_CSV_URL }}
-          WORKOUTS_CSV_URL: ${{ secrets.G01_WORKOUTS_CSV_URL }}
-          MEASUREMENTS_CSV_URL: ${{ secrets.G01_MEASUREMENTS_CSV_URL }}
