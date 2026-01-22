@@ -1,0 +1,26 @@
+version: 1
+
+workout:
+  id: hit_lower_a
+  name: HIT Lower A
+  split: lower
+  rule: "1 working set per exercise (warmups not logged)"
+  frequency_policy: "Train when recovered (typically 2–6 days). If not feeling it, postpone."
+
+tut_seconds:
+  target: 60
+  indicator_increase_weight_over: 90
+
+# Lower: keep it brutally simple but not stupid (quad + hinge + calf + trunk)
+exercise_order:
+  - ex_leg_press                    # main quad-dominant
+  - ex_leg_curl_machine             # hamstrings
+  - ex_back_extension               # hinge/posterior chain (swap for RDL if you prefer)
+  - ex_calf_raise_machine           # calves
+  - ex_ab_crunch_machine            # trunk (optional but easy to track)
+
+notes:
+  - "All loads are logged in kg. Tempo is ignored; only TUT seconds matter."
+  - "TUT>90s is a strong signal load may be too light IF form_ok=true AND max_effort=true."
+  - "I decide case-by-case whether to increase. If knees/back feel off, hold weight and keep form strict."
+  - "If I only do one exercise (e.g., just leg press), I still log the session; skipped exercises are simply not logged in sets.csv."

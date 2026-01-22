@@ -25,3 +25,18 @@ exercises:
 
   - id: ex_triceps_pushdown
     name: Triceps Pushdown (Cable)
+
+  - id: ex_seated_row_machine
+    name: Seated Row (Machine)
+
+  - id: ex_leg_curl_machine
+    name: Leg Curl (Machine)
+
+  - id: ex_back_extension
+    name: Back Extension
+
+  - id: ex_calf_raise_machine
+    name: Calf Raise (Machine)
+
+  - id: ex_ab_crunch_machine
+    name: Ab Crunch (Machine)
