@@ -1,0 +1,32 @@
+{
+  "date": "2026-01-22",
+  "weekday": "Thursday",
+  "metadata": {
+    "energy": [
+      "3 - normal"
+    ],
+    "mood": [
+      "😐 ok"
+    ],
+    "sleep_duration": 7,
+    "calories": null,
+    "protein": null,
+    "steps": null,
+    "workout_type": ""
+  },
+  "goals_summary": {
+    "total_touched": 1,
+    "goals_list": [
+      "[[P - Workout - Reach Target Body Fat]]"
+    ]
+  },
+  "activities": [
+    {
+      "id": "G01",
+      "name": "P - Workout - Reach Target Body Fat",
+      "did": "Keeping the diet",
+      "next": "FInd a way to track progress better",
+      "code_path": "autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/"
+    }
+  ]
+}
