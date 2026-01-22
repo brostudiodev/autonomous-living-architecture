@@ -2,8 +2,8 @@ name: G01 Training Sync (Sheets -> CSV)
 
 on:
   schedule:
-    - cron: "*/15 * * * *"   # every 15 minutes
-  workflow_dispatch: {}       # allow manual run
+    - cron: "0 */6 * * *"   # every 6 hours
+  workflow_dispatch: {}     # allow manual run
 
 permissions:
   contents: write
