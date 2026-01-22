@@ -92,7 +92,7 @@ updated: "2026-01-15"
 
 **Action:** Keeping the diet
 
-**Next Step:** FInd a way to track progress better
+**Next Step:** FInd a way to track progress better -> creatio of Workout Journal!
 
 **Code:** `autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/`
 

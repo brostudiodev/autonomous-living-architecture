@@ -9,16 +9,22 @@ sleep_start: '"23:00"'
 sleep_end: 06:00
 sleep_duration: 7
 sleep_quality: 3
-calories:
-protein:
+calories: "2000"
+protein: "180"
 steps:
 workout_type: ""
 highlight: ""
 frustration: ""
-automation_win: ""
+automation_win: Github actions
 north_star: "[[P - Goals - 2026 Automation-First Living]]"
-goals_touched: []
-goals_activities: {}
+goals_touched:
+  - "[[P - Workout - Reach Target Body Fat]]"
+goals_activities:
+  G01:
+    name: P - Workout - Reach Target Body Fat
+    did: Keeping the diet
+    next: FInd a way to track progress better
+    code: autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/
 tags:
   - daily
 ---
@@ -64,8 +70,8 @@ sort by path
 - [ ] #personal #today 
 
 ### Life / Family
-- [ ] #personal #family #today Dzien dziadka
-- [ ] #personal #family #today Umyc samochod
+- [x] #personal #family #today Dzien dziadka ✅ 2026-01-22
+- [x] #personal #family #today Umyc samochod ✅ 2026-01-22
 ### Deep Work (optional – high-focus tasks)
 
 
@@ -97,7 +103,7 @@ _From the 12, pick **only what you commit to touch today (max 3)**:_
 
  - [x] **G01** – [[P - Workout - Reach Target Body Fat]] ✅ 2026-01-22
      - **Did:** Keeping the diet
-     - **Next:** FInd a way to track progress better
+     - **Next:** FInd a way to track progress better -> creatio of Workout Journal!
      - **Code:** `autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/`
  - [ ] **G02** – [[P - Automation - Automationbro]]
      - **Did:**
