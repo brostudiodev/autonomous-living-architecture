@@ -6,18 +6,26 @@ import csv
 import datetime
 import os
 import yaml
+import glob
 
 # --- Configuration ---
 TRAINING_PATH = "docs/10_GOALS/G01_Target-Body-Fat/Training"
-EXERCISE_LIBRARY_PATH = os.path.join(TRAINING_PATH, "plans/exercise_library.yml")
+CONFIG_PATH = os.path.join(TRAINING_PATH, "config")
 SETS_CSV_PATH = os.path.join(TRAINING_PATH, "data/sets.csv")
-SESSIONS_CSV_PATH = os.path.join(TRAINING_PATH, "data/sessions.csv")
-SESSION_TEMPLATE_PATH = os.path.join(TRAINING_PATH, "templates/hit_session.md")
+WORKOUTS_CSV_PATH = os.path.join(TRAINING_PATH, "data/workouts.csv")
+SESSION_TEMPLATE_PATH = os.path.join(TRAINING_PATH, "sessions/2026-SESSION-TEMPLATE.md")
 SESSIONS_DIR = os.path.join(TRAINING_PATH, "sessions")
 
-def get_exercises():
-    """Loads the exercise library."""
-    with open(EXERCISE_LIBRARY_PATH, 'r') as f:
+def choose_workout():
+    """Lets the user choose a workout configuration."""
+    workout_files = glob.glob(os.path.join(CONFIG_PATH, "workout_*.yml"))
+    print("Please choose a workout:")
+    for i, f in enumerate(workout_files):
+        print(f"  {i+1}: {os.path.basename(f)}")
+    
+    choice = int(input("Enter your choice: ")) - 1
+    
+    with open(workout_files[choice], 'r') as f:
         return yaml.safe_load(f)
 
 def log_workout():
@@ -25,42 +33,48 @@ def log_workout():
     today = datetime.date.today()
     date_str = today.strftime("%Y-%m-%d")
     
-    exercises = get_exercises()
+    workout_config = choose_workout()
+    workout_id = workout_config['workout']['id']
+    exercise_order = workout_config['exercise_order']
     
     # --- Inquirer/Click equivalent part START ---
-    # Here you would prompt the user for session details
-    print("--- Logging New HIT Session ---")
+    print(f"--- Logging New Workout: {workout_config['workout']['name']} ---")
+    location = input("Enter location: ")
     duration_min = input("Enter duration (min): ")
-    readiness = input("Enter readiness (1-5): ")
-    stress = input("Enter stress (1-5): ")
-    
-    session_data = {
+    days_since_last = input("Days since last workout (optional): ")
+    recovered = input("Enter recovered score (1-5): ")
+    mood = input("Enter mood score (1-5): ")
+    notes_session = input("Enter session notes (optional): ")
+
+    workout_data = {
         'date': date_str,
-        'session_name': 'Full Body HIT',
+        'workout_id': workout_id,
+        'location': location,
         'duration_min': duration_min,
-        'readiness_1_5': readiness,
-        'stress_1_5': stress,
-        'notes_tags': '' # User could add tags here
+        'days_since_last_workout': days_since_last,
+        'recovered_1_5': recovered,
+        'mood_1_5': mood,
+        'notes': notes_session
     }
-    
+
     sets_data = []
-    for exercise_info in exercises:
-        exercise = exercise_info['exercise']
-        print(f"\n--- {exercise} ---")
+    for exercise_id in exercise_order:
+        print(f"\n--- {exercise_id} ---")
         weight_kg = input("Enter weight (kg): ")
-        reps = input("Enter reps: ")
-        tuttle = input("Enter TUTTLE (e.g. 4-1-4): ")
-        rpe = input("Enter RPE (1-10): ")
-        notes = input("Enter notes (optional): ")
+        tut_s = input("Enter TUT (s): ")
+        max_effort = input("Max effort (true/false): ").lower() == 'true'
+        form_ok = input("Form OK (true/false): ").lower() == 'true'
+        notes_set = input("Enter set notes (optional): ")
         
         sets_data.append({
             'date': date_str,
-            'exercise': exercise,
+            'workout_id': workout_id,
+            'exercise_id': exercise_id,
             'weight_kg': weight_kg,
-            'reps': reps,
-            'tuttle': tuttle,
-            'rpe': rpe,
-            'notes': notes
+            'tut_s': tut_s,
+            'max_effort': max_effort,
+            'form_ok': form_ok,
+            'notes': notes_set
         })
     # --- Inquirer/Click equivalent part END ---
 
@@ -69,29 +83,24 @@ def log_workout():
         writer = csv.DictWriter(f, fieldnames=sets_data[0].keys())
         writer.writerows(sets_data)
 
-    with open(SESSIONS_CSV_PATH, 'a', newline='') as f:
-        writer = csv.DictWriter(f, fieldnames=session_data.keys())
-        writer.writerow(session_data)
+    with open(WORKOUTS_CSV_PATH, 'a', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=workout_data.keys())
+        writer.writerow(workout_data)
 
-    # Create session markdown file
-    with open(SESSION_TEMPLATE_PATH, 'r') as f:
-        template = f.read()
-    
-    session_md = template.replace("{{DATE}}", date_str)
-    session_file_path = os.path.join(SESSIONS_DIR, str(today.year), f"{date_str}__hit.md")
-    
-    with open(session_file_path, 'w') as f:
-        f.write(session_md)
+    # Optional: Create session markdown file
+    create_note = input("\nCreate a detailed session note? (y/n): ").lower()
+    if create_note == 'y':
+        with open(SESSION_TEMPLATE_PATH, 'r') as f:
+            template = f.read()
         
+        session_md = template.replace("YYYY-MM-DD", date_str).replace("hit_fullbody_a", workout_id)
+        session_file_path = os.path.join(SESSIONS_DIR, str(today.year), f"{date_str}__{workout_id}.md")
+        
+        with open(session_file_path, 'w') as f:
+            f.write(session_md)
+        print(f"Session note created at: {session_file_path}")
+
     print(f"\nWorkout for {date_str} logged successfully!")
-    print(f"Session file created at: {session_file_path}")
 
 if __name__ == "__main__":
-    # This script is meant to be run from the root of the autonomous-living repo.
-    # To make it runnable from anywhere, you might need to adjust path handling.
-    # For now, we assume CWD is the repo root.
-    if not os.path.exists("autonomous-living"):
-        print("This script should be run from the parent directory of 'autonomous-living'")
-    else:
-        os.chdir("autonomous-living")
-        log_workout()
+    log_workout()

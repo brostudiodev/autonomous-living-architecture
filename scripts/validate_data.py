@@ -6,7 +6,7 @@ import sys
 
 # --- Configuration ---
 TRAINING_PATH = "docs/10_GOALS/G01_Target-Body-Fat/Training"
-EXERCISE_LIBRARY_PATH = os.path.join(TRAINING_PATH, "plans/exercise_library.yml")
+EXERCISE_LIBRARY_PATH = os.path.join(TRAINING_PATH, "config/exercises.yml")
 SETS_CSV_PATH = os.path.join(TRAINING_PATH, "data/sets.csv")
 MEASUREMENTS_CSV_PATH = os.path.join(TRAINING_PATH, "data/measurements.csv")
 
@@ -17,7 +17,7 @@ def validate_data():
 
     # Load exercise library
     with open(EXERCISE_LIBRARY_PATH, 'r') as f:
-        valid_exercises = [e['exercise'] for e in yaml.safe_load(f)]
+        valid_exercises = [e['id'] for e in yaml.safe_load(f)['exercises']]
 
     # Validate sets.csv
     try:
@@ -25,15 +25,15 @@ def validate_data():
         print(f"Validating {SETS_CSV_PATH}...")
 
         # Check for missing values in key columns
-        for col in ['date', 'exercise', 'weight_kg', 'reps', 'rpe']:
+        for col in ['date', 'workout_id', 'exercise_id', 'weight_kg', 'tut_s', 'max_effort', 'form_ok']:
             if sets_df[col].isnull().any():
                 print(f"  ERROR: Missing values found in column '{col}'")
                 errors = True
 
         # Check if exercises are in the library
-        unknown_exercises = sets_df[~sets_df['exercise'].isin(valid_exercises)]
+        unknown_exercises = sets_df[~sets_df['exercise_id'].isin(valid_exercises)]
         if not unknown_exercises.empty:
-            print(f"  ERROR: Unknown exercises found: {unknown_exercises['exercise'].unique()}")
+            print(f"  ERROR: Unknown exercises found: {unknown_exercises['exercise_id'].unique()}")
             errors = True
         
         print("  Validation for sets.csv passed.")
@@ -47,7 +47,7 @@ def validate_data():
         measurements_df = pd.read_csv(MEASUREMENTS_CSV_PATH)
         print(f"Validating {MEASUREMENTS_CSV_PATH}...")
 
-        for col in ['date', 'bodyweight_kg']:
+        for col in ['date', 'bodyweight_kg', 'bodyfat_pct']:
              if measurements_df[col].isnull().any():
                 print(f"  ERROR: Missing values found in column '{col}'")
                 errors = True
@@ -65,8 +65,4 @@ def validate_data():
         print("\nAll data validated successfully!")
 
 if __name__ == "__main__":
-    if not os.path.exists("autonomous-living"):
-        print("This script should be run from the parent directory of 'autonomous-living'")
-    else:
-        os.chdir("autonomous-living")
-        validate_data()
+    validate_data()
