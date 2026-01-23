@@ -31,6 +31,72 @@ jobs:
           curl -fL "$WORKOUTS_CSV_URL" -o docs/10_GOALS/G01_Target-Body-Fat/Training/data/workouts.csv
           curl -fL "$MEASUREMENTS_CSV_URL" -o docs/10_GOALS/G01_Target-Body-Fat/Training/data/measurements.csv
 
+      - name: Validate CSV schemas
+        run: |
+          set -euo pipefail
+          
+          echo "Validating CSV headers..."
+          
+          # Define expected headers
+          EXPECTED_SETS="date,workout_id,exercise_id,weight_kg,tut_s,max_effort,form_ok,notes"
+          EXPECTED_WORKOUTS="date,workout_id,location,duration_min,days_since_last_workout,recovered_1_5,mood_1_5,notes"
+          EXPECTED_MEASUREMENTS="date,bodyweight_kg,bodyfat_pct,notes"
+          
+          # Read actual headers (first line of each CSV)
+          ACTUAL_SETS=$(head -1 docs/10_GOALS/G01_Target-Body-Fat/Training/data/sets.csv | tr -d '\r')
+          ACTUAL_WORKOUTS=$(head -1 docs/10_GOALS/G01_Target-Body-Fat/Training/data/workouts.csv | tr -d '\r')
+          ACTUAL_MEASUREMENTS=$(head -1 docs/10_GOALS/G01_Target-Body-Fat/Training/data/measurements.csv | tr -d '\r')
+          
+          # Validate sets.csv
+          if [ "$ACTUAL_SETS" != "$EXPECTED_SETS" ]; then
+            echo "❌ ERROR: sets.csv header mismatch"
+            echo "Expected: $EXPECTED_SETS"
+            echo "Got:      $ACTUAL_SETS"
+            exit 1
+          fi
+          echo "✓ sets.csv header valid"
+          
+          # Validate workouts.csv
+          if [ "$ACTUAL_WORKOUTS" != "$EXPECTED_WORKOUTS" ]; then
+            echo "❌ ERROR: workouts.csv header mismatch"
+            echo "Expected: $EXPECTED_WORKOUTS"
+            echo "Got:      $ACTUAL_WORKOUTS"
+            exit 1
+          fi
+          echo "✓ workouts.csv header valid"
+          
+          # Validate measurements.csv
+          if [ "$ACTUAL_MEASUREMENTS" != "$EXPECTED_MEASUREMENTS" ]; then
+            echo "❌ ERROR: measurements.csv header mismatch"
+            echo "Expected: $EXPECTED_MEASUREMENTS"
+            echo "Got:      $ACTUAL_MEASUREMENTS"
+            exit 1
+          fi
+          echo "✓ measurements.csv header valid"
+          
+          # Check files are not empty (at least header + 1 row, or just header is acceptable)
+          SETS_LINES=$(wc -l < docs/10_GOALS/G01_Target-Body-Fat/Training/data/sets.csv)
+          WORKOUTS_LINES=$(wc -l < docs/10_GOALS/G01_Target-Body-Fat/Training/data/workouts.csv)
+          MEASUREMENTS_LINES=$(wc -l < docs/10_GOALS/G01_Target-Body-Fat/Training/data/measurements.csv)
+          
+          if [ "$SETS_LINES" -lt 1 ]; then
+            echo "❌ ERROR: sets.csv is empty"
+            exit 1
+          fi
+          
+          if [ "$WORKOUTS_LINES" -lt 1 ]; then
+            echo "❌ ERROR: workouts.csv is empty"
+            exit 1
+          fi
+          
+          if [ "$MEASUREMENTS_LINES" -lt 1 ]; then
+            echo "❌ ERROR: measurements.csv is empty"
+            exit 1
+          fi
+          
+          echo "✓ All CSV files have content"
+          echo "✅ Validation passed: all schemas correct"
+
       - name: Commit changes if any
         run: |
           set -e
