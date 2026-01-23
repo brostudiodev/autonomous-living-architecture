@@ -13,12 +13,12 @@ tut_seconds:
 
 # Order matters (kept simple: big movements first, then accessories)
 exercise_order:
-  - ex_chest_press_machine          # main push
-  - ex_lat_pulldown                 # main pull (vertical)
-  - ex_seated_row_machine           # secondary pull (horizontal)
+  - ex_chest_press_db               # main push dumbbell
+  - ex_pushup			    # secondary push (optional)	
+  - ex_bend_over_row                # main pull (vertical)
+  - ex_chinup                       # biceps (main pull)
+  - ex_triceps_pushdown             # triceps (main push)
   - ex_lateral_raise_db             # delts
-  - ex_biceps_curl_cable            # biceps
-  - ex_triceps_pushdown             # triceps
 
 notes:
   - "All loads are logged in kg. Tempo is ignored; only TUT seconds matter."

@@ -13,9 +13,9 @@ tut_seconds:
 
 # Lower: keep it brutally simple but not stupid (quad + hinge + calf + trunk)
 exercise_order:
-  - ex_leg_press                    # main quad-dominant
-  - ex_leg_curl_machine             # hamstrings
-  - ex_back_extension               # hinge/posterior chain (swap for RDL if you prefer)
+  - ex_squat                        # main quad-dominant
+  - ex_stiff_legged_deadlift        # back of the legs
+  - ex_leg_curl_machine             # secondary legs
   - ex_calf_raise_machine           # calves
   - ex_ab_crunch_machine            # trunk (optional but easy to track)
 

@@ -40,3 +40,21 @@ exercises:
 
   - id: ex_ab_crunch_machine
     name: Ab Crunch (Machine)
+
+  - id: ex_squat
+    name: Squat
+
+  - id: ex_stiff_legged_deadlift
+    name: Stiff-Legged Deadlift
+    
+  - id: ex_chest_press_db
+    name: Chest Press (Dumbbells)
+    
+  - id: ex_pushup
+    name: Pushup    
+
+  - id: ex_bend_over_row
+    name: Bend Over Row
+
+  - id: ex_chinup
+    name: Chinup

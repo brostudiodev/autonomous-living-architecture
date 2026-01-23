@@ -11,12 +11,17 @@ tut_seconds:
   indicator_increase_weight_over: 90
 
 exercise_order:
-  - ex_leg_press
-  - ex_chest_press_machine
-  - ex_lat_pulldown
-  - ex_lateral_raise_db
-  - ex_biceps_curl_cable
+  - ex_squat
+  - ex_stiff_legged_deadlift
+  - ex_leg_curl_machine
+  - ex_calf_raise_machine
+  - ex_ab_crunch_machine
+  - ex_chest_press_db
+  - ex_pushup	
+  - ex_bend_over_row
+  - ex_chinup
   - ex_triceps_pushdown
+  - ex_lateral_raise_db
 
 notes:
   - "TUT>90s is a strong signal that load is too light IF form_ok=true and max_effort=true."
