@@ -1,18 +1,15 @@
 date,workout_id,exercise_id,weight_kg,tut_s,max_effort,form_ok,notes
-2026-01-20,hit_lower_a,ex_squat,78,67,TRUE,TRUE,hard; clean reps
-2026-01-20,hit_lower_a,ex_stiff_legged_deadlift,78,92,TRUE,TRUE,signal: consider increase (TUT>90)
-2026-01-20,hit_lower_a,ex_leg_curl_machine,25,58,TRUE,TRUE,close to target
-2026-01-20,hit_lower_a,ex_calf_raise_machine,10,44,TRUE,FALSE,form broke last 10s; hold weight
-2026-01-23,hit_fullbody_a,ex_biceps_curl_cable,35,61,TRUE,TRUE,good pump
-2026-01-20,hit_upper_a,ex_triceps_pushdown,45,55,TRUE,TRUE,kept strict
-2026-01-23,hit_lower_a,ex_leg_press,220,95,TRUE,TRUE,signal: consider increase (TUT>90)
-2026-01-23,hit_lower_a,ex_leg_curl_machine,55,62,TRUE,TRUE,hamstrings cooked
-2026-01-23,hit_lower_a,ex_back_extension,40,57,TRUE,TRUE,lower back ok
-2026-01-23,hit_lower_a,ex_calf_raise_machine,80,71,TRUE,TRUE,burn
-2026-01-23,hit_lower_a,ex_ab_crunch_machine,50,49,TRUE,TRUE,ok
-2026-01-26,hit_upper_a,ex_chest_press_db,80,52,FALSE,TRUE,not feeling it; maintained form
-2026-01-26,hit_upper_a,ex_lat_pulldown,70,54,FALSE,TRUE,work stress; no max effort
-2026-01-22,hit_fullbody_a,ex_leg_press,220,94,TRUE,TRUE,over 90s -> consider increase
-2026-01-22,hit_fullbody_a,ex_chest_press_machine,80,63,TRUE,TRUE,hard grind
-2026-01-22,hit_fullbody_a,ex_lat_pulldown,70,58,TRUE,TRUE,close to 60
-2026-01-22,hit_upper_a,ex_lateral_raise_db,16,46,TRUE,FALSE,form broke at end; hold
+2026-01-20,hit_lower_a,ex_squat,78,67.00,TRUE,TRUE,hard; clean reps
+2026-01-20,hit_lower_a,ex_stiff_legged_deadlift,78,92.00,TRUE,TRUE,signal: consider increase (TUT>90)
+2026-01-20,hit_lower_a,ex_leg_curl_machine,25,58.00,TRUE,TRUE,close to target
+2026-01-20,hit_lower_a,ex_calf_raise_machine,10,44.00,TRUE,FALSE,form broke last 10s; hold weight
+2026-01-23,hit_fullbody_a,ex_squat,78,94.07,TRUE,TRUE,signal: consider increase (TUT>90)
+2026-01-23,hit_fullbody_a,ex_stiff_legged_deadlift,78,79.14,TRUE,TRUE,always ok
+2026-01-23,hit_fullbody_a,ex_leg_curl_machine,25,101.62,TRUE,TRUE,signal: consider increase (TUT>90)
+2026-01-23,hit_fullbody_a,ex_chest_press_db,32,75.62,TRUE,TRUE,
+2026-01-23,hit_fullbody_a, ex_pushup,0,52.16,TRUE,TRUE,
+2026-01-23,hit_fullbody_a, ex_bend_over_row,68,57.60,TRUE,TRUE,
+2026-01-23,hit_fullbody_a,ex_chinup,0,41.26,TRUE,TRUE,
+2026-01-23,hit_fullbody_a,ex_triceps_pushdown,0,70.44,TRUE,TRUE,
+2026-01-23,hit_fullbody_a,ex_lateral_raise_db,5,65.27,TRUE,TRUE,
+2026-01-23,hit_fullbody_a,ex_calf_raise_machine,10,100.91,TRUE,TRUE,signal: consider increase (TUT>90)

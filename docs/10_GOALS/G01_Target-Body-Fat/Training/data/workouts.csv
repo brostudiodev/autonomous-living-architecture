@@ -1,6 +1,5 @@
 date,workout_id,location,duration_min,days_since_last_workout,recovered_1_5,mood_1_5,notes
-2026-01-20,hit_lower_a,home,22,3,4,4,felt recovered; went hard
-2026-01-23,hit_upper_a,home,52,3,4,4,felt good; pushed hard
-2026-01-23,hit_fullbody_a,home,48,3,4,3,legs only; energy ok
+2026-01-20,hit_lower_a,home,20,3,4,4,felt recovered; went hard
+2026-01-23,hit_fullbody_a,home,16.50,2,3,3,tried full body with measuring times. All ok
 2026-01-26,hit_upper_a,home,35,3,2,2,not feeling it yesterday; did short maintenance today
 2026-01-28,hit_lower_a,gym,45,3,4,3,normal
