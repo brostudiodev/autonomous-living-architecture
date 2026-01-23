@@ -10,7 +10,7 @@ date,workout_id,exercise_id,weight_kg,tut_s,max_effort,form_ok,notes
 2026-01-23,hit_lower_a,ex_back_extension,40,57,TRUE,TRUE,lower back ok
 2026-01-23,hit_lower_a,ex_calf_raise_machine,80,71,TRUE,TRUE,burn
 2026-01-23,hit_lower_a,ex_ab_crunch_machine,50,49,TRUE,TRUE,ok
-2026-01-26,hit_upper_a,ex_chest_press_machine,80,52,FALSE,TRUE,not feeling it; maintained form
+2026-01-26,hit_upper_a,ex_chest_press_db,80,52,FALSE,TRUE,not feeling it; maintained form
 2026-01-26,hit_upper_a,ex_lat_pulldown,70,54,FALSE,TRUE,work stress; no max effort
 2026-01-22,hit_fullbody_a,ex_leg_press,220,94,TRUE,TRUE,over 90s -> consider increase
 2026-01-22,hit_fullbody_a,ex_chest_press_machine,80,63,TRUE,TRUE,hard grind
