@@ -47,3 +47,13 @@ updated: "2026-01-15"
 **Code:** `autonomous-living/goal-g04/`
 
 ---
+
+## 2026-01-25 (Sunday)
+
+**Action:** Start to create automatic todo list in n8n and Telegram
+
+**Next Step:** Finish ROUTER  automation
+
+**Code:** `autonomous-living/docs/10_GOALS/G04_Digital-Twin-Ecosystem/`
+
+---

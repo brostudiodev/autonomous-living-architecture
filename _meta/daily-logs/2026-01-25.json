@@ -1,0 +1,48 @@
+{
+  "date": "2026-01-25",
+  "weekday": "Sunday",
+  "metadata": {
+    "energy": [
+      "5 - peak",
+      "4 - high",
+      "3 - normal",
+      "2 - low",
+      "1 - exhausted"
+    ],
+    "mood": [
+      "😄 great",
+      "🙂 good",
+      "😐 ok",
+      "😞 low",
+      "💀 dead"
+    ],
+    "sleep_duration": 6.5,
+    "calories": "2500",
+    "protein": "150",
+    "steps": null,
+    "workout_type": ""
+  },
+  "goals_summary": {
+    "total_touched": 2,
+    "goals_list": [
+      "[[P - Automation - Automationbro]]",
+      "[[P - AI - Digital Twin Ecosystem - Virtual Assistant]]"
+    ]
+  },
+  "activities": [
+    {
+      "id": "G02",
+      "name": "P - Automation - Automationbro",
+      "did": "Article on Substack",
+      "next": "Create my January Summary",
+      "code_path": "autonomous-living/docs/10_GOALS/G02_Automationbro-Recognition/"
+    },
+    {
+      "id": "G04",
+      "name": "P - AI - Digital Twin Ecosystem - Virtual Assistant",
+      "did": "Start to create automatic todo list in n8n and Telegram",
+      "next": "Finish ROUTER  automation",
+      "code_path": "autonomous-living/docs/10_GOALS/G04_Digital-Twin-Ecosystem/"
+    }
+  ]
+}

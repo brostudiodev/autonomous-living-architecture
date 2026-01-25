@@ -20,21 +20,15 @@ strategic_link: "[[P - Workout - Reach Target Body Fat]]"
 
 ## 🟢 NEXT (Ready for Morning)
 
-- [ ] **Establish HIT training protocol** `G01-T01` `30m` `@planning` `#p1`
-  - Document current Mentzer HIT routine (exercises, sets, progression)
-  - Set fixed training schedule (2-3x per week)
-  - Define progression tracking method
-  - Create workout logging system
-
----
-
-## 🔵 READY (Dependencies Met, Available)
-
 - [ ] **Set up body composition tracking** `G01-T02` `45m` `depends:G01-T01` `@setup` `#p1`
   - Choose tracking method (smart scale, measurements, photos)
   - Create automated data collection workflow
   - Establish baseline measurements
   - Schedule weekly measurement routine
+
+---
+
+## 🔵 READY (Dependencies Met, Available)
 
 - [ ] **Design meal planning automation** `G01-T03` `90m` `depends:G01-T02` `@deep-work` `#p2`
   - Calculate target macros for fat loss
@@ -63,6 +57,12 @@ strategic_link: "[[P - Workout - Reach Target Body Fat]]"
   - Established timeline based on sustainable approach
   - Aligned with overall health and performance goals
 
+- [ ] **Establish HIT training protocol** `G01-T01` `30m` `@planning` `#p1`
+  - Document current Mentzer HIT routine (exercises, sets, progression)
+  - Set fixed training schedule (2-3x per week)
+  - Define progression tracking method
+  - Create workout logging system
+  
 ---
 
 ## Intelligence Notes

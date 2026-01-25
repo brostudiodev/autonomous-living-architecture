@@ -507,3 +507,13 @@ updated: "2026-01-15"
 **Code:** `autonomous-living/goal-02/`
 
 ---
+
+## 2026-01-25 (Sunday)
+
+**Action:** Article on Substack
+
+**Next Step:** Create my January Summary
+
+**Code:** `autonomous-living/docs/10_GOALS/G02_Automationbro-Recognition/`
+
+---
