@@ -81,3 +81,13 @@ updated: "2026-01-23"
 **Code:** `autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/`
 
 ---
+
+## 2026-01-27 (Tuesday)
+
+**Action:** HIT Trening i wazenie
+
+**Next Step:** Kupienie wagi w lutym, rozpoczecie pomiarow itp
+
+**Code:** `autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/`
+
+---

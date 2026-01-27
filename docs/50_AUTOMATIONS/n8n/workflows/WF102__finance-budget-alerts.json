@@ -1,0 +1,184 @@
+{
+  "name": "WF102__finance-budget-alerts",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 12
+            }
+          ]
+        }
+      },
+      "id": "1",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        180,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM get_current_budget_alerts() WHERE alert_severity IN ('CRITICAL', 'HIGH')"
+      },
+      "id": "2",
+      "name": "Get Budget Alerts",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        400,
+        300
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "postgres_credentials",
+          "name": "PostgreSQL Finance DB"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition_1",
+              "leftValue": "={{ $json.length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "3",
+      "name": "Has Alerts?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        620,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Format budget alerts into urgent message\nconst alerts = $input.all();\nlet message = '🚨 **BUDGET ALERTS** 🚨\\n\\n';\n\n// Group by severity\nconst critical = alerts.filter(a => a.json.alert_severity === 'CRITICAL');\nconst high = alerts.filter(a => a.json.alert_severity === 'HIGH');\n\nif (critical.length > 0) {\n  message += '**CRITICAL ALERTS**\\n';\n  critical.forEach((alert, index) => {\n    const item = alert.json;\n    message += `${index + 1}. ${item.category_path}\\n`;\n    message += `   Status: ${item.utilization_pct}% used (${item.actual_amount} PLN)\\n`;\n    message += `   Action: ${item.recommended_action}\\n\\n`;\n  });\n}\n\nif (high.length > 0) {\n  if (critical.length > 0) message += '\\n';\n  message += '**HIGH PRIORITY ALERTS**\\n';\n  high.forEach((alert, index) => {\n    const item = alert.json;\n    message += `${index + 1}. ${item.category_path}\\n`;\n    message += `   Status: ${item.utilization_pct}% used (${item.actual_amount} PLN)\\n`;\n    message += `   Action: ${item.recommended_action}\\n\\n`;\n  });\n}\n\nmessage += `\\n⏰ *${new Date().toLocaleString('pl-PL')}*\\n`;\nmessage += `📊 Total active alerts: ${alerts.length}`;\n\nreturn [{ json: { message } }];"
+      },
+      "id": "4",
+      "name": "Format Alert Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        840,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "channel": "finance-alerts",
+        "text": "={{ $json.message }}",
+        "otherOptions": {}
+      },
+      "id": "5",
+      "name": "Send Alert Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [
+        1060,
+        200
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "slack_credentials",
+          "name": "Slack Finance Alerts"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Budget Alerts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Budget Alerts": {
+      "main": [
+        [
+          {
+            "node": "Has Alerts?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Alerts": {
+      "main": [
+        [
+          {
+            "node": "Format Alert Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Format Alert Message": {
+      "main": [
+        [
+          {
+            "node": "Send Alert Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "position": {
+    "x": 0,
+    "y": 0
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2026-01-27T10:00:00.000Z",
+      "updatedAt": "2026-01-27T10:00:00.000Z",
+      "id": "tag_finance",
+      "name": "finance"
+    },
+    {
+      "createdAt": "2026-01-27T10:00:00.000Z",
+      "updatedAt": "2026-01-27T10:00:00.000Z",
+      "id": "tag_alerts",
+      "name": "alerts"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2026-01-27T10:00:00.000Z",
+  "versionId": "1"
+}

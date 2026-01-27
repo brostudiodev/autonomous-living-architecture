@@ -1,0 +1,193 @@
+---
+date: 2026-01-27
+weekday: Tuesday
+mood:
+  - 😄 great
+  - 🙂 good
+  - 😐 ok
+  - 😞 low
+  - 💀 dead
+energy:
+  - 5 - peak
+  - 4 - high
+  - 3 - normal
+  - 2 - low
+  - 1 - exhausted
+sleep_start: '"01:00"'
+sleep_end: 06:00
+sleep_duration: 5
+sleep_quality: 3
+calories: "2500"
+protein: "180"
+steps: "1000"
+workout_type: HIT
+highlight: ""
+frustration: ""
+automation_win: Grafana Goals + Financial dashboards needs to be created
+north_star: "[[P - Goals - 2026 Automation-First Living]]"
+goals_touched: []
+goals_activities: {}
+tags:
+  - daily
+---
+# 2026-01-27 – Daily
+
+Linked week: [[2026-W05]]
+Check and remember daily routines: [[A - System - Life Routines]] 
+Vision:  [[P - Goals - 2026 Automation-First Living]]
+
+> [!info]- 📊 Live Dashboard (Click to expand)
+> **Energy:** `= this.energy`/5 | **Mood:** `= this.mood` | **Sleep:** `= this.sleep_duration`h (`= this.sleep_quality`/5)
+> **Goals Today:** `= length(this.goals_touched)` | **Calories:** `= this.calories` | **Steps:** `= this.steps`
+
+---
+## One thing to remember from today
+- WZIALEM WOLNE!
+
+---
+## Today's backlog – tasks from everywhere
+```tasks
+not done
+(tag includes #today) OR (due on today)
+path does not include 99_System
+sort by priority
+sort by path
+```
+
+---
+## Schedule / Time Blocks
+- 06:00–09:00 – Grafana
+- 09:00–12:00 – Troche pracy troche wolnego - SIX SIGMA i Tanaya
+- 12:00–18:00 – WZIALEM WOLNE
+- 18:00–22:00 – 
+---
+## Tasks (manual planning)
+
+### Work
+- [ ] #work #today Tanaya Award Calendar
+
+### Personal
+- [x] #personal #today Start podsumowania stycznia ✅ 2026-01-27
+
+### Life / Family
+- [x] #personal #family #today Przeniesiemy biurko do Filipa ✅ 2026-01-27
+### Deep Work (optional – high-focus tasks)
+
+
+---
+## After Work - Overview
+- Highlight: 
+- Frustration:
+
+---
+## After Work – Power Goals
+_(Fill this when you open Obsidian after work.)_
+
+> [!info]- 📋 Quick Reference: All 12 Goals
+> 1. [[P - Workout - Reach Target Body Fat]]
+> 2. [[P - Automation - Automationbro]]
+> 3. [[P - Personal - Autonomous Household Operations System]]
+> 4. [[P - AI - Digital Twin Ecosystem - Virtual Assistant]]
+> 5. [[P - Finance - Autonomous Financial Command Center]]
+> 6. [[P - Learning - Pass Certification Exams]]
+> 7. [[P - Health - Predictive Health Management & Performance Optimization System]]
+> 8. [[P - Smart Home - Predictive Smart Home Orchestration]]
+> 9. [[P - System - Complete Process Documentation]]
+> 10. [[P - Automation - Automated Career Intelligence & Positioning System]]
+> 11. [[P - Automation - Intelligent Productivity & Time Architecture System]]
+> 12. [[P - Automation - Meta-System Integration & Continuous Optimization Engine]]
+
+### Choose Today’s Power Goals (max 3)
+_From the 12, pick **only what you commit to touch today (max 3)**:_
+
+ - [x] **G01** – [[P - Workout - Reach Target Body Fat]] ✅ 2026-01-27
+     - **Did:** HIT Trening i wazenie
+     - **Next:** Kupienie wagi w lutym, rozpoczecie pomiarow itp
+     - **Code:** `autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/`
+ - [ ] **G02** – [[P - Automation - Automationbro]]
+     - **Did:** 
+     - **Next:** 
+     - **Code:** `autonomous-living/docs/10_GOALS/G02_Automationbro-Recognition/`
+ - [ ] **G03** – [[P - Personal - Autonomous Household Operations System]]
+     - **Did:** 
+     - **Next:** 
+     - **Code:** `autonomous-living/docs/10_GOALS/G03_Autonomous-Household-Operations/`
+ - [ ] **G04** – [[P - AI - Digital Twin Ecosystem - Virtual Assistant]]
+     - **Did:** 
+     - **Next:** 
+     - **Code:** `autonomous-living/docs/10_GOALS/G04_Digital-Twin-Ecosystem/`
+ - [ ] **G05** – [[P - Finance - Autonomous Financial Command Center]]
+     - **Did:** 
+     - **Next:** 
+     - **Code:** `autonomous-living/docs/10_GOALS/G05_Autonomous-Financial-Command-Center/`
+ - [ ] **G06** – [[P - Learning - Pass Certification Exams]]
+     - **Did:** 
+     - **Next:** 
+     - **Code:** `autonomous-living/docs/10_GOALS/G06_Certification-Exams/`
+ - [ ] **G07** – [[P - Health - Predictive Health Management & Performance Optimization System]]
+     - **Did:** 
+     - **Next:** 
+     - **Code:** `autonomous-living/docs/10_GOALS/G07_Predictive-Health-Management/`
+ - [ ] **G08** – [[P - Smart Home - Predictive Smart Home Orchestration]]
+     - **Did:** 
+     - **Next:** 
+     - **Code:** `autonomous-living/docs/10_GOALS/G08_Predictive-Smart-Home-Orchestration/`
+ - [x] **G09** – [[P - System - Complete Process Documentation]] ✅ 2026-01-27
+     - **Did:** Create Financial and Goals Dashboard analysis
+     - **Next:** Finish all dashboards and create documentation
+     - **Code:** `autonomous-living/docs/10_GOALS/G09_Complete-Process-Documentation/`
+ - [ ] **G10** – [[P - Automation - Automated Career Intelligence & Positioning System]]
+     - **Did:** 
+     - **Next:** 
+     - **Code:** `autonomous-living/docs/10_GOALS/G10_Automated-Career-Intelligence/`
+ - [ ] **G11** – [[P - Automation - Intelligent Productivity & Time Architecture System]]
+     - **Did:** 
+     - **Next:** 
+     - **Code:** `autonomous-living/docs/10_GOALS/G11_Intelligent-Productivity-Time-Architecture/`
+ - [ ] **G12** – [[P - Automation - Meta-System Integration & Continuous Optimization Engine]]
+     - **Did:** 
+     - **Next:** 
+     - **Code:** `autonomous-living/docs/10_GOALS/G12_Meta-System-Integration-Optimization/`
+
+
+> [!tip] 🤖 Automation Trigger After checking goals above, run: `Ctrl+Shift+G` or `python sync-daily-goals.py` This updates YAML fields and syncs to autonomous-living repository.
+
+---
+## 💪 Health & Training
+
+### Nutrition
+
+- **Calories:** ~`= this.calories` kcal _(target: 2500-3000)_
+- **Protein:** ~`= this.protein`g _(target: 160-200g)_
+- **Notes:**
+
+### Training
+
+- **Type:** `= this.workout_type` _(HIT / cardio / combat / rest)_
+- **Session details:**
+- **Notes:**
+
+### Activity
+
+- **Steps:** ~`= this.steps` _(target: 10,000)_
+- **Other movement:**
+
+---
+
+## 🧠 Reflection
+
+- What moved me closer to [[P - Goals - 2026 Automation-First Living]]?
+- Bottlenecks noticed?
+- What worked?
+- One good thing today
+- → **1 tweak for next time:**
+
+---
+
+## 📎 Links / Capture
+
+- [[ ]]
+
+---
+
+> [!summary]- 📈 Daily Summary (Auto-Generated) **Date:** `= this.date` (`= this.weekday`) | **Energy:** `= this.energy`/5 | **Goals:** `= length(this.goals_touched)`/12 **Health:** `= this.calories`kcal, `= this.protein`g protein, `= this.steps` steps **Highlight:** `= this.highlight` | **Win:** `= this.automation_win`
