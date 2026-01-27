@@ -13,3 +13,13 @@ date,workout_id,exercise_id,weight_kg,tut_s,max_effort,form_ok,notes
 2026-01-23,hit_fullbody_a,ex_triceps_pushdown,0,70.44,TRUE,TRUE,
 2026-01-23,hit_fullbody_a,ex_lateral_raise_db,5,65.27,TRUE,TRUE,
 2026-01-23,hit_fullbody_a,ex_calf_raise_machine,10,100.91,TRUE,TRUE,signal: consider increase (TUT>90)
+2026-01-27,hit_fullbody_a,ex_squat,78,134.61,TRUE,TRUE,Squat + dumbbell at end. I prefer to add some weight.
+2026-01-27,hit_fullbody_a,ex_stiff_legged_deadlift,78,80.25,TRUE,TRUE,
+2026-01-27,hit_fullbody_a,ex_leg_curl_machine,25,102.07,TRUE,TRUE,Increasing weight will help
+2026-01-27,hit_fullbody_a,ex_chest_press_db,32,82.7,TRUE,TRUE,
+2026-01-27,hit_fullbody_a, ex_pushup,0,48.92,TRUE,TRUE,
+2026-01-27,hit_fullbody_a, ex_bend_over_row,68,50.11,TRUE,TRUE,
+2026-01-27,hit_fullbody_a,ex_chinup,0,39.04,TRUE,FALSE,Really felt bad after Bend Over Row
+2026-01-27,hit_fullbody_a,ex_triceps_pushdown,0,72.23,TRUE,TRUE,
+2026-01-27,hit_fullbody_a,ex_lateral_raise_db,5,62.33,TRUE,TRUE,
+2026-01-27,hit_fullbody_a,ex_calf_raise_machine,10,100.58,TRUE,TRUE,
