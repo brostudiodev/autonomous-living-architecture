@@ -101,3 +101,13 @@ updated: "2026-01-23"
 **Code:** `autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/`
 
 ---
+
+## 2026-01-29 (Thursday)
+
+**Action:** Diet
+
+**Next Step:** Buy Smart Scale
+
+**Code:** `autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/`
+
+---
