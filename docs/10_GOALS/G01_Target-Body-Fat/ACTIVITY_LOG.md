@@ -111,3 +111,13 @@ updated: "2026-01-23"
 **Code:** `autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/`
 
 ---
+
+## 2026-01-30 (Friday)
+
+**Action:** HIT trening
+
+**Next Step:** Smart scale
+
+**Code:** `autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/`
+
+---
