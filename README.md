@@ -1,14 +1,8 @@
-# autonomous-living-architecture
-Enterprise architecture for AI-driven autonomous living systems. Reference patterns for Home Assistant, Docker, n8n orchestration using goal-oriented design.
-
-## Topics/Tags:
-home-automation, system-architecture, home-assistant, docker, n8n, ai-integration, 
-automation-patterns, smart-home, hyperautomation, itil-4, architecture-patterns, 
-digital-twin, goal-oriented-design
-
 # Autonomous Living Architecture
+## - autonomous-living-architecture
 
 > **Enterprise-grade reference architecture for AI-driven autonomous living systems**
+> Enterprise architecture for AI-driven autonomous living systems. Reference patterns for Home Assistant, Docker, n8n orchestration using goal-oriented design.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Documentation](https://img.shields.io/badge/docs-comprehensive-brightgreen.svg)](docs/)
@@ -41,4 +35,9 @@ This repository demonstrates how to architect resilient, integrated autonomous l
 ### **The Competitive Advantage: Goal-Oriented Architecture**
 
 Most automation projects organize by technology (`/python`, `/yaml`, `/docker`). This system organizes by **business value and outcomes** - exactly the architectural thinking that remains valuable as AI handles more implementation work.
+
+## Topics/Tags:
+home-automation, system-architecture, home-assistant, docker, n8n, ai-integration, 
+automation-patterns, smart-home, hyperautomation, itil-4, architecture-patterns, 
+digital-twin, goal-oriented-design
 
