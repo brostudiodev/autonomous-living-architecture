@@ -193,7 +193,7 @@ If repository corrupted:
 
 cd Documents
 rm -rf autonomous-living
-git clone git@github.com:yourusername/autonomous-living.git
+git clone {{EMAIL}}:yourusername/autonomous-living.git
 
 Support
 
@@ -232,7 +232,7 @@ Step-by-step setup of the Daily Goals Automation System from scratch on Linux an
 python3 --version  # Linux (should be 3.8+)
 python --version   # Windows (should be 3.8+)
 git --version
-ssh -T git@github.com  # Should show successful authentication
+ssh -T {{EMAIL}}  # Should show successful authentication
 
 Phase 1: Repository Setup
 Folder Structure Creation
@@ -244,8 +244,8 @@ Linux:
 cd ~/Documents
 
 # Clone repositories as siblings
-git clone git@github.com:yourusername/michal-second-brain-obsidian.git "Obsidian Vault"
-git clone git@github.com:yourusername/autonomous-living.git
+git clone {{EMAIL}}:yourusername/michal-second-brain-obsidian.git "Obsidian Vault"
+git clone {{EMAIL}}:yourusername/autonomous-living.git
 
 # Verify structure
 ls -la
@@ -257,8 +257,8 @@ Windows:
 
 cd C:\Users\%USERNAME%\Documents
 
-git clone git@github.com:yourusername/michal-second-brain-obsidian.git "Obsidian Vault"
-git clone git@github.com:yourusername/autonomous-living.git
+git clone {{EMAIL}}:yourusername/michal-second-brain-obsidian.git "Obsidian Vault"
+git clone {{EMAIL}}:yourusername/autonomous-living.git
 
 dir
 REM Expected: Both folders visible
@@ -564,10 +564,10 @@ python3 sync_daily_goals.py --help
 Git Authentication Fails
 
 # Test GitHub connection
-ssh -T git@github.com
+ssh -T {{EMAIL}}
 
 # If fails, regenerate SSH key
-ssh-keygen -t ed25519 -C "your.email@example.com"
+ssh-keygen -t ed25519 -C "{{EMAIL}}"
 # Add public key to GitHub: Settings → SSH and GPG keys
 
 Obsidian Integration Issues
@@ -674,7 +674,7 @@ cd Documents  # or C:\Users\Username\Documents
 rm -rf autonomous-living  # Linux
 rmdir /s /q autonomous-living  # Windows
 
-git clone git@github.com:yourusername/autonomous-living.git
+git clone {{EMAIL}}:yourusername/autonomous-living.git
 
 Git Push Rejected
 
@@ -944,7 +944,7 @@ rm -rf ~/Documents/autonomous-living
 
 # 3. Clone fresh from GitHub
 cd ~/Documents
-git clone git@github.com:yourusername/autonomous-living.git
+git clone {{EMAIL}}:yourusername/autonomous-living.git
 
 # 4. Test automation
 cd "Obsidian Vault/99_System/scripts"
@@ -1010,7 +1010,7 @@ Early Warning System
 Set up monitoring to catch issues early:
 
 # Add to daily automation (Linux cron)
-0 23 * * * cd ~/Documents/autonomous-living && git status --short | grep -q . && echo "⚠️ Uncommitted changes detected" | mail -s "Git Status Alert" your.email@example.com
+0 23 * * * cd ~/Documents/autonomous-living && git status --short | grep -q . && echo "⚠️ Uncommitted changes detected" | mail -s "Git Status Alert" {{EMAIL}}
 
 Cross-Platform Best Practices
 
@@ -1390,7 +1390,7 @@ git remote show origin
 Change remote URL:
 
 # Switch to SSH (recommended)
-git remote set-url origin git@github.com:yourusername/autonomous-living.git
+git remote set-url origin {{EMAIL}}:yourusername/autonomous-living.git
 
 # Switch to HTTPS (if SSH issues)
 git remote set-url origin https://github.com/yourusername/autonomous-living.git
@@ -1401,7 +1401,7 @@ git remote -v
 Multiple remotes (backup strategy):
 
 # Add backup remote
-git remote add backup git@github.com:yourusername/autonomous-living-backup.git
+git remote add backup {{EMAIL}}:yourusername/autonomous-living-backup.git
 
 # Push to both remotes
 git push origin main
@@ -1501,11 +1501,11 @@ Update configuration:
 
 # User information
 git config --global user.name "Michał Nowakowski"
-git config --global user.email "your.email@example.com"
+git config --global user.email "{{EMAIL}}"
 
 # Repository-specific settings
 git config --local user.name "Automation System"
-git config --local user.email "automation@yoursite.com"
+git config --local user.email "{{EMAIL}}"
 
 # Default behaviors
 git config --global init.defaultBranch main
@@ -1537,7 +1537,7 @@ mv autonomous-living autonomous-living.corrupted.$(date +%Y%m%d)
 
 # 2. Clone fresh repository
 cd ~/Documents
-git clone git@github.com:yourusername/autonomous-living.git
+git clone {{EMAIL}}:yourusername/autonomous-living.git
 
 # 3. Verify clean state
 cd autonomous-living
@@ -1553,7 +1553,7 @@ Network/Authentication Issues
 Test GitHub connectivity:
 
 # Test SSH connection
-ssh -T git@github.com
+ssh -T {{EMAIL}}
 # Expected: "Hi username! You've successfully authenticated..."
 
 # Test HTTPS connection
@@ -1566,7 +1566,7 @@ nslookup github.com
 Regenerate SSH keys (if authentication fails):
 
 # Generate new SSH key
-ssh-keygen -t ed25519 -C "your.email@example.com"
+ssh-keygen -t ed25519 -C "{{EMAIL}}"
 
 # Add to SSH agent
 eval "$(ssh-agent -s)"

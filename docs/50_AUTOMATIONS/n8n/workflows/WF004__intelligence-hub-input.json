@@ -1,0 +1,188 @@
+{
+  "name": "ROUTER_Intelligence-Hub",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message",
+          "callback_query"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -2832,
+        1616
+      ],
+      "id": "9e120839-4e89-43ee-aede-cfc2a8969fec",
+      "name": "Telegram Input",
+      "webhookId": "master-telegram-router",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "intelligence-hub",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -2832,
+        1808
+      ],
+      "id": "03793ba3-bd52-4972-b33a-52849cad646b",
+      "name": "Webhook",
+      "webhookId": "150fe86e-39f0-4535-ad6d-6a890044c911"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -2832,
+        2000
+      ],
+      "id": "d0869d3c-9778-4888-82fd-b6eca7ed438e",
+      "name": "When chat message received",
+      "webhookId": "e981762d-4d02-46cb-bb77-22206beed332"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// ============================================
+// STAGE 3: INTENT CLASSIFICATION
+// ============================================
+
+const data = $json;
+const text = data.normalized.text || '';
+const inputFormat = data.input.format;
+const traceId = data.metadata.trace_id;
+
+const lowerText = text.toLowerCase().trim();
+const firstLine = lowerText.split('\n')[0];
+
+let intent = 'unknown';
+let subIntent = null;
+let confidence = 0;
+let extractedEntities = {};
+
+// 1. COMMANDS (highest priority)
+if (lowerText.startsWith('/')) {
+  intent = 'command';
+  confidence = 1.0;
+  
+  if (lowerText.startsWith('/approve_all_')) {
+    subIntent = 'intelligence_activator';
+    extractedEntities.action = 'approve';
+    extractedEntities.file_suffix = lowerText.replace('/approve_all_', '');
+  } else if (lowerText.startsWith('/review_')) {
+    subIntent = 'intelligence_activator';
+    extractedEntities.action = 'review';
+    extractedEntities.file_suffix = lowerText.replace('/review_', '');
+  } else if (lowerText.startsWith('/skip_')) {
+    subIntent = 'intelligence_activator';
+    extractedEntities.action = 'skip';
+    extractedEntities.file_suffix = lowerText.replace('/skip_', '');
+  } else if (['help', 'start', 'status', 'goals'].some(cmd => lowerText === '/' + cmd)) {
+    subIntent = 'system_command';
+    extractedEntities.command = lowerText.replace('/', '');
+  } else {
+    subIntent = 'custom_command';
+    const match = lowerText.match(/^\/([a-z_]+)/);
+    extractedEntities.command = match ? match[1] : lowerText;
+  }
+}
+
+// 2. CONTENT PROCESSING - YouTube, Web, Documents (MOVED UP - before questions!)
+// These should ALWAYS go to capture regardless of content
+else if (['youtube_url', 'web_url', 'document', 'pdf'].includes(inputFormat)) {
+  intent = 'capture';
+  subIntent = 'process_content';
+  confidence = 1.0; // High confidence - format-based, not content-based
+  extractedEntities.content_type = inputFormat;
+  
+  // Handle URL shorteners for web_url
+  if (inputFormat === 'web_url') {
+    // Check if the URL is a known shortener (e.g., t.co, bit.ly, tinyurl.com)
+    const shortenerPatterns = [/^(https?:\/\/(t\.co|bit\.ly|tinyurl\.com|rebrand\.ly|goo\.gl|ow\.ly|buff\.ly|cutt\.ly|rb\.gy|is\.gd|s\.id|shrtco\.de|qr\.net|wp\.me|tinyurl\.com))\/.+/i];
+    if (shortenerPatterns.some(pattern => pattern.test(text))) {
+      // Mark as shortener, actual expansion to happen in next stage
+      extractedEntities.is_shortened_url = true;
+    }
+  }
+}
+// 3. QUESTIONS
+else if (lowerText.includes('?') || ['how', 'what', 'where', 'when', 'who', 'why', 'can you', 'tell me about'].some(q => lowerText.startsWith(q))) {
+  intent = 'question';
+  subIntent = 'general_query';
+  confidence = 0.8;
+
+  if (lowerText.includes('last month') || lowerText.includes('this year') || lowerText.includes('past week')) {
+    subIntent = 'temporal_query';
+  }
+
+  // Check for specific goal-related keywords within questions
+  const goalKeywords = [
+    'body fat', 'weight', 'diet', 'exercise', 'training', 'fitness', // G01
+    'automationbro', 'brand', 'content', 'marketing', 'social media', // G02 (using the new one)
+    'household', 'home management', 'chores', 'groceries', 'pantry', 'supplies', // G03
+    'digital twin', 'dashboard', 'monitor', 'sensors', 'data', 'metrics', // G04
+    'finance', 'money', 'budget', 'investments', 'expenses', 'income', // G05 (using the new one)
+    'certifications', 'exams', 'study', 'learning', 'skills', // G06
+    'health', 'wellbeing', 'sleep', 'nutrition', 'symptoms', 'doctors', // G07
+    'smart home', 'automation', 'routines', 'devices', 'lights', 'temperature', // G08
+    'career', 'job', 'work', 'skills', 'development', 'opportunities', // G09 (using the new one)
+    'productivity', 'time management', 'workflow', 'efficiency', 'focus', // G10 (using the new one)
+    'meta-system', 'integration', 'optimization', 'efficiency', 'holistic', // G11 (using the new one)
+    'documentation', 'processes', 'procedures', 'SOPs', 'runbooks' // G12
+  ];
+  const matchedGoals = goalKeywords.filter(keyword => lowerText.includes(keyword));
+  if (matchedGoals.length > 0) {
+    subIntent = 'goal_specific_query';
+    extractedEntities.goals = matchedGoals;
+  }
+}
+// 4. TASKS/NOTES/IDEAS (explicit prefixes)
+else if (firstLine.startsWith('task:')) {
+  intent = 'task';
+  subIntent = 'create_task';
+  confidence = 1.0;
+  extractedEntities.task_description = text.substring(5).trim();
+} else if (firstLine.startsWith('note:')) {
+  intent = 'note';
+  subIntent = 'create_note';
+  confidence = 1.0;
+  extractedEntities.note_content = text.substring(5).trim();
+} else if (firstLine.startsWith('idea:')) {
+  intent = 'idea';
+  subIntent = 'capture_idea';
+  confidence = 1.0;
+  extractedEntities.idea_content = text.substring(5).trim();
+}
+// 5. CONVERSATION (general chat, no specific intent detected)
+else if (text.length > 5 && !lowerText.includes('error') && !lowerText.includes('fail')) {
+  intent = 'conversation';
+  subIntent = 'general_chat';
+  confidence = 0.5;
+}
+
+// Add all detected intents and entities to the data object
+return {
+  ...data,
+  intent: {
+    primary: intent,
+    secondary: subIntent,
+    confidence: confidence,
+    entities: extractedEntities
+  }
+};

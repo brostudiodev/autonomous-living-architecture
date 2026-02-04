@@ -1,0 +1,2832 @@
+{
+  "name": "ROUTER_Intelligence-Hub",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message",
+          "callback_query"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -2832,
+        1616
+      ],
+      "id": "9e120839-4e89-43ee-aede-cfc2a8969fec",
+      "name": "Telegram Input",
+      "webhookId": "master-telegram-router",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "intelligence-hub",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -2832,
+        1808
+      ],
+      "id": "03793ba3-bd52-4972-b33a-52849cad646b",
+      "name": "Webhook",
+      "webhookId": "150fe86e-39f0-4535-ad6d-6a890044c911"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -2832,
+        2000
+      ],
+      "id": "d0869d3c-9778-4888-82fd-b6eca7ed438e",
+      "name": "When chat message received",
+      "webhookId": "e981762d-4d02-46cb-bb77-22206beed332"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// ============================================\n// STAGE 3: INTENT CLASSIFICATION\n// ============================================\n\nconst data = $json;\nconst text = data.normalized.text || '';\nconst inputFormat = data.input.format;\nconst traceId = data.metadata.trace_id;\n\nconst lowerText = text.toLowerCase().trim();\nconst firstLine = lowerText.split('\\n')[0];\n\nlet intent = 'unknown';\nlet subIntent = null;\nlet confidence = 0;\nlet extractedEntities = {};\n\n// 1. COMMANDS (highest priority)\nif (lowerText.startsWith('/')) {\n  intent = 'command';\n  confidence = 1.0;\n  \n  if (lowerText.startsWith('/approve_all_')) {\n    subIntent = 'intelligence_activator';\n    extractedEntities.action = 'approve';\n    extractedEntities.file_suffix = lowerText.replace('/approve_all_', '');\n  } else if (lowerText.startsWith('/review_')) {\n    subIntent = 'intelligence_activator';\n    extractedEntities.action = 'review';\n    extractedEntities.file_suffix = lowerText.replace('/review_', '');\n  } else if (lowerText.startsWith('/skip_')) {\n    subIntent = 'intelligence_activator';\n    extractedEntities.action = 'skip';\n    extractedEntities.file_suffix = lowerText.replace('/skip_', '');\n  } else if (['help', 'start', 'status', 'goals'].some(cmd => lowerText === '/' + cmd)) {\n    subIntent = 'system_command';\n    extractedEntities.command = lowerText.replace('/', '');\n  } else {\n    subIntent = 'custom_command';\n    const match = lowerText.match(/^\\/([a-z_]+)/);\n    extractedEntities.command = match ? match[1] : lowerText;\n  }\n}\n\n// 2. CONTENT PROCESSING - YouTube, Web, Documents (MOVED UP - before questions!)\n// These should ALWAYS go to capture regardless of content\nelse if (['youtube_url', 'web_url', 'document', 'pdf'].includes(inputFormat)) {\n  intent = 'capture';\n  subIntent = 'process_content';\n  confidence = 1.0; // High confidence - format-based, not content-based\n  extractedEntities.content_type = inputFormat;\n  \n  // Add specific metadata\n  if (inputFormat === 'youtube_url') {\n    extractedEntities.video_id = data.input.additional_data?.video_id;\n    extractedEntities.source = 'youtube';\n  } else if (inputFormat === 'web_url') {\n    extractedEntities.url = data.input.additional_data?.url;\n    extractedEntities.source = 'web';\n  }\n}\n\n// 3. TASK CREATION\nelse if (/^(task:|todo:|zadanie:|zrób:|przypomnij|remind me|add task)/i.test(lowerText)) {\n  intent = 'task';\n  subIntent = 'create_todoist';\n  confidence = 0.95;\n  extractedEntities.task_text = text.replace(/^(task:|todo:|zadanie:|zrób:|przypomnij|remind me|add task)\\s*/i, '');\n}\n\n// 4. NOTE/CAPTURE (explicit prefix)\nelse if (/^(note:|notatka:|zapisz:|save:|capture:)/i.test(lowerText)) {\n  intent = 'capture';\n  subIntent = 'quick_note';\n  confidence = 0.95;\n  extractedEntities.note_text = text.replace(/^(note:|notatka:|zapisz:|save:|capture:)\\s*/i, '');\n}\n\n// 5. IDEA (explicit prefix)\nelse if (/^(idea:|pomysł:|koncept:)/i.test(lowerText)) {\n  intent = 'capture';\n  subIntent = 'idea';\n  confidence = 0.95;\n  extractedEntities.idea_text = text.replace(/^(idea:|pomysł:|koncept:)\\s*/i, '');\n}\n\n// 6. VOICE/AUDIO - check content for question or treat as note\nelse if (['voice', 'audio', 'video_note'].includes(inputFormat)) {\n  if (firstLine.endsWith('?') || /^(what|who|where|when|why|how|czy|co|kto)/i.test(lowerText)) {\n    intent = 'question';\n    subIntent = 'ask_llm';\n    confidence = 0.8;\n  } else {\n    intent = 'capture';\n    subIntent = 'voice_note';\n    confidence = 0.85;\n  }\n}\n\n// 7. PHOTO\nelse if (inputFormat === 'photo') {\n  intent = 'capture';\n  subIntent = 'image_note';\n  confidence = 0.8;\n}\n\n// 8. CALLBACK\nelse if (inputFormat === 'callback') {\n  intent = 'callback';\n  subIntent = 'button_press';\n  confidence = 1.0;\n  extractedEntities.callback_data = data.input.raw_content;\n}\n\n// 9. QUESTIONS (text-based detection - only for plain text input)\nelse if (\n  inputFormat === 'text' && (\n    firstLine.endsWith('?') ||\n    /^(what|who|where|when|why|how|is|are|can|could|would|should|do|does|did|tell me|explain|describe)/i.test(lowerText) ||\n    /^(co|kto|gdzie|kiedy|dlaczego|jak|czy|powiedz|wyjaśnij|opisz)/i.test(lowerText)\n  )\n) {\n  intent = 'question';\n  subIntent = 'ask_llm';\n  confidence = 0.85;\n  extractedEntities.question = text;\n}\n\n// 10. PLAIN TEXT (no special prefix, not a question)\nelse if (inputFormat === 'text' && text.length > 0) {\n  if (text.length < 50) {\n    if (/^(hi|hello|hey|cześć|hej|siema)/i.test(lowerText)) {\n      intent = 'conversation';\n      subIntent = 'greeting';\n      confidence = 0.9;\n    } else {\n      // Short text without question marks - likely a quick question\n      intent = 'question';\n      subIntent = 'ask_llm';\n      confidence = 0.6;\n    }\n  } else {\n    // Longer text - treat as note\n    intent = 'capture';\n    subIntent = 'text_note';\n    confidence = 0.7;\n  }\n}\n\n// Default fallback\nif (intent === 'unknown') {\n  intent = 'question';\n  subIntent = 'ask_llm';\n  confidence = 0.5;\n}\n\nconsole.log(`[${traceId}] INTENT: ${intent}/${subIntent} (confidence: ${confidence}, format: ${inputFormat})`);\n\nreturn {\n  ...data,\n  stage: 'intent_classified',\n  intent: {\n    primary: intent,\n    secondary: subIntent,\n    confidence: confidence,\n    entities: extractedEntities\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        80,
+        1632
+      ],
+      "id": "77ea5c27-10a3-42fa-876a-e0abb368acf1",
+      "name": "Stage 3: Classify Intent"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.intent.primary }}",
+                    "rightValue": "command",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "1"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "command"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.intent.primary }}",
+                    "rightValue": "question",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "2"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "question"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.intent.primary }}",
+                    "rightValue": "capture",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "3"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "capture"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.intent.primary }}",
+                    "rightValue": "task",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "4"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "task"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.intent.primary }}",
+                    "rightValue": "conversation",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "5"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "conversation"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.intent.primary }}",
+                    "rightValue": "callback",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "6"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "callback"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        304,
+        1552
+      ],
+      "id": "11f04f29-26d3-45a2-8eb3-5caf1770b0fc",
+      "name": "Stage 4: Route by Intent"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Handle system commands locally\nconst data = $json;\nconst subIntent = data.intent.secondary;\nconst entities = data.intent.entities;\nconst endpoint = data.metadata.response_endpoint;\n\nlet responseText = '';\n\nif (subIntent === 'system_command') {\n  const cmd = entities.command;\n  \n  const responses = {\n    'start': '👋 Welcome to your Second Brain Bot!\\n\\nSend me:\\n• YouTube links\\n• Article URLs\\n• Voice notes\\n• Text (prefix with note:, task:, idea:)\\n• Documents/PDFs\\n• Photos\\n\\nType /help for more info.',\n    'help': '📚 Commands:\\n\\n/status - System status\\n/goals - Show Power Goals\\n\\nPrefixes:\\n• note: - Save a note\\n• task: - Create a task\\n• idea: - Capture an idea\\n• Just ask a question!',\n    'status': '✅ All systems operational.\\n\\n🤖 Router: Active\\n📝 Capture: Ready\\n🎯 Goals: Loaded',\n    'goals': '🎯 Power Goals:\\n\\n1. Body Fat Target\\n2. Automationbro Brand\\n3. Household Operations\\n4. Digital Twin\\n5. Financial Center\\n6. Certifications\\n7. Health Management\\n8. Smart Home\\n9. Career Intelligence\\n10. Productivity System\\n11. Meta-System\\n12. Documentation'\n  };\n  \n  responseText = responses[cmd] || `Unknown command: /${cmd}\\n\\nType /help for available commands.`;\n} else if (subIntent === 'intelligence_activator') {\n  return {\n    ...data,\n    route_to: 'intelligence_activator'\n  };\n} else {\n  responseText = `Unknown command.\\n\\nType /help for available commands.`;\n}\n\nreturn {\n  ...data,\n  response_text: responseText,\n  send_response: true\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        528,
+        1056
+      ],
+      "id": "51271437-9f85-4411-974a-b1201fff8f29",
+      "name": "Handle Commands"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.route_to }}",
+              "operation": "equals",
+              "value2": "intelligence_activator"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        816,
+        1056
+      ],
+      "id": "0e89e6be-27af-4b8f-9ba7-9810f182a927",
+      "name": "Route to Intel Activator?"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_INTELLIGENCE_ACTIVATOR_WEBHOOK_URL",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1104,
+        1040
+      ],
+      "id": "41a567f2-d4b0-47f9-88d4-92f84ad8f989",
+      "name": "Call Intelligence Activator"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.metadata.response_endpoint.chat_id }}",
+        "text": "={{ $json.response_text }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1104,
+        1232
+      ],
+      "id": "8c6da219-6674-47c7-98fc-1fb9926709b3",
+      "name": "Send Command Response",
+      "webhookId": "435f3c73-b0d2-4634-886c-1382f800c614",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_LLM_CHAT_WEBHOOK_URL",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        528,
+        1248
+      ],
+      "id": "78438df6-976a-4773-87f1-b1832c6329c5",
+      "name": "Route: LLM Chat"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "original_context",
+              "type": "object",
+              "value": "={{ $json }}"
+            },
+            {
+              "id": "2",
+              "name": "transcript",
+              "type": "string",
+              "value": "={{ $json.normalized.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        528,
+        1440
+      ],
+      "id": "a5b77f12-0c4e-46f2-8893-2789d2ca7c69",
+      "name": "Preserve Metadata for AI"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are Michał's Intelligence Processing System. Analyze this content and extract actionable intelligence.\n\n**CONTEXT:**\n- Content Type: {{ $json.original_context.input.format }}\n- Source: {{ $json.original_context.metadata.source }}\n- Extraction: {{ $json.original_context.normalized.extraction_source }}\n{% if $json.original_context.enrichment.youtube_metadata %}\n- Video: {{ $json.original_context.enrichment.youtube_metadata.title }}\n- Channel: {{ $json.original_context.enrichment.youtube_metadata.channel }}\n{% endif %}\n\n**MICHAŁ'S 12 POWER GOALS:**\n1. Reach Target Body Fat\n2. Be recognizable Automationbro\n3. Autonomous Household Operations\n4. Digital Twin Ecosystem\n5. Autonomous Financial Command Center\n6. Pass Certification Exams\n7. Predictive Health Management\n8. Predictive Smart Home\n9. Automated Career Intelligence\n10. Intelligent Productivity System\n11. Meta-System Integration\n12. Complete Process Documentation\n\n**OUTPUT FORMAT:**\n\n## MARKDOWN NOTE:\n\n```markdown\n---\nsource: {{ $json.original_context.enrichment.youtube_metadata ? 'https://youtube.com/watch?v=' + $json.original_context.input.additional_data.video_id : $json.original_context.metadata.source }}\ntitle: {{ $json.original_context.enrichment.youtube_metadata.title || 'Captured Note' }}\ncontent_type: {{ $json.original_context.input.format }}\ndate_captured: {{ $json.original_context.metadata.timestamp }}\nstatus: inbox\npower_goals: [list relevant goal numbers]\ntags: [relevant tags]\n---\n\n## Summary\n[2-3 sentence overview]\n\n## Key Insights\n[3-5 main takeaways]\n\n## Actionable Items\n[Specific tasks - if none: \"None identified\"]\n\n## Automation Opportunities\n[Processes to automate - if none: \"None identified\"]\n\n## Connections to Goals\n[How this relates to Power Goals]\n```\n\n## JSON OUTPUT:\n\n```json\n{\n  \"power_goals\": [2, 4, 9],\n  \"priority\": \"high\",\n  \"action_items\": [\n    {\n      \"task\": \"Specific task\",\n      \"power_goals\": [9, 12],\n      \"priority\": 3\n    }\n  ]\n}\n```\n\n**CONTENT:**\n{{ $json.transcript }}",
+        "hasOutputParser": true,
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.8,
+      "position": [
+        752,
+        1440
+      ],
+      "id": "d09560fd-4348-4eee-a48e-53a7143fe8cc",
+      "name": "AI: Intelligence Analysis"
+    },
+    {
+      "parameters": {
+        "options": {
+          "temperature": 0.3
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        832,
+        1664
+      ],
+      "id": "80fb5630-4feb-4ff9-b8ff-6eaddb50b313",
+      "name": "Google Gemini Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "x9Jp7ab2PivcIEj9",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Extract JSON and Markdown from AI response\nconst fullText = $json.text || $json.output || '';\n\nconst jsonMatch = fullText.match(/```json\\s*([\\s\\S]*?)\\s*```/);\nlet structuredData = {};\n\nif (jsonMatch) {\n  try {\n    structuredData = JSON.parse(jsonMatch[1]);\n  } catch (error) {\n    structuredData = { parse_error: error.message };\n  }\n}\n\nconst markdownMatch = fullText.match(/```markdown\\s*([\\s\\S]*?)\\s*```/);\nconst markdownContent = markdownMatch ? markdownMatch[1] : fullText;\n\nfunction cleanFilename(text) {\n  return text\n    .replace(/[@#$%^&*()+=\\[\\]{};':\"\\\\|,.<>\\/?…!]/g, '')\n    .replace(/\\s+/g, '-')\n    .substring(0, 80);\n}\n\nconst titleMatch = markdownContent.match(/title:\\s*(.+)/);\nconst title = titleMatch ? titleMatch[1] : 'untitled';\nconst timestamp = new Date().toISOString().split('T')[0];\nconst filename = `${timestamp}-${cleanFilename(title)}`;\n\nconst originalContext = $('Preserve Metadata for AI').first().json.original_context;\n\nreturn {\n  ...originalContext,\n  structured_data: structuredData,\n  markdown_content: markdownContent,\n  filename: filename,\n  has_actions: !!(structuredData.action_items?.length)\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1104,
+        1440
+      ],
+      "id": "e85379d0-cca4-4d24-b81c-fd3f54abc52b",
+      "name": "Extract Intelligence"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "owner": "brostudiodev",
+        "repository": "michal-second-brain-obsidian",
+        "filePath": "=00_Inbox/{{ $json.filename }}.md",
+        "fileContent": "={{ $json.markdown_content }}",
+        "commitMessage": "=Create {{ $json.filename }}.md via Intelligence Hub"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        1328,
+        1440
+      ],
+      "id": "f3fa38bc-0ede-4b0a-b20d-ee873d67ef8f",
+      "name": "Save to GitHub",
+      "webhookId": "70ae6081-6a50-4406-8993-5bb1a32e5ea6",
+      "credentials": {
+        "githubApi": {
+          "id": "SWpOnkLoKO1C9hQn",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Extract Intelligence').item.json.metadata.response_endpoint.type }}",
+                    "rightValue": "telegram",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "1"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "telegram"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Extract Intelligence').item.json.metadata.response_endpoint.type }}",
+                    "rightValue": "webhook",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "2"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "webhook"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Extract Intelligence').item.json.metadata.response_endpoint.type }}",
+                    "rightValue": "chat",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "3"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "chat"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1552,
+        1408
+      ],
+      "id": "9e56f1b4-eaf8-408a-ac14-b6a9970040eb",
+      "name": "Route Final Response"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Extract Intelligence').item.json.metadata.response_endpoint.chat_id }}",
+        "text": "=✅ INTELLIGENCE PROCESSED\n📄 File: {{ $('Extract Intelligence').item.json.filename }}.md\n🎯 Goals: [{{ $('Extract Intelligence').item.json.structured_data.power_goals?.join(', ') || 'None' }}]\n📋 Actions: {{ $('Extract Intelligence').item.json.structured_data.action_items?.length || 0 }} tasks saved to Obsidian inbox.\n",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1776,
+        1328
+      ],
+      "id": "8694f8d7-ef3f-4705-8566-5de588e00f14",
+      "name": "Send Telegram Summary",
+      "webhookId": "d5e0116a-c8f2-489a-9dc0-b9236ade04c0",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { success: true, filename: $json.filename, structured_data: $json.structured_data, message: 'Intelligence processed and saved to Obsidian' } }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1776,
+        1520
+      ],
+      "id": "231265ec-24ba-4379-8931-be60607adf88",
+      "name": "Webhook Response"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Return response for chat interface\nreturn {\n  chatResponse: `✅ Intelligence processed!\\n\\n📄 File: ${$json.filename}.md\\n🎯 Goals: [${$json.structured_data?.power_goals?.join(', ') || 'None'}]\\n📋 Actions: ${$json.structured_data?.action_items?.length || 0} tasks\\n\\nSaved to Obsidian inbox.`\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1776,
+        1712
+      ],
+      "id": "f0d4a05d-09e8-4355-82ac-13433ed970a6",
+      "name": "Chat Response"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_TASK_CREATOR_WEBHOOK_URL",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        528,
+        1632
+      ],
+      "id": "2f225025-c610-4f1a-ba13-25629a8e9e2e",
+      "name": "Route: Task Creator"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.metadata.response_endpoint.chat_id }}",
+        "text": "=👋 Hello! How can I help you today?\\n\\nSend me YouTube links, articles, voice notes, or just ask a question!",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        528,
+        1824
+      ],
+      "id": "bb4721df-1ec5-4c0e-b42c-3b67979d6ac3",
+      "name": "Handle Greeting",
+      "webhookId": "7a3c07b1-92aa-419e-8e48-623d7016af7a",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_CALLBACK_HANDLER_WEBHOOK_URL",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        528,
+        2016
+      ],
+      "id": "a8a64c9e-40d2-4b65-acac-f0683f4339d7",
+      "name": "Route: Callback Handler"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.metadata.response_endpoint.chat_id }}",
+        "text": "❓ I couldn't understand this input.\\n\\nTry:\\n• Sending a YouTube link\\n• Starting with note:, task:, or idea:\\n• Asking a question\\n• Sending a voice memo\\n\\nType /help for more options.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        528,
+        2208
+      ],
+      "id": "6d1e9207-4b8d-4621-a57c-0b2b93d9559a",
+      "name": "Intent Fallback Response",
+      "webhookId": "38ad2938-56cf-412a-bdb9-b6b5b5ecf05c",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.input.raw_content }}",
+                    "rightValue": "^/(status|plan|done)",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    },
+                    "id": "1"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "goal_status"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -2832,
+        32
+      ],
+      "id": "dfc855e5-ad3c-4e52-8517-2919fa81340d",
+      "name": "Route to Commands"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "l2GqBHBpFz0VF5LN",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/l2GqBHBpFz0VF5LN",
+          "cachedResultName": "SVC_Github-Autonomous_Evening_Planner"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        -2608,
+        32
+      ],
+      "id": "610a0a55-a43d-4d4c-abe5-cb7cd076164f",
+      "name": "Execute Workflow"
+    },
+    {
+      "parameters": {
+        "content": "## TODO\n**Fiel exist**  If file already exist rewrite the file"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1520,
+        1248
+      ],
+      "typeVersion": 1,
+      "id": "6f9d446c-f122-499e-ae01-a2805e64701d",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "wH4hbIMadI4Gh2lq",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/wH4hbIMadI4Gh2lq",
+          "cachedResultName": "SVC_Youtube_Transcript"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "video_id": "={{ $json.video_id }}",
+            "video_url": "={{ $json.video_url }}",
+            "trace_id": "={{ $json.trace_id }}",
+            "metadata": "={{ $json.metadata }}",
+            "response_endpoint": "={{ $json.response_endpoint }}",
+            "extracted_data": "={{ $json.extracted_data }}",
+            "callback_url": "={{ $json.callback_url }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "video_id",
+              "displayName": "video_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "video_url",
+              "displayName": "video_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "trace_id",
+              "displayName": "trace_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "metadata",
+              "displayName": "metadata",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "object",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "response_endpoint",
+              "displayName": "response_endpoint",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "object",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "extracted_data",
+              "displayName": "extracted_data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "object",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "callback_url",
+              "displayName": "callback_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        -592,
+        864
+      ],
+      "id": "b0df6ab0-0502-49d6-87d5-c28968a359d7",
+      "name": "Call YouTube Transcript Service1"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// ============================================\n// STAGE 1: FORMAT DETECTION & NORMALIZATION\n// With unified response_endpoint for all sources\n// Enhanced with PDF, CSV, JSON, XML detection\n// ============================================\n\n// Handle Telegram, Webhook, and Chat inputs\nconst telegramMessage = $json.message || {};\nconst callbackQuery = $json.callback_query || null;\nconst webhookBody = $json.body || null;\nconst chatInput = $json.chatInput || $json.input || null;\n\n// Generate trace ID\nconst traceId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;\n\n// Determine source and extract base data\nlet source = 'unknown';\nlet chatId = null;\nlet messageId = null;\nlet userId = null;\nlet username = null;\nlet sessionId = null;\nlet responseEndpoint = null;\n\n// ============================================\n// 1. TELEGRAM SOURCE\n// ============================================\nif (telegramMessage.chat || callbackQuery) {\n  source = 'telegram';\n  chatId = telegramMessage.chat?.id || callbackQuery?.message?.chat?.id;\n  messageId = telegramMessage.message_id || callbackQuery?.message?.message_id;\n  userId = telegramMessage.from?.id || callbackQuery?.from?.id;\n  username = telegramMessage.from?.username || callbackQuery?.from?.username;\n  \n  responseEndpoint = {\n    type: 'telegram',\n    chat_id: chatId,\n    message_id: messageId,\n    credential_id: 'XDROmr9jSLbz36Zf',\n    credential_name: 'Telegram (AndrzejSmartBot)'\n  };\n}\n\n// ============================================\n// 2. CHAT INPUT SOURCE (n8n Chat Trigger)\n// ============================================\nelse if (chatInput) {\n  source = 'chat';\n  sessionId = $json.sessionId || `chat-${traceId}`;\n  userId = $json.userId || 'chat-user';\n  \n  responseEndpoint = {\n    type: 'chat',\n    session_id: sessionId\n  };\n}\n\n// ============================================\n// 3. WEBHOOK SOURCE\n// ============================================\nelse if (webhookBody) {\n  source = 'webhook';\n  userId = webhookBody.user_id || 'webhook-user';\n  sessionId = webhookBody.session_id || `webhook-${traceId}`;\n  \n  const callbackUrl = webhookBody.callback_url || webhookBody.response_url || null;\n  \n  responseEndpoint = {\n    type: 'webhook',\n    session_id: sessionId,\n    callback_url: callbackUrl\n  };\n  \n  if (webhookBody.telegram_chat_id) {\n    responseEndpoint = {\n      type: 'telegram',\n      chat_id: webhookBody.telegram_chat_id,\n      credential_id: 'XDROmr9jSLbz36Zf',\n      credential_name: 'Telegram (AndrzejSmartBot)'\n    };\n    chatId = webhookBody.telegram_chat_id;\n  }\n}\n\n// ============================================\n// BUILD METADATA WITH RESPONSE ENDPOINT\n// ============================================\nconst metadata = {\n  trace_id: traceId,\n  source: source,\n  chat_id: chatId,\n  message_id: messageId,\n  user_id: userId,\n  username: username,\n  session_id: sessionId,\n  timestamp: new Date().toISOString(),\n  response_endpoint: responseEndpoint\n};\n\n// ============================================\n// DETECT INPUT FORMAT\n// ============================================\nlet inputFormat = 'unknown';\nlet rawContent = null;\nlet extractionMethod = null;\nlet fileId = null;\nlet additionalData = {};\n\n// TELEGRAM MESSAGE DETECTION\nif (source === 'telegram') {\n  const message = telegramMessage;\n  \n  if (callbackQuery) {\n    inputFormat = 'callback';\n    rawContent = callbackQuery.data;\n    extractionMethod = 'direct';\n  }\n  else if (message.voice) {\n    inputFormat = 'voice';\n    fileId = message.voice.file_id;\n    extractionMethod = 'whisper_stt';\n    additionalData = {\n      duration: message.voice.duration,\n      mime_type: message.voice.mime_type\n    };\n  }\n  else if (message.audio) {\n    inputFormat = 'audio';\n    fileId = message.audio.file_id;\n    extractionMethod = 'whisper_stt';\n    additionalData = {\n      duration: message.audio.duration,\n      title: message.audio.title,\n      performer: message.audio.performer,\n      mime_type: message.audio.mime_type\n    };\n  }\n  else if (message.video) {\n    inputFormat = 'video';\n    fileId = message.video.file_id;\n    extractionMethod = 'extract_audio_then_whisper';\n    additionalData = {\n      duration: message.video.duration,\n      width: message.video.width,\n      height: message.video.height\n    };\n  }\n  else if (message.video_note) {\n    inputFormat = 'video_note';\n    fileId = message.video_note.file_id;\n    extractionMethod = 'extract_audio_then_whisper';\n    additionalData = { duration: message.video_note.duration };\n  }\n  else if (message.photo && message.photo.length > 0) {\n    inputFormat = 'photo';\n    const largest = message.photo[message.photo.length - 1];\n    fileId = largest.file_id;\n    extractionMethod = 'vision_ocr';\n    rawContent = message.caption || '';\n    additionalData = {\n      width: largest.width,\n      height: largest.height,\n      caption: message.caption\n    };\n  }\n  // ============================================\n  // ENHANCED DOCUMENT DETECTION\n  // PDF, CSV, JSON, XML, Excel, Word support\n  // ============================================\n  else if (message.document) {\n    fileId = message.document.file_id;\n    const fileName = message.document.file_name?.toLowerCase() || '';\n    const mimeType = message.document.mime_type?.toLowerCase() || '';\n    \n    // PDF Detection\n    if (fileName.endsWith('.pdf') || mimeType === 'application/pdf') {\n      inputFormat = 'pdf';\n      extractionMethod = 'pdf_parser';\n    } \n    // CSV Detection\n    else if (fileName.endsWith('.csv') || mimeType === 'text/csv' || mimeType === 'application/csv') {\n      inputFormat = 'csv';\n      extractionMethod = 'csv_parser';\n    }\n    // JSON Detection\n    else if (fileName.endsWith('.json') || mimeType === 'application/json') {\n      inputFormat = 'json';\n      extractionMethod = 'json_parser';\n    }\n    // XML Detection\n    else if (fileName.endsWith('.xml') || mimeType === 'application/xml' || mimeType === 'text/xml') {\n      inputFormat = 'xml';\n      extractionMethod = 'xml_parser';\n    }\n    // Audio files\n    else if (['.mp3', '.wav', '.ogg', '.m4a', '.flac', '.aac'].some(ext => fileName.endsWith(ext)) ||\n             mimeType.startsWith('audio/')) {\n      inputFormat = 'audio';\n      extractionMethod = 'whisper_stt';\n    } \n    // Video files\n    else if (['.mp4', '.mov', '.avi', '.mkv', '.webm'].some(ext => fileName.endsWith(ext)) ||\n             mimeType.startsWith('video/')) {\n      inputFormat = 'video';\n      extractionMethod = 'extract_audio_then_whisper';\n    } \n    // Plain text files\n    else if (['.txt', '.md', '.markdown'].some(ext => fileName.endsWith(ext)) ||\n             mimeType === 'text/plain' || mimeType === 'text/markdown') {\n      inputFormat = 'text_file';\n      extractionMethod = 'direct_text';\n    }\n    // Excel files\n    else if (['.xlsx', '.xls'].some(ext => fileName.endsWith(ext)) ||\n             mimeType.includes('spreadsheet') || mimeType.includes('excel')) {\n      inputFormat = 'excel';\n      extractionMethod = 'excel_parser';\n    }\n    // Word documents\n    else if (['.docx', '.doc'].some(ext => fileName.endsWith(ext)) ||\n             mimeType.includes('word') || mimeType.includes('document')) {\n      inputFormat = 'word';\n      extractionMethod = 'word_parser';\n    }\n    // Generic document fallback\n    else {\n      inputFormat = 'document';\n      extractionMethod = 'document_parser';\n    }\n    \n    additionalData = {\n      file_name: message.document.file_name,\n      mime_type: message.document.mime_type,\n      file_size: message.document.file_size\n    };\n  }\n  else if (message.text) {\n    rawContent = message.text;\n    \n    const youtubeMatch = message.text.match(/(?:youtube\\.com\\/watch\\?v=|youtu\\.be\\/|youtube\\.com\\/shorts\\/)([a-zA-Z0-9_-]+)/);\n    const urlMatch = message.text.match(/https?:\\/\\/[^\\s]+/);\n    \n    if (youtubeMatch) {\n      inputFormat = 'youtube_url';\n      extractionMethod = 'youtube_transcript';\n      additionalData = {\n        video_id: youtubeMatch[1],\n        full_url: youtubeMatch[0],\n        additional_text: message.text.replace(youtubeMatch[0], '').trim()\n      };\n    } else if (urlMatch) {\n      inputFormat = 'web_url';\n      extractionMethod = 'web_scraper';\n      additionalData = {\n        url: urlMatch[0],\n        additional_text: message.text.replace(urlMatch[0], '').trim()\n      };\n    } else {\n      inputFormat = 'text';\n      extractionMethod = 'direct';\n    }\n  }\n}\n\n// CHAT INPUT DETECTION\nelse if (source === 'chat' && chatInput) {\n  rawContent = typeof chatInput === 'string' ? chatInput : chatInput.text || chatInput.message || JSON.stringify(chatInput);\n  \n  const youtubeMatch = rawContent.match(/(?:youtube\\.com\\/watch\\?v=|youtu\\.be\\/|youtube\\.com\\/shorts\\/)([a-zA-Z0-9_-]+)/);\n  const urlMatch = rawContent.match(/https?:\\/\\/[^\\s]+/);\n  \n  if (youtubeMatch) {\n    inputFormat = 'youtube_url';\n    extractionMethod = 'youtube_transcript';\n    additionalData = {\n      video_id: youtubeMatch[1],\n      full_url: youtubeMatch[0],\n      additional_text: rawContent.replace(youtubeMatch[0], '').trim()\n    };\n  } else if (urlMatch) {\n    inputFormat = 'web_url';\n    extractionMethod = 'web_scraper';\n    additionalData = {\n      url: urlMatch[0],\n      additional_text: rawContent.replace(urlMatch[0], '').trim()\n    };\n  } else {\n    inputFormat = 'text';\n    extractionMethod = 'direct';\n  }\n}\n\n// WEBHOOK INPUT DETECTION\nelse if (source === 'webhook' && webhookBody) {\n  rawContent = webhookBody.text || webhookBody.content || webhookBody.message || '';\n  \n  if (webhookBody.type) {\n    inputFormat = webhookBody.type;\n    extractionMethod = webhookBody.extraction_method || 'direct';\n    additionalData = webhookBody.additional_data || {};\n  } else if (typeof rawContent === 'string' && rawContent.length > 0) {\n    const youtubeMatch = rawContent.match(/(?:youtube\\.com\\/watch\\?v=|youtu\\.be\\/|youtube\\.com\\/shorts\\/)([a-zA-Z0-9_-]+)/);\n    const urlMatch = rawContent.match(/https?:\\/\\/[^\\s]+/);\n    \n    if (youtubeMatch) {\n      inputFormat = 'youtube_url';\n      extractionMethod = 'youtube_transcript';\n      additionalData = {\n        video_id: youtubeMatch[1],\n        full_url: youtubeMatch[0],\n        additional_text: rawContent.replace(youtubeMatch[0], '').trim()\n      };\n    } else if (urlMatch) {\n      inputFormat = 'web_url';\n      extractionMethod = 'web_scraper';\n      additionalData = {\n        url: urlMatch[0],\n        additional_text: rawContent.replace(urlMatch[0], '').trim()\n      };\n    } else {\n      inputFormat = 'text';\n      extractionMethod = 'direct';\n    }\n  }\n}\n\nconsole.log(`[${traceId}] SOURCE: ${source}, FORMAT: ${inputFormat}, METHOD: ${extractionMethod}, RESPONSE_TYPE: ${responseEndpoint?.type}`);\n\nreturn {\n  stage: 'format_detected',\n  metadata: metadata,\n  input: {\n    format: inputFormat,\n    raw_content: rawContent,\n    file_id: fileId,\n    extraction_method: extractionMethod,\n    additional_data: additionalData\n  },\n  original_message: $json\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2608,
+        1808
+      ],
+      "id": "5b4822bd-88e6-4d22-8f2a-700085a95f2e",
+      "name": "Stage 1: Detect Format"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// ============================================\n// SEND NOTIFICATION TO USER\n// Enhanced with PDF, CSV, JSON, XML notifications\n// ============================================\n\nconst data = $json;\nconst endpoint = data.metadata.response_endpoint;\nconst format = data.input.format;\n\nconst notifications = {\n  'youtube_url': '🎬 Processing YouTube video...',\n  'voice': '🎙️ Transcribing voice message...',\n  'audio': '🎵 Processing audio file...',\n  'video': '🎥 Processing video...',\n  'video_note': '🎥 Processing video note...',\n  'web_url': '🔗 Fetching web page...',\n  'photo': '📷 Processing image...',\n  'pdf': '📄 Processing PDF document...',\n  'csv': '📊 Processing CSV file...',\n  'json': '🔧 Processing JSON file...',\n  'xml': '📋 Processing XML file...',\n  'excel': '📈 Processing Excel file...',\n  'word': '📝 Processing Word document...',\n  'text_file': '📄 Processing text file...',\n  'document': '📎 Processing document...',\n  'text': '📝 Processing text...',\n  'default': '⏳ Processing...'\n};\n\nconst notificationText = notifications[format] || notifications['default'];\n\nreturn {\n  ...data,\n  notification: {\n    text: notificationText,\n    endpoint: endpoint\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2384,
+        1808
+      ],
+      "id": "5cc46a1e-de7b-43da-bfef-5094d07b0a73",
+      "name": "Prepare Notification"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.notification.endpoint.type }}",
+              "value2": "telegram"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -2160,
+        1808
+      ],
+      "id": "0dc56f83-f348-42bf-8544-d005c0a47d96",
+      "name": "Is Telegram?"
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "github_owner",
+              "value": "brostudiodev"
+            },
+            {
+              "name": "github_repo",
+              "value": "autonomous-living"
+            },
+            {
+              "name": "authorized_user_id",
+              "value": "7689674321"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        -1936,
+        1712
+      ],
+      "id": "6396bdb0-e727-4b58-b757-6aa605014c01",
+      "name": "Configuration"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ String($('Prepare Notification').item.json.metadata.chat_id) }}",
+              "value2": "={{ String($('Configuration').item.json.authorized_user_id) }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -1712,
+        1712
+      ],
+      "id": "07964b4c-e3dc-41fb-b0e4-3180b7be6f60",
+      "name": "Verify User"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Prepare Notification').item.json.metadata.chat_id }}",
+        "text": "🚫 **Access Denied**\n\nThis bot is configured for authorized users only.",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [
+        -1488,
+        1808
+      ],
+      "id": "97562db3-6641-46dc-ab9c-0b6b1c30ed07",
+      "name": "Send Unauthorized Message",
+      "webhookId": "0f3fe997-bc5f-4b52-a65e-f0d1b8c04048",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.notification.endpoint.chat_id }}",
+        "text": "={{ $json.notification.text }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -1488,
+        1616
+      ],
+      "id": "c531cc73-3cfb-4416-a8df-ec1439e2d9e1",
+      "name": "Send Telegram Notification",
+      "webhookId": "2e92d94e-4d9b-42f6-94b1-75a7814216f1",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Pass through for non-Telegram sources\nreturn $json;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1488,
+        2000
+      ],
+      "id": "12dd0829-1bb5-4287-9f6b-70e20fb2e50b",
+      "name": "Skip Notification (Non-Telegram)"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Get original data from Stage 1\nconst originalData = $('Stage 1: Detect Format').first().json;\n\nif (originalData.notification) {\n  delete originalData.notification;\n}\n\nconsole.log(`[${originalData.metadata?.trace_id}] Continuing with original data, format: ${originalData.input?.format}`);\n\nreturn originalData;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1264,
+        1808
+      ],
+      "id": "1c1011d8-14b5-4bfb-a294-643020a51a8d",
+      "name": "Continue Processing"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.input.extraction_method }}",
+                    "rightValue": "direct",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "1"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "direct"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.input.extraction_method }}",
+                    "rightValue": "whisper_stt",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "2"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "whisper"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.input.extraction_method }}",
+                    "rightValue": "extract_audio_then_whisper",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "3"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "video_whisper"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.input.extraction_method }}",
+                    "rightValue": "youtube_transcript",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "4"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "youtube"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.input.extraction_method }}",
+                    "rightValue": "web_scraper",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "5"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "web"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.input.extraction_method }}",
+                    "rightValue": "vision_ocr",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "6"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "vision"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.input.extraction_method }}",
+                    "rightValue": "pdf_parser",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "7"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "pdf"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.input.extraction_method }}",
+                    "rightValue": "csv_parser",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "8"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "csv"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.input.extraction_method }}",
+                    "rightValue": "json_parser",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "9"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "json"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.input.extraction_method }}",
+                    "rightValue": "xml_parser",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "10"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "xml"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.input.extraction_method }}",
+                    "rightValue": "direct_text",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "11"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "text_file"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.input.extraction_method }}",
+                    "rightValue": "excel_parser",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "12"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "excel"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.input.extraction_method }}",
+                    "rightValue": "word_parser",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "13"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "word"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.input.extraction_method }}",
+                    "rightValue": "document_parser",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "14"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "document"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -1040,
+        1600
+      ],
+      "id": "1ff9dc0f-3eb9-489f-97a9-91f834861dd8",
+      "name": "Route to Service"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// DIRECT TEXT - No extraction needed\nconst data = $json;\n\nreturn {\n  ...data,\n  stage: 'text_extracted',\n  extracted_text: data.input.raw_content || '',\n  extraction_source: 'direct_input'\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -368,
+        480
+      ],
+      "id": "502f59dc-3d17-49e4-905b-57144a19d948",
+      "name": "Direct Text (No Extraction)"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.input.file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -816,
+        672
+      ],
+      "id": "08071222-c638-4e1d-b95d-b47e61daf5f7",
+      "name": "Whisper: Download File",
+      "webhookId": "75471e4c-a790-48b0-ad90-447f17508265",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/audio/transcriptions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "groqApi",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            },
+            {
+              "name": "model",
+              "value": "whisper-large-v3"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -592,
+        672
+      ],
+      "id": "ba27e55a-8e01-4540-9188-9ae5d478cccf",
+      "name": "Groq: Whisper Transcribe",
+      "credentials": {
+        "groqApi": {
+          "id": "jVObO4RMF7AJe9DN",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const transcription = $json.text || '';\nconst originalData = $('Continue Processing').first().json;\n\nreturn {\n  ...originalData,\n  stage: 'text_extracted',\n  extracted_text: transcription,\n  extraction_source: 'groq_whisper_stt'\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -368,
+        672
+      ],
+      "id": "d6d2a46e-b64d-4f96-83ee-8608764813d0",
+      "name": "Whisper: Format Output"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const data = $json;\nconst metadata = data.metadata;\nconst inputData = data.input;\n\nconst payload = {\n  video_id: inputData.additional_data?.video_id || null,\n  video_url: inputData.additional_data?.full_url || inputData.raw_content || null,\n  extracted_data: {\n    video_id: inputData.additional_data?.video_id || null,\n    full_url: inputData.additional_data?.full_url || null\n  },\n  trace_id: metadata.trace_id,\n  metadata: metadata,\n  response_endpoint: metadata.response_endpoint,\n  callback_url: metadata.response_endpoint?.callback_url || null,\n  additional_text: inputData.additional_data?.additional_text || '',\n  _router_input: data\n};\n\nreturn payload;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -816,
+        864
+      ],
+      "id": "68d9eac8-b00e-49dc-9040-32d868c0e7bc",
+      "name": "Prepare YouTube Data"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "wH4hbIMadI4Gh2lq",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/wH4hbIMadI4Gh2lq",
+          "cachedResultName": "YouTube Transcript Service"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "video_id": "={{ $json.video_id }}",
+            "video_url": "={{ $json.video_url }}",
+            "trace_id": "={{ $json.trace_id }}",
+            "metadata": "={{ $json.metadata }}",
+            "response_endpoint": "={{ $json.response_endpoint }}",
+            "extracted_data": "={{ $json.extracted_data }}",
+            "callback_url": "={{ $json.callback_url }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "video_id",
+              "displayName": "video_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "video_url",
+              "displayName": "video_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "trace_id",
+              "displayName": "trace_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "metadata",
+              "displayName": "metadata",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "object",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "response_endpoint",
+              "displayName": "response_endpoint",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "object",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "extracted_data",
+              "displayName": "extracted_data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "object",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "callback_url",
+              "displayName": "callback_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        -2832,
+        256
+      ],
+      "id": "0f823755-7fa6-4141-bde1-c0ea841d1997",
+      "name": "Call YouTube Transcript Service"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const response = $json;\nconst originalData = $('Continue Processing').first().json;\n\nif (response.success === false) {\n  return {\n    ...originalData,\n    stage: 'text_extracted',\n    extracted_text: '[YouTube processing failed: ' + (response.error || 'Unknown error') + ']',\n    extraction_source: 'youtube_error',\n    youtube_metadata: null,\n    youtube_error: response.error\n  };\n}\n\nconst extractedText = response.extracted_text || response.transcript || '';\nconst youtubeMetadata = response.youtube_metadata || null;\n\nreturn {\n  ...originalData,\n  stage: 'text_extracted',\n  extracted_text: extractedText,\n  extraction_source: response.transcript_source || 'youtube_transcript',\n  youtube_metadata: youtubeMetadata,\n  has_transcript: response.has_transcript !== false,\n  word_count: response.word_count || 0\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -368,
+        864
+      ],
+      "id": "f3edbb83-7f0c-4ec7-900c-57bd14d65d04",
+      "name": "YouTube: Format Response"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.input.additional_data.url }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -592,
+        1056
+      ],
+      "id": "480fdd61-adcd-483e-902d-940eb7e9ccd4",
+      "name": "Web: Fetch Page"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const html = $json.data || '';\nconst originalData = $('Continue Processing').first().json;\n\nlet text = html\n  .replace(/<script[^>]*>[\\s\\S]*?<\\/script>/gi, '')\n  .replace(/<style[^>]*>[\\s\\S]*?<\\/style>/gi, '')\n  .replace(/<[^>]+>/g, ' ')\n  .replace(/&nbsp;/g, ' ')\n  .replace(/&amp;/g, '&')\n  .replace(/&lt;/g, '<')\n  .replace(/&gt;/g, '>')\n  .replace(/&quot;/g, '\"')\n  .replace(/\\s+/g, ' ')\n  .trim();\n\nconst titleMatch = html.match(/<title>([^<]+)<\\/title>/i);\nconst title = titleMatch ? titleMatch[1].trim() : 'Untitled Page';\n\nreturn {\n  ...originalData,\n  stage: 'text_extracted',\n  extracted_text: text.substring(0, 50000),\n  extraction_source: 'web_scraper',\n  web_metadata: {\n    url: originalData.input.additional_data.url,\n    title: title\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -368,
+        1056
+      ],
+      "id": "71380d15-89bd-44d8-979f-8a81375104eb",
+      "name": "Web: Extract Text"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.input.file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -592,
+        1248
+      ],
+      "id": "ecf24a8e-e70b-4bc0-9bfe-68a238d6c94c",
+      "name": "Vision: Download",
+      "webhookId": "6f49da38-5fd7-4d84-9511-7773600cb757",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const originalData = $('Continue Processing').first().json;\nconst caption = originalData.input.additional_data?.caption || '';\n\nreturn {\n  ...originalData,\n  stage: 'text_extracted',\n  extracted_text: caption || '[Image received - OCR not yet implemented]',\n  extraction_source: 'vision_ocr'\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -368,
+        1248
+      ],
+      "id": "29b73d0b-e70e-4267-96ae-8e8eaf386508",
+      "name": "Vision: Process"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.input.file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -816,
+        1440
+      ],
+      "id": "42846797-a359-4b61-b9cc-8f443ef2bfdb",
+      "name": "PDF: Download File",
+      "webhookId": "pdf-download-webhook",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -592,
+        1440
+      ],
+      "id": "e004d5b1-f4ef-41dd-a920-fff79bf93c96",
+      "name": "PDF: Extract Text"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// ============================================\n// PDF: FORMAT OUTPUT\n// ============================================\n\nconst extractedText = $json.text || '';\nconst originalData = $('Continue Processing').first().json;\n\nreturn {\n  ...originalData,\n  stage: 'text_extracted',\n  extracted_text: extractedText,\n  extraction_source: 'pdf_parser',\n  pdf_metadata: {\n    file_name: originalData.input.additional_data?.file_name || 'unknown.pdf',\n    file_size: originalData.input.additional_data?.file_size || 0,\n    text_length: extractedText.length,\n    word_count: extractedText.split(/\\s+/).filter(w => w).length\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -368,
+        1440
+      ],
+      "id": "148b2b8c-6a40-41ea-a353-7071d6ea0221",
+      "name": "PDF: Format Output"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.input.file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -816,
+        1632
+      ],
+      "id": "b8a1186d-8bc1-488b-9317-eee91c160f01",
+      "name": "CSV: Download File",
+      "webhookId": "csv-download-webhook",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -592,
+        1632
+      ],
+      "id": "b228e866-09af-4a51-a5b9-e518cd2659e9",
+      "name": "CSV: Extract Raw Text"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// ============================================\n// CSV: PARSE AND FORMAT\n// Convert CSV to structured text for AI processing\n// ============================================\n\nconst rawText = $json.data || '';\nconst originalData = $('Continue Processing').first().json;\n\n// Parse CSV\nconst lines = rawText.split('\\n').filter(line => line.trim());\nconst headers = lines[0] ? lines[0].split(',').map(h => h.trim().replace(/^\"|\"$/g, '')) : [];\nconst rows = lines.slice(1);\n\n// Build structured text representation\nlet structuredText = `## CSV Data Analysis\\n\\n`;\nstructuredText += `**File:** ${originalData.input.additional_data?.file_name || 'data.csv'}\\n`;\nstructuredText += `**Columns:** ${headers.length}\\n`;\nstructuredText += `**Rows:** ${rows.length}\\n\\n`;\n\n// Add headers\nstructuredText += `### Columns\\n`;\nheaders.forEach((h, i) => {\n  structuredText += `${i + 1}. ${h}\\n`;\n});\nstructuredText += `\\n`;\n\n// Add sample data (first 10 rows)\nstructuredText += `### Sample Data (first ${Math.min(10, rows.length)} rows)\\n\\n`;\nstructuredText += `| ${headers.join(' | ')} |\\n`;\nstructuredText += `| ${headers.map(() => '---').join(' | ')} |\\n`;\n\nrows.slice(0, 10).forEach(row => {\n  const cells = row.match(/(\"[^\"]*\"|[^,]+)/g) || [];\n  const cleanCells = cells.map(c => c.trim().replace(/^\"|\"$/g, ''));\n  structuredText += `| ${cleanCells.join(' | ')} |\\n`;\n});\n\nif (rows.length > 10) {\n  structuredText += `\\n*... and ${rows.length - 10} more rows*\\n`;\n}\n\n// Add full raw data for complete analysis\nstructuredText += `\\n### Full Raw Data\\n\\`\\`\\`csv\\n${rawText.substring(0, 30000)}\\n\\`\\`\\``;\n\nreturn {\n  ...originalData,\n  stage: 'text_extracted',\n  extracted_text: structuredText,\n  extraction_source: 'csv_parser',\n  csv_metadata: {\n    file_name: originalData.input.additional_data?.file_name || 'data.csv',\n    columns: headers,\n    column_count: headers.length,\n    row_count: rows.length,\n    file_size: originalData.input.additional_data?.file_size || 0\n  },\n  csv_raw: rawText,\n  csv_parsed: {\n    headers: headers,\n    sample_rows: rows.slice(0, 10).map(row => {\n      const cells = row.match(/(\"[^\"]*\"|[^,]+)/g) || [];\n      return cells.map(c => c.trim().replace(/^\"|\"$/g, ''));\n    })\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -368,
+        1632
+      ],
+      "id": "7578a10a-43c2-4bb2-907e-eed8c0fa5d1b",
+      "name": "CSV: Parse and Format"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.input.file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -816,
+        1824
+      ],
+      "id": "a04ba569-9c3a-49a1-84f2-c119ce61af04",
+      "name": "JSON: Download File",
+      "webhookId": "json-download-webhook",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -592,
+        1824
+      ],
+      "id": "283cddf6-df88-4926-9603-a9a17e857d64",
+      "name": "JSON: Extract Raw Text"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// ============================================\n// JSON: PARSE AND FORMAT\n// Convert JSON to structured text for AI processing\n// ============================================\n\nconst rawText = $json.data || '';\nconst originalData = $('Continue Processing').first().json;\n\nlet parsedJson = null;\nlet parseError = null;\nlet structuredText = '';\n\ntry {\n  parsedJson = JSON.parse(rawText);\n} catch (e) {\n  parseError = e.message;\n}\n\nif (parsedJson) {\n  const isArray = Array.isArray(parsedJson);\n  const itemCount = isArray ? parsedJson.length : Object.keys(parsedJson).length;\n  \n  structuredText = `## JSON Data Analysis\\n\\n`;\n  structuredText += `**File:** ${originalData.input.additional_data?.file_name || 'data.json'}\\n`;\n  structuredText += `**Type:** ${isArray ? 'Array' : 'Object'}\\n`;\n  structuredText += `**${isArray ? 'Items' : 'Keys'}:** ${itemCount}\\n\\n`;\n  \n  structuredText += `### Structure Analysis\\n\\n`;\n  \n  if (isArray && parsedJson.length > 0) {\n    const firstItem = parsedJson[0];\n    if (typeof firstItem === 'object' && firstItem !== null) {\n      const keys = Object.keys(firstItem);\n      structuredText += `**Array item keys:** ${keys.join(', ')}\\n\\n`;\n      \n      structuredText += `### Sample Items (first 5)\\n\\n`;\n      parsedJson.slice(0, 5).forEach((item, i) => {\n        structuredText += `**Item ${i + 1}:**\\n\\`\\`\\`json\\n${JSON.stringify(item, null, 2)}\\n\\`\\`\\`\\n\\n`;\n      });\n      \n      if (parsedJson.length > 5) {\n        structuredText += `*... and ${parsedJson.length - 5} more items*\\n\\n`;\n      }\n    } else {\n      structuredText += `**Array of primitives:** ${parsedJson.slice(0, 20).join(', ')}${parsedJson.length > 20 ? '...' : ''}\\n\\n`;\n    }\n  } else if (!isArray) {\n    const keys = Object.keys(parsedJson);\n    structuredText += `**Top-level keys:**\\n`;\n    keys.forEach(key => {\n      const value = parsedJson[key];\n      const valueType = Array.isArray(value) ? `Array[${value.length}]` : typeof value;\n      structuredText += `- \\`${key}\\`: ${valueType}\\n`;\n    });\n    structuredText += `\\n`;\n  }\n  \n  const formattedJson = JSON.stringify(parsedJson, null, 2);\n  structuredText += `### Full JSON Data\\n\\`\\`\\`json\\n${formattedJson.substring(0, 30000)}${formattedJson.length > 30000 ? '\\n... (truncated)' : ''}\\n\\`\\`\\``;\n  \n} else {\n  structuredText = `## JSON Parse Error\\n\\n`;\n  structuredText += `**File:** ${originalData.input.additional_data?.file_name || 'data.json'}\\n`;\n  structuredText += `**Error:** ${parseError}\\n\\n`;\n  structuredText += `### Raw Content\\n\\`\\`\\`\\n${rawText.substring(0, 5000)}\\n\\`\\`\\``;\n}\n\nreturn {\n  ...originalData,\n  stage: 'text_extracted',\n  extracted_text: structuredText,\n  extraction_source: 'json_parser',\n  json_metadata: {\n    file_name: originalData.input.additional_data?.file_name || 'data.json',\n    parse_success: parsedJson !== null,\n    parse_error: parseError,\n    is_array: parsedJson ? Array.isArray(parsedJson) : null,\n    item_count: parsedJson ? (Array.isArray(parsedJson) ? parsedJson.length : Object.keys(parsedJson).length) : 0,\n    file_size: originalData.input.additional_data?.file_size || 0\n  },\n  json_raw: rawText,\n  json_parsed: parsedJson\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -368,
+        1824
+      ],
+      "id": "cf9a9018-fe6b-49da-8249-c975b80583dd",
+      "name": "JSON: Parse and Format"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.input.file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -816,
+        2016
+      ],
+      "id": "97d03656-dda7-48b2-80cf-de41bb243bb2",
+      "name": "XML: Download File",
+      "webhookId": "xml-download-webhook",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -592,
+        2016
+      ],
+      "id": "82338bcb-9dd3-46b3-b351-b8ca78775ab5",
+      "name": "XML: Extract Raw Text"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// ============================================\n// XML: PARSE AND FORMAT\n// ============================================\n\nconst rawText = $json.data || '';\nconst originalData = $('Continue Processing').first().json;\n\nlet structuredText = `## XML Data Analysis\\n\\n`;\nstructuredText += `**File:** ${originalData.input.additional_data?.file_name || 'data.xml'}\\n`;\nstructuredText += `**Size:** ${rawText.length} characters\\n\\n`;\n\nconst rootMatch = rawText.match(/<([a-zA-Z][a-zA-Z0-9]*)[\\s>]/);\nconst rootElement = rootMatch ? rootMatch[1] : 'unknown';\nstructuredText += `**Root Element:** \\`<${rootElement}>\\`\\n\\n`;\n\nconst elementMatches = rawText.match(/<([a-zA-Z][a-zA-Z0-9]*)[\\s>]/g) || [];\nconst elementCounts = {};\nelementMatches.forEach(match => {\n  const elem = match.replace(/<|[\\s>]/g, '');\n  elementCounts[elem] = (elementCounts[elem] || 0) + 1;\n});\n\nstructuredText += `### Element Counts\\n`;\nObject.entries(elementCounts)\n  .sort((a, b) => b[1] - a[1])\n  .slice(0, 20)\n  .forEach(([elem, count]) => {\n    structuredText += `- \\`<${elem}>\\`: ${count}\\n`;\n  });\nstructuredText += `\\n`;\n\nstructuredText += `### Full XML Content\\n\\`\\`\\`xml\\n${rawText.substring(0, 30000)}${rawText.length > 30000 ? '\\n... (truncated)' : ''}\\n\\`\\`\\``;\n\nreturn {\n  ...originalData,\n  stage: 'text_extracted',\n  extracted_text: structuredText,\n  extraction_source: 'xml_parser',\n  xml_metadata: {\n    file_name: originalData.input.additional_data?.file_name || 'data.xml',\n    root_element: rootElement,\n    element_counts: elementCounts,\n    file_size: originalData.input.additional_data?.file_size || 0\n  },\n  xml_raw: rawText\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -368,
+        2016
+      ],
+      "id": "d4755775-b20a-4ad1-b3f0-b57b3e67d989",
+      "name": "XML: Parse and Format"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.input.file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -816,
+        2208
+      ],
+      "id": "ad3e2cd9-8ae7-4ea1-86f5-dcb1bb0dac65",
+      "name": "Text File: Download",
+      "webhookId": "text-file-download-webhook",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -592,
+        2208
+      ],
+      "id": "0acf619e-2be9-4dbc-9a0b-29b11101415e",
+      "name": "Text File: Extract"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// ============================================\n// TEXT FILE: FORMAT OUTPUT\n// ============================================\n\nconst extractedText = $json.data || '';\nconst originalData = $('Continue Processing').first().json;\n\nreturn {\n  ...originalData,\n  stage: 'text_extracted',\n  extracted_text: extractedText,\n  extraction_source: 'direct_text',\n  text_file_metadata: {\n    file_name: originalData.input.additional_data?.file_name || 'unknown.txt',\n    file_size: originalData.input.additional_data?.file_size || 0,\n    text_length: extractedText.length,\n    word_count: extractedText.split(/\\s+/).filter(w => w).length,\n    line_count: extractedText.split('\\n').length\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -368,
+        2208
+      ],
+      "id": "3c801dc6-cda0-4b54-92c4-a8b8a735a593",
+      "name": "Text File: Format Output"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Excel parser placeholder\nconst originalData = $('Continue Processing').first().json;\n\nreturn {\n  ...originalData,\n  stage: 'text_extracted',\n  extracted_text: `[Excel file received: ${originalData.input.additional_data?.file_name || 'unknown.xlsx'}]\\n\\nExcel files cannot be processed directly. Please convert to CSV format and resend.`,\n  extraction_source: 'excel_parser',\n  excel_metadata: {\n    file_name: originalData.input.additional_data?.file_name || 'unknown.xlsx',\n    file_size: originalData.input.additional_data?.file_size || 0,\n    error: 'Excel parsing requires conversion to CSV'\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -368,
+        2400
+      ],
+      "id": "a772d94c-dc50-4569-9379-4d4b04bdd615",
+      "name": "Excel: Process (Placeholder)"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Word document parser placeholder\nconst originalData = $('Continue Processing').first().json;\n\nreturn {\n  ...originalData,\n  stage: 'text_extracted',\n  extracted_text: `[Word document received: ${originalData.input.additional_data?.file_name || 'unknown.docx'}]\\n\\nWord document parsing is not yet implemented. Please convert to PDF or plain text and resend.`,\n  extraction_source: 'word_parser',\n  word_metadata: {\n    file_name: originalData.input.additional_data?.file_name || 'unknown.docx',\n    file_size: originalData.input.additional_data?.file_size || 0,\n    error: 'Word parsing not yet implemented'\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -368,
+        2592
+      ],
+      "id": "30623945-3eb4-4201-b440-403c8700af8e",
+      "name": "Word: Process (Placeholder)"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Document parser placeholder\nconst originalData = $('Continue Processing').first().json;\n\nreturn {\n  ...originalData,\n  stage: 'text_extracted',\n  extracted_text: '[Document received - parsing not yet implemented]',\n  extraction_source: 'document_parser'\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -368,
+        2784
+      ],
+      "id": "6319dc82-acd8-4f21-be67-b1e7f7abba9c",
+      "name": "Document: Process (Placeholder)"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.metadata.response_endpoint.chat_id }}",
+        "text": "❓ Unsupported format. Try sending:\n• YouTube link\n• PDF, CSV, JSON, XML, TXT files\n• Voice message\n• Photo\n• Web URL",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -816,
+        2928
+      ],
+      "id": "8ac2f852-0aaa-41a2-8b5b-2d1496170770",
+      "name": "Fallback Response",
+      "webhookId": "385116cd-7f11-42d5-b816-66349f7984b3",
+      "credentials": {
+        "telegramApi": {
+          "id": "XDROmr9jSLbz36Zf",
+          "name": "Telegram (AndrzejSmartBot)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// ============================================\n// STAGE 2: NORMALIZE ALL OUTPUTS TO STANDARD FORMAT\n// ============================================\n\nconst data = $json;\nconst extractedText = data.extracted_text || data.input?.raw_content || '';\nconst metadata = data.metadata || {};\nconst inputData = data.input || {};\n\nconsole.log(`[${metadata.trace_id}] NORMALIZED: ${extractedText.length} chars from ${data.extraction_source}`);\n\nreturn {\n  stage: 'text_normalized',\n  metadata: metadata,\n  input: inputData,\n  normalized: {\n    text: extractedText,\n    text_length: extractedText.length,\n    word_count: extractedText.split(/\\s+/).filter(w => w).length,\n    extraction_source: data.extraction_source || 'unknown'\n  },\n  enrichment: {\n    youtube_metadata: data.youtube_metadata || null,\n    web_metadata: data.web_metadata || null,\n    pdf_metadata: data.pdf_metadata || null,\n    csv_metadata: data.csv_metadata || null,\n    json_metadata: data.json_metadata || null,\n    xml_metadata: data.xml_metadata || null,\n    text_file_metadata: data.text_file_metadata || null,\n    excel_metadata: data.excel_metadata || null,\n    word_metadata: data.word_metadata || null\n  },\n  parsed_data: {\n    csv_parsed: data.csv_parsed || null,\n    json_parsed: data.json_parsed || null\n  },\n  original_message: data.original_message || null\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -144,
+        1632
+      ],
+      "id": "5ca1e0b2-486c-4d98-b134-b1c52c42c70e",
+      "name": "Stage 2: Normalize to Text"
+    },
+    {
+      "parameters": {
+        "content": "## SUPPORTED FILE FORMATS\n\n**Fully Implemented:**\n- 📄 PDF - Text extraction\n- 📊 CSV - Parsed with table preview\n- 🔧 JSON - Structure analysis\n- 📋 XML - Element counting\n- 📝 TXT/MD - Direct text\n- 🎙️ Voice/Audio - Whisper STT\n- 🎬 YouTube - Transcript\n- 🔗 Web URLs - HTML scraping\n\n**Placeholders:**\n- 📈 Excel - Needs CSV conversion\n- 📝 Word - Needs PDF conversion"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1024,
+        -48
+      ],
+      "typeVersion": 1,
+      "id": "1d3f9583-6bb5-4c68-8997-1af51c3332a6",
+      "name": "Supported Formats"
+    }
+  ],
+  "pinData": {
+    "Telegram Input": [
+      {
+        "json": {
+          "update_id": 114494267,
+          "message": {
+            "message_id": 113,
+            "from": {
+              "id": 7689674321,
+              "is_bot": false,
+              "first_name": "Michal",
+              "last_name": "Nowakowski",
+              "language_code": "pl"
+            },
+            "chat": {
+              "id": 7689674321,
+              "first_name": "Michal",
+              "last_name": "Nowakowski",
+              "type": "private"
+            },
+            "date": 1768935298,
+            "text": "/status",
+            "entities": [
+              {
+                "offset": 0,
+                "length": 48,
+                "type": "text"
+              }
+            ],
+            "link_preview_options": {
+              "url": "htext",
+              "prefer_large_media": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Telegram Input": {
+      "main": [
+        [
+          {
+            "node": "Stage 1: Detect Format",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Stage 1: Detect Format",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Stage 1: Detect Format",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stage 3: Classify Intent": {
+      "main": [
+        [
+          {
+            "node": "Stage 4: Route by Intent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stage 4: Route by Intent": {
+      "main": [
+        [
+          {
+            "node": "Handle Commands",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Route: LLM Chat",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preserve Metadata for AI",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Route: Task Creator",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Handle Greeting",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Route: Callback Handler",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Intent Fallback Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Handle Commands": {
+      "main": [
+        [
+          {
+            "node": "Route to Intel Activator?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route to Intel Activator?": {
+      "main": [
+        [
+          {
+            "node": "Call Intelligence Activator",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Command Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preserve Metadata for AI": {
+      "main": [
+        [
+          {
+            "node": "AI: Intelligence Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI: Intelligence Analysis",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI: Intelligence Analysis": {
+      "main": [
+        [
+          {
+            "node": "Extract Intelligence",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Intelligence": {
+      "main": [
+        [
+          {
+            "node": "Save to GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save to GitHub": {
+      "main": [
+        [
+          {
+            "node": "Route Final Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route Final Response": {
+      "main": [
+        [
+          {
+            "node": "Send Telegram Summary",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Webhook Response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Chat Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route to Commands": {
+      "main": [
+        [
+          {
+            "node": "Execute Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Stage 1: Detect Format": {
+      "main": [
+        [
+          {
+            "node": "Prepare Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Notification": {
+      "main": [
+        [
+          {
+            "node": "Is Telegram?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Telegram?": {
+      "main": [
+        [
+          {
+            "node": "Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Skip Notification (Non-Telegram)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Configuration": {
+      "main": [
+        [
+          {
+            "node": "Verify User",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify User": {
+      "main": [
+        [
+          {
+            "node": "Send Telegram Notification",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Unauthorized Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Telegram Notification": {
+      "main": [
+        [
+          {
+            "node": "Continue Processing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Skip Notification (Non-Telegram)": {
+      "main": [
+        [
+          {
+            "node": "Continue Processing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Continue Processing": {
+      "main": [
+        [
+          {
+            "node": "Route to Service",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route to Service": {
+      "main": [
+        [
+          {
+            "node": "Direct Text (No Extraction)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Whisper: Download File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Whisper: Download File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare YouTube Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Web: Fetch Page",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Vision: Download",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "PDF: Download File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "CSV: Download File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "JSON: Download File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "XML: Download File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Text File: Download",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Excel: Process (Placeholder)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Word: Process (Placeholder)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Document: Process (Placeholder)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Fallback Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Direct Text (No Extraction)": {
+      "main": [
+        [
+          {
+            "node": "Stage 2: Normalize to Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Whisper: Download File": {
+      "main": [
+        [
+          {
+            "node": "Groq: Whisper Transcribe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq: Whisper Transcribe": {
+      "main": [
+        [
+          {
+            "node": "Whisper: Format Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Whisper: Format Output": {
+      "main": [
+        [
+          {
+            "node": "Stage 2: Normalize to Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare YouTube Data": {
+      "main": [
+        [
+          {
+            "node": "Call YouTube Transcript Service1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call YouTube Transcript Service": {
+      "main": [
+        []
+      ]
+    },
+    "YouTube: Format Response": {
+      "main": [
+        [
+          {
+            "node": "Stage 2: Normalize to Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Web: Fetch Page": {
+      "main": [
+        [
+          {
+            "node": "Web: Extract Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Web: Extract Text": {
+      "main": [
+        [
+          {
+            "node": "Stage 2: Normalize to Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vision: Download": {
+      "main": [
+        [
+          {
+            "node": "Vision: Process",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vision: Process": {
+      "main": [
+        [
+          {
+            "node": "Stage 2: Normalize to Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PDF: Download File": {
+      "main": [
+        [
+          {
+            "node": "PDF: Extract Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PDF: Extract Text": {
+      "main": [
+        [
+          {
+            "node": "PDF: Format Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PDF: Format Output": {
+      "main": [
+        [
+          {
+            "node": "Stage 2: Normalize to Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CSV: Download File": {
+      "main": [
+        [
+          {
+            "node": "CSV: Extract Raw Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CSV: Extract Raw Text": {
+      "main": [
+        [
+          {
+            "node": "CSV: Parse and Format",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CSV: Parse and Format": {
+      "main": [
+        [
+          {
+            "node": "Stage 2: Normalize to Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON: Download File": {
+      "main": [
+        [
+          {
+            "node": "JSON: Extract Raw Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON: Extract Raw Text": {
+      "main": [
+        [
+          {
+            "node": "JSON: Parse and Format",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON: Parse and Format": {
+      "main": [
+        [
+          {
+            "node": "Stage 2: Normalize to Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "XML: Download File": {
+      "main": [
+        [
+          {
+            "node": "XML: Extract Raw Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "XML: Extract Raw Text": {
+      "main": [
+        [
+          {
+            "node": "XML: Parse and Format",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "XML: Parse and Format": {
+      "main": [
+        [
+          {
+            "node": "Stage 2: Normalize to Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text File: Download": {
+      "main": [
+        [
+          {
+            "node": "Text File: Extract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text File: Extract": {
+      "main": [
+        [
+          {
+            "node": "Text File: Format Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text File: Format Output": {
+      "main": [
+        [
+          {
+            "node": "Stage 2: Normalize to Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Excel: Process (Placeholder)": {
+      "main": [
+        [
+          {
+            "node": "Stage 2: Normalize to Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Word: Process (Placeholder)": {
+      "main": [
+        [
+          {
+            "node": "Stage 2: Normalize to Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Document: Process (Placeholder)": {
+      "main": [
+        [
+          {
+            "node": "Stage 2: Normalize to Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stage 2: Normalize to Text": {
+      "main": [
+        [
+          {
+            "node": "Stage 3: Classify Intent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call YouTube Transcript Service1": {
+      "main": [
+        [
+          {
+            "node": "YouTube: Format Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "32c7daae-9a2c-4411-8e24-81dcf5b4b579",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "81cc10ea6b788f60f6b37813323b2059e6c191e6d5df313ba5494deeb59b8540"
+  },
+  "id": "XmfhTrq_0n4yQWE3p-37P",
+  "tags": []
+}
