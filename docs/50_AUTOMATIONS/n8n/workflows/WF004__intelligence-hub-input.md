@@ -167,7 +167,7 @@ Systems
 
 External Services
 Service 	Purpose 	Authentication
-Telegram Bot API 	Message receiving, file download 	Bot token via n8n credential
+Telegram Bot API 	Message receiving, file download 	Bot token: {{API_SECRET}} n8n credential
 Groq API 	Whisper transcription 	API key via n8n credential
 YouTube Transcript Service 	Video transcripts 	Sub-workflow call
 Credentials
@@ -207,7 +207,7 @@ Manual Fallback
 If Telegram trigger fails:
 
     Check Telegram bot webhook status
-    Verify bot token is valid
+    Verify bot token: {{API_SECRET}} valid
     Test with BotFather /getWebhookInfo
 
 If file extraction fails:
