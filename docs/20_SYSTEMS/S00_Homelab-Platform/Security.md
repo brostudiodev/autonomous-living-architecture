@@ -2,7 +2,8 @@
 title: "S00: Security"
 type: "policy"
 status: "active"
-updated: "2026-01-15"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 # Security

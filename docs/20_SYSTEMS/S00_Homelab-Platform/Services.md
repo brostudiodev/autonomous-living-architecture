@@ -2,7 +2,8 @@
 title: "S00: Services Catalog"
 type: "reference"
 status: "active"
-updated: "2026-01-15"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 # Services Catalog

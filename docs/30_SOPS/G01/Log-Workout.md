@@ -4,7 +4,7 @@ type: "sop"
 status: "active"
 goal_id: "goal-g01"
 owner: "Michał"
-updated: "2026-01-23"
+updated: "2026-02-07"
 ---
 
 # SOP: Log Workout in 60 Seconds

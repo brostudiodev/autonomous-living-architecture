@@ -7,7 +7,7 @@ goal_id: "goal-g04"
 systems: ["S03", "S04"]
 owner: "Michał"
 created: "2026-02-03"
-updated: "2026-02-03"
+updated: "2026-02-07"
 ---
 
 # WF004: Intelligence Hub Input Processing

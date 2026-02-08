@@ -2,7 +2,8 @@
 title: "North Star"
 type: "strategy"
 status: "active"
-updated: "2026-01-15"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 # North Star (Automation-First Living)

@@ -3,8 +3,8 @@ title: "WF001: Agent Router (Agent Zero / Intelligence Hub Entry Point)"
 type: "automation_spec"
 status: "active"
 owner: "Michał"
-goal: "G04"
-updated: "2026-01-19"
+goal_id: "goal-g04"
+updated: "2026-02-07"
 ---
 
 # WF001: Agent Router (Agent Zero / Intelligence Hub Entry Point)

@@ -6,7 +6,7 @@ automation_id: "WF101__finance-import-transactions"
 goal_id: "goal-g02"
 systems: ["S08", "S03"]
 owner: "Michał"
-updated: "2026-01-27"
+updated: "2026-02-07"
 ---
 
 # WF101: Finance Import Transactions

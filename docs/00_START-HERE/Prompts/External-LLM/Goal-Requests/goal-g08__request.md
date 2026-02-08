@@ -3,7 +3,8 @@ title: "External LLM Request Template: goal-g08 (G08: Predictive Smart Home Orch
 type: "prompt_request"
 status: "active"
 goal_id: "goal-g08"
-updated: "2026-01-19"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 Paste `External-LLM-Generator-Prompt.md` first, then paste and fill this request.

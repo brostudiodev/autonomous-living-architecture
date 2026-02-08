@@ -5,7 +5,7 @@ status: "active"
 goal_id: "goal-g01"
 automation_id: "WF_G01_001__sheets-to-github-sync"
 owner: "Michał"
-updated: "2026-01-23"
+updated: "2026-02-07"
 ---
 
 # Runbook: G01 Sheets Sync Failure

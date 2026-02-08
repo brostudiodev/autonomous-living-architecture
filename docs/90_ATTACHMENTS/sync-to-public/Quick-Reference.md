@@ -1,3 +1,11 @@
+---
+title: "Sync-to-Public Quick Reference"
+type: "quick_reference"
+status: "active"
+owner: "Michał"
+updated: "2026-02-07"
+---
+
 # Sync-to-Public Quick Reference
 
 ## **Standard Workflow**

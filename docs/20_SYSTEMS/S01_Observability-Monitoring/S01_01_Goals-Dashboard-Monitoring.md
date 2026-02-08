@@ -4,7 +4,7 @@ type: "system_spec"
 status: "active"
 system_id: "S01.01"
 owner: "Michał"
-updated: "2026-01-27"
+updated: "2026-02-07"
 ---
 
 # S01.01: Goals Dashboard Monitoring

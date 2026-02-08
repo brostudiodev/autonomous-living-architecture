@@ -3,7 +3,8 @@ title: "External LLM Request Template: goal-g01 (G01: Target Body Fat)"
 type: "prompt_request"
 status: "active"
 goal_id: "goal-g01"
-updated: "2026-01-19"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 Paste `External-LLM-Generator-Prompt.md` first, then paste and fill this request.

@@ -3,7 +3,8 @@ title: "Runbook: Pantry System Troubleshooting"
 type: "runbook"
 severity: "low"
 status: "active"
-updated: "2026-01-15"
+updated: "2026-02-07"
+owner: "Michał"
 ---
 
 # Runbook: Pantry System Troubleshooting

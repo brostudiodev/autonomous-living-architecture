@@ -6,7 +6,7 @@ automation_id: "WF_G01_001__sheets-to-github-sync"
 goal_id: "goal-g01"
 systems: ["S03"]
 owner: "Michał"
-updated: "2026-01-23"
+updated: "2026-02-07"
 ---
 
 # WF_G01_001: Google Sheets to GitHub CSV Sync

@@ -3,7 +3,8 @@ title: "G01 Training: 60-Second Logging Cheat Sheet"
 type: "quick_reference"
 status: "active"
 goal_id: "goal-g01"
-updated: "2026-01-23"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 # G01: 60-Second Logging Cheat Sheet

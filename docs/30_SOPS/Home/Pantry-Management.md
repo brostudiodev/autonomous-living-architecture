@@ -4,7 +4,8 @@ type: "sop"
 status: "active"
 frequency: "daily"
 automation: "WF105"
-updated: "2026-01-15"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 # SOP: Daily Pantry Management

@@ -6,7 +6,7 @@ automation_id: "WF102__finance-budget-alerts"
 goal_id: "goal-g02"
 systems: ["S08", "S03"]
 owner: "Michał"
-updated: "2026-01-27"
+updated: "2026-02-07"
 ---
 
 # WF102: Finance Budget Alerts
