@@ -8,3 +8,7 @@ env/
 # Gemini CLI
 .geminiignore
 .gemini/
+
+# Credentials
+*.json
+withings_to_sheets.py
