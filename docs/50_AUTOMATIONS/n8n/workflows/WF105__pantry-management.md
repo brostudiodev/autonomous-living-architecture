@@ -6,13 +6,13 @@ owner: "Michał"
 goal_id: "goal-g03"
 sub_project: "Pantry Management"
 systems: ["S03"]
-updated: "2026-02-07"
+updated: "2026-02-09"
 ---
 
 # WF105: Pantry Management AI Agent
 
 ## Overview
-This n8n workflow implements an intelligent home pantry management system that allows users to track inventory through natural language commands. The system supports multiple input channels (Telegram, Webhook, n8n Chat) and uses an AI Agent powered by Google Gemini to process natural language requests for adding, removing, and checking pantry items.
+This n8n workflow implements an intelligent home pantry management system that allows users to track inventory through natural language commands. The system supports multiple input channels (Telegram, Webhook, n8n Chat) and uses an AI Agent powered by Google Gemini to process natural language requests for adding, removing, and checking pantry items. It also includes grocery automation by automatically adding low-stock items to a shopping list.
 
 ## Naming Conventions (n8n)
 - **WF*** = main workflows (end-to-end, user-facing orchestration)
@@ -204,7 +204,29 @@ When `/inventory` is requested:
 | `add_dictionary` | Append | Adds a new category to `Slownik`. |
 | `calculator` | Calculate | Performs arithmetic for quantity updates. |
 
-### 7. Response Routing
+
+### 7. Grocery Automation (Automated Shopping List with Budget Check)
+This feature automatically adds items to a shopping list when their stock runs low, bridging the gap between inventory tracking and procurement, while also respecting predefined budget constraints.
+
+**Trigger:**
+- This process is triggered immediately after the AI Agent successfully uses the `update_inventory` tool.
+
+**Logic:**
+1.  **Fetch Product State:** After an update, the workflow retrieves the full row for the modified product from the `Spizarka` sheet.
+2.  **Check Stock Threshold:** It compares the `Aktualna_Ilość` (Current Quantity) against the `Próg_Krytyczny` (Critical Threshold).
+3.  **Perform Budget Check:**
+    *   If `Current Quantity` is less than or equal to `Critical Threshold`, the workflow then queries the **G02 Autonomous Finance** database using the `get_current_budget_alerts()` PostgreSQL function for the item's `Budget_Category`.
+    *   If the budget for that category has a `CRITICAL` or `HIGH` alert, the item's `Status` in the shopping list is set to `Oczekuje_Na_Zatwierdzenie_Budżetowe` (Awaiting Budget Approval) or a similar deferred status.
+4.  **Add to Shopping List:** If the budget allows, or if no specific budget category is defined, the workflow appends a new row to a sheet named `Lista_Zakupów` (Shopping List) in the same Google Sheets document.
+
+**`Lista_Zakupów` Sheet Schema:**
+| Column | Description | Example |
+|---|---|---|
+| `Produkt` | The name of the product to buy. | `Mleko` |
+| `Ilość_Sugerowana` | Suggested quantity to buy. (Future enhancement) | `2` |
+| `Data_Dodania` | Timestamp when the item was added. | `2026-02-09T10:30:00Z` |
+| `Status` | Status of the shopping list item. (e.g., `Do_Kupienia`, `Oczekuje_Na_Zatwierdzenie_Budżetowe`) | `Do_Kupienia` |
+### 8. Response Routing
 After processing, responses are routed back to the original source (`Telegram`, `Webhook`, or `Chat`) based on the `source` field set in the `Normalize Input` node.
 
 ## Message Flow Examples

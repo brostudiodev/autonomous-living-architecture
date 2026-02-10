@@ -1,7 +1,7 @@
 ---
 title: "G02: Test Budget Alerting System"
 type: "runbook"
-status: "draft"
+status: "complete"
 goal_id: "goal-g02"
 owner: "Michał"
 updated: "2026-02-08"
@@ -49,17 +49,14 @@ This runbook applies to the `autonomous-living` financial automation layer, spec
     ```
 2.  **Insert specific test data for each test case.** For each `TC-G02-BA-XXX`, insert `accounts`, `categories` (with `budget_monthly` and `alert_threshold`), and `transactions` that will explicitly trigger the "Expected Trigger Condition" for that test case.
 
+    **Complete test data scripts are available in** `Budget-Alert-Test-Data.md` **with ready-to-run SQL for each test case.**
+
     *Example for TC-G02-BA-001 (Spending exceeds 80% threshold):*
     ```sql
-    -- Assume 'Groceries' category exists with budget_monthly = 300, alert_threshold = 80
-    INSERT INTO accounts (account_name, account_type) VALUES ('Test Checking', 'Checking');
-    INSERT INTO categories (category_name, category_type, budget_monthly, alert_threshold) VALUES ('Groceries', 'Expense', 300.00, 80);
-    INSERT INTO transactions (account_id, transaction_date, description, amount, transaction_type, category_id) VALUES
-    ((SELECT account_id FROM accounts WHERE account_name = 'Test Checking'), CURRENT_DATE - INTERVAL '5 days', 'Grocery spend 1', -100.00, 'Debit', (SELECT category_id FROM categories WHERE category_name = 'Groceries')),
-    ((SELECT account_id FROM accounts WHERE account_name = 'Test Checking'), CURRENT_DATE - INTERVAL '2 days', 'Grocery spend 2', -150.00, 'Debit', (SELECT category_id FROM categories WHERE category_name = 'Groceries'));
-    -- Total spent: 250.00. 250/300 = 83.33%, which should trigger the 80% alert.
+    -- From Budget-Alert-Test-Data.md
+    -- Total spent: $250.00 on $300 budget = 83.33% (triggers 80% alert)
     ```
-    *(Remember to adjust dates to be within the current month for the n8n workflow's `DATE_TRUNC` logic to work correctly).*
+    *(All test scripts include verification queries and use dates within the current month for the n8n workflow's `DATE_TRUNC` logic.)*
 
 ### Step 5.2: Manually Run n8n Workflow
 
