@@ -4,7 +4,7 @@ type: "goal"
 status: "active"
 goal_id: "goal-g01"
 owner: "Michał"
-updated: "2026-01-23"
+updated: "2026-02-07"
 ---
 
 # G01: Reach Target Body Fat

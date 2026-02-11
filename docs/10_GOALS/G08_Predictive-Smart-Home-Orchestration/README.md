@@ -3,7 +3,7 @@ title: "G08: Predictive Smart Home Orchestration"
 type: "goal"
 status: "active"
 owner: "Michał"
-updated: "2026-01-15"
+updated: "2026-02-07"
 ---
 
 # G08: Predictive Smart Home Orchestration

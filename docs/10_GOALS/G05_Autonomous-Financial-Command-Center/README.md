@@ -1,13 +1,13 @@
 ---
-title: "G02: Autonomous Finance Data & Command Center"
+title: "G05: Autonomous Finance Data & Command Center"
 type: "goal"
 status: "active"
-goal_id: "goal-g02"
+goal_id: "goal-g05"
 owner: "Michał"
-updated: "2026-01-27"
+updated: "2026-02-07"
 ---
 
-# G02: Autonomous Finance Data & Command Center
+# G05: Autonomous Finance Data & Command Center
 
 ## Intent
 Build a **reliable, explainable, and mostly self-driving financial data layer + observability stack** using PostgreSQL + Grafana, eliminating the 98% "fake savings rate" caused by INIT positions and providing **real-time financial intelligence** for autonomous wealth building.
@@ -25,6 +25,9 @@ Build a **reliable, explainable, and mostly self-driving financial data layer + 
 - Metrics: [Metrics.md](Metrics.md)
 - Systems: [Systems.md](Systems.md)
 - Roadmap: [Roadmap.md](Roadmap.md)
+
+## Database Schema
+- Main Schema: [schema.sql](../../infrastructure/database/finance/schema.sql)
 
 ## Notes
 - **Core Innovation:** Separates "operational income" from "system transactions" (INIT/transfers)

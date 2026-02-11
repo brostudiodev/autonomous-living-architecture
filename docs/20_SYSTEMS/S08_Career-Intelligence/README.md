@@ -3,7 +3,7 @@ title: "S08: Career Intelligence"
 type: "system"
 status: "active"
 owner: "Michał"
-updated: "2026-01-15"
+updated: "2026-02-07"
 ---
 
 # S08: Career Intelligence

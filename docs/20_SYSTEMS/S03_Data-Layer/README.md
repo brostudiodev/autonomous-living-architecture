@@ -4,7 +4,7 @@ type: "system"
 status: "active"
 system_id: "system-s03"
 owner: "Michał"
-updated: "2026-01-27"
+updated: "2026-02-07"
 ---
 
 # S03: Data Layer
@@ -64,6 +64,12 @@ Centralized PostgreSQL database providing foundation for autonomous financial in
 - **Features:** Identifies overspending/underutilization, confidence scoring
 - **Returns:** Specific recommendations with potential savings
 - **File:** `functions/get_budget_optimization_suggestions.sql`
+
+#### get_category_names_from_description()
+- **Purpose:** Dynamically determines transaction category and subcategory names based on description and amount.
+- **Features:** Rule-based categorization, default to 'Uncategorized/Other'.
+- **Returns:** `derived_category_name`, `derived_subcategory_name`.
+- **File:** `functions/get_category_names_from_description.sql`
 
 ## Key Innovations
 
@@ -134,13 +140,15 @@ docker run -d \
   -p 5432:5432 \
   postgres:15
 
-# Deploy views and functions
+# Deploy core schema, views, and functions
+psql -h localhost -U finance_user -d finance -f infrastructure/database/finance/schema.sql
 psql -h localhost -U finance_user -d finance -f views/v_real_savings_monthly.sql
 psql -h localhost -U finance_user -d finance -f views/v_monthly_pnl.sql
 psql -h localhost -U finance_user -d finance -f views/v_budget_performance.sql
 psql -h localhost -U finance_user -d finance -f views/v_daily_cashflow.sql
 psql -h localhost -U finance_user -d finance -f functions/get_current_budget_alerts.sql
 psql -h localhost -U finance_user -d finance -f functions/get_budget_optimization_suggestions.sql
+psql -h localhost -U finance_user -d finance -f functions/get_category_names_from_description.sql
 ```
 
 ### Validation Testing
@@ -222,4 +230,4 @@ pg_basebackup -h localhost -D /backup/base -U finance_user -v -P -W
 ## Related Systems
 - [S05 Observability Dashboards](../S05_Observability-Dashboards/README.md) - Data visualization
 - [S08 Automation Orchestrator](../S08_Automation-Orchestrator/README.md) - Automated workflows
-- [G02 Autonomous Finance](../../10_GOALS/G02_Autonomous-Finance-Data-Command-Center/README.md) - Primary goal
+- [G05 Autonomous Finance](../../10_GOALS/G05_Autonomous-Financial-Command-Center/README.md) - Primary goal

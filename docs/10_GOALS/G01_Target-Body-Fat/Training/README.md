@@ -1,3 +1,12 @@
+---
+title: "G01: Training Journal (Low-Volume HIT)"
+type: "training_guide"
+status: "active"
+goal_id: "goal-g01"
+owner: "Michał"
+updated: "2026-02-07"
+---
+
 # G01 Training Journal (Low-Volume HIT)
 
 This is the canonical workout journal for Goal 01 (Target Body Fat).

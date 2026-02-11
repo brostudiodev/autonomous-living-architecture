@@ -4,7 +4,7 @@ type: "system"
 status: "active"
 system_id: "system-s05"
 owner: "Michał"
-updated: "2026-01-27"
+updated: "2026-02-07"
 ---
 
 # S05: Observability & Dashboards
@@ -86,4 +86,4 @@ WHERE transaction_date >= CURRENT_DATE - INTERVAL '7 days';
 ## Related Systems
 - [S03 Data Layer](../S03_Data-Layer/README.md) - Data source
 - [S08 Automation Orchestrator](../S08_Automation-Orchestrator/README.md) - Alerting workflows
-- [G02 Autonomous Finance](../../10_GOALS/G02_Autonomous-Finance-Data-Command-Center/README.md) - Primary goal
+- [G05 Autonomous Finance](../../10_GOALS/G05_Autonomous-Financial-Command-Center/README.md) - Primary goal

@@ -3,7 +3,7 @@ title: "S04: Digital Twin"
 type: "system"
 status: "active"
 owner: "Michał"
-updated: "2026-01-15"
+updated: "2026-02-07"
 ---
 
 # S04: Digital Twin
@@ -33,4 +33,10 @@ Build Digital Twin/Virtual Assistant handling 70% of routine capture/triage/exec
 ## Runbooks / SOPs
 - Related SOPs: Agent Zero setup, Knowledge base maintenance, Avatar training workflows, Content creation pipeline, Email triage procedures
 - Related runbooks: Digital twin deployment, Emergency response protocols, Content calendar management, System recovery procedures
+
+## Related Documentation
+- [Data Models](Data-Models.md)
+- [Data Ingestion Pipelines](Data-Ingestion.md)
+- [GraphQL API](GraphQL-API.md)
+- [Grafana Dashboard](Grafana-Dashboard.md)
 

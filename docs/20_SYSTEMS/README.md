@@ -2,7 +2,8 @@
 title: "Systems"
 type: "index"
 status: "active"
-updated: "2026-01-15"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 # Systems

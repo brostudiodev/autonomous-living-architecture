@@ -12,3 +12,6 @@ env/
 # Credentials
 *.json
 withings_to_sheets.py
+
+# Activity Logs
+ACTIVITY_LOG.md

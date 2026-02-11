@@ -2,7 +2,8 @@
 title: "Prompts"
 type: "index"
 status: "active"
-updated: "2026-01-19"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 # Prompts

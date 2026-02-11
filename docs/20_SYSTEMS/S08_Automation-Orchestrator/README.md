@@ -4,7 +4,7 @@ type: "system"
 status: "active"
 system_id: "system-s08"
 owner: "Michał"
-updated: "2026-01-27"
+updated: "2026-02-07"
 ---
 
 # S08: Automation Orchestrator
@@ -77,8 +77,7 @@ POSTGRES_USER=finance_user
 POSTGRES_PASSWORD=secure_password
 
 # Slack Integration
-SLACK_BOT_TOKEN=xoxb-your-bot-token
-SLACK_CHANNEL=finance-alerts
+SLACK_BOT_TOKEN=xoxb-your-bot-token: {{API_SECRET}}=finance-alerts
 
 # n8n Configuration
 N8N_BASIC_AUTH_ACTIVE=true
@@ -88,7 +87,7 @@ N8N_BASIC_AUTH_PASSWORD=secure_admin_password
 
 ### Workflow Credentials
 - **PostgreSQL Finance DB:** Database connection credentials
-- **Slack Finance Alerts:** Slack bot token for notifications
+- **Slack Finance Alerts:** Slack bot token: {{API_SECRET}} notifications
 
 ## Monitoring and Maintenance
 
@@ -167,5 +166,5 @@ docker logs n8n_container | grep "Workflow execution finished"
 ## Related Systems
 - [S03 Data Layer](../S03_Data-Layer/README.md) - Data source
 - [S05 Observability Dashboards](../S05_Observability-Dashboards/README.md) - Visualization
-- [G02 Autonomous Finance](../../10_GOALS/G02_Autonomous-Finance-Data-Command-Center/README.md) - Primary goal
+- [G05 Autonomous Finance](../../10_GOALS/G05_Autonomous-Financial-Command-Center/README.md) - Primary goal
 - [Financial Workflows](../../50_AUTOMATIONS/n8n/workflows/) - Workflow definitions

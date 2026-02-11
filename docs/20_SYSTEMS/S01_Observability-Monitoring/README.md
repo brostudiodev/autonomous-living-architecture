@@ -3,7 +3,7 @@ title: "S01: Observability & Monitoring"
 type: "system"
 status: "active"
 owner: "Michał"
-updated: "2026-01-15"
+updated: "2026-02-07"
 ---
 
 # S01: Observability & Monitoring

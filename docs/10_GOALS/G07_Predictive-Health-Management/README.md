@@ -3,7 +3,7 @@ title: "G07: Predictive Health Management"
 type: "goal"
 status: "active"
 owner: "Michał"
-updated: "2026-01-15"
+updated: "2026-02-07"
 ---
 
 # G07: Predictive Health Management
