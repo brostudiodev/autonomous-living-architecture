@@ -2,7 +2,8 @@
 title: "G09: Detailed Activity Log"
 type: "activity_log"
 status: "pending"
-updated: "2026-01-15"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 # G09 Complete-Process-Documentation - Activity Log
@@ -83,6 +84,36 @@ updated: "2026-01-15"
 **Action:** Podsumowanie stycznia - poczatek
 
 **Next Step:** Zakonczyc podsumowanie
+
+**Code:** `autonomous-living/docs/10_GOALS/G09_Complete-Process-Documentation/`
+
+---
+
+## 2026-02-08 (Sunday)
+
+**Action:** Update documentation
+
+**Next Step:** Fix all informations and documentations
+
+**Code:** `autonomous-living/docs/10_GOALS/G09_Complete-Process-Documentation/`
+
+---
+
+## 2026-02-09 (Monday)
+
+**Action:** LLM sprawdza moje todo listy i probuje sam je rozwiazac na Q1
+
+**Next Step:** Update whole documentation for missing pieces
+
+**Code:** `autonomous-living/docs/10_GOALS/G09_Complete-Process-Documentation/`
+
+---
+
+## 2026-02-10 (Tuesday)
+
+**Action:** AI documentation big update
+
+**Next Step:** - **Code:** `autonomous-living/docs/10_GOALS/G09_Complete-Process-Documentation/`
 
 **Code:** `autonomous-living/docs/10_GOALS/G09_Complete-Process-Documentation/`
 

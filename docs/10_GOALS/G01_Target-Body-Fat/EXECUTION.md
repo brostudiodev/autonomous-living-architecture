@@ -1,12 +1,10 @@
 ---
-goal_id: goal-g01
-goal_name: "Target Body Fat"
-current_phase: Foundation
-phase_progress: 15
-priority: P1
-evening_work: false
-last_updated: 2026-01-21T06:03:09Z
-strategic_link: "[[P - Workout - Reach Target Body Fat]]"
+title: "G01: Target Body Fat - Execution State"
+type: "goal_execution"
+status: "active"
+goal_id: "goal-g01"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 # G01 Target Body Fat - Execution State

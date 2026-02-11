@@ -6,7 +6,7 @@ status: "active"
 owner: "Michał"
 systems: ["S03", "S07"]
 automation: "WF105"
-updated: "2026-01-15"
+updated: "2026-02-09"
 ---
 
 # Pantry Management System
@@ -17,6 +17,7 @@ n8n chat, and webhooks. Directly supports G03 Autonomous Household Operations by
 - Eliminating manual inventory management overhead
 - Enabling predictive restocking based on consumption patterns
 - Supporting budget optimization through usage tracking
+- Reducing waste and ensuring food freshness through expiration date tracking and alerts (SVC_Pantry-Expiration-Alerts)
 - Providing real-time supply chain visibility
 
 ## Architecture Overview
@@ -34,6 +35,7 @@ n8n chat, and webhooks. Directly supports G03 Autonomous Household Operations by
 | `Ostatnia_Aktualizacja` | Last Update Timestamp | Auto-updated by AI agent | Date |
 | `Status` | Stock Status | "OK", "Niski", "Krytyczny", "Pusty" | Text |
 | `Próg_Krytyczny` | Critical Threshold | Minimum quantity trigger | Number |
+| `Budget_Category` | Budget Category | Maps to a category in the finance system (e.g., 'Groceries'). | Text |
 | `Uwagi` | Notes | Free-form annotations | Text |
 
 #### Sheet 2: Slownik (AI Dictionary)
@@ -60,11 +62,15 @@ n8n chat, and webhooks. Directly supports G03 Autonomous Household Operations by
 
 ### Data Flows
 
-Pantry System → S03 Data Layer → WF101 Grocery Automation
+Pantry System → S03 Data Layer → WF105 Grocery Automation
 
-    Consumption patterns feed predictive ordering
-    Stock levels trigger automated shopping lists
-    Budget constraints from S05 Finance enforced
+    Consumption patterns from the AI Agent feed predictive ordering.
+    When stock levels fall below the `Próg_Krytyczny` (Critical Threshold), an item is automatically added to a "Shopping List".
+    **Budgetary Enforcement:** Before adding an item to the shopping list, the system queries the **G05 Autonomous Finance** database. It uses the `get_current_budget_alerts()` PostgreSQL function to check for `CRITICAL` or `HIGH` alerts on the item's assigned `Budget_Category`. If an alert exists, the item is added with a status of 'Awaiting_Approval' instead of being automatically approved for purchase.
+
+Pantry System → S03 Data Layer (PostgreSQL) for G12 Consumption
+
+    Normalized pantry data (inventory levels, consumption patterns from `Spizarka` and `Transaction_Log`) is pushed to the S03 Data Layer. This provides G12 (Meta-System) with a structured, queryable source of household operational data for cross-system correlation and optimization.
 
 Pantry System → S11 Meta-System → Optimization Suggestions
 

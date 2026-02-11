@@ -2,7 +2,8 @@
 title: "AI Update Policy"
 type: "policy"
 status: "active"
-updated: "2026-01-15"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 # AI Update Policy

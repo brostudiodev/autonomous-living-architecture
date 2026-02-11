@@ -1,76 +1,68 @@
 ---
-goal_id: goal-g11
-goal_name: "Productivity & Time Architecture"
-current_phase: Planning
-phase_progress: 10
-priority: P2
-evening_work: true
-last_updated: 2026-01-21T06:03:09Z
-strategic_link: "[[P - Automation - Intelligent Productivity & Time Architecture System]]"
+title: "G11: Intelligent Productivity & Time Architecture - Execution State"
+type: "goal_execution"
+status: "active"
+goal_id: "goal-g11"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
-# G11 Meta-System Integration - Execution State
+# G11 Intelligent Productivity & Time Architecture - Execution State
 
 ## Current Context
-**Phase:** Planning (Integration Architecture)
-**Milestone:** Cross-system integration framework by May 31
-**Strategic Context:** Orchestration layer ensuring all automation systems work together
+**Phase:** Planning (Metrics & Data Sources)
+**Milestone:** Initial productivity metrics and data sources defined by Feb 28
+**Strategic Context:** Optimizing personal output and time allocation for all 2026 goals
 
 ---
 
-## 🟢 NEXT (Ready When Core Systems Operational)
+## 🟢 NEXT (Ready for Evening)
 
-- [ ] **Map all system integration points** `G11-T01` `90m` `@planning` `#p2`
-  - Inventory all automation systems across goals
-  - Document current integration points and data flows
-  - Identify integration gaps and optimization opportunities
-  - Design unified integration architecture
+- [ ] **Identify key productivity metrics** `G11-T01` `60m` `@planning` `#p1`
+  - Define metrics like focused work time, task completion rate, meeting effectiveness
+  - Establish measurable targets for each metric
+  - Align metrics with overall goal attainment and well-being
 
 ---
 
 ## 🔵 READY (Dependencies Met, Available)
 
-- [ ] **Design system health monitoring** `G11-T02` `90m` `depends:G11-T01` `@deep-work` `#p2`
-  - Define health check metrics for all systems
-  - Plan centralized monitoring architecture (Grafana/Prometheus)
-  - Design alert system for system failures
-  - Create unified system health dashboard
+- [ ] **Integrate initial productivity data sources** `G11-T02` `90m` `depends:G11-T01` `@automation` `#p1`
+  - Set up data ingestion for calendar APIs (Google Calendar, Outlook)
+  - Integrate data from task management APIs (Todoist, Asana)
+  - Establish pipelines for time tracking apps (Toggl, RescueTime)
+  - Document all integrated data sources
 
-- [ ] **Build integration testing framework** `G11-T03` `120m` `depends:G11-T01` `@implementation` `#p2`
-  - Create automated integration test suite
-  - Implement continuous monitoring workflows
-  - Build failure detection and notification system
-  - Design self-healing mechanisms where possible
+- [ ] **Develop structured data model for productivity** `G11-T03` `75m` `depends:G11-T02` `@deep-work` `#p1`
+  - Design schema for productivity and time allocation in S03 (Data Layer)
+  - Ensure model supports time blocking, task context, and energy levels
+  - Define relationships between different productivity entities
 
-- [ ] **Design optimization feedback loops** `G11-T04` `90m` `depends:G11-T02` `@deep-work` `#p2`
-  - Define optimization metrics across all systems
-  - Create learning algorithms for continuous improvement
-  - Plan A/B testing framework for system changes
-  - Design automated optimization recommendations
+- [ ] **Set up basic productivity trend dashboards** `G11-T04` `60m` `depends:G11-T03` `@observability` `#p2`
+  - Create dashboards in S01 (Observability) to visualize productivity metrics
+  - Develop initial reports on focused work time and task completion
+  - Configure alerts for significant changes in productivity patterns
 
 ---
 
 ## ⚪ BLOCKED (Waiting on Dependencies)
 
-- [ ] **Implement cross-system orchestration** `G11-T05` `120m` `depends:G11-T03` `@implementation` `#p3`
-- [ ] **Build predictive system optimization** `G11-T06` `120m` `depends:G11-T04` `@deep-work` `#p3`
+- [ ] **Begin feeding productivity data into G12 (Meta-System)** `G11-T05` `depends:G11-T04` `@integration` `#p2`
+- [ ] **Expand data sources to include communication platforms** `G11-T06` `depends:G11-T05` `@research` `#p3`
 
 ---
 
 ## ✅ DONE (Recently Completed)
 
-- [x] **Define meta-system integration scope** `G11-T00` `45m` `@planning` `#p2` ✓2025-01-06 ⏱️45m
-  - Established integration vision and principles
-  - Identified key system dependencies and interaction points
-  - Planned phased optimization approach
+- [x] **Initial productivity strategy defined** `G11-T00` `45m` `@strategic` `#p1` ✓2025-01-18 ⏱️45m
+  - Clarified current productivity challenges
+  - Identified areas for automation and optimization
+  - Outlined initial time management principles
 
 ---
 
 ## Intelligence Notes
-- **Strategic Timing:** Build after individual systems proven and operational (Q3-Q4)
-- **Highest Complexity:** This is the "system of systems" - requires mature foundation
-- **Enterprise Value:** Meta-system orchestration = premium consulting capability
-- **Integration Focus:** Prevents automation ecosystem from becoming fragmented
-- **Evening Work:** Architecture and orchestration design fits deep-work sessions
-- **Recommendation:** Defer until G04, G05, G08, G10 foundations are solid
-
+- **Foundational Goal:** Enhances efficiency and effectiveness across all other goals.
+- **Integration with G12:** Key contributor to the holistic personal optimization insights in the Meta-System.
+- **Automation Potential:** High leverage for automating time management and task prioritization.
+- **Strategic Importance:** Enables proactive management of personal time and energy.

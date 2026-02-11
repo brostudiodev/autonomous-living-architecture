@@ -3,7 +3,8 @@ title: "G01: Systems"
 type: "goal_systems"
 status: "active"
 goal_id: "goal-g01"
-updated: "2026-01-23"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 # Systems
@@ -21,6 +22,7 @@ updated: "2026-01-23"
 | Sync Sheets → GitHub | S03 Data Layer | [WF_G01_001__sheets-to-github-sync](../../50_AUTOMATIONS/github-actions/WF_G01_001__sheets-to-github-sync.md) | [Runbook: Sync Failures](../../40_RUNBOOKS/G01/Sheets-Sync-Failure.md) |
 | Validate CSV schemas | S03 Data Layer | (built into WF_G01_001) | [Runbook: Schema Validation Failures](../../40_RUNBOOKS/G01/Schema-Validation-Failure.md) |
 | Track body composition | S03 Data Layer | Google Sheets `measurements` tab | [Training/README.md](Training/README.md#measurement-logging) |
+| Autonomous training data sync | S03 Data Layer | [WF003__training-data-sync](../../50_AUTOMATIONS/n8n/workflows/WF003__training-data-sync.md) | [Weekly-Training-Review.md](../../30_SOPS/Weekly-Training-Review.md) |
 | Monthly progress review | S01 Observability | [script: g01_monthly_review.py](../../50_AUTOMATIONS/scripts/g01_monthly_review.py) (planned Q1) | [SOP: G01 Monthly Review](../../30_SOPS/G01/Monthly-Review.md) (planned) |
 | Progression decisions | S01 Observability | [script: g01_next_session_planner.py](../../50_AUTOMATIONS/scripts/g01_next_session_planner.py) (planned Q2) | [SOP: G01 Pre-Workout Brief](../../30_SOPS/G01/Pre-Workout-Brief.md) (planned) |
 

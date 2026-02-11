@@ -1,4 +1,12 @@
 ---
+title: "G01: Training Session Template"
+type: "session_template"
+status: "template"
+owner: "Michał"
+updated: "2026-02-07"
+---
+
+---
 date: YYYY-MM-DD
 workout_id: hit_fullbody_a
 ---

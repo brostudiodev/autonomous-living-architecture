@@ -2,7 +2,8 @@
 title: "G04: Detailed Activity Log"
 type: "activity_log"
 status: "pending"
-updated: "2026-01-15"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 # G04 Digital-Twin-Ecosystem - Activity Log
@@ -63,6 +64,46 @@ updated: "2026-01-15"
 **Action:** Router update to handle multiple files
 
 **Next Step:** Youtube Transcript update to API
+
+**Code:** `autonomous-living/docs/10_GOALS/G04_Digital-Twin-Ecosystem/`
+
+---
+
+## 2026-02-04 (Wednesday)
+
+**Action:** Rebuild a bit Main Router
+
+**Next Step:** Fix and implement Router fully. Add /help /goals and /parameters
+
+**Code:** `autonomous-living/docs/10_GOALS/G04_Digital-Twin-Ecosystem/`
+
+---
+
+## 2026-02-07 (Saturday)
+
+**Action:** Router poprawki, dodanie command, rozpoznawanie formatow
+
+**Next Step:** Zakonczenie routera
+
+**Code:** `autonomous-living/docs/10_GOALS/G04_Digital-Twin-Ecosystem/`
+
+---
+
+## 2026-02-08 (Sunday)
+
+**Action:** Update Pantry management feature /pantry
+
+**Next Step:** Fix and finish Github TODO list extraction
+
+**Code:** `autonomous-living/docs/10_GOALS/G04_Digital-Twin-Ecosystem/`
+
+---
+
+## 2026-02-09 (Monday)
+
+**Action:** Poprawiony Router. Dodane /todo. Poprawiony end node (wyslanie do Telegrama)
+
+**Next Step:** Skonczenie Routera w calosci
 
 **Code:** `autonomous-living/docs/10_GOALS/G04_Digital-Twin-Ecosystem/`
 

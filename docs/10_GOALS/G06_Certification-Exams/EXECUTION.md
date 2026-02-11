@@ -1,12 +1,10 @@
 ---
-goal_id: goal-g06
-goal_name: "Certification Exams"
-current_phase: Planning
-phase_progress: 5
-priority: P3
-evening_work: true
-last_updated: 2026-01-21T06:03:09Z
-strategic_link: "[[P - Learning - Pass Certification Exams]]"
+title: "G06: Certification Exams - Execution State"
+type: "goal_execution"
+status: "active"
+goal_id: "goal-g06"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 # G06 Certification Exams - Execution State

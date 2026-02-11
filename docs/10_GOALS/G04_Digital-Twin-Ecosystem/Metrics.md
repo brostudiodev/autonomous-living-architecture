@@ -2,7 +2,8 @@
 title: "G04: Metrics"
 type: "goal_metrics"
 status: "active"
-updated: "2026-01-15"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 # Metrics

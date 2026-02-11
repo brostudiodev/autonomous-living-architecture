@@ -2,7 +2,8 @@
 title: "G03: Detailed Activity Log"
 type: "activity_log"
 status: "active"
-updated: "2026-01-15"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 # G03 Autonomous Household Operations - Activity Log
@@ -106,3 +107,13 @@ updated: "2026-01-15"
 
 ### Next Milestone
 - [ ] Immediate next steps
+
+## 2026-02-07 (Saturday)
+
+**Action:** Podpiecie spizarki do Routera n8n
+
+**Next Step:** Poprawka do spizarki
+
+**Code:** `autonomous-living/docs/10_GOALS/G03_Autonomous-Household-Operations/`
+
+---

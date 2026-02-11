@@ -1,12 +1,10 @@
 ---
-goal_id: goal-g07
-goal_name: "Predictive Health Management"
-current_phase: Foundation
-phase_progress: 20
-priority: P2
-evening_work: false
-last_updated: 2026-01-21T06:03:09Z
-strategic_link: "[[P - Health - Predictive Health Management & Performance Optimization System]]"
+title: "G07: Predictive Health Management - Execution State"
+type: "goal_execution"
+status: "active"
+goal_id: "goal-g07"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 # G07 Predictive Health - Execution State

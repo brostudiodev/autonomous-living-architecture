@@ -6,7 +6,7 @@ project_id: "P01"
 goal_id: "goal-g04"
 owner: "Michał"
 created: "2026-02-03"
-updated: "2026-02-03"
+updated: "2026-02-07"
 ---
 
 # P01: Intelligence Hub - Multi-Format Input Processing

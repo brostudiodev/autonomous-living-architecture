@@ -1,12 +1,10 @@
 ---
-goal_id: goal-g02
-goal_name: "Automationbro Recognition"
-current_phase: Content Creation
-phase_progress: 25
-priority: P1
-evening_work: true
-last_updated: 2026-01-21T06:03:09Z
-strategic_link: "[[P - Automation - Automationbro]]"
+title: "G02: Automationbro Recognition - Execution State"
+type: "goal_execution"
+status: "active"
+goal_id: "goal-g02"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 # G02 Automationbro Recognition - Execution State

@@ -1,12 +1,10 @@
 ---
-goal_id: goal-g08
-goal_name: "Predictive Smart Home Orchestration"
-current_phase: Enhancement
-phase_progress: 40
-priority: P2
-evening_work: true
-last_updated: 2026-01-21T06:03:09Z
-strategic_link: "[[P - Smart Home - Predictive Smart Home Orchestration]]"
+title: "G08: Predictive Smart Home Orchestration - Execution State"
+type: "goal_execution"
+status: "active"
+goal_id: "goal-g08"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 # G08 Smart Home Orchestration - Execution State

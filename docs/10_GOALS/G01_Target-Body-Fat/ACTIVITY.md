@@ -3,7 +3,28 @@ title: "G01: Detailed Activity Log"
 type: "activity_log"
 status: "active"
 goal_id: "goal-g01"
-updated: "2026-01-23"
+owner: "Michał"
+updated: "2026-02-07"
+---
+
+## 2026-W01: Weekly Progress
+
+**Target Body Fat**
+
+Continued development and maintenance activities.
+
+Additional activities: 6 task(s) completed.
+
+**Activities Summary:**
+- **2026-02-03**: - **Next:**
+- **2026-02-04**: Healigh before next workout
+- **2026-02-06**: Waga Withings Body Smart
+- **2026-02-07**: Waga kupiona pomiary robione
+- **2026-02-08**: Trzymanie diety, mierzenie
+- **2026-02-09**: Keep goal in track.
+
+*Generated automatically on 2026-02-10*
+
 ---
 
 # G01 Reach Target Body Fat - Activity Log

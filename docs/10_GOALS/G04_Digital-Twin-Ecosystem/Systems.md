@@ -3,7 +3,8 @@ title: "G04: Systems"
 type: "goal_systems"
 status: "active"
 goal_id: "goal-g04"
-updated: "2026-02-03"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 # Systems

@@ -1,75 +1,68 @@
 ---
-goal_id: goal-g09
-goal_name: "Complete Process Documentation"
-current_phase: Planning
-phase_progress: 10
-priority: P2
-evening_work: true
-last_updated: 2026-01-21T06:03:09Z
-strategic_link: "[[P - System - Complete Process Documentation]]"
+title: "G09: Complete Process Documentation - Execution State"
+type: "goal_execution"
+status: "active"
+goal_id: "goal-g09"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
-# G09 Career Intelligence - Execution State
+# G09 Complete Process Documentation - Execution State
 
 ## Current Context
-**Phase:** Planning (Market Intelligence Architecture)
-**Milestone:** Automated job market monitoring system by Apr 30
-**Strategic Context:** Proactive career positioning for AI-driven market evolution
+**Phase:** Foundation (Standardization & Automation)
+**Milestone:** GDS finalized and automated `ACTIVITY.md` generation by Feb 28
+**Strategic Context:** Building a robust, maintainable, and self-documenting autonomous living ecosystem
 
 ---
 
-## 🟢 NEXT (Ready for Evening)
+## 🟢 NEXT (Ready for Morning)
 
-- [ ] **Define career intelligence requirements** `G09-T01` `60m` `@planning` `#p2`
-  - Identify target roles (AI Architect, Automation Lead, Digital Twin Consultant)
-  - Define market monitoring criteria and keywords
-  - Establish skill gap analysis framework
-  - Plan strategic positioning approach
+- [ ] **Finalize Goal Documentation Standard (GDS)** `G09-T01` `60m` `@documentation` `#p1`
+  - Review all existing documentation against the standard
+  - Identify remaining inconsistencies or missing sections
+  - Publish the finalized GDS (update `docs/10_GOALS/DOCUMENTATION-STANDARD.md`)
 
 ---
 
 ## 🔵 READY (Dependencies Met, Available)
 
-- [ ] **Build job market monitoring system** `G09-T02` `90m` `depends:G09-T01` `@automation` `#p2`
-  - Create N8N workflow for LinkedIn job scraping
-  - Implement filtering based on salary, location, keywords
-  - Build automated job relevance scoring
-  - Design notification system for high-value opportunities
+- [ ] **Implement automated generation of ACTIVITY.md** `G09-T02` `90m` `depends:G09-T01` `@automation` `#p1`
+  - Enhance sync script to parse daily logs and generate `ACTIVITY.md`
+  - Define data extraction rules from raw activity logs
+  - Test auto-generation for a sample goal
+  - Document the automation process
 
-- [ ] **Design skill gap tracking system** `G09-T03` `75m` `depends:G09-T01` `@deep-work` `#p2`
-  - Create skill inventory and competency framework
-  - Build gap analysis methodology using AI
-  - Plan learning path generation based on market demands
-  - Design progress tracking and validation system
+- [ ] **Develop Automation Specification Templates** `G09-T03` `75m` `depends:G09-T01` `@documentation` `#p2`
+  - Create markdown templates for n8n, Python scripts, and Home Assistant automations
+  - Ensure templates adhere to GDS and capture all required information
+  - Distribute templates for use in new automation documentation
 
-- [ ] **Create personal brand monitoring** `G09-T04` `60m` `depends:G09-T02` `@automation` `#p2`
-  - Monitor mentions of your name and Automationbro brand
-  - Track engagement on LinkedIn content
-  - Analyze competitor positioning and content strategy
-  - Build brand performance dashboard
+- [ ] **Establish documentation publishing workflow** `G09-T04` `60m` `depends:G09-T01` `@automation` `#p2`
+  - Define Git-based version control strategy for documentation
+  - Explore static site generators (e.g., MkDocs) for publishing
+  - Automate deployment of documentation updates
 
 ---
 
 ## ⚪ BLOCKED (Waiting on Dependencies)
 
-- [ ] **Implement LinkedIn positioning automation** `G09-T05` `90m` `depends:G09-T03` `@automation` `#p3`
-- [ ] **Build career opportunity scoring system** `G09-T06` `120m` `depends:G09-T02,G09-T03` `@deep-work` `#p3`
+- [ ] **Conduct initial audit of existing systems/automations** `G09-T05` `depends:G09-T04` `@documentation` `#p2`
+- [ ] **Integrate documentation status into G12 (Meta-System)** `G09-T06` `depends:G09-T05` `@integration` `#p3`
 
 ---
 
 ## ✅ DONE (Recently Completed)
 
-- [x] **Assess current career position** `G09-T00` `30m` `@strategic` `#p2` ✓2025-01-07 ⏱️30m
-  - Analyzed automation risk of current role
-  - Identified target career directions in AI/automation
-  - Established strategic positioning framework
+- [x] **Initial draft of Goal Documentation Standard** `G09-T00` `45m` `@documentation` `#p1` ✓2025-01-10 ⏱️45m
+  - Defined core documentation principles and structure
+  - Established frontmatter requirements
+  - Outlined naming conventions
 
 ---
 
 ## Intelligence Notes
-- **Strategic Timing:** Build after G02 (Automationbro) foundation established
-- **Integration Hub:** Connects with G02 (brand) and G06 (certifications)
-- **Evening Optimal:** Planning and automation work fits deep-work blocks
-- **Market Intelligence:** Proactive monitoring enables strategic career moves
-- **Positioning Value:** Career intelligence informs all professional development
-
+- **Foundational Goal:** Critical for long-term maintainability and scalability of all other goals.
+- **Automation Leverage:** Automate as much of the documentation process as possible.
+- **Integration Point:** Direct feedback into G12 for tracking documentation completeness.
+- **High ROI:** Reduces future effort in understanding and maintaining systems.

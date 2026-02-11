@@ -2,7 +2,8 @@
 title: "G06: Detailed Activity Log"
 type: "activity_log"
 status: "pending"
-updated: "2026-01-15"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 # G06 Certification-Exams - Activity Log

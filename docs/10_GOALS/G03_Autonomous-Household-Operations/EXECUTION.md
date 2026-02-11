@@ -1,12 +1,10 @@
 ---
-goal_id: goal-g03
-goal_name: "Autonomous Household Operations"
-current_phase: Planning
-phase_progress: 15
-priority: P2
-evening_work: false
-last_updated: 2026-01-21T06:03:09Z
-strategic_link: "[[P - Personal - Autonomous Household Operations System]]"
+title: "G03: Autonomous Household Operations - Execution State"
+type: "goal_execution"
+status: "active"
+goal_id: "goal-g03"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 # G03 Autonomous Household - Execution State

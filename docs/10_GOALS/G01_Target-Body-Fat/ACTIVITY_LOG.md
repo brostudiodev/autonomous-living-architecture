@@ -3,7 +3,8 @@ title: "G01: Detailed Activity Log"
 type: "activity_log"
 status: "active"
 goal_id: "goal-g01"
-updated: "2026-01-23"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 # G01 Reach Target Body Fat - Activity Log
@@ -135,6 +136,66 @@ updated: "2026-01-23"
 ## 2026-02-03 (Tuesday)
 
 **Action:** - **Next:**
+
+**Next Step:** - **Code:** `autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/`
+
+**Code:** `autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/`
+
+---
+
+## 2026-02-04 (Wednesday)
+
+**Action:** Healigh before next workout
+
+**Next Step:** Buy Smart Scale - tomorrow!
+
+**Code:** `autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/`
+
+---
+
+## 2026-02-06 (Friday)
+
+**Action:** Waga Withings Body Smart
+
+**Next Step:** - **Code:** `autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/`
+
+**Code:** `autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/`
+
+---
+
+## 2026-02-07 (Saturday)
+
+**Action:** Waga kupiona pomiary robione
+
+**Next Step:** Zrobienie dashboardu i podpiecie pod Healt Management
+
+**Code:** `autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/`
+
+---
+
+## 2026-02-08 (Sunday)
+
+**Action:** Trzymanie diety, mierzenie
+
+**Next Step:** Zliczenie kalorii lub wykres? Popytac LLM co robic
+
+**Code:** `autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/`
+
+---
+
+## 2026-02-09 (Monday)
+
+**Action:** Keep goal in track.
+
+**Next Step:** Add Withings API integration into Google sheet
+
+**Code:** `autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/`
+
+---
+
+## 2026-02-10 (Tuesday)
+
+**Action:** Dzisiaj HIT
 
 **Next Step:** - **Code:** `autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/`
 

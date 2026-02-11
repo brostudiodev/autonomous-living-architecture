@@ -2,7 +2,8 @@
 title: "G02: Detailed Activity Log"
 type: "activity_log"
 status: "pending"
-updated: "2026-01-15"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 # G02 Automationbro-Recognition - Activity Log
@@ -533,6 +534,16 @@ updated: "2026-01-15"
 **Action:** Podsumowanie miesiaca styczen
 
 **Next Step:** AI Agent zero
+
+**Code:** `autonomous-living/docs/10_GOALS/G02_Automationbro-Recognition/`
+
+---
+
+## 2026-02-08 (Sunday)
+
+**Action:** Substack post - Script Workflow vs AI Agent
+
+**Next Step:** Next post
 
 **Code:** `autonomous-living/docs/10_GOALS/G02_Automationbro-Recognition/`
 

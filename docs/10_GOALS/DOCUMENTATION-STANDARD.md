@@ -3,7 +3,7 @@ title: "Goal Documentation Standard"
 type: "standard"
 status: "active"
 owner: "Michał"
-updated: "2026-01-19"
+updated: "2026-02-07"
 ---
 
 # Goal Documentation Standard
@@ -12,28 +12,14 @@ updated: "2026-01-19"
 **Always use:** `goal-gXX` format (e.g., `goal-g01`, `goal-g12`)
 
 ### Folder Structure
-```
-docs/10_GOALS/
-└── GXX_Goal-Name/          # Human-readable folder name (capitalized)
-    ├── README.md            # Entry point (goal brief + navigation)
-    ├── Outcomes.md          # Primary/secondary outcomes, constraints, non-goals
-    ├── Metrics.md           # KPIs, leading/lagging indicators, measurement methods
-    ├── Systems.md           # Traceability matrix (Outcome → System → Automation → SOP/Runbook)
-    ├── Roadmap.md           # Quarterly milestones + dependencies
-    ├── ACTIVITY_LOG.md      # Milestone-level narrative (human-curated)
-    └── projects/            # Optional: sub-projects (only when goal spawns multiple projects)
-        ├── P01_Project-Name.md
-        └── P02_Another-Project.md
-```
+
+docs/10_GOALS/ └── GXX_Goal-Name/ # Human-readable folder name (capitalized) ├── README.md # Entry point (goal brief + navigation) ├── Outcomes.md # Primary/secondary outcomes, constraints, non-goals ├── Metrics.md # KPIs, leading/lagging indicators, measurement methods ├── Systems.md # Traceability matrix (Outcome → System → Automation → SOP/Runbook) ├── Roadmap.md # Quarterly milestones + dependencies ├── ACTIVITY_LOG.md # Milestone-level narrative (human-curated) └── projects/ # Optional: sub-projects (only when goal spawns multiple projects) ├── P01_Project-Name.md └── P02_Another-Project.md
+
 
 ### Execution Artifacts Structure
-```
-goal-gXX/                    # e.g., goal-g01/, goal-g12/
-├── ACTIVITY.md              # Auto-generated daily log (from sync script)
-└── artifacts/               # Optional: exports, screenshots, raw outputs
-    ├── exports/
-    └── screenshots/
-```
+
+goal-gXX/ # e.g., goal-g01/, goal-g12/ ├── ACTIVITY.md # Auto-generated daily log (from sync script) └── artifacts/ # Optional: exports, screenshots, raw outputs ├── exports/ └── screenshots/
+
 
 ## File Templates
 
@@ -67,10 +53,9 @@ What outcome are we actually buying here (not vanity metrics)?
 
 ## Notes
 Keep "thinking" in Obsidian. Keep "canonical truth" here.
-```
 
-### Outcomes.md
-```markdown
+Outcomes.md
+
 ---
 title: "GXX: Outcomes"
 type: "goal_outcomes"
@@ -94,10 +79,9 @@ Define in measurable terms.
 
 ## Non-goals
 Be explicit about what is NOT included.
-```
 
-### Metrics.md
-```markdown
+Metrics.md
+
 ---
 title: "GXX: Metrics"
 type: "goal_metrics"
@@ -121,10 +105,9 @@ updated: "YYYY-MM-DD"
 
 ## Data Sources
 Document where measurement data comes from (n8n workflow, script, manual tracking, etc.)
-```
 
-### Systems.md (Critical: Traceability Matrix)
-```markdown
+Systems.md (Critical: Traceability Matrix)
+
 ---
 title: "GXX: Systems"
 type: "goal_systems"
@@ -147,10 +130,9 @@ List systems that will carry this goal:
 | Monitor progress | S01 Observability | [script: metrics.py](../../50_AUTOMATIONS/scripts/metrics.py) | [Weekly-Review.md](../../30_SOPS/Weekly-Review.md) |
 
 **Note:** Every automation/script referenced here MUST have corresponding documentation in `docs/50_AUTOMATIONS/`.
-```
 
-### Roadmap.md
-```markdown
+Roadmap.md
+
 ---
 title: "GXX: Roadmap"
 type: "goal_roadmap"
@@ -164,23 +146,22 @@ updated: "YYYY-MM-DD"
 ## Q1
 - [ ] ...
 
-## Q2
+<h2>Q2</h2>
 - [ ] ...
 
-## Q3
+<h2>Q3</h2>
 - [ ] ...
 
-## Q4
+<h2>Q4</h2>
 - [ ] ...
 
 ## Dependencies
 - Systems: S03, S05
 - External: API access to XYZ
 - Other goals: goal-g09 (documentation must be ready first)
-```
 
-### ACTIVITY_LOG.md (Human-Curated Milestones)
-```markdown
+ACTIVITY_LOG.md (Human-Curated Milestones)
+
 ---
 title: "GXX: Detailed Activity Log"
 type: "activity_log"
@@ -223,54 +204,33 @@ updated: "YYYY-MM-DD"
 
 ### Next Milestone
 - [ ] Immediate next steps
-```
 
-## Automation Documentation
+Automation Documentation
+Naming Conventions
+n8n Workflows
 
-### Naming Conventions
-
-#### n8n Workflows
-```
 docs/50_AUTOMATIONS/n8n/workflows/
 ├── WF001__name.json         # Export (workflow code)
 └── WF001__name.md           # Specification (human docs)
-```
 
-**Format:** `WFnnn__descriptive-name` (3 digits, lowercase with hyphens)
+Format: WFnnn__descriptive-name (3 digits, lowercase with hyphens)
+Python Scripts
 
-**Examples:**
-- `WF001__daily-goals-sync`
-- `WF012__pantry-alerts`
-- `WF123__finance-reconciliation`
-
-#### Python Scripts
-```
 docs/50_AUTOMATIONS/scripts/
 ├── script-name.py           # Executable
 └── script-name.md           # Documentation
-```
 
-**Format:** `lowercase-with-hyphens.py`
+Format: lowercase-with-hyphens.py
+Home Assistant
 
-**Examples:**
-- `sync-daily-goals.py`
-- `metrics-collector.py`
-- `backup-restore.py`
-
-#### Home Assistant
-```
 docs/50_AUTOMATIONS/home-assistant/
 ├── automation-name.yaml     # Automation config
 └── automation-name.md       # Documentation
-```
 
-**Format:** `lowercase-with-hyphens.yaml`
+Automation Documentation Template
 
-### Automation Documentation Template
+File: docs/50_AUTOMATIONS/{category}/{ID}__name.md
 
-**File:** `docs/50_AUTOMATIONS/{category}/{ID}__name.md`
-
-```markdown
 ---
 title: "{ID}: Name"
 type: "automation_spec"
@@ -329,7 +289,7 @@ One-sentence description of what this automation does.
 | Parse error | Invalid YAML | Skip file, log error | Notify via Obsidian |
 | Missing vault | Path not found | Exit with error code 1 | User must fix path |
 
-## Monitoring
+<h2>Monitoring</h2>
 - Success metric: Daily JSON log created
 - Alert on: 2 consecutive failures
 - Dashboard: (link to monitoring dashboard when available)
@@ -344,13 +304,13 @@ git pull origin main
 git add .
 git commit -m "Manual sync: YYYY-MM-DD"
 git push origin main
-```
 
-## Related Documentation
-- SOP: [Daily Review](../../30_SOPS/Daily-Review.md)
-- Runbook: [Git-Conflict-Resolution](../../40_RUNBOOKS/Git-Conflict-Resolution.md)
-- System: [S10 Daily Goals Automation](../../20_SYSTEMS/S10_Daily-Goals-Automation/README.md)
-```
+Related Documentation
+
+    SOP: Daily Review
+    Runbook: Git-Conflict-Resolution
+    System: S10 Daily Goals Automation
+
 
 ## Cross-Reference Standards
 
@@ -366,114 +326,122 @@ Always use relative paths from the current file location:
 
 # From automation to SOP
 ../../30_SOPS/Daily-Review.md
-```
 
-### Goal References
-Always use `goal-gXX` format in:
-- Frontmatter: `goal_id: "goal-g01"`
-- Code/paths: `autonomous-living/goal-g01/`
-- Documentation text: "This automation supports goal-g01..."
-- Traceability matrices: Reference column entries
+Goal References
 
-### System References
-Always use `SXX` format:
-- S01, S02, ..., S11 (with leading zero)
-- Full name in first mention, then abbreviation
+Always use goal-gXX format in:
 
-### Automation References
-- n8n: `WFnnn__name` (3 digits)
-- Scripts: `script-name.py`
-- Home Assistant: `automation-name.yaml`
+    Frontmatter: goal_id: "goal-gXX"
+    Code/paths: autonomous-living/goal-gXX/
+    Documentation text: "This automation supports goal-gXX..."
+    Traceability matrices: Reference column entries
 
-## Update Workflow
+System References
 
-### When Creating New Automation
-1. Create automation code (JSON/script/YAML)
-2. Create automation documentation (`.md`)
-3. Update goal's `Systems.md` traceability matrix
-4. Create/update SOP if needed
-5. Create/update Runbook if automation can fail
+Always use SXX format:
 
-### When Modifying Existing Automation
-1. Update code
-2. Update documentation (mark changed sections with update date)
-3. Update traceability matrix if I/O changed
-4. Test manual fallback procedure
-5. Update related SOPs/Runbooks
+    S01, S02, ..., S11 (with leading zero)
+    Full name in first mention, then abbreviation
 
-### Weekly Review Checklist
-- [ ] All automations have `.md` documentation
-- [ ] All automations referenced in goal traceability matrices
-- [ ] All `goal-XX` references updated to `goal-gXX`
-- [ ] All cross-references use correct relative paths
-- [ ] All automation IDs follow naming conventions
+Automation References
 
-## Quality Standards
+    n8n: WFnnn__name (3 digits)
+    Scripts: script-name.py
+    Home Assistant: automation-name.yaml
 
-### Documentation Quality
-- **Concrete over abstract:** Show examples, not just descriptions
-- **Actionable:** Every procedure must be executable copy-paste commands
-- **Current:** Mark update date, don't leave stale docs
-- **Linked:** Every doc references related systems/automations/SOPs
+Update Workflow
+When Creating New Automation
 
-### Code Quality
-- **Idempotent:** Running twice produces same result
-- **Observable:** Logs are explicit and parseable
-- **Recoverable:** Manual fallback documented
-- **Testable:** Include test procedure in docs
+    Create automation code (JSON/script/YAML)
+    Create automation documentation (.md)
+    Update goal's Systems.md traceability matrix
+    Create/update SOP if needed
+    Create/update Runbook if automation can fail
 
-### File Organization
-- **Predictable:** Follow folder structure strictly
-- **Flat hierarchy:** Avoid deep nesting (max 3 levels)
-- **Descriptive names:** No cryptic abbreviations
-- **Version control:** All docs in Git, no binary blobs
+When Modifying Existing Automation
 
-## Migration Checklist (Fixing Existing Docs)
+    Update code
+    Update documentation (mark changed sections with update date)
+    Update traceability matrix if I/O changed
+    Test manual fallback procedure
+    Update related SOPs/Runbooks
 
-### Phase 1: Goal ID Standardization
-- [ ] Search for `goal-[0-9][0-9]` and `goal-[0-9]` patterns
-- [ ] Replace `goal-01` → `goal-g01`, `goal-12` → `goal-g12`, etc.
-- [ ] Update script that generates `ACTIVITY.md` to use `goal-gXX`
-- [ ] Update all `Code:` fields in activity logs
+Weekly Review Checklist
 
-### Phase 2: Goal Documentation
-- [ ] Add `goal_id: "goal-gXX"` to frontmatter of all goal docs
-- [ ] Verify all 5 core files exist (README/Outcomes/Metrics/Systems/Roadmap)
-- [ ] Move sub-project docs (e.g., Pantry-Management-System.md) to `projects/` subfolder
-- [ ] Populate `Systems.md` traceability matrices
+    All automations have .md documentation
+    All automations referenced in goal traceability matrices
+    All goal-XX references updated to goal-gXX
+    All cross-references use correct relative paths
+    All automation IDs follow naming conventions
 
-### Phase 3: Automation Documentation
-- [ ] Assign IDs to all n8n workflows (WF001, WF002, ...)
-- [ ] Create `.md` docs for all automations
-- [ ] Document all scripts following template
-- [ ] Update goal traceability matrices with automation links
+Quality Standards
+Documentation Quality
 
-### Phase 4: Cross-References
-- [ ] Verify all relative paths work
-- [ ] Add "Related Documentation" sections to all files
-- [ ] Update navigation in README files
+    Concrete over abstract: Show examples, not just descriptions
+    Actionable: Every procedure must be executable copy-paste commands
+    Current: Mark update date, don't leave stale docs
+    Linked: Every doc references related systems/automations/SOPs
 
-## Tools & Helpers
+Code Quality
 
-### Search for Non-Standard Goal IDs
-```bash
+    Idempotent: Running twice produces same result
+    Observable: Logs are explicit and parseable
+    Recoverable: Manual fallback documented
+    Testable: Include test procedure in docs
+
+File Organization
+
+    Predictable: Follow folder structure strictly
+    Flat hierarchy: Avoid deep nesting (max 3 levels)
+    Descriptive names: No cryptic abbreviations
+    Version control: All docs in Git, no binary blobs
+
+Migration Checklist (Fixing Existing Docs)
+Phase 1: Goal ID Standardization
+
+    Search for goal-[0-9][0-9] and goal-[0-9] patterns
+    Replace goal-01 → goal-g01, goal-12 → goal-g12, etc.
+    Update script that generates ACTIVITY.md to use goal-gXX
+    Update all Code: fields in activity logs
+
+Phase 2: Goal Documentation
+
+    Add goal_id: "goal-gXX" to frontmatter of all goal docs
+    Verify all 5 core files exist (README/Outcomes/Metrics/Systems/Roadmap)
+    Move sub-project docs (e.g., Pantry-Management-System.md) to projects/ subfolder
+    Populate Systems.md traceability matrices
+
+Phase 3: Automation Documentation
+
+    Assign IDs to all n8n workflows (WF001, WF002, ...)
+    Create .md docs for all automations
+    Document all scripts following template
+    Update goal traceability matrices with automation links
+
+Phase 4: Cross-References
+
+    Verify all relative paths work
+    Add "Related Documentation" sections to all files
+    Update navigation in README files
+
+Tools & Helpers
+Search for Non-Standard Goal IDs
+
 # From autonomous-living root
 grep -rn "goal-[0-9][0-9]" . --include="*.md" --exclude-dir=".git"
 grep -rn "goal-[0-9]" . --include="*.md" --exclude-dir=".git"
-```
 
-### List Automations Needing Documentation
-```bash
+List Automations Needing Documentation
+
 # n8n workflows without docs
 cd docs/50_AUTOMATIONS/n8n/workflows
 for json in *.json; do
     md="${json%.json}.md"
     [[ ! -f "$md" ]] && echo "Missing: $md"
 done
-```
 
-### Validate Goal Structure
-```bash
+Validate Goal Structure
+
 # Check each goal has 5 core files
 for goal in docs/10_GOALS/G*/; do
     echo "Checking: $goal"
@@ -481,9 +449,9 @@ for goal in docs/10_GOALS/G*/; do
         [[ ! -f "$goal/$file" ]] && echo "  Missing: $file"
     done
 done
-```
 
-## References
-- [Principles](../00_START-HERE/Principles.md)
-- [North Star](../00_START-HERE/North-Star.md)
-- [ADR-0001: Repo Structure](../60_DECISIONS_ADRS/ADR-0001-Repo-Structure.md)
+References
+
+    Principles
+    North Star
+    ADR-0001: Repo Structure

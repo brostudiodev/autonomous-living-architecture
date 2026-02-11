@@ -1,12 +1,10 @@
 ---
-goal_id: goal-g04
-goal_name: "Digital Twin Ecosystem"
-current_phase: Foundation
-phase_progress: 35
-priority: P1
-evening_work: true
-last_updated: 2026-01-21T06:03:09Z
-strategic_link: "[[P - AI - Digital Twin Ecosystem - Virtual Assistant]]"
+title: "G04: Digital Twin Ecosystem - Execution State"
+type: "goal_execution"
+status: "active"
+goal_id: "goal-g04"
+owner: "Michał"
+updated: "2026-02-07"
 ---
 
 # G04 Digital Twin - Execution State

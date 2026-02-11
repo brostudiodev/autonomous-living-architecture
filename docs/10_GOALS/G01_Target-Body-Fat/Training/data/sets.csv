@@ -1,0 +1,55 @@
+date,workout_id,exercise_id,weight_kg,tut_s,max_effort,form_ok,notes
+2026-01-20,hit_lower_a,ex_squat,78,67.00,TRUE,TRUE,hard; clean reps
+2026-01-20,hit_lower_a,ex_stiff_legged_deadlift,78,92.00,TRUE,TRUE,signal: consider increase (TUT>90)
+2026-01-20,hit_lower_a,ex_leg_curl_machine,25,58.00,TRUE,TRUE,close to target
+2026-01-20,hit_lower_a,ex_calf_raise_machine,10,44.00,TRUE,FALSE,form broke last 10s; hold weight
+2026-01-23,hit_fullbody_a,ex_squat,78,94.07,TRUE,TRUE,signal: consider increase (TUT>90)
+2026-01-23,hit_fullbody_a,ex_stiff_legged_deadlift,78,79.14,TRUE,TRUE,always ok
+2026-01-23,hit_fullbody_a,ex_leg_curl_machine,25,101.62,TRUE,TRUE,signal: consider increase (TUT>90)
+2026-01-23,hit_fullbody_a,ex_chest_press_db,32,75.62,TRUE,TRUE,
+2026-01-23,hit_fullbody_a,ex_pushup,0,52.16,TRUE,TRUE,
+2026-01-23,hit_fullbody_a,ex_bend_over_row,68,57.60,TRUE,TRUE,
+2026-01-23,hit_fullbody_a,ex_chinup,0,41.26,TRUE,TRUE,
+2026-01-23,hit_fullbody_a,ex_triceps_pushdown,0,70.44,TRUE,TRUE,
+2026-01-23,hit_fullbody_a,ex_lateral_raise_db,5,65.27,TRUE,TRUE,
+2026-01-23,hit_fullbody_a,ex_calf_raise_machine,10,100.91,FALSE,TRUE,signal: consider increase (TUT>90)
+2026-01-27,hit_fullbody_a,ex_squat,78,134.61,TRUE,TRUE,Squat + dumbbell at end. I prefer to add some weight.
+2026-01-27,hit_fullbody_a,ex_stiff_legged_deadlift,78,80.25,TRUE,TRUE,
+2026-01-27,hit_fullbody_a,ex_leg_curl_machine,25,102.07,TRUE,TRUE,Increasing weight will help
+2026-01-27,hit_fullbody_a,ex_chest_press_db,32,82.7,TRUE,TRUE,
+2026-01-27,hit_fullbody_a,ex_pushup,0,48.92,TRUE,TRUE,
+2026-01-27,hit_fullbody_a,ex_bend_over_row,68,50.11,TRUE,TRUE,
+2026-01-27,hit_fullbody_a,ex_chinup,0,39.04,TRUE,FALSE,Really felt bad after Bend Over Row
+2026-01-27,hit_fullbody_a,ex_triceps_pushdown,0,72.23,TRUE,TRUE,
+2026-01-27,hit_fullbody_a,ex_lateral_raise_db,5,62.33,TRUE,TRUE,
+2026-01-27,hit_fullbody_a,ex_calf_raise_machine,10,100.58,TRUE,TRUE,signal: consider increase (TUT>90)
+2026-01-30,hit_fullbody_a,ex_squat,78,121.48,TRUE,TRUE,signal: consider increase (TUT>90)
+2026-01-30,hit_fullbody_a,ex_stiff_legged_deadlift,78,78.50,TRUE,TRUE,I could go a bit further but it is always hurting for next few days
+2026-01-30,hit_fullbody_a,ex_leg_curl_machine,25,105.69,TRUE,TRUE,signal: consider increase (TUT>90)
+2026-01-30,hit_fullbody_a,ex_chest_press_db,32,86.68,TRUE,TRUE,
+2026-01-30,hit_fullbody_a,ex_pushup,0,48.84,TRUE,TRUE,
+2026-01-30,hit_fullbody_a,ex_bend_over_row,68,50.90,TRUE,TRUE,
+2026-01-30,hit_fullbody_a,ex_chinup,0,36.79,TRUE,TRUE,
+2026-01-30,hit_fullbody_a,ex_triceps_pushdown,0,72.15,TRUE,TRUE,
+2026-01-30,hit_fullbody_a,ex_lateral_raise_db,5,63.25,TRUE,TRUE,
+2026-01-30,hit_fullbody_a,ex_calf_raise_machine,10,110.02,FALSE,TRUE,
+2026-02-07,hit_fullbody_a,ex_squat,78,109.08,TRUE,TRUE,Less time than earlier. Legs not recovered or I pushed deeper
+2026-02-07,hit_fullbody_a,ex_stiff_legged_deadlift,78,81.03,TRUE,TRUE,
+2026-02-07,hit_fullbody_a,ex_leg_curl_machine,27.5,77.11,TRUE,TRUE,Increased by 2.5 kg. Better weight
+2026-02-07,hit_fullbody_a,ex_chest_press_db,32,84.19,TRUE,TRUE,Less time
+2026-02-07,hit_fullbody_a,ex_pushup,0,40.30,TRUE,TRUE,
+2026-02-07,hit_fullbody_a,ex_bend_over_row,68,53.57,TRUE,TRUE,
+2026-02-07,hit_fullbody_a,ex_chinup,0,37.54,TRUE,TRUE,
+2026-02-07,hit_fullbody_a,ex_triceps_pushdown,0,67.16,TRUE,TRUE,
+2026-02-07,hit_fullbody_a,ex_lateral_raise_db,5,64.23,TRUE,TRUE,
+2026-02-07,hit_fullbody_a,ex_calf_raise_machine,10,97.85,FALSE,TRUE,signal: consider increase (TUT>90)
+2026-02-10,hit_fullbody_a,ex_squat,78,126.83,TRUE,TRUE,"10s down, 2 stop, 5 up. I think it is better to do 5 2 5 or more up"
+2026-02-10,hit_fullbody_a,ex_stiff_legged_deadlift,78,81.78,TRUE,TRUE,
+2026-02-10,hit_fullbody_a,ex_leg_curl_machine,27.5,77.63,TRUE,TRUE,
+2026-02-10,hit_fullbody_a,ex_chest_press_db,32,81.66,TRUE,TRUE,
+2026-02-10,hit_fullbody_a,ex_pushup,0,47.20,TRUE,TRUE,
+2026-02-10,hit_fullbody_a,ex_bend_over_row,68,55.38,TRUE,TRUE,
+2026-02-10,hit_fullbody_a,ex_chinup,0,42.02,TRUE,TRUE,
+2026-02-10,hit_fullbody_a,ex_triceps_pushdown,0,69.72,TRUE,TRUE,About 8sec between dropset
+2026-02-10,hit_fullbody_a,ex_lateral_raise_db,5,70.12,TRUE,TRUE,
+2026-02-10,hit_fullbody_a,ex_calf_raise_machine,10,91.12,FALSE,TRUE,We can increase weight to 20kg. Will be less torturous
