@@ -23,8 +23,8 @@ Automatically generate milestone-level ACTIVITY.md summaries from daily ACTIVITY
 - **Source Repository:** brostudiodev/autonomous-living (GitHub)
 - **Goal Folders:** 12 predefined goals with paths:
   - G01: Target Body Fat
-  - G02a: Automationbro Recognition
-  - G02b: Autonomous Finance Data Command Center
+  - G02: Automationbro Recognition
+  - G05: Autonomous Financial Command Center
   - G03: Autonomous Household Operations
   - G04: Digital Twin Ecosystem
   - G06: Certification Exams
@@ -119,7 +119,7 @@ If automation fails:
 # 1. Clone or navigate to repository
 cd autonomous-living/docs/10_GOALS
 
-# 2. For each goal folder (G01, G02a, G02b, G03, etc.):
+# 2. For each goal folder (G01, G02, G03, etc.):
 #    a. Review last 7 days of ACTIVITY_LOG.md entries
 #    b. Look for patterns: ## YYYY-MM-DD (Day) followed by **Action:** items
 #    c. Extract significant activities and milestones

@@ -57,7 +57,7 @@ Extracts open TODO items (`- [ ]`) from all Goal Roadmap files in GitHub reposit
 | `/todo`     | All goals (12 roadmaps) |
 | `/todo G01` | Specific goal         |
 | `/todo 1`   | Short format (same as G01) |
-| `/todo G02` | Returns both G02a and G02b |
+| `/todo G05` | Returns G05 (formerly G02-Finance) |
 
 ### Processing Logic
 
@@ -133,7 +133,7 @@ brostudiodev/autonomous-living/
 ├── docs/10_GOALS/
     ├── G01_Target-Body-Fat/Roadmap.md
     ├── G02_Automationbro-Recognition/Roadmap.md
-    ├── G02_Autonomous-Finance-Data-Command-Center/Roadmap.md
+    ├── G05_Autonomous-Financial-Command-Center/Roadmap.md
     ├── G03_Autonomous-Household-Operations/Roadmap.md
     ├── G04_Digital-Twin-Ecosystem/Roadmap.md
     ├── G06_Certification-Exams/Roadmap.md
@@ -214,7 +214,7 @@ done
 ```javascript
 const goals = [
   { goalId: 'G01', goalName: 'Target Body Fat', filePath: 'docs/10_GOALS/G01_Target-Body-Fat/Roadmap.md' },
-  { goalId: 'G02a', goalName: 'Automationbro Recognition', filePath: 'docs/10_GOALS/G02_Automationbro-Recognition/Roadmap.md' },
+  { goalId: 'G05', goalName: 'Autonomous Financial Command Center', filePath: 'docs/10_GOALS/G05_Autonomous-Financial-Command-Center/Roadmap.md' },
   // ... remaining goals
 ];
 ```

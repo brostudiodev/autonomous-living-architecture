@@ -49,7 +49,7 @@ This document specifies the basic visualization components for the Digital Twin,
 ```
 🎯 Q1 Goals Progress
 ├── G01 - Target Body Fat: ████████▒▒ 65%
-├── G02-F - Autonomous Finance: █████████▒ 80%
+├── G05-F - Autonomous Finance: █████████▒ 80%
 ├── G02-A - Recognition: █▒▒▒▒▒▒▒▒▒ 10%
 ├── G03 - Household Ops: ███▒▒▒▒▒▒ 35%
 ├── G04 - Digital Twin: █████▒▒▒▒▒ 45%
@@ -104,7 +104,7 @@ Timeline (Last 24h)
 #### Real-Time Notification Panel
 ```
 🔔 Active Notifications
-├── 🟡 G02 Budget Alert: 'Groceries' at 85% of monthly limit
+├── 🟡 G05 Budget Alert: 'Groceries' at 85% of monthly limit
 ├── 🔵 G01 Milestone: Body fat progress reached 65%
 ├── 🔴 G08 Device Alert: 2 smart devices offline
 └── 🔵 G04 Data Sync: All sources updated successfully
@@ -116,7 +116,7 @@ Timeline (Last 24h)
 Shows weekly progress across all goals:
 ```
 Goal Progress Heatmap (Last 4 Weeks)
-Week │ G01 G02 G03 G04 G09
+Week │ G01 G05 G03 G04 G09
 ───────────────────────────────────────
 W-04  │ ███ ████ ██ █ ███
 W-03  │ ██▒ ████ █▒ █▒ ██▒
@@ -129,7 +129,7 @@ Key milestones and completed tasks:
 ```
 🏆 Q1 Achievements
 ├── ✅ Jan 22: G01 Google Sheets UI Setup
-├── ✅ Jan 23: G02-F PostgreSQL Schema Deploy
+├── ✅ Jan 23: G05-F PostgreSQL Schema Deploy
 ├── ✅ Feb 10: G04 Digital Twin Data Models
 ├── 🎯 Feb 15: Target: G01 Body Fat Baseline
 └── 🎯 Feb 28: Target: G09 Documentation Standard
@@ -261,7 +261,7 @@ const subscription = gql`
 
 ### Integration with Other Goals
 - **G01**: Health metrics integration and progress visualization
-- **G02**: Financial dashboards and budget alerts
+- **G05**: Financial dashboards and budget alerts
 - **G03**: Household operations status and automation status
 - **G07**: Predictive health management insights
 - **G08**: Smart home orchestration controls

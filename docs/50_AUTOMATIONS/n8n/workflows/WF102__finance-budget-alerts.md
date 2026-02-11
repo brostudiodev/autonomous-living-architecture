@@ -3,7 +3,7 @@ title: "WF102: Finance Budget Alerts"
 type: "automation_spec"
 status: "active"
 automation_id: "WF102__finance-budget-alerts"
-goal_id: "goal-g02"
+goal_id: "goal-g05"
 systems: ["S08", "S03"]
 owner: "Michał"
 updated: "2026-02-07"

@@ -215,7 +215,7 @@ This feature automatically adds items to a shopping list when their stock runs l
 1.  **Fetch Product State:** After an update, the workflow retrieves the full row for the modified product from the `Spizarka` sheet.
 2.  **Check Stock Threshold:** It compares the `Aktualna_Ilość` (Current Quantity) against the `Próg_Krytyczny` (Critical Threshold).
 3.  **Perform Budget Check:**
-    *   If `Current Quantity` is less than or equal to `Critical Threshold`, the workflow then queries the **G02 Autonomous Finance** database using the `get_current_budget_alerts()` PostgreSQL function for the item's `Budget_Category`.
+    *   If `Current Quantity` is less than or equal to `Critical Threshold`, the workflow then queries the **G05 Autonomous Finance** database using the `get_current_budget_alerts()` PostgreSQL function for the item's `Budget_Category`.
     *   If the budget for that category has a `CRITICAL` or `HIGH` alert, the item's `Status` in the shopping list is set to `Oczekuje_Na_Zatwierdzenie_Budżetowe` (Awaiting Budget Approval) or a similar deferred status.
 4.  **Add to Shopping List:** If the budget allows, or if no specific budget category is defined, the workflow appends a new row to a sheet named `Lista_Zakupów` (Shopping List) in the same Google Sheets document.
 
