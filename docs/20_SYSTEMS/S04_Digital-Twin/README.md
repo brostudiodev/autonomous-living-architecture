@@ -2,8 +2,10 @@
 title: "S04: Digital Twin"
 type: "system"
 status: "active"
+system_id: "system-s04"
 owner: "Michał"
-updated: "2026-02-07"
+updated: "2026-02-16"
+review_cadence: "monthly"
 ---
 
 # S04: Digital Twin
@@ -39,4 +41,29 @@ Build Digital Twin/Virtual Assistant handling 70% of routine capture/triage/exec
 - [Data Ingestion Pipelines](Data-Ingestion.md)
 - [GraphQL API](GraphQL-API.md)
 - [Grafana Dashboard](Grafana-Dashboard.md)
+- [WF003: SVC_Response-Dispatcher](../../50_AUTOMATIONS/n8n/workflows/WF003__svc-response-dispatcher.md)
+
+## Procedure
+1. **Daily:** Monitor agent interactions, check for failures
+2. **Weekly:** Review knowledge base updates, add new sources
+3. **Monthly:** Analyze usage patterns, tune responses
+4. **Quarterly:** Review content pipeline performance
+
+## Failure Modes
+| Scenario | Detection | Response |
+|----------|-----------|----------|
+| API rate limit | Claude/HeyGen returns 429 | Exponential backoff, queue requests |
+| Knowledge base stale | Outdated responses | Refresh RAG embeddings |
+| Telegram bot down | /commands fail | Check n8n workflow status |
+| Content pipeline fails | No posts generated | Manual publish, debug workflow |
+
+## Security Notes
+- API keys stored in n8n credentials
+- No PII in Telegram interactions
+- Vector DB access restricted to internal network
+
+## Owner & Review
+- **Owner:** Michał
+- **Review Cadence:** Monthly
+- **Last Updated:** 2026-02-16
 

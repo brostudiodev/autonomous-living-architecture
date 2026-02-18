@@ -4,7 +4,8 @@ type: "system"
 status: "active"
 system_id: "system-s03"
 owner: "Michał"
-updated: "2026-02-07"
+updated: "2026-02-17"
+review_cadence: "monthly"
 ---
 
 # S03: Data Layer
@@ -24,6 +25,7 @@ Centralized PostgreSQL database providing foundation for autonomous financial in
 - **budgets:** Monthly budget allocations and thresholds
 - **categories:** Hierarchical category structure
 - **accounts:** Bank account information and metadata
+- **upcoming_expenses:** Known upcoming expenses for next 30 days tracking (from Google Sheets Expense Calendar)
 
 ### Analytics Views
 
@@ -70,6 +72,42 @@ Centralized PostgreSQL database providing foundation for autonomous financial in
 - **Features:** Rule-based categorization, default to 'Uncategorized/Other'.
 - **Returns:** `derived_category_name`, `derived_subcategory_name`.
 - **File:** `functions/get_category_names_from_description.sql`
+
+### Upcoming Expenses Table
+
+#### upcoming_expenses
+- **Purpose:** Track known upcoming expenses for proactive financial planning
+- **Source:** Google Sheets "Expense Calendar" tab (synced via n8n)
+- **Features:** 
+  - Supports monthly, quarterly, annual, and one-time expenses
+  - Automatic date calculation from Year/Month/Day fields
+  - Used by daily Telegram alerts
+
+**Table Schema:**
+```sql
+CREATE TABLE upcoming_expenses (
+    id SERIAL PRIMARY KEY,
+    transaction_id VARCHAR(50) UNIQUE NOT NULL,
+    expense_date DATE NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    currency VARCHAR(3) DEFAULT 'PLN',
+    frequency VARCHAR(20) CHECK (frequency IN ('monthly', 'quarterly', 'annual', 'one-time')),
+    description TEXT,
+    category VARCHAR(100) DEFAULT 'UNCATEGORIZED',
+    sub_category VARCHAR(100) DEFAULT 'UNCATEGORIZED',
+    source VARCHAR(20) DEFAULT 'google_sheets',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+**View: v_upcoming_30_days**
+- **Purpose:** Shows all expenses due in the next 30 days
+- **Features:** Calculates next occurrence for recurring expenses
+- **Usage:** Daily Telegram alert workflow queries this view
+
+- **PostgreSQL View:** `v_upcoming_30_days`
 
 ## Key Innovations
 
@@ -149,6 +187,9 @@ psql -h localhost -U finance_user -d finance -f views/v_daily_cashflow.sql
 psql -h localhost -U finance_user -d finance -f functions/get_current_budget_alerts.sql
 psql -h localhost -U finance_user -d finance -f functions/get_budget_optimization_suggestions.sql
 psql -h localhost -U finance_user -d finance -f functions/get_category_names_from_description.sql
+psql -h localhost -U finance_user -d finance -f functions/upsert_expense_from_sheet.sql
+psql -h localhost -U finance_user -d finance -f views/v_upcoming_30_days.sql
+psql -h localhost -U finance_user -d finance -f tables/upcoming_expenses.sql
 ```
 
 ### Validation Testing
@@ -231,3 +272,28 @@ pg_basebackup -h localhost -D /backup/base -U finance_user -v -P -W
 - [S05 Observability Dashboards](../S05_Observability-Dashboards/README.md) - Data visualization
 - [S08 Automation Orchestrator](../S08_Automation-Orchestrator/README.md) - Automated workflows
 - [G05 Autonomous Finance](../../10_GOALS/G05_Autonomous-Financial-Command-Center/README.md) - Primary goal
+
+## Procedure
+1. **Daily:** Check data freshness, verify automated loads
+2. **Weekly:** Review query performance, check for slow queries
+3. **Monthly:** Review backup integrity, test recovery procedure
+4. **Quarterly:** Analyze data growth, optimize indexes
+
+## Failure Modes
+| Scenario | Detection | Response |
+|----------|-----------|----------|
+| Database unreachable | Connection timeout | Check container, restart if needed |
+| Query performance degradation | Slow query log | Analyze execution plan, add indexes |
+| Backup failure | Alert from backup script | Check disk space, verify cron |
+| Data corruption | Checksum failure | Restore from backup |
+
+## Security Notes
+- Database credentials stored in n8n credentials
+- Application user has limited SELECT only
+- Admin user restricted to management tasks
+- Network isolation via Docker networking
+
+## Owner & Review
+- **Owner:** Michał
+- **Review Cadence:** Monthly
+- **Last Updated:** 2026-02-17

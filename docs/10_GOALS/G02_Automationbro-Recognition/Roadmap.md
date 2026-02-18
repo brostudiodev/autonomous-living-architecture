@@ -9,7 +9,11 @@ updated: "2026-02-07"
 # Roadmap (2026)
 
 ## Q1 (Jan–Mar)
-- [ ] Establish initial content creation workflow for articles (Substack, LinkedIn)
+- [x] Establish initial content creation workflow for articles (Substack, LinkedIn)
+  - Substack: Every 4 days (max once/week), 40 articles by Dec 2026
+  - LinkedIn: 3 posts weekly (automated from articles)
+  - YouTube: 15 AI avatar videos by Q2 2026
+  - Strategy documented in: [Content-Strategy.md](Content-Strategy.md)
 - [ ] Define key metrics for audience engagement and recognition (e.g., views, shares, comments)
 - [ ] Implement basic tracking for content performance (e.g., using n8n for social media analytics)
 - [ ] Create initial public-facing "architecture patterns" derived from private repo

@@ -3,15 +3,15 @@ title: "G08: Roadmap"
 type: "goal_roadmap"
 status: "active"
 owner: "Michał"
-updated: "2026-02-07"
+updated: "2026-02-18"
 ---
 
 # Roadmap (2026)
 
 ## Q1 (Jan–Mar)
-- [ ] Inventory existing smart home devices and capabilities (e.g., Home Assistant integrations)
-- [ ] Define core smart home data model in S03 (Data Layer)
-- [ ] Establish initial data ingestion pipelines from smart home sensors and devices
+- [x] ~~Inventory existing smart home devices and capabilities (e.g., Home Assistant integrations)~~ ✅ DONE
+- [x] ~~Define core smart home data model in S03 (Data Layer)~~ ✅ DONE (using MariaDB directly)
+- [ ] Establish initial data ingestion pipelines from smart home sensors and devices (Grafana → MariaDB)
 - [ ] Implement basic automation rules (e.g., lights on/off based on presence/time)
 - [ ] Set up monitoring dashboards in S01 (Observability) for device status and energy consumption
 - [ ] Integrate foundational smart home data into G12 (Meta-System) for environmental context

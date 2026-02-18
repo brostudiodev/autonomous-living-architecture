@@ -4,7 +4,8 @@ type: "system"
 status: "active"
 system_id: "system-s08"
 owner: "Michał"
-updated: "2026-02-07"
+updated: "2026-02-16"
+review_cadence: "monthly"
 ---
 
 # S08: Automation Orchestrator
@@ -168,3 +169,27 @@ docker logs n8n_container | grep "Workflow execution finished"
 - [S05 Observability Dashboards](../S05_Observability-Dashboards/README.md) - Visualization
 - [G05 Autonomous Finance](../../10_GOALS/G05_Autonomous-Financial-Command-Center/README.md) - Primary goal
 - [Financial Workflows](../../50_AUTOMATIONS/n8n/workflows/) - Workflow definitions
+
+## Procedure
+1. **Daily:** Check workflow execution status
+2. **Weekly:** Review failed executions, tune workflows
+3. **Monthly:** Audit workflow performance, update credentials
+4. **Quarterly:** Review automation coverage
+
+## Failure Modes
+| Scenario | Detection | Response |
+|----------|-----------|----------|
+| Workflow fails | Execution alert | Check logs, manual rerun |
+| Database connection fails | Connection error | Verify credentials, check network |
+| n8n down | Can't access UI | Check container, restart |
+| API rate limited | 429 error | Add delay, adjust schedule |
+
+## Security Notes
+- Credentials stored in n8n credential manager
+- Database connection limited to specific users
+- No credentials in workflow JSON files
+
+## Owner & Review
+- **Owner:** Michał
+- **Review Cadence:** Monthly
+- **Last Updated:** 2026-02-16

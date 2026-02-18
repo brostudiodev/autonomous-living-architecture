@@ -1,307 +1,212 @@
 ---
-title: "WF001: Agent Router (Agent Zero / Intelligence Hub Entry Point)"
+title: "WF001: Agent Router (Intelligence Hub)"
 type: "automation_spec"
 status: "active"
 owner: "Michał"
-goal_id: "goal-g04"
-updated: "2026-02-07"
+goal_id: "G04_Digital-Twin-Ecosystem"
+updated: "2026-02-12"
 ---
 
-# WF001: Agent Router (Agent Zero / Intelligence Hub Entry Point)
+# WF001: Agent Router (Intelligence Hub)
 
-## Overview
-WF001 is the **single entry point** for “Agent Zero”: the router that receives *all incoming traffic* (messages, ideas, content) and sends it through the right extractor + sub-workflow.
+## 1. Executive Overview
 
-**Today (v0):** it is mainly used for:
-- Capturing text/ideas into the Obsidian inbox (via GitHub commit into the vault repo)
-- Processing **YouTube links** → transcript → intelligence extraction → Obsidian inbox note
+WF001, the "Intelligence Hub," is the central nervous system for all incoming data. It functions as a universal router, implementing a **hub-and-spoke architecture** to ingest, classify, and delegate tasks. It receives all multi-channel inputs (Telegram, webhooks, chat), normalizes them, determines user intent, and routes them to specialized sub-workflows for processing.
 
-**Later (target):** it becomes the **decision hub** for everything (finance, household, health, career, meta-system), implemented as additional intent routes + dedicated sub-workflows.
+This workflow is the foundation of the Digital Twin's ability to interact with the world, bridging the gap between rigid automation and fluid AI-driven processing.
 
-Workflow export: `WF001_Agent_Router.json`
+- **Workflow JSON**: `WF001_Agent_Router.json`
+- **Architectural Deep-Dive**: `docs/20_SYSTEMS/S11_Intelligence_Router/README.md`
 
-## Naming Conventions (n8n)
-This repo uses a simple split:
-- **WF*** = *main workflows* (user-facing, orchestrators, end-to-end pipelines)
-- **SVC_*** = *services / sub-workflows* (single-responsibility “functions” called by WF workflows)
+## 2. Architectural Philosophy
 
-Recommended pattern:
-- **WF**: `WF###_<ShortName>`
-  - Example: `WF001_Agent_Router`, `WF020_Youtube-toDatabase`
-- **SVC**: `SVC_<Domain>-<Capability>`
-  - Example: `SVC_Youtube-Extractor` (or more specific: `SVC_Youtube-TranscriptExtractor`)
+The router is built on four key principles:
 
-Rule of thumb:
-- WF workflows can depend on multiple SVC workflows.
-- SVC workflows should be reusable and stable (clear input/output contract).
+1.  **Universal Intake**: All data, regardless of source, enters through this single workflow.
+2.  **Intelligent Routing**: A multi-stage process classifies the data's format and the user's intent.
+3.  **Specialized Processing**: Complex logic is delegated to isolated, single-responsibility sub-workflows (services).
+4.  **Unified Response**: A centralized dispatcher formats and delivers responses tailored to the original input channel.
 
-## SVC Contract Template (recommended)
-Goal: any `SVC_*` workflow should be callable from a `WF*` workflow **without custom glue code**.
+## 3. Stage-by-Stage Breakdown
 
-### Invariants
-- Accept **1 item** in, return **1 item** out.
-- Preserve `metadata.trace_id` for observability.
-- Prefer **idempotent** behavior (safe to retry).
-- Avoid side-effects by default (don’t send Telegram messages / write to GitHub) unless the SVC is explicitly an “executor” service.
+```mermaid
+graph TD
+    subgraph Ingestion
+        A[Telegram Input]
+        B[Webhook Input]
+        C[Chat Input]
+    end
 
-### Standard Input (minimum)
-Every SVC should accept this shape (extra fields are allowed):
-```json
-{
-  "metadata": {
-    "trace_id": "string",
-    "source": "telegram|webhook|chat|…",
-    "timestamp": "ISO-8601"
-  },
-  "input": {
-    "format": "text|youtube_url|web_url|voice|document|…",
-    "raw_content": "string|null",
-    "file_id": "string|null",
-    "extraction_method": "direct|youtube_transcript|…",
-    "additional_data": {}
-  },
-  "normalized": {
-    "text": "string (optional)",
-    "extraction_source": "string (optional)"
-  },
-  "intent": {
-    "primary": "command|question|capture|task|… (optional)",
-    "secondary": "string|null",
-    "confidence": 0.0,
-    "entities": {}
-  }
-}
+    subgraph Tagging & Auth
+        D[Tag Source Metadata]
+        E{Is Telegram?}
+        F[Authorize User ID]
+        G[Bypass Auth]
+    end
+
+    subgraph Normalization
+        H(Converge All Inputs)
+        I(SVC: Format Detector)
+        J[Notify for Long Tasks]
+    end
+
+    subgraph Classification
+        K[Stage3: Classify Intent]
+    end
+
+    subgraph Routing
+        L{Stage 4: Route by Intent}
+    end
+
+    subgraph Processing
+        M[Command →]
+        N[Capture →]
+        O[Question →]
+        P[Calendar →]
+        Q[...]
+    end
+
+    subgraph Response
+        R(SVC: Response Dispatcher)
+    end
+
+    A --> D
+    B --> D
+    C --> D
+    D --> E
+    E -- Yes --> F
+    E -- No --> G
+    F --> H
+    G --> H
+    H --> I
+    I --> J
+    J --> K
+    K --> L
+
+    L -- command --> M
+    L -- capture --> N
+    L -- question --> O
+    L -- calendar --> P
+    L -- ... --> Q
+
+    M --> R
+    N --> R
+    O --> R
+    P --> R
+    Q --> R
 ```
 
-### Standard Output (minimum)
-Every SVC should return this shape (extra fields are allowed):
-```json
-{
-  "ok": true,
-  "service": "SVC_<Domain>-<Capability>",
-  "stage": "service_done",
-  "metadata": {
-    "trace_id": "string",
-    "timestamp": "ISO-8601"
-  },
-  "result": {
-    "type": "text|json|mixed",
-    "text": "string|null",
-    "data": {},
-    "warnings": []
-  },
-  "enrichment": {}
-}
-```
+### Stage 1: Ingestion & Source Tagging
 
-### Extractor Services (SVC_*_Extractor)
-If the SVC is an extractor called before `Stage 2: Normalize to Text`, return in a WF001-compatible way:
-```json
-{
-  "metadata": { "trace_id": "…" },
-  "input": { "format": "youtube_url", "extraction_method": "youtube_transcript" },
-  "stage": "text_extracted",
-  "extracted_text": "…",
-  "extraction_source": "SVC_Youtube-Extractor",
-  "youtube_metadata": {
-    "video_id": "…",
-    "title": "…",
-    "channel": "…"
-  }
-}
-```
+-   **Nodes**: `Telegram Input`, `Webhook`, `When chat message received`, `Tag Telegram1`, `Tag Webhook1`, `Tag Chat1`
+-   **Purpose**: Accept inputs from three channels and tag them with standardized `_router` metadata, including `trigger_source`, `user_id`, `chat_id`, and a unique `trace_id`. The original payload is always preserved.
 
-### Error Contract
-- If recoverable: set `ok: true` + add a warning in `result.warnings`.
-- If not recoverable: set `ok: false` + include `error.code`, `error.message`, and any safe debug context.
+### Stage 2: Authentication
 
-## High-Level Architecture
+-   **Nodes**: `Is Telegram`, `Authorized1`, `Unauthorized Reply`
+-   **Purpose**: To secure the public-facing Telegram endpoint.
+-   **Logic**:
+    -   If the source is Telegram, the `user_id` is checked against a hardcoded allowlist (`7689674321`).
+    -   If unauthorized, an "Unauthorized access" message is sent and the workflow stops.
+    -   Webhook and chat inputs currently bypass this check.
+-   **ADR**: The use of a hardcoded ID is documented in [ADR-0011-Hardcoded-User-ID-in-Router](./../../60_DECISIONS_ADRS/ADR-0011-Hardcoded-User-ID-in-Router.md).
 
-```
-Inputs (Telegram / Webhook / n8n Chat)
-  → Stage 1: Detect Format (text/voice/youtube_url/web_url/photo/…)
-  → Route to Extractor
-  → Stage 2: Normalize to Text
-  → Stage 3: Classify Intent (command / question / capture / task / …)
-  → Stage 4: Route by Intent
-      → Capture: AI Intelligence Analysis → Extract Intelligence → Save to GitHub (Obsidian inbox)
-      → Command: local handler (help/status/goals) OR “Intelligence Activator”
-      → Question: placeholder route (LLM Chat webhook)
-      → Task: placeholder route (Task Creator webhook)
-      → Callback: placeholder route (Callback Handler webhook)
-```
+### Stage 3: Format Detection & Normalization
 
-## Inputs
-WF001 supports three input channels:
+-   **Node**: `SVC: Format Detector` (sub-workflow)
+-   **Purpose**: To identify the input format (e.g., `pdf`, `youtube_url`, `voice`) and extract a processable text representation.
+-   **User Experience**: For slow operations like voice transcription or PDF parsing, a "Processing..." notification is sent to the user via the `Needs to Notify` and `Send Notif1` nodes.
 
-1. **Telegram Trigger**: `Telegram Input`
-   - Updates: `message`, `callback_query`
-2. **Webhook Trigger**: `Webhook Input`
-   - POST endpoint: `/intelligence-hub`
-   - Response mode: `responseNode`
-3. **n8n Chat Trigger**: `When chat message received`
+### Stage 4: Intent Classification
 
-## Outputs
-Depending on source + intent:
+-   **Node**: `Stage3 Classify`
+-   **Purpose**: To determine the user's intent based on the extracted text and input format.
+-   **Logic**: A sophisticated, rule-based engine detects intent with confidence scores. It uses a hierarchy of checks:
+    1.  **Callback**: Button presses from Telegram (`confidence: 1.0`).
+    2.  **Command**: Messages starting with `/` (`confidence: 1.0`).
+    3.  **Calendar**: Keywords and temporal patterns with enhanced **Polish language support** (e.g., `kalendarz`, `spotkanie`, `jutro o 15:00`) (`confidence: 0.95`).
+    4.  **Explicit Capture**: Keywords like `save`, `note`, `zapisz` (`confidence: 0.9`).
+    5.  **Implicit Capture**: Based on format (e.g., `pdf`, `youtube_url`, `voice`) (`confidence: 0.8-0.85`).
+    6.  **Question**: Common question words or ending with `?` (`confidence: 0.85`).
+    7.  **Task**: Action verbs like `create` or `remind` (`confidence: 0.8`).
+    8.  **Greeting**: Social pleasantries (`confidence: 0.9`).
+-   **ADR**: The decision to use a rule-based classifier is documented in [ADR-0012-Rule-Based-Intent-Classification](./../../60_DECISIONS_ADRS/ADR-0012-Rule-Based-Intent-Classification.md).
 
-- **Obsidian inbox note** (via GitHub API):
-  - Repository: `brostudiodev/michal-second-brain-obsidian`
-  - Path: `00_Inbox/{{ filename }}.md`
-- **Telegram status message** back to user:
-  - “processing …” notifications for some extractors
-  - “✅ INTELLIGENCE PROCESSED …” summary after saving
-- **Webhook response** (JSON) when invoked via `/intelligence-hub`
+### Stage 5: Intent-Based Routing & Processing
 
-## Stage 1 — Format Detection & Normalization
-Node: `Stage 1: Detect Format`
+-   **Node**: `Stage 4: Route by Intent` (Switch Node)
+-   **Purpose**: To delegate the request to the correct processing path based on the classified intent.
 
-Responsibilities:
-- Detect input **source** (`telegram`, `webhook`, `chat`)
-- Create a `trace_id` for correlation across logs
-- Detect input **format** + **extraction method**:
-  - `text` → `direct`
-  - `youtube_url` → `youtube_transcript`
-  - `web_url` → `web_scraper`
-  - `voice`/`audio` → `whisper_stt`
-  - `video`/`video_note` → `extract_audio_then_whisper` (pipeline placeholder)
-  - `photo` → `vision_ocr` (placeholder)
-  - `pdf` → `pdf_parser` (placeholder)
-  - `document` → `document_parser` / `direct_text` (placeholder)
+#### **Command Path**
 
-Output shape (simplified):
-```json
-{
-  "metadata": {
-    "trace_id": "…",
-    "source": "telegram|webhook|chat",
-    "chat_id": 123,
-    "user_id": 456,
-    "timestamp": "…"
-  },
-  "input": {
-    "format": "text|youtube_url|web_url|voice|photo|pdf|document|…",
-    "raw_content": "…",
-    "file_id": "…",
-    "extraction_method": "direct|youtube_transcript|whisper_stt|…",
-    "additional_data": { }
-  }
-}
-```
+-   **Node**: `Route Command` (Switch Node)
+-   **Handles**:
+    -   **System**: `/start`, `/help`, `/status`.
+    -   **Goals**: `/goals` (calls `SVC_GitHub-Todo-List-Extractor`).
+    -   **Planning**: `/plan`, `/evening` (calls `SVC_Github-Autonomous_Evening_Planner`).
+    -   **Finance**: `/finance`, `/budget` (calls `PROJ_Personal-Budget-Intelligence-System`).
+    -   **Inventory**: `/inventory`, `/pantry`, `/spizarnia` (calls `SVC: Inventory Management`).
+    -   **Training**: `/training`, `/workout` (calls `PROJ_Training-Intelligence-System`).
+    -   **Intel**: `/intel` (calls an intelligence activator webhook).
 
-## Extractors (Route to Extractor)
-Node: `Route to Extractor`
+#### **Capture Path** (The "Second Brain")
 
-Routes by `input.extraction_method` into one of:
-- `Direct Text (No Extraction)`
-- Whisper STT path:
-  - `Whisper: Notify` → `Whisper: Download File` → `Whisper: Transcribe` → `Whisper: Format Output`
-- YouTube transcript path:
-  - `Call YouTube Transcript Service` (sub-workflow)
-  - `YouTube: Has Transcript?` → (fallback to description if missing)
-- Web page path:
-  - `Web: Notify` → `Web: Fetch Page` → `Web: Extract Text`
-- Vision/PDF/Document placeholder processors
+-   **Purpose**: The core intelligence analysis and storage pipeline.
+-   **Process**:
+    1.  `Preserve Metadata for AI`: Prepares data for the LLM.
+    2.  `AI: Intelligence Analysis`: Uses Google Gemini to summarize, analyze, and extract structured data (goals, actions) from the text. The prompt includes the 12 Power Goals for context.
+    3.  `Extract Intelligence`: Parses the Markdown and JSON from the AI response.
+    4.  `Save to GitHub`: Commits the markdown note to the `michal-second-brain-obsidian/00_Inbox/` directory.
+    5.  `Prep for Dispatcher`: Formats the final confirmation message.
 
-Implemented vs placeholders:
-- Implemented: `direct`, `youtube_transcript` (via service), `web_scraper` (simple HTML→text), `whisper_stt` (OpenAI node)
-- Placeholders: `vision_ocr`, `pdf_parser`, `document_parser`, `extract_audio_then_whisper`
+#### **Calendar Path**
 
-## Stage 2 — Normalize to Text
-Node: `Stage 2: Normalize to Text`
+-   **Purpose**: Manages Google Calendar interactions.
+-   **Process**:
+    1.  Calls the `SVC_Google-Calendar` sub-workflow, passing the raw text query.
+    2.  The service handles parsing dates (with Polish support), checking availability, and creating events.
+    3.  The result is sent back through the `SVC_Response-Dispatcher`.
 
-Purpose:
-- Convert all extractor outputs into one stable text payload:
-  - `normalized.text`
-  - `normalized.text_length`, `normalized.word_count`
-  - `enrichment` (YouTube/web metadata)
+#### **Other Paths**
 
-This is the contract boundary that makes adding new extractors low-risk.
+-   **Question, Task, Callback, Conversation**: These paths are currently routed to simple handlers or placeholder webhooks (e.g., `Route: LLM Chat`).
 
-## Stage 3 — Intent Classification
-Node: `Stage 3: Classify Intent`
+### Stage 6: Response Orchestration
 
-Rule-based intent classifier using:
-- Text prefix patterns (`/command`, `note:`, `idea:`, `task:`)
-- Heuristics for questions
-- Input format hints (YouTube/web/doc tends toward “capture”)
+-   **Node**: `SVC_Response-Dispatcher` (sub-workflow)
+-   **Purpose**: To provide a single, unified way to send responses back to the user.
+-   **Logic**: It inspects the `_router.trigger_source` metadata to determine the correct channel (Telegram, Webhook, Chat) and formats the `response_text` or `response_data` accordingly.
 
-Output:
-```json
-{
-  "intent": {
-    "primary": "command|question|capture|task|conversation|callback",
-    "secondary": "…",
-    "confidence": 0.0,
-    "entities": { }
-  }
-}
-```
+## 4. Sub-Workflows (Services)
 
-## Stage 4 — Route by Intent
-Node: `Stage 4: Route by Intent`
+This workflow acts as an orchestrator, calling numerous specialized services:
 
-### Command
-Node: `Handle Commands`
+-   **Core Services**:
+    -   [SVC_Input-Normalizer](./WF005__svc-input-normalizer.md): Normalizes input from all sources.
+    -   `SVC: Format Detector`: Detects input type.
+    -   `SVC_Command-Handler`: Processes `/command` requests.
+    -   [WF002: SVC_Command-Handler](./WF002__svc-command-handler.md): Centralized command orchestration.
+    -   `SVC_Response-Dispatcher`: Sends all final responses.
+    -   [WF003: SVC_Response-Dispatcher](./WF003__svc-response-dispatcher.md): Centralized response delivery.
+-   **Domain Services**:
+    -   [SVC_GitHub-Todo-List-Extractor](./WF014__svc-github-todo-list-extractor.md): Fetches goal summaries.
+    -   [SVC_Github-Autonomous_Evening_Planner](./WF013__svc-github-autonomous-evening-planner.md): Runs the evening planning routine.
+    -   [SVC: Inventory Management](./WF010__proj-inventory-management.md): Queries the pantry system.
+    -   `SVC_Google-Calendar`: Interacts with the calendar.
+-   **Project Workflows**:
+    -   [PROJ_Personal-Budget-Intelligence-System](./WF012__proj-personal-budget-intelligence-system.md): Handles finance commands.
+    -   [PROJ_Training-Intelligence-System](./WF011__proj-training-intelligence-system.md): Handles workout commands.
 
-- Handles basic system commands locally: `/start`, `/help`, `/status`, `/goals`
-- Special case: “intelligence activator” commands (`/approve_*`, `/review_*`, `/skip_*`)
-  - routed to `Call Intelligence Activator` (currently a placeholder URL)
+## 5. Technical Debt & Future Evolution
 
-### Capture (current main path)
-Nodes:
-- `Preserve Metadata for AI`
-- `AI: Intelligence Analysis` (LLM chain)
-- `Extract Intelligence`
-- `Save to GitHub`
+-   **Hardcoded User ID**: The authorization logic is brittle and should be moved to an external configuration or database.
+-   **Regex Maintenance**: The rule-based intent classifier, especially for Polish, is powerful but difficult to maintain. This is a candidate for replacement with a lightweight semantic classification model.
+-   **Error Handling**: The workflow needs a global error handling path to catch failures within sub-workflows and notify the user gracefully.
+-   **State Management**: The workflow is stateless, limiting multi-turn conversations. A memory store (like Redis) could be added to enable more complex interactions.
 
-The LLM prompt instructs the model to output **two blocks**:
-- ```markdown …``` → becomes the Obsidian note
-- ```json …``` → structured extraction (goals, action items, priority)
+## 6. Related Files
 
-`Extract Intelligence` then:
-- Parses the markdown/json blocks
-- Generates a filename `YYYY-MM-DD-<title-slug>`
-- Passes to GitHub node to write `00_Inbox/<filename>.md`
-
-After saving:
-- If source = Telegram → sends a summary with filename + goals + action count
-- If source = Webhook → returns JSON response via `Webhook Response`
-
-### Question / Task / Callback
-Currently routed to placeholder webhooks:
-- `Route: LLM Chat` → `YOUR_LLM_CHAT_WEBHOOK_URL`
-- `Route: Task Creator` → `YOUR_TASK_CREATOR_WEBHOOK_URL`
-- `Route: Callback Handler` → `YOUR_CALLBACK_HANDLER_WEBHOOK_URL`
-
-## Sub-Workflows / Services
-- `Call YouTube Transcript Service` executes an n8n sub-workflow (SVC).
-  - Current n8n name: `SVC_Youtube-Youtube_transcript`
-  - Recommended convention name: `SVC_Youtube-Extractor` (or `SVC_Youtube-TranscriptExtractor`)
-
-This keeps transcript extraction isolated from router logic.
-
-## Failure Modes
-Most common expected failures:
-- Telegram download/transcription failures (file too large, API error)
-- YouTube transcript missing / disabled (falls back to description)
-- Web scraping returns huge/noisy content (HTML extraction is simplistic)
-- LLM output not parseable (missing ```json``` or invalid JSON)
-- GitHub write fails (rate limits, auth, repo unavailable)
-
-## Monitoring / Observability
-Minimal v0 monitoring:
-- Use `metadata.trace_id` for correlation in n8n execution logs
-- Alerting strategy (recommended next):
-  - On workflow error → send Telegram message to yourself
-  - Track daily “capture heartbeat” (did a note get created today?)
-
-## Roadmap (next sub-workflows)
-Suggested next additions to WF001 routing:
-- `capture → obsidian_inbox_append` (Agent Zero v0, single file append in the local vault)
-- `task → todoist` (or your task system)
-- `finance → ingestion health check` (goal-g05)
-- `meta → autonomy scoreboard update` (goal-g11)
-
-## Related Files
-- Workflow export: `WF001_Agent_Router.json`
-- Sub-workflow: `SVC_Youtube-Youtube_transcript` (n8n internal id)
+-   **Architectural Documentation**: `docs/20_SYSTEMS/S11_Intelligence_Router/README.md`
+-   **ADRs**:
+    -   `docs/60_DECISIONS_ADRS/ADR-0011-Hardcoded-User-ID-in-Router.md`
+    -   `docs/60_DECISIONS_ADRS/ADR-0012-Rule-Based-Intent-Classification.md`

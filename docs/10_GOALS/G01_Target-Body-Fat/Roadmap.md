@@ -14,8 +14,12 @@ updated: "2026-02-07"
 - [x] GitHub Actions sync automation (Jan 23)
 - [x] CSV schema validation (Jan 23)
 - [x] Add Google Sheets dropdowns (exercise_id, workout_id validation at source)
+- [x] Establish initial body composition baseline (20.8% → 15% target)
+  - Withings Scale: Daily tracking (baseline: 20.8% BF)
+  - Waist: Every 15 days max
+  - Photos: Monthly
+  - DEXA: Only at target (optional)
 - [ ] Develop script for monthly progress summary generation
-- [ ] Establish initial body composition baseline (e.g., DEXA or consistent waist measurement)
 - [ ] Integrate smart scale data API with S03 Data Layer
 - [ ] Define initial data model for health metrics in S03
 

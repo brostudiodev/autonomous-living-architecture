@@ -4,7 +4,7 @@ type: "goal"
 status: "active"
 goal_id: "goal-g05"
 owner: "Michał"
-updated: "2026-02-07"
+updated: "2026-02-15"
 ---
 
 # G05: Autonomous Finance Data & Command Center
@@ -27,9 +27,10 @@ Build a **reliable, explainable, and mostly self-driving financial data layer + 
 - Roadmap: [Roadmap.md](Roadmap.md)
 
 ## Database Schema
-- Main Schema: [schema.sql](../../infrastructure/database/finance/schema.sql)
+- Main Schema: [../../../infrastructure/database/finance/schema.sql](../../../infrastructure/database/finance/schema.sql)
 
 ## Notes
 - **Core Innovation:** Separates "operational income" from "system transactions" (INIT/transfers)
 - **Philosophy:** All intelligence in PostgreSQL functions, Grafana only visualizes
 - **Current Challenge:** Fixing savings rate calculation to show real wealth-building behavior
+- **Grafana Dashboard (V2) Note:** The dashboard is explicitly designed to meet Grafana's strict `rawSql` parsing requirements (single-line, no comments, unquoted aliases with underscores). Refer to [S05: Observability & Financial Dashboards](../20_SYSTEMS/S05_Observability-Dashboards/README.md) for details.

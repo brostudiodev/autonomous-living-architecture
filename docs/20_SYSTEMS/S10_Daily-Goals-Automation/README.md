@@ -2,8 +2,10 @@
 title: "S10: Daily Goals Automation System"
 type: "system"
 status: "active"
+system_id: "system-s10"
 owner: "Michał"
-updated: "2026-02-07"
+updated: "2026-02-16"
+review_cadence: "monthly"
 ---
 
 # Daily Goals Automation System
@@ -200,6 +202,7 @@ cd autonomous-living && git status
 *   Troubleshooting Guide - Common issues and recovery
 *   Git Operations Reference - Manual commands for maintenance
 *   Architecture Deep Dive - Technical implementation details
+*   [WF003: SVC_Response-Dispatcher](../../50_AUTOMATIONS/n8n/workflows/WF003__svc-response-dispatcher.md)
 
 ## Emergency Recovery
 
@@ -230,3 +233,26 @@ Submit issues with:
 *   Daily note format sample
 
 This system embodies "Automation-First Living" principles by eliminating manual overhead while maintaining perfect data integrity and cross-platform synchronization. It serves as the foundational infrastructure for your 2026 vision of complete life automation.
+
+## Procedure
+1. **Daily:** Trigger via Ctrl+Shift+G hotkey
+2. **Weekly:** Check Git sync status
+3. **Monthly:** Review activity logs
+4. **Quarterly:** Review automation effectiveness
+
+## Failure Modes
+| Scenario | Detection | Response |
+|----------|-----------|----------|
+| Script fails | Error message in output | Check daily note format |
+| Git conflict | Merge conflict message | Run with --force flag |
+| Missing data | Empty activity log | Verify goals checked in note |
+
+## Security Notes
+- No credentials in script
+- Git tokens stored in system keychain
+- Daily notes contain personal data
+
+## Owner & Review
+- **Owner:** Michał
+- **Review Cadence:** Monthly
+- **Last Updated:** 2026-02-16

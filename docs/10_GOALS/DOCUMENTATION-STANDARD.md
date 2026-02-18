@@ -3,17 +3,33 @@ title: "Goal Documentation Standard"
 type: "standard"
 status: "active"
 owner: "Michał"
-updated: "2026-02-07"
+updated: "2026-02-16"
 ---
 
 # Goal Documentation Standard
+
+## Quick Reference: Required Sections
+
+All goal and system documentation MUST include:
+
+| Section | Description |
+|---------|-------------|
+| **Purpose** | What capability does this system provide? |
+| **Scope** | In Scope / Out of Scope |
+| **Inputs/Outputs** | Data flow |
+| **Dependencies** | Systems, Services, Hardware, Credentials |
+| **Procedure** | Daily/Weekly/Monthly checklist |
+| **Failure Modes** | Table: Scenario → Detection → Response |
+| **Security Notes** | Access control, sensitive data handling |
+| **Owner + Review Cadence** | Who owns it, when reviewed |
 
 ## Goal Identification
 **Always use:** `goal-gXX` format (e.g., `goal-g01`, `goal-g12`)
 
 ### Folder Structure
 
-docs/10_GOALS/ └── GXX_Goal-Name/ # Human-readable folder name (capitalized) ├── README.md # Entry point (goal brief + navigation) ├── Outcomes.md # Primary/secondary outcomes, constraints, non-goals ├── Metrics.md # KPIs, leading/lagging indicators, measurement methods ├── Systems.md # Traceability matrix (Outcome → System → Automation → SOP/Runbook) ├── Roadmap.md # Quarterly milestones + dependencies ├── ACTIVITY_LOG.md # Milestone-level narrative (human-curated) └── projects/ # Optional: sub-projects (only when goal spawns multiple projects) ├── P01_Project-Name.md └── P02_Another-Project.md
+docs/10_GOALS/ └── GXX_Goal-Name/ # Human-readable folder name (capitalized) ├── README.md # Entry point (goal brief + navigation) ├── Outcomes.md # Primary/secondary outcomes, constraints, non-goals ├── Metrics.md # KPIs, leading/lagging indicators, measurement methods ├── Systems.md # Traceability matrix (Outcome → System → Automation → SOP/Runbook) ├── Roadmap.md # Quarterly milestones + dependencies ├── PROGRESS_MONITOR.md # Milestone-level narrative (human-curated)
+├── ACTIVITY_LOG.md # Auto-generated daily log (from sync script) └── projects/ # Optional: sub-projects (only when goal spawns multiple projects) ├── P01_Project-Name.md └── P02_Another-Project.md
 
 
 ### Execution Artifacts Structure
@@ -160,7 +176,77 @@ updated: "YYYY-MM-DD"
 - External: API access to XYZ
 - Other goals: goal-g09 (documentation must be ready first)
 
-ACTIVITY_LOG.md (Human-Curated Milestones)
+PROGRESS_MONITOR.md (Human-Curated Milestones)
+
+---
+title: "GXX: Progress Monitor"
+type: "progress_monitor"
+status: "active"
+goal_id: "goal-gXX"
+created: "YYYY-MM-DD"
+last_updated: "YYYY-MM-DD"
+version: "1.0"
+---
+
+# GXX Goal Name - Progress Monitor
+
+**Purpose:** Track major achievements, milestones, and progress for GXX Goal Name goal.
+
+**Update Frequency:** Updated manually or based on monthly summaries
+
+---
+
+## 🎯 Executive Summary - Q1 2026 Progress
+
+### Overall Completion Status
+- **Q1 Progress**: ...
+- **Current Phase**: ...
+- **Key Focus**: ...
+
+---
+
+## ✅ Major Achievements
+
+### [Achievement Name] (Date)
+**Implementation Summary:**
+- ...
+
+**Technical Specifications:**
+- ...
+
+**Performance Results:**
+- ...
+
+### Lessons Learned
+- ...
+
+---
+
+## 🔄 Current Status
+
+### Active Systems
+- ...
+
+### Recent Activity (Last 10 Days)
+- ...
+
+### Personal Insights from Daily Notes
+- ...
+
+---
+
+## 📋 Next Milestones (QY YYYY)
+
+### Immediate Priorities
+- [ ] ...
+
+---
+
+*Last Updated: YYYY-MM-DD*  
+*Next Review: YYYY-MM-DD*  
+*Goal Status: ...*
+
+ACTIVITY_LOG.md (Auto-generated Daily Log)
 
 ---
 title: "GXX: Detailed Activity Log"
@@ -172,7 +258,7 @@ updated: "YYYY-MM-DD"
 
 # GXX Goal Name - Activity Log
 
-**Purpose:** Milestone-level narrative (not daily logs - those are auto-generated in `goal-gXX/ACTIVITY.md`)
+**Purpose:** Auto-generated daily log (not for human-curated milestones - those are in `goal-gXX/PROGRESS_MONITOR.md`)
 
 ## Template for Future Entries
 

@@ -1,66 +1,89 @@
 ---
 title: "G01: Body Composition Baseline - February 2026"
 type: "baseline_measurement"
-status: "completed"
+status: "active"
 goal_id: "goal-g01"
 baseline_date: "2026-02-10"
-updated: "2026-02-10"
+target_date: "2026-12-31"
+updated: "2026-02-15"
 ---
 
 # G01 Target Body Fat - Baseline Establishment
 
+## Target Goal
+- **Desired Body Fat %**: 15%
+- **Current Body Fat %**: 20.8% (February 2026)
+- **Target Reduction**: 5.8 percentage points (~28% reduction from baseline)
+
+## Measurement Methods
+
+### 1. Withings Smart Scale
+- **Frequency**: Daily (morning, fasted state)
+- **Metrics Tracked**: Weight, Body Fat %, Muscle Mass, Bone Mass, Hydration
+- **Data Storage**: `measurements.csv` with automatic sync to Google Sheets
+- **Validation**: Cross-reference with manual measurements monthly
+
+### 2. Waist Circumference
+- **Frequency**: Every 15 days (maximum)
+- **Preferred**: Every 10 days for more data points
+- **Measurement Point**: At navel level, natural exhale
+- **Unit**: Centimeters (cm)
+- **Purpose**: Track visceral fat reduction independent of scale
+
+### 3. Progress Photos
+- **Frequency**: Monthly (same day as monthly review)
+- **Positions**: Front, Side (left & right), Back
+- **Conditions**: Same lighting, same distance, same device
+- **Storage**: Local folder organized by date
+
+### 4. DEXA Scan (Optional)
+- **Trigger**: Only if Withings scale shows 15% or below
+- **Purpose**: Validate scale accuracy at target
+- **Not planned**: No DEXA at baseline or during progress
+
 ## Baseline Measurements (February 10, 2026)
 
-### **Primary Metrics**
-| Measurement | Value | Date | Notes |
-|------------|-------|------|-------|
-| **Body Weight** | 82.5 kg | 2026-02-06 | Morning fasted, Withings Smart Scale |
-| **Body Fat %** | 20.1% | 2026-02-06 | Withings Smart Scale calculated |
-| **Waist Measurement** | TBD | Pending | Need manual measurement |
-| **Progress Photos** | TBD | Pending | Need progress photos |
+### Primary Metrics
+| Measurement | Value | Date | Source |
+|------------|-------|------|--------|
+| **Body Weight** | 82.5 kg | 2026-02-06 | Withings Scale |
+| **Body Fat %** | 20.8% | 2026-02-15 | Withings Scale |
+| **Waist Measurement** | TBD | Pending | Manual tape measure |
+| **Progress Photos** | TBD | Pending | Manual photo |
 
-### **Measurement Method**
-- **Device**: Withings Body Smart Scale (newly operational)
-- **Conditions**: Morning fasted state, consistent timing
-- **Frequency**: Weekly measurements planned
-- **Validation**: Cross-reference with manual measurements
+### Weekly Tracking Routine
+- **Day**: Every Sunday morning
+- **Conditions**: Fasted state, after bathroom, before food/water
+- **Time**: Same time each week (recommended: 6:00-7:00 AM)
+- **Logging**: Automatic via Withings → Google Sheets → CSV
 
-### **Baseline Assessment**
-- ✅ **Scale Integration**: Withings Smart Scale now operational
-- ✅ **Data Consistency**: Recent measurements show consistency (82-82.67 kg range)
-- ✅ **Target Range**: Current body fat % (20.1%) is in healthy range for target
-- ⚠️ **Manual Verification**: Need waist measurement for circumference tracking
-- ⚠️ **Visual Documentation**: Need progress photos for visual tracking
+### Monthly Review Protocol
+1. **Week 4**: Generate monthly summary via `g01_monthly_summary.py`
+2. **Compare**: Current vs previous month vs baseline
+3. **Analyze**: Trend direction (7-day moving average)
+4. **Decide**: Adjust nutrition/training if no progress after 8 weeks
 
-### **Established Routine**
-1. **Weekly Measurements**: Every Sunday morning, fasted state
-2. **Data Logging**: Automatic sync to measurements.csv
-3. **Progress Review**: Monthly progress analysis via g01_monthly_summary.py
-4. **Visual Documentation**: Monthly progress photos
-5. **Adjustment Protocol**: Monthly review and target adjustment
+## Progress Milestones
 
-### **Q1 Goal G01-T02 Status**
-- [x] **Choose tracking method** - Withings Smart Scale selected and operational
-- [x] **Create automated data collection workflow** - measurements.csv + sync operational
-- [x] **Establish baseline measurements** - Current baseline established (weight, body fat %)
-- [x] **Schedule weekly measurement routine** - Sunday mornings established
-- [ ] **Manual verification measurements** - Waist measurement needed
-- [ ] **Progress photos** - Documentation system needed
+| Milestone | Target Body Fat % | Expected Timeline |
+|-----------|-------------------|-------------------|
+| Start | 20.8% | February 2026 |
+| Milestone 1 | 19.0% | End of March 2026 |
+| Milestone 2 | 17.5% | End of June 2026 |
+| Milestone 3 | 16.0% | End of September 2026 |
+| Target | 15.0% | End of December 2026 |
 
-### **Next Steps**
-1. **Manual Measurements**: Take waist circumference measurement this week
-2. **Progress Photos**: Take baseline photos for visual comparison
-3. **First Monthly Summary**: Run g01_monthly_summary.py script at end of February
-4. **Consistency Check**: Continue weekly measurement routine
-
-### **Integration Status**
-- **Withings API**: ✅ Operational (resolved from previous ticket)
-- **Data Storage**: ✅ measurements.csv tracking consistently
-- **S03 Data Layer**: 🟡 Ready for health metrics integration
-- **Progress Tracking**: 🟡 Script ready for monthly summaries
+## Next Steps
+1. [ ] Take initial waist measurement (baseline)
+2. [ ] Take initial progress photos
+3. [ ] Continue daily Withings measurements
+4. [ ] Update waist measurement in 15 days
+5. [ ] Run first monthly review end of February
 
 ---
 
-**Baseline established successfully** - Ready for systematic progress tracking!  
-**G01 Q1 Completion**: 90% (manual measurements remaining)  
-**Note**: Withings API issue resolved - scale now operational
+**Baseline Date**: February 10, 2026  
+**Target Date**: December 31, 2026  
+**Target Body Fat**: 15%  
+**Current Body Fat**: 20.8%  
+**Gap to Close**: 5.8 percentage points
