@@ -9,10 +9,14 @@ updated: "2026-02-07"
 # Systems
 
 ## Enabling systems
-List systems that will carry this goal.
+- [S03 Data Layer](../../20_SYSTEMS/S03_Data-Layer/README.md) - Primary storage via `autonomous_pantry` database.
+- [S08 Automation Orchestrator](../../20_SYSTEMS/S08_Automation-Orchestrator/README.md) - n8n synchronization.
 
-## Traceability (Outcome → System → Automation → SOP)
-| Outcome | System | Automation | SOP |
-|---|---|---|---|
-| TBD | TBD | TBD | TBD |
+## Traceability (Outcome → System → Automation → SOP/Runbook)
+
+| Outcome | System | Automation | SOP/Runbook |
+|---------|--------|------------|-------------|
+| Centralized pantry inventory | S03 Data Layer | PostgreSQL: `autonomous_pantry` | [SOP: Pantry-Management](../../30_SOPS/Home/Pantry-Management.md) |
+| Automated Google Sheet Sync | S08 Orchestrator | [n8n: Pantry-Sync](../../50_AUTOMATIONS/n8n/workflows/WF105__pantry-management.md) | - |
+| Predictive restocking logic | S04 Digital Twin | [script: G03_predictor.py](../../50_AUTOMATIONS/scripts/g03-predictor.md) | - |
 

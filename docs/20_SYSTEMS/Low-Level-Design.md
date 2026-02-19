@@ -247,6 +247,36 @@ CREATE TABLE digital_twin_updates (
 CREATE INDEX idx_digital_twin_updates_entity ON digital_twin_updates(entity_type, entity_id);
 CREATE INDEX idx_digital_twin_updates_source ON digital_twin_updates(source_system, created_at);
 CREATE INDEX idx_digital_twin_updates_gin_data ON digital_twin_updates USING GIN(update_data);
+
+### **PostgreSQL Pantry Database**
+
+#### **Pantry Inventory Table**
+```sql
+CREATE TABLE pantry_inventory (
+    category VARCHAR(255) PRIMARY KEY,
+    current_quantity NUMERIC(10,2) DEFAULT 0,
+    unit VARCHAR(50),
+    next_expiry DATE,
+    last_updated DATE,
+    status VARCHAR(50),
+    critical_threshold NUMERIC(10,2),
+    notes TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+```
+
+#### **Pantry Dictionary Table**
+```sql
+CREATE TABLE pantry_dictionary (
+    category VARCHAR(255) PRIMARY KEY,
+    ai_synonyms TEXT,
+    default_unit VARCHAR(50),
+    critical_threshold NUMERIC(10,2),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+```
 ```
 
 ---

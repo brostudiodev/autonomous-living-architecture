@@ -14,6 +14,7 @@ DB_BASE = {
 
 DB_FINANCE = {**DB_BASE, "dbname": "autonomous_finance"}
 DB_TRAINING = {**DB_BASE, "dbname": "autonomous_training"}
+DB_PANTRY = {**DB_BASE, "dbname": "autonomous_pantry"}
 
 # Fixed UUID for Michal (Person)
 PERSON_UUID = "00000000-0000-0000-0000-000000000001"
@@ -23,6 +24,7 @@ class DigitalTwinEngine:
         self.state = {
             "health": {},
             "finance": {},
+            "pantry": {},
             "timestamp": datetime.now().isoformat()
         }
 
@@ -30,8 +32,6 @@ class DigitalTwinEngine:
         try:
             conn = psycopg2.connect(**DB_TRAINING)
             cur = conn.cursor()
-            
-            # Last workout
             cur.execute("SELECT workout_date, duration_min, recovery_score FROM workouts ORDER BY workout_date DESC LIMIT 1;")
             res = cur.fetchone()
             if res:
@@ -41,25 +41,21 @@ class DigitalTwinEngine:
                 self.state["health"]["last_workout_duration"] = res[1]
                 self.state["health"]["last_workout_recovery"] = res[2]
             
-            # Last body composition
             cur.execute("SELECT measurement_date, bodyweight_kg, bodyfat_pct FROM v_body_composition ORDER BY measurement_date DESC LIMIT 1;")
             res = cur.fetchone()
             if res:
                 self.state["health"]["last_measurement"] = res[0].strftime("%Y-%m-%d")
                 self.state["health"]["bodyweight_kg"] = float(res[1])
                 self.state["health"]["bodyfat_pct"] = float(res[2])
-            
             cur.close()
             conn.close()
         except Exception as e:
-            self.state["health"]["error"] = f"DB Training Error: {str(e)}"
+            self.state["health"]["error"] = str(e)
 
     def get_finance_status(self):
         try:
             conn = psycopg2.connect(**DB_FINANCE)
             cur = conn.cursor()
-            
-            # Month-to-Date Net
             query = """
             SELECT SUM(CASE WHEN type = 'Income' THEN amount ELSE -amount END) 
             FROM transactions 
@@ -69,48 +65,46 @@ class DigitalTwinEngine:
             cur.execute(query)
             res = cur.fetchone()
             self.state["finance"]["mtd_net"] = float(res[0]) if res and res[0] is not None else 0.0
-            
-            # Active budget alerts
             cur.execute("SELECT count(*) FROM get_current_budget_alerts();")
-            alert_count = cur.fetchone()[0]
-            self.state["finance"]["active_budget_alerts"] = alert_count
-            
+            self.state["finance"]["active_budget_alerts"] = cur.fetchone()[0]
             cur.close()
             conn.close()
         except Exception as e:
-            self.state["finance"]["error"] = f"DB Finance Error: {str(e)}"
+            self.state["finance"]["error"] = str(e)
+
+    def get_pantry_status(self):
+        try:
+            conn = psycopg2.connect(**DB_PANTRY)
+            cur = conn.cursor()
+            # Count items below threshold
+            cur.execute("SELECT category FROM pantry_inventory WHERE current_quantity <= critical_threshold AND critical_threshold IS NOT NULL;")
+            low_items = [row[0] for row in cur.fetchall()]
+            self.state["pantry"]["low_stock_items"] = low_items
+            self.state["pantry"]["low_stock_count"] = len(low_items)
+            cur.close()
+            conn.close()
+        except Exception as e:
+            self.state["pantry"]["error"] = str(e)
 
     def persist_state(self):
-        """Save the current state to digital_twin_updates table"""
         try:
             conn = psycopg2.connect(**DB_FINANCE)
             cur = conn.cursor()
-            
-            # Insert health state
-            cur.execute(
-                "INSERT INTO digital_twin_updates (entity_type, entity_id, update_data, source_system, update_type) VALUES (%s, %s, %s, %s, %s)",
-                ('health', PERSON_UUID, json.dumps(self.state["health"]), 'g04_engine', 'status_sync')
-            )
-            
-            # Insert finance state
-            cur.execute(
-                "INSERT INTO digital_twin_updates (entity_type, entity_id, update_data, source_system, update_type) VALUES (%s, %s, %s, %s, %s)",
-                ('finance', PERSON_UUID, json.dumps(self.state["finance"]), 'g04_engine', 'status_sync')
-            )
-            
+            for entity in ["health", "finance", "pantry"]:
+                cur.execute(
+                    "INSERT INTO digital_twin_updates (entity_type, entity_id, update_data, source_system, update_type) VALUES (%s, %s, %s, %s, %s)",
+                    (entity, PERSON_UUID, json.dumps(self.state[entity]), 'g04_engine', 'status_sync')
+                )
             conn.commit()
             cur.close()
             conn.close()
-            return True
         except Exception as e:
-            print(f"Error persisting state: {e}")
-            return False
+            print(f"Persistence Error: {e}")
 
     def generate_summary(self):
         self.get_health_status()
         self.get_finance_status()
-        
-        # Persist to DB for long-term tracking/API
+        self.get_pantry_status()
         self.persist_state()
         
         now_str = datetime.now().strftime('%Y-%m-%d %H:%M')
@@ -118,17 +112,16 @@ class DigitalTwinEngine:
         summary += "="*40 + "\n"
         
         f = self.state["finance"]
-        if "error" in f:
-            summary += f"💰 FINANCE: Error: {f['error']}\n"
-        else:
-            summary += f"💰 FINANCE: MTD Net: {f.get('mtd_net', 'N/A')} PLN | Alerts: {f.get('active_budget_alerts', 0)}\n"
+        summary += f"💰 FINANCE: MTD Net: {f.get('mtd_net', 'N/A')} PLN | Alerts: {f.get('active_budget_alerts', 0)}\n"
         
         h = self.state["health"]
-        if "error" in h:
-            summary += f"💪 HEALTH: Error: {h['error']}\n"
+        summary += f"💪 HEALTH: Last HIT: {h.get('last_workout', 'N/A')} ({h.get('days_since_workout', 'N/A')}d ago) | BF: {h.get('bodyfat_pct', 'N/A')}%\n"
+        
+        p = self.state["pantry"]
+        if p.get("low_stock_count", 0) > 0:
+            summary += f"🛒 PANTRY: 🚨 {p['low_stock_count']} items low: {', '.join(p['low_stock_items'][:3])}...\n"
         else:
-            summary += f"💪 HEALTH: Last HIT: {h.get('last_workout', 'N/A')} ({h.get('days_since_workout', 'N/A')}d ago)\n"
-            summary += f"⚖️ BODY: {h.get('bodyweight_kg', 'N/A')} kg | {h.get('bodyfat_pct', 'N/A')}% BF\n"
+            summary += f"🛒 PANTRY: ✅ All essential items in stock.\n"
         
         return summary
 

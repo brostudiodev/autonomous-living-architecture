@@ -86,8 +86,12 @@ Build a **reliable, explainable, and mostly self-driving financial data layer + 
 - Systems: [Systems.md](Systems.md)
 - Roadmap: [Roadmap.md](Roadmap.md)
 
-## Database Schema
-- Main Schema: [../../../infrastructure/database/finance/schema.sql](../../../infrastructure/database/finance/schema.sql)
+## Database Schemas
+- **Reference Folder:** [database_schemas/](./database_schemas/)
+- Financial Schema: [database_schemas/autonomous_finance_schema.sql](./database_schemas/autonomous_finance_schema.sql)
+- Training Schema: [database_schemas/autonomous_training_schema.sql](./database_schemas/autonomous_training_schema.sql)
+- Pantry Schema: [database_schemas/autonomous_pantry_schema.sql](./database_schemas/autonomous_pantry_schema.sql)
+- Main Dev Schema: [../../../infrastructure/database/finance/schema.sql](../../../infrastructure/database/finance/schema.sql)
 
 ## Notes
 - **Core Innovation:** Separates "operational income" from "system transactions" (INIT/transfers)

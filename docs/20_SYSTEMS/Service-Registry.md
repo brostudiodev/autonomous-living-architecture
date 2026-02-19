@@ -71,6 +71,12 @@ databases:
     table: digital_twin_updates
     status: Active
     entities: person_entity, goal_entity, update_tracking
+
+  postgresql_pantry:
+    host: localhost
+    database: autonomous_pantry
+    status: Active
+    tables: pantry_inventory, pantry_dictionary
 ```
 
 ---
