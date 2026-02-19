@@ -17,6 +17,6 @@ updated: "2026-02-07"
 | Outcome | System | Automation | SOP/Runbook |
 |---------|--------|------------|-------------|
 | Centralized pantry inventory | S03 Data Layer | PostgreSQL: `autonomous_pantry` | [SOP: Pantry-Management](../../30_SOPS/Home/Pantry-Management.md) |
-| Automated Google Sheet Sync | S08 Orchestrator | [n8n: Pantry-Sync](../../50_AUTOMATIONS/n8n/workflows/WF105__pantry-management.md) | - |
+| Automated Google Sheet Sync | S08 Orchestrator | [n8n: Pantry-Sync](../../50_AUTOMATIONS/n8n/services/pantry-data-sync.md) | - |
 | Predictive restocking logic | S04 Digital Twin | [script: G03_predictor.py](../../50_AUTOMATIONS/scripts/g03-predictor.md) | - |
 
