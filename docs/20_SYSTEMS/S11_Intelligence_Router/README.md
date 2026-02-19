@@ -16,6 +16,41 @@ The ROUTER_Intelligence-Hub serves as the central nervous system of your persona
 **Core Value Proposition:** Rather than building separate systems for each input type (Telegram messages, PDFs, voice notes, calendar queries), this router normalizes everything into a common processing pipeline while maintaining the flexibility to handle each format's unique requirements.
 
 **Strategic Context:** This system bridges the gap between rigid RPA automation and fluid AI processing, positioning you perfectly for the hyperautomation era while maintaining deterministic control where needed.
+
+## Scope
+### In Scope
+- Multi-channel input ingestion (Telegram, Webhook, Chat).
+- Format detection and content extraction (PDF, CSV, Audio, YouTube).
+- Intent classification with Polish and English language support.
+- Specialized routing to sub-workflows (Finance, Training, Calendar).
+- Metadata preservation and trace ID management.
+
+### Out of Scope
+- Direct execution of financial transactions.
+- Long-term conversational memory (handled by S04).
+
+## Inputs
+- **Telegram:** Text, Voice, Documents, Photos, Callbacks.
+- **Webhooks:** JSON payloads from external systems.
+- **Chat:** User input from the LangChain interface.
+
+## Outputs
+- **Dispatched Responses:** Channel-aware messages (Telegram/Chat).
+- **Sub-workflow Triggers:** Normalized data for specialized handlers.
+- **Obsidian Commits:** Processed content saved to the vault.
+- **Processing Notifications:** Real-time "Processing..." status updates.
+
+## Dependencies
+### Systems
+- [S00 Homelab Platform](../S00_Homelab-Platform/README.md) - n8n hosting.
+- [S04 Digital Twin](../S04_Digital-Twin/README.md) - Intelligence and state access.
+- [S05 Observability Dashboards](../S05_Observability-Dashboards/README.md) - Target for status commands.
+
+### External
+- **Google Gemini API** - Intent analysis and content extraction.
+- **OpenAI Whisper** - Voice transcription.
+- **GitHub API** - Storage for processed intelligence.
+
 ## Architectural Philosophy & Design Patterns
 ### Key Design Patterns
 

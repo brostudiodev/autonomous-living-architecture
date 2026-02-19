@@ -48,29 +48,24 @@ We will implement G04 Digital Twin as the central intelligence hub and data aggr
 
 ### **Technical Implementation**
 ```python
+# G04_digital_twin_engine.py
 class DigitalTwinHub:
     def __init__(self):
         self.data_sources = ["G01", "G03", "G05", "G07", "G12"]
-        self.ai_processor = GoogleGeminiAI()
-        self.communication_router = TelegramRouter()
         self.state_store = PostgreSQLDigitalTwin()
     
     def aggregate_data(self):
-        """Collect data from all connected systems"""
-        for source in self.data_sources:
-            data = self.collect_from_system(source)
-            self.store_aggregated_data(source, data)
-    
-    def provide_context(self, requesting_system):
-        """Provide unified context to requesting system"""
-        return self.get_relevant_context(requesting_system)
-    
-    def process_user_request(self, request):
-        """Process user request across multiple systems"""
-        intent = self.ai_processor.classify_intent(request)
-        actions = self.plan_cross_system_actions(intent)
-        return self.execute_coordinated_actions(actions)
+        """Collect data from all connected systems and persist state"""
+        # Implementation of health and finance aggregation
 ```
+
+### **Service Layer Decision (Added 2026-02-19)**
+To enable real-time, low-latency access to the Digital Twin's state for the Intelligent Hub (n8n) and other consumers, we will implement a **FastAPI-based REST API**.
+
+- **Purpose:** Decouples data aggregation logic from communication logic.
+- **Port:** 5677 (adjacent to n8n for easy discovery).
+- **Protocol:** REST/JSON.
+- **State snapshots:** Every call to the `/status` endpoint triggers a persistence event to PostgreSQL for historical tracking.
 
 ## Consequences
 
@@ -98,18 +93,21 @@ class DigitalTwinHub:
 - Create unified data models for cross-domain data
 - Build data validation and normalization pipeline
 - Implement data freshness monitoring
+- **Engine Completion (2026-02-19):** `G04_digital_twin_engine.py` unifies Training and Finance databases.
 
 ### **Phase 2: Intelligence Layer**
 - Integrate Google Gemini for AI processing
 - Implement intent classification for user requests
 - Build cross-domain analysis capabilities
 - Create recommendation engine for optimization suggestions
+- **API Completion (2026-02-19):** `G04_digital_twin_api.py` exposes state via FastAPI on port 5677.
 
 ### **Phase 3: Communication Interface**
 - Implement Telegram bot as primary interface
 - Create webhook endpoints for external integrations
 - Build natural language processing for Polish and English
 - Implement multi-modal content processing (voice, images, documents)
+- **Hub Integration (2026-02-19):** n8n service `SVC_Digital-Twin-Status` connects Hub to REST API.
 
 ### **Phase 4: Orchestration Engine**
 - Implement cross-system workflow coordination
@@ -193,4 +191,4 @@ class DigitalTwinHub:
 
 ---
 
-*Last updated: 2026-02-11*
+*Last updated: 2026-02-19*

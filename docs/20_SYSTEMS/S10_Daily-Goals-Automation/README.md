@@ -15,6 +15,39 @@ review_cadence: "monthly"
 **Platforms:** Linux, Windows  
 **Purpose:** Automated bridge between Obsidian Second Brain and autonomous-living execution repository
 
+## Scope
+### In Scope
+- Parsing Obsidian daily notes for goal activity.
+- Automatic YAML frontmatter updates in Obsidian.
+- Generation of JSON telemetry and Markdown activity logs.
+- Automated Git synchronization (Nuclear-Proof strategy).
+- Cross-platform path management (Windows/Linux).
+
+### Out of Scope
+- Creating the actual content of daily notes.
+- Managing primary database storage (S03).
+
+## Inputs
+- **Obsidian Daily Notes:** `YYYY-MM-DD.md` files.
+- **Goal Checklist:** Marked tasks in the "Power Goals" section.
+- **Activity Descriptions:** "Did:", "Next:", and "Code:" lines.
+
+## Outputs
+- **JSON Telemetry:** `_meta/daily-logs/YYYY-MM-DD.json`.
+- **Markdown Logs:** `goal-gXX/ACTIVITY.md`.
+- **Git Commits:** Automated pushes to GitHub.
+- **YAML Frontmatter:** Updated `goals_touched` and `goals_activities` fields.
+
+## Dependencies
+### Systems
+- [S00 Homelab Platform](../S00_Homelab-Platform/README.md) - Hosting environment.
+- [S03 Data Layer](../S03_Data-Layer/README.md) - Future target for JSON telemetry.
+
+### External
+- **Python 3.8+** with `PyYAML`.
+- **Git** CLI.
+- **Obsidian** with "Shell Commands" plugin.
+
 ## System Overview
 
 The Daily Goals Automation System transforms your Obsidian daily notes into structured execution data, maintaining perfect synchronization across all your devices while embodying your "Automation-First Living" philosophy.

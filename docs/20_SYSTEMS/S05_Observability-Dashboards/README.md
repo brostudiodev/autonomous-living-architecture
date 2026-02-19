@@ -13,6 +13,27 @@ review_cadence: "monthly"
 ## Purpose
 Provides real-time visualization and monitoring of financial data through Grafana dashboards, enabling autonomous financial decision-making and immediate detection of anomalies.
 
+## Scope
+### In Scope
+- Grafana dashboard definitions (JSON).
+- SQL query optimization for visualization performance.
+- Automated dashboard provisioning and configuration.
+- Real-time monitoring of budget performance and savings rates.
+
+### Out of Scope
+- Data processing or normalization (handled by S03).
+- Direct data entry or modification.
+
+## Inputs
+- Aggregated financial data from S03 (PostgreSQL views).
+- Monitoring signals from Prometheus exporters.
+- User-defined filter variables (year, category, account).
+
+## Outputs
+- Visual charts and gauges for real-time situational awareness.
+- PDF/PNG reports of financial performance.
+- Visual alerts for budget threshold breaches.
+
 ## Components
 
 ### Grafana Dashboard: Financial Command Center V2

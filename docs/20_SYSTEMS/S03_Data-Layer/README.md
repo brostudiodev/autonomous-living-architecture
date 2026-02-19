@@ -13,6 +13,38 @@ review_cadence: "monthly"
 ## Purpose
 Centralized PostgreSQL database providing foundation for autonomous financial intelligence, with optimized views and functions for real-time analysis and decision-making.
 
+## Scope
+### In Scope
+- PostgreSQL database infrastructure (Docker).
+- Relational schemas for transactions, training, and digital twin state.
+- Analytics views for P&L, savings rates, and progress tracking.
+- Stored procedures and functions for business logic.
+- Automated daily backup procedures.
+
+### Out of Scope
+- Direct data entry UI (handled by Google Sheets/Obsidian).
+- External API aggregation (handled by n8n).
+
+## Inputs
+- Transactional data from n8n (Google Sheets source).
+- Training metrics from log scripts (workouts, measurements).
+- Digital Twin state updates from `G04_engine`.
+- Manual SQL administrative commands.
+
+## Outputs
+- Data feeds for Grafana dashboards.
+- Status summaries for Digital Twin API.
+- Alert signals for Telegram notification systems.
+- Daily encrypted backups.
+
+## Dependencies
+### Systems
+- [S00 Homelab Platform](../S00_Homelab-Platform/README.md) - Docker hosting.
+- [S01 Observability & Monitoring](../S01_Observability-Monitoring/README.md) - Backup alerts.
+
+### External
+- **PostgreSQL 15+** engine.
+
 ## Components
 
 ### Database Schema

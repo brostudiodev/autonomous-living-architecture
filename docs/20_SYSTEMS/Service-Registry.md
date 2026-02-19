@@ -3,7 +3,7 @@ title: "Service Registry & Infrastructure"
 type: "documentation"
 status: "active"
 owner: "Michał"
-updated: "2026-02-11"
+updated: "2026-02-19"
 ---
 
 # Service Registry & Infrastructure
@@ -47,6 +47,12 @@ services:
     purpose: System metrics collection
     status: Active
     metrics: cpu, memory, disk, network
+
+  digital-twin-api:
+    port: 5677
+    purpose: REST interface for life state
+    status: Active
+    endpoints: /status, /health, /finance, /history
 ```
 
 ### **Database Services**
@@ -341,6 +347,12 @@ schedules:
     service: goals-exporter
     purpose: Goal metrics collection
     duration: ~5 seconds
+
+  daily_note_preparation:
+    frequency: "0 5 * * *"     # Daily at 5 AM
+    script: autonomous_daily_manager.py
+    purpose: Daily note creation and task injection
+    duration: ~1 minute
 ```
 
 ---

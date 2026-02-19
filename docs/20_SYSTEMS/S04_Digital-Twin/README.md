@@ -17,10 +17,18 @@ Build Digital Twin/Virtual Assistant handling 70% of routine capture/triage/exec
 - Included: Agent Zero (Telegram AI assistant), Knowledge core with Obsidian RAG, Multi-tier avatar system, Automated content creation (LinkedIn/YouTube), Voice cloning, Email processing
 - Excluded: Physical robot implementation, Real-time avatar video generation (Phase 2+), Enterprise customer deployments
 
-## Interfaces
-- Inputs: Telegram messages, Emails, Knowledge base queries, Voice commands, Financial/health data from other systems
-- Outputs: Processed responses, Calendar events, Content posts (LinkedIn/YouTube), Task automations, Email responses
-- APIs/events: Telegram Bot API, Claude API, Qdrant vector DB, Gmail API, HeyGen API, ElevenLabs API, LinkedIn API
+## Inputs
+- Telegram messages and commands.
+- Emails via Gmail API.
+- Voice messages (for STT).
+- Knowledge base data (Obsidian vault).
+- Financial and Health metrics from S03.
+
+## Outputs
+- Natural language responses (Telegram/Email).
+- Calendar events and task automations.
+- Generated content (LinkedIn/YouTube).
+- Digital Twin state updates.
 
 ## Dependencies
 - Services: Claude API (NLP), Qdrant (vector DB), Obsidian (knowledge base), HeyGen (professional avatars), ElevenLabs (voice cloning), Gmail API

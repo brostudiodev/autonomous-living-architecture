@@ -26,3 +26,5 @@ updated: "2026-02-07"
 | YouTube transcript | S04 AI Processing | WF004 → Sub-workflow wH4hbIMadI4Gh2lq | - |
 | User notification | S05 Telegram | WF004 (Send Telegram Notification) | - |
 | Access control | S05 Telegram | WF004 (Verify User node) | - |
+| Real-time state aggregation and persistence | S04 Digital Twin | [script: G04_digital_twin_engine.py](../../50_AUTOMATIONS/scripts/g04-digital-twin-engine.md) | - |
+| REST API interface for Hub integration | S04 Digital Twin | [service: G04_digital_twin_api.py](../../50_AUTOMATIONS/scripts/g04-digital-twin-api.md) | - |

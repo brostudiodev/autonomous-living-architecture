@@ -13,6 +13,29 @@ review_cadence: "monthly"
 ## Purpose
 Centralized automation management platform using n8n to coordinate financial workflows, ensuring autonomous operation of the Financial Command Center with minimal human intervention.
 
+## Scope
+### In Scope
+- n8n instance management (Docker).
+- Workflow design and versioning (JSON).
+- Integration between PostgreSQL, Google Sheets, and messaging platforms.
+- Error handling and notification logic for automations.
+
+### Out of Scope
+- Hosting non-automation services.
+- Managing primary database storage.
+
+## Inputs
+- Trigger events (Cron, Webhooks).
+- Raw data from Google Sheets API.
+- Processed data from PostgreSQL (S03).
+- User commands from Telegram (S05).
+
+## Outputs
+- Automated database updates.
+- Slack and Telegram notifications.
+- Triggered events for other systems.
+- Execution logs and telemetry.
+
 ## Components
 
 ### n8n Workflow Engine
