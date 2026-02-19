@@ -36,80 +36,50 @@ Automated synchronization system that transforms the private `autonomous-living`
 └─────────────────────────────────────────────────────────┘
 
 
-## **Security Model - Defense in Depth**
+## **Security Model - Defense in Depth (Updated 2026-02-19)**
 
-**Layer 1 - Path Exclusion:** Complete directories/file types never copied  
-**Layer 2 - Content Sanitization:** Pattern-based replacement of sensitive data  
-**Layer 3 - Manual Review:** Pre-push verification of sanitized content  
-**Layer 4 - Git History:** Public repo starts fresh, no private history
+**Layer 1 - Path Exclusion:** Inherently private directories (logs, credentials, `.env`) are never copied.  
+**Layer 2 - Global Content Sanitization:** Mandatory regex-based stripping for all `.md`, `.yml`, `.py`, and `.json` files.  
+**Layer 3 - Keyword Protection:** Case-insensitive detection of `password`, `secret`, `token`, and `IPs`.  
+**Layer 4 - Automated Compliance:** The script itself enforces these rules on every run.
 
 ## **Exclusion Policy**
 
 ### **Complete Path Exclusions**
 
-Your current `EXCLUDE_PATHS` configuration:
+The system follows a "Deny-by-Default" approach for known sensitive artifacts:
 
 ```python
 EXCLUDE_PATHS = [
-    '.git/',                    # Git metadata (private commit history)
-    '.venv/',                   # Python virtual environment
-    '__pycache__/',             # Python bytecode cache
-    '_meta/',                   # Daily logs, backups (privacy-critical)
-    '.env',                     # Environment variables
-    '.py',                      # Python scripts (contains logic)
-    'README.md',                # Root README (custom for public)
-    'CHANGELOG.md',             # Private changelog
-    'CONTRIBUTING.md',          # Private contribution guide
-    'Enterprise_Documentation_Generator_Prompt.md',  # Internal prompts
-    '.json',                    # All JSON files (configs, exports)
-    'docs/10_GOALS/',           # Complete goals (too personal)
-    'script.sh',                # Utility scripts
-    'infrastructure/',          # Docker configs with real IPs/secrets
-    '.github/',                 # GitHub Actions workflows
+    '.git/',                    # Private history
+    '.venv/',                   # Local environment
+    '_meta/',                   # Daily logs/backups
+    '.env',                     # Secrets
+    'scripts/withings_tokens.json', # Auth tokens
+    'scripts/google_credentials.json', # Service accounts
+    'infrastructure/',          # Real infrastructure configs
 ]
 ```
 
-Critical Exclusions Explained:
+## **Sanitization Rules (MANDATORY)**
 
-`_meta/` - Contains daily activity logs with personal schedules, habits, behavioral patterns, and backup files with potentially sensitive historical data.
+For all allowed files, the following global replacements are enforced:
 
-`docs/10_GOALS/` - Personal goal implementations contain health metrics, financial targets, career details, and household management specifics.
+1. **Internal IPs:** All `192.168.x.x` addresses → `{{INTERNAL_IP}}`
+2. **Secrets:** Any occurrence of `api_key`, `token`, `password`, `secret` (and common variations) followed by a value → `{{API_SECRET}}`
+3. **Database Credentials:** Specific local defaults like `root` or `admin` in connection strings → `{{DB_USER}}` / `{{DB_PASSWORD}}`
 
-`.json` files - JSON exports contain n8n workflow credentials, Grafana dashboard configurations with real IP addresses, and data exports with actual measurements.
+## **What Gets Synchronized**
 
-`infrastructure/` - Docker and infrastructure configs include real internal IP addresses, network topology, service ports, and environment variable references.
-Sanitization Patterns
+### **Preserved Documentation & Logic**
+- ✓ Architectural Standards (ADRs, HLD, LLD)
+- ✓ System Design Documentation
+- ✓ Sanitized Python Scripts (Engine & API logic)
+- ✓ Sanitized n8n Workflow Definitions (JSON)
+- ✓ Standard Operating Procedures (SOPs)
+- ✓ Standardized Goal READMEs (Outcomes, Systems, Metrics)
 
-For files that are copied, these patterns replace sensitive data:
-
-```python
-SANITIZE_PATTERNS = [
-    (r'192\.168\.\d+\.\d+', '{{INTERNAL_IP}}'),
-    (r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}', '{{EMAIL}}'),
-    (r'(api[_-]?key|token)["\s:=]+["']?[\w-]+', r'\1: {{API_SECRET}}'),
-]
-```
-
-What Gets Synchronized
-Preserved Documentation Structure
-
-```
-docs/
-├── 00_START-HERE/          ✓ Philosophy and principles
-├── 20_SYSTEMS/             ✓ System architecture docs
-├── 30_SOPS/                ✓ Standard operating procedures
-├── 40_RUNBOOKS/            ✓ Incident response patterns
-├── 50_AUTOMATIONS/         ✓ Workflow documentation
-├── 60_DECISIONS_ADRS/      ✓ Architecture decision records
-└── 90_ATTACHMENTS/         ✓ Diagrams and visuals
-```
-
-File Type Handling
-
-Markdown files (.md): Content sanitized using regex patterns, structure preserved
-YAML files (.yml, .yaml): Configuration structure preserved, sensitive values replaced
-Other files: Binary files copied without modification
-Operational Procedures
+## **Operational Procedures**
 Pre-Sync Checklist
 
 Before running sync script:

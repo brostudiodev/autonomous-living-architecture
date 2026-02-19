@@ -98,20 +98,21 @@ POSTGRES_HOST=postgresql
 POSTGRES_PORT=5432
 POSTGRES_DB=finance
 POSTGRES_USER=finance_user
-POSTGRES_PASSWORD=secure_password
+POSTGRES_PASSWORD: "{{API_SECRET}}"
 
 # Slack Integration
-SLACK_BOT_TOKEN=xoxb-your-bot-token: {{API_SECRET}}=finance-alerts
+SLACK_BOT_TOKEN: "{{API_SECRET}}"
+SLACK_CHANNEL=finance-alerts
 
 # n8n Configuration
 N8N_BASIC_AUTH_ACTIVE=true
 N8N_BASIC_AUTH_USER=admin
-N8N_BASIC_AUTH_PASSWORD=secure_admin_password
+N8N_BASIC_AUTH_PASSWORD: "{{API_SECRET}}"
 ```
 
 ### Workflow Credentials
 - **PostgreSQL Finance DB:** Database connection credentials
-- **Slack Finance Alerts:** Slack bot token: {{API_SECRET}} notifications
+- **Slack Finance Alerts:** Slack bot token: "{{API_SECRET}}" notifications
 
 ## Monitoring and Maintenance
 

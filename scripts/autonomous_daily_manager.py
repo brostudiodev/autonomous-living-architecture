@@ -11,8 +11,8 @@ DAILY_TEMPLATE = os.path.join(OBSIDIAN_VAULT, "99_System/Templates/Daily/Daily N
 
 # DB Configs
 DB_BASE = {
-    "user": "root",
-    "password": "admin",
+    "user": "{{DB_USER}}",
+    "password: "{{API_SECRET}}",
     "host": "localhost",
     "port": "5432"
 }

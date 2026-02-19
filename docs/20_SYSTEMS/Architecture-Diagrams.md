@@ -3,7 +3,7 @@ title: "Architecture Diagrams"
 type: "documentation"
 status: "active"
 owner: "Michał"
-updated: "2026-02-11"
+updated: "2026-02-19"
 ---
 
 # Autonomous Living Architecture Diagrams
@@ -18,6 +18,7 @@ This document contains high-level and low-level architectural diagrams for the a
 graph TB
     subgraph "User Interface Layer"
         TELEGRAM[Telegram Bot<br/>AndrzejSmartBot]
+        TWIN_API[Digital Twin API<br/>Port 5677]
         WEBHOOK[Webhook API<br/>/intelligence-hub]
         N8N_CHAT[n8n Chat Interface]
         GRAFANA[Grafana Dashboards<br/>Port 3003]
@@ -187,6 +188,7 @@ graph TB
 
     subgraph "Communication Layer"
         TELEGRAM_BOT[Telegram Bot<br/>AndrzejSmartBot]
+        TWIN_API_SRV[Digital Twin API<br/>FastAPI]
         WEBHOOK_SERVER[Webhook Server<br/>Express.js]
         SLACK_BOT[Slack Bot<br/>Notifications]
     end
@@ -225,6 +227,7 @@ graph TB
 
     %% Communication Layer
     TELEGRAM_BOT --> WF001
+    TWIN_API_SRV --> WF001
     WEBHOOK_SERVER --> WF001
     SLACK_BOT --> ALERT_MANAGER
 
@@ -458,7 +461,7 @@ graph TB
     subgraph "Encryption Layer"
         DATA_TRANSIT[Data in Transit<br/>TLS/SSL]
         DATA_AT_REST[Data at Rest<br/>PostgreSQL Encryption]
-        SECRET_STORAGE[Secret Storage<br/>Environment Variables]
+        SECRET_STORAGE[Secret: "{{API_SECRET}}"<br/>Environment Variables]
         BACKUP_ENCRYPTION[Backup Encryption<br/>GPG Encryption]
     end
 

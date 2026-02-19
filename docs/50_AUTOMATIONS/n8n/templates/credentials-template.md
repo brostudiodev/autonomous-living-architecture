@@ -14,7 +14,7 @@ updated: "2026-02-07"
 - Stored in:
   - [ ] n8n credential store
   - [ ] environment variable(s)
-  - [ ] secret manager (recommended)
+  - [ ] secret: "{{API_SECRET}}" (recommended)
 
 ## Rotation
 - Rotation interval:

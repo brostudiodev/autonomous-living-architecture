@@ -65,7 +65,7 @@ import linkedin_api
 # Configuration
 LINKEDIN_CONFIG = {
     "client_id": "YOUR_CLIENT_ID",
-    "client_secret": "YOUR_CLIENT_SECRET",
+    "client_secret: "{{API_SECRET}}",
     "redirect_uri": "YOUR_REDIRECT_URI",
     "scope": ["r_liteprofile", "r_emailaddress", "w_member_social"]
 }
@@ -143,17 +143,17 @@ import tweepy
 # Configuration
 TWITTER_CONFIG = {
     "consumer_key": "YOUR_CONSUMER_KEY",
-    "consumer_secret": "YOUR_CONSUMER_SECRET",
-    "access_token: {{API_SECRET}}",
-    "access_token_secret": "YOUR_ACCESS_TOKEN_SECRET"
+    "consumer_secret: "{{API_SECRET}}",
+    "access_token: "{{API_SECRET}}",
+    "access_token_secret: "{{API_SECRET}}"
 }
 
 # Initialize client
 client = tweepy.Client(
     consumer_key=TWITTER_CONFIG["consumer_key"],
-    consumer_secret=TWITTER_CONFIG["consumer_secret"],
-    access_token: {{API_SECRET}}["access_token"],
-    access_token_secret=TWITTER_CONFIG["access_token_secret"]
+    consumer_secret: "{{API_SECRET}}"["consumer_secret"],
+    access_token: "{{API_SECRET}}"["access_token"],
+    access_token_secret: "{{API_SECRET}}"["access_token_secret"]
 )
 ```
 
@@ -310,7 +310,7 @@ class SubstackEmailPublisher:
         self.smtp_server = smtp_config["server"]
         self.smtp_port = smtp_config["port"]
         self.username = smtp_config["username"]
-        self.password = smtp_config["password"]
+        self.password: "{{API_SECRET}}"["password"]
         self.from_email = smtp_config["from_email"]
     
     def publish_article(self, title, content, tags=None):
@@ -364,7 +364,7 @@ class WebsitePublisher:
     def __init__(self, config):
         self.cms_type = config["type"]
         self.api_endpoint = config["api_endpoint"]
-        self.api_key: {{API_SECRET}}.get("api_key")
+        self.api_key: "{{API_SECRET}}".get("api_key")
         self.site_url = config["site_url"]
     
     def publish_post(self, title, content, tags=None):

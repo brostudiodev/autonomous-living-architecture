@@ -6,8 +6,8 @@ from datetime import datetime
 
 # DB Configs
 DB_BASE = {
-    "user": "root",
-    "password": "admin",
+    "user": "{{DB_USER}}",
+    "password: "{{API_SECRET}}",
     "host": "localhost",
     "port": "5432"
 }

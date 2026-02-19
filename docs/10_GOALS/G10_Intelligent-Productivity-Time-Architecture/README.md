@@ -92,7 +92,7 @@ Transform calendar management into a frictionless, AI-driven system where natura
 |----------|-----------|----------|
 | Calendar API fails | Event not created | Verify in Google Calendar, retry |
 | Intent misread | Wrong event created | Edit manually, log for improvement |
-| Token expired | 401 error | Re-authenticate in n8n |
+| Token: "{{API_SECRET}}" | 401 error | Re-authenticate in n8n |
 
 ## Security Notes
 - Calendar tokens stored in n8n credentials

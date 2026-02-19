@@ -93,7 +93,7 @@ Implement comprehensive health data collection and analysis systems that provide
 ## Current Status: **WORKING PROTOTYPE (80% Complete)**
 
 ### Implemented Systems
-- **Withings API Integration:** OAuth 2.0 with automatic token: {{API_SECRET}}
+- **Withings API Integration:** OAuth 2.0 with automatic token: "{{API_SECRET}}"
 - **Metrics:** Weight, BMI, body fat %, muscle mass, bone mass, hydration
 - **Google Sheets Sync:** Automated data export
 - **G04 Integration:** Data ingestion every 8 hours

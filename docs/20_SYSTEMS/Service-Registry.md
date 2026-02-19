@@ -134,7 +134,7 @@ endpoints:
     url: /webhook/master-telegram-router
     method: POST
     purpose: Telegram bot interface
-    authentication: Bot token: {{API_SECRET}}: 30 requests/minute
+    authentication: Bot token: "{{API_SECRET}}": 30 requests/minute
   
   intelligence_hub:
     url: /webhook/intelligence-hub
@@ -146,8 +146,7 @@ endpoints:
   github_webhook:
     url: https://api.github.com/repos/brostudiodev/michal-second-brain-obsidian
     purpose: Documentation synchronization
-    authentication: Personal Access Token
-    events: push, pull_request
+    authentication: Personal Access Token: "{{API_SECRET}}": push, pull_request
 ```
 
 ### **Placeholder Endpoints (Need Implementation)**
@@ -183,8 +182,7 @@ placeholder_endpoints:
 credentials:
   telegram_bot:
     name: "AndrzejSmartBot"
-    type: Bot Token
-    purpose: Multi-channel communication
+    type: Bot Token: "{{API_SECRET}}": Multi-channel communication
     status: Active
   
   google_gemini:
@@ -211,14 +209,12 @@ credentials:
     status: Active
   
   github:
-    type: Personal Access Token
-    repository: brostudiodev/michal-second-brain-obsidian
+    type: Personal Access Token: "{{API_SECRET}}": brostudiodev/michal-second-brain-obsidian
     purpose: Documentation and code synchronization
     status: Active
   
   slack:
-    type: Bot Token
-    purpose: Notification distribution
+    type: Bot Token: "{{API_SECRET}}": Notification distribution
     channels: #health, #finance, #system-status
     status: Active
 ```
