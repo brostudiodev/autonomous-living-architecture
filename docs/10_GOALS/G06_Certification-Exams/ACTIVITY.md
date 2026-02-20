@@ -3,7 +3,7 @@ title: "G06: Certification Exams - Activity Log"
 type: "activity_log"
 status: "active"
 goal_id: "goal-g06"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-17"
 ---
 

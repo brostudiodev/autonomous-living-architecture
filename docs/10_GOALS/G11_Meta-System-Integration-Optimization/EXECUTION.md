@@ -3,7 +3,7 @@ title: "G11: Meta-System Integration & Optimization - Execution State"
 type: "goal_execution"
 status: "active"
 goal_id: "goal-g11"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 

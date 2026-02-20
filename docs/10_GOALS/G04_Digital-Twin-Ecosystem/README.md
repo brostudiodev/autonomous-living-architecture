@@ -3,7 +3,7 @@ title: "G04: Digital Twin Ecosystem"
 type: "goal"
 status: "active"
 goal_id: "goal-g04"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-16"
 review_cadence: "monthly"
 ---
@@ -101,6 +101,6 @@ Create a centralized AI-powered intelligence hub that aggregates data from all s
 - **GitHub Integration:** Auto-saves to Obsidian vault
 
 ## Owner & Review
-- **Owner:** Michał
+- **Owner:** {{OWNER_NAME}}
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-02-16

@@ -3,7 +3,7 @@ title: "S01.01: Goals Dashboard Monitoring"
 type: "system_spec"
 status: "active"
 system_id: "S01.01"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 
@@ -16,23 +16,23 @@ This system provides real-time observability for personal goals and tasks define
 The Goals Dashboard Monitoring system is comprised of three core components orchestrated via Docker Compose:
 
 1.  **Goals Exporter**: A Python application that parses `EXECUTION.md` files to extract task-related metrics (e.g., total tasks, completed tasks, priorities) and exposes them in Prometheus format, and also provides a JSON API for goal details.
-    *   **Location**: `/home/michal/Documents/autonomous-living/infrastructure/scripts/goals-exporter.py`
-    *   **Dockerfile**: `/home/michal/Documents/autonomous-living/infrastructure/scripts/Dockerfile.exporter`
+    *   **Location**: `/home/{{USER}}/Documents/autonomous-living/infrastructure/scripts/goals-exporter.py`
+    *   **Dockerfile**: `/home/{{USER}}/Documents/autonomous-living/infrastructure/scripts/Dockerfile.exporter`
     *   **Internal Port**: `8080` (within its Docker container)
     *   **Host Port**: `8082` (mapped from `8080` for Prometheus scraping and direct JSON API access)
 
 2.  **Prometheus**: A monitoring system that scrapes metrics from the Goals Exporter at regular intervals.
     *   **Location**: Managed via `docker-compose.yml`
-    *   **Configuration**: `/home/michal/Documents/autonomous-living/infrastructure/prometheus/prometheus.yml`
+    *   **Configuration**: `/home/{{USER}}/Documents/autonomous-living/infrastructure/prometheus/prometheus.yml`
     *   **UI Port**: `9090` (on host)
 
 3.  **Grafana**: A visualization tool that queries Prometheus for aggregated goal metrics and uses a JSON API data source to display detailed task lists.
     *   **Location**: Managed via `docker-compose.yml`
-    *   **Dashboard Definition**: `/home/michal/Documents/autonomous-living/infrastructure/grafana/dashboards/goals-dashboard.json`
+    *   **Dashboard Definition**: `/home/{{USER}}/Documents/autonomous-living/infrastructure/grafana/dashboards/goals-dashboard.json`
     *   **UI Port**: `3003` (on host)
 
 ## Data Flow
-1.  **Task Definition**: Goals and tasks are defined in `EXECUTION.md` files located in subdirectories under `/home/michal/Documents/autonomous-living/docs/10_GOALS/`.
+1.  **Task Definition**: Goals and tasks are defined in `EXECUTION.md` files located in subdirectories under `/home/{{USER}}/Documents/autonomous-living/docs/10_GOALS/`.
 2.  **Metric Generation**: The `goals-exporter.py` script, running in a Docker container, reads these `EXECUTION.md` files (mounted as `/docs` inside the container). It parses the task information using regular expressions and generates:
     *   Prometheus-compatible metrics, exposed on `/metrics`.
     *   A JSON API endpoint at `/goals` returning all goal details.
@@ -48,7 +48,7 @@ This section summarizes recent modifications and debugging efforts to resolve di
 
 ### Grafana Configuration Updates
 *   **JSON API Plugin**: The `docker-compose.yml` was updated to ensure the `marcusolsson-json-datasource` plugin is installed (replacing `grafana-simple-json-datasource`).
-*   **`GoalsJSON` Data Source**: The provisioning file (`/home/michal/grafana/provisioning/datasources/goals-json.yml`) was updated to correctly set `type: marcusolsson-json-datasource`.
+*   **`GoalsJSON` Data Source**: The provisioning file (`/home/{{USER}}/grafana/provisioning/datasources/goals-json.yml`) was updated to correctly set `type: marcusolsson-json-datasource`.
 
 ### Dashboard (`goals-dashboard.json`) Updates
 *   **`jsonPath` Transformation Removal**: Problematic `jsonPath` transformations, which caused "jsonPath not found" errors, were removed from panels 6-17.
@@ -57,7 +57,7 @@ This section summarizes recent modifications and debugging efforts to resolve di
 *   **JSON Escaping**: Resolved issues with invalid JSON character escaping (`\n`) in JavaScript code within dashboard JSON, which previously prevented the dashboard from loading.
 
 ### Debugging & System Cleanup
-*   **Grafana Data Cleanup**: Grafana's internal data directory (`/home/michal/grafana/data`) was cleared to remove any cached dashboard definitions or database inconsistencies.
+*   **Grafana Data Cleanup**: Grafana's internal data directory (`/home/{{USER}}/grafana/data`) was cleared to remove any cached dashboard definitions or database inconsistencies.
 *   **Docker Process Cleanup**: Addressed "port is already allocated" errors by manually identifying and terminating orphaned `docker-proxy` processes and restarting the Docker daemon, ensuring clean port binding.
 
 ## Current Status (as of 2026-01-27)
@@ -84,7 +84,7 @@ To ensure the entire Goals Dashboard Monitoring stack is running with the latest
 
 1.  **Navigate to the Grafana directory**:
     ```bash
-    cd /home/michal/grafana
+    cd /home/{{USER}}/grafana
     ```
 2.  **Bring down the existing stack forcefully**:
     ```bash

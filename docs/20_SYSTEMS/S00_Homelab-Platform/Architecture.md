@@ -2,7 +2,7 @@
 title: "S00: Homelab Architecture"
 type: "architecture"
 status: "active"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 

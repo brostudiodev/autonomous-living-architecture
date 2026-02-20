@@ -3,7 +3,7 @@ title: "G07: Predictive Health Management - Execution State"
 type: "goal_execution"
 status: "active"
 goal_id: "goal-g07"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 

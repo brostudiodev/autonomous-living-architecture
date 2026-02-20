@@ -7,7 +7,7 @@ To define a standardized, repeatable process for creating and publishing high-qu
 This SOP covers the entire content lifecycle, from the initial idea to post-publication promotion.
 
 ## 3. Roles & Responsibilities
-- **Author/Owner:** Michał - Responsible for idea generation, final review, approval, and manual publishing steps.
+- **Author/Owner:** {{OWNER_NAME}} - Responsible for idea generation, final review, approval, and manual publishing steps.
 - **AI Assistant (LLM):** A Mixture of Agents (e.g., Genspark) responsible for initial drafting, grammar/spelling checks, content suggestions, and creating promotional summaries.
 
 ## 4. Tools

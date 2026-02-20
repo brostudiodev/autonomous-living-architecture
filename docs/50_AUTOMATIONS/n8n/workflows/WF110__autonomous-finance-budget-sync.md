@@ -5,7 +5,7 @@ status: "active"
 automation_id: "WF110__autonomous-finance-budget-sync"
 goal_id: "goal-g05"
 systems: ["S03", "S08"]
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-18"
 ---
 

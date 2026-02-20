@@ -2,7 +2,7 @@
 title: "Cross-System Integration Architecture"
 type: "documentation"
 status: "active"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-11"
 ---
 
@@ -132,17 +132,17 @@ Code Changes → GitHub Actions → Documentation Updates → Obsidian Sync
 
 ---
 
+### **G11 Meta-System → System Integrity**
+```
+G11 Mapper → System Connectivity Map → Daily Note Health Check
+```
+- **Real-time audit** of goal infrastructure and DB activity
+- **Automated detection** of orphan goals and broken data flows
+- **Live status injection** into morning briefing via Digital Twin integration
+
+---
+
 ## 🟡 **PLANNED INTEGRATIONS**
-
-### **G11 Time Architecture (Not Yet Implemented)**
-```
-Health Data + Energy Levels + Deadlines → G11 Optimization → Goal Scheduling
-```
-
-**Planned Features:**
-- **Energy-aware scheduling** based on G01/G07 health data
-- **Deadline optimization** using financial resource data from G05
-- **Cross-goal dependency management** for efficient resource allocation
 
 ### **Smart Home Integration (G08 - Documentation Only)**
 ```

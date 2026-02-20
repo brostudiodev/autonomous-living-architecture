@@ -3,7 +3,7 @@ title: "G02: Automationbro Recognition"
 type: "goal"
 status: "active"
 goal_id: "goal-g02"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-16"
 review_cadence: "quarterly"
 ---
@@ -98,6 +98,6 @@ Build recognition as an automation expert through content creation that demonstr
 Keep "thinking" in Obsidian. Keep "canonical truth" here.
 
 ## Owner & Review
-- **Owner:** Michał
+- **Owner:** {{OWNER_NAME}}
 - **Review Cadence:** Quarterly
 - **Last Updated:** 2026-02-16

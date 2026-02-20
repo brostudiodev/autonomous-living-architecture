@@ -3,7 +3,7 @@ title: "S06: Health & Performance"
 type: "system"
 status: "active"
 system_id: "system-s06"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-16"
 review_cadence: "monthly"
 ---
@@ -89,7 +89,7 @@ Transition from reactive healthcare to predictive maintenance by Dec 31, 2026. A
 - No external health data sharing
 
 ## Owner & Review
-- **Owner:** Michał
+- **Owner:** {{OWNER_NAME}}
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-02-16
 - Alerts: Abnormal health readings, Missed preventive care appointments, Sensor data gaps, Unusual health pattern deviations

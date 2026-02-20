@@ -3,7 +3,7 @@ title: "G01: Metrics"
 type: "goal_metrics"
 status: "active"
 goal_id: "goal-g01"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 
@@ -12,12 +12,12 @@ updated: "2026-02-07"
 ## KPI list
 | Metric | Target | How measured | Frequency | Owner |
 |---|---:|---|---|---|
-| Body fat % (7-day MA) | -2 to -4% vs Jan baseline | Smart scale morning fasted | Daily log, weekly eval | Michał |
+| Body fat % (7-day MA) | -2 to -4% vs Jan baseline | Smart scale morning fasted | Daily log, weekly eval | {{OWNER_NAME}} |
 | Training frequency | 2–4 sessions/week | Count rows in `workouts.csv` | Weekly | Auto (script) |
 | Load progression rate | +2.5–5% per exercise per month | `weight_kg` trend in `sets.csv` | Monthly | Auto (script) |
 | TUT compliance | 80%+ sets achieve 60–90s TUT | `tut_s` column analysis | Monthly | Auto (script) |
 | Max effort adherence | 90%+ sessions logged `max_effort=true` | `max_effort` column count | Monthly | Auto (script) |
-| Logging latency | <60s post-workout | Manual observation | Quarterly check-in | Michał |
+| Logging latency | <60s post-workout | Manual observation | Quarterly check-in | {{OWNER_NAME}} |
 
 ## Leading indicators (predict success)
 - **Session consistency:** training 2+ times per week without skipping >7 days

@@ -3,7 +3,7 @@ title: "G07: Predictive Health Management"
 type: "goal"
 status: "active"
 goal_id: "goal-g07"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-16"
 review_cadence: "monthly"
 ---
@@ -93,12 +93,12 @@ Implement comprehensive health data collection and analysis systems that provide
 ## Current Status: **WORKING PROTOTYPE (80% Complete)**
 
 ### Implemented Systems
-- **Withings API Integration:** OAuth 2.0 with automatic token: "{{API_SECRET}}"
+- **Withings API Integration:** OAuth 2.0 with automatic token: "{{GENERIC_API_SECRET}}"
 - **Metrics:** Weight, BMI, body fat %, muscle mass, bone mass, hydration
 - **Google Sheets Sync:** Automated data export
 - **G04 Integration:** Data ingestion every 8 hours
 
 ## Owner & Review
-- **Owner:** Michał
+- **Owner:** {{OWNER_NAME}}
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-02-16

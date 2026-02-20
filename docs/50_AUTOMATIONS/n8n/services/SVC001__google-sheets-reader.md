@@ -5,7 +5,7 @@ status: "active"
 automation_id: "SVC001__google-sheets-reader"
 goal_id: "goal-g03"
 systems: ["S03"]
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 

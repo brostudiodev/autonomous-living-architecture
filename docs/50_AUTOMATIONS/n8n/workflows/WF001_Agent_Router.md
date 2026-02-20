@@ -2,7 +2,7 @@
 title: "WF001: Agent Router (Intelligence Hub)"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 goal_id: "G04_Digital-Twin-Ecosystem"
 updated: "2026-02-12"
 ---

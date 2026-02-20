@@ -3,7 +3,7 @@ title: "G01: Session Log 2026-01-25 (Lower A)"
 type: "session_log"
 status: "completed"
 goal_id: "goal-g01"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 

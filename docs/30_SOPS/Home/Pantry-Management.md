@@ -4,7 +4,7 @@ type: "sop"
 status: "active"
 frequency: "daily"
 automation: "WF105"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 

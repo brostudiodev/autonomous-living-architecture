@@ -2,7 +2,7 @@
 title: "WF105: Pantry Management AI Agent"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 goal_id: "goal-g03"
 sub_project: "Pantry Management"
 systems: ["S03"]

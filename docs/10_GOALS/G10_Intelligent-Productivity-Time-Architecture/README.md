@@ -3,7 +3,7 @@ title: "G10: Intelligent Productivity & Time Architecture"
 type: "goal"
 status: "active"
 goal_id: "goal-g10"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-16"
 review_cadence: "monthly"
 ---
@@ -92,7 +92,7 @@ Transform calendar management into a frictionless, AI-driven system where natura
 |----------|-----------|----------|
 | Calendar API fails | Event not created | Verify in Google Calendar, retry |
 | Intent misread | Wrong event created | Edit manually, log for improvement |
-| Token: "{{API_SECRET}}" | 401 error | Re-authenticate in n8n |
+| Token: "{{GENERIC_API_SECRET}}" | 401 error | Re-authenticate in n8n |
 
 ## Security Notes
 - Calendar tokens stored in n8n credentials
@@ -100,6 +100,6 @@ Transform calendar management into a frictionless, AI-driven system where natura
 - Assume adversarial reading for shared calendars
 
 ## Owner & Review
-- **Owner:** Michał
+- **Owner:** {{OWNER_NAME}}
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-02-16

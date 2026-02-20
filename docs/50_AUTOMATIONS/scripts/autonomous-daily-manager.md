@@ -1,67 +1,66 @@
 ---
-title: "script: autonomous-daily-manager.py"
+title: "Script: autonomous-daily-manager.py"
 type: "automation_spec"
 status: "active"
-automation_id: "autonomous-daily-manager"
-goal_id: "goal-g11"
-systems: ["S03", "S09"]
-owner: "Michał"
-updated: "2026-02-19"
+automation_id: "autonomous-daily-manager.py"
+goal_id: "goal-g10"
+systems: ["S10", "S04", "S09"]
+owner: "{{OWNER_NAME}}"
+updated: "2026-02-20"
 ---
 
-# script: autonomous-daily-manager.py
+# Script: autonomous-daily-manager.py
 
 ## Purpose
-Prepares the Obsidian Daily Note every morning by auto-creating it from a template and injecting data-driven task suggestions (workouts, pantry) and a suggested schedule.
+The core execution engine for daily operations. It automates the creation and enrichment of Obsidian Daily Notes with real-time data from the Digital Twin and goal roadmaps.
 
 ## Triggers
-- **Scheduled:** Daily at 05:00 AM via Cron.
-- **Manual:** `/home/michal/Documents/autonomous-living/.venv/bin/python /home/michal/Documents/autonomous-living/scripts/autonomous_daily_manager.py`
+- **When**: Scheduled daily at 06:00 AM (via Cron/Systemd)
+- **Manual**: Executed via CLI for immediate note refresh
 
 ## Inputs
-- **Template:** `/home/michal/Documents/Obsidian Vault/99_System/Templates/Daily/Daily Note Template.md`
-- **Workout Data:** `/home/michal/Documents/Training/workouts.csv`
-- **Finance DB:** PostgreSQL `autonomous_finance` on `localhost:5432` (via Docker).
-- **Date:** System current date.
+- **Obsidian Template**: `99_System/Templates/Daily/Daily Note Template.md`
+- **Databases**: 
+  - `autonomous_finance`: Budget alerts and MTD net
+  - `autonomous_training`: Workout history and recovery scores
+  - `autonomous_pantry`: Inventory stock levels
+- **Roadmaps**: All `Roadmap.md` files in `docs/10_GOALS/`
 
 ## Processing Logic
-1. **Note Creation:** If `YYYY-MM-DD.md` doesn't exist, create it from the template, replacing `{{date}}` and weekday placeholders.
-2. **Workout Analysis:** Calculate days since last workout from CSV. If >= 3 days, generate a HIT workout task.
-3. **Finance Alerts:** Query `get_current_budget_alerts()` from the database.
-4. **Pantry Logic:** Generate restocking tasks (currently placeholder, logic from G03).
-5. **Schedule Injection:** Insert a pre-defined 2026-optimized schedule into the note.
-6. **Task Injection:** Insert all generated tasks into the `## Tasks (manual planning)` section.
+1.  **Sync Foundation**: Triggers `pantry_sync.py` to update DB from manual CSVs.
+2.  **Note Preparation**: Creates today's `.md` file if missing using the standard template.
+3.  **Dynamic Task Injection**:
+    - **Status Alerts**: Injects workout due alerts, budget threshold breaches, and low-stock pantry items.
+    - **MINS Engine**: Parses roadmaps to find the next incomplete Q1 task for each goal (limit 5).
+4.  **Briefing Integration**: Fetches a summary from the `DigitalTwinEngine` (G04).
+5.  **Adaptive Scheduling**:
+    - Overwrites the `Suggested Schedule` block.
+    - Swaps "Workout" for "Mandatory Recovery" if recovery score < 3.
+    - Swaps "Admin" for "URGENT Admin" if budget alerts > 0.
 
 ## Outputs
-- **Obsidian Note:** Updated or created `/home/michal/Documents/Obsidian Vault/01_Daily_Notes/YYYY-MM-DD.md`
+- **Enriched Daily Note**: Updated `01_Daily_Notes/YYYY-MM-DD.md` with injected sections.
+- **Console Logs**: Success/Error status of database syncs.
 
 ## Dependencies
 ### Systems
-- [S03 Data Layer](../../20_SYSTEMS/S03_Data-Layer/README.md)
+- [S04 Digital Twin](../../20_SYSTEMS/S04_Digital-Twin/README.md)
+- [S10 Daily Goals Automation](../../20_SYSTEMS/S10_Daily-Goals-Automation/README.md)
 - [S09 Productivity & Time](../../20_SYSTEMS/S09_Productivity-Time/README.md)
 
 ### External Services
-- PostgreSQL (Docker container)
-- Python 3.11+ with `pandas` and `psycopg2`
-
-### Credentials
-- **DB User:** `root`
-- **DB Pass:** `admin` (Stored in script - *Pending migration to env vars*)
+- Obsidian (File system)
+- PostgreSQL (Local Docker)
 
 ## Error Handling
 | Failure Scenario | Detection | Response | Alert |
 |---|---|---|---|
-| DB Connection Fail | `psycopg2.connect` exception | Log error, skip finance tasks | Console/Log output |
-| Template Missing | `os.path.exists` check | Abort creation | Console/Log output |
-| CSV Read Error | `pd.read_csv` exception | Skip workout analysis | Console/Log output |
-
-## Monitoring
-- **Success Metric:** Daily note exists and contains "🤖 Suggested Schedule" by 05:15 AM.
-- **Logs:** `/home/michal/Documents/autonomous-living/_meta/daily_briefing.log`
+| DB Connection Fail | `psycopg2.OperationalError` | Injects "Offline" status to note | Visible in Daily Note |
+| Template Missing | `os.path.exists` check | Skips creation, logs error | CLI Output |
+| Parsing Error | Exception catch in loop | Skips specific goal, continues | CLI Output |
 
 ## Manual Fallback
-If automation fails, manually create the daily note in Obsidian and use the "Daily Note Template". Run the script manually to attempt task injection.
-
-## Related Documentation
-- [SOP: Daily Briefing Management](../../30_SOPS/Daily-Briefing-Management.md)
-- [Goal: G11 Intelligent Productivity](../../10_GOALS/G11_Intelligent-Productivity-Time-Architecture/README.md)
+```bash
+cd autonomous-living/scripts
+python3 autonomous_daily_manager.py
+```

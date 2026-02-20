@@ -5,7 +5,7 @@ status: "active"
 automation_id: "WF105__generate-activity-summaries"
 goal_id: "goal-g09"
 systems: ["S03", "S08"]
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-10"
 ---
 

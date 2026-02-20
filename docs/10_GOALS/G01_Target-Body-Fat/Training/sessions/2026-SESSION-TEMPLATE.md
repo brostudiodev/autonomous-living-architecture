@@ -2,7 +2,7 @@
 title: "G01: Training Session Template"
 type: "session_template"
 status: "template"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 

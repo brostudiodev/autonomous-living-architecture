@@ -2,7 +2,7 @@
 title: "LLM Documentation Generator Prompt"
 type: "prompt"
 status: "active"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 
@@ -45,7 +45,7 @@ Copy this section, fill it, and send it to the LLM.
 DOCUMENTATION REQUEST
 DOC_KIND: one of [goal_project | automation_n8n | automation_script | automation_home_assistant | sop | runbook]
 TODAY: YYYY-MM-DD
-OWNER: Michał
+OWNER: {{OWNER_NAME}}
 
 GOAL
 GOAL_ID: goal-gXX

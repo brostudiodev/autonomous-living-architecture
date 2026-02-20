@@ -2,7 +2,7 @@
 
 - **Status**: Active
 - **Date**: 2026-02-12
-- **DECIDERS**: Michał
+- **DECIDERS**: {{OWNER_NAME}}
 
 ## Context and Problem Statement
 

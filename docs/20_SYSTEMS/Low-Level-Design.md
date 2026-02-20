@@ -2,7 +2,7 @@
 title: "Low-Level Design Documentation"
 type: "documentation"
 status: "active"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-19"
 ---
 
@@ -81,7 +81,7 @@ response_schema:
 ```yaml
 endpoint: /webhook/intelligence-hub
 method: POST
-authentication: API Key (X-API-Key: "{{API_SECRET}}")
+authentication: API Key (X-API-Key: "{{GENERIC_API_SECRET}}")
 rate_limit: 100 requests/minute
 timeout: 60 seconds
 
@@ -378,8 +378,8 @@ class Exercise:
 class PantryAIService:
     """AI-powered pantry management service using Google Gemini"""
     
-    def __init__(self, gemini_api_key: "{{API_SECRET}}"):
-        self.gemini_client = genai.configure(api_key: "{{API_SECRET}}")
+    def __init__(self, gemini_api_key: "{{GENERIC_API_SECRET}}"):
+        self.gemini_client = genai.configure(api_key: "{{GENERIC_API_SECRET}}")
         self.setup_gemini_tools()
         
     def setup_gemini_tools(self):
@@ -781,7 +781,7 @@ class SecurityManager:
         return expected_key and expected_key == provided_key
     
     def generate_jwt_token(self, user_id: str, permissions: list) -> str:
-        """Generate JWT token: "{{API_SECRET}}" internal authentication"""
+        """Generate JWT token: "{{GENERIC_API_SECRET}}" internal authentication"""
         payload = {
             'user_id': user_id,
             'permissions': permissions,
@@ -790,13 +790,13 @@ class SecurityManager:
         }
         return jwt.encode(payload, self.secret_key, algorithm='HS256')
     
-    def verify_jwt_token(self, token: "{{API_SECRET}}") -> dict:
-        """Verify JWT token: "{{API_SECRET}}" return payload"""
+    def verify_jwt_token(self, token: "{{GENERIC_API_SECRET}}") -> dict:
+        """Verify JWT token: "{{GENERIC_API_SECRET}}" return payload"""
         try:
             payload = jwt.decode(token, self.secret_key, algorithms=['HS256'])
             return payload
         except jwt.ExpiredSignatureError:
-            raise AuthenticationError('Token: "{{API_SECRET}}")
+            raise AuthenticationError('Token: "{{GENERIC_API_SECRET}}")
         except jwt.InvalidTokenError:
             raise AuthenticationError('Invalid token')
 
@@ -805,8 +805,8 @@ def require_api_key(service: str):
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
-            api_key: "{{API_SECRET}}".headers.get('X-API-Key') or request.args.get('api_key')
-            if not api_key: "{{API_SECRET}}" jsonify({'error': 'API key required'}), 401
+            api_key: "{{GENERIC_API_SECRET}}".headers.get('X-API-Key') or request.args.get('api_key')
+            if not api_key: "{{GENERIC_API_SECRET}}" jsonify({'error': 'API key required'}), 401
             
             if not security_manager.validate_api_key(service, api_key):
                 return jsonify({'error': 'Invalid API key'}), 401

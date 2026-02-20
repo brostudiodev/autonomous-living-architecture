@@ -2,8 +2,8 @@
 title: "Service Registry & Infrastructure"
 type: "documentation"
 status: "active"
-owner: "Michał"
-updated: "2026-02-19"
+owner: "{{OWNER_NAME}}"
+updated: "2026-02-20"
 ---
 
 # Service Registry & Infrastructure
@@ -83,6 +83,52 @@ databases:
 
 ## 🔄 **AUTOMATION SERVICES (N8N)**
 
+### **Morning Brief Services**
+```yaml
+morning_brief_workflows:
+  SVC_Daily-Calendar-Brief:
+    type: Daily Briefing
+    status: Active
+    schedule: 6:45 AM
+    purpose: Today's calendar and focus blocks
+    
+  SVC_Daily-Tasks-Brief:
+    type: Daily Briefing
+    status: Active
+    schedule: 6:46 AM
+    purpose: Top priorities from goal Roadmaps
+    
+  SVC_Daily-Weather-Brief:
+    type: Daily Briefing
+    status: Active
+    schedule: 6:47 AM
+    purpose: Weather forecast, backyard temp, clothing
+    
+  SVC_Daily-SmartHome-Brief:
+    type: Daily Briefing
+    status: Active
+    schedule: 6:48 AM
+    purpose: Home sensor status
+    
+  SVC_Daily-Workout-Suggestion:
+    type: Daily Briefing
+    status: Active
+    schedule: 6:49 AM
+    purpose: Training recommendation
+    
+  PROJ_Personal-Budget-Intelligence:
+    type: Daily Briefing
+    status: Active
+    schedule: 6:50 AM
+    purpose: Financial status vs budget
+    
+  SVC_Email-Summary-Agent:
+    type: Daily Briefing
+    status: Active
+    schedule: 6:55 AM
+    purpose: Email triage and prioritization
+```
+
 ### **Production Workflows**
 ```yaml
 workflows:
@@ -96,7 +142,7 @@ workflows:
   WF102_Budget_Alerts:
     type: Financial Monitoring
     status: Production Ready
-    schedule: Daily 8:00 AM
+    schedule: 8:00 AM & 8:00 PM
     integrations: PostgreSQL, Telegram, Slack
     functions: Budget threshold checking, alert generation, notification sending
   
@@ -127,6 +173,13 @@ workflows:
     trigger: Event-driven
     integrations: Google Gemini, Telegram, PostgreSQL
     functions: NLP processing, inventory management, grocery planning
+    
+  Autonomous_Finance_Budget_Sync:
+    type: Data Synchronization
+    status: Production Ready
+    schedule: Every 12 hours
+    integrations: Google Sheets, PostgreSQL
+    functions: Financial data sync
 ```
 
 ---
@@ -140,7 +193,7 @@ endpoints:
     url: /webhook/master-telegram-router
     method: POST
     purpose: Telegram bot interface
-    authentication: Bot token: "{{API_SECRET}}": 30 requests/minute
+    authentication: Bot token: "{{GENERIC_API_SECRET}}": 30 requests/minute
   
   intelligence_hub:
     url: /webhook/intelligence-hub
@@ -152,7 +205,7 @@ endpoints:
   github_webhook:
     url: https://api.github.com/repos/brostudiodev/michal-second-brain-obsidian
     purpose: Documentation synchronization
-    authentication: Personal Access Token: "{{API_SECRET}}": push, pull_request
+    authentication: Personal Access Token: "{{GENERIC_API_SECRET}}": push, pull_request
 ```
 
 ### **Placeholder Endpoints (Need Implementation)**
@@ -188,7 +241,7 @@ placeholder_endpoints:
 credentials:
   telegram_bot:
     name: "AndrzejSmartBot"
-    type: Bot Token: "{{API_SECRET}}": Multi-channel communication
+    type: Bot Token: "{{GENERIC_API_SECRET}}": Multi-channel communication
     status: Active
   
   google_gemini:
@@ -215,12 +268,12 @@ credentials:
     status: Active
   
   github:
-    type: Personal Access Token: "{{API_SECRET}}": brostudiodev/michal-second-brain-obsidian
+    type: Personal Access Token: "{{GENERIC_API_SECRET}}": brostudiodev/michal-second-brain-obsidian
     purpose: Documentation and code synchronization
     status: Active
   
   slack:
-    type: Bot Token: "{{API_SECRET}}": Notification distribution
+    type: Bot Token: "{{GENERIC_API_SECRET}}": Notification distribution
     channels: #health, #finance, #system-status
     status: Active
 ```
@@ -235,8 +288,7 @@ api_integrations:
     rate_limit: 300 requests/hour
     status: Production Ready
   
-  google_gemini_api:
-    base_url: https://generativelanguage.googleapis.com
+  google_gemini_api: "{{GEMINI_API_KEY}}": https://generativelanguage.googleapis.com
     features: text_generation, content_analysis, tool_use
     custom_tools: 6 specialized functions
     status: Production Ready
@@ -317,7 +369,46 @@ system_metrics:
 
 ## 🔧 **AUTOMATION SCHEDULES**
 
-### **Cron Jobs & Schedules**
+### **Morning Brief (Daily 6:45-6:55)**
+```yaml
+morning_brief:
+  calendar_brief:
+    frequency: "0 6 * * *"     # Daily at 6:45 AM
+    workflow: SVC_Daily-Calendar-Brief
+    purpose: Today's meetings and focus blocks
+    
+  tasks_brief:
+    frequency: "1 6 * * *"    # Daily at 6:46 AM
+    workflow: SVC_Daily-Tasks-Brief
+    purpose: Top priorities from goal Roadmaps
+    
+  weather_brief:
+    frequency: "2 6 * * *"    # Daily at 6:47 AM
+    workflow: SVC_Daily-Weather-Brief
+    purpose: Weather forecast and clothing suggestions
+    
+  smarthome_brief:
+    frequency: "3 6 * * *"    # Daily at 6:48 AM
+    workflow: SVC_Daily-SmartHome-Brief
+    purpose: Home sensor status (temp, energy, security)
+    
+  workout_suggestion:
+    frequency: "4 6 * * *"    # Daily at 6:49 AM
+    workflow: SVC_Daily-Workout-Suggestion
+    purpose: Training recommendation based on recovery
+    
+  budget_brief:
+    frequency: "5 6 * * *"    # Daily at 6:50 AM
+    workflow: PROJ_Personal-Budget-Intelligence
+    purpose: Financial status vs budget
+    
+  email_summary:
+    frequency: "5 6 * * *"    # Daily at 6:55 AM
+    workflow: SVC_Email-Summary-Agent
+    purpose: Email triage and prioritization
+```
+
+### **Other Schedules**
 ```yaml
 schedules:
   digital_twin_ingestion:
@@ -327,11 +418,16 @@ schedules:
     duration: ~5 minutes
   
   budget_alerts:
-    frequency: "0 8 * * *"     # Daily at 8 AM
+    frequency: "0 8,20 * * *"     # Daily at 8 AM & 8 PM
     workflow: WF102
     purpose: Financial threshold monitoring
     duration: ~2 minutes
   
+  budget_sync:
+    frequency: "0 */12 * * *"     # Every 12 hours
+    workflow: Autonomous Finance - Budget Sync
+    purpose: Financial data synchronization
+    
   training_sync:
     frequency: "0 */6 * * *"  # Every 6 hours
     workflow: WF003
@@ -355,6 +451,29 @@ schedules:
     script: autonomous_daily_manager.py
     purpose: Daily note creation and task injection
     duration: ~1 minute
+```
+
+### **PostgreSQL pg_cron**
+```yaml
+pg_cron_jobs:
+  refresh_budget_performance:
+    frequency: "0 0,12 * * *"    # Midnight & noon
+    function: refresh_budget_performance()
+    purpose: Refresh materialized views
+    
+  refresh_savings_rate:
+    frequency: "0 */6 * * *"     # Every 6 hours
+    function: refresh_savings_rate()
+    purpose: Recalculate savings rate metrics
+```
+
+### **GitHub Actions**
+```yaml
+scheduled_workflows:
+  sheets_to_github_sync:
+    frequency: "0 */6 * * *"     # Every 6 hours
+    workflow: WF_G01_001
+    purpose: Google Sheets to GitHub sync
 ```
 
 ---

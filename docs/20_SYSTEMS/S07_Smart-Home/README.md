@@ -3,7 +3,7 @@ title: "S07: Smart Home"
 type: "system"
 status: "active"
 system_id: "system-s07"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-16"
 review_cadence: "monthly"
 ---
@@ -97,6 +97,6 @@ Home Assistant stores all data in MariaDB. See [MariaDB.md](MariaDB.md) for conn
 - No external access to local network
 
 ## Owner & Review
-- **Owner:** Michał
+- **Owner:** {{OWNER_NAME}}
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-02-16

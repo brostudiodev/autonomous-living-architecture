@@ -3,7 +3,7 @@ title: "S05: Observability & Financial Dashboards"
 type: "system"
 status: "active"
 system_id: "system-s05"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-16"
 review_cadence: "monthly"
 ---
@@ -81,12 +81,12 @@ Due to specific and highly sensitive parsing behavior of Grafana's PostgreSQL da
 
 ### Import Dashboard
 1. Navigate to Grafana UI → Dashboards → New → Import
-2. Paste the JSON from `Financial-Command-Center.json` (V2 content) located in `/home/michal/Documents/autonomous-living/docs/Financial-Command-Center.json`
+2. Paste the JSON from `Financial-Command-Center.json` (V2 content) located in `/home/{{USER}}/Documents/autonomous-living/docs/Financial-Command-Center.json`
 3. Select PostgreSQL datasource when prompted
 4. Verify all variables populate correctly
 
 ### Datasource Configuration
-- PostgreSQL connection must be configured as `{{INTERNAL_IP}}:5432`, database `autonomous_finance`, user `root`, password `admin`. This is provisioned via `autonomous-finance-db.yml` in `/home/michal/grafana/provisioning/datasources/`.
+- PostgreSQL connection must be configured as `{{INTERNAL_IP}}:5432`, database `autonomous_finance`, user `root`, password `admin`. This is provisioned via `autonomous-finance-db.yml` in `/home/{{USER}}/grafana/provisioning/datasources/`.
 - Database should contain all views from S03 Data Layer
 - User must have SELECT permissions on all financial tables and views
 
@@ -141,6 +141,6 @@ WHERE transaction_date >= CURRENT_DATE - INTERVAL '7 days';
 - Data source credentials in Grafana
 
 ## Owner & Review
-- **Owner:** Michał
+- **Owner:** {{OWNER_NAME}}
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-02-16

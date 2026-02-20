@@ -3,7 +3,7 @@ title: "S00: Homelab Platform"
 type: "system"
 status: "active"
 system_id: "system-s00"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-16"
 review_cadence: "monthly"
 ---
@@ -85,6 +85,6 @@ Provide the underlying infrastructure platform hosting all autonomous living sys
 - Regular image updates
 
 ## Owner & Review
-- **Owner:** Michał
+- **Owner:** {{OWNER_NAME}}
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-02-16

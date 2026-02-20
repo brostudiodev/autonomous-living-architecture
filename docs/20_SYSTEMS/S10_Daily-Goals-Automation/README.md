@@ -3,7 +3,7 @@ title: "S10: Daily Goals Automation System"
 type: "system"
 status: "active"
 system_id: "system-s10"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-16"
 review_cadence: "monthly"
 ---
@@ -286,6 +286,6 @@ This system embodies "Automation-First Living" principles by eliminating manual 
 - Daily notes contain personal data
 
 ## Owner & Review
-- **Owner:** Michał
+- **Owner:** {{OWNER_NAME}}
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-02-16

@@ -3,7 +3,7 @@ title: "G09: Automated Career Intelligence"
 type: "goal"
 status: "active"
 goal_id: "goal-g09"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-16"
 review_cadence: "quarterly"
 ---
@@ -93,6 +93,6 @@ Build an automated system for tracking career growth, skill development, and pro
 - Keep career data private
 
 ## Owner & Review
-- **Owner:** Michał
+- **Owner:** {{OWNER_NAME}}
 - **Review Cadence:** Quarterly
 - **Last Updated:** 2026-02-16

@@ -5,7 +5,7 @@ status: "active"
 dashboard_id: "financial-command-center-real-v2"
 goal_id: "goal-g05"
 systems: ["system-s05", "system-s03"]
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-15"
 ---
 

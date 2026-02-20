@@ -5,7 +5,7 @@ status: "inactive"
 automation_id: "WF111__autonomous-finance-daily-budget-alerts"
 goal_id: "goal-g05"
 systems: ["S03", "S08"]
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-18"
 ---
 

@@ -3,7 +3,7 @@ title: "G08: Predictive Smart Home Orchestration - Execution State"
 type: "goal_execution"
 status: "active"
 goal_id: "goal-g08"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 

@@ -3,7 +3,7 @@ title: "G12: Complete Process Documentation"
 type: "goal"
 status: "active"
 goal_id: "goal-g12"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-16"
 review_cadence: "monthly"
 ---
@@ -86,6 +86,6 @@ Ensure all autonomous living systems, goals, and automations are comprehensively
 - Internal-only data marked appropriately
 
 ## Owner & Review
-- **Owner:** Michał
+- **Owner:** {{OWNER_NAME}}
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-02-16

@@ -3,7 +3,7 @@ title: "S04: Digital Twin"
 type: "system"
 status: "active"
 system_id: "system-s04"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-16"
 review_cadence: "monthly"
 ---
@@ -71,7 +71,7 @@ Build Digital Twin/Virtual Assistant handling 70% of routine capture/triage/exec
 - Vector DB access restricted to internal network
 
 ## Owner & Review
-- **Owner:** Michał
+- **Owner:** {{OWNER_NAME}}
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-02-16
 

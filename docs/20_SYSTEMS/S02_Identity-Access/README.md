@@ -3,7 +3,7 @@ title: "S02: Identity & Access"
 type: "system"
 status: "active"
 system_id: "system-s02"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-16"
 review_cadence: "monthly"
 ---
@@ -58,6 +58,6 @@ Manage authentication, authorization, and access control across all autonomous l
 - API keys rotated regularly
 
 ## Owner & Review
-- **Owner:** Michał
+- **Owner:** {{OWNER_NAME}}
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-02-16

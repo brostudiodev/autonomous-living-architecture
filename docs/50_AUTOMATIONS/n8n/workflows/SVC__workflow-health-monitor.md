@@ -5,7 +5,7 @@ status: "draft"
 automation_id: "SVC__workflow-health-monitor"
 goal_id: "goal-g11"
 systems: ["S01"]
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-18"
 ---
 

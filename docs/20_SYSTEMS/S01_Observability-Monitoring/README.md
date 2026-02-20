@@ -3,7 +3,7 @@ title: "S01: Observability & Monitoring"
 type: "system"
 status: "active"
 system_id: "system-s01"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-16"
 review_cadence: "monthly"
 ---
@@ -103,6 +103,6 @@ Provide centralized logging, metrics collection, alerting, and dashboard visuali
 - Webhook URLs stored as secrets
 
 ## Owner & Review
-- **Owner:** Michał
+- **Owner:** {{OWNER_NAME}}
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-02-16

@@ -3,7 +3,7 @@ title: "G10: Roadmap"
 type: "goal_roadmap"
 status: "active"
 goal_id: "goal-g10"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-15"
 ---
 
@@ -18,9 +18,9 @@ updated: "2026-02-15"
 - [x] Integration with Google Calendar API for create/read operations
 
 ### Productivity System
-- [ ] Identify key productivity metrics (e.g., focused work time, task completion rate, meeting effectiveness)
-- [ ] Integrate initial data sources (e.g., calendar APIs, task management APIs, time tracking apps)
-- [ ] Establish data ingestion pipelines for continuous productivity data collection
+- [x] Identify key productivity metrics (e.g., focus time, task completion) ✅ (Implemented in Master Brain)
+- [x] Integrate initial data sources (e.g., calendar, DBs) ✅ (Feb 20)
+- [x] Establish data ingestion pipelines for continuous productivity data collection ✅
 - [ ] Develop a structured data model for productivity and time allocation in S03 (Data Layer)
 - [ ] Set up basic dashboards in S01 (Observability) for productivity trend monitoring
 - [ ] Begin feeding productivity data into G12 (Meta-System) for holistic personal optimization

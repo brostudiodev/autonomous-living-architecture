@@ -5,7 +5,7 @@ status: "active"
 automation_id: "g04-digital-twin-api"
 goal_id: "goal-g04"
 systems: ["S04", "S05"]
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-19"
 ---
 
@@ -53,8 +53,14 @@ Provides a FastAPI-based REST interface for the Digital Twin Ecosystem. It expos
 ## Manual Fallback
 Use the CLI version of the engine if the API is down:
 ```bash
-/home/michal/Documents/autonomous-living/.venv/bin/python /home/michal/Documents/autonomous-living/scripts/G04_digital_twin_engine.py
+/home/{{USER}}/Documents/autonomous-living/.venv/bin/python /home/{{USER}}/Documents/autonomous-living/scripts/G04_digital_twin_engine.py
 ```
+
+## Infrastructure
+- **Docker**: The API runs in a Python container (`digital-twin-api`) defined in `infrastructure/docker-compose.yml`.
+- **Restart Policy**: `always` (Ensures high availability when VM/Docker starts).
+- **Network**: `host` mode (Direct access to local PostgreSQL and port 5677).
+- **Context**: Root of the project (`scripts` folder used for builds).
 
 ## Related Documentation
 - [Automation: G04 Digital Twin Engine](./g04-digital-twin-engine.md)

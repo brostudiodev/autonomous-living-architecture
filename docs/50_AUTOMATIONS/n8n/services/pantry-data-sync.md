@@ -5,7 +5,7 @@ status: "active"
 automation_id: "pantry-data-sync"
 goal_id: "goal-g03"
 systems: ["S03", "S08"]
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-19"
 ---
 

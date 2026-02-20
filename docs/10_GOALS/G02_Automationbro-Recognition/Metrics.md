@@ -2,7 +2,7 @@
 title: "G02: Metrics"
 type: "goal_metrics"
 status: "active"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 
@@ -11,11 +11,11 @@ updated: "2026-02-07"
 ## KPI list
 | Metric | Target | How measured | Frequency | Owner |
 |---|---:|---|---|---|
-| Substack: Open Rate (%) | TBD | Substack Analytics | TBD | Michał |
-| Substack: New Subscribers | TBD | Substack Analytics | TBD | Michał |
-| LinkedIn: Article Views | TBD | LinkedIn Analytics | TBD | Michał |
-| LinkedIn: Post Reach | TBD | LinkedIn Analytics | TBD | Michał |
-| LinkedIn: Engagement Rate | TBD | LinkedIn Analytics | TBD | Michał |
+| Substack: Open Rate (%) | TBD | Substack Analytics | TBD | {{OWNER_NAME}} |
+| Substack: New Subscribers | TBD | Substack Analytics | TBD | {{OWNER_NAME}} |
+| LinkedIn: Article Views | TBD | LinkedIn Analytics | TBD | {{OWNER_NAME}} |
+| LinkedIn: Post Reach | TBD | LinkedIn Analytics | TBD | {{OWNER_NAME}} |
+| LinkedIn: Engagement Rate | TBD | LinkedIn Analytics | TBD | {{OWNER_NAME}} |
 
 ## Leading indicators
 - ...

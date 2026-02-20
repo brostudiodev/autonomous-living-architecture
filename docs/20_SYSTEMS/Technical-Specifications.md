@@ -2,7 +2,7 @@
 title: "Technical Specifications"
 type: "documentation"
 status: "active"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-11"
 ---
 
@@ -393,7 +393,7 @@ specification:
   format: "OpenAPI 3.0"
   tools: "Swagger UI + Redoc"
   examples: "Request/response examples"
-  authentication: "Bearer token: "{{API_SECRET}}"
+  authentication: "Bearer token: "{{GENERIC_API_SECRET}}"
   
 maintenance:
   versioning: "Semantic versioning (MAJOR.MINOR.PATCH)"
@@ -547,7 +547,7 @@ application_metrics:
   integration_health: "API success rates, data synchronization"
   
 security_metrics:
-  authentication_events: "Login attempts, token: "{{API_SECRET}}"
+  authentication_events: "Login attempts, token: "{{GENERIC_API_SECRET}}"
   authorization_failures: "Access denied, permission violations"
   anomaly_detection: "Unusual patterns, potential threats"
 ```

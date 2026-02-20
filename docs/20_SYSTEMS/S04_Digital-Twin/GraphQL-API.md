@@ -3,7 +3,7 @@ title: "S04: Digital Twin GraphQL API"
 type: "system_api_spec"
 status: "planning"
 system_id: "S04"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-09"
 ---
 

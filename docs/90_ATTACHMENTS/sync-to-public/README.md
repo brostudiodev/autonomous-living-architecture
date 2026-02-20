@@ -2,7 +2,7 @@
 title: "Sync-to-Public System Documentation"
 type: "system_documentation"
 status: "active"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 
@@ -101,7 +101,7 @@ python3 scripts/sync-to-public.py
 Expected output:
 
 ```
-Syncing from /home/michal/Documents/autonomous-living to /home/michal/Documents/autonomous-living-architecture
+Syncing from /home/{{USER}}/Documents/autonomous-living to /home/{{USER}}/Documents/autonomous-living-architecture
 ✅ Sanitized: docs/00_START-HERE/Principles.md
 ✅ Sanitized: docs/20_SYSTEMS/S00_Homelab-Platform/Architecture.md
 ✅ Copied: docs/90_ATTACHMENTS/diagrams/system_architecture.png
@@ -271,5 +271,5 @@ Related Documentation
     Standard: Goal Documentation Standard
 
 Last Updated: 2026-02-04
-Owner: Michał
+Owner: {{OWNER_NAME}}
 Status: Active

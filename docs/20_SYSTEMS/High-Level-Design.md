@@ -2,7 +2,7 @@
 title: "High-Level Design"
 type: "documentation"
 status: "active"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-11"
 ---
 

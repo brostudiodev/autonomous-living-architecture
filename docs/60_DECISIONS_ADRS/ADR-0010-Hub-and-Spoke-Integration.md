@@ -3,7 +3,7 @@ title: "ADR-0010: Hub-and-Spoke Integration Pattern"
 type: "decision"
 status: "accepted"
 date: "2025-09-15"
-deciders: ["Michał"]
+deciders: ["{{OWNER_NAME}}"]
 consulted: []
 informed: []
 ---

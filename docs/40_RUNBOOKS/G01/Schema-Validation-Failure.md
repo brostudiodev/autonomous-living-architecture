@@ -4,7 +4,7 @@ type: "runbook"
 status: "active"
 goal_id: "goal-g01"
 automation_id: "WF_G01_001__sheets-to-github-sync"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 

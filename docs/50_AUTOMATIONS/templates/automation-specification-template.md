@@ -38,7 +38,7 @@ status: "active"
 automation_id: "{ID}__{name}"
 goal_id: "goal-gXX"
 systems: ["SXX", "SYY"]
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "YYYY-MM-DD"
 ---
 

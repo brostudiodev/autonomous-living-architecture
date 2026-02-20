@@ -3,7 +3,7 @@ title: "S03: Data Layer"
 type: "system"
 status: "active"
 system_id: "system-s03"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-17"
 review_cadence: "monthly"
 ---
@@ -205,7 +205,7 @@ docker run -d \
   --name postgres-finance \
   -e POSTGRES_DB=finance \
   -e POSTGRES_USER=finance_user \
-  -e POSTGRES_PASSWORD: "{{API_SECRET}}" \
+  -e POSTGRES_PASSWORD: "{{GENERIC_API_SECRET}}" \
   -v /path/to/data:/var/lib/postgresql/data \
   -p 5432:5432 \
   postgres:15
@@ -326,6 +326,6 @@ pg_basebackup -h localhost -D /backup/base -U finance_user -v -P -W
 - Network isolation via Docker networking
 
 ## Owner & Review
-- **Owner:** Michał
+- **Owner:** {{OWNER_NAME}}
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-02-17

@@ -2,7 +2,7 @@
 title: "How to navigate this repo"
 type: "guide"
 status: "active"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 

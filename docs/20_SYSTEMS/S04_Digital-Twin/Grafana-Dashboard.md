@@ -3,7 +3,7 @@ title: "S04: Digital Twin Grafana Dashboard"
 type: "system_dashboard_spec"
 status: "planning"
 system_id: "S04"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-09"
 ---
 

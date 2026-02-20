@@ -3,7 +3,7 @@ title: "S03: Pantry Data Schema (Magazynek_domowy)"
 type: "data_model"
 status: "active"
 source_system: "Google Sheets"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 

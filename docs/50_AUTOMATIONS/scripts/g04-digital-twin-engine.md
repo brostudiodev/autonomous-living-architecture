@@ -5,7 +5,7 @@ status: "active"
 automation_id: "g04-digital-twin-engine"
 goal_id: "goal-g04"
 systems: ["S03", "S04"]
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-19"
 ---
 

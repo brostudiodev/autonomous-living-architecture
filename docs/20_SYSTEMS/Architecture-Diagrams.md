@@ -2,7 +2,7 @@
 title: "Architecture Diagrams"
 type: "documentation"
 status: "active"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-19"
 ---
 
@@ -461,7 +461,7 @@ graph TB
     subgraph "Encryption Layer"
         DATA_TRANSIT[Data in Transit<br/>TLS/SSL]
         DATA_AT_REST[Data at Rest<br/>PostgreSQL Encryption]
-        SECRET_STORAGE[Secret: "{{API_SECRET}}"<br/>Environment Variables]
+        SECRET_STORAGE[Secret: "{{GENERIC_API_SECRET}}"<br/>Environment Variables]
         BACKUP_ENCRYPTION[Backup Encryption<br/>GPG Encryption]
     end
 

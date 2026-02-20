@@ -3,7 +3,7 @@ title: "S08: Automation Orchestrator"
 type: "system"
 status: "active"
 system_id: "system-s08"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-16"
 review_cadence: "monthly"
 ---
@@ -98,21 +98,21 @@ POSTGRES_HOST=postgresql
 POSTGRES_PORT=5432
 POSTGRES_DB=finance
 POSTGRES_USER=finance_user
-POSTGRES_PASSWORD: "{{API_SECRET}}"
+POSTGRES_PASSWORD: "{{GENERIC_API_SECRET}}"
 
 # Slack Integration
-SLACK_BOT_TOKEN: "{{API_SECRET}}"
+SLACK_BOT_TOKEN: "{{GENERIC_API_SECRET}}"
 SLACK_CHANNEL=finance-alerts
 
 # n8n Configuration
 N8N_BASIC_AUTH_ACTIVE=true
 N8N_BASIC_AUTH_USER=admin
-N8N_BASIC_AUTH_PASSWORD: "{{API_SECRET}}"
+N8N_BASIC_AUTH_PASSWORD: "{{GENERIC_API_SECRET}}"
 ```
 
 ### Workflow Credentials
 - **PostgreSQL Finance DB:** Database connection credentials
-- **Slack Finance Alerts:** Slack bot token: "{{API_SECRET}}" notifications
+- **Slack Finance Alerts:** Slack bot token: "{{GENERIC_API_SECRET}}" notifications
 
 ## Monitoring and Maintenance
 
@@ -214,6 +214,6 @@ docker logs n8n_container | grep "Workflow execution finished"
 - No credentials in workflow JSON files
 
 ## Owner & Review
-- **Owner:** Michał
+- **Owner:** {{OWNER_NAME}}
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-02-16

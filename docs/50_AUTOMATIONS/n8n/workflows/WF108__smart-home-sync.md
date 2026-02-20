@@ -4,7 +4,7 @@ type: "automation_spec"
 status: "draft"
 goal_id: "goal-g08"
 systems: ["S01", "S07"]
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-18"
 ---
 

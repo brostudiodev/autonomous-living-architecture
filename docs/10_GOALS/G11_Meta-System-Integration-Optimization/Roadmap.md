@@ -2,18 +2,18 @@
 title: "G11: Roadmap"
 type: "goal_roadmap"
 status: "active"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 
 # Roadmap (2026)
 
 ## Q1 (Jan–Mar)
-- [ ] Define Meta-System architecture and core data integration patterns (Documented in Architecture-and-Integration.md)
+- [x] Define Meta-System architecture and core data integration patterns ✅ (Feb 20)
 - [ ] Conduct a detailed review of `docs/20_SYSTEMS/S04_Digital-Twin/` and `docs/20_SYSTEMS/S08_Automation-Orchestrator/` to understand their current design and intended integration points.
-- [ ] Systematically map inputs and outputs for all goals (G01-G11), identifying which integration pattern each data flow follows.
+- [x] Systematically map inputs and outputs for all goals (G01-G11) ✅ (Implemented via G11_meta_mapper.py)
 - [ ] Begin defining a high-level unified data schema for S03 Data Layer that can accommodate data from diverse goals.
-- [ ] Prototype a basic Meta-System dashboard in S01 (Observability) to display aggregated KPIs from at least two integrated goals.
+- [x] Prototype a basic Meta-System dashboard in S01 (Observability) to display aggregated KPIs from at least two integrated goals ✅ (Connectivity Matrix deployed)
 - [ ] Document identified correlations and dependencies between the goals to inform future optimization strategies.
 
 ## Q2 (Apr–Jun)

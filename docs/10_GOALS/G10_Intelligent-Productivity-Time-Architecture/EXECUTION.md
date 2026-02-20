@@ -3,7 +3,7 @@ title: "G10: Intelligent Productivity & Time Architecture - Execution State"
 type: "goal_execution"
 status: "active"
 goal_id: "goal-g10"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 

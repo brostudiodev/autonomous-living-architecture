@@ -2,7 +2,7 @@
 title: "Sync-to-Public Quick Reference"
 type: "quick_reference"
 status: "active"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 

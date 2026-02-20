@@ -3,7 +3,7 @@ title: "G02: Content Strategy"
 type: "content_strategy"
 status: "active"
 goal_id: "goal-g02"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-15"
 ---
 

@@ -3,7 +3,7 @@ title: "S09: Productivity & Time"
 type: "system"
 status: "active"
 system_id: "system-s09"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-16"
 review_cadence: "monthly"
 ---
@@ -76,6 +76,6 @@ Implement AI-powered productivity system that measures and improves effective pr
 - No external sharing
 
 ## Owner & Review
-- **Owner:** Michał
+- **Owner:** {{OWNER_NAME}}
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-02-16

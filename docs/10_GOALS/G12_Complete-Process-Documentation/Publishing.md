@@ -2,7 +2,7 @@
 title: "Publishing"
 type: "process"
 status: "active"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 

@@ -3,7 +3,7 @@ title: "G05: Autonomous Finance Data & Command Center"
 type: "goal"
 status: "active"
 goal_id: "goal-g05"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-15"
 ---
 
@@ -76,7 +76,7 @@ Build a **reliable, explainable, and mostly self-driving financial data layer + 
 - Dashboard access is limited to local network/VPN.
 
 ## Owner & Review
-- **Owner:** Michał
+- **Owner:** {{OWNER_NAME}}
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-02-19
 

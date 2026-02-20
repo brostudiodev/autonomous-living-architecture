@@ -38,8 +38,8 @@ WF105 generates weekly activity summaries from ACTIVITY_LOG.md files and updates
 #### File System Paths
 ```bash
 # Verify these paths are accessible by n8n user
-/home/michal/Documents/autonomous-living/docs/10_GOALS/
-/home/michal/Documents/autonomous-living/docs/_meta/weekly-summaries/
+/home/{{USER}}/Documents/autonomous-living/docs/10_GOALS/
+/home/{{USER}}/Documents/autonomous-living/docs/_meta/weekly-summaries/
 ```
 
 ## Deployment Steps
@@ -73,13 +73,13 @@ WF105 generates weekly activity summaries from ACTIVITY_LOG.md files and updates
 ### Step 4: Verify Outputs
 ```bash
 # Check that files were created/updated:
-ls -la /home/michal/Documents/autonomous-living/docs/_meta/weekly-summaries/
+ls -la /home/{{USER}}/Documents/autonomous-living/docs/_meta/weekly-summaries/
 
 # Verify ACTIVITY.md updates:
-find /home/michal/Documents/autonomous-living/docs/10_GOALS/ -name "ACTIVITY.md" -exec head -20 {} \;
+find /home/{{USER}}/Documents/autonomous-living/docs/10_GOALS/ -name "ACTIVITY.md" -exec head -20 {} \;
 
 # Check weekly report content:
-cat /home/michal/Documents/autonomous-living/docs/_meta/weekly-summaries/*.md
+cat /home/{{USER}}/Documents/autonomous-living/docs/_meta/weekly-summaries/*.md
 ```
 
 ### Step 5: Schedule Weekly Execution
@@ -114,8 +114,8 @@ cat /home/michal/Documents/autonomous-living/docs/_meta/weekly-summaries/*.md
 #### File Permission Errors
 ```bash
 # Fix n8n file access permissions
-sudo chown -R n8n:n8n /home/michal/Documents/autonomous-living/docs/
-sudo chmod -R 755 /home/michal/Documents/autonomous-living/docs/
+sudo chown -R n8n:n8n /home/{{USER}}/Documents/autonomous-living/docs/
+sudo chmod -R 755 /home/{{USER}}/Documents/autonomous-living/docs/
 ```
 
 #### Slack Notification Failures
@@ -131,10 +131,10 @@ curl -X POST -H 'Content-type: application/json' \
 #### No Activity Data Found
 ```bash
 # Verify ACTIVITY_LOG.md files exist
-find /home/michal/Documents/autonomous-living/docs/10_GOALS/ -name "ACTIVITY_LOG.md"
+find /home/{{USER}}/Documents/autonomous-living/docs/10_GOALS/ -name "ACTIVITY_LOG.md"
 
 # Check recent entries exist
-grep -r "2026-" /home/michal/Documents/autonomous-living/docs/10_GOALS/*/ACTIVITY_LOG.md
+grep -r "2026-" /home/{{USER}}/Documents/autonomous-living/docs/10_GOALS/*/ACTIVITY_LOG.md
 ```
 
 ## Rollback Plan
@@ -144,7 +144,7 @@ If deployment fails:
 # 1. Deactivate the workflow in n8n
 # 2. Delete any generated weekly summary reports
 # 3. Restore ACTIVITY.md files from git if needed:
-cd /home/michal/Documents/autonomous-living
+cd /home/{{USER}}/Documents/autonomous-living
 git checkout -- docs/10_GOALS/*/ACTIVITY.md
 # 4. Fix the issue and redeploy
 ```

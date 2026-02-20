@@ -2,7 +2,7 @@
 title: "Goals"
 type: "index"
 status: "active"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 

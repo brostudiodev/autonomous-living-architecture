@@ -3,7 +3,7 @@ title: "G10: Metrics"
 type: "goal_metrics"
 status: "active"
 goal_id: "goal-g10"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-15"
 ---
 
@@ -14,15 +14,15 @@ updated: "2026-02-15"
 ### Calendar Management Metrics
 | Metric | Target | How measured | Frequency | Owner |
 |---|---:|---|---|---|
-| Calendar request success rate | ≥ 95% | n8n execution logs + manual validation | Weekly | Michał |
-| End-to-end response time | ≤ 10s | n8n workflow duration tracking | Daily | Michał |
-| Monthly LLM cost | < $5 USD | Google Cloud billing dashboard | Monthly | Michał |
-| User correction rate | ≤ 5% | Manual tracking in activity logs | Weekly | Michał |
+| Calendar request success rate | ≥ 95% | n8n execution logs + manual validation | Weekly | {{OWNER_NAME}} |
+| End-to-end response time | ≤ 10s | n8n workflow duration tracking | Daily | {{OWNER_NAME}} |
+| Monthly LLM cost | < $5 USD | Google Cloud billing dashboard | Monthly | {{OWNER_NAME}} |
+| User correction rate | ≤ 5% | Manual tracking in activity logs | Weekly | {{OWNER_NAME}} |
 
 ### Productivity System Metrics
 | Metric | Target | How measured | Frequency | Owner |
 |---|---:|---|---|---|
-| Example KPI | TBD | TBD | weekly | Michał |
+| Example KPI | TBD | TBD | weekly | {{OWNER_NAME}} |
 
 ## Leading indicators
 ### Calendar Management
@@ -47,4 +47,4 @@ updated: "2026-02-15"
 - n8n execution logs: `SVC_Google-Calendar` workflow
 - Google Calendar API usage metrics
 - Manual activity tracking in `goal-g11/ACTIVITY.md`
-- LLM token: "{{API_SECRET}}" from Google Cloud Console
+- LLM token: "{{GENERIC_API_SECRET}}" from Google Cloud Console

@@ -3,7 +3,7 @@ title: "External LLM Request Template: goal-g06 (G06: Certification Exams)"
 type: "prompt_request"
 status: "active"
 goal_id: "goal-g06"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 
@@ -12,7 +12,7 @@ Paste `External-LLM-Generator-Prompt.md` first, then paste and fill this request
 DOCUMENTATION REQUEST
 DOC_KIND: one of [goal_project | automation_n8n | automation_script | automation_home_assistant | sop | runbook]
 TODAY: YYYY-MM-DD
-OWNER: Michał
+OWNER: {{OWNER_NAME}}
 
 GOAL
 GOAL_ID: goal-g06

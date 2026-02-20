@@ -2,7 +2,7 @@
 title: "Goal Documentation Standard"
 type: "standard"
 status: "active"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-16"
 ---
 
@@ -46,7 +46,7 @@ title: "GXX: Goal Name"
 type: "goal"
 status: "active"
 goal_id: "goal-gXX"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "YYYY-MM-DD"
 ---
 
@@ -111,7 +111,7 @@ updated: "YYYY-MM-DD"
 ## KPI list
 | Metric | Target | How measured | Frequency | Owner |
 |---|---:|---|---|---|
-| Example KPI | TBD | TBD | weekly | Michał |
+| Example KPI | TBD | TBD | weekly | {{OWNER_NAME}} |
 
 ## Leading indicators
 - ...
@@ -324,7 +324,7 @@ status: "active"
 automation_id: "{ID}__name"
 goal_id: "goal-gXX"
 systems: ["SXX", "SYY"]
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "YYYY-MM-DD"
 ---
 

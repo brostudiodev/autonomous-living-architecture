@@ -3,7 +3,7 @@ title: "S04: Digital Twin Data Models"
 type: "system_data_models"
 status: "draft"
 system_id: "S04"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-09"
 ---
 

@@ -3,7 +3,7 @@ title: "G08: Predictive Smart Home Orchestration"
 type: "goal"
 status: "active"
 goal_id: "goal-g08"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-16"
 review_cadence: "monthly"
 ---
@@ -90,6 +90,6 @@ Create a predictive smart home system that intelligently orchestrates devices ba
 - IoT devices on separate VLAN recommended
 
 ## Owner & Review
-- **Owner:** Michał
+- **Owner:** {{OWNER_NAME}}
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-02-16

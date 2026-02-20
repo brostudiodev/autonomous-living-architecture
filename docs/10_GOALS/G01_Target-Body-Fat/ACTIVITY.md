@@ -3,7 +3,7 @@ title: "G01: Detailed Activity Log"
 type: "activity_log"
 status: "active"
 goal_id: "goal-g01"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 

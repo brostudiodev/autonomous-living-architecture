@@ -1,7 +1,7 @@
 import os
 import re
 
-DOCS_DIR = "/home/michal/Documents/autonomous-living/docs"
+DOCS_DIR = "/home/{{USER}}/Documents/autonomous-living/docs"
 GOALS_DIR = os.path.join(DOCS_DIR, "10_GOALS")
 SYSTEMS_DIR = os.path.join(DOCS_DIR, "20_SYSTEMS")
 

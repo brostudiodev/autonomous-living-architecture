@@ -3,7 +3,7 @@ title: "G10: Systems"
 type: "goal_systems"
 status: "active"
 goal_id: "goal-g10"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-15"
 ---
 

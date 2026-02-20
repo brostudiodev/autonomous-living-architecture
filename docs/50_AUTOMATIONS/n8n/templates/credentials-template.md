@@ -2,7 +2,7 @@
 title: "Credentials Template (no secrets)"
 type: "template"
 status: "active"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 
@@ -14,7 +14,7 @@ updated: "2026-02-07"
 - Stored in:
   - [ ] n8n credential store
   - [ ] environment variable(s)
-  - [ ] secret: "{{API_SECRET}}" (recommended)
+  - [ ] secret: "{{GENERIC_API_SECRET}}" (recommended)
 
 ## Rotation
 - Rotation interval:

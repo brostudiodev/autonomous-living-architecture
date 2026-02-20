@@ -87,7 +87,7 @@ class DigitalTwinAgent(Agent):
     def __init__(self):
         super().__init__(
             name="digital_twin_agent",
-            ai_name="Michał_Digital_Twin",
+            ai_name="{{OWNER_NAME}}_Digital_Twin",
             ai_role="Content Creator and Strategist",
             goals=[
                 "Create authentic content based on personal knowledge",

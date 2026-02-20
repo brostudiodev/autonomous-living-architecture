@@ -3,7 +3,7 @@ title: "G01: Roadmap"
 type: "goal_roadmap"
 status: "active"
 goal_id: "goal-g01"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 
@@ -19,7 +19,7 @@ updated: "2026-02-07"
   - Waist: Every 15 days max
   - Photos: Monthly
   - DEXA: Only at target (optional)
-- [ ] Develop script for monthly progress summary generation
+- [x] Develop script for monthly progress summary generation ✅ (G01_monthly_reporter.py)
 - [ ] Integrate smart scale data API with S03 Data Layer
 - [ ] Define initial data model for health metrics in S03
 

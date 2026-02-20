@@ -2,7 +2,7 @@
 title: "SVC: Pantry Expiration Alerts"
 type: "automation_spec"
 status: "planning"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 goal_id: "goal-g03"
 systems: ["S03", "S08"]
 automation_id: "SVC_Pantry-Expiration-Alerts"

@@ -4,7 +4,7 @@ type: "runbook"
 severity: "low"
 status: "active"
 updated: "2026-02-07"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 ---
 
 # Runbook: Pantry System Troubleshooting

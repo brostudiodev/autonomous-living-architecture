@@ -2,7 +2,7 @@
 title: "Autonomous Living - Start Here"
 type: "navigation"
 status: "active"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-11"
 ---
 

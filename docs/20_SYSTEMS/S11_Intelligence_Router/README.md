@@ -3,7 +3,7 @@ title: "S11: Intelligence Router"
 type: "system"
 status: "active"
 system_id: "system-s11"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-16"
 review_cadence: "monthly"
 ---
@@ -206,7 +206,7 @@ The ROUTER_Intelligence-Hub serves as the central nervous system of your persona
 **AI Prompt Structure:**
 
 ```
-You are Michał's Intelligence Processing System.
+You are {{OWNER_NAME}}'s Intelligence Processing System.
 
 **MICHAŁ'S 12 POWER GOALS:**
 1. Reach Target Body Fat
@@ -321,6 +321,6 @@ This router represents a mature, production-ready intelligence processing system
 - No PII in webhook payloads
 
 ## Owner & Review
-- **Owner:** Michał
+- **Owner:** {{OWNER_NAME}}
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-02-16

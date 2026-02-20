@@ -3,7 +3,7 @@ title: "S04: Digital Twin Data Ingestion Pipelines"
 type: "system_data_ingestion"
 status: "complete"
 system_id: "S04"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-10"
 ---
 

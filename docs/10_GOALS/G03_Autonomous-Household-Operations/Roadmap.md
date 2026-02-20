@@ -2,7 +2,7 @@
 title: "G03: Roadmap"
 type: "goal_roadmap"
 status: "active"
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-07"
 ---
 
@@ -12,9 +12,9 @@ updated: "2026-02-07"
 - [x] Pantry Management System v1.0 Deployed
 - [ ] Integrate pantry consumption data with grocery automation (WF101)
 - [ ] Implement predictive restocking based on usage patterns and inventory levels
-- [ ] Connect household budget constraints from G05 (Autonomous Finance) via S05 Finance
-- [ ] Begin feeding household operational data into G12 (Meta-System) for cross-system optimization
-- [ ] Expand pantry system to include expiration date tracking and alerts
+- [x] Connect household budget constraints from G05 (Autonomous Finance) via S05 Finance ✅ (Master Brain integration)
+- [x] Begin feeding household operational data into G12 (Meta-System) for cross-system optimization ✅ (G11 Mapper)
+- [x] Expand pantry system to include expiration date tracking and alerts ✅ (G03 Expiration Alerting)
 
 ## Q2 (Apr–Jun)
 - [ ] Integrate cleaning schedules with smart home devices (e.g., robot vacuum, air purifiers)

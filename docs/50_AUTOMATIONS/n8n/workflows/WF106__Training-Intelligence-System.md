@@ -5,7 +5,7 @@ status: "active"
 automation_id: "WF106__Training-Intelligence-System"
 goal_id: "goal-gXX" # Please specify your Training/Health goal ID
 systems: ["S03", "S07"]
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-12"
 ---
 
@@ -27,7 +27,7 @@ Bilingual (Polish/English) AI-powered training assistant that analyzes HIT (High
   "chat_id": "7689674321",
   "source_type": "telegram",
   "user_id": "123456",
-  "username": "Michał",
+  "username": "{{OWNER_NAME}}",
   "days_lookback": 60
 }
 
@@ -174,7 +174,7 @@ Dynamic Bilingual Prompting:
 
 Polish Version:
 
-Jesteś osobistym trenerem i analitykiem danych Michała, specjalizującym się w metodzie HIT...
+Jesteś osobistym trenerem i analitykiem danych {{OWNER_NAME}}a, specjalizującym się w metodzie HIT...
 
 **ZASADY ODPOWIEDZI:**
 1. Odpowiadaj TYLKO na podstawie dostępnych danych
@@ -210,7 +210,7 @@ Success Response
   "metadata": {
     "response_endpoint": { "type": "telegram", "chat_id": "7689674321" },
     "language": "pl",
-    "username": "Michał"
+    "username": "{{OWNER_NAME}}"
   },
   "query": "jaki ciężar miałem przy pompkach?",
   "summary": {

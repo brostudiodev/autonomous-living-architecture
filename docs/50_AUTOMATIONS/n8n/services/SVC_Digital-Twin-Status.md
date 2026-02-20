@@ -5,7 +5,7 @@ status: "active"
 automation_id: "SVC_Digital-Twin-Status"
 goal_id: "goal-g04"
 systems: ["S04", "S05"]
-owner: "Michał"
+owner: "{{OWNER_NAME}}"
 updated: "2026-02-19"
 ---
 

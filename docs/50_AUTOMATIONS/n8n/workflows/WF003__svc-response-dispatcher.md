@@ -264,7 +264,7 @@ Systems
 
 External Services
 
-    Telegram Bot API: Message delivery via bot token: "{{API_SECRET}}" Webhook System: HTTP response handling
+    Telegram Bot API: Message delivery via bot token: "{{GENERIC_API_SECRET}}" Webhook System: HTTP response handling
     n8n Chat System: UI display rendering
 
 Credentials
