@@ -119,8 +119,16 @@ User Commands → G04 Router → System Actions → Response Generation
 **Active Commands:**
 - `/goals` - Status from all goal systems
 - `/status` - Overall system health check
-- `/todo` - Task management integration
+- `/todo` - Task management integration (Google Tasks sync)
 - `/approve_*` - Intelligence activator workflows
+
+#### **Google Tasks ↔ Obsidian Synchronization**
+```
+Google Tasks API → G10 Sync Script → Autonomous Daily Manager → Obsidian Daily Note
+```
+- **Unification of external capture** with internal daily planning
+- **Context-aware task injection** based on system priorities
+- **Zero-friction synchronization** of mobile-captured tasks to desktop workflow
 
 #### **GitHub Integration ↔ Documentation Systems**
 ```

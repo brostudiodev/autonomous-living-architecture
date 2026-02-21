@@ -3,7 +3,7 @@ title: "Low-Level Design Documentation"
 type: "documentation"
 status: "active"
 owner: "{{OWNER_NAME}}"
-updated: "2026-02-19"
+updated: "2026-02-20"
 ---
 
 # Low-Level Design Documentation
@@ -133,7 +133,7 @@ response_schema:
   properties:
     summary:
       type: string
-      description: Human-readable multi-domain status
+      description: Human-readable multi-domain status briefing
     state:
       type: object
       properties:
@@ -149,6 +149,11 @@ response_schema:
           properties:
             mtd_net: number
             active_budget_alerts: integer
+        pantry:
+          type: object
+          properties:
+            low_stock_count: integer
+            low_stock_items: array
         timestamp: string
 ```
 ```
@@ -367,6 +372,37 @@ class Exercise:
     tut_seconds: int
     form_rating: int  # 1-5 scale
     rest_seconds: int
+```
+
+---
+
+### **G10 Google Tasks Sync Service**
+```python
+# G10_google_tasks_sync.py Interface Specification
+
+class GoogleTasksSyncService:
+    """Service for autonomous task synchronization from Google Tasks API"""
+    
+    def __init__(self, client_secret_path: str, token_path: str):
+        self.scopes = ['https://www.googleapis.com/auth/tasks.readonly']
+        self.service = self.authenticate(client_secret_path, token_path)
+        
+    def authenticate(self, secret_path: str, token_path: str) -> Resource:
+        """Handles OAuth2 User Flow and token: "{{GENERIC_API_SECRET}}"""
+        
+    def get_upcoming_tasks(self) -> List[Dict]:
+        """
+        Fetches pending tasks from all active task lists.
+        Returns: List of {title, due, list, notes}
+        """
+
+@dataclass
+class Task:
+    title: str
+    due_date: Optional[datetime]
+    list_name: str
+    notes: str
+    status: str = "needsAction"
 ```
 
 ---

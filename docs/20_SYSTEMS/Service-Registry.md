@@ -439,6 +439,12 @@ schedules:
     script: withings_to_sheets.py
     purpose: Withings API data collection
     duration: ~1 minute
+
+  google_tasks_sync:
+    frequency: "0 5 * * *"     # Daily at 5 AM (via Daily Manager)
+    script: G10_google_tasks_sync.py
+    purpose: External task synchronization
+    duration: ~1 minute
   
   goals_exporter_scrape:
     frequency: "*/15 * * * *"  # Every 15 seconds

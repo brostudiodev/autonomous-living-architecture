@@ -14,7 +14,7 @@ updated: "2026-02-18"
 - [ ] Establish initial data ingestion pipelines from smart home sensors and devices (Grafana → MariaDB)
 - [ ] Implement basic automation rules (e.g., lights on/off based on presence/time)
 - [ ] Set up monitoring dashboards in S01 (Observability) for device status and energy consumption
-- [ ] Integrate foundational smart home data into G12 (Meta-System) for environmental context
+- [x] Integrate foundational smart home data into G12 (Meta-System) for environmental context ✅ (Implemented via G11 Mapper auditing MariaDB)
 
 ## Q2 (Apr–Jun)
 - [ ] Expand device integration to cover more categories (e.g., HVAC, security, appliances)

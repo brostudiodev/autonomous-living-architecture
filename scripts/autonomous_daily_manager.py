@@ -1,4 +1,5 @@
 import os
+import re
 import pandas as pd
 from datetime import datetime
 import psycopg2
@@ -249,6 +250,121 @@ def get_roadmap_mins():
             
     return mins
 
+def get_google_tasks_summary():
+    """Fetch tasks from Google Tasks API using the G10 sync script."""
+    try:
+        from G10_google_tasks_sync import get_upcoming_tasks
+        tasks = get_upcoming_tasks()
+        if not tasks:
+            return None
+        
+        formatted_tasks = []
+        for t in tasks:
+            due_str = f" 📅 {t['due'][:10]}" if t.get('due') else ""
+            formatted_tasks.append(f"- [ ] {t['title']}{due_str} #google-tasks")
+        
+        return "\n### 🤖 Google Tasks Sync (External)\n" + "\n".join(formatted_tasks) + "\n"
+    except Exception as e:
+        # Check if it's just a missing client_secret: "{{GENERIC_API_SECRET}}"
+        if "client_secret.json not found" in str(e):
+            return "\n> [!warning] Google Tasks: client_secret.json missing in scripts/\n"
+        return f"\n> [!error] Google Tasks Error: {e}\n"
+
+def get_goal_recommendations(twin_state=None):
+    """Suggest 3 goals based on staleness, energy, and roadmap urgency."""
+    goals_path = "/home/{{USER}}/Documents/autonomous-living/docs/10_GOALS"
+    recommendations = []
+    goal_metadata = []
+
+    if not os.path.exists(goals_path):
+        return None
+
+    # 1. Analyze Staleness
+    for goal_dir in sorted(os.listdir(goals_path)):
+        if not goal_dir.startswith("G"): continue
+        
+        goal_id = goal_dir[:3]
+        log_file = os.path.join(goals_path, goal_dir, "ACTIVITY_LOG.md")
+        last_date = None
+        
+        if os.path.exists(log_file):
+            with open(log_file, 'r') as f:
+                content = f.read()
+                # Find all ## YYYY-MM-DD
+                dates = re.findall(r"## (\d{4}-\d{2}-\d{2})", content)
+                if dates:
+                    last_date = datetime.strptime(max(dates), "%Y-%m-%d").date()
+        
+        days_stale = (datetime.now().date() - last_date).days if last_date else 99
+        goal_metadata.append({
+            "id": goal_id,
+            "name": goal_dir[4:].replace("-", " "),
+            "stale": days_stale,
+            "is_foundation": goal_id in ["G04", "G05", "G10", "G12"]
+        })
+
+    # 2. Logic: Priority Selection
+    # Sort by staleness primarily
+    goal_metadata.sort(key=lambda x: x['stale'], reverse=True)
+
+    # Filter by energy (if state exists)
+    energy_score = 3 # default
+    if twin_state and "health" in twin_state:
+        # Assuming we might have energy or sleep quality in the future, 
+        # for now let's use recovery_score as a proxy if available
+        energy_score = twin_state["health"].get("last_workout_recovery", 3)
+
+    # Pick 1 stale foundation goal
+    stale_foundations = [g for g in goal_metadata if g['is_foundation']]
+    if stale_foundations:
+        rec = stale_foundations[0]
+        recommendations.append(f"- **{rec['id']}** ({rec['name']}): Foundation needs maintenance (Stale: {rec['stale']}d)")
+
+    # Pick 1 stale growth goal
+    stale_growth = [g for g in goal_metadata if not g['is_foundation']]
+    if stale_growth:
+        rec = stale_growth[0]
+        recommendations.append(f"- **{rec['id']}** ({rec['name']}): High growth potential, priority due (Stale: {rec['stale']}d)")
+
+    # Pick 1 based on energy
+    if energy_score <= 2:
+        # Suggest a "Low Energy" task - typically Documentation or Finance Admin
+        recommendations.append("- **G12** (Process Documentation): Low energy detected. Perfect for system hardening.")
+    else:
+        # Suggest the next most stale item
+        already_picked = [r.split("**")[1] for r in recommendations]
+        remaining = [g for g in goal_metadata if g['id'] not in already_picked]
+        if remaining:
+            rec = remaining[0]
+            recommendations.append(f"- **{rec['id']}** ({rec['name']}): Strategic gap detected (Stale: {rec['stale']}d)")
+
+    return "\n### 🤖 Recommended Focus for Today (Intelligence)\n" + "_System suggestions based on staleness and capacity:_\n" + "\n".join(recommendations[:3]) + "\n"
+
+def get_next_steps():
+    """Extract the 'Next Step' from the latest log entry for each goal."""
+    goals_path = "/home/{{USER}}/Documents/autonomous-living/docs/10_GOALS"
+    next_steps = {}
+
+    if not os.path.exists(goals_path):
+        return next_steps
+
+    for goal_dir in sorted(os.listdir(goals_path)):
+        if not goal_dir.startswith("G"): continue
+        
+        goal_id = goal_dir[:3]
+        log_file = os.path.join(goals_path, goal_dir, "ACTIVITY_LOG.md")
+        
+        if os.path.exists(log_file):
+            with open(log_file, 'r') as f:
+                content = f.read()
+                # Find the last occurrence of "**Next Step:** " until the end of the line or next marker
+                matches = re.findall(r"\*\*Next Step:\*\*\s*(.*?)\n", content)
+                if matches:
+                    step = matches[-1].strip()
+                    if step and step.lower() != "tbd" and not step.startswith("- **Code:"):
+                        next_steps[goal_id] = step
+    return next_steps
+
 def update_daily_note():
     # 1. Sync Foundation Data (G03)
     try:
@@ -288,6 +404,9 @@ def update_daily_note():
     # 3b. Roadmap MINS
     mins_tasks = get_roadmap_mins()
 
+    # 3c. Google Tasks
+    google_tasks_block = get_google_tasks_summary()
+
     # 4. Briefing
     try:
         from G04_digital_twin_engine import DigitalTwinEngine
@@ -302,6 +421,12 @@ def update_daily_note():
     # Get cal_events again or just pass None for now as it's inside generate_schedule
     # Optimization: We should ideally fetch cal_events once. For now, let's just pass empty.
     insights = generate_insights(twin_state, [], mins_tasks)
+
+    # 4c. Goal Recommendations
+    goal_recs = get_goal_recommendations(twin_state)
+
+    # 4d. Strategic Carryover (Next Steps)
+    carryover_steps = get_next_steps()
 
     # 5. Inject into Content
     # Add System Health summary
@@ -322,7 +447,6 @@ def update_daily_note():
     
     if "### 🤖 Suggested Schedule (Autonomous)" in content:
         # We need to find the block between '### 🤖 Suggested Schedule (Autonomous)' and the next '---'
-        import re
         content = re.sub(
             r"### 🤖 Suggested Schedule \(Autonomous\)\n.*?\n---", 
             f"{new_schedule_content}---", 
@@ -335,8 +459,12 @@ def update_daily_note():
             content = content.replace("## Schedule / Time Blocks", f"## Schedule / Time Blocks\n\n---\n{new_schedule_content}---\n")
     
     # Update Autonomous Tasks
-    if tasks_to_add or mins_tasks:
+    if tasks_to_add or mins_tasks or google_tasks_block or goal_recs:
         task_sections = []
+        if goal_recs:
+            task_sections.append(goal_recs)
+        if google_tasks_block:
+            task_sections.append(google_tasks_block)
         if mins_tasks:
             task_sections.append("### 🤖 Autonomous MINS Suggestions (Roadmap)\n" + "\n".join(mins_tasks))
         if tasks_to_add:
@@ -347,11 +475,10 @@ def update_daily_note():
         if "## Tasks (manual planning)" in content:
             # If we already have the section, we need to be careful not to duplicate headers
             # Simplified approach: If ANY of our headers exist, replace the whole area
-            if "### 🤖 Autonomous MINS Suggestions" in content or "### 🤖 Autonomous Task Suggestions" in content:
-                import re
+            if "### 🤖 Autonomous MINS Suggestions" in content or "### 🤖 Autonomous Task Suggestions" in content or "### 🤖 Google Tasks Sync" in content or "### 🤖 Recommended Focus" in content:
                 # This regex captures from the first suggested header to the start of the next main section (##)
                 content = re.sub(
-                    r"### 🤖 Autonomous (MINS|Task) Suggestions.*?(?=\n## )", 
+                    r"### 🤖 (Google Tasks|Autonomous|Recommended).*?(?=\n## )", 
                     combined_task_block.strip(), 
                     content, 
                     flags=re.DOTALL
@@ -360,6 +487,27 @@ def update_daily_note():
                 content = content.replace("## Tasks (manual planning)", "## Tasks (manual planning)" + combined_task_block)
         else:
             content += combined_task_block
+
+    # 6. Strategic Carryover (Injection)
+    if carryover_steps:
+        for gid, step in carryover_steps.items():
+            # Pattern logic:
+            # 1. Find the goal identifier: **GXX**
+            # 2. Match everything until the Next: marker
+            # 3. Capture the Next: marker and any following whitespace
+            # 4. Ensure we don't overwrite if there's already meaningful content (optional, but safer)
+            
+            # This regex looks for the GID block and targets the whitespace immediately after "**Next:**"
+            pattern = rf"(\*\*({gid})\*\*\s*–.*?- \*\*Next:\*\*)(\s*)(?=\n|$)"
+            
+            # Check if there is already content there
+            # We search for the pattern and check what's after it
+            match = re.search(pattern, content, re.DOTALL)
+            if match:
+                current_whitespace = match.group(3)
+                # If there's already content (more than just a newline/space), we skip to avoid overwriting your manual work
+                # However, the user wants 'pre-filling', so we only fill if it's currently empty
+                content = re.sub(pattern, rf"\1 {step}", content, count=1, flags=re.DOTALL)
 
     with open(today_file, 'w') as f:
         f.write(content)

@@ -10,11 +10,11 @@ updated: "2026-02-07"
 
 ## Q1 (Jan–Mar)
 - [ ] Identify key health metrics to track (e.g., sleep, activity, heart rate variability, nutrition)
-- [ ] Integrate initial data sources (e.g., smart scale, fitness tracker APIs) into S03 Data Layer
+- [x] Integrate initial data sources (e.g., smart scale, fitness tracker APIs) into S03 Data Layer ✅ (WF003/Withings)
 - [ ] Establish data ingestion pipelines for continuous health data collection
 - [ ] Define baseline health metrics and ranges for personalized analysis
 - [ ] Set up basic dashboards in S01 (Observability) for health trend monitoring
-- [ ] Begin feeding health data into G12 (Meta-System) for holistic insights
+- [x] Begin feeding health data into G12 (Meta-System) for holistic insights ✅ (Implemented via G11 Mapper)
 
 ## Q2 (Apr–Jun)
 - [ ] Expand data sources to include more nuanced metrics (e.g., blood work, mental well-being surveys)

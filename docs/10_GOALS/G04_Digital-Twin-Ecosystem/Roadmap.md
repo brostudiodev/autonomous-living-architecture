@@ -10,7 +10,7 @@ updated: "2026-02-07"
 
 ## Q1 (Jan–Mar)
 - [x] Initial Intelligence Hub (WF004) for multi-modal input processing (text, PDF, CSV, audio)
-- [ ] Define core data models for Digital Twin entities (e.g., Person, Home, Goals)
+- [x] Define core data models for Digital Twin entities (e.g., Person, Home, Goals) ✅ (Feb 20)
 - [ ] Implement initial data ingestion pipelines from key sources (e.g., Obsidian, Google Sheets)
 - [ ] Establish a GraphQL API layer (S04 Digital Twin) for querying and updating twin state
 - [ ] Develop basic visualization of Digital Twin state (e.g., simple dashboard)

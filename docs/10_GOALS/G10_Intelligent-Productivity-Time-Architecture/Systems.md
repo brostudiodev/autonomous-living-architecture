@@ -35,3 +35,4 @@ List systems that will carry this goal.
 | Centralized response delivery for Intelligence Hub | S04, S10 | [WF003: SVC_Response-Dispatcher](../../50_AUTOMATIONS/n8n/workflows/WF003__svc-response-dispatcher.md) | SOP: Service Deployment |
 | Centralized command orchestration for Intelligence Hub | S04, S10 | [WF002: SVC_Command-Handler](../../50_AUTOMATIONS/n8n/workflows/WF002__svc-command-handler.md) | SOP: Service Deployment |
 | Automated daily note preparation and schedule injection | S09 Productivity & Time | [script: autonomous-daily-manager.py](../../50_AUTOMATIONS/scripts/autonomous-daily-manager.md) | [SOP: Daily-Briefing-Management](../../30_SOPS/Daily-Briefing-Management.md) |
+| Synchronize external to-do lists to Obsidian | S10 Task Management | [script: G10_google_tasks_sync.py](../../50_AUTOMATIONS/scripts/G10-google-tasks-sync.md) | [SOP: Daily-Task-Review](../../30_SOPS/SOP_Daily_Task_Review.md) |
