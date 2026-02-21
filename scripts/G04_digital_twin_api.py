@@ -33,6 +33,28 @@ async def get_finance():
     engine.get_finance_status()
     return engine.state["finance"]
 
+@app.get("/tasks")
+async def get_tasks(quarter: Optional[str] = None):
+    """Consolidated tasks view with optional quarter filtering (e.g., Q1)."""
+    # 1. Google Tasks
+    google_tasks = engine.get_google_tasks()
+    
+    # 2. Roadmap Tasks (Filtered by quarter if provided)
+    roadmap_tasks = engine.get_roadmap_tasks(quarter_filter=quarter)
+    
+    # 3. System Tasks (Alerts, Health, Finance)
+    # Only show if not filtering for a specific roadmap quarter
+    system_tasks = []
+    if not quarter:
+        system_tasks = engine.get_system_tasks()
+        
+    return {
+        "quarter_filtered": quarter,
+        "google_tasks": google_tasks,
+        "roadmap_tasks": roadmap_tasks,
+        "system_tasks": system_tasks
+    }
+
 @app.get("/history")
 async def get_history(limit: int = 5):
     """Returns historical state updates from the database."""

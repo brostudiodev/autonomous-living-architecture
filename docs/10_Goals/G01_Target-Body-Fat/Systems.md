@@ -23,8 +23,8 @@ updated: "2026-02-07"
 | Validate CSV schemas | S03 Data Layer | (built into WF_G01_001) | [Runbook: Schema Validation Failures](../../40_Runbooks/G01/Schema-Validation-Failure.md) |
 | Track body composition | S03 Data Layer | Google Sheets `measurements` tab | [Training/README.md](Training/README.md#measurement-logging) |
 | Autonomous training data sync | S03 Data Layer | [WF003__training-data-sync](../../50_Automations/n8n/workflows/WF003__training-data-sync.md) | [Weekly-Training-Review.md](../../30_Sops/Weekly-Training-Review.md) |
-| Monthly progress review | S01 Observability | [script: g01_monthly_review.py](../../50_Automations/scripts/g01_monthly_review.py) (planned Q1) | [SOP: G01 Monthly Review](../../30_Sops/G01/Monthly-Review.md) (planned) |
-| Progression decisions | S01 Observability | [script: g01_next_session_planner.py](../../50_Automations/scripts/g01_next_session_planner.py) (planned Q2) | [SOP: G01 Pre-Workout Brief](../../30_Sops/G01/Pre-Workout-Brief.md) (planned) |
+| Monthly progress review | S01 Observability | [script: g01-monthly-reporter](../../50_Automations/scripts/g01-monthly-reporter.md) | [SOP: G01 Monthly Review](../../30_Sops/G01/Monthly-Review.md) |
+| Progression decisions | S01 Observability | [script: g01-next-session-planner](../../50_Automations/scripts/g01-next-session-planner.md) | [SOP: G01 Pre-Workout Brief](../../30_Sops/G01/Pre-Workout-Brief.md) |
 
 **Note:** All automation/script references link to actual documentation in `docs/50_Automations/`.
 

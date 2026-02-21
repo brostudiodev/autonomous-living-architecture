@@ -28,8 +28,18 @@ All goal and system documentation MUST include:
 
 ### Folder Structure
 
-docs/10_Goals/ └── GXX_Goal-Name/ # Human-readable folder name (capitalized) ├── README.md # Entry point (goal brief + navigation) ├── Outcomes.md # Primary/secondary outcomes, constraints, non-goals ├── Metrics.md # KPIs, leading/lagging indicators, measurement methods ├── Systems.md # Traceability matrix (Outcome → System → Automation → SOP/Runbook) ├── Roadmap.md # Quarterly milestones + dependencies ├── Progress-monitor.md # Milestone-level narrative (human-curated)
-├── Activity-log.md # Auto-generated daily log (from sync script) └── projects/ # Optional: sub-projects (only when goal spawns multiple projects) ├── P01_Project-Name.md └── P02_Another-Project.md
+docs/10_Goals/ 
+└── GXX_Goal-Name/ # Human-readable folder name (capitalized) 
+    ├── README.md # Entry point (goal brief + navigation) 
+    ├── Outcomes.md # Primary/secondary outcomes, constraints, non-goals 
+    ├── Metrics.md # KPIs, leading/lagging indicators, measurement methods 
+    ├── Systems.md # Traceability matrix (Outcome → System → Automation → SOP/Runbook) 
+    ├── Roadmap.md # Quarterly milestones + dependencies 
+    ├── Progress-monitor.md # Milestone-level narrative (human-curated)
+    ├── Activity-log.md # [AUTO-GENERATED] Do not edit manually. Updated via sync_daily_goals.py
+    └── projects/ # Optional: sub-projects (only when goal spawns multiple projects) 
+        ├── P01_Project-Name.md 
+        └── P02_Another-Project.md
 
 
 ### Execution Artifacts Structure

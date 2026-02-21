@@ -4,8 +4,8 @@ import requests
 from datetime import datetime
 
 # Paths
-GOALS_PATH = "/home/{{USER}}/Documents/autonomous-living/docs/10_GOALS"
-OUTPUT_FILE = "/home/{{USER}}/Documents/autonomous-living/docs/10_GOALS/G11_Meta-System-Integration-Optimization/G11_System_Connectivity_Map.md"
+GOALS_PATH = "/home/{{USER}}/Documents/autonomous-living/docs/10_Goals"
+OUTPUT_FILE = "/home/{{USER}}/Documents/autonomous-living/docs/10_Goals/G11_Meta-System-Integration-Optimization/G11_System_Connectivity_Map.md"
 
 # DB Configs
 DB_BASE = {"user": "{{DB_USER}}", "password": "{{GENERIC_API_SECRET}}", "host": "localhost", "port": "5432"}

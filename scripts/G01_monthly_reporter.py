@@ -12,7 +12,7 @@ DB_TRAINING = {
     "port": "5432"
 }
 
-OUTPUT_DIR = "/home/{{USER}}/Documents/autonomous-living/docs/10_GOALS/G01_Target-Body-Fat/artifacts/reports"
+OUTPUT_DIR = "/home/{{USER}}/Documents/autonomous-living/docs/10_Goals/G01_Target-Body-Fat/artifacts/reports"
 
 def get_monthly_stats(year, month):
     stats = {}

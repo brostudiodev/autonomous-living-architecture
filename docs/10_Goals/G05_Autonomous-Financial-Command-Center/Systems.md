@@ -30,12 +30,12 @@ updated: "2026-02-07"
 
 | Outcome | System | Automation / Artifact | SOP / Runbook |
 |---|---|---|---|
-| **Calculate Real Savings Rate** | S03 Data Layer | `v_real_savings_monthly` view | [Finance-Schema-Changes.md](../../40_Runbooks/Finance-Schema-Changes.md) |
+| **Calculate Real Savings Rate** | S03 Data Layer | `v_real_savings_monthly` view | [Finance-Schema-Changes.md](../../40_Runbooks/G05/Finance-Schema-Changes.md) |
 | **Visualize Financial Health** | S05 Observability | Grafana dashboard `financial-command-center-real` | [Dashboard-Maintenance.md](../../30_Sops/Dashboard-Maintenance.md) |
-| **Detect Budget Issues** | S03, S08 | `get_current_budget_alerts()` + `WF102__finance-budget-alerts` | [Budget-Alert-Response.md](../../40_Runbooks/Budget-Alert-Response.md) |
-| **Implement Budget Alerts** | S08 Automation Orchestrator | [WF_Finance_Budget_Alerts.json](../../infrastructure/n8n/workflows/WF_Finance_Budget_Alerts.json) | TBD (Alert Response) |
-| **Import Transaction Data** | S08 | `WF101__finance-import-transactions` | [Data-Import-Recovery.md](../../40_Runbooks/Data-Import-Recovery.md) |
-| Import Transaction Data (CSV) | S08 Automation Orchestrator | [WF_Finance_Import_Transactions_CSV.json](../../infrastructure/n8n/workflows/WF_Finance_Import_Transactions_CSV.json) | TBD (Data Import Runbook) |
+| **Detect Budget Issues** | S03, S08 | `get_current_budget_alerts()` + `WF102__finance-budget-alerts` | [Budget-Alert-Response.md](../../40_Runbooks/G05/Budget-Alert-Response.md) |
+| **Implement Budget Alerts** | S08 Automation Orchestrator | [WF_Finance_Budget_Alerts.json](../../../infrastructure/n8n/workflows/WF_Finance_Budget_Alerts.json) | [Budget-Alert-Response.md](../../40_Runbooks/G05/Budget-Alert-Response.md) |
+| **Import Transaction Data** | S08 | `WF101__finance-import-transactions` | [Data-Import-Recovery.md](../../40_Runbooks/G05/Data-Import-Recovery.md) |
+| Import Transaction Data (CSV) | S08 Automation Orchestrator | [WF_Finance_Import_Transactions_CSV.json](../../../infrastructure/n8n/workflows/WF_Finance_Import_Transactions_CSV.json) | [Data-Import-Recovery.md](../../40_Runbooks/G05/Data-Import-Recovery.md) |
 | **Project Month-End Savings** | S03 | SQL calculation in dashboard panels | [Projection-Validation.md](../../30_Sops/Projection-Validation.md) |
 
 **Note:** All PostgreSQL objects must be version-controlled in `docs/20_Systems/S03_Data-Layer/` with migration scripts.
