@@ -40,11 +40,16 @@ While personal in scale, the architecture follows the same standards used in mod
 ---
 
 ## 🗺️ How to Navigate
-Follow the path of an architect:
-1.  **[High-Level Design](docs/20_SYSTEMS/High-Level-Design.md):** Start here to understand the 5-layer model.
-2.  **[Cross-System Integration](docs/20_SYSTEMS/Cross-System-Integration.md):** See how the Hub-and-Spoke pattern prevents "spaghetti integration."
-3.  **[Goal Documentation Standard](docs/10_GOALS/DOCUMENTATION-STANDARD.md):** Learn how we maintain technical rigor across 12 domains.
-4.  **[Automation Specs](docs/50_AUTOMATIONS/):** Deep-dive into the actual logic.
+Choose the path that matches your objective:
+
+*   **🏛️ Follow the path of an Architect:** Focus on the "Why" and "How" of system integration.
+    *   [High-Level Design](docs/20_SYSTEMS/High-Level-Design.md) | [Cross-System Integration](docs/20_SYSTEMS/Cross-System-Integration.md) | [ADR Index](docs/60_DECISIONS_ADRS/README.md)
+*   **🛠️ Follow the path of Infrastructure:** Explore the containerized stack and monitoring logic.
+    *   [Service Registry](docs/20_SYSTEMS/Service-Registry.md) | [Low-Level Design](docs/20_SYSTEMS/Low-Level-Design.md) | [Database Schemas](docs/10_GOALS/G05_Autonomous-Financial-Command-Center/database_schemas/)
+*   **🚀 Follow the path of an Implementer:** Learn how to apply these standards to your own life.
+    *   [Documentation Standard](docs/10_GOALS/DOCUMENTATION-STANDARD.md) | [Standard Operating Procedures](docs/30_SOPS/) | [Automation Templates](docs/50_AUTOMATIONS/templates/)
+*   **👁️ Follow the path of an Observer:** Get the "nutshell" view of the system and its impact.
+    *   [North Star Vision](docs/00_START-HERE/North-Star.md) | [System Status Analysis](docs/00_START-HERE/System-Status-Analysis.md) | [Principles](docs/00_START-HERE/Principles.md)
 
 ---
 
