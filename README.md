@@ -95,4 +95,14 @@ If you find this useful, feel free to **[Buy Me a Coffee](https://www.buymeacoff
 **Michał** - IT T&T Automation Specialist specializing in RPA, AI, and Hyperautomation. 20+ years of experience in programming and project management in the automotive manufacturing sector. ITIL 4 & PRINCE2 certified professional combining enterprise automation expertise with systematic life optimization.
 
 ---
+
+## 📜 License & Usage
+This project is released under the **[MIT License](LICENSE)**. 
+
+I believe in the power of open-source knowledge. You are free to:
+*   ✅ Adapt the structure for your own autonomous living architecture.
+*   ✅ Reuse the documentation patterns and ADR frameworks.
+*   ✅ Build your own implementation using these architectural principles.
+
+---
 *Built for 2026. Designed for Autonomy. Engineered for Excellence.*
