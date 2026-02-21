@@ -53,7 +53,7 @@ updated: "YYYY-MM-DD"
 # GXX: Goal Name
 
 ## Intent
-What outcome are we actually buying here (not vanity metrics)?
+What outcome am I actually buying here (not vanity metrics)?
 
 ## Definition of Done (2026)
 - [ ] Measurable target achieved

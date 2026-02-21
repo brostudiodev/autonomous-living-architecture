@@ -14,7 +14,7 @@ informed: []
 Accepted
 
 ## Context
-The autonomous-living project has 12 goals covering different life domains. Without a clear strategy for prioritization and dependencies, we face:
+The autonomous-living project has 12 goals covering different life domains. Without a clear strategy for prioritization and dependencies, I face:
 
 ### **Challenges with Flat Goal Structure**
 - **Equal Priority Fallacy:** Treating all 12 goals as equally important
@@ -31,7 +31,7 @@ The autonomous-living project has 12 goals covering different life domains. With
 - **Documentation scattered** across systems with no central knowledge capture
 
 ## Decision
-We will categorize goals into **Foundation Layer** (4 goals that enable others) and **Growth Layer** (8 goals that deliver value), focusing implementation on foundation goals first.
+I will categorize goals into **Foundation Layer** (4 goals that enable others) and **Growth Layer** (8 goals that deliver value), focusing implementation on foundation goals first.
 
 ### **Goal Classification**
 

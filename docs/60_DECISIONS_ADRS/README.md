@@ -95,10 +95,10 @@ informed: ["Names of people informed"]
 [Accepted/Proposed/Deprecated/Superseded]
 
 ## Context
-What is the issue that we're seeing that is motivating this decision or change?
+What is the issue that I'm seeing that is motivating this decision or change?
 
 ## Decision
-What is the change that we're proposing and/or doing?
+What is the change that I'm proposing and/or doing?
 
 ## Consequences
 What becomes easier or more difficult to do because of this change?
@@ -108,13 +108,13 @@ Can you think of any edge cases or unintended consequences?
 How will this decision be implemented? What are the technical details?
 
 ## Alternatives Considered
-What other approaches did we consider and why were they rejected?
+What other approaches did I consider and why were they rejected?
 
 ## Related Decisions
 Which other ADRs are related to this decision?
 
 ## Metrics
-How will we measure success of this decision?
+How will I measure success of this decision?
 ```
 
 ## ADR Review Process

@@ -20,7 +20,7 @@ The autonomous-living ecosystem has 12 different goals/systems that need to comm
 - Documentation (G12) needs to feed content generation (G02)
 - Household operations (G03) need financial constraints from G05
 
-Without a central coordination system, we face:
+Without a central coordination system, I face:
 - Data silos between systems
 - Manual coordination overhead
 - Inconsistent state across systems
@@ -29,7 +29,7 @@ Without a central coordination system, we face:
 - Difficulty making cross-domain optimizations
 
 ## Decision
-We will implement G04 Digital Twin as the central intelligence hub and data aggregator for the entire ecosystem.
+I will implement G04 Digital Twin as the central intelligence hub and data aggregator for the entire ecosystem.
 
 ### **Architecture Pattern**
 - **Hub-and-Spoke Model:** Digital Twin (G04) as central hub
@@ -60,7 +60,7 @@ class DigitalTwinHub:
 ```
 
 ### **Service Layer Decision (Added 2026-02-19)**
-To enable real-time, low-latency access to the Digital Twin's state for the Intelligent Hub (n8n) and other consumers, we will implement a **FastAPI-based REST API**.
+To enable real-time, low-latency access to the Digital Twin's state for the Intelligent Hub (n8n) and other consumers, I will implement a **FastAPI-based REST API**.
 
 - **Purpose:** Decouples data aggregation logic from communication logic.
 - **Port:** 5677 (adjacent to n8n for easy discovery).

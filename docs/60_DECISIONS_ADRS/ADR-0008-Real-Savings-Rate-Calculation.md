@@ -29,7 +29,7 @@ The financial system (G05) needs to calculate meaningful savings rate for person
 - **Performance Tracking:** Can't measure real financial progress
 
 ## Decision
-We will implement a "Real Savings Rate" calculation that excludes accounting artifacts and focuses on operational cash flow.
+I will implement a "Real Savings Rate" calculation that excludes accounting artifacts and focuses on operational cash flow.
 
 ### **Calculation Formula**
 ```

@@ -23,7 +23,7 @@ The autonomous-living ecosystem requires a comprehensive technology stack that s
 - Scalable deployment and management
 
 ## Decision
-We selected the following technology stack:
+I selected the following technology stack:
 
 ### **Orchestration Layer**
 - **n8n** for workflow automation and visual workflow building

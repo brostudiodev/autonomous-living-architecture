@@ -11,7 +11,7 @@ updated: "2026-02-07"
 ## How to use
 Each goal folder contains:
 - **Outcomes**: what “done” means
-- **Metrics**: how we measure progress
+- **Metrics**: how I measure progress
 - **Systems**: the enabling building blocks
 - **Roadmap**: milestones by quarter
 

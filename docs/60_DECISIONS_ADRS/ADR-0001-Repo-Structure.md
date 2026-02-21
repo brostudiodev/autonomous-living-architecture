@@ -9,7 +9,7 @@ updated: "2026-02-07"
 # ADR-0001: Repo Structure
 
 ## Context
-We need one repo that is readable for humans, maintainable by future-you, and suitable for AI-assisted updates.
+I need one repo that is readable for humans, maintainable by future-me, and suitable for AI-assisted updates.
 
 ## Decision
 Use a docs-first structure:

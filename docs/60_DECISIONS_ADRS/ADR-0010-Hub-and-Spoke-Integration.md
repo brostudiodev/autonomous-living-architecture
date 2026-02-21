@@ -32,7 +32,7 @@ The autonomous-living ecosystem needs to coordinate data and actions across 12 d
 - **G12 Documentation:** Needs activity data from all systems for knowledge capture
 
 ## Decision
-We will implement a Hub-and-Spoke integration pattern with G04 Digital Twin as the central hub and all other systems as spokes.
+I will implement a Hub-and-Spoke integration pattern with G04 Digital Twin as the central hub and all other systems as spokes.
 
 ### **Architecture Pattern**
 ```mermaid

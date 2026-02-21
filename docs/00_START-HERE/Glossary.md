@@ -13,5 +13,5 @@ updated: "2026-02-07"
 - **System**: reusable capability enabling multiple goals
 - **SOP**: standard operating procedure (repeatable steps)
 - **Runbook**: what to do during incidents/outages
-- **ADR**: architecture decision record (why we chose X)
+- **ADR**: architecture decision record (why I chose X)
 
