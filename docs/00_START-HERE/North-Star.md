@@ -24,9 +24,9 @@ I am engineering systems to handle the following domains without manual interven
 - **Transport:** Car maintenance, inspections, and expense management.
 - **Infrastructure:** A self-healing homelab that diagnoses and repairs itself.
 
-## Strategic Positioning
-Beyond personal efficiency, this ecosystem serves as the ultimate proof-of-concept for my professional mission:
-> **"Position myself as a specialist in AI and automation for enterprise-level companies."**
+## Strategic Mission
+Beyond personal efficiency, this ecosystem serves as the ultimate proof-of-concept for my professional and personal drive:
+> **"Leverage my expertise as an AI and automation specialist to teach others how to engineer an easier, more autonomous, and fully automated life."**
 
 ## Automationbro
 This project is the technical foundation for the **Automationbro** brand. While several use cases are already live, the 2026 roadmap reflects a total shift: **ALL aspects of life (besides the specific execution of professional deep work) must become autonomous.**

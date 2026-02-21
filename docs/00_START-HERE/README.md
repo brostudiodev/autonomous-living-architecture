@@ -8,6 +8,10 @@ updated: "2026-02-11"
 
 # Autonomous Living Documentation
 
+## 🏁 **Start Here: The High-Level View**
+- **[Project in a Nutshell](./01_PROJECT-IN-A-NUTSHELL.md)** - **READ THIS FIRST.** A one-page executive summary of the vision, the tech, and the benefits.
+- **[System Implementation Status](./System-Status-Analysis.md)** - Real-time analysis of what's actually built vs documented.
+
 ## 🚀 **Quick Start - What's Actually Working**
 
 **⚠️ IMPORTANT UPDATE:** This system is significantly more implemented than previously documented. Before reading goal documentation, review the current implementation status.
