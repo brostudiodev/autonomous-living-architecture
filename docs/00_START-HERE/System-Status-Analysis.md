@@ -138,7 +138,7 @@ This document provides the **actual implementation status** of all systems in th
 - **Withings API Integration:** 449-line Python script with OAuth flow
 - **Google Sheets Sync:** Automatic data export with timestamp tracking
 - **Comprehensive Metrics:** Weight, BMI, fat %, muscle mass, bone mass, hydration
-- **Token: "{{GENERIC_API_SECRET}}":** Persistent authentication with refresh capability
+- **Token Management:** Persistent authentication with refresh capability
 - **Error Handling:** Robust exception handling and fallback mechanisms
 
 **Data Pipeline:**

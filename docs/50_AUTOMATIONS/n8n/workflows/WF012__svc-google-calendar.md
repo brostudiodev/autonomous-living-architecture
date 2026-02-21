@@ -315,7 +315,7 @@ Error Response Format:
 ### Performance Characteristics
 
     Average execution time: 3-4 seconds
-    Token: "{{GENERIC_API_SECRET}}" per request: ~800 tokens (input + output)
+    Token usage per request: ~800 tokens (input + output)
     Estimated cost per request: ~$0.0006
     Monthly cost (50 requests/day): ~$0.90
 

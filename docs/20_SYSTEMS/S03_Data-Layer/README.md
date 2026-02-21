@@ -205,7 +205,7 @@ docker run -d \
   --name postgres-finance \
   -e POSTGRES_DB=finance \
   -e POSTGRES_USER=finance_user \
-  -e POSTGRES_PASSWORD: "{{GENERIC_API_SECRET}}" \
+  -e POSTGRES_PASSWORD=secure_password \
   -v /path/to/data:/var/lib/postgresql/data \
   -p 5432:5432 \
   postgres:15

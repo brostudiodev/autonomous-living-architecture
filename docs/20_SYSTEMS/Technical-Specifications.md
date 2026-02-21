@@ -393,7 +393,7 @@ specification:
   format: "OpenAPI 3.0"
   tools: "Swagger UI + Redoc"
   examples: "Request/response examples"
-  authentication: "Bearer token: "{{GENERIC_API_SECRET}}"
+  authentication: "Bearer token documentation"
   
 maintenance:
   versioning: "Semantic versioning (MAJOR.MINOR.PATCH)"
@@ -547,7 +547,7 @@ application_metrics:
   integration_health: "API success rates, data synchronization"
   
 security_metrics:
-  authentication_events: "Login attempts, token: "{{GENERIC_API_SECRET}}"
+  authentication_events: "Login attempts, token usage"
   authorization_failures: "Access denied, permission violations"
   anomaly_detection: "Unusual patterns, potential threats"
 ```

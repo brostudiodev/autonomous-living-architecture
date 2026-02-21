@@ -8,7 +8,7 @@ GOALS_PATH = "/home/{{USER}}/Documents/autonomous-living/docs/10_GOALS"
 OUTPUT_FILE = "/home/{{USER}}/Documents/autonomous-living/docs/10_GOALS/G11_Meta-System-Integration-Optimization/G11_System_Connectivity_Map.md"
 
 # DB Configs
-DB_BASE = {"user": "{{DB_USER}}", "password: "{{GENERIC_API_SECRET}}", "host": "localhost", "port": "5432"}
+DB_BASE = {"user": "{{DB_USER}}", "password": "{{GENERIC_API_SECRET}}", "host": "localhost", "port": "5432"}
 DATABASES = {
     "finance": {**DB_BASE, "dbname": "autonomous_finance"},
     "training": {**DB_BASE, "dbname": "autonomous_training"},

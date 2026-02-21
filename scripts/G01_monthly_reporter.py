@@ -7,7 +7,7 @@ import calendar
 DB_TRAINING = {
     "dbname": "autonomous_training",
     "user": "{{DB_USER}}",
-    "password: "{{GENERIC_API_SECRET}}",
+    "password": "{{GENERIC_API_SECRET}}",
     "host": "localhost",
     "port": "5432"
 }

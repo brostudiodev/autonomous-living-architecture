@@ -7,7 +7,7 @@ from datetime import datetime
 # DB Configs
 DB_BASE = {
     "user": "{{DB_USER}}",
-    "password: "{{GENERIC_API_SECRET}}",
+    "password": "{{GENERIC_API_SECRET}}",
     "host": os.getenv("DB_HOST", "localhost"),
     "port": "5432"
 }

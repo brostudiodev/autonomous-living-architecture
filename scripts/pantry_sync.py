@@ -11,7 +11,7 @@ SPIZARKA_CSV = "/home/{{USER}}/Documents/Magazynek_domowy - Spizarka.csv"
 DB_CONFIG = {
     "dbname": "autonomous_pantry",
     "user": "{{DB_USER}}",
-    "password: "{{GENERIC_API_SECRET}}",
+    "password": "{{GENERIC_API_SECRET}}",
     "host": "localhost",
     "port": "5432"
 }

@@ -24,7 +24,7 @@ Autonomously fetch pending tasks from Google Tasks API and provide them as a dat
 - **Token:** `google_tasks_token.pickle` (Persistent User Session)
 
 ## Processing Logic
-1. Authenticate using OAuth2 User Flow (refreshes token: "{{GENERIC_API_SECRET}}" expired).
+1. Authenticate using OAuth2 User Flow (refreshes token if expired).
 2. Fetch all Task Lists for the authenticated user.
 3. Iterate through active lists and fetch non-completed tasks.
 4. Normalize task data (Title, Due Date, List Name).
@@ -49,8 +49,8 @@ Autonomously fetch pending tasks from Google Tasks API and provide them as a dat
 ## Error Handling
 | Failure Scenario | Detection | Response | Alert |
 |---|---|---|---|
-| Token: "{{GENERIC_API_SECRET}}" | API returns 401 | Script attempts auto-refresh | Log warning |
-| Refresh Token: "{{GENERIC_API_SECRET}}" | Refresh fails | Require manual re-auth (browser) | Obsidian Warning |
+| Token Expired | API returns 401 | Script attempts auto-refresh | Log warning |
+| Refresh Token Revoked | Refresh fails | Require manual re-auth (browser) | Obsidian Warning |
 | API Quota Reached | API returns 429 | Back-off and retry | Log Error |
 | Network Offline | Connection Error | Skip sync, use last known state | Log warning |
 

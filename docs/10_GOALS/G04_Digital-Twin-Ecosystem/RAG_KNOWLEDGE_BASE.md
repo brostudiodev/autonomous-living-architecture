@@ -113,7 +113,7 @@ import google.generativeai as genai
 import langchain_google_genai
 
 # Initialize LLM
-genai.configure(api_key: "{{GENERIC_API_SECRET}}")
+genai.configure(api_key="{{GENERIC_API_SECRET}}")
 llm = ChatGoogleGenerativeAI(
     model="gemini-1.5-flash",
     temperature=0.7,

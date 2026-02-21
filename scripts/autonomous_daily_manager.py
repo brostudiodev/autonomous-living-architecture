@@ -13,7 +13,7 @@ DAILY_TEMPLATE = os.path.join(OBSIDIAN_VAULT, "99_System/Templates/Daily/Daily N
 # DB Configs
 DB_BASE = {
     "user": "{{DB_USER}}",
-    "password: "{{GENERIC_API_SECRET}}",
+    "password": "{{GENERIC_API_SECRET}}",
     "host": "localhost",
     "port": "5432"
 }
@@ -265,7 +265,7 @@ def get_google_tasks_summary():
         
         return "\n### 🤖 Google Tasks Sync (External)\n" + "\n".join(formatted_tasks) + "\n"
     except Exception as e:
-        # Check if it's just a missing client_secret: "{{GENERIC_API_SECRET}}"
+        # Check if it's just a missing client_secret error
         if "client_secret.json not found" in str(e):
             return "\n> [!warning] Google Tasks: client_secret.json missing in scripts/\n"
         return f"\n> [!error] Google Tasks Error: {e}\n"

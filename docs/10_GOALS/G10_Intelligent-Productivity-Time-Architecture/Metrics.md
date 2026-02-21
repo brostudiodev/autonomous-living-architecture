@@ -47,4 +47,4 @@ updated: "2026-02-15"
 - n8n execution logs: `SVC_Google-Calendar` workflow
 - Google Calendar API usage metrics
 - Manual activity tracking in `goal-g11/ACTIVITY.md`
-- LLM token: "{{GENERIC_API_SECRET}}" from Google Cloud Console
+- LLM token usage from Google Cloud Console
