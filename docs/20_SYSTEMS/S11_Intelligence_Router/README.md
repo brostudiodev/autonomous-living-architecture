@@ -17,6 +17,8 @@ The ROUTER_Intelligence-Hub serves as the central nervous system of your persona
 
 **Strategic Context:** This system bridges the gap between rigid RPA automation and fluid AI processing, positioning you perfectly for the hyperautomation era while maintaining deterministic control where needed.
 
+> [!insight] 📝 **Automationbro Insight:** [The Router Pattern: Stop Building Bots, Start Building a Nervous System](https://automationbro.substack.com/p/the-router-pattern-stop-building-bots-start-building-a-nervous-system)
+
 ## Scope
 ### In Scope
 - Multi-channel input ingestion (Telegram, Webhook, Chat).

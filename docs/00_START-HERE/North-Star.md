@@ -15,6 +15,8 @@ By end of 2026, ordinary life operations run with minimal manual work, backed by
 - **Recoverability** (backups, rollback, runbooks)
 - **Security** (identity, least privilege, audit trail)
 
+> [!insight] 📝 **Automationbro Insight:** [Automation-First Living: Month 1 Reality Check](https://automationbro.substack.com/p/automation-first-living-month-1-reality-check)
+
 ## Outcomes (non-hand-wavy)
 - Time reclaimed weekly (tracked)
 - Reduced manual decisions for repeatable tasks

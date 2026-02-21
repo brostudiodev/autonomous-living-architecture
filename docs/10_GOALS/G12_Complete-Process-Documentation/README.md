@@ -13,6 +13,8 @@ review_cadence: "monthly"
 ## Purpose
 Ensure all autonomous living systems, goals, and automations are comprehensively documented following the Goal Documentation Standard (GDS). Create templates, establish workflows, and maintain documentation that survives time, fatigue, and AI edits.
 
+> [!insight] 📝 **Automationbro Insight:** [Documentation is Your New Source Code](https://automationbro.substack.com/p/documentation-is-your-new-source-code)
+
 ## Scope
 ### In Scope
 - Goal documentation standard (GDS) enforcement

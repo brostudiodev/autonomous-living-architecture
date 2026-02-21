@@ -365,6 +365,24 @@ def get_next_steps():
                         next_steps[goal_id] = step
     return next_steps
 
+def get_substack_summary():
+    """Fetch latest posts from Substack using the G02 sync script."""
+    try:
+        from G02_substack_sync import sync_posts_to_obsidian
+        posts = sync_posts_to_obsidian()
+        if not posts:
+            return None
+        
+        # Take last 3 posts
+        latest = posts[:3]
+        formatted = []
+        for p in latest:
+            formatted.append(f"- [{p['title']}]({p['link']}) ({p['date'][:16]})")
+        
+        return "\n### 📝 Latest from Substack (Automationbro)\n" + "\n".join(formatted) + "\n"
+    except Exception as e:
+        return f"\n> [!error] Substack Sync Error: {e}\n"
+
 def update_daily_note():
     # 1. Sync Foundation Data (G03)
     try:
@@ -372,6 +390,9 @@ def update_daily_note():
         sync_inventory()
     except Exception as e:
         print(f"Sync error: {e}")
+
+    # 1c. G02 Substack Sync
+    substack_block = get_substack_summary()
 
     # 1b. G11 Meta-System Health Check
     try:
@@ -459,8 +480,10 @@ def update_daily_note():
             content = content.replace("## Schedule / Time Blocks", f"## Schedule / Time Blocks\n\n---\n{new_schedule_content}---\n")
     
     # Update Autonomous Tasks
-    if tasks_to_add or mins_tasks or google_tasks_block or goal_recs:
+    if tasks_to_add or mins_tasks or google_tasks_block or goal_recs or substack_block:
         task_sections = []
+        if substack_block:
+            task_sections.append(substack_block)
         if goal_recs:
             task_sections.append(goal_recs)
         if google_tasks_block:
@@ -475,10 +498,10 @@ def update_daily_note():
         if "## Tasks (manual planning)" in content:
             # If we already have the section, we need to be careful not to duplicate headers
             # Simplified approach: If ANY of our headers exist, replace the whole area
-            if "### 🤖 Autonomous MINS Suggestions" in content or "### 🤖 Autonomous Task Suggestions" in content or "### 🤖 Google Tasks Sync" in content or "### 🤖 Recommended Focus" in content:
+            if "### 🤖 Autonomous MINS Suggestions" in content or "### 🤖 Autonomous Task Suggestions" in content or "### 🤖 Google Tasks Sync" in content or "### 🤖 Recommended Focus" in content or "### 📝 Latest from Substack" in content:
                 # This regex captures from the first suggested header to the start of the next main section (##)
                 content = re.sub(
-                    r"### 🤖 (Google Tasks|Autonomous|Recommended).*?(?=\n## )", 
+                    r"(### 🤖 (Google Tasks|Autonomous|Recommended).*?|### 📝 Latest from Substack.*?)(?=\n## )", 
                     combined_task_block.strip(), 
                     content, 
                     flags=re.DOTALL
