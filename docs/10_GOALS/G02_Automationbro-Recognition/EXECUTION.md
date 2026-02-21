@@ -19,7 +19,7 @@ updated: "2026-02-07"
 ## 🟢 NEXT (Ready for Tonight)
 
 - [ ] **Write LinkedIn post: "Why Most RPA Projects Fail"** `G02-T01` `45m` `@deep-work` `#p1`
-  - Draw from 20+ years MAHLE experience (anonymized)
+  - Draw from 20+ years {{PROFESSIONAL_CONTEXT}} experience (anonymized)
   - Include practical failure patterns and solutions
   - Position yourself as the skeptical expert
   - Add personal automation philosophy
