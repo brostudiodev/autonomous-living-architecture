@@ -13,7 +13,7 @@ review_cadence: "monthly"
 ## Purpose
 Create AI-powered household management systems that automate daily operations, optimize resource usage, and provide intelligent assistance for pantry management, grocery planning, and home logistics. The goal is to reduce manual household cognitive load through intelligent automation.
 
-> [!insight] 📝 **Automationbro Insight:** [Beyond Smart Homes: Building an Autonomous Household Operations System](https://automationbro.substack.com/p/beyond-smart-homes-building-an-autonomous-household-operations-system)
+> [!insight] 📝 **Automationbro Insight:** [Beyond Smart Homes: Building an Autonomous Household Operations System](https://automationbro.substack.com/p/beyond-smart-homes-building-an-autonomous)
 
 ## Scope
 ### In Scope
