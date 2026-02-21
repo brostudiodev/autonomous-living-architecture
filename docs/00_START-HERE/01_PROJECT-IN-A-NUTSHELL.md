@@ -46,13 +46,17 @@ To build an autonomous life, you need five core components. Think of them as the
 ---
 
 ## 🌟 The 2026 North Star: "Automation-First"
-My goal is to reach a state where **everything that can be automated, is.** 
+My goal is to reach a state where **everything I do on a daily basis is automated.** By the end of 2026, my life will run without me focusing on ordinary tasks.
 
-I apply this to 12 specific domains:
-*   **Health:** Automatic body fat tracking and workout suggestions.
-*   **Wealth:** Real-time budget monitoring and savings-rate optimization.
-*   **Household:** AI-managed pantry and grocery procurement.
-*   **Systems:** Automated documentation and backup management.
+I am applying this to every major domain:
+*   **Wealth:** Finances and savings optimization.
+*   **Environment:** Home monitoring and smart management.
+*   **Logistics & Nutrition:** Shopping, inventory, and cooking.
+*   **Career:** Job searching and professional management.
+*   **Physicality:** Health tracking and workout orchestration.
+*   **Infrastructure:** A self-repairing homelab.
+
+Beyond personal efficiency, this system positions me as a **specialist in AI and automation for enterprise-level companies.**
 
 ---
 
