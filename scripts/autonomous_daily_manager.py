@@ -284,7 +284,7 @@ def get_goal_recommendations(twin_state=None):
         if not goal_dir.startswith("G"): continue
         
         goal_id = goal_dir[:3]
-        log_file = os.path.join(goals_path, goal_dir, "ACTIVITY_LOG.md")
+        log_file = os.path.join(goals_path, goal_dir, "Activity-log.md")
         last_date = None
         
         if os.path.exists(log_file):
@@ -352,7 +352,7 @@ def get_next_steps():
         if not goal_dir.startswith("G"): continue
         
         goal_id = goal_dir[:3]
-        log_file = os.path.join(goals_path, goal_dir, "ACTIVITY_LOG.md")
+        log_file = os.path.join(goals_path, goal_dir, "Activity-log.md")
         
         if os.path.exists(log_file):
             with open(log_file, 'r') as f:
