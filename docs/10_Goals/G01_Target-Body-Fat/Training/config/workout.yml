@@ -1,0 +1,28 @@
+version: 1
+
+workout:
+  id: hit_fullbody_a
+  name: HIT Full Body A
+  rule: "1 working set per exercise (warmups not logged)"
+  frequency_policy: "Train when recovered (typically 2–6 days). If not feeling it, postpone."
+
+tut_seconds:
+  target: 60
+  indicator_increase_weight_over: 90
+
+exercise_order:
+  - ex_squat
+  - ex_stiff_legged_deadlift
+  - ex_leg_curl_machine
+  - ex_calf_raise_machine
+  - ex_ab_crunch_machine
+  - ex_chest_press_db
+  - ex_pushup	
+  - ex_bend_over_row
+  - ex_chinup
+  - ex_triceps_pushdown
+  - ex_lateral_raise_db
+
+notes:
+  - "TUT>90s is a strong signal that load is too light IF form_ok=true and max_effort=true."
+  - "Override rule when recovery/mood is low or joint comfort is questionable."

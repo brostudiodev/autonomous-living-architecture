@@ -1,0 +1,39 @@
+---
+title: "G01: Outcomes"
+type: "goal_outcomes"
+status: "active"
+goal_id: "goal-g01"
+owner: "Michal"
+updated: "2026-02-07"
+---
+
+# Outcomes
+
+## Primary outcome
+**Body composition improvement** measured by:
+- Smart scale body fat % trend (7-day moving average) showing sustained reduction from 20.8% → 15%
+- Waist circumference reduction tracked every 15 days (baseline TBD)
+- Progress photos monthly for visual verification
+- OR waist circumference reduction of 5–8 cm (if BF% proves too noisy)
+
+Target: **15% body fat** by December 31, 2026
+
+## Secondary outcomes
+- **Zero-friction logging:** post-workout data entry <60 seconds (mobile-first)
+- **Audit trail:** every workout logged in Git with timestamps
+- **Self-validating system:** schema enforcement prevents data corruption
+- **Decision automation:** progression signals auto-generated (reduce "should I increase?" cognitive load)
+
+## Constraints
+- **Privacy:** Training data stored in public GitHub repo (acceptable; no sensitive health data)
+- **Budget:** $0 (using free Google Sheets + GitHub Actions)
+- **Time:** Max 60 seconds logging per workout; max 10 minutes/week for review
+- **Equipment:** Machine-based exercises only (gym access required)
+
+## Non-goals
+- **Not** competitive bodybuilding prep (no routine DEXA scans, macro tracking to the gram, or peak-week protocols)
+- **DEXA only at target**: Only get DEXA scan if scale shows 15% to validate accuracy
+- **Not** fixed training schedule (train when recovered, 2–6 days between sessions)
+- **Not** "optimal" programming (HIT low-volume is deliberate simplicity trade-off)
+- **Not** nutrition tracking integration (separate system; may connect later if BF% progress stalls)
+

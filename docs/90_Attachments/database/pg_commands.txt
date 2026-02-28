@@ -1,0 +1,5 @@
+docker exec postgres pg_dump -U admin -s autonomous_finance > autonomous_finance_schema.sql
+
+  (Replace postgres-finance and finance_user as necessary. -s dumps only the schema.)
+
+

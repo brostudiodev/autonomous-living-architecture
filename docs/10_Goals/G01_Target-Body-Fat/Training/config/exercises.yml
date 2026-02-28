@@ -1,0 +1,60 @@
+version: 1
+units:
+  weight: kg
+  tut: seconds
+
+# IMPORTANT:
+# - exercise_id is stable forever (do not rename after you start logging)
+# - if you replace an exercise, add a NEW id
+
+exercises:
+  - id: ex_leg_press
+    name: Leg Press
+
+  - id: ex_chest_press_machine
+    name: Chest Press (Machine)
+
+  - id: ex_lat_pulldown
+    name: Lat Pulldown
+
+  - id: ex_lateral_raise_db
+    name: Lateral Raise (Dumbbells)
+
+  - id: ex_biceps_curl_cable
+    name: Biceps Curl (Cable)
+
+  - id: ex_triceps_pushdown
+    name: Triceps Pushdown (Cable)
+
+  - id: ex_seated_row_machine
+    name: Seated Row (Machine)
+
+  - id: ex_leg_curl_machine
+    name: Leg Curl (Machine)
+
+  - id: ex_back_extension
+    name: Back Extension
+
+  - id: ex_calf_raise_machine
+    name: Calf Raise (Machine)
+
+  - id: ex_ab_crunch_machine
+    name: Ab Crunch (Machine)
+
+  - id: ex_squat
+    name: Squat
+
+  - id: ex_stiff_legged_deadlift
+    name: Stiff-Legged Deadlift
+    
+  - id: ex_chest_press_db
+    name: Chest Press (Dumbbells)
+    
+  - id: ex_pushup
+    name: Pushup    
+
+  - id: ex_bend_over_row
+    name: Bend Over Row
+
+  - id: ex_chinup
+    name: Chinup
