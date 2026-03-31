@@ -18,17 +18,22 @@ Track and document all time-based automation across the system to ensure reliabi
 
 ## Scope
 
-- **In Scope:** System crontab, n8n schedules, PostgreSQL pg_cron, GitHub Actions schedules
+- **In Scope:** System crontab, n8n schedules, PostgreSQL pg_cron
 - **Out of Scope:** Real-time webhooks, event-driven triggers, manual executions
 
 ## System Crontab (Debian Host)
 
 **Location:** `/etc/crontab` or `crontab -e`
 
+> [!important] Safe Sync Protocol
+> `G11_obsidian_safe_sync.py` closes Obsidian gracefully, runs full sync (Daily Note, Finance, Health), then unlocks Obsidian. This prevents data corruption from concurrent edits.
+
 | Time | Command | Description |
 |------|---------|-------------|
-| `0 5 * * *` | `autonomous_daily_manager.py` | Prepare daily Obsidian note |
-| `#0 8 * * *` | `withings_to_sheets.py` | (commented out) Sync Withings data |
+| `0 6,13,16 * * *` | `G11_obsidian_safe_sync.py` | Safe Sync: Daily Note, Finance, Health (6AM, 1PM, 4PM) |
+| `0 6 * * 0` | `autonomous_weekly_manager.py` | Weekly Strategic Review (Sundays 6AM) |
+| `0 8 * * 0` | `G11_ceo_weekly_briefing.py` | CEO Weekly Briefing (Sundays 8AM) |
+| `15 6 * * 1-5` | `G04_morning_briefing_sender.py` | Morning Briefing (Weekdays 6:15AM) |
 
 ### Crontab Format
 
@@ -92,16 +97,6 @@ Jobs scheduled inside the database using `pg_cron` extension.
 
 ---
 
-## GitHub Actions Scheduled Workflows
-
-| Workflow | Schedule | Description |
-|----------|----------|-------------|
-| WF_G01_001 | `0 */6 * * *` | Sheets to GitHub sync |
-
-**Location:** `.github/workflows/`
-
----
-
 ## Monitoring
 
 To check if cron jobs are running:
@@ -111,8 +106,8 @@ To check if cron jobs are running:
 grep CRON /var/log/syslog
 
 # Or check individual logs
-tail -f {{ROOT_LOCATION}}/autonomous-living/scripts/withings.log
-tail -f {{ROOT_LOCATION}}/autonomous-living/_meta/daily_briefing.log
+tail -f {{ROOT_LOCATION}}/autonomous-living/_meta/daily-logs/safe_sync.log
+tail -f {{ROOT_LOCATION}}/autonomous-living/_meta/daily-logs/morning_briefing.log
 
 # n8n - check workflow execution history in n8n UI
 ```
@@ -153,7 +148,6 @@ SELECT cron.schedule('job-name', '0 * * * *', 'SELECT my_function();');
 | System crontab | Debian cron daemon | Job execution |
 | n8n schedules | n8n service running | Workflow triggers |
 | pg_cron | PostgreSQL extension | Database jobs |
-| GitHub Actions | GitHub Actions runner | CI/CD schedules |
 
 ### Required Access
 - SSH access to homelab for system crontab
@@ -169,7 +163,6 @@ SELECT cron.schedule('job-name', '0 * * * *', 'SELECT my_function();');
 | System crontab not running | No log entries in `/var/log/syslog` | Check cron service: `sudo systemctl status cron` | Check logs |
 | n8n workflow missed schedule | Workflow execution history shows gap | Check n8n logs, verify schedule trigger | None (low priority) |
 | pg_cron job failed | Check `cron.job_run_details` table | Re-run manually or fix function | Check database logs |
-| GitHub Action skipped | No workflow run at scheduled time | Check Actions log | GitHub notification |
 | All morning briefs fail | No Telegram messages at 6:45-7:00 | Check n8n service, network connectivity | Telegram alert |
 
 ### Monitoring Commands
@@ -192,13 +185,13 @@ SELECT * FROM cron.job_run_details ORDER BY end_time DESC LIMIT 10;
 
 ## Related Documentation
 
-- [S03 Data Layer](../S03_Data-Layer/README.md) - Database scheduling
-- [S08 Automation Orchestrator](../S08_Automation-Orchestrator/README.md) - n8n management
+- [S03 Data Layer](./S03_Data-Layer/README.md) - Database scheduling
+- [S08 Automation Orchestrator](./S08_Automation-Orchestrator/README.md) - n8n management
 - [Service Registry](./Service-Registry.md) - All scheduled services
-- [Daily Briefing SOP](../../30_Sops/Daily-Briefing-Management.md)
+- [G11 Obsidian Safe Sync](../50_Automations/scripts/G11_obsidian_safe_sync.md) - Safe synchronization protocol
 
 ---
 
 *Owner: Michal*  
-*Last Updated: 2026-02-20*  
+*Last Updated: 2026-03-19*  
 *Review Cadence: Monthly*

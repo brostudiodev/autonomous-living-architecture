@@ -22,6 +22,8 @@ Implement comprehensive health data collection and analysis systems that provide
 ## Scope
 ### In Scope
 - Withings API integration for biometric data
+- Zepp/Amazfit Cloud integration for sleep and readiness
+- Hydration and caffeine tracking via Digital Twin API
 - Body composition tracking (weight, BF%, muscle, hydration)
 - Trend analysis and predictive modeling
 - Integration with G01 training system
@@ -37,20 +39,25 @@ Implement comprehensive health data collection and analysis systems that provide
 
 ## Definition of Done (2026)
 - [x] Withings API integration fully operational
+- [x] Zepp/Amazfit integration for sleep/readiness (G07_zepp_sync.py)
+- [x] Hydration and caffeine logging system (Database-driven)
 - [x] Automated data sync with robust error handling
 - [x] Integration with G04 Digital Twin and G01 training system
-- [ ] Key health metrics identified and tracked
+- [x] Key health metrics identified and tracked
 - [ ] Predictive models for health trends
 - [ ] Anomaly detection for sudden health changes
 
 ## Inputs
 - Biometric data from Withings Scale API
+- Sleep and readiness data from Zepp Cloud
+- Daily hydration and caffeine logs (Manual via API)
 - Daily weight and body composition
 - Training data from G01
-- Sleep and activity data (future)
 
 ## Outputs
-- Health metrics in S03 Data Layer
+- Health metrics in S03 Data Layer (PostgreSQL)
+- Historical Sleep Ledger (`sleep_log`)
+- Hydration and Caffeine daily stats
 - Trend analysis dashboards
 - Predictive health insights
 - Alerts for anomalies

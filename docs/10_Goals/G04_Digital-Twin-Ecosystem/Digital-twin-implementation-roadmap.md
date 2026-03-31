@@ -4,6 +4,7 @@ type: "goal_roadmap"
 status: "current"
 owner: "Michal"
 updated: "2026-02-20"
+goal_id: "goal-g04"
 ---
 
 # G04 Digital Twin - Implementation Roadmap (Actual)

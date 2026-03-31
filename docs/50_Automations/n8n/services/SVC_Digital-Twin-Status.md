@@ -19,7 +19,7 @@ Provides a real-time summary of the entire Autonomous Living ecosystem, includin
 - **Command:** Triggered via `/status` in Telegram.
 
 ## Inputs
-- **API Call:** `http://{{INTERNAL_IP}}:5677/status?format=text`.
+- **API Call:** `http://[INTERNAL_IP]:5677/status?format=text`.
 
 ## Processing Logic
 1. **Fetch:** Retrieves the unified state summary from the Digital Twin Engine.

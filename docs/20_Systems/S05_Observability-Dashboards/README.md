@@ -42,19 +42,19 @@ Provides real-time visualization and monitoring of financial data through Grafan
 - **UID:** `goals-dashboard`
 - **Source JSON:** `/home/{{USER}}/grafana/dashboards/goals-dashboard.json`
 - **Datasource:** Prometheus (uid `prometheus`)
-- **Documentation:** [Dashboards/Goals-Dashboard.md](./Dashboards/Goals-Dashboard.md)
+- **Documentation:** [../S10_Daily-Goals-Automation/Dashboards/Goals-Dashboard.md](../S10_Daily-Goals-Automation/Dashboards/Goals-Dashboard.md)
 
 2) **Static Goals Dashboard**
 - **UID:** `static-goals-dashboard`
 - **Source JSON:** `/home/{{USER}}/grafana/dashboards/static-goals-dashboard.json`
 - **Datasource:** JSON API (uid `static-goals-json`)
-- **Documentation:** [Dashboards/Static-Goals-Dashboard.md](./Dashboards/Static-Goals-Dashboard.md)
+- **Documentation:** [../S10_Daily-Goals-Automation/Dashboards/Static-Goals-Dashboard.md](../S10_Daily-Goals-Automation/Dashboards/Static-Goals-Dashboard.md)
 
 3) **G01: Peak Performance Dashboard (15% Target)**
 - **UID:** `g01-performance-sql`
 - **Source JSON:** `/home/{{USER}}/grafana/dashboards/g01-target-body-fat.json`
 - **Datasource:** PostgreSQL `autonomous_training` (uid `autonomous-training`)
-- **Documentation:** [Dashboards/G01-Peak-Performance-Dashboard.md](./Dashboards/G01-Peak-Performance-Dashboard.md)
+- **Documentation:** [../S06_Health-Performance/Dashboards/G01-Peak-Performance-Dashboard.md](../S06_Health-Performance/Dashboards/G01-Peak-Performance-Dashboard.md)
 
 4) **💰 Financial Command Center - Real Savings Intelligence (V2 - Fixed)**
 - **UID:** `financial-command-center-real-v2-fixed`
@@ -92,7 +92,7 @@ This prevents UI/runtime errors like:
 4. Verify all variables populate correctly
 
 ### Datasource Configuration
-- PostgreSQL connection must be configured as `{{INTERNAL_IP}}:5432`, database `autonomous_finance`, user `root`, password `admin`. This is provisioned via `autonomous-finance-db.yml` in `/home/{{USER}}/grafana/provisioning/datasources/`.
+- PostgreSQL connection must be configured as `[INTERNAL_IP]:5432`, database `autonomous_finance`, user `[DB_USER]`, password `[DB_PASSWORD]`. This is provisioned via `autonomous-finance-db.yml` in `grafana/provisioning/datasources/`.
 - Database should contain all views from S03 Data Layer
 - User must have SELECT permissions on all financial tables and views
 

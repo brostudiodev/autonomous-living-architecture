@@ -3,7 +3,7 @@ title: "Service Registry & Infrastructure"
 type: "documentation"
 status: "active"
 owner: "Michal"
-updated: "2026-02-20"
+updated: "2026-03-28"
 ---
 
 # Service Registry & Infrastructure
@@ -47,36 +47,51 @@ services:
     purpose: System metrics collection
     status: Active
     metrics: cpu, memory, disk, network
+  
+  glances:
+    port: 61208
+    purpose: Real-time Linux host monitoring for Home Assistant
+    status: Active
+    type: systemd (not Docker)
+    metrics: cpu, memory, disk, network, processes
+    integration: Home Assistant sensor
+    docs: ../50_Automations/scripts/S01_glances_system_monitor.md
 
   digital-twin-api:
     port: 5677
     purpose: REST interface for life state
     status: Active
-    endpoints: /status, /health, /finance, /history
-```
+    endpoints: /status, /all, /health, /hydration, /roi, /tomorrow, /log_water, /log_coffee, /system/velocity, /health/anomalies
 
-### **Database Services**
-```yaml
-databases:
+  ### **Database Services**
+  ```yaml
+  databases:
   postgresql_financial:
     host: localhost
     database: autonomous_finance
     partitions: 2012-2027
     status: Production Ready
-    schemas: transactions, budgets, digital_twin_updates
-  
+    schemas: transactions, budgets, digital_twin_updates, finance_entries (Historical)
+
+  postgresql_health:
+    host: localhost
+    database: autonomous_health
+    status: Active
+    tables: biometrics, water_log, caffeine_log, sleep_log, body_metrics, activity_log
+
   postgresql_digital_twin:
     host: localhost
-    database: autonomous_finance
-    table: digital_twin_updates
+    database: digital_twin_michal
     status: Active
-    entities: person_entity, goal_entity, update_tracking
+    tables: strategic_memory, autonomy_roi, system_activity_log, person_attributes, ghost_predictions, decision_requests
 
   postgresql_pantry:
     host: localhost
     database: autonomous_pantry
     status: Active
     tables: pantry_inventory, pantry_dictionary
+  ```
+
 ```
 
 ---
@@ -478,14 +493,71 @@ pg_cron_jobs:
     purpose: Recalculate savings rate metrics
 ```
 
-### **GitHub Actions**
-```yaml
-scheduled_workflows:
-  sheets_to_github_sync:
-    frequency: "0 */6 * * *"     # Every 6 hours
-    workflow: WF_G01_001
-    purpose: Google Sheets to GitHub sync
-```
+---
+
+## 📊 **INTERFACE-DATABASE CONNECTION MATRIX**
+
+### UI Interfaces (REST APIs & Dashboards)
+
+| Interface | Port | URL | Purpose |
+|-----------|------|-----|---------|
+| **Digital Twin API** | 5677 | `http://[INTERNAL_IP]:5677` | Life state, AI agent, data aggregation |
+| **n8n Web UI** | 5678 | `http://localhost:5678` | Workflow automation engine |
+| **Grafana** | 3003 | `http://localhost:3003` | Dashboards (Financial, Health, Goals) |
+| **Prometheus** | 9090 | `http://localhost:9090` | Metrics collection |
+| **Home Assistant** | 8123 | `http://[INTERNAL_IP]:8123` | Smart home control |
+| **Telegram Bot** | - | `@YourSmartBot` | Daily briefings, alerts |
+
+### Databases
+
+| Database | Host | Tables |
+|----------|------|--------|
+| `autonomous_finance` | localhost:5432 | transactions, budgets, merchants, categories, accounts |
+| `autonomous_health` | localhost:5432 | biometrics, water_log, caffeine_log, sleep_log, body_metrics |
+| `autonomous_training` | localhost:5432 | workouts, workout_sets, exercises, measurements |
+| `autonomous_pantry` | localhost:5432 | pantry_inventory, pantry_dictionary |
+| `autonomous_learning` | localhost:5432 | learning_progress, subject_metrics |
+| `autonomous_career` | localhost:5432 | skill_metrics, project_impact |
+| `digital_twin_michal` | localhost:5432 | strategic_memory, autonomy_roi, system_activity_log |
+| `autonomous_life_logistics` | localhost:5432 | logistics_items, document_expiries |
+
+### External APIs (No Direct DB Access)
+
+| Service | URL | Auth | Purpose |
+|---------|-----|------|---------|
+| **Home Assistant** | `http://[INTERNAL_IP]:8123/api/states` | Long-lived token (`HA_TOKEN`) | Smart home sensors, lights, climate, security |
+
+### UI → Database Connections
+
+| UI Interface | Database/API | Direction | Mechanism |
+|--------------|--------------|-----------|-----------|
+| **Digital Twin API** | `digital_twin_michal` | ← Read | psycopg2 |
+| **Digital Twin API** | `autonomous_finance` | ← Read | psycopg2 |
+| **Digital Twin API** | `autonomous_health` | ← Read | psycopg2 |
+| **Digital Twin API** | `autonomous_pantry` | ← Read | psycopg2 |
+| **Digital Twin API** | `autonomous_training` | ← Read | psycopg2 |
+| **n8n workflows** | `autonomous_finance` | ←/→ | n8n Postgres node |
+| **n8n workflows** | `autonomous_health` | ←/→ | n8n Postgres node |
+| **n8n workflows** | `digital_twin_michal` | ←/→ | n8n Postgres node |
+| **Grafana** | `autonomous_finance` | ← Read | PostgreSQL datasource |
+| **Grafana** | `autonomous_health` | ← Read | PostgreSQL datasource |
+| **Grafana** | Prometheus | ← Read | Prometheus datasource |
+| **Python Scripts** | Home Assistant REST API | ← Read | requests + HA_TOKEN (Bearer) |
+| **n8n workflows** | Home Assistant REST API | ←/→ | HTTP Request + HA webhook |
+
+### External Services Sync
+
+| Service | Target | Direction | Sync Frequency |
+|---------|--------|-----------|----------------|
+| **Google Sheets** (Training) | `autonomous_training` | ←/→ | Every 6h |
+| **Google Sheets** (Health) | `autonomous_health` | ←/→ | Every 2h |
+| **Google Sheets** (Pantry) | `autonomous_pantry` | ←/→ | On-demand |
+| **Withings API** | → `autonomous_health` | → | Every 2h |
+| **Zepp/Amazfit** | → `autonomous_health` | → | Every 6h |
+| **Home Assistant REST API** | Python Scripts / n8n | ← Read | On-demand |
+| **Home Assistant Webhooks** | n8n / Python | ←/→ | Event-driven |
+| **Google Tasks** | Digital Twin | ←/→ | Daily |
+| **Google Calendar** | n8n | ← Read | Daily 6:45 AM |
 
 ---
 

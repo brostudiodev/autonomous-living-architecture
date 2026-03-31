@@ -201,13 +201,12 @@ That's it. No Git operations. No files to save. Sync happens automatically withi
 
 ---
 
-### Problem: "Data didn't sync to GitHub"
+### Problem: "Data didn't sync to Database"
 **Check:**
-1. Wait 6 hours (sync runs every 6 hours, not instant)
-2. Check GitHub Actions: go to repo → Actions → "G01 Training Sync" → latest run
-3. If failed, see [Runbook: Sheets Sync Failure](../../40_Runbooks/G01/Sheets-Sync-Failure.md)
+1. Wait for the next scheduled sync or check `system_activity_log`.
+2. If failed, see [Script: Training Sync](../../50_Automations/scripts/training_sync.md) for manual trigger instructions.
 
-**Manual trigger:** GitHub → Actions → "G01 Training Sync" → "Run workflow" (forces immediate sync)
+**Manual trigger:** `python3 scripts/training_sync.py` (forces immediate sync)
 
 ---
 

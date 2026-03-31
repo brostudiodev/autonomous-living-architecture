@@ -18,7 +18,7 @@ This workflow automates the ingestion of financial transaction data from a desig
 - **When:** Scheduled to run every 12 hours (cron expression `0 */12 * * *`).
 
 ## Inputs
-- **Google Sheet:** "Zestawienie_finansowe-2026_FG_AI" (Document ID `1CUhzhuPXT3EoF4m35c7SRLhhqzX3NHWG4SWosGeGPzw`), specifically the "Transactions" sheet.
+- **Google Sheet:** "Zestawienie_finansowe-2026_FG_AI" (Document ID `[SPREADSHEET_ID]`), specifically the "Transactions" sheet.
     *   **Expected Columns:** `Month`, `Day`, `Merchant/Source`, `Amount`, `Type`, `Account`, `Description`, `Transaction_ID`, `Date`, `Currency`, `Category`, `Sub-Category`.
 -   **PostgreSQL Database:** `autonomous_finance` for existing reference data (accounts, categories, merchants).
 

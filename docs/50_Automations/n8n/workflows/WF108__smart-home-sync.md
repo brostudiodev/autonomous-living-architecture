@@ -18,7 +18,7 @@ Use MariaDB directly - no n8n or PostgreSQL duplication needed. Home Assistant a
 ### MariaDB Connection
 | Parameter | Value |
 |-----------|-------|
-| Host | `{{INTERNAL_IP}}` or `core-mariadb` (Docker) |
+| Host | `[INTERNAL_IP]` or `core-mariadb` (Docker) |
 | Port | 3306 |
 | Database | `homeassistant` |
 | User | `homeassistant` |

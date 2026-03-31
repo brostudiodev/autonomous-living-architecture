@@ -19,7 +19,7 @@ Triggers the "Automationbro Content Harvester" script via the Digital Twin API. 
 - **Command:** Triggered via `/harvest` in Telegram.
 
 ## Inputs
-- **API Trigger:** `http://{{INTERNAL_IP}}:5677/harvest?format=text`.
+- **API Trigger:** `http://[INTERNAL_IP]:5677/harvest?format=text`.
 
 ## Processing Logic
 1. **Trigger Call:** Commands the Digital Twin API to execute the Python harvesting script.

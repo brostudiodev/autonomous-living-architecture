@@ -24,7 +24,7 @@ Provides a personal budget and financial intelligence report. It can be triggere
 The workflow does not take direct inputs via its trigger. Instead, it reads data from a Google Sheet.
 
 ## Processing Logic
-1.  **Data Ingestion**: The workflow fetches transaction and budget data from a Google Sheet (`1CUhzhuPXT3EoF4m35c7SRLhhqzX3NHWG4SWosGeGPzw`).
+1.  **Data Ingestion**: The workflow fetches transaction and budget data from a Google Sheet (`[SPREADSHEET_ID]`).
 2.  **Financial Analysis**: A "Financial Analysis Engine" node processes the data, calculating metrics like income, expenses, balance, savings rate, spending patterns, budget comparisons, and alerts.
 3.  **LLM Reporting**: The analyzed data is passed to a Gemini LLM to generate a human-readable financial report with actionable insights.
 4.  **Output**: The final report is sent as a Telegram message.
@@ -56,7 +56,7 @@ The workflow does not take direct inputs via its trigger. Instead, it reads data
 - **Alerts**: No automated alerts are configured. Monitoring is done by checking n8n's execution logs.
 
 ## Manual Fallback
-If the automation fails, the financial data can be reviewed by manually opening the Google Sheet: `https://docs.google.com/spreadsheets/d/1CUhzhuPXT3EoF4m35c7SRLhhqzX3NHWG4SWosGeGPzw/edit`
+If the automation fails, the financial data can be reviewed by manually opening the Google Sheet: `https://docs.google.com/spreadsheets/d/[SPREADSHEET_ID]/edit`
 
 ## Related Documentation
 - [WF002: SVC_Command-Handler](../WF002__svc-command-handler.md)

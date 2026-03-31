@@ -2,7 +2,6 @@
 -- PostgreSQL database dump
 --
 
-\restrict z8JHVvKmJVH80snWZwfxXBveGeatJIjXNBNsluDUk5nuwUajAJadAcWhIYlh37H
 
 -- Dumped from database version 16.12 (Debian 16.12-1.pgdg12+1)
 -- Dumped by pg_dump version 16.12 (Debian 16.12-1.pgdg12+1)
@@ -104,5 +103,4 @@ ALTER TABLE ONLY public.pantry_inventory
 -- PostgreSQL database dump complete
 --
 
-\unrestrict z8JHVvKmJVH80snWZwfxXBveGeatJIjXNBNsluDUk5nuwUajAJadAcWhIYlh37H
 

@@ -51,12 +51,12 @@ I will implement G04 Digital Twin as the central intelligence hub and data aggre
 # G04_digital_twin_engine.py
 class DigitalTwinHub:
     def __init__(self):
-        self.data_sources = ["G01", "G03", "G05", "G07", "G12"]
+        self.data_sources = ["G01", "G03", "G05", "G07", "G12", "Logistics"]
         self.state_store = PostgreSQLDigitalTwin()
     
     def aggregate_data(self):
         """Collect data from all connected systems and persist state"""
-        # Implementation of health and finance aggregation
+        # Implementation of health, finance, and logistics aggregation
 ```
 
 ### **Service Layer Decision (Added 2026-02-19)**
@@ -66,6 +66,7 @@ To enable real-time, low-latency access to the Digital Twin's state for the Inte
 - **Port:** 5677 (adjacent to n8n for easy discovery).
 - **Protocol:** REST/JSON.
 - **State snapshots:** Every call to the `/status` endpoint triggers a persistence event to PostgreSQL for historical tracking.
+- **Advanced Context (Added 2026-03-04):** The `/all` endpoint enriched with 7-day health trends, cross-domain correlations (e.g. Activity vs Weight), and strategic memory for continuity.
 
 ## Consequences
 

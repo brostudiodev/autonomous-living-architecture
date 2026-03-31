@@ -25,7 +25,7 @@ A production-ready n8n sub-workflow that connects the Intelligent-Hub to the Dig
    - Detects language (Polish/English).
    - Normalizes metadata for routing.
 2. **Fetch Twin Dashboard:**
-   - Calls `GET http://{{INTERNAL_IP}}:5677/today?format=text`.
+   - Calls `GET http://[INTERNAL_IP]:5677/today?format=text`.
 3. **Format for Dispatcher:**
    - Extracts the pre-formatted `response_text` from the API.
    - Maps metadata to the `SVC_Response-Dispatcher` format.
@@ -39,7 +39,7 @@ A production-ready n8n sub-workflow that connects the Intelligent-Hub to the Dig
 - [Productivity & Time](../../20_Systems/S09_Productivity-Time/README.md)
 
 ### External Services
-- **Digital Twin API:** Running on `{{INTERNAL_IP}}:5677`.
+- **Digital Twin API:** Running on `[INTERNAL_IP]:5677`.
 
 ## Manual Fallback
-Verify the API is reachable: `curl http://{{INTERNAL_IP}}:5677/today?format=text`.
+Verify the API is reachable: `curl http://[INTERNAL_IP]:5677/today?format=text`.

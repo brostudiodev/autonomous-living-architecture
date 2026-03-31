@@ -44,9 +44,9 @@ Before you begin, ensure you have:
 
 ## 🔄 Step 3: Implementing Your First Sync
 In my private environment, I run a global sync supervisor to pull data from health, finance, and home APIs into PostgreSQL. To build this yourself, follow the logic defined here:
-- **[Specification: Global Sync Supervisor](../50_Automations/scripts/global-sync.md)**
-- **[Specification: Zepp/Amazfit Sync](../50_Automations/scripts/G07-zepp-sync.md)**
-- **[Specification: Weight Sync](../50_Automations/scripts/G07-weight-sync.md)**
+- **[Specification: Global Sync Supervisor](../50_Automations/scripts/G11_global_sync.md)**
+- **[Specification: Zepp/Amazfit Sync](../50_Automations/scripts/G07_zepp_sync.md)**
+- **[Specification: Weight Sync](../50_Automations/scripts/G07_weight_sync.md)**
 
 ---
 
@@ -55,7 +55,7 @@ In my private environment, I run a global sync supervisor to pull data from heal
 2. Pick one goal (e.g., **G01: Target Body Fat**).
 3. Open its `Roadmap.md` and see how I track tasks and progress.
 4. My system automatically detects checked tasks and updates my **Morning Mission Briefing**.
-   - **How to prepare:** See [Specification: Autonomous Daily Manager](../50_Automations/scripts/autonomous-daily-manager.md).
+   - **How to prepare:** See [Specification: Autonomous Daily Manager](../50_Automations/scripts/autonomous_daily_manager.md).
 
 ---
 
@@ -67,11 +67,11 @@ Go to `http://localhost:3003` for Grafana. I use automated provisioning for my d
 
 ### "How do I talk to my Digital Twin?"
 I interact with my system via a Telegram bot.
-- **How to prepare:** See [Specification: Digital Twin API](../50_Automations/scripts/g04-digital-twin-api.md).
+- **How to prepare:** See [Specification: Digital Twin API](../50_Automations/scripts/G04_digital_twin_api.md).
 
 ### "I see broken links!"
 I use a custom auditor to keep my 1000+ files linked correctly.
-- **How to prepare:** See [Specification: Documentation Auditor](../50_Automations/scripts/documentation-audit.md).
+- **How to prepare:** See [Specification: Documentation Auditor](../50_Automations/scripts/G12_documentation_audit.md).
 
 ---
 

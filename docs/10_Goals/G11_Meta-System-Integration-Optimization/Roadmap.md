@@ -3,7 +3,8 @@ title: "G11: Roadmap"
 type: "goal_roadmap"
 status: "active"
 owner: "Michal"
-updated: "2026-02-07"
+updated: "2026-03-28"
+goal_id: "goal-g11"
 ---
 
 # Roadmap (2026)
@@ -14,17 +15,33 @@ updated: "2026-02-07"
 - [x] Systematically map inputs and outputs for all goals (G01-G11) ✅ (Implemented via G11_meta_mapper.py)
 - [x] Begin defining a high-level unified data schema for S03 Data Layer that can accommodate data from diverse goals. ✅ (Feb 27 - [Unified-Schema.md](../../20_Systems/S03_Data-Layer/Unified-Schema.md))
 - [x] Prototype a basic Meta-System dashboard in S01 (Observability) to display aggregated KPIs from at least two integrated goals ✅ (Connectivity Matrix deployed)
-- [ ] Document identified correlations and dependencies between the goals to inform future optimization strategies.
+- [x] Document identified correlations and dependencies between the goals to inform future optimization strategies (In Progress: Technical Matrix v1.0)
+- [x] **Level 5 Autonomy Elevation:** auto_account_rebalance and auto_procurement now FULL authority ✅ (Mar 27)
+- [x] **Bulk Approval Authority:** Launch /approve_all Telegram command ✅ (Mar 27)
 
 ## Q2 (Apr–Jun)
-- [ ] **Data Intelligence:** Deploy `v_unified_daily_intelligence` materialized view for cross-domain health analysis.
-- [ ] Implement Predictive "Ghost" Schema to track system forecasting accuracy.
-- [ ] **Self-Healing Supervisor:** n8n workflow that monitors other workflows and self-diagnoses failures using Digital Twin API
-- [ ] **Unified Webhook Dispatcher:** Establish a standardized signal gateway for all system-to-system communication
-- [ ] Transition from manual sync triggers to fully automated event-driven state updates
-- [ ] Create unified OS dashboard showing status of all systems (Personal-OS-Dashboard)
-- [ ] Initial ROI calculation framework: time saved vs. time invested analysis
-- [ ] Implement analytics for identifying hidden patterns across goals
+
+> [!tip] 🚀 **High-Impact Autonomy Tasks**
+- [x] **Unified Daily Intelligence View** - Integrated into Telegram via `G11_approval_prompter.py` (Mar 18)
+- [x] **Quick Wins Generation** - Unified execution zone in Daily Note (Mar 20)
+- [x] **Predictive "Ghost" Schema** - Track system forecasting accuracy ✅ (Mar 23)
+- [x] **Self-Healing Automation** - Unified approval loop for system issues (Mar 18)
+- [x] **Stale Task Archiver** - Weekly cleanup of overdue Google Tasks (enhanced Mar 20, auto-approve >30d Mar 26)
+- [x] **Agentic Approval Framework:** Transition from reporting to proactive "Ask & Act" via Telegram ✅ (Mar 25)
+- [x] **G11 Decision Intelligence:** Manual decision reasoning log and monthly cognitive pattern analysis ✅ (Mar 26)
+- [x] **Robust Sync Orchestration:** Producer/Consumer decoupling with retry-aware health sync ✅ (Mar 27)
+- [x] **Autonomy Promotion Agent:** Self-evolving system that upgrades policy levels based on trust thresholds ✅ (Mar 28)
+- [x] **Hidden Friction Discovery:** Statistical correlation engine identifying cross-domain lifestyle triggers ✅ (Mar 28)
+- [x] **Maintenance Triage:** Consolidated hardware/logistics alerts to Sunday Admin task ✅ (Mar 31)
+- [x] **Hygiene Agent:** Automated Google Tasks resolution based on DB state ✅ (Mar 31)
+- 
+- **Architecture Principle:** All device control stays in Home Assistant. System provides intelligence, recommendations, and triggers HA webhooks when needed.
+
+- [x] **Data Intelligence:** Deploy `v_unified_daily_intelligence` materialized view for cross-domain health analysis.
+- [x] **CEO Weekly Briefing:** Unified executive summary via Telegram (enhanced Mar 26 with full data aggregation)
+- [x] **Monthly Progress Summary** - Automated G01 reporter added to sync (Mar 20)
+- [x] **ROI Dashboard:** Quantify time saved vs. time invested analysis ✅ (Mar 08 - Autonomy ROI Tracker deployed)
+- [x] **Self-Healing Supervisor:** Proctor script that monitors system health and generates LLM fix prompts ✅ (Mar 06)
 
 ## Q3 (Jul–Sep) - Phase: The Enterprise Nervous System
 - [ ] Implement Message Broker (MQTT/RabbitMQ) for true Event-Driven responses

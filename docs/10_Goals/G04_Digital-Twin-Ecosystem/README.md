@@ -38,11 +38,16 @@ Create a centralized AI-powered intelligence hub that aggregates data from all s
 ## Definition of Done (2026)
 - [x] Production-grade AI router implemented (WF001)
 - [x] n8n workflows active 24/7
+- [x] Autonomy ROI Tracking Engine deployed (G04_log_roi)
+- [x] Database-driven Hydration & Caffeine tracking
+- [x] **Obsidian Semantic Synthesis:** Project status and vault intelligence active.
+- [x] **Cooperative Telegram Bot:** Interactive decisions via `G04_telegram_bot.py`.
+- [x] **Standardized Daily Interface:** Formalized `Daily-Note-Interface-Spec.md` for Obsidian.
 - [x] Monitoring in place - Integrated with S01 observability
-- [ ] Core data models for Digital Twin entities defined
-- [ ] Initial data ingestion pipelines from key sources
-- [ ] GraphQL API layer established
-- [ ] Basic visualization dashboard
+- [x] Core data models for Digital Twin entities defined
+- [x] Initial data ingestion pipelines from key sources
+- [ ] GraphQL API layer established (Planned Q3)
+- [x] Basic visualization dashboard (Telegram & Obsidian)
 
 ## Inputs
 - User commands via Telegram, webhook, n8n chat
@@ -50,11 +55,14 @@ Create a centralized AI-powered intelligence hub that aggregates data from all s
 - URLs (YouTube, web pages)
 - Documents (PDFs, images)
 - Scheduled data pulls from other systems
+- Biological logs (Water, Coffee, Sleep)
 
 ## Outputs
 - Processed content saved to Obsidian
 - Aggregated metrics for dashboards
 - Digital twin state updates in PostgreSQL
+- Autonomy ROI metrics
+- **Obsidian Intelligence:** Real-time project status and knowledge graph stats.
 - Intelligence summaries
 - Cross-system coordination commands
 
@@ -81,15 +89,27 @@ Create a centralized AI-powered intelligence hub that aggregates data from all s
 | Endpoint | Method | Description | Response Field |
 |---|---|---|---|
 | `/status` | GET | Full system state (Health, Finance, Pantry) | `summary` |
+| `/all` | GET | High-density JSON state for LLM context | `content` |
+| `/recurring` | POST | Creates a recurring calendar event via Natural Language or manual | `report` |
+| `/roi` | GET | Daily Autonomy ROI analysis (Time Saved) | `report` |
+| `/search` | GET | Keyword search across the Obsidian Vault | `report` |
+| `/hydration`| GET | Today's water and caffeine daily totals | `report` |
 | `/tomorrow`| GET | Mission Briefing: Today's wins, Tomorrow's Calendar, Roadmap Missions | `response_text` |
 | `/today` | GET | Mobile Dashboard: Parses biometrics, manual tasks, and goal progress from today's Obsidian Daily Note | `response_text` |
 | `/audit` | GET | Self-Healing Audit: Checks database freshness, log staleness, and credential existence | `response_text` |
 | `/health` | GET | Raw biometric & recovery status | raw JSON |
 | `/tasks` | GET | Consolidated Google and Roadmap tasks | raw JSON |
+| `/log_water`| GET/POST | Logs water intake (Supports notes) | `report` |
+| `/log_coffee`| GET/POST | Logs caffeine intake (Supports type/note) | `report` |
+| `/health/history` | POST | Returns raw health metrics for a specific `target_date` | raw JSON |
+| `/query` | POST | **Total Recall:** Direct read-only SQL querying across all databases | Markdown Table |
 
 #### Detailed Endpoint Logic:
+- **`/query`**: The "Total Recall" interface. Allows the n8n Agent to write its own SQL to correlate data across `health`, `finance`, `twin`, and `training` databases.
+- **`/health/history`**: Provides deterministic historical health data. Decoupled from LLM logic; date extraction is now handled by the n8n supervisor.
 - **`/today`**: Uses `G10_today_status.py` to regex-parse the active Daily Note. It extracts YAML frontmatter (Mood, Energy, Sleep) and Markdown task lists. High value for mobile "on-the-go" checking.
-- **`/audit`**: Uses `G11_system_audit.py`. It probes PostgreSQL for the last successful update timestamp per database. If data > 48h old, it flags a sync failure. It also verifies that all `.json` secrets are present in the `/scripts` directory.
+- **`/recurring`**: Integrated with `G10_calendar_client.py`. Supports RRULE-based recurring events to automate frequent scheduling.
+- **Morning Briefing**: Time-gated in `G11_global_sync.py` to only trigger between 05:00 and 10:00 AM, preventing redundant midday notifications during system syncs.
 - Progress Monitor: [Progress-monitor.md](Progress-monitor.md)
 - n8n Workflows: [../../50_Automations/n8n/workflows/WF001_Agent_Router.md](../../50_Automations/n8n/workflows/WF001_Agent_Router.md)
 

@@ -3,13 +3,13 @@ title: "North Star"
 type: "strategy"
 status: "active"
 owner: "Michal"
-updated: "2026-02-20"
+updated: "2026-03-14"
 ---
 
 # North Star: Automation-First Living
 
 ## The 2026 Vision
-By the end of 2026, **everything** I do on a daily basis will be **automated**, so that I don’t have to focus on ordinary tasks and everything can run without me. 
+By the end of 2026, **everything** I do on a daily basis will be **automated**, so that I don't have to focus on ordinary tasks and everything can run without me. 
 
 The goal is to move from "Automation" to true **Autonomy** across all aspects of life, allowing me to focus 100% on high-value work, creativity, and strategic growth.
 
@@ -37,5 +37,6 @@ This project is the technical foundation for the **Automationbro** brand. While 
 
 ## Constraints
 - **Privacy First:** Especially regarding health and financial data.
-- **Monitoring is Mandatory:** "Automation that can’t be monitored is just a future outage."
-- **Total Recoverability:** If a system can’t be restored autonomously, it doesn’t exist.
+- **Monitoring is Mandatory:** "Automation that can't be monitored is just a future outage."
+- **Total Recoverability:** If a system can't be restored autonomously, it doesn't exist.
+- **HA as Single Source of Truth for Device Control:** All device control (lights, appliances, climate) happens in Home Assistant. The automation system (n8n, scripts) only gathers data, makes recommendations, and triggers HA webhooks when needed.

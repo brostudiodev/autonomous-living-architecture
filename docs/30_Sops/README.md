@@ -3,7 +3,7 @@ title: "SOPs"
 type: "index"
 status: "active"
 owner: "Michal"
-updated: "2026-02-07"
+updated: "2026-03-20"
 ---
 
 # SOPs (Standard Operating Procedures)
@@ -14,6 +14,7 @@ Click on a procedure to view step-by-step instructions:
 ### Daily Operations
 - **[Daily Briefing Management](./Daily-Briefing-Management.md)**
 - **[Daily Task Review & Sync](./SOP_Daily_Task_Review.md)**
+- **[Evening Automation System](./Evening-Automation-System.md)**
 
 ### G01: Health & Training
 - **[Log Workout](./G01/Log-Workout.md)**

@@ -36,7 +36,7 @@ Automated morning weather report with forecast and Home Assistant sensor data.
 
 2. **Home Assistant** - Local sensor
    - Entity: `sensor.temperatura_podworko` (backyard temperature)
-   - URL: `http://{{INTERNAL_IP}}:8123`
+   - URL: `http://[INTERNAL_IP]:8123`
    - Auth: Bearer token
 
 ## Outputs

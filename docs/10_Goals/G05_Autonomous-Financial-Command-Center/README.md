@@ -103,7 +103,7 @@ Build a **reliable, explainable, and mostly self-driving financial data layer + 
 - **Core Innovation:** Separates "operational income" from "system transactions" (INIT/transfers)
 - **Philosophy:** All intelligence in PostgreSQL functions, Grafana only visualizes
 - **Current Challenge:** Fixing savings rate calculation to show real wealth-building behavior
-- **Grafana Dashboard (V2) Note:** The dashboard is explicitly designed to meet Grafana's strict `rawSql` parsing requirements (single-line, no comments, unquoted aliases with underscores). Refer to [S05: Observability & Financial Dashboards](../20_Systems/S05_Observability-Dashboards/README.md) for details.
+- **Grafana Dashboard (V2) Note:** The dashboard is explicitly designed to meet Grafana's strict `rawSql` parsing requirements (single-line, no comments, unquoted aliases with underscores). Refer to [S05: Observability & Financial Dashboards](../../20_Systems/S05_Observability-Dashboards/README.md) for details.
 
 ---
 

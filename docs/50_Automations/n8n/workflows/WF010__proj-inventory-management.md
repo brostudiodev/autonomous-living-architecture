@@ -24,7 +24,7 @@ An AI-powered pantry assistant that receives queries, loads inventory from Googl
 
 ## Processing Logic
 1.  **Normalize Input**: The "Normalize Entry" node extracts the query, chat ID, and other user information from the input. It sets a default query if none is provided.
-2.  **Load Inventory**: Reads the current inventory data from a Google Sheet (`10knY7Tnh5iNLooAxQ8OjI0sRJ-2l0t3rH5ABdVuvFAM`).
+2.  **Load Inventory**: Reads the current inventory data from a Google Sheet (`[SPREADSHEET_ID]`).
 3.  **Prepare AI Context**: Transforms the Google Sheet data into a text-based context for the AI, including categories, quantities, and low-stock items.
 4.  **AI Agent Processing**: A Gemini-based AI Agent processes the user's query against the inventory context. The agent has access to the following tools:
     *   `get_inventory`: Fetches the current inventory.
@@ -63,7 +63,7 @@ A JSON object containing the `response_text`, `chat_id`, `source_type`, and othe
 - **Alerts**: There are no built-in alerts. Monitoring is done by reviewing n8n's execution logs.
 
 ## Manual Fallback
-If the automation fails, the inventory can be managed by manually editing the Google Sheet: `https://docs.google.com/spreadsheets/d/10knY7Tnh5iNLooAxQ8OjI0sRJ-2l0t3rH5ABdVuvFAM/edit`
+If the automation fails, the inventory can be managed by manually editing the Google Sheet: `https://docs.google.com/spreadsheets/d/[SPREADSHEET_ID]/edit`
 
 ## Related Documentation
 - [WF002: SVC_Command-Handler](../WF002__svc-command-handler.md)

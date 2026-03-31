@@ -1,345 +1,116 @@
 ---
-title: "S03: Data Layer"
+title: "S03: Data Layer (Multi-Database Architecture)"
 type: "system"
 status: "active"
 system_id: "system-s03"
 owner: "Michal"
-updated: "2026-02-17"
+updated: "2026-03-23"
 review_cadence: "monthly"
 ---
 
 # S03: Data Layer
 
 ## Purpose
-Centralized PostgreSQL database providing foundation for autonomous financial intelligence, with optimized views and functions for real-time analysis and decision-making.
+A distributed multi-database architecture providing the persistent foundation for all autonomous living systems. It ensures data isolation, scalability, and high-speed retrieval for the Digital Twin's strategic reasoning.
+
+> [!insight] 📝 **Automationbro Insight:** [Clean Code, Dirty Data: When Master Data Inconsistencies Killed Automations](https://automationbro.substack.com/p/clean-code-dirty-data-when-master)
 
 ## Scope
 ### In Scope
-- PostgreSQL database infrastructure (Docker).
-- Relational schemas for transactions, training, and digital twin state.
-- Analytics views for P&L, savings rates, and progress tracking.
-- Stored procedures and functions for business logic.
-- Automated daily backup procedures.
+- Distributed PostgreSQL databases (Docker-hosted).
+- Domain-specific schemas (Finance, Health, Logistics, etc.).
+- Strategic Memory persistence for Agent Zero.
+- Automated synchronization from Google Sheets and external APIs.
 
 ### Out of Scope
-- Direct data entry UI (handled by Google Sheets/Obsidian).
-- External API aggregation (handled by n8n).
+- Unstructured knowledge (handled by Obsidian Vault).
+- Real-time sensor streams (handled by Home Assistant/MariaDB).
 
-## Inputs
-- Transactional data from n8n (Google Sheets source).
-- Training metrics from Google Sheets (synced via n8n or Python/gspread scripts).
-- Digital Twin state updates from `G04_engine`.
-- Manual SQL administrative commands.
+## Distributed Database Registry
+| Database | Purpose | Key Tables |
+|----------|---------|------------|
+| `autonomous_finance` | Financial Command Center | `transactions`, `merchants`, `budgets`, `finance_entries` |
+| `autonomous_health` | Predictive Health | `biometrics`, `water_log`, `caffeine_log`, `sleep_log` |
+| `autonomous_training` | HIT Training & Performance | `workouts`, `workout_sets`, `exercises` |
+| `autonomous_pantry` | Household & Logistics | `pantry_inventory`, `selected_meal` |
+| `autonomous_life_logistics` | Document & Deadline Tracking | `autonomous_life_logistics`, `relationships` |
+| `autonomous_learning` | Certification & Skill Progress | `learning_progress`, `subject_metrics` |
+| `autonomous_career` | Career Intelligence | `skill_metrics`, `project_impact` |
+| `digital_twin_michal` | Twin Brain & Memory | `strategic_memory`, `autonomy_roi`, `system_activity_log`, `decision_requests`, `autonomous_decisions` |
 
-## Outputs
-- Data feeds for Grafana dashboards.
-- Status summaries for Digital Twin API.
-- Alert signals for Telegram notification systems.
-- Daily encrypted backups.
+## Core Components
 
-## Dependencies
-### Systems
-- [S00 Homelab Platform](../S00_Homelab-Platform/README.md) - Docker hosting.
-- [S01 Observability & Monitoring](../S01_Observability-Monitoring/README.md) - Backup alerts.
-
-### External
-- **PostgreSQL 15+** engine.
-- **Google Sheets API** - Primary user interface for data entry.
-
-## Components
-
-### Database Schema
-- **Platform:** PostgreSQL 15+
-- **Purpose:** Single source of truth for all financial, training, and operational data.
-- **Location:** Homelab Docker container
-
-#### Core Tables
-- **transactions:** All financial transactions with categorization.
-- **workouts:** Training session metadata (from Google Sheets).
-- **biometrics:** Heart rate, HRV, sleep stages, and readiness (from Amazfit).
-- **daily_health_summary:** Aggregated daily recovery and load recommendations.
-- **pantry_inventory:** Household stock levels (from Google Sheets).
-- **budgets:** Monthly budget allocations and thresholds.
-- **categories:** Hierarchical category structure.
-- **accounts:** Bank account information and metadata.
-- **upcoming_expenses:** Known upcoming expenses for next 30 days tracking (from Google Sheets Expense Calendar).
-
-### Analytics Views
-
-#### v_real_savings_monthly
-- **Purpose:** Corrected savings rate calculation (fixes 98% problem)
-- **Innovation:** Separates operational income from system transactions
-- **Range:** Shows realistic 5-35% savings rates
-- **File:** `views/v_real_savings_monthly.sql`
-
-#### v_monthly_pnl
-- **Purpose:** Comprehensive profit & loss analysis
-- **Features:** Income/expense breakdown by category
-- **Trends:** 24-month historical analysis
-- **File:** `views/v_monthly_pnl.sql`
-
-#### v_budget_performance
-- **Purpose:** Real-time budget tracking with projections
-- **Features:** Utilization percentages, burn rates, variance analysis
-- **Intelligence:** Month-end overspend projections
-- **File:** `views/v_budget_performance.sql`
-
-#### v_daily_cashflow
-- **Purpose:** Daily transaction flow analysis
-- **Features:** Moving averages, anomaly detection, trend analysis
-- **Period:** 90-day rolling window
-- **File:** `views/v_daily_cashflow.sql`
-
-### Intelligent Functions
-
-#### get_current_budget_alerts()
-- **Purpose:** Real-time budget monitoring and alerting
-- **Features:** Multi-severity alerts, recommended actions, projections
-- **Returns:** Actionable intelligence for immediate response
-- **File:** `functions/get_current_budget_alerts.sql`
-
-#### get_budget_optimization_suggestions()
-- **Purpose:** Automated budget optimization analysis
-- **Features:** Identifies overspending/underutilization, confidence scoring
-- **Returns:** Specific recommendations with potential savings
-- **File:** `functions/get_budget_optimization_suggestions.sql`
-
-#### get_category_names_from_description()
-- **Purpose:** Dynamically determines transaction category and subcategory names based on description and amount.
-- **Features:** Rule-based categorization, default to 'Uncategorized/Other'.
-- **Returns:** `derived_category_name`, `derived_subcategory_name`.
-- **File:** `functions/get_category_names_from_description.sql`
-
-### Upcoming Expenses Table
-
-#### upcoming_expenses
-- **Purpose:** Track known upcoming expenses for proactive financial planning
-- **Source:** Google Sheets "Expense Calendar" tab (synced via n8n)
-- **Features:** 
-  - Supports monthly, quarterly, annual, and one-time expenses
-  - Automatic date calculation from Year/Month/Day fields
-  - Used by daily Telegram alerts
-
-**Table Schema:**
+### System Activity Log (`digital_twin_michal`)
+Centralized heartbeat of the ecosystem, tracking the execution status of all automations.
 ```sql
-CREATE TABLE upcoming_expenses (
+CREATE TABLE system_activity_log (
     id SERIAL PRIMARY KEY,
-    transaction_id VARCHAR(50) UNIQUE NOT NULL,
-    expense_date DATE NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    amount DECIMAL(10,2) NOT NULL,
-    currency VARCHAR(3) DEFAULT 'PLN',
-    frequency VARCHAR(20) CHECK (frequency IN ('monthly', 'quarterly', 'annual', 'one-time')),
-    description TEXT,
-    category VARCHAR(100) DEFAULT 'UNCATEGORIZED',
-    sub_category VARCHAR(100) DEFAULT 'UNCATEGORIZED',
-    source VARCHAR(20) DEFAULT 'google_sheets',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    script_name VARCHAR(100) NOT NULL,
+    status VARCHAR(20) NOT NULL, -- 'SUCCESS', 'FAILURE', 'PARTIAL'
+    items_processed INTEGER DEFAULT 0,
+    details TEXT,
+    logged_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### Autonomy ROI (`digital_twin_michal`)
+Quantifies the actual time saved by autonomous systems.
+```sql
+CREATE TABLE autonomy_roi (
+    id SERIAL PRIMARY KEY,
+    source VARCHAR(100) NOT NULL,
+    category VARCHAR(50) NOT NULL,
+    minutes_saved INT NOT NULL,
+    details TEXT,
+    logged_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### Life Logistics (`autonomous_life_logistics`)
+Tracks the "Administrative Health" of the user.
+```sql
+CREATE TABLE autonomous_life_logistics (
+    id SERIAL PRIMARY KEY,
+    category VARCHAR(100),
+    item_name VARCHAR(255),
+    due_date DATE,
+    amount NUMERIC(10,2),
+    status VARCHAR(50), -- empty, DONE, REJECTED
+    alert_threshold_days INT,
+    notes TEXT,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
 
-**View: v_upcoming_30_days**
-- **Purpose:** Shows all expenses due in the next 30 days
-- **Features:** Calculates next occurrence for recurring expenses
-- **Usage:** Daily Telegram alert workflow queries this view
-
-- **PostgreSQL View:** `v_upcoming_30_days`
-
-## Key Innovations
-
-### Real Savings Rate Calculation
-Solves the "98% fake savings rate" problem by:
-- Excluding INIT positions and internal transfers
-- Distinguishing operational income from system transactions
-- Using dual detection methods for wealth-building activities
-- Providing realistic 5-35% savings range
-
-### Autonomous Intelligence
-- All business logic encapsulated in PostgreSQL functions
-- Grafana visualization only (no processing in UI)
-- Automated anomaly detection using statistical methods
-- Predictive projections based on historical patterns
-
-## Performance Optimizations
-
-### Query Performance
-- **Target:** <2 seconds for all views/functions
-- **Methods:** Proper indexing, optimized JOINs, filtered result sets
-- **Monitoring:** Query execution time tracking
-
-### Data Freshness
-- **Real-time:** Views always show current data
-- **Automated:** n8n workflows maintain synchronization
-- **Validation:** Daily freshness checks and alerts
-
-## Data Model
-
-### Schema Design Principles
-- **Normalization:** Proper relational design
-- **Audit Trail:** Created/updated timestamps on all tables
-- **Hierarchical:** Category structure supports rollups
-- **Temporal:** Time-series optimized queries
-
-### Data Integrity
-- **Constraints:** Foreign keys and check constraints
-- **Validation:** Category consistency checks
-- **Quality:** Automated anomaly detection
-- **Accuracy:** Reconciliation processes
-
-## Security Considerations
-
-### Access Control
-- **Application User:** Limited SELECT permissions for n8n/Grafana
-- **Admin User:** Full schema management privileges
-- **Network:** Docker network isolation
-- **Backups:** Automated daily backups with encryption
-
-### Data Privacy
-- **Homelab Only:** All data remains within local environment
-- **No External APIs:** No third-party data sharing
-- **Encryption:** Transparent data encryption at rest
-- **Retention Configurable:** Data retention policies
-
-## Deployment Instructions
-
-### Database Setup
-```bash
-# Create PostgreSQL container
-docker run -d \
-  --name postgres-finance \
-  -e POSTGRES_DB=finance \
-  -e POSTGRES_USER=finance_user \
-  -e POSTGRES_PASSWORD=secure_password \
-  -v /path/to/data:/var/lib/postgresql/data \
-  -p 5432:5432 \
-  postgres:15
-
-# Deploy core schema, views, and functions
-psql -h localhost -U finance_user -d finance -f infrastructure/database/finance/schema.sql
-psql -h localhost -U finance_user -d finance -f views/v_real_savings_monthly.sql
-psql -h localhost -U finance_user -d finance -f views/v_monthly_pnl.sql
-psql -h localhost -U finance_user -d finance -f views/v_budget_performance.sql
-psql -h localhost -U finance_user -d finance -f views/v_daily_cashflow.sql
-psql -h localhost -U finance_user -d finance -f functions/get_current_budget_alerts.sql
-psql -h localhost -U finance_user -d finance -f functions/get_budget_optimization_suggestions.sql
-psql -h localhost -U finance_user -d finance -f functions/get_category_names_from_description.sql
-psql -h localhost -U finance_user -d finance -f functions/upsert_expense_from_sheet.sql
-psql -h localhost -U finance_user -d finance -f views/v_upcoming_30_days.sql
-psql -h localhost -U finance_user -d finance -f tables/upcoming_expenses.sql
-```
-
-### Validation Testing
+### Decision Requests (`digital_twin_michal`)
+Manages the "Human-in-the-Loop" validation for autonomous actions.
 ```sql
--- Test real savings rate calculation
-SELECT 
-    period,
-    real_savings_rate_pct,
-    operational_income,
-    actual_savings
-FROM v_real_savings_monthly 
-WHERE year = EXTRACT(YEAR FROM CURRENT_DATE)
-ORDER BY period_date DESC 
-LIMIT 3;
-
--- Test alert generation
-SELECT COUNT(*) as alert_count 
-FROM get_current_budget_alerts();
-
--- Test optimization suggestions
-SELECT 
-    suggestion_type,
-    COUNT(*) as count,
-    SUM(potential_savings) as total_potential
-FROM get_budget_optimization_suggestions()
-GROUP BY suggestion_type;
+CREATE TABLE decision_requests (
+    id SERIAL PRIMARY KEY,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    domain VARCHAR(50),
+    policy_key VARCHAR(100),
+    payload JSONB,
+    status VARCHAR(20) DEFAULT 'PENDING', -- PENDING, RESOLVED, EXPIRED
+    resolution TIMESTAMP,
+    resolution_result VARCHAR(20), -- APPROVED, DENIED, SUCCESS
+    is_notified BOOLEAN DEFAULT FALSE
+);
 ```
 
-## Monitoring and Maintenance
+## Data Freshness & Sync
+- **Orchestrator:** [G11_global_sync.py](../../50_Automations/scripts/G11_global_sync.md)
+- **Mechanism:** Python scripts using `psycopg2` and `gspread`.
+- **Validation:** Daily freshness checks integrated into the Digital Twin API `/status` endpoint.
 
-### Performance Monitoring
-```sql
--- Slow query monitoring
-SELECT query, mean_time, calls, total_time
-FROM pg_stat_statements 
-WHERE query LIKE '%v_%' OR query LIKE '%get_%'
-ORDER BY mean_time DESC;
+## Dependencies
+- **Infrastructure:** S00 Homelab Platform (Docker Compose).
+- **Environment:** Dedicated `.venv` with `psycopg2-binary` and `python-dotenv`.
+- **Credentials:** Securely loaded via `.env` (using `DB_PASSWORD`, `DB_HOST`, `HA_TOKEN`).
 
--- View usage statistics
-SELECT schemaname, viewname, calls, total_time
-FROM pg_stat_user_views
-ORDER BY total_time DESC;
-```
+## Related Documentation
+- [Goal: G11 Meta-System Integration](../../10_Goals/G11_Meta-System-Integration-Optimization/README.md)
+- [System: S04 Digital Twin](../S04_Digital-Twin/README.md)
 
-### Health Checks
-```sql
--- Data freshness check
-SELECT 
-    MAX(transaction_date) as latest_transaction,
-    COUNT(*) as transactions_last_7_days
-FROM transactions
-WHERE transaction_date >= CURRENT_DATE - INTERVAL '7 days';
-
--- Function execution test
-SELECT 'get_current_budget_alerts()' as function_name, COUNT(*) as result_count
-FROM get_current_budget_alerts()
-UNION ALL
-SELECT 'get_budget_optimization_suggestions()' as function_name, COUNT(*) as result_count
-FROM get_budget_optimization_suggestions();
-```
-
-## Backup and Recovery
-
-### Automated Backups
-- **Daily:** Full database backup at 2:00 AM
-- **Retention:** 30 days of daily backups
-- **Compression:** gzip compressed backups
-- **Encryption:** Optional backup encryption
-
-### Recovery Procedures
-```bash
-# Restore from backup
-pg_restore -h localhost -U finance_user -d finance backup_file.sql
-
-# Point-in-time recovery (if WAL enabled)
-pg_basebackup -h localhost -D /backup/base -U finance_user -v -P -W
-```
-
-## Related Systems
-- [S05 Observability Dashboards](../S05_Observability-Dashboards/README.md) - Data visualization
-- [S08 Automation Orchestrator](../S08_Automation-Orchestrator/README.md) - Automated workflows
-- [G05 Autonomous Finance](../../10_Goals/G05_Autonomous-Financial-Command-Center/README.md) - Primary goal
-
-## Procedure
-1. **Daily:** Check data freshness, verify automated loads
-2. **Weekly:** Review query performance, check for slow queries
-3. **Monthly:** Review backup integrity, test recovery procedure
-4. **Quarterly:** Analyze data growth, optimize indexes
-
-## Failure Modes
-| Scenario | Detection | Response |
-|----------|-----------|----------|
-| Database unreachable | Connection timeout | Check container, restart if needed |
-| Query performance degradation | Slow query log | Analyze execution plan, add indexes |
-| Backup failure | Alert from backup script | Check disk space, verify cron |
-| Data corruption | Checksum failure | Restore from backup |
-
-## Security Notes
-- Database credentials stored in n8n credentials
-- Application user has limited SELECT only
-- Admin user restricted to management tasks
-- Network isolation via Docker networking
-
-## Owner & Review
-- **Owner:** Michal
-- **Review Cadence:** Monthly
-- **Last Updated:** 2026-02-17
 ---
-
-## ☕ Fuel the Architecture
-
-Building and maintaining this level of technical rigor is a massive investment. If this blueprint helps your own engineering journey, I would be grateful for your support.
-
-<a href='https://ko-fi.com/michalnowakowski' target='_blank'><img height='60' style='border:0px;height:60px;' src='https://storage.ko-fi.com/cdn/kofi3.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
-
-**Support my hard work in engineering a fully autonomous life.** Every coffee fuels another line of code, another automated insight, and another step toward the 2026 North Star. Your contributions help maintain the infrastructure and research shared in this open-source blueprint.
+*Updated: 2026-03-23 by Digital Twin Assistant*

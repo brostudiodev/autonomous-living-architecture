@@ -17,10 +17,12 @@ updated: "2026-02-07"
 | **Data Freshness** | ≤ 24h lag | n8n workflow success rate | Daily | Michal |
 | **Dashboard Uptime** | ≥ 99% | Grafana availability monitoring | Weekly | Michal |
 | **Auto-categorization Rate** | ≥ 90% | Transactions with automatic categories | Weekly | Michal |
+| **Financial Admin ROI** | > 30 mins/month | [Autonomy ROI Tracker](../G04_Digital-Twin-Ecosystem/Systems.md) | Monthly | Digital Twin |
 
 ## Leading Indicators
 - Daily budget burn rate vs. expected linear progression
 - Number of uncategorized transactions requiring manual review
+- Count of anomalous transactions (>2 standard deviations)
 - Count of anomalous transactions (>2 standard deviations)
 
 ## Lagging Indicators

@@ -71,6 +71,25 @@ Represents an individual goal, tracking its definition, associated metrics, prog
 | `dependencies` | ARRAY of UUIDs | List of `goal_id`s that this goal depends on. | |
 | `last_updated` | Timestamp | Timestamp of the last update to this entity. | Auto-managed |
 
+### 4. Strategic Memory Entity
+Represents the persistent continuity of the Digital Twin. Stores AI insights, user queries, and manual event logs to enable long-term strategic learning and context preservation.
+
+**Schema:**
+
+| Field Name | Data Type | Description | Constraints / Notes |
+|---|---|---|---|
+| `id` | SERIAL | Unique identifier. | Primary Key |
+| `memory_type` | String | Type of entry (e.g., 'insight', 'query', 'event'). | Default: 'chat' |
+| `content` | Text | Human-readable content of the memory. | Primary text storage |
+| `message` | JSONB | LangChain-compatible message object. | **Auto-synced via trigger** |
+| `context_snapshot` | JSONB | Full state of the system at time of creation. | |
+| `session_id` | String | Identifier for chat sessions or users. | Default: 'default' |
+| `goal_id` | String | Optional link to a specific Power Goal. | |
+| `created_at` | Timestamp | Time of entry creation. | |
+
+### 5. Architectural Triggers
+- **`trg_sync_memory`**: A PostgreSQL trigger ensuring bidirectional sync between `content` (Python-friendly) and `message` (LangChain/n8n-friendly). It automatically wraps/unwraps text into the required `{"type": "...", "data": {"content": "..."}}` structure.
+
 ## Relationships
 -   **Person** can have multiple **Goals**.
 -   **Home** is linked to a **Person** (current residence).

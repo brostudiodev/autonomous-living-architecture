@@ -142,4 +142,4 @@ mutation UpdateGoalEntity($input: GoalEntityInput!) {
 - [Digital Twin Data Models](./Data-Models.md)
 - [S03 Data Layer README](../../20_Systems/S03_Data-Layer/README.md)
 - [WF105 Pantry Management AI Agent](../../50_Automations/n8n/workflows/WF105__pantry-management.md)
-- [Pantry Management System](../../../10_Goals/G03_Autonomous-Household-Operations/README.md)
+- [Pantry Management System](../../10_Goals/G03_Autonomous-Household-Operations/README.md)

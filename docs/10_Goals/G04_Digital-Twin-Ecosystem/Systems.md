@@ -1,47 +1,38 @@
 ---
-title: "G04: Systems & Traceability"
-type: "technical_spec"
+title: "G04: Systems"
+type: "goal_systems"
 status: "active"
-goal_id: "goal-g04"
 owner: "Michal"
-updated: "2026-02-24"
+updated: "2026-03-21"
+goal_id: "goal-g04"
 ---
 
-# G04 Digital Twin - Systems Architecture
+# Systems
 
-## Core Components
+## Enabling systems
+- [S03 Data Layer (Multi-DB)](../../20_Systems/S03_Data-Layer/README.md) - Storage for `digital_twin_michal`.
+- [S04 Digital Twin Hub](../../20_Systems/S04_Digital-Twin/README.md) - The core intelligence hub.
+- [S11 Intelligence Router](../../20_Systems/S11_Meta-System-Integration/README.md) - Input/Output orchestration.
 
-### 1. Digital Twin Engine (`G04_digital_twin_engine.py`)
-The "brain" of the ecosystem. Stateless Python class responsible for:
-- **Data Aggregation**: Queries PostgreSQL databases (`autonomous_finance`, `autonomous_training`, `autonomous_pantry`).
-- **State Calculation**: Converts raw DB rows into structured JSON state objects.
-- **Summary Generation**: Creates human-readable status strings.
-
-### 2. Digital Twin API (`G04_digital_twin_api.py`)
-Central interface for n8n, Obsidian, and Telegram.
-- **Port**: 5677 (FastAPI)
-- **Primary Endpoints**:
-  - `GET /status`: Full system briefing.
-  - `GET /report`: Strategic monthly summary (Markdown).
-  - `GET /tasks`: Aggregated cross-system task inventory.
-  - `GET /training`: Dynamic HIT session recommendations.
-  - `GET /sync`: Orchestrates all background sync scripts.
-  - `GET /vision`: 2026 North Star and Power Goal intent.
-
-### 3. Notification Hub (`G04_digital_twin_notifier.py`)
-Centralized Telegram delivery system for all autonomous alerts and briefings.
-
-## Traceability (Outcome → System → Automation → SOP)
+## Traceability (Outcome → System → Automation → SOP/Runbook)
 
 | Outcome | System | Automation | SOP/Runbook |
-|---|---|---|---|
-| Real-time Event Response | S04 Digital Twin | [G04_digital_twin_listener.py](../../50_Automations/scripts/G04-digital-twin-listener.md) | - |
-| Unified State View | S04 Digital Twin | [G04_digital_twin_api.py](../../50_Automations/scripts/g04-digital-twin-api.md) | - |
-| Proactive Daily Briefing | S04 Digital Twin | [morning-briefing-sender.md](../../50_Automations/scripts/morning-briefing-sender.md) | - |
-| Strategic Progress Reporting | S04 Digital Twin | [SVC_Digital-Twin-Report.md](../../50_Automations/n8n/services/SVC_Digital-Twin-Report.md) | - |
-| System-wide Sync | S11 Meta-System | [SVC_Digital-Twin-Sync.md](../../50_Automations/n8n/services/SVC_Digital-Twin-Sync.md) | - |
+|---------|--------|------------|-------------|
+| Strategic Brain & Reasoning | S04 Digital Twin | [G04_digital_twin_engine.md](../../50_Automations/scripts/G04_digital_twin_engine.md) | - |
+| Cross-Platform API Access | S04 Digital Twin | [G04_digital_twin_api.md](../../50_Automations/scripts/G04_digital_twin_api.md) | - |
+| Strategic Memory | S03 Data Layer | PostgreSQL: `strategic_memory` | - |
+| Multi-Channel Ingest | S11 Router | [n8n: Intelligence Hub](../../20_Systems/S11_Meta-System-Integration/README.md) | - |
+| Morning Mission Briefing | S04 Digital Twin | [G04_morning_briefing_sender.py](../../50_Automations/scripts/G04_morning_briefing_sender.md) | - |
+| Autonomous Dashboard | S10 Automation | [autonomous_daily_manager.py](../../50_Automations/scripts/autonomous_daily_manager.md) | - |
+| Autonomy ROI Tracking | S04 Digital Twin | [G04_autonomy_roi_tracker.md](../../50_Automations/scripts/G04_autonomy_roi_tracker.md) | - |
+| Hydration & Caffeine Persistence | S03 Data Layer | PostgreSQL: `water_log`, `caffeine_log` | - |
+| System Activity Logging | S04 Digital Twin | PostgreSQL: `system_activity_log` | - |
+| Proactive System Monitoring | S04 Digital Twin | [G04_digital_twin_monitor.md](../../50_Automations/scripts/G04_digital_twin_monitor.md) | - |
+| Relationships Tracking | S04 Digital Twin | [G04_relationships_sync.md](../../50_Automations/scripts/G04_relationships_sync.md) | - |
+| Weekly Momentum Reporting | S04 Digital Twin | [G04_system_velocity_reporter.md](../../50_Automations/scripts/G04_system_velocity_reporter.md) | - |
+| **Self-Calibration (Ghost Schema)** | S04 Digital Twin | [G04_ghost_schema_reporter.md](../../50_Automations/scripts/G04_ghost_schema_reporter.md) | - |
+| **Autonomous Decision Engine** | S04 Digital Twin | [API-Specification.md](../../20_Systems/S04_Digital-Twin/API-Specification.md) | - |
+| **Quick Slash Approvals** | S04 Digital Twin | `AgentZero` -> `/approve [id]` | - |
 
-## Infrastructure
-- **Docker**: API runs in `digital-twin-api` container.
-- **Volumes**: Local `scripts/` mounted to `/app` for live updates.
-- **Environment**: `.env` file for Telegram and Database credentials.
+---
+*Updated: 2026-03-21 by Digital Twin Assistant*

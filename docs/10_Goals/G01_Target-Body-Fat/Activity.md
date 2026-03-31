@@ -85,9 +85,9 @@ Additional activities: 6 task(s) completed.
 - **Validation:** Bash header check with exact string match + carriage return stripping
 - **Commit policy:** Only commit if `git diff --cached` detects changes
 - **CSV paths:**
-  - `docs/10_Goals/G01_Target-Body-Fat/Training/data/sets.csv`
-  - `docs/10_Goals/G01_Target-Body-Fat/Training/data/workouts.csv`
-  - `docs/10_Goals/G01_Target-Body-Fat/Training/data/measurements.csv`
+  - `autonomous_training.workout_sets` (PostgreSQL)
+  - `autonomous_training.workouts` (PostgreSQL)
+  - `autonomous_training.biometrics` (PostgreSQL)
 
 ### Performance Results
 - **Sync latency:** <30 seconds per run (download + validate + commit)

@@ -1,15 +1,21 @@
 ---
-title: "WF_G01_001: Google Sheets to GitHub CSV Sync"
+title: "WF_G01_001: Google Sheets to GitHub CSV Sync [DEPRECATED]"
 type: "automation_spec"
-status: "active"
+status: "deprecated"
 automation_id: "WF_G01_001__sheets-to-github-sync"
 goal_id: "goal-g01"
 systems: ["S03"]
 owner: "Michal"
-updated: "2026-02-07"
+updated: "2026-03-17"
 ---
 
-# WF_G01_001: Google Sheets to GitHub CSV Sync
+# WF_G01_001: Google Sheets to GitHub CSV Sync [DEPRECATED]
+
+> [!CAUTION] ⚠️ **DEPRECATED**
+> This workflow has been replaced by direct Google Sheets to Database synchronization. GitHub is no longer the source of truth for training data, and CSV files in the repository are now considered dummy data only.
+> 
+> **Reason for Deprecation:** Full transition to PostgreSQL as the system source of truth (Digital Twin Architecture).
+> **Workflow Removal Date:** 2026-03-17
 
 ## Purpose
 Automatically export training data from Google Sheets to Git-versioned CSVs every 6 hours, with schema validation to prevent data corruption.

@@ -1,0 +1,60 @@
+---
+title: "G03_cart_aggregator: Autonomous Shopping Manifest"
+type: "automation_spec"
+status: "active"
+automation_id: "G03_cart_aggregator"
+goal_id: "goal-g03"
+systems: ["S03", "S10"]
+owner: "Michal"
+updated: "2026-03-28"
+---
+
+# G03_cart_aggregator: Autonomous Shopping Manifest
+
+## Purpose
+Aggregates household procurement requirements from multiple sources (stock levels, predictive burn rates, meal plans, and recovery nutrition) into a unified shopping manifest.
+
+## Triggers
+- **Scheduled:** Part of the daily global sync.
+- **Manual:** `python scripts/G03_cart_aggregator.py`
+
+## Inputs
+- **Inventory:** `pantry_inventory` table (Low stock detection).
+- **Predictions:** `v_pantry_predictions` view (7-day stockout forecast).
+- **Meals:** `selected_meal.json` (Missing ingredient requirements).
+- **Training (NEW):** `G01_training_planner` output (Performance Nutrition trigger).
+
+## Processing Logic
+1. **Requirements Gathering:** Collects items from low stock, predictive models, and planned meals.
+2. **Performance Nutrition Auto-Pilot:** 
+    - Queries the `G01_training_planner` for upcoming HIT sessions.
+    - If training is detected, it scans the `PROTEIN_STAPLES` list (Eggs, Tuna, Sardines, etc.).
+    - Promotes identified recovery staples to **URGENT** priority with the reason: *"Post-workout recovery optimization."*
+3. **Deduplication:** Merges identical items and preserves the highest priority/source information.
+4. **JSON Export:** Updates `autonomous_cart.json`.
+5. **Mobile Sync:** Pushes the final manifest to the Google Tasks "Shopping (Autonomous)" list.
+
+## Outputs
+- **JSON:** `autonomous_cart.json` (System-wide state).
+- **Markdown:** [Obsidian Shopping List](../../../../Obsidian Vault/00_Inbox/Shopping-List.md).
+- **Google Tasks:** "Shopping (Autonomous)" mobile checklist.
+
+## Dependencies
+### Systems
+- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
+- [S10 Intelligent Productivity](../../20_Systems/S10_Intelligent-Productivity/README.md) (Google Tasks sync)
+
+### Scripts
+- `G01_training_planner.py`
+- `G10_google_tasks_sync.py`
+
+## Monitoring
+- **Success metric:** Shopping list correctly identifies and prioritizes recovery staples during high-intensity training weeks.
+- **ROI:** Logged as "Logistics & Procurement" time saved.
+
+## Changelog
+| Date | Change |
+|------|--------|
+| 2026-03-03 | Initial cart aggregation logic |
+| 2026-03-23 | Google Tasks sync integration |
+| 2026-03-28 | Implemented Performance Nutrition Auto-Pilot integration |

@@ -20,7 +20,7 @@ updated: "2026-02-15"
 ### 1. Withings Smart Scale
 - **Frequency**: Daily (morning, fasted state)
 - **Metrics Tracked**: Weight, Body Fat %, Muscle Mass, Bone Mass, Hydration
-- **Data Storage**: `measurements.csv` with automatic sync to Google Sheets
+- **Data Storage**: `autonomous_training` database (PostgreSQL) with automatic sync to Google Sheets
 - **Validation**: Cross-reference with manual measurements monthly
 
 ### 2. Waist Circumference

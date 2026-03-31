@@ -79,7 +79,7 @@ Transform from reactive automation to predictive environmental intelligence. Ach
 
 ### REST API Integration (Primary)
 The Digital Twin and other autonomous services interact with Home Assistant primarily via the **REST API** (`/api/states`). This method is preferred for real-time state extraction and event-driven updates.
-- **Endpoint:** `http://{{INTERNAL_IP}}:8123/api`
+- **Endpoint:** `http://[INTERNAL_IP]:8123/api`
 - **Security:** Requires a Long-Lived Access Token stored as `HA_TOKEN` in the `.env` file.
 - **Implementation:** Managed by `scripts/G08_home_monitor.py`.
 

@@ -3,7 +3,8 @@ title: "G02: Roadmap"
 type: "goal_roadmap"
 status: "active"
 owner: "Michal"
-updated: "2026-02-07"
+updated: "2026-03-27"
+goal_id: "goal-g02"
 ---
 
 # Roadmap (2026)
@@ -18,15 +19,18 @@ updated: "2026-02-07"
 - [x] Implement basic tracking for content performance (G02_substack_sync.py) ✅ (Feb 24)
 - [x] Create initial public-facing "architecture patterns" derived from private repo ✅ (Implemented via sync-to-public.py)
 - [x] Integrate content metrics with Digital Twin Dashboard ✅ (Feb 24)
-- [ ] Plan Q2 content calendar based on early engagement data
+- [x] Plan Q2 content calendar based on early engagement data
+  > [!note] Article ideas stored in: [Q2-Content-Calendar.md](./Q2-Content-Calendar.md)
+
+- [x] **G02 Content Pipeline:** Unified idea-to-draft workflow with automated scheduling and performance feedback loop ✅ (Mar 26)
 
 ## Q2 (Apr–Jun)
 - [x] Automate metric collection for Substack ✅ (Feb 24)
-- [ ] Launch YouTube channel with AI avatar technology
-- [ ] Automate content distribution to LinkedIn and Substack
-- [ ] Achieve 2,000+ LinkedIn followers with high engagement
-- [ ] Develop a feedback loop for content improvement (sentiment analysis)
-- [ ] Expand public architectural patterns based on ongoing projects
+- [/] Launch YouTube channel with AI avatar technology
+- [x] Automate content distribution to LinkedIn and Substack ✅ (Mar 11 - G02_linkedin_drafter.py launched)
+- [/] Achieve 2,000+ LinkedIn followers with high engagement
+- [x] Develop a feedback loop for content improvement (sentiment analysis)
+- [x] Expand public architectural patterns based on ongoing projects
 
 ## Q3 (Jul–Sep)
 - [ ] Generate 3+ monthly consulting leads across platforms

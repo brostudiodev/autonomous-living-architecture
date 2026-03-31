@@ -20,7 +20,7 @@ Serves the "Personal OS Meta-Optimization" report, providing high-signal warning
 
 ## Inputs
 - **Workflow Input:** `chat_id`, `source_type`.
-- **API Call:** Requests data from `http://{{INTERNAL_IP}}:5677/os?format=text`.
+- **API Call:** Requests data from `http://[INTERNAL_IP]:5677/os?format=text`.
 
 ## Processing Logic
 1. **Normalization:** Captures user context from the incoming router payload.
@@ -32,7 +32,7 @@ Serves the "Personal OS Meta-Optimization" report, providing high-signal warning
 
 ## Dependencies
 ### Systems
-- [S11 Intelligence Router](../../../20_Systems/S11_Intelligence_Router/README.md) - Host logic for Meta-Rules.
+- [S11 Intelligence Router](../../../20_Systems/S11_Meta-System-Integration/README.md) - Host logic for Meta-Rules.
 - [S04 Digital Twin](../../../20_Systems/S04_Digital-Twin/README.md) - State source.
 
 ## Error Handling

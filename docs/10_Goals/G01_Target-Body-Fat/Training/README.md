@@ -20,10 +20,10 @@ Principle: log the *minimum* data that drives decisions.
 ---
 
 ## Source of truth
-- **Canonical Store:** PostgreSQL `autonomous_training` database (SSOT).
-- **User Interface:** Google Sheets (`training_journal`) for mobile/manual logging.
+- **Canonical Store (SSOT):** PostgreSQL `autonomous_training` database.
+- **User Interface:** Google Sheets (`training_journal`) for mobile/manual logging (synced to DB).
 - **CLI Interface:** `smart_log_workout.py` for direct database entry.
-- **Reference Backups:** Local CSV files in `data/` (secondary/staging).
+- **Secondary Backups:** Local SQL dumps and transient data files (staging).
 
 ---
 

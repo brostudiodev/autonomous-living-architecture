@@ -132,4 +132,4 @@ The GraphQL API will be deployed as a dedicated containerized service (e.g., Doc
 - [Digital Twin Data Models](./Data-Models.md)
 - [Digital Twin Data Ingestion Pipelines](./Data-Ingestion.md)
 - [S03 Data Layer README](../../20_Systems/S03_Data-Layer/README.md)
-- [G12 Meta-System Architecture and Core Data Integration Patterns](../../../10_Goals/G12_Meta-System-Integration-Optimization/Architecture-and-Integration.md)
+- [G11 Meta-System Architecture and Core Data Integration Patterns](../../10_Goals/G11_Meta-System-Integration-Optimization/Architecture-and-Integration.md)

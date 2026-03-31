@@ -5,6 +5,7 @@ status: "draft"
 created: "2026-02-11"
 last_updated: "2026-02-11"
 version: "1.0"
+goal_id: "goal-g04"
 ---
 
 # Voice Cloning Setup Guide

@@ -1,9 +1,10 @@
 ---
-title: "G12: Outcomes"
+title: "G11: Outcomes"
 type: "goal_outcomes"
 status: "active"
 owner: "Michal"
 updated: "2026-02-07"
+goal_id: "goal-g11"
 ---
 
 # Outcomes

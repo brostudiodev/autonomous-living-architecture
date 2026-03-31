@@ -25,7 +25,7 @@ An n8n sub-workflow that connects the Intelligent-Hub to the Digital Twin API's 
    - Cleans the `/map` command prefix.
    - Detects language (Polish/English).
 2. **Fetch Twin Connectivity Map:**
-   - Calls `GET http://{{INTERNAL_IP}}:5677/map?format=text`.
+   - Calls `GET http://[INTERNAL_IP]:5677/map?format=text`.
 3. **Format for Dispatcher:**
    - Extracts the pre-formatted `response_text` from the API.
    - Maps metadata to the standard `SVC_Response-Dispatcher` format.
@@ -36,10 +36,10 @@ An n8n sub-workflow that connects the Intelligent-Hub to the Digital Twin API's 
 ## Dependencies
 ### Systems
 - [Digital Twin System](../../20_Systems/S04_Digital-Twin/README.md)
-- [Meta-System Integration (S11)](../../20_Systems/S11_Intelligence_Router/README.md)
+- [Meta-System Integration (S11)](../../20_Systems/S11_Meta-System-Integration/README.md)
 
 ### External Services
-- **Digital Twin API:** Running on `{{INTERNAL_IP}}:5677`.
+- **Digital Twin API:** Running on `[INTERNAL_IP]:5677`.
 
 ## Manual Fallback
-Verify the API is reachable: `curl http://{{INTERNAL_IP}}:5677/map?format=text`.
+Verify the API is reachable: `curl http://[INTERNAL_IP]:5677/map?format=text`.

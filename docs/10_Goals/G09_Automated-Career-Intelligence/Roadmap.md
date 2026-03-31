@@ -3,25 +3,28 @@ title: "G09: Roadmap"
 type: "goal_roadmap"
 status: "active"
 owner: "Michal"
-updated: "2026-02-07"
+updated: "2026-03-27"
+goal_id: "goal-g09"
 ---
 
 # Roadmap (2026)
 
 ## Q1 (Jan–Mar)
-- [ ] Define key career metrics to track (e.g., skill proficiency, project impact, networking activity)
-- [ ] Integrate initial data sources (e.g., LinkedIn profile, project repositories, professional events)
-- [ ] Establish data ingestion pipelines for continuous career data collection
-- [ ] Develop a structured data model for career-related information in S03 (Data Layer)
-- [ ] Set up basic dashboards in S01 (Observability) for career progress monitoring
-- [ ] Begin feeding career data into G12 (Meta-System) for holistic personal growth insights
+- [x] Define key career metrics to track (e.g., skill proficiency, project impact, networking activity) ✅
+- [x] Integrate initial data sources (e.g., LinkedIn profile, project repositories, professional events) ✅
+- [x] Establish data ingestion pipelines for continuous career data collection ✅ (G09_career_sync.py)
+- [x] Develop a structured data model for career-related information in S03 (Data Layer) ✅ (autonomous_career DB)
+- [x] Set up basic dashboards in S01 (Observability) for career progress monitoring ✅
+- [x] Begin feeding career data into G12 (Meta-System) for holistic personal growth insights ✅ (Implemented via G11 Mapper)
 
 ## Q2 (Apr–Jun)
-- [ ] Expand data sources: job market trends, target role requirements
-- [ ] Implement skill gap analysis based on target role specifications
-- [ ] Automated system for identifying relevant learning opportunities (G06)
-- [ ] Create automated reports on career growth and development areas
-- [ ] LinkedIn profile integration and professional profile maintenance
+- [/] Expand data sources: job market trends, target role requirements
+- [x] Implement skill gap analysis based on target role specifications ✅ (Mar 06 - G09 AI Analyzer)
+- [x] Automated system for identifying relevant learning opportunities (G06) ✅ (Mar 06 - G09 AI Analyzer)
+- [/] **Active Track:** Six Sigma Yellow Belt (Targeting Q2 completion)
+- [/] **Active Track:** AI Architect devstyle (Starts Mar 30)
+- [x] Create automated reports on career growth and development areas
+- [x] LinkedIn profile integration and professional profile maintenance
 
 ## Q3 (Jul–Sep)
 - [ ] AI-driven personalized career path recommendations

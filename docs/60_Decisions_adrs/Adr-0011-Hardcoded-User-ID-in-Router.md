@@ -1,3 +1,12 @@
+---
+title: "ADR-0011: Hardcoded User ID for Router Security"
+type: "decision_record"
+status: "active"
+decision_id: "ADR-0011"
+owner: "Michal"
+updated: "2026-02-12"
+---
+
 # Adr-0011: Hardcoded User ID for Initial Router Security
 
 - **Status**: Active

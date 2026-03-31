@@ -28,7 +28,7 @@ I selected the following technology stack:
 ### **Orchestration Layer**
 - **n8n** for workflow automation and visual workflow building
 - **Docker Compose** for container orchestration
-- **GitHub Actions** for CI/CD automation
+- **GitHub Actions** [DEPRECATED] for CI/CD automation (Superseded by local Digital Twin orchestration and `G11_global_sync.py`)
 
 ### **AI & Machine Learning**
 - **Google Gemini** for primary AI processing and multi-modal analysis
@@ -49,6 +49,7 @@ I selected the following technology stack:
 - **Prometheus** for metrics collection
 - **Grafana** for visualization and dashboards
 - **Custom Prometheus exporters** for domain-specific metrics
+- **Glances** for real-time Linux host monitoring (Home Assistant integration)
 
 ## Consequences
 

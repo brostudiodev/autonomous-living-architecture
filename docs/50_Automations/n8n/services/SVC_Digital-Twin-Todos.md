@@ -20,7 +20,7 @@ Aggregates all tasks from Google Tasks, System Alerts (Pantry, Finance, Home), a
 
 ## Inputs
 - **Workflow Input:** JSON object containing `chat_id`, `source_type`, and `username` (usually passed from the router).
-- **API Call:** Requests data from `http://{{INTERNAL_IP}}:5677/todos?format=text`.
+- **API Call:** Requests data from `http://[INTERNAL_IP]:5677/todos?format=text`.
 
 ## Processing Logic
 1. **Normalize Router Input:** Extracts context (`chat_id`, `source_type`) and handles default language/username.

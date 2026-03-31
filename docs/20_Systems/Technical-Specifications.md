@@ -50,6 +50,7 @@ primary_database:
     - Full-text search
     - Advanced indexing strategies
     - Point-in-time recovery
+    - Multi-DB Architecture: `autonomous_finance`, `autonomous_health`, `digital_twin_michal`.
   
   performance_targets:
     query_response_time: "<500ms for 95th percentile"
@@ -71,6 +72,24 @@ google_sheets:
     - Mobile-friendly access
     - Automatic version history
     - Export capabilities
+```
+
+#### **Obsidian Integration Layer**
+```yaml
+project_watcher:
+  scope: "02_Projects/P - *.md"
+  extraction:
+    status: "YAML frontmatter"
+    next_actions: "## 🚀 Next Steps section"
+  limit: "Top 3 actions per project"
+
+vault_intelligence:
+  metrics:
+    - total_notes
+    - orphan_notes (no `[[links]]`)
+    - top_tags (regex extraction)
+    - last_active_note
+  performance: "First 100 files scanned per request"
 ```
 
 #### **AI & Machine Learning**
@@ -540,12 +559,15 @@ infrastructure_metrics:
   system_health: "CPU, Memory, Disk, Network"
   service_availability: "Uptime, response time, error rate"
   database_performance: "Query time, connection count, lock waits"
-  
+  system_heartbeat: "Last SUCCESS in system_activity_log"
+
 application_metrics:
   user_activity: "Daily active users, feature usage"
   business_kpis: "Goal completion, budget compliance, health trends"
   integration_health: "API success rates, data synchronization"
-  
+  autonomy_roi: "Minutes saved per day/category"
+```
+
 security_metrics:
   authentication_events: "Login attempts, token usage"
   authorization_failures: "Access denied, permission violations"
@@ -691,4 +713,4 @@ These technical specifications provide the foundation for building and maintaini
 
 ---
 
-*Last updated: 2026-02-11*
+*Last updated: 2026-03-08*

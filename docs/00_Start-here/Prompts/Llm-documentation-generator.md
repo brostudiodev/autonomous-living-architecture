@@ -15,7 +15,7 @@ Hard requirements:
 1. Follow the structure and templates in `docs/10_Goals/Documentation-Standard.md`.
 2. Always refer to goals using `goal-gXX` (example: `goal-g01`). Never output `goal-01`.
 3. Use YAML frontmatter exactly as shown in the standard. Include `goal_id: "goal-gXX"` where applicable.
-4. If information is missing, write `TBD` (do NOT invent details).
+4. If information is missing, leave the field EMPTY or write `Unknown` (do NOT invent details).
 5. Output must be ready to paste into files.
 6. Use relative links between docs (no absolute filesystem paths).
 7. Keep “canonical truth” in `/docs/**`. Daily/auto-generated logs belong to `goal-gXX/Activity-log.md` and are not part of this request.
@@ -32,7 +32,7 @@ FILE: docs/50_Automations/n8n/workflows/WF001__daily-goals-sync.md
 ---
 ...
 
-FILE: docs/10_Goals/G12_Meta-System-Integration-Optimization/projects/P01_Something.md
+FILE: docs/10_Goals/G11_Meta-System-Integration-Optimization/projects/P01_Something.md
 ---
 ...
 
@@ -57,8 +57,8 @@ SYSTEMS: [SXX, SYY]  # optional but preferred
 TRACEABILITY (for updating {{GOAL_DIR}}/Systems.md)
 TRACE_OUTCOME: <which outcome this doc supports>
 TRACE_SYSTEM: <SXX>
-TRACE_AUTOMATION_REF: <relative link to automation doc OR 'TBD'>
-TRACE_SOP_RUNBOOK_REF: <relative link(s) OR 'TBD'>
+TRACE_AUTOMATION_REF: <relative link to automation doc OR leave empty>
+TRACE_SOP_RUNBOOK_REF: <relative link(s) OR leave empty>
 
 IF DOC_KIND == goal_project
 PROJECT_ID: PNN  # e.g. P01
@@ -188,4 +188,4 @@ The row must have 4 columns:
 
 Rules:
 - Use `TRACE_OUTCOME`, `TRACE_SYSTEM`, `TRACE_AUTOMATION_REF`, `TRACE_SOP_RUNBOOK_REF` from the request.
-- The Automation and SOP/Runbook cells must be relative markdown links when known, otherwise `TBD`.
+- The Automation and SOP/Runbook cells must be relative markdown links when known, otherwise leave them empty.

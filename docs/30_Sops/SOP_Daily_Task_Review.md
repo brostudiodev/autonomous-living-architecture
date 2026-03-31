@@ -50,4 +50,4 @@ Ensure all tasks from external sources (Google Tasks) and internal sources (Obsi
 
 ## Related Documentation
 - [G10 README](../10_Goals/G10_Intelligent-Productivity-Time-Architecture/README.md)
-- [G10-google-tasks-sync Automation](../50_Automations/scripts/G10-google-tasks-sync.md)
+- [G10-google-tasks-sync Automation](../50_Automations/scripts/G10_google_tasks_sync.md)

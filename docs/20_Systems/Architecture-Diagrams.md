@@ -27,6 +27,7 @@ graph TB
     subgraph "Intelligence & Orchestration Layer"
         G04[Digital Twin Hub<br/>WF001 Router]
         GEMINI[Google Gemini AI<br/>6 Custom Tools]
+        RULES[G11 Rules Engine<br/>Policy Enforcer]
         N8N[n8n Platform<br/>Workflow Orchestration]
     end
 
@@ -34,6 +35,7 @@ graph TB
         PROCESSOR[Content Processor<br/>Multi-format Support]
         ROUTER[Intelligent Router<br/>Intent Classification]
         INGESTION[Data Ingestion<br/>WF104 - 8hr Schedule]
+        GHOST[G04 Ghost Schema<br/>Self-Calibration]
     end
 
     subgraph "Domain Systems Layer"
@@ -66,6 +68,10 @@ graph TB
     G04 --> GEMINI
     G04 --> PROCESSOR
     G04 --> ROUTER
+    G04 --> RULES
+    RULES --> TELEGRAM
+    RULES --> GHOST
+    GHOST --> RULES
     N8N --> G04
     N8N --> INGESTION
 
@@ -82,6 +88,7 @@ graph TB
     INGESTION --> G03
     INGESTION --> G05
     INGESTION --> G07
+    INGESTION --> GHOST
 
     %% Domain Systems to Storage
     G01 --> POSTGRES

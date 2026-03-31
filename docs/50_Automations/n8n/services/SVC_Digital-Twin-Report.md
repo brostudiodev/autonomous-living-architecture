@@ -18,7 +18,7 @@ An n8n service workflow that fetches the latest auto-generated Strategic Progres
 - **Execute Workflow Trigger:** Called by the Master Router or Intelligent Hub when the user requests a "strategic report" or "progress summary".
 
 ## Inputs
-- **API Endpoint:** `http://{{INTERNAL_IP}}:5677/report?format=text`
+- **API Endpoint:** `http://[INTERNAL_IP]:5677/report?format=text`
 - **Context:** User metadata (chat_id, language, source) passed from the caller.
 
 ## Processing Logic

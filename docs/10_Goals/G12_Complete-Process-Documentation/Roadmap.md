@@ -3,7 +3,8 @@ title: "G12: Roadmap"
 type: "goal_roadmap"
 status: "active"
 owner: "Michal"
-updated: "2026-02-16"
+updated: "2026-03-28"
+goal_id: "goal-g12"
 ---
 
 # Roadmap (2026)
@@ -19,19 +20,21 @@ updated: "2026-02-16"
   - [x] 2 legacy duplicate systems removed
   - [x] Automation specs verified (following template)
 - [x] Integrate documentation status into G12 (Meta-System) for tracking completeness ✅ (Feb 24)
+- [x] **Context Resumer (v1.5):** Enhanced with executable terminal commands for rapid mission resumption ✅ (Mar 23)
+- [x] **AI Journaling Support:** Automated prompt generation injected into daily reflections ✅ (Mar 23)
 
 ## Q2 (Apr–Jun)
 - [x] Document all existing critical systems (S00-S10) according to GDS (done 2026-02-16)
 - [x] Update system READMEs (S00-S11) to follow Documentation Standard (done 2026-02-16)
-- [ ] Implement **G12 Auto-Documenter** script (uses Gemini to generate .md specs from code)
-- [ ] Document all existing production automations (n8n, scripts, HA)
-- [ ] Develop a system for auto-generating cross-references and links within documentation
-- [ ] Implement a periodic review process for documentation accuracy and currency
-- [ ] **Conduct Q2 audit of all goals against GDS (monthly)**
-- [ ] Explore LLM-assisted documentation generation for routine tasks
+- [x] Implement **G12 Auto-Documenter** script (uses Gemini to generate .md specs from code) ✅ (Mar 05)
+- [x] Document all existing production automations (n8n, scripts, HA) ✅ (Mar 23)
+- [x] **Interactive Architectural Diagrams:** Launched dynamic Mermaid.js connectivity map at `/map` ✅ (Mar 28)
+- [x] Develop a system for auto-generating cross-references and links within documentation ✅ (Mar 06 - G12 Link Maintainer)
+- [x] Implement a periodic review process for documentation accuracy and currency ✅ (Mar 23)
+- [x] **Conduct Q2 audit of all goals against GDS (monthly)** ✅ (Mar 23)
+- [x] Explore LLM-assisted documentation generation for routine tasks ✅ (Mar 23)
 
 ## Q3 (Jul–Sep)
-- [ ] Create interactive architectural diagrams linked to documentation
 - [ ] Develop a search and knowledge retrieval system for all documentation
 - [ ] Establish a change management process for documentation updates
 - [ ] Automate documentation deployment to a dedicated knowledge base (e.g., static site generator)

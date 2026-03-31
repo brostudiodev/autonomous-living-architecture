@@ -1,9 +1,10 @@
 ---
-title: "G12: Metrics"
+title: "G11: Metrics"
 type: "goal_metrics"
 status: "active"
 owner: "Michal"
 updated: "2026-02-07"
+goal_id: "goal-g11"
 ---
 
 # Metrics

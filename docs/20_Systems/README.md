@@ -3,7 +3,7 @@ title: "Systems"
 type: "index"
 status: "active"
 owner: "Michal"
-updated: "2026-02-07"
+updated: "2026-03-31"
 ---
 
 # Systems
@@ -16,13 +16,15 @@ updated: "2026-02-07"
 | **[S02: Security](./S02_Identity-Access/README.md)** | Identity & Access | Ensures only you can see your sensitive health and finance data. |
 | **[S03: Data Layer](./S03_Data-Layer/README.md)** | Database | The "hard drive" for your life; stores every workout, expense, and snack. |
 | **[S04: Digital Twin](./S04_Digital-Twin/README.md)** | Central Hub | The "brain" that combines all your data into one intelligent picture. |
-| **[S05: Finance Dashboards](./S05_Observability-Dashboards/README.md)** | Visualization | Beautiful charts that show you exactly how your money is moving. |
+| **[S05: Finance Automation](./S05_Observability-Dashboards/README.md)** | Finance | Standardized financial engines and rule-based categorization. |
 | **[S06: Health & Performance](./S06_Health-Performance/README.md)** | Biometrics | Analyzes your body data to tell you how well you're recovering. |
 | **[S07: Smart Home](./S07_Smart-Home/README.md)** | IoT | Connects your lights, sensors, and appliances to the system. |
 | **[S08: Orchestrator](./S08_Automation-Orchestrator/README.md)** | n8n | The "traffic controller" that moves data between apps and your database. |
 | **[S09: Productivity](./S09_Productivity-Time/README.md)** | Time Mgmt | Tracks where your time goes and helps you focus on what matters. |
 | **[S10: Daily Automation](./S10_Daily-Goals-Automation/README.md)** | Note Prep | Automatically creates your morning dashboard and missions in Obsidian. |
-| **[S11: Intelligence Router](./S11_Intelligence_Router/README.md)** | NLP & Routing | The AI that understands your Telegram messages and routes them correctly. |
+| **[S11: Meta-System Integration](./S11_Meta-System-Integration/README.md)** | Optimization | The glue that connects all goals and systems for holistic intelligence. |
+| **[S12: LinkedIn Ideas](./S12_LinkedIn-Ideas-System/README.md)** | Content | Automated system for harvesting and drafting LinkedIn posts. |
+| **[S13: Substack Ideas](./S13_Substack-Notes-Ideas-System/README.md)** | Content | Framework for converting goal achievements into Substack drafts. |
 
 ## What belongs here
 ...

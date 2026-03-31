@@ -23,7 +23,7 @@ Generic monitoring service that tracks n8n workflow health, detects failures/ove
 ### Configuration (Set Node)
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `n8n_baseURL` | string | `http://{{INTERNAL_IP}}:5678` | n8n instance URL |
+| `n8n_baseURL` | string | `http://[INTERNAL_IP]:5678` | n8n instance URL |
 | `Telegram_ChatID` | string | `{{TELEGRAM_CHAT_ID}}` | Your Telegram chat ID |
 | `Alert_Email` | string | `{{EMAIL}}` | Email for alerts |
 | `check_window_hours` | string | `1` | Window to check for failures |
@@ -169,7 +169,7 @@ If the monitor fails:
 
 1. **Check n8n is running:**
    ```bash
-   curl http://{{INTERNAL_IP}}:5678
+   curl http://[INTERNAL_IP]:5678
    ```
 
 2. **Check credentials:**
@@ -183,7 +183,7 @@ If the monitor fails:
 4. **Test API directly:**
    ```bash
    curl -H "Authorization: Bearer YOUR_TOKEN" \
-     http://{{INTERNAL_IP}}:5678/api/v1/workflows
+     http://[INTERNAL_IP]:5678/api/v1/workflows
    ```
 
 ## Related Documentation

@@ -2,7 +2,6 @@
 -- PostgreSQL database dump
 --
 
-\restrict dLuQX4dxNb9c5DBHLYXPUlyC0GMUvxwCnGmBdj5TMuUVftp6bxLYd8cCLHkOFuw
 
 -- Dumped from database version 16.12 (Debian 16.12-1.pgdg12+1)
 -- Dumped by pg_dump version 16.12 (Debian 16.12-1.pgdg12+1)
@@ -3741,5 +3740,4 @@ ALTER TABLE public.transactions
 -- PostgreSQL database dump complete
 --
 
-\unrestrict dLuQX4dxNb9c5DBHLYXPUlyC0GMUvxwCnGmBdj5TMuUVftp6bxLYd8cCLHkOFuw
 

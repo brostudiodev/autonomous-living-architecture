@@ -18,7 +18,7 @@ An n8n service workflow that retrieves the 2026 North Star vision and Power Goal
 - **Execute Workflow Trigger:** Called when user asks "What are my goals?" or "Show vision".
 
 ## Inputs
-- **API Endpoint:** `http://{{INTERNAL_IP}}:5677/vision?format=text`
+- **API Endpoint:** `http://[INTERNAL_IP]:5677/vision?format=text`
 
 ## Processing Logic
 1. **Fetch Twin Vision Intent:** Calls the Twin API `/vision` endpoint.

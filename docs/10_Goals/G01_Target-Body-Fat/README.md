@@ -14,24 +14,29 @@ review_cadence: "monthly"
 *   **Automatic Progress Tracking:** Your weight and body fat are automatically pulled from your smart scale—no manual typing required.
 *   **Minimalist High-Impact Training:** Focus on 2-3 short, intense workouts per week (HIT) that are proven to build strength.
 *   **Visual Dashboards:** See your fat-loss trends and strength gains in beautiful, real-time charts.
+*   **Dynamic Progression:** The system automatically suggests weight and TUT (Time Under Tension) adjustments based on your biological readiness (G07/G10).
 *   **Data-Driven Decisions:** The system tells you when to adjust your training or nutrition based on real data, not guesswork.
 
+> [!insight] 📝 **Automationbro Insight:** [HIT Training: Stop Wasting Time in the Gym. Start Training With Systems](https://automationbro.substack.com/p/hit-training-stop-wasting-time-in)
+
 ## Purpose
-Achieve visible body recomposition (lower body fat, maintain/gain strength) through low-volume HIT training and smart-scale trend tracking, with zero manual logging friction. The goal is to reach ~15% body fat while maintaining strength through automated tracking and data-driven progression.
+Achieve visible body recomposition (lower body fat, maintain health) through low-volume HIT training and smart-scale trend tracking. The primary physical markers of success are body weight, waist circumference, and monthly progress photos.
 
 ## Scope
 ### In Scope
 - HIT (High Intensity Training) workout tracking
-- Body fat percentage monitoring via smart scale
+- Health parameters (Resting HR, HRV via G07)
+- Body weight and body fat monitoring via smart scale
+- Waist circumference tracking (Primary physical metric)
+- Monthly progress photos
 - Automated data sync from Google Sheets to PostgreSQL
-- PostgreSQL-driven progress metrics and visualization
 - Monthly progress automation
 
 ### Out of Scope
+- Detailed bodybuilding metrics (Chest, Arms, Legs measurements)
 - Detailed nutrition tracking (unless progress stagnates)
 - DEXA scans (only at target)
 - Detailed macronutrient tracking
-- Gym equipment integration
 
 ## Intent
 Achieve visible body recomposition (lower body fat, maintain/gain strength) through low-volume HIT training and smart-scale trend tracking, with zero manual logging friction.

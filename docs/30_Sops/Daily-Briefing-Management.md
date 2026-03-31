@@ -12,7 +12,7 @@ updated: "2026-02-19"
 Ensures the automated preparation of the Obsidian Daily Note is successful and data is accurate.
 
 ## Trigger / Frequency
-- **Automatic:** Daily at 05:00 AM (Cron).
+- **Automatic:** Daily at 06:00 AM (Mon-Fri) via Cron.
 - **Manual:** Run when starting work if the Daily Note is missing or lacks autonomous suggestions.
 
 ## Inputs
@@ -44,5 +44,5 @@ cd ~/Documents/autonomous-living
 | Note already exists | No changes made | The script won't overwrite manual changes but will append tasks if not present. |
 
 ## Related Documentation
-- [Automation: autonomous-daily-manager.py](../50_Automations/scripts/autonomous-daily-manager.md)
+- [Automation: autonomous-daily-manager.py](../50_Automations/scripts/autonomous_daily_manager.md)
 - [Goal: G10 Intelligent Productivity](../10_Goals/G10_Intelligent-Productivity-Time-Architecture/README.md)

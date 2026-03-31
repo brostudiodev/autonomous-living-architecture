@@ -15,6 +15,9 @@ Click on a runbook to view recovery checklists:
 - **[Schema Validation Failure](./G01/Schema-Validation-Failure.md)**
 - **[Sheets Sync Failure](./G01/Sheets-Sync-Failure.md)**
 
+### G04: Digital Twin
+- **[Digital Twin API Failure](./G04/Digital-Twin-API-Failure.md)**
+
 ### G05: Financial Command
 - **[Validate Savings Rate](./G05/Validate-Savings-Rate.md)**
 - **[Test Budget Alerts](./G05/Test-Budget-Alerts.md)**

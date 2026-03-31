@@ -18,7 +18,7 @@ GOAL
 GOAL_ID: goal-g12
 GOAL_CODE: G12
 GOAL_NAME: Meta-System Integration & Optimization
-GOAL_DIR: docs/10_Goals/G12_Meta-System-Integration-Optimization
+GOAL_DIR: docs/10_Goals/G11_Meta-System-Integration-Optimization
 SYSTEMS: ["TBD"]
 
 TRACEABILITY (for updating {{GOAL_DIR}}/Systems.md)

@@ -1,3 +1,12 @@
+---
+title: "ADR-0012: Rule-Based Intent Classification"
+type: "decision_record"
+status: "active"
+decision_id: "ADR-0012"
+owner: "Michal"
+updated: "2026-02-12"
+---
+
 # Adr-0012: Rule-Based Intent Classification in Agent Router
 
 - **Status**: Active
@@ -66,4 +75,4 @@ This rule-based system is a pragmatic starting point, but it represents signific
 
 -   **Workflow**: `WF001_Agent_Router`
 -   **Node**: `Stage3 Classify`
--   **Architectural Documentation**: `docs/20_Systems/S11_Intelligence_Router/README.md`
+-   **Architectural Documentation**: `docs/20_Systems/S11_Meta-System-Integration/README.md`

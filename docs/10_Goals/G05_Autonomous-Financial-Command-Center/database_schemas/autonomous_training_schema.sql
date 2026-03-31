@@ -2,7 +2,6 @@
 -- PostgreSQL database dump
 --
 
-\restrict r2BZauFlPm8GKQa8rq6m0ExLi1INZxFxUng1TVQ587xxzAgl6ftuXg23dprfwoz
 
 -- Dumped from database version 16.12 (Debian 16.12-1.pgdg12+1)
 -- Dumped by pg_dump version 16.12 (Debian 16.12-1.pgdg12+1)
@@ -2710,5 +2709,4 @@ ALTER TABLE public.workouts
 -- PostgreSQL database dump complete
 --
 
-\unrestrict r2BZauFlPm8GKQa8rq6m0ExLi1INZxFxUng1TVQ587xxzAgl6ftuXg23dprfwoz
 

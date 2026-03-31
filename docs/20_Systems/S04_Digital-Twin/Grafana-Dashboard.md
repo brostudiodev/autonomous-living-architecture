@@ -70,5 +70,5 @@ The Digital Twin Grafana Dashboard will be part of the overarching S01 Observabi
 - [Digital Twin Data Models](./Data-Models.md)
 - [Digital Twin Data Ingestion Pipelines](./Data-Ingestion.md)
 - [Digital Twin GraphQL API](./GraphQL-API.md)
-- [S01 Observability & Dashboards](../../S01_Observability-Dashboards/README.md)
+- [S01 Observability & Dashboards](../S05_Observability-Dashboards/README.md)
 - [S03 Data Layer README](../../20_Systems/S03_Data-Layer/README.md)

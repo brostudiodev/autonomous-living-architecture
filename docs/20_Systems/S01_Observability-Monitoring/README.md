@@ -80,8 +80,8 @@ Provide centralized logging, metrics collection, alerting, and dashboard visuali
 - Data freshness alerts
 
 ## Runbooks / SOPs
-- Related SOPs: [SOP: Incident Response](../../30_Sops/Incident-Response.md)
-- Related runbooks: [Runbook: System Down](../../40_Runbooks/System-Down.md)
+- Related SOPs: [SOP: Incident Response](../../30_Sops/README.md)
+- Related runbooks: [Runbook: System Down](../../40_Runbooks/README.md)
 
 ## Procedure
 1. **Daily:** Check dashboard for anomalies

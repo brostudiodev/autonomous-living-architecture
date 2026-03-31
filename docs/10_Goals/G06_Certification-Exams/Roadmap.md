@@ -3,25 +3,30 @@ title: "G06: Roadmap"
 type: "goal_roadmap"
 status: "active"
 owner: "Michal"
-updated: "2026-02-07"
+updated: "2026-03-27"
+goal_id: "goal-g06"
 ---
 
 # Roadmap (2026)
 
 ## Q1 (Jan–Mar)
-- [x] Identify target certifications ✅ (AWS, AI/ML)
+- [x] Identify target certifications ✅ (AWS, AI/ML, Six Sigma)
 - [x] Establish a structured study plan with measurable milestones ✅ (Feb 24)
 - [x] Integrate study progress tracking into Digital Twin (G06_learning_sync.py) ✅ (Feb 24)
+- [x] Six Sigma Yellow Belt (Started Sep 2025, in progress)
+- [x] AI Architect Class (Devstyle) - Starts Mar 30, 2026
 - [x] Define learning data model in dedicated 'autonomous_learning' DB ✅ (Feb 24)
 - [x] Set up monitoring dashboards in Digital Twin (v_learning_progress) ✅ (Feb 24)
-- [ ] Schedule first certification exam
-- [ ] Document learning resources and study strategies for future reference (G09)
+- [x] Schedule first certification exam (AWS)
+- [x] Document learning resources and study strategies for future reference (G09)
+
+- [x] **G06 Learning Architecture:** Automated Atomic Note generation and goal-linking from raw study logs ✅ (Mar 26)
 
 ## Q2 (Apr–Jun)
-- [ ] Complete preparation and take the first wave of certification exams (AWS Architect)
-- [ ] Analyze exam results and identify areas for improvement
-- [ ] Adjust study strategies based on performance
-- [ ] Update G09 (Career Intelligence) with new certifications and skill data
+- [/] Complete preparation and take the first wave of certification exams (AWS Architect)
+- [/] Analyze exam results and identify areas for improvement
+- [/] Adjust study strategies based on performance
+- [/] Update G09 (Career Intelligence) with new certifications and skill data
 
 ## Q3 (Jul–Sep)
 - [ ] Complete preparation and take the second wave of certification exams (AI/ML)

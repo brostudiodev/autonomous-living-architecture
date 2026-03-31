@@ -37,8 +37,8 @@ limit 5
 ---
 
 ## 🛠️ System Controls
-- [Force Global Sync](shell-command:G04-sync)
-- [List All Tasks](shell-command:G04-tasks)
+- [Force Global Sync](shell-command:G11_global_sync.py)
+- [List All Tasks](shell-command:G10_google_tasks_sync.py)
 - [Open Roadmap Matrix](G11_System_Connectivity_Map.md)
 
 ---

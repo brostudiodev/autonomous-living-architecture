@@ -16,7 +16,7 @@ WF001, the "Intelligence Hub," is the central nervous system for all incoming da
 This workflow is the foundation of the Digital Twin's ability to interact with the world, bridging the gap between rigid automation and fluid AI-driven processing.
 
 - **Workflow JSON**: `WF001_Agent_Router.json`
-- **Architectural Deep-Dive**: `docs/20_Systems/S11_Intelligence_Router/README.md`
+- **Architectural Deep-Dive**: `docs/20_Systems/S11_Meta-System-Integration/README.md`
 
 ## 2. Architectural Philosophy
 
@@ -206,7 +206,7 @@ This workflow acts as an orchestrator, calling numerous specialized services:
 
 ## 6. Related Files
 
--   **Architectural Documentation**: `docs/20_Systems/S11_Intelligence_Router/README.md`
+-   **Architectural Documentation**: `docs/20_Systems/S11_Meta-System-Integration/README.md`
 -   **ADRs**:
     -   `docs/60_Decisions_adrs/Adr-0011-Hardcoded-User-ID-in-Router.md`
     -   `docs/60_Decisions_adrs/Adr-0012-Rule-Based-Intent-Classification.md`

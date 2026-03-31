@@ -19,7 +19,7 @@ Automates the synchronization of household inventory and dictionary data from th
 - **Manual:** Can be executed manually within the n8n editor for immediate synchronization.
 
 ## Inputs
-- **Google Sheet:** `Magazynek_domowy` (ID: `10knY7Tnh5iNLooAxQ8OjI0sRJ-2l0t3rH5ABdVuvFAM`)
+- **Google Sheet:** `Magazynek_domowy` (ID: `[SPREADSHEET_ID]`)
   - **Worksheet `Spizarka`:** Current inventory levels, units, and expiry dates.
   - **Worksheet `Slownik`:** Product categories, AI synonyms, and critical stock thresholds.
 - **Credentials:** Google Sheets OAuth2 (service account or user-based).

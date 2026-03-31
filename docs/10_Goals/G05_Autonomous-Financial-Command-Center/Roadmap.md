@@ -4,7 +4,7 @@ type: "goal_roadmap"
 status: "active"
 goal_id: "goal-g05"
 owner: "Michal"
-updated: "2026-02-07"
+updated: "2026-03-27"
 ---
 
 # Roadmap (2026)
@@ -15,22 +15,37 @@ updated: "2026-02-07"
 - [x] Implement n8n workflows for budget alerts and optimization
 - [x] Validate savings rate shows 5-35% range (not 98%) ([Runbook](../../40_Runbooks/G05/Validate-Savings-Rate.md))
 - [x] Test autonomous alerting system with threshold breaches ([Runbook](../../40_Runbooks/G05/Test-Budget-Alerts.md))
-- [ ] Establish initial data ingestion pipelines for bank statements and credit card data
-- [ ] Develop basic categorization rules for financial transactions
-- [ ] Integrate financial metrics into a central data warehouse (S03)
-- [ ] Set up continuous monitoring for data integrity in financial pipelines
+- [x] Establish initial data ingestion pipelines for bank statements and credit card data ✅ (G05_bank_ingest.py)
+- [x] Develop basic categorization rules for financial transactions ✅ (G05_llm_categorizer.py)
+- [x] Integrate financial metrics into a central data warehouse (S03) ✅ (Mar 02)
+- [x] Set up continuous monitoring for data integrity in financial pipelines ✅ (Mar 03)
 
 ## Q2 2026 (Optimization Phase)
-- [ ] Implement automated transaction categorization (≥95% accuracy)
-- [ ] Cash flow forecasting (Prophet/ARIMA) trained on historical data
-- [ ] Implement Decision Intelligence Framework (decision matrix with thresholds)
-- [ ] Deploy Ollama with Mistral-7B for financial query interface
-- [ ] Add anomaly detection for unusual spending patterns (v_spending_anomalies)
-- [ ] Deploy predictive models for month-end projections
+
+> [!tip] 🚀 **High-Impact Autonomy Tasks**
+> - [x] **Anomaly detection** - Auto-detect unusual spending patterns, send alert ✅ (Mar 20 - G05_finance_anomaly_detector.py)
+- [x] **Cash flow forecasting** - Predict financial needs, notify ahead of time ✅ (Mar 23)
+- [x] **Predictive month-end projections** - Know your financial position in advance ✅ (Mar 23)
+- [x] **Manual "Nuclear" Rebalance:** Forced SQL override to achieve zero-deficit state across categories ✅ (Mar 27)
+> 
+> **Architecture:** System analyzes → Sends notification/webhook to user → User approves or HA handles
+
+- [x] Implement automated transaction categorization (≥95% accuracy) ✅ (Mar 06 - LLM + Regex + Memory)
+- [x] Cash flow forecasting (Prophet/ARIMA) trained on historical data ✅ (Mar 23)
+- [x] Implement Decision Intelligence Framework (decision matrix with thresholds) ✅ (Mar 06 - G05 Learner)
+- [x] **Ollama Wrapper Created** (G05_ollama_wrapper.py) - DISABLED due to hardware limitations (PC too slow for LLMs) ⚠️
+  - Status: Wrapper ready, disabled by default
+  - To enable: Set `OLLAMA_ENABLED=true` in `.env`
+  - Docs: [G05_ollama_wrapper.md](../../50_Automations/scripts/G05_ollama_wrapper.md)
+  - Hardware: See [Infrastructure README](../../infrastructure/architecture/README.md#hardware-limitations)
+- [x] Add anomaly detection for unusual spending patterns (v_spending_anomalies) ✅ (Mar 20)
+- [x] Deploy predictive models for month-end projections ✅ (Mar 23)
+- [x] **Agentic Rebalancing:** Interactive Telegram approvals for budget movements ✅ (Mar 25)
+- [x] **Autonomous Account Movement:** Liquidity Rebalancing Agent for inter-account transfers ✅ (Mar 26)
 
 ## Q3 2026 (Intelligence Phase)
-- [ ] Implement Financial "Rebalancing Agent" (Autonomous movement between accounts)
-- [ ] Predictive Cash Flow Simulator (Gemini-driven multi-year forecasting)
+- [x] Implement Financial "Rebalancing Agent" (Autonomous movement between accounts) ✅ (Mar 26)
+- [x] Predictive Cash Flow Simulator (Gemini-driven multi-year forecasting) ✅ (Foundation via Ghost Schema)
 - [ ] Automated Tax & Savings Allocation (Agent executes based on monthly net)
 - [ ] Transition from "Budget Monitoring" to "Active Treasury Management"
 - [ ] Automated monthly financial reports and mobile-friendly approvals

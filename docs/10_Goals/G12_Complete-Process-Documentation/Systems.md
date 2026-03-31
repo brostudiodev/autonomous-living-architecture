@@ -2,21 +2,25 @@
 title: "G12: Systems"
 type: "goal_systems"
 status: "active"
-goal_id: "goal-g12"
 owner: "Michal"
-updated: "2026-02-24"
+updated: "2026-03-05"
+goal_id: "goal-g12"
 ---
 
 # Systems
 
 ## Enabling systems
-- [S11 Intelligence Router](../../20_Systems/S11_Intelligence_Router/README.md) - Connectivity and reporting.
-- [S10 Daily Goals Automation](../../20_Systems/S10_Daily-Goals-Automation/README.md) - Standard enforcement.
+- [S10 Daily Goals Automation](../../20_Systems/S10_Daily-Goals-Automation/README.md) - Documentation sync and integrity.
+- [S11 Intelligence Router](../../20_Systems/S11_Meta-System-Integration/README.md) - System-wide coordination.
 
-## Traceability (Outcome → System → Automation → SOP)
-| Outcome | System | Automation | SOP |
-|---|---|---|---|
-| AI-Powered Documentation Generation | S10 Documentation | [script: G12_auto_documenter](../../50_Automations/scripts/G12-auto-documenter.md) | - |
-| Automated compliance auditing | S10 Documentation | [script: documentation-audit](../../50_Automations/scripts/documentation-audit.md) | - |
-| Standardized Goal structures | S10 Documentation | [Documentation Standard](../Documentation-Standard.md) | - |
-| Cross-system health reporting | S11 Meta-System | [G12_Documentation_Audit_Report.md](../../G12_Documentation_Audit_Report.md) | - |
+## Traceability (Outcome → System → Automation → SOP/Runbook)
+
+| Outcome | System | Automation | SOP/Runbook |
+|---------|--------|------------|-------------|
+| Automated Process Specs | S10 Automation | [g12-auto-documenter.md](../../50_Automations/scripts/G12_auto_documenter.md) | - |
+| System Documentation Audit | S10 Automation | [G12_documentation_audit.py](../../50_Automations/scripts/G12_documentation_audit.md) | - |
+| Structural Integrity Verification | S11 Router | [G11_system_audit.py](../../50_Automations/scripts/G11_system_audit.md) | - |
+| Automated Sync Reporting | S11 Router | [G11_global_sync.md](../../50_Automations/scripts/G11_global_sync.md) | - |
+
+---
+*Updated: 2026-03-05 by Digital Twin Assistant*

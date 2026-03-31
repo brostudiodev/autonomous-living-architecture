@@ -1,3 +1,12 @@
+---
+title: "Home Assistant MariaDB"
+type: "reference"
+status: "active"
+system_id: "S07"
+owner: "Michal"
+updated: "2026-02-16"
+---
+
 # Home Assistant MariaDB
 
 > [!info] **LEGACY/ANALYTICS NOTICE**
@@ -7,7 +16,7 @@
 
 | Parameter | Value |
 |-----------|-------|
-| Host | `core-mariadb` (Docker internal) or `{{INTERNAL_IP}}` |
+| Host | `core-mariadb` (Docker internal) or `[INTERNAL_IP]` |
 | Port | 3306 |
 | Database | `homeassistant` |
 | User | `homeassistant` |
@@ -24,7 +33,7 @@ Password: [See .env]
 
 ## External Access (from Grafana on homelab)
 ```
-Host: {{INTERNAL_IP}}
+Host: [INTERNAL_IP]
 Port: 3306
 Database: homeassistant  
 User: homeassistant
@@ -92,7 +101,7 @@ ORDER BY last_changed DESC;
 ## Grafana Setup
 
 Add MariaDB data source:
-- Host: `{{INTERNAL_IP}}:3306`
+- Host: `[INTERNAL_IP]:3306`
 - Database: `homeassistant`
 - User: `homeassistant`
 - Password: [See .env]

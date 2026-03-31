@@ -16,5 +16,6 @@ updated: "2026-02-24"
 ## Traceability (Outcome → System → Automation → SOP)
 | Outcome | System | Automation | SOP |
 |---|---|---|---|
-| Study Progress Tracking | S03 Data Layer | [G06_learning_sync.py](../../50_Automations/scripts/learning-sync.md) | - |
-| Certification ROI Visualization | S04 Digital Twin | [v_learning_progress view](../../50_Automations/scripts/learning-sync.md) | - |
+| Study Progress Tracking | S03 Data Layer | [G06_learning_sync.py](../../50_Automations/scripts/G06_learning_sync.md) | - |
+| **Knowledge Architecture** | **S03 Data Layer** | **[G06_learning_ingester](../../50_Automations/scripts/G06_learning_ingester.md)** | - |
+| Certification ROI Visualization | S04 Digital Twin | [v_learning_progress view](../../50_Automations/scripts/G06_learning_sync.md) | - |

@@ -1,58 +1,91 @@
 ---
-title: "script: G04_digital_twin_engine.py"
+title: "G04_digital_twin_engine.py: Autonomous Intelligence Orchestrator"
 type: "automation_spec"
 status: "active"
 automation_id: "g04-digital-twin-engine"
 goal_id: "goal-g04"
-systems: ["S03", "S04"]
+systems: ["S04"]
 owner: "Michal"
-updated: "2026-02-19"
+updated: "2026-03-10"
+review_cadence: "Monthly"
 ---
 
-# script: G04_digital_twin_engine.py
+# G04_digital_twin_engine.py
 
 ## Purpose
-The core aggregation engine for Goal G04. It pulls real-time state data from Finance and Training databases, persists the state to a historical tracking table, and generates a human-readable status summary.
+The core reasoning engine of the Digital Twin Ecosystem. It aggregates real-time data from all integrated domains (Health, Finance, Pantry, Home, Career) to generate proactive insights, dynamic schedules, and strategic alerts. It implements "Predictive Focus Switching" and longitudinal trend analysis to align daily activities with biological readiness and objective priorities.
+
+## Scope
+### In Scope
+- Multi-domain state aggregation from PostgreSQL databases.
+- **Cross-Domain Correlation Engine:** Identifies inter-system risks (e.g., Low activity + Weight gain).
+- **Historical Trend Analysis:** **[UPDATED]** Calculates biological velocity (Sleep/Readiness/Steps) and financial velocity (Daily Spend) across 7-day and 30-day windows.
+- **Autonomy ROI Tracking:** **[NEW]** Programmatically calculates and logs time saved by autonomous scripts in the `autonomy_roi` table.
+- **Contextual Memory:** Persistent storage of strategic advice in `digital_twin_michal.strategic_memory`.
+- **Project Watcher:** **[NEW]** Autonomous regex-parsing of Obsidian project notes to extract real-time status and next steps.
+- **Vault Intelligence:** **[NEW]** Tracks knowledge graph telemetry (total notes, orphans, tag distribution).
+- **Contextual Continuity:** Ability to reference and build upon previous guidance.
+- Integration with Home Assistant for environmental state.
+- Generation of "Director's Insights" based on cross-domain logic.
+- Dynamic task suggestion based on roadmap progress and readiness.
+
+### Out of Scope
+- Direct device control (handled by G08 Home Orchestrator).
+- Multi-user support (hardcoded for Person UUID 001).
 
 ## Triggers
-- **Manual:** Run to get an instant snapshot of your "Digital Twin" state.
-- **Integration:** Can be called by n8n or the Daily Manager to fetch consolidated life metrics.
+- **API Call:** Via `/suggested`, `/all`, or `/summary` endpoints in `G04_digital_twin_api.py`.
+- **Manual:** `python3 scripts/G04_digital_twin_engine.py`
 
 ## Inputs
-- **Finance DB (`autonomous_finance`):** MTD Net cashflow and active budget alerts.
-- **Training DB (`autonomous_training`):** Last workout date and latest body composition (weight/BF%).
+- **Biometrics (G07):** Sleep, HRV, and Readiness scores from `autonomous_health`.
+- **Financials (G05):** Budget alerts and spending velocity from `autonomous_finance`.
+- **Logistics (G03):** Inventory and expiry dates from `autonomous_pantry`.
+- **Smart Home (G08):** Temperature and security status via Home Assistant.
+- **Career (G09):** Skill gaps and brand impact from `autonomous_career`.
+- **Obsidian Vault:** Project notes and knowledge graph state.
+- **Strategic Memory:** Previous insights and decisions from `digital_twin_michal`.
+- **Roadmaps:** Q1 goal progress from Markdown documentation.
 
 ## Processing Logic
-1. **Health Sync:** Queries `workouts` and `v_body_composition` for the latest entries.
-2. **Finance Sync:** Calculates current month's P&L and counts active alerts from `get_current_budget_alerts()`.
-3. **Persistence:** Saves the state as JSONB into the `digital_twin_updates` table for historical analysis and API consumption.
-4. **Summary Generation:** Formats the collected data into a clean text block with emojis.
+1.  **State Initialization:** Connects to all domain-specific databases and fetches current snapshots.
+2.  **Cross-Domain Correlation:**
+    - Analyzes biological readiness (Sleep/HRV) to set the "Cognitive Budget".
+    - Maps roadmap tasks against current availability.
+3.  **Insight Generation:**
+    - **Tier 1 (Critical):** Immediate budget breaches or home security alerts.
+    - **Tier 2 (Heuristic):** Cross-domain correlations (e.g., Financial pressure vs. Pantry shopping).
+    - **Tier 3 (Strategic):** Predictive focus suggestions based on readiness.
+    - **Tier 4 (Logistics):** Low stock or expiring pantry items.
+4.  **Trend Calculation:** **[UPDATED]** Performs longitudinal analysis on biometrics and finance to detect "Improving" or "Declining" states over 7d and 30d periods.
+5.  **ROI Synthesis:** Aggregates cumulative "Minutes Saved" for the current day.
 
 ## Outputs
-- **Database:** New records in `autonomous_finance.public.digital_twin_updates`.
-- **Console:** Status summary text block.
+- **Structured JSON:** The complete `twin_state` for API consumption (now including `trends` and `roi`).
+- **Markdown Reports:** Natural language briefings for Telegram and Obsidian.
 
 ## Dependencies
 ### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [Digital Twin System](../../20_Systems/S04_Digital-Twin/README.md)
+- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md) - Parent system.
+- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md) - Data source.
 
 ### External Services
-- PostgreSQL (Docker)
+- **Home Assistant REST API:** For real-time sensor data.
 
 ## Error Handling
 | Failure Scenario | Detection | Response | Alert |
 |---|---|---|---|
-| Training DB Down | psycopg2 exception | Logs "DB Training Error", continues with Finance | Console output |
-| Finance DB Down | psycopg2 exception | Logs "DB Finance Error", continues with Health | Console output |
-| Persistence Fail | try/except block | Prints error message, summary still generated | Console output |
+| DB Offline | `psycopg2` Error | Mark domain as "Offline" in state | Report UI |
+| HA Unreachable | Timeout | Use last cached home state | Report UI |
+| Roadmap Missing | `os.path.exists()` | Skip goal progress calculation | Console |
 
-## Manual Fallback
-Data can be queried manually via SQL:
-```sql
-SELECT * FROM digital_twin_updates ORDER BY created_at DESC LIMIT 5;
-```
+## Security Notes
+- **Privacy:** 100% Local processing of all biometrics and financials.
+- **Data Integrity:** Read-only access to most databases; strictly controlled state aggregation.
 
 ## Related Documentation
 - [Goal: G04 Digital Twin Ecosystem](../../10_Goals/G04_Digital-Twin-Ecosystem/README.md)
-- [Low-Level Design](../../20_Systems/Low-Level-Design.md)
+- [System: S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
+
+---
+*Updated: 2026-03-10 by Digital Twin Assistant*

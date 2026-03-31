@@ -26,7 +26,7 @@ A production-ready n8n sub-workflow that orchestrates the "Tomorrow's Mission Br
    - Detects language (Polish/English) for context mapping.
    - Normalizes metadata (`chat_id`, `username`).
 2. **Fetch Twin Planner:**
-   - Calls `GET http://{{INTERNAL_IP}}:5677/tomorrow`.
+   - Calls `GET http://[INTERNAL_IP]:5677/tomorrow`.
 3. **Format for Dispatcher:**
    - Extracts `today_summary` (Wins), `tomorrow_preview` (Schedule/Missions), and `strategic_advice`.
    - Sanitizes text for Telegram Markdown v1 (strips Wiki-links, escapes underscores).
@@ -41,8 +41,8 @@ A production-ready n8n sub-workflow that orchestrates the "Tomorrow's Mission Br
 - [Productivity & Time](../../20_Systems/S09_Productivity-Time/README.md)
 
 ### External Services
-- **Digital Twin API:** Running on `{{INTERNAL_IP}}:5677` (with `/tomorrow` endpoint).
+- **Digital Twin API:** Running on `[INTERNAL_IP]:5677` (with `/tomorrow` endpoint).
 - **Google Calendar API:** Accessed via the backend G10 client.
 
 ## Manual Fallback
-Verify API health: `curl http://{{INTERNAL_IP}}:5677/tomorrow`. The sub-workflow includes error handling to return "Digital Twin context unavailable" if the API is down.
+Verify API health: `curl http://[INTERNAL_IP]:5677/tomorrow`. The sub-workflow includes error handling to return "Digital Twin context unavailable" if the API is down.

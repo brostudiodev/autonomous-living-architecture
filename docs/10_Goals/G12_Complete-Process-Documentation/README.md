@@ -74,7 +74,7 @@ Ensure all autonomous living systems, goals, and automations are comprehensively
 - Systems: [Systems.md](Systems.md)
 - Roadmap: [Roadmap.md](Roadmap.md)
 - Activity Log: [Activity-log.md](Activity-log.md)
-- Documentation Standard: [Documentation-Standard.md](Documentation-Standard.md)
+- Documentation Standard: [Documentation-Standard.md](../Documentation-Standard.md)
 - Automation Template: [../../50_Automations/templates/automation-specification-template.md](../../50_Automations/templates/automation-specification-template.md)
 
 ## Procedure

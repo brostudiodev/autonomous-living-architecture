@@ -22,7 +22,9 @@ updated: "2026-02-15"
 ### Productivity System Metrics
 | Metric | Target | How measured | Frequency | Owner |
 |---|---:|---|---|---|
-| Example KPI | TBD | TBD | weekly | Michal |
+| **Planning ROI** | > 10 mins/day | [Autonomy ROI Tracker](../G04_Digital-Twin-Ecosystem/Systems.md) | Daily | Digital Twin |
+| **Readiness Adherence** | > 80% | [G10_tomorrow_planner.py](../../50_Automations/scripts/G10_tomorrow_planner.md) | Weekly | Digital Twin |
+| **Deep Work Hours** | > 15h/week | RescueTime / Calendar Audit | Weekly | Michal |
 
 ## Leading indicators
 ### Calendar Management
@@ -32,7 +34,8 @@ updated: "2026-02-15"
 - Assumption accuracy (tracked in responses)
 
 ### Productivity System
-- ...
+- "Task Scrubber" execution count (G11).
+- Biological Readiness Score (G07).
 
 ## Lagging indicators
 ### Calendar Management
@@ -41,7 +44,7 @@ updated: "2026-02-15"
 - Time saved on calendar management (estimated monthly)
 
 ### Productivity System
-- ...
+- Total "Time Saved" reported by G04/G11.
 
 ## Data Sources
 - n8n execution logs: `SVC_Google-Calendar` workflow

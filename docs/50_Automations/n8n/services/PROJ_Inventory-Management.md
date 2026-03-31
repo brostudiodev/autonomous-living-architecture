@@ -40,7 +40,7 @@ An AI-driven inventory management system that allows for natural language contro
 6.  **calculator:** Handles mathematical adjustments to quantities.
 
 ## Data Source
-- **Google Sheet ID:** `10knY7Tnh5iNLooAxQ8OjI0sRJ-2l0t3rH5ABdVuvFAM`
+- **Google Sheet ID:** `[SPREADSHEET_ID]`
 - **Tab: Spizarka:** Main inventory (Kategoria, Ilość, Jednostka, Ważność).
 - **Tab: Slownik:** AI Synonyms and default units.
 
@@ -65,4 +65,4 @@ An AI-driven inventory management system that allows for natural language contro
 - **Google Gemini API:** AI reasoning and NLP.
 
 ## Manual Fallback
-Directly edit the [Google Sheet](https://docs.google.com/spreadsheets/d/10knY7Tnh5iNLooAxQ8OjI0sRJ-2l0t3rH5ABdVuvFAM/edit) to correct errors or manually adjust stock.
+Directly edit the [Google Sheet](https://docs.google.com/spreadsheets/d/[SPREADSHEET_ID]/edit) to correct errors or manually adjust stock.

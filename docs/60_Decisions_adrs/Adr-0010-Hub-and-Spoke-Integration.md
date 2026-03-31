@@ -51,6 +51,7 @@ graph TB
         G07[G07 Health Management]
         G12[G12 Documentation System]
         G02[G02 Automationbro]
+        LOG[G04 Logistics & Expiries]
     end
     
     %% Hub to Spokes Connections
@@ -60,6 +61,7 @@ graph TB
     G07 -.->|data/commands| G04
     G12 -.->|data/commands| G04
     G02 -.->|data/commands| G04
+    LOG -.->|data/commands| G04
     
     %% Hub Internal
     G04 --> AI
@@ -73,6 +75,7 @@ graph TB
     API --> G07
     API --> G12
     API --> G02
+    API --> LOG
 ```
 
 ### **Integration Patterns**

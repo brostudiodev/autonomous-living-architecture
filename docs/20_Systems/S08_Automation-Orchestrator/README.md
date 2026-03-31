@@ -97,17 +97,17 @@ Schedule → Database Query → Condition Check → Format → Notify
 POSTGRES_HOST=postgresql
 POSTGRES_PORT=5432
 POSTGRES_DB=finance
-POSTGRES_USER=finance_user
-POSTGRES_PASSWORD=secure_password
+POSTGRES_USER=${DB_USER}
+POSTGRES_PASSWORD=${DB_PASSWORD}
 
 # Slack Integration
-SLACK_BOT_TOKEN=xoxb-your-bot-token
+SLACK_BOT_TOKEN=${SLACK_BOT_TOKEN}
 SLACK_CHANNEL=finance-alerts
 
 # n8n Configuration
 N8N_BASIC_AUTH_ACTIVE=true
-N8N_BASIC_AUTH_USER=admin
-N8N_BASIC_AUTH_PASSWORD=secure_admin_password
+N8N_BASIC_AUTH_USER=${N8N_USER}
+N8N_BASIC_AUTH_PASSWORD=${N8N_PASSWORD}
 ```
 
 ### Workflow Credentials

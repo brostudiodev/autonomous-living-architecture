@@ -21,7 +21,7 @@ Synchronizes upcoming expenses from Google Sheets "Expense Calendar" tab to Post
 
 ## Input
 - **Source:** Google Sheet - "Expense Calendar" tab
-- **Sheet ID:** `1CUhzhuPXT3EoF4m35c7SRLhhqzX3NHWG4SWosGeGPzw`
+- **Sheet ID:** `[SPREADSHEET_ID]`
 - **Sheet Name:** `Expense Calendar`
 - **Sheet GID:** `708931121`
 - **Range:** `A2:K` (starts from row 2 to skip header)
@@ -291,7 +291,7 @@ SELECT upsert_expense_from_sheet(
 ## Related Documentation
 - [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
 - [WF107: Expense Calendar Alerts](./WF107__expense-calendar-alerts.md)
-- [Google Sheets Budget](https://docs.google.com/spreadsheets/d/1CUhzhuPXT3EoF4m35c7SRLhhqzX3NHWG4SWosGeGPzw)
+- [Google Sheets Budget](https://docs.google.com/spreadsheets/d/[SPREADSHEET_ID])
 
 ## n8n JSON Import
 - [WF106__expense-calendar-sync.json](./WF106__expense-calendar-sync.json)

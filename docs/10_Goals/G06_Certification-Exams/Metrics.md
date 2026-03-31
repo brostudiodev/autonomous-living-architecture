@@ -4,6 +4,7 @@ type: "goal_metrics"
 status: "active"
 owner: "Michal"
 updated: "2026-02-07"
+goal_id: "goal-g06"
 ---
 
 # Metrics

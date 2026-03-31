@@ -4,44 +4,97 @@ type: "content_calendar"
 status: "planning"
 goal_id: "goal-g02"
 owner: "Michal"
-updated: "2026-02-08"
+updated: "2026-03-14"
 ---
 
-# Q2 Content Calendar (April - June)
+# Q2 Content Calendar (April - June 2026)
+
+> [!info] **Article Ideas Storage**
+> All article ideas, drafts, and topics are stored in: `docs/10_Goals/G02_Automationbro-Recognition/Q2-Content-Calendar.md`
 
 This document outlines the planned content for Q2, derived from the analysis of Q1 engagement data and strategic objectives for Automationbro Recognition.
 
+## 0. How to Export Engagement Data from Substack
+
+### Step-by-Step:
+1. Login to **automationbro.substack.com**
+2. Click **Analytics** in left sidebar
+3. Click **Posts** tab
+4. Review table with:
+   - **Views** - how many people read
+   - **Opens** - open rate percentage  
+   - **Clicks** - subscriber clicks on links
+5. **To export:** Substack doesn't have native export, so:
+   - Screenshot the top 10 performing posts
+   - Or manually note: Title, Views, Opens, Date
+
+### Alternative (Browser Extension):
+- Use "Export Substack Data" Chrome extension
+- Or use Web Scraper to export table to CSV
+
+---
+
 ## 1. Q1 Performance Analysis Summary
 
+> [!warning] **ACTION REQUIRED**
+> Before finalizing Q2 content, export engagement data from Substack Analytics and update sections below with real insights.
+
 *   **Most Successful Topics/Formats:**
-    *   [Summarize findings here, e.g., "Articles on n8n automation for smart homes performed best (high views, comments)."]
+    * [PENDING: Export engagement data from Substack Analytics]
 *   **Least Successful Topics/Formats:**
-    *   [Summarize findings here, e.g., "Deep dives into theoretical AI concepts had lower engagement."]
+    * [PENDING: Export engagement data from Substack Analytics]
 *   **Audience Feedback/Questions:**
-    *   [List recurring questions or suggestions from comments, emails, etc.]
+    * [PENDING: Check comments/messages]
 *   **Key Learnings for Q2:**
-    *   [E.g., "Focus on practical, tool-specific automation guides."]
-    *   [E.g., "Incorporate more case studies."]
+    * Focus on personal story (automation journey)
+    * Practical, results-oriented content
 
 ## 2. Q2 Content Themes & Focus Areas
 
-*   [e.g., "Theme 1: Advanced n8n automations"]
-*   [e.g., "Theme 2: Practical AI applications in daily life"]
-*   [e.g., "Theme 3: Deconstructing complex architectural patterns"]
+### Primary Theme: **Personal Story - "Life as a Service"**
+
+| Month | Theme | Focus |
+|-------|-------|-------|
+| **April** | Life as a Service Deep Dives | Personal automation journey |
+| **May** | Real Results & ROI | What actually saved time/money |
+| **June** | Lessons & Failures | Mistakes, fixes, hardest parts |
 
 ## 3. Q2 Publication Schedule
 
-| Week | Date Range    | Primary Topic / Article Title                  | Platform(s)      | Status     | Notes                                       |
-| :--- | :------------ | :--------------------------------------------- | :--------------- | :--------- | :------------------------------------------ |
-| **W1** | April 1 - 7   | [Article Idea 1]                               | Substack, LinkedIn | Planned    | [e.g., "Leverage Q1 insights on X"]         |
-| **W2** | April 8 - 14  | [Article Idea 2]                               | Substack, LinkedIn | Planned    | [e.g., "Respond to audience question Y"]    |
-| **W3** | April 15 - 21 | [Article Idea 3]                               | Substack, LinkedIn | Planned    |                                             |
-| **W4** | April 22 - 28 | [Article Idea 4]                               | Substack, LinkedIn | Planned    |                                             |
-| **W5** | April 29 - May 5 | [Article Idea 5]                            | Substack, LinkedIn | Planned    |                                             |
-| ...    | ...           | ...                                            | ...              | ...        |                                             |
-| **W13**| June 24 - 30  | [Article Idea 13]                              | Substack, LinkedIn | Planned    | [e.g., "Summary of Q2 learnings"]           |
+> [!tip] **Target:** 1 article every 4 days (max 1/week) = ~7-8 articles/month = **~20 articles Q2**
+
+| Week | Date Range | Article Title | Status |
+| :--- | :--------- | :----------- | :----- |
+| **W14** | Apr 1-7 | My Morning Routine - 100% Automated | Draft |
+| **W14** | Apr 1-7 | How I Built My Digital Twin (The Brain) | Draft |
+| **W15** | Apr 8-14 | From Manual to Autonomous - The Journey | Draft |
+| **W15** | Apr 8-14 | The Stack Behind My Automation Empire | Draft |
+| **W16** | Apr 15-21 | 6 Months of Automation - Real Results | Draft |
+| **W16** | Apr 15-21 | What Actually Saved Me Time (Data + Proof) | Draft |
+| **W17** | Apr 22-28 | Financial Freedom Through Automation | Draft |
+| **W17** | Apr 22-28 | Predictive Health - How AI Monitors My Body | Draft |
+| **W18** | Apr 29 - May 5 | What Broke and How I Fixed It | Draft |
+| **W18** | Apr 29 - May 5 | The Hardest Part of Autonomous Living | Draft |
+| **W19** | May 6-12 | Mistakes I Made (So You Don't Have To) | Draft |
+| **W19** | May 6-12 | The ROI of Building Your Own Systems | Draft |
+| **W20** | May 13-19 | Behind the Scenes: My n8n Workflows | Draft |
+| **W20** | May 13-19 | Smart Home That Actually Works | Draft |
+| **W21** | May 20-26 | AI Agents vs Scripts - When to Use What | Draft |
+| **W21** | May 20-26 | The Future of Personal Automation | Draft |
+| **W22** | May 26 - Jun 1 | Half-Year Review: Goals vs Reality | Draft |
+| **W22** | May 26 - Jun 1 | Lessons from Building in Public | Draft |
+| **W23** | Jun 2-8 | Consulting Case Study: Automation for Clients | Draft |
+| **W23** | Jun 2-8 | What's Next for Automationbro | Draft |
+| **W24+** | Jun 9-30 | Buffer / Repurpose Q1 Content | Draft |
 
 ## 4. Unscheduled Ideas / Backlog
 
-*   [Idea 1]
-*   [Idea 2]
+* [ ] "A Day in My Automation-First Life" (Series)
+* [ ] "Technical Deep Dive: Digital Twin Architecture"
+* [ ] "How to Start Small with Automation"
+* [ ] "The Psychology of Letting Go (Automation Trust Issues)"
+* [ ] "Building for Failure - Self-Healing Systems"
+
+---
+
+*Last Updated: 2026-03-14*

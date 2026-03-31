@@ -2,13 +2,13 @@
 title: "G11: System Connectivity Map"
 type: "health_check"
 status: "auto-generated"
-updated: "2026-02-26 08:28:17"
+updated: "2026-03-30 07:02:00"
 ---
 
 # G11 Meta-System: Connectivity Matrix
 
-**Audit Timestamp:** 2026-02-26 08:28:17
-**Digital Twin API Status:** ❌ Offline
+**Audit Timestamp:** 2026-03-30 07:02:00
+**Digital Twin API Status:** ✅ Online
 **Documentation Compliance (G12):** ✅ 100% Compliant
 
 ## 1. Goal Infrastructure Status (Obsidian/Git)
@@ -30,9 +30,9 @@ updated: "2026-02-26 08:28:17"
 ## 2. Source System Activity (PostgreSQL)
 | System | Database | Main Table | Last Activity |
 |---|---|---|---|
-| G05 | autonomous_finance | transactions | 2026-02-24 |
-| G01 | autonomous_training | workouts | 2026-02-24 |
-| G03 | autonomous_pantry | inventory | 2026-02-26 |
+| G05 | autonomous_finance | transactions | 2026-04-05 |
+| G01 | autonomous_training | workouts | 2026-03-27 |
+| G03 | autonomous_pantry | inventory | 2026-03-30 |
 
 ## 3. Digital Twin Integration Freshness (G04 Hub)
 | Entity | Last Snapshot (DB) | Status |
