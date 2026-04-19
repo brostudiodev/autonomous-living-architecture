@@ -3,7 +3,7 @@ title: "G11: Systems"
 type: "goal_systems"
 status: "active"
 owner: "Michal"
-updated: "2026-03-28"
+updated: "2026-04-02"
 goal_id: "goal-g11"
 ---
 
@@ -18,6 +18,9 @@ goal_id: "goal-g11"
 
 | Outcome | System | Automation | SOP/Runbook |
 |---------|--------|------------|-------------|
+| **Weekly Pattern Analysis** | **S11 Router** | **[SVC_Decision-Pattern-Analyzer](../../50_Automations/n8n/services/SVC_Decision-Pattern-Analyzer.md)** | - |
+| **Evening Reflection Bridge** | **S11 Router** | **[SVC_Automated-Reflection-Bridge](../../50_Automations/n8n/services/SVC_Automated-Reflection-Bridge.md)** | - |
+| **Autonomous Friction Detection** | **S11 Router** | **[SVC_Autonomous-Friction-Resolver](../../50_Automations/n8n/services/SVC_Autonomous-Friction-Resolver.md)** | - |
 | Quick Wins Generation | S10 Productivity | [G11_quick_wins.md](../../50_Automations/scripts/G11_quick_wins.md) | [SOP: Daily Dashboard Review](../../30_Sops/Daily-Dashboard-Review.md) |
 | Unified System Synchronization | S11 Router | [G11_global_sync.md](../../50_Automations/scripts/G11_global_sync.md) (Retry-Aware) | - |
 | Dynamic Connectivity Mapping | S11 Router | [G12_connectivity_mapper.md](../../50_Automations/scripts/G12_connectivity_mapper.md) | - |
@@ -39,6 +42,12 @@ goal_id: "goal-g11"
 | **Proactive Decision Proposer** | S11 Router | [G11_decision_proposer.md](../../50_Automations/scripts/G11_decision_proposer.md) | - |
 | **System Decision Handler** | S11 Router | [G11_decision_handler.md](../../50_Automations/scripts/G11_decision_handler.md) | [Autonomy-Rules-Runbook.md](../../40_Runbooks/G11/Autonomy-Rules-Runbook.md) |
 | Google Tasks Suggestion Sync | S11 Router | [G11_suggestion_scrubber.md](../../50_Automations/scripts/G11_suggestion_scrubber.md) | - |
+| Aggregated Daily Focus | S04 Digital Twin | [G11 Mission Aggregator](../../50_Automations/scripts/G11_mission_aggregator.md) | [SOP: Daily Dashboard Review](../../30_Sops/Daily-Dashboard-Review.md) |
+| Autonomous Goal Selection | S04 Digital Twin | [G11 Goal Recommender](../../50_Automations/scripts/G11_goal_recommender.md) | [SOP: Daily Dashboard Review](../../30_Sops/Daily-Dashboard-Review.md) |
+| **System Self-Healing** | S11 Router | [G11 Self-Healing Logic](../../50_Automations/scripts/G11_self_healing_logic.md) | [SOP: System Maintenance](../../30_Sops/System-Maintenance-SOP.md) |
+| **Stall Detector** | S11 Router | [G11_stall_detector.md](../../50_Automations/scripts/G11_stall_detector.md) | - |
+| **Enterprise Data Protection** | S03 Data Layer | [G11 Recovery Shield](../../50_Automations/scripts/G11_db_recovery_shield.md) | [SOP: Disaster Recovery](../../30_Sops/G11_Disaster_Recovery_SOP.md) |
+| Rapid Dashboard Sync | S11 Router | [Parallel Daily Manager](../../50_Automations/scripts/autonomous_daily_manager.md) | [SOP: System Maintenance](../../30_Sops/System-Maintenance-SOP.md) |
 
 ---
 *Updated: 2026-03-28 by Digital Twin Assistant*

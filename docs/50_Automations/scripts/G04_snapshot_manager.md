@@ -55,4 +55,4 @@ Enables the "Temporal Memory" of the Digital Twin by capturing and persisting th
 ---
 *Related Documentation:*
 - [G04_digital_twin_engine.md](G04_digital_twin_engine.md)
-- [G04_Digital-Twin-Ecosystem Roadmap](../Roadmap.md)
+- [G04_Digital-Twin-Ecosystem Roadmap](../../10_Goals/G04_Digital-Twin-Ecosystem/Roadmap.md)

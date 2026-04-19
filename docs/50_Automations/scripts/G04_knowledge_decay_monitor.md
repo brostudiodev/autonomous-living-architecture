@@ -6,7 +6,7 @@ automation_id: "G04_knowledge_decay_monitor"
 goal_id: "goal-g04"
 systems: ["S04", "S11"]
 owner: "Michal"
-updated: "2026-03-12"
+updated: "2026-04-18"
 ---
 
 # G04: Knowledge Decay Monitor

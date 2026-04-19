@@ -4,7 +4,7 @@ type: "goal"
 status: "active"
 goal_id: "goal-g08"
 owner: "Michal"
-updated: "2026-02-16"
+updated: "2026-04-08"
 review_cadence: "monthly"
 ---
 
@@ -65,8 +65,8 @@ Create a predictive smart home system that intelligently orchestrates devices ba
 - S08 Automation Orchestrator
 
 ### External
-- Home Assistant ([INTERNAL_IP]:8123)
-- MariaDB (core-mariadb or [INTERNAL_IP]:3306)
+- Home Assistant ({{INTERNAL_IP}}:8123)
+- MariaDB (core-mariadb or {{INTERNAL_IP}}:3306)
 - Smart devices (Zigbee, Z-Wave, WiFi)
 
 ## Key Links

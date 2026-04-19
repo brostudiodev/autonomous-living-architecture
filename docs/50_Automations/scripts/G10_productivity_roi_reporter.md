@@ -6,7 +6,7 @@ automation_id: "G10_productivity_roi_reporter"
 goal_id: "goal-g10"
 systems: ["S04", "S10"]
 owner: "Michal"
-updated: "2026-03-26"
+updated: "2026-04-18"
 ---
 
 # G10: Productivity ROI Reporter
@@ -35,7 +35,7 @@ Generates daily and weekly productivity ROI analysis by quantifying reclaimed ti
 ## Dependencies
 ### Systems
 - [S04 Digital Twin Ecosystem](../../20_Systems/S04_Digital-Twin/README.md)
-- [S10 Productivity Platform](../../20_Systems/S10_Productivity-Platform/README.md)
+- [S10 Productivity Platform](../../20_Systems/S09_Productivity-Time/README.md)
 
 ## Error Handling
 | Failure Scenario | Detection | Response | Alert |

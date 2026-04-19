@@ -4,7 +4,7 @@ type: "progress_monitor"
 status: "active"
 goal_id: "goal-g06"
 created: "2026-02-11"
-last_updated: "2026-02-11"
+last_updated: "2026-04-19"
 version: "1.0"
 ---
 
@@ -26,6 +26,16 @@ version: "1.0"
 ---
 
 ## ✅ Major Achievements
+
+### Unlimited Learning History Unlock (April 2026)
+**Implementation Summary:**
+- **Constraint Removal**: Eliminated `LIMIT 30` and `LIMIT 20` restrictions on study sessions and concepts in the Learning Intelligence Agent.
+- **Historical Velocity Analysis**: Unlocked the agent's ability to analyze study patterns across the entire duration of the goal (G06), allowing for accurate multi-month velocity recalculations.
+- **Knowledge Retention**: Agents can now retrieve learning concepts from the entire knowledge base without arbitrary truncation.
+
+**Technical Specifications:**
+- **Data Scope**: 100% of study sessions and concepts available to AI.
+- **Accuracy**: Improved goal completion predictions based on total historical study effort.
 
 ### Study Framework Establishment (January 2026)
 **Implementation Summary:**

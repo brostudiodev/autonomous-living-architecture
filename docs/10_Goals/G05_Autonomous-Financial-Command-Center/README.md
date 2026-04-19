@@ -4,7 +4,7 @@ type: "goal"
 status: "active"
 goal_id: "goal-g05"
 owner: "Michal"
-updated: "2026-02-15"
+updated: "2026-04-08"
 ---
 
 # G05: Autonomous Finance Data & Command Center

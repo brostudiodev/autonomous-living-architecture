@@ -3,7 +3,7 @@ title: "G01: Roadmap"
 type: "goal_roadmap"
 status: "active"
 owner: "Michal"
-updated: "2026-03-28"
+updated: "2026-04-19"
 goal_id: "goal-g01"
 ---
 
@@ -20,10 +20,25 @@ goal_id: "goal-g01"
 - [x] **Dynamic Progression:** Readiness-based weight and TUT adjustment suggestions ✅ (Mar 31)
 - [x] **Strength Gains Visualization:** Monthly reporting on 1RM and volume trends ✅ (Mar 20)
 
-## Q2 (Apr–Jun)
+## Q2 (Apr–Jun) - Optimization Phase
+
+> [!tip] 🚀 **Q2 Focus: Optimize Existing Systems**
+- [ ] **System Stability Audit:** Verify all automated health syncs are working reliably
+  - [ ] **Sub-task: Withings Sync Check** - Ensure weight/BF% data flows to DB without gaps
+  - [ ] **Sub-task: Workout Log Automation** - Verify training data syncs to PostgreSQL
+- [ ] **Missing Automation Implementation:**
+  - [ ] **Sub-task: Photo Logging Workflow** - Implement automated monthly photo logging
+  - [ ] **Sub-task: Waist/BF% Trend Analysis** - Add automated mid-year review generation
+- [ ] **Integration Optimization:**
+  - [ ] **Sub-task: G07 Health Integration** - Ensure readiness score flows into training decisions
+  - [ ] **Sub-task: G03 Nutrition Link** - Verify procurement automation for recovery foods
+
 - [/] Implement monthly photo logging workflow
 - [x] Optimize training-recovery balance using G07/G10 readiness data (Mar 18)
 - [x] **Performance Nutrition Auto-Pilot:** Link HIT schedule to G03 procurement for recovery staples ✅ (Mar 28)
+- [x] **n8n Training Workflows:** SVC_Daily-Workout-Suggestion, PROJ_Training-Intelligence-System ✅ (Apr 10)
+- [x] **Zepp Health Sync:** SVC_Zepp-Health-Sync workflow with Amazfit integration ✅ (Apr 10)
+- [x] **Unlimited Training History Unlock (G01-UHU):** Standardized 3650-day lookback for Training Intelligence Agent ✅ (Apr 19)
 - [/] Mid-year review: Analyze waist & BF% trends
 
 ## Q3 (Jul–Sep)

@@ -18,7 +18,7 @@ This workflow automates the synchronization of budget definitions from a designa
 -   **When:** Scheduled to run every 12 hours (cron expression `0 */12 * * *`).
 
 ## Inputs
--   **Google Sheet:** "Zestawienie_finansowe-2026_FG_AI" (Document ID `[SPREADSHEET_ID]`), specifically the "Budget" sheet.
+-   **Google Sheet:** "Zestawienie_finansowe-2026_FG_AI" (Document ID `{{SPREADSHEET_ID}}`), specifically the "Budget" sheet.
     *   **Expected Columns (in `Transform & Validate Budget Data` node):** `Transaction_ID` (used as `budget_id`), `Year`, `Month`, `Type`, `Category`, `Sub-Category`, `Budget_Amount`, `Alert_Threshold`, `Notes`, `Budget_Type`, `Priority`, `Active`.
 -   **PostgreSQL Database:** `autonomous_finance` for existing reference data (categories).
 
@@ -44,8 +44,8 @@ This workflow automates the synchronization of budget definitions from a designa
 
 ## Dependencies
 ### Systems
--   [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md) (PostgreSQL `autonomous_finance` database)
--   [S08 Automation Orchestrator](../../20_Systems/S08_Automation-Orchestrator/README.md) (n8n instance)
+-   [S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md) (PostgreSQL `autonomous_finance` database)
+-   [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md) (n8n instance)
 
 ### External Services
 -   Google Sheets API (for reading budget data)

@@ -4,13 +4,14 @@ type: "goal"
 status: "active"
 goal_id: "goal-g11"
 owner: "Michal"
-updated: "2026-02-16"
+updated: "2026-04-18"
 review_cadence: "monthly"
 ---
 
 # G11: Meta-System Integration & Optimization
 
 ## 🌟 What you achieve
+*   **Level 5 "Zero-Click" Autonomy:** The system now autonomously proposes AND executes low-risk decisions (procurement, rebalancing) without human intervention.
 *   **Unified Intelligence:** Connect your health, finance, and productivity data so they work together (e.g., "low sleep" triggering "easier workout").
 *   **System Health Monitoring:** A single "heartbeat" check that ensures all your background scripts and APIs are running correctly.
 *   **Continuous Improvement:** Automated audits identify bottlenecks in your life-system, suggesting the next area for optimization.
@@ -22,45 +23,46 @@ Define and implement the Meta-System architecture that integrates data and insig
 ## Scope
 ### In Scope
 - Architecture definition and documentation
+- Level 5 Autonomy (Zero-Click Execution)
 - Data integration patterns (centralized + user-centric)
 - Input/output mapping for all goals
 - Unified data schema for S03
-- Meta-System dashboard prototype
-- Correlation and dependency documentation
+- Meta-System dashboard and self-healing loops
 
 ### Out of Scope
-- Autonomous decision making (G12)
-- Real-time visualization (G04)
-- Production automation rules
+- Direct physical world manipulation (beyond API-based procurement/notifications)
+- Hardware manufacturing
+- External third-party system ownership
 
 ## Intent
-Define the Meta-System architecture and core data integration patterns for holistic autonomous living optimization.
+Define the Meta-System architecture and core data integration patterns for holistic autonomous living optimization, focusing on reducing human "In-the-loop" friction.
 
 ## Definition of Done (2026)
 - [x] Architecture documented in Architecture-and-Integration.md
 - [x] Centralized "System Activity Log" deployed (G11/G04)
 - [x] Self-Healing Audits implemented (`G11_system_audit.py`)
 - [x] **Interactive Decision Authority Loop** (Telegram + Obsidian + Google Sheets)
-- [x] **Autonomous Self-Healing Loop** (CLI Auditor + n8n Orchestrator + LLM)
+- [x] **Autonomous Level 5 Loop** (Auto-Propose -> Auto-Approve -> Auto-Execute) ✅ (Apr 04)
+- [x] **Self-Healing Supervisor** (Automated retry and cleanup logic) ✅ (Apr 02)
+- [x] **Universal Timeouts & Syntax Hardening** (Standardized DB/HTTP/Subprocess timeouts) ✅ (Apr 18)
 - [x] Automated Documentation Scanner deployed (`G12_auto_documenter.py`)
-- [ ] Map inputs/outputs for all goals (Ongoing)
-- [ ] Define unified data schema (S03 Data Layer - In Progress)
-- [ ] Prototype Meta-System dashboard
-- [ ] Document correlations and dependencies
+- [x] Map inputs/outputs for all goals (Implemented via G11_meta_mapper.py)
+- [x] Define unified data schema (S03 Data Layer - [Unified-Schema.md](../../20_Systems/S03_Data-Layer/Unified-Schema.md))
+- [x] Prototype Meta-System dashboard (Connectivity Matrix deployed)
+- [x] Document correlations and dependencies (Technical Matrix v1.0)
 
 ## Inputs
 - Data from all goals (G01-G11)
 - System Activity Logs (`system_activity_log` table)
-- System documentation (S01-S10)
+- Decision history (`decision_requests` and `autonomous_decisions` tables)
 - Integration requirements from each goal
 
 ## Outputs
-- Architecture documentation
-- Integration patterns
+- Architecture documentation and integration patterns
 - Unified data schema
-- System health reports
-- Dashboard prototype
-- Dependency map
+- System health and reliability reports
+- Zero-click execution logs
+- Dashboard and dependency maps
 
 ## Dependencies
 ### Systems
@@ -99,7 +101,7 @@ Define the Meta-System architecture and core data integration patterns for holis
 ## Owner & Review
 - **Owner:** Michal
 - **Review Cadence:** Monthly
-- **Last Updated:** 2026-02-16
+- **Last Updated:** 2026-04-08
 
 ---
 

@@ -1,68 +1,74 @@
 ---
-title: "service: PROJ_Inventory-Management"
+title: "PROJ: Inventory Management (G03)"
 type: "automation_spec"
 status: "active"
 automation_id: "PROJ_Inventory-Management"
 goal_id: "goal-g03"
 systems: ["S03", "S08"]
 owner: "Michal"
-updated: "2026-02-22"
+updated: "2026-04-13"
 ---
 
-# service: PROJ_Inventory-Management (AI Pantry Agent)
-
-> [!important]
-> This is the **standard AI Agent for pantry** and it controls everything. It is the primary interface for all inventory-related operations.
+# PROJ: Inventory Management (Multi-Location AI Agent)
 
 ## Purpose
-An AI-driven inventory management system that allows for natural language control of the home pantry. It uses a Google Gemini-powered agent to interpret Polish commands, manage product quantities, and maintain a synonym dictionary, all while operating directly on Google Sheets as the data source.
+The **Inventory Management System** is an AI-driven agent designed to maintain a unified view of Michal's household inventory across multiple physical locations (currently **Spizarka** and **Gabinet**). It provides natural language control over product quantities, handles low-stock alerts, and manages a synonym dictionary to resolve naming variations.
 
 ## Triggers
-- **Sub-workflow:** Called by `ROUTER_Intelligent_Hub` when a `/pantry` command or related intent is detected.
-- **Manual/Direct:** Can be called via Execute Workflow node for testing.
+- **Sub-workflow:** Triggered by `ROUTER_Intelligent_Hub` when a `/pantry` command or related intent is detected.
+- **Manual Trigger:** Used for audit and data integrity checks.
 
 ## Inputs
-- **Query:** Natural language string (e.g., "Add 2 milk", "Ile mam jajek?").
-- **Metadata:** Chat ID, source type, and username for response routing.
-
-## AI Agent Configuration (Gemini)
-- **Role:** Home Pantry Assistant (Spiżarnia AI).
-- **Language:** Polish ONLY.
-- **Model:** Google Gemini 1.5 Pro.
-- **Memory:** Windowed memory buffer for session context.
-
-## Tools (Capabilities)
-1.  **get_inventory:** Loads current product list, quantities, and thresholds from the "Spizarka" sheet.
-2.  **update_inventory:** Updates quantity, status, and timestamp for existing items.
-3.  **add_product:** Appends new categories/products to the inventory sheet.
-4.  **get_dictionary:** Retrieves synonyms to handle variations in naming (e.g., "mleko" vs "mleczko").
-5.  **add_dictionary:** Adds new entries to the synonym dictionary.
-6.  **calculator:** Handles mathematical adjustments to quantities.
-
-## Data Source
-- **Google Sheet ID:** `[SPREADSHEET_ID]`
-- **Tab: Spizarka:** Main inventory (Kategoria, Ilość, Jednostka, Ważność).
-- **Tab: Slownik:** AI Synonyms and default units.
+- **Query:** Natural language string (e.g., "Add 2 packs of coffee to Gabinet", "Ile mam ryżu w Spiżarni?").
+- **Metadata:** Chat ID, User ID, and Source Type.
 
 ## Processing Logic
-1.  **Normalization:** Extracts the core query and detects source metadata.
-2.  **Context Preparation:** Fetches entire sheet data and formats it into a human-readable "Context" block for the LLM.
-3.  **Agent Reasoning:** Gemini decides which tools to call based on the user's intent (In/Out/Query).
-4.  **Execution:** Updates the Google Sheet via the specialized Tools.
-5.  **Formatting:** Returns a confirmation string (e.g., "✅ Mleko: 1 → 3 l") to the caller.
+1. **Normalization:** Resolve session ID and extract the query. Sets a default query if input is empty.
+2. **Multi-Location Data Loading:**
+   - `Load Spizarka Data`: Fetches the current inventory from the "Spizarka" Google Sheet tab.
+   - `Load Gabinet Data`: Fetches the current inventory from the "Gabinet" Google Sheet tab.
+3. **Context Construction:** `Prepare AI Context` (JS Code) aggregates data from all locations into a structured text block. It identifies low-stock items across the entire ecosystem.
+4. **Synonym Matching:** `Get Dictionary` loads the synonym map to ensure "mleko" and "mleczko" refer to the same item.
+5. **Intelligence Layer:** Google Gemini (v1.5 Pro) reasons over the combined context and decides on the appropriate action (Add/Subtract/Query).
+6. **Execution:** Updates the relevant Google Sheet location or appends new dictionary entries.
+7. **Output:** Packages the final confirmation for the `Response Dispatcher`.
 
-## Outputs
-- **Response Text:** Human-readable confirmation or answer.
-- **Summary:** Metadata about low stock items and total product count.
+## AI Agent Configuration
+- **Role:** Professional Household Inventory Assistant (Spiżarnia AI).
+- **Language:** Polish (Primary), English (Secondary).
+- **Model:** Google Gemini 1.5 Pro.
+- **Memory:** Buffer window for maintaining inventory session context.
+
+## Tools (Capabilities)
+1. **get_inventory:** Loads data from all registered locations.
+2. **update_inventory:** Surgically updates quantities in the correct sheet/location.
+3. **add_product:** Appends new items to the inventory sheet.
+4. **get_dictionary / add_dictionary:** Manages synonyms to reduce duplicate entries.
 
 ## Dependencies
 ### Systems
-- [Data Layer (S03)](../../../20_Systems/S03_Data-Layer/README.md) - Google Sheets storage.
-- [Automation Orchestrator (S08)](../../../20_Systems/S08_Automation-Orchestrator/README.md) - n8n engine.
+- [Autonomous Household (G03)](../../../10_Goals/G03_Autonomous-Household-Operations/README.md)
+- [Data Layer (S03)](../../../20_Systems/S03_Data-Layer/README.md) - Google Sheets.
 
 ### External Services
-- **Google Sheets API:** Read/Write access to inventory.
-- **Google Gemini API:** AI reasoning and NLP.
+- **Google Sheets API:** Read/Write access to `Magazynek_domowy`.
+- **Google Gemini API:** Core intelligence and NLP.
+
+## Error Handling
+| Failure Scenario | Detection | Response |
+|----------|-----------|----------|
+| Sheet Access Failure | HTTP 403/404 from Google node | Returns an error message suggesting a manual sheet check. |
+| Ambiguous Location | Agent identifies multi-location match | Agent asks the user for clarification (e.g., "Which Gabinet or Spizarka?"). |
+| Unit Mismatch | Adding 'liters' to 'kg' | Agent flags the unit mismatch and asks for confirmation. |
+
+## Security Notes
+- **Authority:** Full read/write access to inventory and dictionary sheets.
+- **Credential:** `SLEIKPxbRj4qcc9d` (OAuth2).
+- **ID Management:** Uses fixed Spreadsheet ID `{{LONG_IDENTIFIER}}`.
 
 ## Manual Fallback
-Directly edit the [Google Sheet](https://docs.google.com/spreadsheets/d/[SPREADSHEET_ID]/edit) to correct errors or manually adjust stock.
+[Open Magazynek_domowy Google Sheet](https://docs.google.com/spreadsheets/d/{{LONG_IDENTIFIER}}/edit)
+
+---
+
+*Documentation synchronized with PROJ_Inventory Management.json v2.0 (2026-04-13)*

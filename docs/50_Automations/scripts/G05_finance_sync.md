@@ -6,7 +6,7 @@ automation_id: "G05_finance_sync.py"
 goal_id: "goal-g05"
 systems: ["S03", "S05"]
 owner: "Michal"
-updated: "2026-03-19"
+updated: "2026-04-18"
 ---
 
 # G05: Financial Data Synchronization Engine
@@ -27,7 +27,7 @@ Orchestrates the bidirectional transfer of financial records (Transactions and B
   - `python3 scripts/G05_finance_sync.py --to-sheets` (DB to Sheets)
 
 ## Inputs
-- **Google Sheet ID:** `[SPREADSHEET_ID]`
+- **Google Sheet ID:** `{{SPREADSHEET_ID}}`
 - **Worksheets:** `Budget` (for planning), `Transactions` (for actuals).
 - **Credentials:** `google_credentials_digital-twin-michal.json` (Service Account).
 

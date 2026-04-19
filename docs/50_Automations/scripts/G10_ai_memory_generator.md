@@ -6,7 +6,7 @@ automation_id: "G10_ai_memory_generator"
 goal_id: "goal-g10"
 systems: ["S04", "S11"]
 owner: "Michal"
-updated: "2026-03-20"
+updated: "2026-04-18"
 ---
 
 # G10_ai_memory_generator: Auto-fill 'One thing to remember'
@@ -151,7 +151,7 @@ python scripts/G10_ai_memory_generator.py
 
 ## Related Documentation
 
-- [G10 Roadmap](../../10_Goals/G10_Intelligent-Productivity-Time-Architecture/Roadmap.md)
+- [G10 Roadmap](../../10_Goals/G{{LONG_IDENTIFIER}}/Roadmap.md)
 - [G10 Focus Intelligence](./G10_focus_intelligence.md)
 - [Autonomous Evening Manager](./autonomous_evening_manager.md)
 - [Daily Note Template](https://github.com/michalnowakowski/Obsidian-Vault/blob/main/99_System/Templates/Daily/Daily%20Note%20Template.md)

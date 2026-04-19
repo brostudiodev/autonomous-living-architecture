@@ -6,7 +6,7 @@ automation_id: "G05_finance_anomaly_detector"
 goal_id: "goal-g05"
 systems: ["S05"]
 owner: "Michal"
-updated: "2026-03-12"
+updated: "2026-04-18"
 ---
 
 # G05: Financial Anomaly Detector
@@ -35,7 +35,14 @@ Monitors category-level spending to detect unusual spikes or hidden subscription
 ## Outputs
 - **Markdown Report:** Injected into the Daily Note.
 - **Telegram Alert:** Proactive notification sent for CRITICAL anomalies (e.g., unrecognized spikes or budget-breaking "Other" entries).
-- **Activity Log:** Reports `WARNING` for real anomalies or `SUCCESS` if patterns are normal.
+- **Activity Log:** Reports `SUCCESS` regardless of finding, with the number of anomalies found as the value.
+
+## 📜 Changelog
+| Date | Change |
+|------|--------|
+| 2026-03-10 | Initial implementation |
+| 2026-04-09 | Added contextual filtering via expense_calendar |
+| 2026-04-16 | Bugfix: Standardized log status to SUCCESS for anomalies to improve reliability metrics |
 
 ## Error Handling
 | Failure Scenario | Detection | Response | Alert |

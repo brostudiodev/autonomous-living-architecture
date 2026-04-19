@@ -41,8 +41,8 @@ A real-time event processing service that moves the Digital Twin from a "polled"
 
 ## Dependencies
 ### Systems
-- [S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md) - PostgreSQL SSOT.
-- [S04 Digital Twin](../../../20_Systems/S04_Digital-Twin/README.md) - Communication hub.
+- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md) - PostgreSQL SSOT.
+- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md) - Communication hub.
 
 ### External Services
 - **Telegram Bot API:** For real-time alerting.

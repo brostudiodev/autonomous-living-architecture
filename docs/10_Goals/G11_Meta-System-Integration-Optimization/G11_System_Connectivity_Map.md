@@ -2,12 +2,12 @@
 title: "G11: System Connectivity Map"
 type: "health_check"
 status: "auto-generated"
-updated: "2026-03-30 07:02:00"
+updated: "2026-04-18 14:34:05"
 ---
 
 # G11 Meta-System: Connectivity Matrix
 
-**Audit Timestamp:** 2026-03-30 07:02:00
+**Audit Timestamp:** 2026-04-18 14:34:05
 **Digital Twin API Status:** ✅ Online
 **Documentation Compliance (G12):** ✅ 100% Compliant
 
@@ -30,16 +30,16 @@ updated: "2026-03-30 07:02:00"
 ## 2. Source System Activity (PostgreSQL)
 | System | Database | Main Table | Last Activity |
 |---|---|---|---|
-| G05 | autonomous_finance | transactions | 2026-04-05 |
-| G01 | autonomous_training | workouts | 2026-03-27 |
-| G03 | autonomous_pantry | inventory | 2026-03-30 |
+| G05 | autonomous_finance | transactions | Error: invalid dsn: invalid |
+| G01 | autonomous_training | workouts | Error: invalid dsn: invalid |
+| G03 | autonomous_pantry | inventory | Error: invalid dsn: invalid |
 
 ## 3. Digital Twin Integration Freshness (G04 Hub)
 | Entity | Last Snapshot (DB) | Status |
 |---|---|---|
-| Finance | 2026-02-26 05:28 | ✅ Live |
-| Health | 2026-02-26 05:28 | ✅ Live |
-| Pantry | 2026-02-26 05:28 | ✅ Live |
+| Finance | Offline | ✅ Live |
+| Health | Offline | ✅ Live |
+| Pantry | Offline | ✅ Live |
 
 ## 4. Integration Gap Analysis (Orphan Goals)
 | ID | Goal Name | Category | Status |

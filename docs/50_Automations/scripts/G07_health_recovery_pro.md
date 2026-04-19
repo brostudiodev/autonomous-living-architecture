@@ -6,7 +6,7 @@ automation_id: "G07_health_recovery_pro"
 goal_id: "goal-g07"
 systems: ["S07"]
 owner: "Michal"
-updated: "2026-03-12"
+updated: "2026-04-18"
 ---
 
 # G07: Health Recovery Pro

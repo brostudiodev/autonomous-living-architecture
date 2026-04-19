@@ -3,7 +3,7 @@ title: "Low-Level Design Documentation"
 type: "documentation"
 status: "active"
 owner: "Michal"
-updated: "2026-02-20"
+updated: "2026-04-16"
 ---
 
 # Low-Level Design Documentation
@@ -248,10 +248,24 @@ CREATE TABLE digital_twin_updates (
     CONSTRAINT valid_entity_type CHECK (entity_type IN ('person', 'goal', 'health', 'training', 'finance', 'pantry'))
 );
 
+-- New table for ActivityWatch
+CREATE TABLE activity_watch_events (
+    id SERIAL PRIMARY KEY,
+    timestamp TIMESTAMP WITH TIME ZONE NOT NULL,
+    duration_seconds DOUBLE PRECISION NOT NULL,
+    app_name CHARACTER VARYING(255),
+    window_title TEXT,
+    is_productive BOOLEAN,
+    category CHARACTER VARYING(100),
+    bucket_id CHARACTER VARYING(255),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Indexes for efficient querying
 CREATE INDEX idx_digital_twin_updates_entity ON digital_twin_updates(entity_type, entity_id);
 CREATE INDEX idx_digital_twin_updates_source ON digital_twin_updates(source_system, created_at);
 CREATE INDEX idx_digital_twin_updates_gin_data ON digital_twin_updates USING GIN(update_data);
+CREATE INDEX idx_aw_events_timestamp ON activity_watch_events(timestamp);
 
 ### **PostgreSQL Pantry Database**
 
@@ -287,6 +301,30 @@ CREATE TABLE pantry_dictionary (
 ---
 
 ## 🛠️ **SERVICE INTERFACES**
+
+### **G10 ActivityWatch Telemetry Sync**
+```python
+# G10_activitywatch_sync.py Interface Specification
+
+class ActivityWatchSync:
+    """Service for synchronizing passive attention telemetry"""
+    
+    def __init__(self, server_url: str = "http://localhost:5600"):
+        self.server_url = server_url
+        self.window_bucket = self.discover_bucket()
+        
+    def discover_bucket(self) -> str:
+        """Finds the 'aw-watcher-window' bucket ID"""
+        
+    def fetch_events(self, start_time: datetime) -> List[Dict]:
+        """Fetches events from the server since start_time"""
+        
+    def classify_productivity(self, app: str, title: str) -> bool:
+        """Applies heuristic rules to determine if activity is productive"""
+        
+    def sync_to_db(self, events: List[Dict]):
+        """Persists classified events to digital_twin_michal.activity_watch_events"""
+```
 
 ### **G01 Training Metrics Exporter**
 ```python
@@ -1111,4 +1149,4 @@ This low-level design documentation provides the technical specifications needed
 
 The system is designed for scalability, maintainability, and operational excellence while maintaining the sophisticated integration between all 12 goals and supporting infrastructure.
 
-*Last updated: 2026-02-11*
+*Last updated: 2026-04-16*

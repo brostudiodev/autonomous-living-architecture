@@ -26,9 +26,9 @@ Monthly review of financial performance and budget alignment to ensure spending 
 - Automated rebalancing proposals via `G05_budget_rebalancer.py`
 
 ## Related Documentation
-- [G05 Autonomous Financial Command Center](../../10_Goals/G05_Autonomous-Financial-Command-Center/README.md)
+- [G05 Autonomous Financial Command Center](../10_Goals/G05_Autonomous-Financial-Command-Center/README.md)
 - [SOP: Autonomous Rebalancing](./G05/Autonomous-Rebalancing.md)
-- [G05 Finance Anomaly Detector](../../50_Automations/scripts/G05_finance_anomaly_detector.md)
+- [G05 Finance Anomaly Detector](../50_Automations/scripts/G05_finance_anomaly_detector.md)
 
 ---
 *Owner: Michal*

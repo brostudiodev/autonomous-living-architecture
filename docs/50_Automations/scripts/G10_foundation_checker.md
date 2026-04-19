@@ -6,7 +6,7 @@ automation_id: "G10_foundation_checker"
 goal_id: "goal-g10"
 systems: ["S04", "S09"]
 owner: "Michal"
-updated: "2026-03-20"
+updated: "2026-04-18"
 ---
 
 # G10_foundation_checker: Tomorrow's Foundation Prep
@@ -27,31 +27,18 @@ Prepares tomorrow's foundation checklist by analyzing calendar events, priority 
 | Google Calendar API | Tomorrow's events | Meeting prep, time requirements |
 | Google Tasks API | Priority tasks (#today, #roadmap) | Top 3 tasks |
 | Digital Twin Engine | Pantry low stock | Lunch prep |
+| Open-Meteo API | Tomorrow's forecast | Gear suggestions (boots, umbrella) |
 
 ## Processing Logic
 
-1. **Get Tomorrow's Events** - Query Google Calendar for next day
-   - Extract meeting times
-   - Identify external/location-based events
-   - Check for early meetings (before 8 AM)
+1. **Weather Check (NEW Apr 07)** - Query Open-Meteo for Warsaw
+   - Extract temp range and precipitation
+   - Map weather codes to gear suggestions (e.g., 🌧️ → Waterproof boots)
 
-2. **Get Priority Tasks** - Query Google Tasks
-   - Filter: `#today`, `#roadmap`, `#deep`, `#urgent`
-   - Sort by priority
-   - Return top 3
-
-3. **Get Pantry Status** - Digital Twin engine
-   - Low stock items
-   - Food items specifically
-
-4. **Analyze Needs** - Determine what to prepare
-   - Early alarm needed?
-   - Meeting notes required?
-   - Lunch ingredients low?
-
-5. **Build Report** - Markdown for daily note
-
+2. **Get Tomorrow's Events** - Query Google Calendar for next day
+...
 6. **Update Daily Note** - Write to Foundation First section
+   - **Dynamic Checkbox Labels:** Refines labels for Clothes (weather summary), Lunch (pantry status), and Bag (calendar load).
 
 ## Outputs
 
@@ -62,18 +49,21 @@ Prepares tomorrow's foundation checklist by analyzing calendar events, priority 
 ### Example Output
 
 ```markdown
-**📅 Tomorrow (Saturday, Mar 21):**
-- 09:00: Dentist appointment
-- 14:00: Team meeting
+**🌦️ Weather:** 5.2°C to 12.5°C, 2.1mm precip
+- 🌧️ Rain expected: Wear waterproof boots and take an umbrella.
+
+**📅 Tomorrow (Wednesday, Apr 08):**
+- 09:00: Team Sync
+- 14:00: Deep Work
 
 **🎒 Prep Status:**
-- ⚠️ Early meeting - set alarm!
+- 🛒 Low food items: jajka, chleb
 - 📝 Meeting tomorrow - prepare notes
 
 **🎯 Top 3 Priorities (First 90 min):**
-1. Review project proposal #today
-2. G02: Q2 content calendar #roadmap
-3. Respond to emails #today
+1. Fix frontmatter bug #today
+2. G10: Weather integration #roadmap
+3. Sync logistics #urgent
 ```
 
 ## Dependencies

@@ -33,8 +33,8 @@ A specialized utility that scans project-wide activity logs to "harvest" technic
 
 ## Dependencies
 ### Systems
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md)
-- [G02 Automationbro Recognition](../../../10_Goals/G02_Automationbro-Recognition/README.md)
+- [S08 Automation Orchestrator](../../20_Systems/S08_Automation-Orchestrator/README.md)
+- [G02 Automationbro Recognition](../../10_Goals/G02_Automationbro-Recognition/README.md)
 
 ### External Services
 - Obsidian (File system)

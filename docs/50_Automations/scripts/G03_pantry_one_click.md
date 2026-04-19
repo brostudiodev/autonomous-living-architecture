@@ -3,7 +3,7 @@ title: "Automation Spec: G03_pantry_one_click.py"
 type: "automation_spec"
 status: "draft"
 created: "2026-03-13"
-updated: "2026-03-13"
+updated: "2026-04-18"
 ---
 
 # 🤖 Automation Spec: G03_pantry_one_click.py

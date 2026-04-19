@@ -3,7 +3,7 @@ title: "G12: Systems"
 type: "goal_systems"
 status: "active"
 owner: "Michal"
-updated: "2026-03-05"
+updated: "2026-04-02"
 goal_id: "goal-g12"
 ---
 
@@ -21,6 +21,8 @@ goal_id: "goal-g12"
 | System Documentation Audit | S10 Automation | [G12_documentation_audit.py](../../50_Automations/scripts/G12_documentation_audit.md) | - |
 | Structural Integrity Verification | S11 Router | [G11_system_audit.py](../../50_Automations/scripts/G11_system_audit.md) | - |
 | Automated Sync Reporting | S11 Router | [G11_global_sync.md](../../50_Automations/scripts/G11_global_sync.md) | - |
+| Proactive Stale Doc Detection | S10 Automation | [G12_stale_docs_monitor.md](../../50_Automations/scripts/G12_stale_docs_monitor.md) | [SOP: Monthly Doc Audit](../../30_Sops/Monthly-Doc-Audit.md) |
+| Broken Link Prevention | S10 Automation | [G12_link_maintainer.md](../../50_Automations/scripts/G12_link_maintainer.md) | - |
 
 ---
-*Updated: 2026-03-05 by Digital Twin Assistant*
+*Updated: 2026-04-02 by Digital Twin Assistant*

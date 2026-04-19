@@ -6,7 +6,7 @@ automation_id: "G08_hardware_monitor"
 goal_id: "goal-g08"
 systems: ["S01", "S08"]
 owner: "Michal"
-updated: "2026-03-28"
+updated: "2026-04-18"
 ---
 
 # G08_hardware_monitor: Host Machine Resilience

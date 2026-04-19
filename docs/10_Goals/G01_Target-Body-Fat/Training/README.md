@@ -4,7 +4,7 @@ type: "training_guide"
 status: "active"
 goal_id: "goal-g01"
 owner: "Michal"
-updated: "2026-02-25"
+updated: "2026-04-08"
 ---
 
 # G01 Training Journal (Low-Volume HIT)

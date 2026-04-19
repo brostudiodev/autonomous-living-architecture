@@ -3,7 +3,7 @@ title: "Goal Documentation Standard"
 type: "standard"
 status: "active"
 owner: "Michal"
-updated: "2026-03-27"
+updated: "2026-04-08"
 ---
 
 # Goal Documentation Standard
@@ -64,14 +64,14 @@ docs/10_Goals/
 
 ## Enabling systems
 List systems that will carry this goal:
-- [S01 Observability & Monitoring](../../20_Systems/S01_Observability-Monitoring/README.md)
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
+- [S03 Data Layer](../20_Systems/S03_Data-Layer/README.md)
+- [S04 Digital Twin](../20_Systems/S04_Digital-Twin/README.md)
 
 ## Traceability (Outcome → System → Automation → SOP)
 | Outcome | System | Automation | SOP/Runbook |
 |---|---|---|---|
-| Track daily activities | S03 Data Layer | [WF001 Agent Router](../../50_Automations/n8n/workflows/WF001_Agent_Router.md) | [Daily-Review-SOP.md](../../30_Sops/Daily-Review-SOP.md) |
-| Monitor progress | S01 Observability | [script: metrics.py](../../50_Automations/scripts/metrics.py) | [Weekly-Review-SOP.md](../../30_Sops/Weekly-Review-SOP.md) |
+| Track daily activities | S03 Data Layer | [G12_auto_did_logger.py](../50_Automations/scripts/G12_auto_did_logger.md) | [Daily-Review-SOP.md](../30_Sops/Daily-Review-SOP.md) |
+| Monitor progress | S04 Digital Twin | [G11_system_reliability_auditor.py](../50_Automations/scripts/G11_system_reliability_auditor.md) | [Weekly-Review-SOP.md](../30_Sops/Weekly-Review-SOP.md) |
 ```
 
 ## Cross-Reference Standards
@@ -93,6 +93,7 @@ Always use relative paths from the current file location:
 ## Quality Standards
 - **Concrete over abstract:** Show examples, not just descriptions.
 - **Actionable:** Every procedure must be executable copy-paste commands.
+- **Agent-Ready (NEW):** Every script-based automation (especially G-series) MUST be registered in `{{ROOT_LOCATION}}/autonomous-living/scripts/_meta/G04_tool_manifest.json` to be discoverable by AI agents.
 - **Current:** Mark update date, don't leave stale docs.
 - **Linked:** Every doc references related systems/automations/SOPs.
 
@@ -100,14 +101,14 @@ Always use relative paths from the current file location:
 To ensure documentation is ready for public architecture sharing, **NEVER** include real secrets or internal infrastructure details.
 
 1. **Placeholder Protocol:** Use placeholders for all sensitive data:
-   - IPs: Use `[INTERNAL_IP]`
-   - Passwords: Use `[DB_PASSWORD]` or `${ENV_VAR_NAME}`
+   - IPs: Use `{{INTERNAL_IP}}`
+   - Passwords: Use `{{DB_PASSWORD}}` or `${ENV_VAR_NAME}`
    - Tokens: Use `[BOT_TOKEN]` or `[API_KEY]`
 2. **Environment Synchronization:** 
    - Before creating documentation, check the root `.env` file for existing variables.
    - If a variable exists, use its name as the placeholder.
    - If a new secret is required, add a placeholder entry to `.env` first, then document it.
-3. **Audit Rule:** Any documentation containing `192.168.x.x` or plaintext passwords will fail the G12 Documentation Audit.
+3. **Audit Rule:** Any documentation containing raw internal IP segments or plaintext passwords will fail the G12 Documentation Audit.
 
 ## References
 - [Principles](../00_Start-here/Principles.md)

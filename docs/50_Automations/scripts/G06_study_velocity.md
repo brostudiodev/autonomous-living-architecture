@@ -1,40 +1,43 @@
 ---
-title: "G06: Study Velocity Engine"
+title: "Study Velocity Tracker (G06)"
 type: "automation_spec"
 status: "active"
-automation_id: "G06_study_velocity"
-goal_id: "goal-g06"
-systems: ["S06", "S11"]
 owner: "Michal"
-updated: "2026-03-12"
+updated: "2026-04-02"
 ---
 
-# G06: Study Velocity Engine
+# Purpose
+The **Study Velocity Tracker** (`G06_study_velocity.py`) autonomously monitors progress toward certification exams. It ensures that study habits align with exam deadlines by calculating the required daily effort and flagging risks.
 
-## Purpose
-Monitors certification study progress against hard deadlines to ensure exam readiness. Calculates the specific hourly requirement per day to hit the target date.
+# Scope
+- **In Scope:** Active career goals with defined deadlines, study sessions from `study_sessions` table.
+- **Out Scope:** General learning without specific deadlines.
 
-## Triggers
-- Scheduled: Part of the `autonomous_daily_manager.py` daily sync cycle.
+# Logic
+- **Required Velocity:** `(Required Hours - Completed Hours) / Days Until Deadline`.
+- **Actual Velocity:** Average hours per day over the **last 7 days**.
+- **Risk Threshold:** If `Actual Velocity < Required Velocity`, an alert is generated.
 
-## Inputs
-- Database: `autonomous_learning.certifications`.
+# Inputs/Outputs
+- **Inputs:** `autonomous_learning` PostgreSQL database.
+- **Outputs:** Markdown report for Daily Note and risk alerts for `G11_mission_aggregator` (Weight 8).
 
-## Processing Logic
-1. **Calculate Delta:** Determine remaining study hours (`total - completed`) and days until exam.
-2. **Compute Pace:** `Required Daily Pace = Hours Remaining / Days Remaining`.
-3. **Analyze Risk:** 
-   - Pace > 2.0h/day -> CRITICAL.
-   - Pace > 1.0h/day -> WARNING.
-   - Pace <= 1.0h/day -> ON TRACK.
-4. **Report:** Generate a status report for each active certification.
+# Dependencies
+- **Systems:** S11 (Meta-System), G06 (Certification Exams)
+- **Database:** `autonomous_learning`
 
-## Outputs
-- Velocity report injected into the Digital Twin status.
-- Activity log entry.
+# Procedure
+- Automatically executed as part of the daily sync via `autonomous_daily_manager.py`.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Past Deadline | `target_date < current_date` | Mark as "Overdue" | Log Warning |
-| Zero Total Hours | Division error | Log data error | Log Info |
+# Failure Modes
+| Scenario | Detection | Response |
+|----------|-----------|----------|
+| No Deadline Set | deadline IS NULL | Goal is skipped from velocity calculation. |
+| Zero Study History | actual_vel = 0 | Triggers a high-priority risk alert. |
+
+# Security Notes
+- Read-only access to learning data.
+
+# Owner + Review Cadence
+- **Owner:** Michal
+- **Review:** Monthly (verify deadline alignment)

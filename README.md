@@ -17,6 +17,8 @@ Most modern solutions rely either on simple "if-this-then-that" automation or pu
 
 > **💡 The Vision:** By the end of 2026, every repeatable task in your life should run autonomously. You wake up, and the system has already engineered your day. You are the CEO of your life; the system is your 24/7 autonomous operations team.
 
+> [!insight] 📝 **Automationbro Insight:** [A Day in My Automation-First Life (March 2026)](https://automationbro.substack.com/p/a-day-in-my-automation-first-life)
+
 ---
 
 ## 🎯 The Philosophy: "Share the Blueprint, Let Others Build Their Own House"
@@ -33,7 +35,7 @@ This repository demonstrates how to architect resilient, integrated autonomous l
 
 ## 👨‍💻 About the Architect
 
-**Michał** - IT T&T Automation Specialist specializing in RPA, AI, and Hyperautomation. 20+ years of experience in programming and project management in the manufacturing sector. ITIL 4 & PRINCE2 certified professional combining enterprise automation expertise with systematic life optimization.
+**Michal** - IT T&T Automation Specialist specializing in RPA, AI, and Hyperautomation. 20+ years of experience in programming and project management in the manufacturing sector. ITIL 4 & PRINCE2 certified professional combining enterprise automation expertise with systematic life optimization.
 
 I built this ecosystem to prove that the same patterns that run a Fortune 500 company—**Decoupling, Observability, and Automation**—can be used to build a better, more focused, and more autonomous human life.
 

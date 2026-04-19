@@ -18,7 +18,7 @@ GOAL
 GOAL_ID: goal-g11
 GOAL_CODE: G11
 GOAL_NAME: Productivity & Time Architecture
-GOAL_DIR: docs/10_Goals/G11_Intelligent-Productivity-Time-Architecture
+GOAL_DIR: docs/10_Goals/G{{LONG_IDENTIFIER}}
 SYSTEMS: ["TBD"]
 
 TRACEABILITY (for updating {{GOAL_DIR}}/Systems.md)

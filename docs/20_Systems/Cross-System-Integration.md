@@ -3,14 +3,14 @@ title: "Cross-System Integration Architecture"
 type: "documentation"
 status: "active"
 owner: "Michal"
-updated: "2026-03-31"
+updated: "2026-04-16"
 ---
 
 # Cross-System Integration Architecture
 
 ## Overview
 
-This document provides a comprehensive overview of all active data flows and integrations between systems in the autonomous-living ecosystem. It represents the **actual implemented connections** between production systems as of 2026-03-31.
+This document provides a comprehensive overview of all active data flows and integrations between systems in the autonomous-living ecosystem. It represents the **actual implemented connections** between production systems as of 2026-04-16.
 
 ## Integration Classification
 
@@ -24,12 +24,13 @@ This document provides a comprehensive overview of all active data flows and int
 
 ### **G04 Digital Twin → Central Data Hub**
 
-#### **Data Ingestion (Every 8 hours - WF104)**
+#### **Data Ingestion (Every 15 minutes / 8 hours)**
 ```
 Source Systems → G04 Digital Twin → PostgreSQL Storage
 ```
 
 **Active Data Sources:**
+- **G10 Productivity Data:** ActivityWatch (Window/App telemetry), Google Tasks, Calendar
 - **G05 Financial Data:** Budget metrics, transaction summaries, savings rates
 - **G01 Training Data:** Workout frequency, body fat trends, performance metrics
 - **G07 Health Data:** Withings metrics, biometric trends, health indicators
@@ -94,6 +95,7 @@ G07 Biometric Data → G04 Health Dashboard → Health Insights
 ### **Productivity & Context Integration**
 
 #### **G10 ↔ G04 (Digital Twin)**
+- **Attention Telemetry:** ActivityWatch (S09) sends passive app/window usage to the Twin for deep work analysis.
 - **Mood Engine:** Correlates Health, Finance, and Logistics to autonomously suggest daily note markers.
 - **Calendar Enforcer:** Syncs optimized schedule blocks from the Twin Engine to Google Calendar.
 
@@ -152,6 +154,6 @@ Individual Systems → G04 Digital Twin → Processing → Distribution → Cons
 
 ## Conclusion
 
-The autonomous-living ecosystem has achieved **Level 4 Maturity** with the launch of the **Total Recall** analytical architecture. The system now possesses the ability to correlate any data point across its internal databases autonomously.
+The autonomous-living ecosystem has achieved **Level 5 Maturity** with the launch of **Passive Attention Telemetry** and automated deep work analysis. The system now possesses the ability to correlate any data point across its internal databases while autonomously quantifying human focus.
 
-**Integration Maturity: 9.0/10** - Sophisticated, cross-domain, and self-documenting.
+**Integration Maturity: 9.5/10** - Sophisticated, cross-domain, and self-documenting.

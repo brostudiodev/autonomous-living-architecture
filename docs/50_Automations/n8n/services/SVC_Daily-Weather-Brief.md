@@ -1,93 +1,176 @@
 ---
-title: "SVC_Daily-Weather-Brief"
-type: "automation_n8n"
+title: "SVC: Daily Weather Brief"
+type: "service_spec"
 status: "active"
-service_id: "svc-daily-weather"
+service_id: "SVC_Daily-Weather-Brief"
+goal_id: "goal-g08"
+systems: ["S04", "S07", "S08"]
 owner: "Michal"
-created: "2026-02-20"
-updated: "2026-02-20"
-trigger: "schedule"
-schedule: "6:47 AM daily"
-tags:
-  - daily-brief
-  - weather
-  - home-assistant
+updated: "2026-04-10"
 ---
 
-# SVC_Daily-Weather-Brief
+# SVC: Daily Weather Brief
 
-Automated morning weather report with forecast and Home Assistant sensor data.
+## Purpose
+Provides daily weather updates by combining data from OpenWeatherMap API (current weather + 5-day forecast) and local Home Assistant sensors (outdoor temperature). Runs automatically at 6:47 AM as part of the morning briefing system.
 
-## Overview
+## Triggers
 
-| Attribute | Value |
-|-----------|-------|
-| **Type** | n8n workflow |
-| **ID** | `SVC_Daily-Weather-Brief` |
-| **Trigger** | Schedule: Daily at 6:47 AM |
-| **Status** | Active |
-| **Goal** | G10 - Intelligent Productivity |
+| Trigger | Type | Configuration |
+|---------|------|---------------|
+| **Schedule Trigger** | Cron/Interval | Daily at 06:47 |
+| **Workflow Trigger** | Execute Workflow | Manual execution |
+
+**Workflow ID:** `pAGuUm0mSVznnuz9`
+
+## Processing Flow
+
+```
+┌─────────────────────────────────┐
+│   Schedule: Daily 6:47 AM       │  Cron: Every day at 06:47
+└────────────┬────────────────────┘
+             │
+    ┌────────┼────────┬─────────┐
+    ▼         ▼         ▼
+┌─────────┐ ┌────────┐ ┌─────────┐
+│ Weather │ │Forecast│ │  HA     │
+│  (now)  │ │ (5day) │ │  Temp   │
+└────┬────┘ └───┬────┘ └──┬─────┘
+     │         │         │
+     └─────────┼─────────┘
+               ▼
+┌─────────────────────────────────┐
+│      Merge All Sources          │  Merge: Combine 3 data sources
+└────────────┬────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────┐
+│      Format Weather Brief       │  Code: Format for Telegram
+└────────────┬────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────┐
+│      Send Telegram              │  Telegram: Notify user
+└─────────────────────────────────┘
+```
 
 ## Data Sources
 
-1. **OpenWeatherMap API** - Current weather + 5-day forecast
-   - Location: {{LOCATION_CITY}}, PL
-   - API Key: Configured in HTTP node
+| Source | Endpoint | Data |
+|--------|-----------|------|
+| OpenWeatherMap (Current) | `weather?q={{LOCATION_CITY_SHORT}}+Wielkie,PL` | Temperature, humidity, conditions |
+| OpenWeatherMap (Forecast) | `forecast?q={{LOCATION_CITY_SHORT}}+Wielkie,PL` | 5-day forecast |
+| Home Assistant | `api/states/sensor.temperatura_podworko` | Local outdoor temp |
 
-2. **Home Assistant** - Local sensor
-   - Entity: `sensor.temperatura_podworko` (backyard temperature)
-   - URL: `http://[INTERNAL_IP]:8123`
-   - Auth: Bearer token
+## Detailed Processing Logic
+
+### Stage 1: Schedule Trigger
+- **Node:** `Schedule: Daily 6:47 AM`
+- Runs every day at 06:47 local time
+- Activates the workflow for morning briefing
+
+### Stage 2: Data Collection (Parallel)
+
+**Weather - Current:**
+- **Node:** `OpenWeatherMap: Get Weather`
+- **Endpoint:** `https://api.openweathermap.org/data/2.5/weather`
+- **Location:** {{LOCATION_CITY}}, PL
+- **Units:** Metric
+- **Note:** API key hardcoded - should use env variable
+
+**Weather - Forecast:**
+- **Node:** `OpenWeatherMap: Get Forecast`
+- **Endpoint:** `https://api.openweathermap.org/data/2.5/forecast`
+- **Returns:** 5-day forecast (40 items, 3-hour intervals)
+
+**Home Assistant Local:**
+- **Node:** `HA: Get Outdoor Temp`
+- **Endpoint:** `http://{{INTERNAL_IP}}:8123/api/states/sensor.temperatura_podworko`
+- **Auth:** Bearer token (LL Token)
+- **Note:** IP should be `{{INTERNAL_IP}}` placeholder
+
+### Stage 3: Data Merge
+- **Node:** `Merge All Sources`
+- Combines all three data sources into unified structure
+
+### Stage 4: Formatting
+- **Node:** `Format Weather Brief`
+- Formats data for Telegram display
+
+### Stage 5: Delivery
+- **Node:** `Send Telegram`
+- Sends weather brief to user's chat
 
 ## Outputs
 
-**Telegram message** to chat `{{TELEGRAM_CHAT_ID}}` containing:
-
 ```
-☀️ Weather - {{LOCATION_CITY}}
+🌤️ **POGODA NA DZISIAJ**
+📍 {{LOCATION_CITY}}
 
-🌡️ Now: 5°C (feels like 3°C)
-🏠 Backyard: 4.2°C
+🌡️ **Temperatura:**
+- Odczuwalna: 18°C
+- Min: 12°C / Max: 22°C
+- Wilgotność: 65%
 
-📊 Forecast today:
-🌅 Morning: ☁️ 6°C (feels 4°C)
-🌆 Evening: 🌧️ 4°C (feels 1°C)
-🌙 Night: ❄️ 2°C (feels -1°C)
+🌤️ **Warunki:**
+- Partly cloudy
+- Wiatr: 12 km/h
 
-💧 Humidity: 78%
-💨 Wind: 3.2 m/s
+🏠 **Lokalna temp (HA):**
+- 19.5°C
 
-🌅 Sunrise: 07:15
-🌇 Sunset: 17:42
-
-👕 Dress: 🧥 Light jacket or hoodie
+📅 **Prognoza (5 dni):**
+- Pon: ⛅ 20°C
+- Wt: 🌧️ 17°C
+- Śr: ⛅ 19°C
+...
 ```
-
-## Features
-
-- **Current conditions**: Temperature, feels-like, humidity, wind
-- **Backyard temp**: Local HA sensor for accurate local reading
-- **3-day forecast**: Morning, evening, night predictions
-- **Clothing suggestions**: Based on temperature and conditions
-- **Resilient**: Each data source runs in parallel; failures don't block others
-
-## Error Handling
-
-- `continueOnFail: true` on all HTTP requests
-- Graceful degradation if OWM or HA is unavailable
-- Error messages included in Telegram output if data missing
 
 ## Dependencies
 
-- **n8n credentials**:
-  - `Telegram (AndrzejSmartBot)` - for sending messages
-  - `Home Assistant LL Token` - for local sensor access
-- **External APIs**:
-  - OpenWeatherMap API key (embedded in URL)
+### Systems
+- [S04 Digital Twin](../../../20_Systems/S04_Digital-Twin/README.md) - Data aggregation
+- [S07 Smart Home System](../../../20_Systems/S07_Smart-Home/README.md) - Local sensors
+- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md) - Workflow execution
 
-## Related
+### External Services
+- **OpenWeatherMap API** - Weather data
+- **Home Assistant** - Local temperature sensor
 
-- [[SVC_Daily-Calendar-Brief]] - Calendar morning brief
-- [[SVC_Daily-Tasks-Brief]] - Tasks from Roadmaps
-- [[SVC_Daily-SmartHome-Brief]] - Smart home status
-- [[SVC_Daily-Workout-Suggestion]] - Training recommendation
+## Error Handling
+
+| Scenario | Detection | Response | Alert |
+|----------|-----------|----------|-------|
+| OpenWeatherMap timeout | HTTP timeout (10s) | Continue (continueOnFail: true) | None |
+| Home Assistant timeout | HTTP timeout (10s) | Continue (continueOnFail: true) | None |
+| API key invalid | HTTP 401 | Continue, missing data | Log to console |
+
+## Manual Fallback
+
+### Test via Workflow Execute:
+```bash
+curl -s -X POST http://localhost:5678/rest/workflow/pAGuUm0mSVznnuz9/execute \
+  -H "Content-Type: application/json"
+```
+
+### Direct API test:
+```bash
+curl -s "https://api.openweathermap.org/data/2.5/weather?q={{LOCATION_CITY_SHORT}}+Wielkie,PL&units=metric&appid=${API_KEY}"
+```
+
+## Security Notes
+
+- **Hardcoded API Key:** `[API_KEY]` - Should use env variable
+- **Hardcoded IP:** `{{INTERNAL_IP}}` - Should use `{{INTERNAL_IP}}` placeholder
+- **HA Token:** Uses Long-Lived token - secure storage required
+
+## Related Services
+
+- [SVC_Daily-Calendar-Brief.md](./SVC_Daily-Calendar-Brief.md) - Calendar morning brief
+- [SVC_Daily-Tasks-Brief.md](./SVC_Daily-Tasks-Brief.md) - Tasks from Roadmaps
+- [SVC_Daily-SmartHome-Brief.md](./SVC_Daily-SmartHome-Brief.md) - Smart home status
+- [SVC_Daily-Workout-Suggestion.md](./SVC_Daily-Workout-Suggestion.md) - Training recommendation
+
+---
+
+*Documentation synchronized with svc_daily-weather-brief.json v1.0 (2026-04-10)*

@@ -28,7 +28,7 @@ Weekly strategic reflection and planning to maintain momentum toward quarterly g
 
 ## Related Documentation
 - [SOP: Weekly Review Process](./Weekly-Review-Process.md)
-- [G10 Intelligent Productivity Time Architecture](../../10_Goals/G10_Intelligent-Productivity-Time-Architecture/README.md)
+- [G10 Intelligent Productivity Time Architecture](../10_Goals/G{{LONG_IDENTIFIER}}/README.md)
 
 ---
 *Owner: Michal*

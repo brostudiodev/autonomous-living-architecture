@@ -3,7 +3,7 @@ title: "Service Registry & Infrastructure"
 type: "documentation"
 status: "active"
 owner: "Michal"
-updated: "2026-03-28"
+updated: "2026-04-16"
 ---
 
 # Service Registry & Infrastructure
@@ -63,6 +63,13 @@ services:
     status: Active
     endpoints: /status, /all, /health, /hydration, /roi, /tomorrow, /log_water, /log_coffee, /system/velocity, /health/anomalies
 
+  activitywatch:
+    port: 5600
+    purpose: Passive attention and time tracking telemetry
+    status: Active
+    type: aw-server-rust (Docker)
+    docs: ./S09_Productivity-Time/ActivityWatch.md
+
   ### **Database Services**
   ```yaml
   databases:
@@ -83,7 +90,7 @@ services:
     host: localhost
     database: digital_twin_michal
     status: Active
-    tables: strategic_memory, autonomy_roi, system_activity_log, person_attributes, ghost_predictions, decision_requests
+    tables: strategic_memory, autonomy_roi, system_activity_log, person_attributes, ghost_predictions, decision_requests, activity_watch_events
 
   postgresql_pantry:
     host: localhost
@@ -465,6 +472,12 @@ schedules:
     script: G10_google_tasks_sync.py
     purpose: External task synchronization
     duration: ~1 minute
+
+  activity_watch_sync:
+    frequency: "*/15 * * * *"  # Every 15 minutes (via Global Sync)
+    script: G10_activitywatch_sync.py
+    purpose: Attention telemetry synchronization
+    duration: ~1 minute
   
   goals_exporter_scrape:
     frequency: "*/15 * * * *"  # Every 15 seconds
@@ -501,11 +514,11 @@ pg_cron_jobs:
 
 | Interface | Port | URL | Purpose |
 |-----------|------|-----|---------|
-| **Digital Twin API** | 5677 | `http://[INTERNAL_IP]:5677` | Life state, AI agent, data aggregation |
+| **Digital Twin API** | 5677 | `http://{{INTERNAL_IP}}:5677` | Life state, AI agent, data aggregation |
 | **n8n Web UI** | 5678 | `http://localhost:5678` | Workflow automation engine |
 | **Grafana** | 3003 | `http://localhost:3003` | Dashboards (Financial, Health, Goals) |
 | **Prometheus** | 9090 | `http://localhost:9090` | Metrics collection |
-| **Home Assistant** | 8123 | `http://[INTERNAL_IP]:8123` | Smart home control |
+| **Home Assistant** | 8123 | `http://{{INTERNAL_IP}}:8123` | Smart home control |
 | **Telegram Bot** | - | `@YourSmartBot` | Daily briefings, alerts |
 
 ### Databases
@@ -525,7 +538,7 @@ pg_cron_jobs:
 
 | Service | URL | Auth | Purpose |
 |---------|-----|------|---------|
-| **Home Assistant** | `http://[INTERNAL_IP]:8123/api/states` | Long-lived token (`HA_TOKEN`) | Smart home sensors, lights, climate, security |
+| **Home Assistant** | `http://{{INTERNAL_IP}}:8123/api/states` | Long-lived token (`HA_TOKEN`) | Smart home sensors, lights, climate, security |
 
 ### UI → Database Connections
 

@@ -78,8 +78,8 @@ Automatically generate milestone-level Activity-log.md summaries from daily Acti
 
 ## Dependencies
 ### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md) - For activity log storage structure
-- [S08 Automation Orchestrator](../../20_Systems/S08_Automation-Orchestrator/README.md) - For workflow execution
+- [S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md) - For activity log storage structure
+- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md) - For workflow execution
 
 ### External Services
 - **GitHub API:** For file operations (GET/EDIT) on brostudiodev/autonomous-living repository
@@ -149,9 +149,9 @@ The implementation has been validated through [testing method] and is now ready 
 ```
 
 ## Related Documentation
-- [Goal Documentation Standard](../10_Goals/Documentation-Standard.md)
-- [Automation Specification Template](../templates/automation-specification-template.md)
-- [S03 Data Layer README](../20_Systems/S03_Data-Layer/README.md)
+- [Goal Documentation Standard](../../../10_Goals/Documentation-Standard.md)
+- [Automation Specification Template](../../templates/automation-specification-template.md)
+- [S03 Data Layer README](../../../20_Systems/S03_Data-Layer/README.md)
 
 ## Implementation Details
 

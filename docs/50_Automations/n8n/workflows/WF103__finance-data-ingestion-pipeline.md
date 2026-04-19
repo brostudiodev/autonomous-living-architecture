@@ -36,14 +36,14 @@ Ingests financial data from Google Sheets (Expense Calendar, Transaction Log) in
 
 ## Dependencies
 
-- [G05 Finance System](../../10_Goals/G05_Autonomous-Financial-Command-Center/README.md)
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
+- [G05 Finance System](../../../10_Goals/G05_Autonomous-Financial-Command-Center/README.md)
+- [S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md)
 - Google Sheets API
 
 ## Related Documentation
 
-- [G05 Budget Rebalancer](../../50_Automations/scripts/G05_budget_rebalancer.md)
-- [G05 LLM Categorizer](../../50_Automations/scripts/G05_llm_categorizer.md)
+- [G05 Budget Rebalancer](../../scripts/G05_budget_rebalancer.md)
+- [G05 LLM Categorizer](../../scripts/G05_llm_categorizer.md)
 
 ---
 *Owner: Michal*

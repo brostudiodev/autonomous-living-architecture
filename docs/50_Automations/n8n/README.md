@@ -1,34 +1,25 @@
----
-title: "n8n Automations"
-type: "index"
-status: "active"
-owner: "Michal"
-updated: "2026-02-07"
----
+# n8n Automation Intelligence Hub
 
-# n8n Automations
+This directory contains the specifications for AI-driven intelligence workflows managed by n8n. Following the project mandate, all LLM-based reasoning, summarization, and agentic behavior is strictly handled by n8n, while Python scripts act as deterministic data providers and executors.
 
-## Storage convention
-- `workflows/WF###__name.json` = exported workflow
-- `workflows/WF###__name.md` = human-readable spec
+## Active Intelligence Workflows
 
-## Minimal workflow doc template
-- Purpose
-- Trigger(s)
-- Inputs / outputs
-- Credentials used (names only, no values)
-- Dependencies (services/APIs)
-- Failure modes + alerts
-- Test procedure
-- Rollback
+| Goal | Workflow Name | Template | Purpose |
+|------|---------------|----------|---------|
+| G04 | Proactive Reflection Drafter | [WF_proactive_reflection_drafter.json](./templates/WF_proactive_reflection_drafter.json) | Generates daily journal reflection drafts based on 360° system state. |
+| G05 | Financial AI Categorizer | [WF_financial_categorizer.json](./templates/WF_financial_categorizer.json) | Assigns budget categories to uncategorized transactions using LLM reasoning. |
+| G06 | Learning Ingester | [WF_learning_ingester.json](./templates/WF_learning_ingester.json) | Transforms raw study notes into structured Atomic Notes for the Brain. |
+| G11 | Task Triage Pro | [WF_task_triage_pro.json](./templates/WF_task_triage_pro.json) | Prioritizes Google Tasks based on daily biometric readiness. |
+| G11 | Decision Pattern Analyzer | [WF_decision_pattern_analyzer.json](./templates/WF_decision_pattern_analyzer.json) | Performs meta-analysis of manual decisions to identify cognitive biases. |
+| G13 | Content Draft Agent | [WF_content_draft_agent.json](./templates/WF_content_draft_agent.json) | Drafts LinkedIn and Substack content based on daily technical wins. |
 
+## Architectural Pattern: "Python = Body, n8n = Brain"
 
----
+1.  **Data Harvesting (Python):** Scripts scan DBs, file systems, or APIs to collect "Raw Facts".
+2.  **Context Delivery (API/File):** Facts are exposed via the Digital Twin API (`/all`, `/reflection`) or temporary JSON files in `_meta/`.
+3.  **Intelligence (n8n):** Workflows trigger on schedules, fetch the context, consult Gemini LLM, and make a "Qualitative Decision".
+4.  **Execution (n8n/Python):** n8n either executes the action directly (e.g., updating a DB row) or triggers a Python "Executor" script to finalize the change.
 
-## ☕ Fuel the Architecture
-
-Building and maintaining this level of technical rigor is a massive investment. If this blueprint helps your own engineering journey, I would be grateful for your support.
-
-<a href='https://ko-fi.com/michalnowakowski' target='_blank'><img height='60' style='border:0px;height:60px;' src='https://storage.ko-fi.com/cdn/kofi3.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
-
-**Support my hard work in engineering a fully autonomous life.** Every coffee fuels another line of code, another automated insight, and another step toward the 2026 North Star. Your contributions help maintain the infrastructure and research shared in this open-source blueprint.
+## Maintenance
+- **Review Cadence:** Monthly audit of LLM prompt effectiveness in n8n.
+- **Fail-Safe:** Python scripts must always provide a deterministic fallback or "Wait for n8n" state if the intelligence layer is unavailable.

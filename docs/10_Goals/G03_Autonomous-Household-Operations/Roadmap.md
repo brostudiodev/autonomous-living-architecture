@@ -3,7 +3,7 @@ title: "G03: Roadmap"
 type: "goal_roadmap"
 status: "active"
 owner: "Michal"
-updated: "2026-03-28"
+updated: "2026-04-19"
 goal_id: "goal-g03"
 ---
 
@@ -25,7 +25,15 @@ goal_id: "goal-g03"
 - [x] **Agentic Procurement (v2.0):** Proactive Telegram approval requests for critical stock restocking ✅ (Mar 25)
 - [x] **Level 5 Autonomous Procurement:** auto_procurement now FULL authority ✅ (Mar 27)
 
-## Q2 (Apr–Jun)
+## Q2 (Apr–Jun) - Optimization Phase
+
+> [!tip] 🚀 **Q2 Focus: System Stability & Minor Improvements**
+- [x] **System Stability Audit:** ✅ (Apr 16)
+  - [x] **Sub-task: Pantry Sync Check** - Ensure Google Sheets to PostgreSQL sync without gaps ✅ (Apr 16)
+  - [x] **Sub-task: PRICE_SCOUTER v2** - Fixed path mapping and script failure in sync loop ✅ (Apr 16)
+- [ ] **Minor Improvements:**
+  - [ ] **Sub-task: Appliance Monitor Optimization** - Fine-tune power monitoring thresholds
+  - [ ] **Sub-task: Burn Rate Calibration** - Adjust predictive consumption based on recent accuracy
 
 > [!tip] 🚀 **High-Impact Autonomy Tasks**
 - [x] **Price Intelligence (G03-PI):** Cheapest Basket algorithm for Lidl vs Biedronka vs Dino - provide recommendations ✅ (Mar 23)
@@ -33,6 +41,7 @@ goal_id: "goal-g03"
 - [x] **Predictive consumption modeling:** Linked Ghost Schema accuracy to burn rate buffers & enabled 3-day Telegram alerts ✅ (Mar 27)
 - [x] **Pantry Location Architecture:** Upgraded to 5 physical locations (Spizarka, Gabinet, Bathroom x2, Laundry) ✅ (Mar 28)
 - [x] **Performance Nutrition Auto-Pilot:** Link HIT schedule to recovery staples procurement ✅ (Mar 28)
+- [x] **Pantry One-Click Aggregation (v2.1):** Automatically pushes pantry needs and meal ingredients to "Shopping" Google Tasks list ✅ (Apr 01)
 > 
 > **Architecture:** System analyzes → Sends recommendation/notification → User or HA takes action
 
@@ -42,7 +51,8 @@ goal_id: "goal-g03"
     - [x] Prototype `G03_price_sync_blix.py` targeting Biedronka/Lidl aggregators.
     - [x] Implement "Cheapest Basket" algorithm for Lidl vs. Biedronka vs. Dino.
     - [x] Integrate Auchan Direct scraping for bulk item price comparison.
-- [/] Build appliance health monitoring with predictive failure detection (power monitoring)
+- [x] Build appliance health monitoring with predictive failure detection (power monitoring) ✅ (Apr 09)
+- [x] **Appliance Maintenance Integration (G03-AMI):** Integrated filters and salt status into the G04 life sentinel for unified mission injection ✅ (Apr 19)
 
 ## Q3 (Jul–Sep) - Phase: Intelligence-Led Procurement
 - [x] Implement "Auto-Cart" integration (Agent populates manifest for shopping) ✅ (Mar 03)

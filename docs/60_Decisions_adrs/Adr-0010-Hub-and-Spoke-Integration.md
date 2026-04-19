@@ -317,7 +317,7 @@ class G01Connector(SpokeConnector):
 
 ## Related Decisions
 - [Adr-0004](./Adr-0004-Digital-Twin-Architecture.md) - Digital Twin as Central Hub
-- [Adr-0011](./Adr-0011-Event-Driven-Architecture.md) - Event-Driven Architecture
+- [Adr-0016](./Adr-0016-Event-Driven-Architecture.md) - Event-Driven Architecture
 - [Adr-0012](./Adr-0012-API-First-Design.md) - API-First Design Principle
 
 ## Metrics

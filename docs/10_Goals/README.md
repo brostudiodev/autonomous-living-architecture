@@ -3,7 +3,7 @@ title: "Goals"
 type: "index"
 status: "active"
 owner: "Michal"
-updated: "2026-03-23"
+updated: "2026-04-12"
 ---
 
 # Goals (2026)
@@ -20,16 +20,33 @@ Click on a goal to view its full documentation, outcomes, and roadmap:
 7.  **[🟡 G07: Predictive Health](./G07_Predictive-Health-Management/README.md)** (Biometrics)
 8.  **[✅ G08: Predictive Smart Home](./G08_Predictive-Smart-Home-Orchestration/README.md)** (Environment)
 9.  **[🟡 G09: Automated Career Intelligence](./G09_Automated-Career-Intelligence/README.md)** (Professional)
-10. **[🟡 G10: Intelligent Productivity](./G10_Intelligent-Productivity-Time-Architecture/README.md)** (Time & Tasks)
+10. **[🟡 G10: Intelligent Productivity](./G{{LONG_IDENTIFIER}}/README.md)** (Time & Tasks)
 11. **[🟡 G11: Meta-System Integration](./G11_Meta-System-Integration-Optimization/README.md)** (Optimization)
 12. **[🟡 G12: Complete Process Documentation](./G12_Complete-Process-Documentation/README.md)** (Governance)
 
 ## How to use
 Each goal folder contains:
-- **Outcomes**: what “done” means
+- **Outcomes**: what "done" means
 - **Metrics**: how I measure progress
 - **Systems**: the enabling building blocks
 - **Roadmap**: milestones by quarter
+
+## 📊 Digital Twin Tracking
+
+New to tracking? Start here:
+
+| Document | Purpose |
+|----------|---------|
+| **[Digital Twin Tracking Summary](./Digital_Twin_Tracking_Summary.md)** | Quick reference for what's tracked |
+| **[Gap Analysis](./GAP_Digital_Twin_Data_Streams.md)** | What's missing and why it matters |
+| **[Implementation Plan](./IMP_Digital_Twin_Tracking_Implementation_Plan.md)** | How to implement new tracking |
+
+### SQL Schemas (Ready to Run)
+Located in `../20_Systems/S03_Data-Layer/schemas/`:
+- `G09_Relationships_Schema.sql` - Relationship tracking
+- `G05_Net_Worth_Schema.sql` - Wealth tracking
+- `G11_Decision_Context_Schema.sql` - Decision & life events
+- `G06_Learning_Effectiveness_Schema.sql` - Learning metrics
 
 
 ---

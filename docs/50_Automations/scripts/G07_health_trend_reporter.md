@@ -54,7 +54,7 @@ Automates the longitudinal analysis of biological data by comparing the current 
 ## Dependencies
 ### Systems
 - [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md) - Database backend.
-- [S10 Productivity](../../10_Goals/G10_Intelligent-Productivity-Time-Architecture/README.md) - Consumes metrics for review.
+- [S10 Productivity](../../10_Goals/G{{LONG_IDENTIFIER}}/README.md) - Consumes metrics for review.
 
 ## Error Handling
 | Failure Scenario | Detection | Response | Alert |

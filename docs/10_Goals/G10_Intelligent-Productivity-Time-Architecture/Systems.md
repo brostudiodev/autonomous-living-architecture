@@ -18,6 +18,7 @@ goal_id: "goal-g10"
 
 | Outcome | System | Automation | SOP/Runbook |
 |---------|--------|------------|-------------|
+| **AI Schedule Negotiation** | **S10 Automation** | **[SVC_Autonomous-Schedule-Negotiator](../../50_Automations/n8n/services/SVC_Autonomous-Schedule-Negotiator.md)** | - |
 | Autonomous Daily Planning | S10 Automation | [autonomous-daily-manager](../../50_Automations/scripts/autonomous_daily_manager.md) | - |
 | Adaptive Readiness Scheduling | S04 Digital Twin | [g04-digital-twin-engine](../../50_Automations/scripts/G04_digital_twin_engine.md) | - |
 | Evening Reflection & Prep | S10 Automation | [g10-evening-summarizer](../../50_Automations/scripts/G10_evening_summarizer.md) | - |
@@ -36,6 +37,8 @@ goal_id: "goal-g10"
 | **Weekly Rollup** | S04/S11 | [G10_weekly_rollup](../../50_Automations/scripts/G10_weekly_rollup.md) | - |
 | **Evening Manager** | S10 | [autonomous-evening-manager](../../50_Automations/scripts/autonomous_evening_manager.md) | [SOP: Evening Automation](../../30_Sops/Evening-Automation-System.md) |
 | **Schedule Optimizer** | S09/S04 | [G10_schedule_optimizer](../../50_Automations/scripts/G10_schedule_optimizer.md) | - |
+| **Location Intelligence** | S09/S04 | [G10_location_intelligence](../../50_Automations/scripts/G10_location_intelligence.md) | - |
+| **Mood Engine** | S04/S11 | [G10_mood_engine](../../50_Automations/scripts/G10_mood_engine.md) | - |
 | **Proactive Schedule Adjustment** | **S04 Digital Twin** | **[G11_approval_prompter](../../50_Automations/scripts/G11_approval_prompter.md)** | [Telegram-Approval-SOP.md](../../30_Sops/Telegram-Approval-SOP.md) |
 | **Execute Schedule Changes** | **S08 Orchestrator** | **[G11_decision_handler](../../50_Automations/scripts/G11_decision_handler.md)** | [Autonomy-Rules-Runbook.md](../../40_Runbooks/G11/Autonomy-Rules-Runbook.md) |
 

@@ -6,7 +6,7 @@ automation_id: "G05_auto_rebalance_trigger.py"
 goal_id: "goal-g05"
 systems: ["S03", "S05"]
 owner: "Michal"
-updated: "2026-03-19"
+updated: "2026-04-18"
 ---
 
 # G05: Autonomous Budget Rebalance Trigger

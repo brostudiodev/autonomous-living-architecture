@@ -65,7 +65,7 @@ This glossary defines the technical, architectural, and philosophical terms used
 - **[Frontmatter (YAML):](../10_Goals/Documentation-Standard.md)** The block of data at the top of a note (between `---`) that allows the system to read the note's status programmatically.
 - **[Dataview:](03_Quick-Start-Guide.md)** An Obsidian plugin that allows you to query your notes like a database.
 - **[MINS (Most Important Next Step):](04_FAQ.md)** The single most impactful task for a goal, identified daily to prevent decision fatigue.
-- **[Deep Work:](../10_Goals/G10_Intelligent-Productivity-Time-Architecture/README.md)** High-focus time blocks (usually 06:00-09:00) protected by the system from interruptions.
+- **[Deep Work:](../10_Goals/G{{LONG_IDENTIFIER}}/README.md)** High-focus time blocks (usually 06:00-09:00) protected by the system from interruptions.
 - **[ROI of Autonomy:](../10_Goals/G12_Complete-Process-Documentation/README.md)** Measuring how many minutes of your life are "reclaimed" by a specific automation.
 
 ---

@@ -18,7 +18,7 @@ An n8n service workflow that triggers the global synchronization process across 
 - **Execute Workflow Trigger:** Called by the Master Router (e.g., user says "sync all") or a scheduled maintenance workflow.
 
 ## Inputs
-- **API Endpoint:** `http://[INTERNAL_IP]:5677/sync?format=text`
+- **API Endpoint:** `http://{{INTERNAL_IP}}:5677/sync?format=text`
 
 ## Processing Logic
 1. **Normalize Input:** Standardizes the request context.

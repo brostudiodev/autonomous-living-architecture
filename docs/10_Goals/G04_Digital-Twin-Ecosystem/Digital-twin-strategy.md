@@ -4,26 +4,26 @@ type: "strategy_document"
 status: "active"
 goal_id: "goal-g04"
 created: "2026-02-11"
-last_updated: "2026-02-11"
-version: "1.0"
+last_updated: "2026-04-19"
+version: "2.0"
 ---
 
 # Digital Twin Strategy - Complete Digital Clone Architecture
 
-**Purpose**: Comprehensive strategy for creating a 100% agentic digital twin that can autonomously create and distribute content across social media platforms while maintaining human approval for final publication.
+**Purpose**: Comprehensive strategy for creating a 100% agentic digital twin that acts as a centralized **Context Provider** for an interconnected life-system.
 
 ---
 
 ## 🎯 Executive Vision
 
-Transform from content creator to content strategist by creating a complete digital clone that enables omnipresence across digital platforms with authentic voice and appearance, while maintaining complete control and authenticity.
+Transform from content creator to content strategist by creating a complete digital clone. More importantly, evolve the Digital Twin from a "content bot" into the **Nervous System** of Autonomous Living—where isolated data "islands" are unified into a cohesive model that enables proactive decision-making.
 
 ### **Core Objectives**
-1. **Complete Digital Clone**: 100% faithful visual and audio replica
-2. **Autonomous Content Creation**: AI-driven content generation and distribution
-3. **Human Control**: Final approval workflow for all content
-4. **Scale Digital Presence**: 24/7 content creation and platform engagement
-5. **Preserve Authenticity**: Maintain brand voice and personal authenticity
+1. **Complete Digital Clone**: 100% faithful visual and audio replica.
+2. **Context Provider Pattern**: Serve as the "Single Source of Truth" that informs all other agents (Health, Finance, Productivity) with cross-domain context.
+3. **Autonomous Content Creation**: AI-driven content generation grounded in real-time technical wins.
+4. **Human Control**: Final approval workflow for all content and high-risk system decisions.
+5. **Unified Meta-System**: Break down silos between biometric, financial, and environmental data to identify hidden correlations.
 
 ---
 
@@ -53,43 +53,39 @@ Transform from content creator to content strategist by creating a complete digi
 - **Cost**: ~$0.18-0.30 per 1K characters
 - **Integration**: High-quality TTS API for content narration
 
-#### **3. Knowledge Base & Memory (RAG System)**
-**Stack**: ChromaDB + LangChain + Gemini Pro
+#### **3. Knowledge Base & Memory (Context Layer)**
+**Stack**: PostgreSQL + ChromaDB + LangChain + Gemini Pro
 - **Data Sources**:
   - Obsidian vault (complete personal knowledge)
   - Autonomous-living repository (technical expertise)
-  - Daily notes and reflections
-  - Conversation history and learning
+  - **Unified Intelligence Database**: Centralized `daily_intelligence` table merging all domain metrics.
 - **Features**:
-  - Semantic search across all personal data
-  - Context-aware responses
-  - Continuous learning and memory
-  - Multi-hop reasoning for complex queries
+  - **Contextual Retrieval**: Provide other agents with the "State of the Twin" (e.g., "Michal is in Recovery Mode due to low HRV and 3 late-night sessions").
+  - **Semantic Search**: Across all personal and system data.
+  - **Continuous Learning**: Daily reflection and friction logging (G11).
 
-#### **4. Autonomous Agent Engine (Content Creation)**
-**Platform**: NoimosAI (All-in-one) or Custom AutoGPT
+#### **4. Autonomous Agent Engine (Orchestration)**
+**Platform**: n8n + Custom Python Agents (G-Series)
+- **Pattern**: **The Router Pattern**. Stop building monolithic bots; build a nervous system where a supervisor (Agent Zero) routes tasks to specialized domain agents.
 - **Capabilities**:
-  - 24/7 autonomous content creation
-  - Multi-platform distribution
-  - SEO optimization and trend analysis
-  - Performance monitoring and adaptation
+  - 24/7 autonomous monitoring and cross-domain correlation.
+  - Multi-platform distribution.
+  - Performance monitoring and self-healing (G11).
 - **Workflow**: Strategy → Creation → Distribution → Analysis
 
 ---
 
 ## 📋 Implementation Roadmap
 
-### **Phase 1: Foundation (Weeks 1-2)**
-- [ ] **Avatar Creation**: Record training video, generate digital twin
-- [ ] **Voice Cloning**: Record emotional voice samples, create voice model
-- [ ] **Knowledge Base**: Set up RAG system with Obsidian + autonomous-living data
-- [ ] **Basic Integration**: Connect avatar + voice + knowledge base
+### **Phase 1: Foundation (Completed)**
+- [x] **Avatar Creation**: Record training video, generate digital twin
+- [x] **Voice Cloning**: Record emotional voice samples, create voice model
+- [x] **Database Normalization**: Centralize all domain data into PostgreSQL.
 
-### **Phase 2: Content Creation (Weeks 3-4)**
-- [ ] **Agent Training**: Configure autonomous agent with personality and expertise
-- [ ] **Content Templates**: Create templates for different content types
-- [ ] **Approval Workflow**: Set up human review and approval system
-- [ ] **Quality Control**: Implement brand voice and consistency checks
+### **Phase 2: Contextual Intelligence (In Progress Q2)**
+- [ ] **Context Provider API**: Formalize endpoints for cross-domain context sharing.
+- [ ] **Correlation Engine**: Implement multi-week pattern analysis (e.g., Finance vs. Mood).
+- [x] **Approval Workflow**: Set up human review (Telegram Triage).
 
 ### **Phase 3: Platform Integration (Weeks 5-6)**
 - [ ] **Social Media APIs**: Connect to LinkedIn, Twitter, Substack, etc.
@@ -102,6 +98,16 @@ Transform from content creator to content strategist by creating a complete digi
 - [ ] **Personalization**: Dynamic content adaptation for different audiences
 - [ ] **Multi-language**: Expand to global markets with translation
 - [ ] **Advanced Analytics**: Predictive content strategy
+
+---
+
+## 🔄 The "Loop" Principle: Unified Meta-System
+The Digital Twin is the bridge that connects:
+- **Nutrition (G03/G07)** → Influences **Readiness (G07)**.
+- **Readiness (G07)** → Influences **Productivity Load (G10)**.
+- **Financial Friction (G05)** → Influences **Stress/Mood (G10)**.
+
+By unifying these "islands," the Digital Twin can predict when a training session will fail before I even step into the gym, or when a budget breach will cause a focus drop.
 
 ---
 
@@ -296,22 +302,7 @@ Transform from content creator to content strategist by creating a complete digi
 4. Set up ElevenLabs account and create voice model
 5. Begin RAG system configuration
 
-### **Short-term Goals (Month 1)**
-1. Complete avatar and voice training
-2. Implement basic autonomous content creation
-3. Set up approval workflow system
-4. Launch on 2-3 social media platforms
-5. Establish quality control and monitoring
-
-### **Long-term Vision (Quarter 1)**
-1. Achieve full 24/7 autonomous operation
-2. Expand to complete multi-platform presence
-3. Implement advanced personalization features
-4. Establish thought leadership position
-5. Optimize based on performance data
-
 ---
 
-*Document Created: 2026-02-11*  
-*Status: Strategy Complete, Ready for Implementation*  
-*Next Review: 2026-02-18*
+*Document Updated: 2026-04-19*  
+*Status: Strategy v2.0 - Meta-System Integration*

@@ -6,7 +6,7 @@ automation_id: "G10_focus_enforcer"
 goal_id: "goal-g10"
 systems: ["S04", "S08"]
 owner: "Michal"
-updated: "2026-03-23"
+updated: "2026-04-18"
 ---
 
 # G10_focus_enforcer: Digital Focus Shielding
@@ -108,7 +108,7 @@ python scripts/G10_focus_enforcer.py
 
 ## Related Documentation
 
-- [G10 Roadmap](../../10_Goals/G10_Intelligent-Productivity-Time-Architecture/Roadmap.md)
+- [G10 Roadmap](../../10_Goals/G{{LONG_IDENTIFIER}}/Roadmap.md)
 - [G10 Focus Intelligence](./G10_focus_intelligence.md)
 - [G10 Schedule Optimizer](./G10_schedule_optimizer.md)
 

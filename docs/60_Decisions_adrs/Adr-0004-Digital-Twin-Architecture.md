@@ -167,7 +167,7 @@ To enable real-time, low-latency access to the Digital Twin's state for the Inte
 - [Adr-0003](./Adr-0003-Technology-Stack-Selection.md) - Technology Stack Selection
 - [Adr-0007](./Adr-0007-Multi-Channel-Data-Ingestion.md) - Multi-Channel Data Ingestion
 - [Adr-0010](./Adr-0010-Hub-and-Spoke-Integration.md) - Hub-and-Spoke Integration Pattern
-- [Adr-0011](./Adr-0011-Event-Driven-Architecture.md) - Event-Driven Architecture
+- [Adr-0016](./Adr-0016-Event-Driven-Architecture.md) - Event-Driven Architecture
 
 ## Metrics
 

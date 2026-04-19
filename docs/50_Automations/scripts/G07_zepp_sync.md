@@ -61,3 +61,4 @@ Automates the extraction of biometric data from the Zepp (Amazfit) cloud into th
 | 2026-03-04 | Initial Amazfit API integration |
 | 2026-03-27 | Added morning failure reporting for retry logic |
 | 2026-03-28 | Hardened freshness check (`sleep_score > 0`) and shifted crontab to 06:15 |
+| 2026-04-15 | Migrated hardcoded timezone to centralized `db_config.TIMEZONE` |

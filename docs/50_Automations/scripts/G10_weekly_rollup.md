@@ -170,3 +170,4 @@ This week you mentioned:
 | Date | Change |
 |------|--------|
 | 2026-03-20 | Initial implementation |
+| 2026-04-16 | Bugfix: Fixed misindented except block in detect_day_of_week_patterns |

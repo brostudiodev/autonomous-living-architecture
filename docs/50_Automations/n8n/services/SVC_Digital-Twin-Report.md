@@ -6,7 +6,7 @@ automation_id: "SVC_Digital-Twin-Report"
 goal_id: "goal-g04"
 systems: ["S04", "S11"]
 owner: "Michal"
-updated: "2026-02-24"
+updated: "2026-04-10"
 ---
 
 # SVC_Digital-Twin-Report: Strategic Summary Fetcher
@@ -18,13 +18,13 @@ An n8n service workflow that fetches the latest auto-generated Strategic Progres
 - **Execute Workflow Trigger:** Called by the Master Router or Intelligent Hub when the user requests a "strategic report" or "progress summary".
 
 ## Inputs
-- **API Endpoint:** `http://[INTERNAL_IP]:5677/report?format=text`
+- **API Endpoint:** `http://{{INTERNAL_IP}}:5677/report?format=text`
 - **Context:** User metadata (chat_id, language, source) passed from the caller.
 
 ## Processing Logic
-1. **Normalize Input:** Extracts user intent and context.
-2. **Fetch Strategic Report:** Sends a GET request to the Twin API `/report` endpoint.
-3. **Format for Dispatcher:** Cleans the Markdown output (stripping frontmatter) and prepares it for the unified dispatcher node.
+1. **Normalize Router Input** (Code node, lines 21-31): Extracts `query`, `language` (auto-detected from Polish/English keywords), `chat_id`, `source_type`, and `username` from input.
+2. **Fetch Twin Strategic Report** (HTTP Request node, line 47): GET request to `http://{{INTERNAL_IP}}:5677/report?format=text` - fetches strategic report from Digital Twin API.
+3. **Format for Dispatcher** (Code node, lines 34-44): Extracts `response_text` from API body, adds metadata, language, timestamp, and formats JSON for dispatcher.
 
 ## Outputs
 - **Structured JSON:** Contains `response_text` (the report) and `chat_id` for delivery.

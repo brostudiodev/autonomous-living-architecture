@@ -4,7 +4,7 @@ type: "technical_specification"
 status: "active"
 system_id: "system-orchestration"
 owner: "Michal"
-updated: "2026-03-22"
+updated: "2026-04-16"
 ---
 
 # System Integration & Sync Orchestration
@@ -17,6 +17,7 @@ The system follows a sequential, retry-aware "Heartbeat" pattern to ensure data 
 
 ### 1. Data Ingestion & Sync Loop (Retry Phase)
 The system attempts to synchronize all data sources in a loop (up to 3 times, with 10-minute intervals) to ensure biometrics and other cloud data are fresh before proceeding.
+- **ActivityWatch (`G10_activitywatch_sync.py`):** Pulls passive app/window usage from aw-server to PostgreSQL.
 - **Pantry (`pantry_sync.py`):** Pulls inventory and dictionary from Google Sheets to PostgreSQL.
 - **Training (`training_sync.py`):** Pulls workout logs and templates from CSV/Google Sheets.
 - **Health (`G07_zepp_sync.py`):** Authenticates with Zepp Cloud and pulls Sleep/HRV/Steps.
@@ -26,6 +27,7 @@ The system attempts to synchronize all data sources in a loop (up to 3 times, wi
 
 ### 2. Analysis & Synthesis Phase
 - **Digital Twin (`G04_digital_twin_engine.py`):** Aggregates all DB data into a unified `state` object.
+- **Attention Analytics:** Calculates deep work vs. distraction ratios from ActivityWatch telemetry.
 - **Mission Refractor (`G11_mission_refractor.py`):** Scans Git commits and Roadmaps to draft "Did/Next" logs.
 - **CEO Report (`G11_ceo_status_report.py`):** Evaluates roadmap health and activity freshness.
 
@@ -39,7 +41,7 @@ The system attempts to synchronize all data sources in a loop (up to 3 times, wi
 ### 4. Delivery Phase
 - **Daily Manager (`autonomous_daily_manager.py`):**
     - Executed only after the sync loop completes.
-    - Injects data into the Obsidian Daily Note (Sleep, Connectivity, Insights, Missions, Tasks, Focus).
+    - Injects data into the Obsidian Daily Note (Sleep, Connectivity, Insights, Missions, Tasks, Focus, Productivity Analytics).
     - Ensures YAML integrity (quotes time-based strings).
     - Updates `Daily Autonomous Tasks.md` for mobile assistant.
     - Commits and Pushes changes to the Second Brain Git repository.

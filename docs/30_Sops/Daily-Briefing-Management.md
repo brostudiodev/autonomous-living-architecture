@@ -45,4 +45,4 @@ cd ~/Documents/autonomous-living
 
 ## Related Documentation
 - [Automation: autonomous-daily-manager.py](../50_Automations/scripts/autonomous_daily_manager.md)
-- [Goal: G10 Intelligent Productivity](../10_Goals/G10_Intelligent-Productivity-Time-Architecture/README.md)
+- [Goal: G10 Intelligent Productivity](../10_Goals/G{{LONG_IDENTIFIER}}/README.md)

@@ -11,8 +11,8 @@ updated: "2026-02-07"
 This folder contains copy/paste prompts for generating documentation that matches the repo’s canonical structure.
 
 ## Available prompts
-- [LLM Documentation Generator](LLM-Documentation-Generator.md) (also outputs a `Systems.md.patch` snippet to update the goal traceability table)
-- [External LLM Prompts (no repo access)](External-LLM/README.md)
+- [LLM Documentation Generator](Llm-documentation-generator.md) (also outputs a `Systems.md.patch` snippet to update the goal traceability table)
+- [External LLM Prompts (no repo access)](External-Llm/README.md)
 
 ## Rules
 - Goals must always be referenced as `goal-gXX` (e.g. `goal-g01`).

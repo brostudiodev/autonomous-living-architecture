@@ -6,7 +6,7 @@ automation_id: "G10_calendar_enforcer"
 goal_id: "goal-g10"
 systems: ["S10"]
 owner: "Michal"
-updated: "2026-03-26"
+updated: "2026-04-18"
 ---
 
 # G10: Calendar Enforcer (The Focus Shield)
@@ -39,7 +39,7 @@ Physically synchronizes the AI-optimized daily schedule into Google Calendar. Th
 
 ## Dependencies
 ### Systems
-- [S10 Intelligent Productivity](../../10_Goals/G10_Intelligent-Productivity-Time-Architecture/README.md)
+- [S10 Intelligent Productivity](../../10_Goals/G{{LONG_IDENTIFIER}}/README.md)
 
 ### External Services
 - **Google Calendar API:** Using service account credentials.
@@ -49,7 +49,7 @@ Physically synchronizes the AI-optimized daily schedule into Google Calendar. Th
 |---|---|---|
 | Auth Failure | Script log | Verify `google_credentials_digital-twin-michal.json` |
 | Overlapping Events | API check | Current logic clears 🤖 events first; manual events remain. |
-| Timezone Mismatch | API check | Defaults to `Europe/Warsaw`. |
+| Timezone Mismatch | API check | Defaults to centralized `db_config.TIMEZONE`. |
 
 ## Manual Fallback
 If the enforcer fails, Michal must manually block time in the Google Calendar app based on the suggestions in the Obsidian Daily Note.

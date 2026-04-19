@@ -2,8 +2,8 @@
 title: "Automation Spec: G11_strategic_summarizer.py"
 type: "automation_spec"
 status: "draft"
-created: "2026-03-05"
-updated: "2026-03-05"
+created: "2026-04-16"
+updated: "2026-04-16"
 ---
 
 # 🤖 Automation Spec: G11_strategic_summarizer.py
@@ -16,7 +16,7 @@ updated: "2026-03-05"
 - **Language:** Python
 - **Triggers:** Manual Execution
 - **Databases:** None
-- **Dependencies:** `re, datetime, os`
+- **Dependencies:** `os, re, datetime`
 
 ## 🛠️ Logic Flow
 1. [Step 1]

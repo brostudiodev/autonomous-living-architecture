@@ -19,7 +19,7 @@ Automates the synchronization of household inventory and dictionary data from th
 - **Manual:** Can be executed manually within the n8n editor for immediate synchronization.
 
 ## Inputs
-- **Google Sheet:** `Magazynek_domowy` (ID: `[SPREADSHEET_ID]`)
+- **Google Sheet:** `Magazynek_domowy` (ID: `{{SPREADSHEET_ID}}`)
   - **Worksheet `Spizarka`:** Current inventory levels, units, and expiry dates.
   - **Worksheet `Slownik`:** Product categories, AI synonyms, and critical stock thresholds.
 - **Credentials:** Google Sheets OAuth2 (service account or user-based).
@@ -50,8 +50,8 @@ Automates the synchronization of household inventory and dictionary data from th
 
 ## Dependencies
 ### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md): PostgreSQL instance hosting the `autonomous_pantry` database.
-- [S08 Automation Orchestrator](../../20_Systems/S08_Automation-Orchestrator/README.md): n8n instance for workflow execution.
+- [S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md): PostgreSQL instance hosting the `autonomous_pantry` database.
+- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md): n8n instance for workflow execution.
 
 ### External Services
 - **Google Sheets API:** Source of truth for inventory data.
@@ -86,8 +86,8 @@ SELECT upsert_pantry_item(
 ```
 
 ## Related Documentation
-- [Goal: G03 Autonomous Household Operations](../../10_Goals/G03_Autonomous-Household-Operations/README.md)
-- [System: S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
+- [Goal: G03 Autonomous Household Operations](../../../10_Goals/G03_Autonomous-Household-Operations/README.md)
+- [System: S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md)
 - [SOP: Pantry Inventory Update](../../30_Sops/Pantry-Inventory-Update-SOP.md)
 
 ## Owner + Review Cadence

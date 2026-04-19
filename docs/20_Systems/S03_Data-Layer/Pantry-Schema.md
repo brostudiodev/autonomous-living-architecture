@@ -4,7 +4,7 @@ type: "data_model"
 status: "active"
 source_system: "Google Sheets"
 owner: "Michal"
-updated: "2026-02-07"
+updated: "2026-04-03"
 ---
 
 # Pantry Data Schema
@@ -22,18 +22,24 @@ updated: "2026-02-07"
 
 ## Schema Definition
 
-### Primary Table: Spizarka (Inventory)
-**Purpose:** Real-time household consumable tracking with predictive analytics support
+### Primary Table: pantry_inventory
+**Purpose:** Real-time household consumable tracking with predictive analytics and multi-location support.
 
 **Column Specifications:**
-- `Kategoria` (Category): Primary key, standardized product names
-- `Aktualna_Ilość` (Current Quantity): Non-negative integer, updated by AI agent
-- `Jednostka` (Unit): Controlled vocabulary ["szt", "l", "kg", "paczka", "opak"]
-- `Najblizsa_Waznosc` (Expiration Date): ISO date format, supports meal planning
-- `Ostatnia_Aktualizacja` (Last Updated): Automatic timestamp, audit trail
-- `Status` (Status): Computed field ["OK", "Niski", "Krytyczny", "Pusty"]
-- `Próg_Krytyczny` (Critical Threshold): Triggers automated shopping alerts
-- `Uwagi` (Notes): Free text, human annotations
+- `category` (Kategoria): Part of composite Primary Key, standardized product names.
+- `location` (Lokalizacja): Part of composite Primary Key, storage area (e.g., Spizarka, Zamrazarka).
+- `current_quantity` (Aktualna_Ilość): Numeric, updated by sync or AI agents.
+- `unit` (Jednostka): Controlled vocabulary ["szt", "l", "kg", "paczka", "opak", etc.].
+- `next_expiry` (Najblizsa_Waznosc): ISO date format, supports meal planning.
+- `last_updated` (Ostatnia_Aktualizacja): Date of last change in the source sheet.
+- `status` (Status): Computed field ["OK", "Low Stock", etc.].
+- `critical_threshold` (Próg_Krytyczny): Triggers automated shopping alerts.
+- `notes` (Uwagi): Free text, human annotations.
+- `updated_at`: Internal database timestamp (automatic).
+
+**Key Constraints:**
+- **Composite Primary Key:** `(category, location)` allows tracking the same item in multiple places (e.g., Bread in 'Spizarka' and 'Zamrazarka').
+- **Aggregation:** AI agents MUST use `SUM(current_quantity) GROUP BY category` to determine total household stock levels.
 
 ### Reference Table: Slownik (Dictionary)
 **Purpose:** AI natural language understanding and synonym resolution

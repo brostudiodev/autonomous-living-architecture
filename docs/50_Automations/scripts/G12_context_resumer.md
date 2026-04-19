@@ -6,7 +6,7 @@ automation_id: "G12_context_resumer"
 goal_id: "goal-g12"
 systems: ["S04"]
 owner: "Michal"
-updated: "2026-03-17"
+updated: "2026-04-18"
 ---
 
 # G12: Context Resumer

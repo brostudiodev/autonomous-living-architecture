@@ -851,8 +851,8 @@ Sub-Services (Domain Specialists)
 
     [WF010: PROJ_Inventory-Management](./WF010__proj-inventory-management.md)
     [WF011: PROJ_Training-Intelligence-System](./WF011__proj-training-intelligence-system.md)
-    [WF012: PROJ_Personal-Budget-Intelligence-System](./WF012__proj-personal-budget-intelligence-system.md)
-    [WF013: SVC_Github-Autonomous-Evening-Planner](./WF013__svc-github-autonomous-evening-planner.md)
+    [WF012: PROJ_Personal-Budget-Intelligence-System](./WF0{{LONG_IDENTIFIER}}.md)
+    [WF013: SVC_Github-Autonomous-Evening-Planner](./WF0{{LONG_IDENTIFIER}}.md)
     [WF014: SVC_GitHub-Todo-List-Extractor](./WF014__svc-github-todo-list-extractor.md)
 
 Systems

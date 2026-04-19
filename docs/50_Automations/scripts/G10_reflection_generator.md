@@ -52,7 +52,7 @@ Closes the daily feedback loop by generating a personalized, data-driven evening
 ## Dependencies
 ### Systems
 - [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md) - API exposure.
-- [S10 Productivity](../../10_Goals/G10_Intelligent-Productivity-Time-Architecture/README.md) - Reflection methodology.
+- [S10 Productivity](../../10_Goals/G{{LONG_IDENTIFIER}}/README.md) - Reflection methodology.
 
 ## Error Handling
 | Failure Scenario | Detection | Response | Alert |
@@ -62,7 +62,7 @@ Closes the daily feedback loop by generating a personalized, data-driven evening
 | Header Missing | `string in content` | Log warning, abort injection | Console |
 
 ## Related Documentation
-- [Goal: G10 Productivity Architecture](../../10_Goals/G10_Intelligent-Productivity-Time-Architecture/README.md)
+- [Goal: G10 Productivity Architecture](../../10_Goals/G{{LONG_IDENTIFIER}}/README.md)
 - [Script: G04 Digital Twin API](./G04_digital_twin_api.md)
 
 ---

@@ -23,7 +23,7 @@ Generic monitoring service that tracks n8n workflow health, detects failures/ove
 ### Configuration (Set Node)
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `n8n_baseURL` | string | `http://[INTERNAL_IP]:5678` | n8n instance URL |
+| `n8n_baseURL` | string | `http://{{INTERNAL_IP}}:5678` | n8n instance URL |
 | `Telegram_ChatID` | string | `{{TELEGRAM_CHAT_ID}}` | Your Telegram chat ID |
 | `Alert_Email` | string | `{{EMAIL}}` | Email for alerts |
 | `check_window_hours` | string | `1` | Window to check for failures |
@@ -109,7 +109,7 @@ HTML table with columns: Status, Workflow, ID, Details, Last Run
 ## Dependencies
 
 ### Systems
-- [S01: Observability & Monitoring](../../20_Systems/S01_Observability-Monitoring/README.md)
+- [S01: Observability & Monitoring](../../../20_Systems/S01_Observability-Monitoring/README.md)
 
 ### External Services
 - n8n API (via n8n account credential)
@@ -169,7 +169,7 @@ If the monitor fails:
 
 1. **Check n8n is running:**
    ```bash
-   curl http://[INTERNAL_IP]:5678
+   curl http://{{INTERNAL_IP}}:5678
    ```
 
 2. **Check credentials:**
@@ -183,12 +183,12 @@ If the monitor fails:
 4. **Test API directly:**
    ```bash
    curl -H "Authorization: Bearer YOUR_TOKEN" \
-     http://[INTERNAL_IP]:5678/api/v1/workflows
+     http://{{INTERNAL_IP}}:5678/api/v1/workflows
    ```
 
 ## Related Documentation
 
-: Observability &- [S01 Monitoring](../../20_Systems/S01_Observability-Monitoring/README.md)
+: Observability &- [S01 Monitoring](../../../20_Systems/S01_Observability-Monitoring/README.md)
 - [G11: Meta-System Integration & Optimization](../G11_Meta-System-Integration-Optimization/README.md)
 - [Adr-0010: Hub and Spoke Integration](../../60_Decisions_adrs/Adr-0010-Hub-and-Spoke-Integration.md)
 

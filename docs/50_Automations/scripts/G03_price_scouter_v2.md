@@ -6,7 +6,7 @@ automation_id: "G03_price_scouter_v2"
 goal_id: "goal-g03"
 systems: ["S03"]
 owner: "Michal"
-updated: "2026-03-12"
+updated: "2026-04-18"
 ---
 
 # G03: Price Scouter v2

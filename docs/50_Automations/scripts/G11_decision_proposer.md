@@ -6,37 +6,43 @@ automation_id: "G11_decision_proposer"
 goal_id: "goal-g11"
 systems: ["S04", "S08"]
 owner: "Michal"
-updated: "2026-03-25"
+updated: "2026-04-14"
 ---
 
 # G11_decision_proposer: Proactive Strategy Engine
 
 ## Purpose
-Analyzes the current state of all technical systems (Health, Finance, Logistics, Pantry) via the Digital Twin Engine and automatically generates high-confidence **Decision Requests** for human approval.
+Analyzes the current state of all technical systems (Health, Finance, Logistics, Pantry, Roadmap) via the Digital Twin Engine and automatically generates high-confidence **Decision Requests** for human approval or **Implicit Actions** for high-trust domains.
+
+## 🚀 Enhancements (Apr 14)
+1. **Rich Reporting & Standardized Payloads:** Harmonized `propose_decision` with `RulesEngine` to include `recommended_action`, `reason`, and `description` in the database payload. This ensures that the "Decision" reported by Meta-Integration or n8n is never `null`.
+2. **Subprocess Execution Fix:** Standardized the `G11_decision_handler.py` trigger to use a clean argument list for better reliability.
+3. **Policy-Driven Context:** Now dynamically loads policy descriptions to enrich human-in-the-loop requests.
 
 ## Triggers
 - **System Sync:** Part of the `G11_global_sync.py` pipeline.
 - **Manual:** `python3 G11_decision_proposer.py`
+- **Roadmap:** Triggered by `G11_roadmap_enforcer.py` for Q2 task backlog.
 
 ## Inputs
 - **Digital Twin State:** Unified context from `G04_digital_twin_engine.py`.
+- **Autonomy Policies:** `autonomy_policies.yaml` for authority level checks.
 - **Databases:** `autonomous_health`, `autonomous_finance`, `autonomous_pantry`, `autonomous_life_logistics`.
 
 ## Processing Logic
+0. **Autonomy Check (NEW):**
+   - Loads `autonomy_policies.yaml` at runtime.
+   - For every proposal, checks the `authority_level` of the (domain, policy) pair.
+   - If `authority_level == 'full'`, the request is marked as `APPROVED` and passed to the execution handler immediately (Implicit Autonomy).
 1. **Health Audit:**
-   - Detects low readiness (< 65) combined with recent high training load.
-   - Proposes "Mandatory Recovery Day" if CNS fatigue is likely.
-2. **Financial Audit:**
-   - Scans for budget breaches (utilization >= 100%).
-   - Scans for categories with significant surplus (> 200 PLN and < 50% utilized).
-   - Proposes "Auto-Rebalance" from surplus to breach.
-3. **Household Audit:**
-   - Identifies items below critical thresholds.
-   - Proposes "Auto-Procurement" (Google Task injection).
+...
 4. **Logistics Audit:**
    - Detects deadlines within 3 days.
    - Proposes "Task Injection" for urgent document/payment handling.
-5. **Deduplication:**
+5. **Roadmap Enforcement (NEW):**
+   - Receives tasks from `G11_roadmap_enforcer.py`.
+   - Injects them as `meta.roadmap_task_enforcement` decisions.
+6. **Deduplication:**
    - Checks `decision_requests` table to ensure identical pending requests aren't duplicated.
 
 ## Outputs

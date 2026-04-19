@@ -6,7 +6,7 @@ automation_id: "G11_logistics_calendar_sync"
 goal_id: "goal-g11"
 systems: ["S04", "S11"]
 owner: "Michal"
-updated: "2026-03-12"
+updated: "2026-04-18"
 ---
 
 # G11: Logistics to Calendar Sync

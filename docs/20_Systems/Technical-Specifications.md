@@ -3,7 +3,7 @@ title: "Technical Specifications"
 type: "documentation"
 status: "active"
 owner: "Michal"
-updated: "2026-02-11"
+updated: "2026-04-16"
 ---
 
 # Technical Specifications
@@ -103,7 +103,28 @@ primary_ai_platform:
     - Code generation and analysis
     - Structured data extraction
     - Tool use and function calling
-  
+```
+
+#### **🩹 System Resilience & Self-Healing**
+```yaml
+friction_logging:
+  mechanism: "/ouch [note]"
+  storage: "digital_friction_log (PostgreSQL)"
+  analysis: "Weekly Friction-to-Fix pipeline"
+  metrics:
+    - daily_friction_count
+    - severity_index (1-5)
+    - auto_heal_success_rate
+
+self_healing:
+  triggers:
+    - Script failure detection (system_activity_log)
+    - Stale lockfile identification
+  actions:
+    - Auto-retry (max 3 attempts)
+    - Lockfile cleanup
+    - Decision request for manual intervention
+```
   performance_targets:
     response_time: "<3 seconds for typical requests"
     accuracy: ">90% for intent classification"
@@ -136,6 +157,7 @@ metrics_collection:
     - g01-exporter (port 8081)
     - goals-exporter (port 8083)
     - node-exporter (port 9100)
+    - activitywatch (port 5600 - REST API)
   
   metrics_types:
     - Counters for cumulative data
@@ -708,9 +730,10 @@ These technical specifications provide the foundation for building and maintaini
 1. **Excellence by Default:** High standards for all technical decisions
 2. **Security by Design:** Comprehensive security controls at all layers
 3. **Observability First:** Comprehensive monitoring and alerting
-4. **Automation at Scale:** Manual processes eliminated where possible
-5. **Continuous Improvement:** Regular updates and evolution of specifications
+4. **Attention Telemetry:** Automated tracking of human focus and distraction
+5. **Automation at Scale:** Manual processes eliminated where possible
+6. **Continuous Improvement:** Regular updates and evolution of specifications
 
 ---
 
-*Last updated: 2026-03-08*
+*Last updated: 2026-04-16*

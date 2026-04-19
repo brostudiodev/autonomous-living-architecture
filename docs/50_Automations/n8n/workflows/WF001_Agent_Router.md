@@ -109,7 +109,7 @@ graph TD
     -   If the source is Telegram, the `user_id` is checked against a hardcoded allowlist (`{{TELEGRAM_CHAT_ID}}`).
     -   If unauthorized, an "Unauthorized access" message is sent and the workflow stops.
     -   Webhook and chat inputs currently bypass this check.
--   **ADR**: The use of a hardcoded ID is documented in [Adr-0011-Hardcoded-User-ID-in-Router](./../../60_Decisions_adrs/Adr-0011-Hardcoded-User-ID-in-Router.md).
+-   **ADR**: The use of a hardcoded ID is documented in [Adr-0011-Hardcoded-User-ID-in-Router](./../../../60_Decisions_adrs/Adr-0011-Hardcoded-User-ID-in-Router.md).
 
 ### Stage 3: Format Detection & Normalization
 
@@ -130,7 +130,7 @@ graph TD
     6.  **Question**: Common question words or ending with `?` (`confidence: 0.85`).
     7.  **Task**: Action verbs like `create` or `remind` (`confidence: 0.8`).
     8.  **Greeting**: Social pleasantries (`confidence: 0.9`).
--   **ADR**: The decision to use a rule-based classifier is documented in [Adr-0012-Rule-Based-Intent-Classification](./../../60_Decisions_adrs/Adr-0012-Rule-Based-Intent-Classification.md).
+-   **ADR**: The decision to use a rule-based classifier is documented in [Adr-0012-Rule-Based-Intent-Classification](./../../../60_Decisions_adrs/Adr-0012-Rule-Based-Intent-Classification.md).
 
 ### Stage 5: Intent-Based Routing & Processing
 
@@ -190,11 +190,11 @@ This workflow acts as an orchestrator, calling numerous specialized services:
     -   [WF003: SVC_Response-Dispatcher](./WF003__svc-response-dispatcher.md): Centralized response delivery.
 -   **Domain Services**:
     -   [SVC_GitHub-Todo-List-Extractor](./WF014__svc-github-todo-list-extractor.md): Fetches goal summaries.
-    -   [SVC_Github-Autonomous_Evening_Planner](./WF013__svc-github-autonomous-evening-planner.md): Runs the evening planning routine.
+    -   [SVC_Github-Autonomous_Evening_Planner](./WF0{{LONG_IDENTIFIER}}.md): Runs the evening planning routine.
     -   [SVC: Inventory Management](./WF010__proj-inventory-management.md): Queries the pantry system.
     -   `SVC_Google-Calendar`: Interacts with the calendar.
 -   **Project Workflows**:
-    -   [PROJ_Personal-Budget-Intelligence-System](./WF012__proj-personal-budget-intelligence-system.md): Handles finance commands.
+    -   [PROJ_Personal-Budget-Intelligence-System](./WF0{{LONG_IDENTIFIER}}.md): Handles finance commands.
     -   [PROJ_Training-Intelligence-System](./WF011__proj-training-intelligence-system.md): Handles workout commands.
 
 ## 5. Technical Debt & Future Evolution

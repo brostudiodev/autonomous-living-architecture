@@ -6,7 +6,7 @@ automation_id: "G11_ceo_weekly_briefing"
 goal_id: "goal-g11"
 systems: ["S04", "S10", "S11"]
 owner: "Michal"
-updated: "2026-03-26"
+updated: "2026-04-18"
 ---
 
 # G11_ceo_weekly_briefing: CEO Weekly Briefing
@@ -133,3 +133,4 @@ Unified executive summary sent to Telegram every Sunday morning. Aggregates data
 | Date | Change |
 |------|--------|
 | 2026-03-26 | Initial creation - Unified CEO Briefing |
+| 2026-04-16 | Bugfix: Fixed misindented logger calls in task sync except blocks |

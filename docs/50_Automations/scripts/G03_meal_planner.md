@@ -38,6 +38,7 @@ Generates high-protein meal suggestions based on current pantry inventory and up
 - **JSON:** `selected_meal.json` (Includes `missing_ingredients` for auto-procurement).
 - **Markdown:** [Obsidian Meal Suggestions](../../../../Obsidian Vault/00_Inbox/Meal-Suggestions.md).
 - **Telegram:** Sends "Chef's Choice" briefing with nutrition info and ingredient status.
+- **System Integration:** Missing ingredients are automatically picked up by `G03_cart_aggregator.py` for the shopping list.
 
 ## Dependencies
 ### Systems

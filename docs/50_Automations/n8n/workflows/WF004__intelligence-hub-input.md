@@ -261,8 +261,8 @@ Related Documentation
     Goal: G04 Digital Twin Ecosystem
     SOP: Daily-Intelligence-Review (if exists)
     Runbook: Telegram-Bot-Recovery (if exists)
-    - [WF002: SVC_Command-Handler](../WF002__svc-command-handler.md)
-    - [WF003: SVC_Response-Dispatcher](../WF003__svc-response-dispatcher.md)
+    - [WF002: SVC_Command-Handler](./WF002__svc-command-handler.md)
+    - [WF003: SVC_Response-Dispatcher](./WF003__svc-response-dispatcher.md)
     - [WF005: SVC_Input-Normalizer](./WF005__svc-input-normalizer.md)
 
 Changelog

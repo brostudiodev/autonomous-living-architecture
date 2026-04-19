@@ -6,7 +6,7 @@ automation_id: "G08_pre_bed_advisor"
 goal_id: "goal-g08"
 systems: ["S07", "S08"]
 owner: "Michal"
-updated: "2026-03-27"
+updated: "2026-04-18"
 ---
 
 # G08_pre_bed_advisor: Proactive Sleep Environment Advisor

@@ -36,7 +36,7 @@ Extracts open TODO items from all Goal Roadmap files (`Roadmap.md`) in the GitHu
 
 ## Dependencies
 ### Systems
-- [S10 Daily-Goals-Automation](../../20_Systems/S10_Daily-Goals-Automation/README.md)
+- [S10 Daily-Goals-Automation](../../../20_Systems/S10_Daily-Goals-Automation/README.md)
 
 ### External Services
 - GitHub API
@@ -59,4 +59,4 @@ Extracts open TODO items from all Goal Roadmap files (`Roadmap.md`) in the GitHu
 If the automation fails, the `Roadmap.md` files in the GitHub repository can be checked manually.
 
 ## Related Documentation
-- [WF002: SVC_Command-Handler](../WF002__svc-command-handler.md)
+- [WF002: SVC_Command-Handler](./WF002__svc-command-handler.md)

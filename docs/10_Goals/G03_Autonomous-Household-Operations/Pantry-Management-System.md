@@ -6,7 +6,7 @@ status: "active"
 owner: "Michal"
 systems: ["S03", "S07"]
 automation: "WF105"
-updated: "2026-02-09"
+updated: "2026-04-03"
 goal_id: "goal-g03"
 ---
 
@@ -28,14 +28,15 @@ n8n chat, and webhooks. Directly supports G03 Autonomous Household Operations by
 
 ### Data Architecture
 The Pantry Management System follows a **Hybrid UI / Centralized Data** model:
-- **User Interface (UI):** Google Sheets (`Magazynek_domowy`) serves as the primary entry point for manual updates and human-readable visualization.
+- **User Interface (UI):** Google Sheets (`Magazynek_domowy`) serves as the primary entry point. It contains multiple location-specific worksheets (e.g., `Spizarka`, `Zamrazarka`, `Garaz`).
 - **Single Source of Truth (SSOT):** PostgreSQL (`autonomous_pantry` database) acts as the canonical data store for all system logic, Digital Twin integration, and cross-goal automation.
-- **Synchronization:** Automated ETL processes (n8n and Python) ensure direct bidirectional consistency between the UI and SSOT. **No CSV files are used in this flow.**
+- **Synchronization:** Automated ETL processes (`pantry_sync.py`) ensure consistency. **The system uses a composite primary key `(category, location)` to support multi-storage tracking.**
 
 ### Data Layer (Google Sheets: Magazynek_domowy)
 **Critical Design Decision:** Column headers remain in **Polish** for compatibility with existing workflows and AI system prompt, but are fully documented in English for Meta-System analysis.
 
-#### Sheet 1: Spizarka (Primary Inventory Interface)
+#### Sheet 1: Inventory Interface (e.g., Spizarka, Zamrazarka)
+The following structure is shared across all location-specific worksheets:
 | Polish Column | English Definition | Purpose | Data Type |
 |---|---|---|---|
 | `Kategoria` | Category/Product Name | Primary key identifier | Text |

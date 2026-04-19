@@ -21,7 +21,7 @@ Automated synchronization of HIT (High-Intensity Training) data from Google Shee
 ## Inputs
 
 ### Google Sheets Source
-**Document:** `Training_Journal` (ID: `[SPREADSHEET_ID]`)
+**Document:** `Training_Journal` (ID: `{{SPREADSHEET_ID}}`)
 
 **Sheet 1: workouts (gid: 872382533)**
 

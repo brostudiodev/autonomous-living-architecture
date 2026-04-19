@@ -140,7 +140,7 @@ class GoalsExporter:
 ## Related Decisions
 - [Adr-0004](./Adr-0004-Digital-Twin-Architecture.md) - Digital Twin as Central Hub
 - [Adr-0007](./Adr-0007-Multi-Channel-Data-Ingestion.md) - Multi-Channel Data Ingestion
-- [Adr-0009](./Adr-0009-Centralized-Observability.md) - Centralized Observability Stack
+- [Adr-0009](./Adr-00{{LONG_IDENTIFIER}}.md) - Centralized Observability Stack
 
 ## Metrics
 

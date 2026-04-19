@@ -35,7 +35,7 @@ Acts as a personal trainer and data analyst, specializing in High Intensity Trai
 
 ## Dependencies
 ### Systems
-- [S06 Health-Performance](../../20_Systems/S06_Health-Performance/README.md)
+- [S06 Health-Performance](../../../20_Systems/S06_Health-Performance/README.md)
 
 ### External Services
 - PostgreSQL
@@ -60,4 +60,4 @@ Acts as a personal trainer and data analyst, specializing in High Intensity Trai
 If the automation fails, data can be checked by manually querying the PostgreSQL database.
 
 ## Related Documentation
-- [WF002: SVC_Command-Handler](../WF002__svc-command-handler.md)
+- [WF002: SVC_Command-Handler](./WF002__svc-command-handler.md)

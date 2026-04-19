@@ -65,7 +65,7 @@ EXCLUDE_PATHS = [
 
 For all allowed files, the following global replacements are enforced:
 
-1. **Internal IPs:** All `192.168.x.x` addresses → `{{INTERNAL_IP}}`
+1. **Internal IPs:** All raw internal IP segments → `{{INTERNAL_IP}}`
 2. **Secrets:** Any occurrence of `api_key`, `token`, `password`, `secret` (and common variations) followed by a value → `{{API_SECRET}}`
 3. **Database Credentials:** Specific local defaults like `root` or `admin` in connection strings → `{{DB_USER}}` / `{{DB_PASSWORD}}`
 
@@ -193,7 +193,7 @@ When you discover new sensitive data patterns:
 1. Document the pattern:
 
 ## New Pattern: Database Connection Strings
-**Pattern found:** `postgresql://user:password@host:5432/database`
+**Pattern found:** `postgresql://{{DB_USER}}:{{DB_PASSWORD}}@host:5432/database`
 **Regex pattern:** `postgresql://[^:]+:[^@]+@[^:]+:\d+/\w+`
 **Replacement:** `postgresql://{{DB_USER}}:{{DB_PASSWORD}}@{{DB_HOST}}:{{DB_PORT}}/{{DB_NAME}}`
 
@@ -283,3 +283,4 @@ Building and maintaining this level of technical rigor is a massive investment. 
 <a href='https://ko-fi.com/michalnowakowski' target='_blank'><img height='60' style='border:0px;height:60px;' src='https://storage.ko-fi.com/cdn/kofi3.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
 **Support my hard work in engineering a fully autonomous life.** Every coffee fuels another line of code, another automated insight, and another step toward the 2026 North Star. Your contributions help maintain the infrastructure and research shared in this open-source blueprint.
+ce blueprint.

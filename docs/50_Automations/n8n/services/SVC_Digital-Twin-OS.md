@@ -6,7 +6,7 @@ automation_id: "SVC_Digital-Twin-OS"
 goal_id: "goal-g11"
 systems: ["S04", "S08", "S11"]
 owner: "Michal"
-updated: "2026-02-25"
+updated: "2026-04-10"
 ---
 
 # SVC: Digital-Twin-OS
@@ -20,12 +20,12 @@ Serves the "Personal OS Meta-Optimization" report, providing high-signal warning
 
 ## Inputs
 - **Workflow Input:** `chat_id`, `source_type`.
-- **API Call:** Requests data from `http://[INTERNAL_IP]:5677/os?format=text`.
+- **API Call:** Requests data from `http://{{INTERNAL_IP}}:5677/os?format=text`.
 
 ## Processing Logic
-1. **Normalization:** Captures user context from the incoming router payload.
-2. **Fetch Meta-Advice:** Calls the Digital Twin Rules Engine via REST API.
-3. **Dispatcher Formatting:** Prepares the response string (Markdown) for final delivery.
+1. **Normalize Router Input** (Code node, lines 21-31): Extracts `chat_id`, `source_type`, and `username` from input JSON. Logs warning if chat_id is missing.
+2. **Fetch Personal OS Advice** (HTTP Request node, line 34): GET request to `http://{{INTERNAL_IP}}:5677/os?format=text` - fetches Personal OS meta-optimization report.
+3. **Format for Dispatcher** (Code node, lines 54-64): Processes raw response - extracts text from various response fields. Returns fallback text "OS: Offline" if response empty.
 
 ## Outputs
 - **JSON Object:** `response_text` containing the Meta-Optimization Report.

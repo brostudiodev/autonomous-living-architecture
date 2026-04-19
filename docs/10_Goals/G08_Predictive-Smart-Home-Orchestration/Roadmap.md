@@ -3,7 +3,7 @@ title: "G08: Roadmap"
 type: "goal_roadmap"
 status: "active"
 owner: "Michal"
-updated: "2026-03-28"
+updated: "2026-04-12"
 goal_id: "goal-g08"
 ---
 
@@ -19,7 +19,16 @@ goal_id: "goal-g08"
 - [x] **Pre-Bed Sleep Advisor:** Proactive Telegram alerts at 21:00 suggesting ventilation/cooling based on real-time sensors ✅ (Mar 23)
 - [x] **Predictive Hardware Resilience:** Real-time monitoring of host vitals (RAM, Swap, Power) with autonomous stress alerting ✅ (Mar 28)
 
-## Q2 (Apr–Jun)
+## Q2 (Apr–Jun) - Optimization Phase
+
+> [!tip] 🚀 **Q2 Focus: System Stability & Minor Features**
+- [ ] **System Stability Audit:** Verify smart home automations working reliably
+  - [ ] **Sub-task: HA API Check** - Ensure Home Assistant API responding correctly
+  - [ ] **Sub-task: Sensor Sync Check** - Verify temperature/humidity/occupancy data flows
+  - [ ] **Sub-task: Pre-Bed Advisor Check** - Test evening alerts trigger correctly
+- [ ] **Minor Features:**
+  - [ ] **Sub-task: Security Mode** - Complete dynamic security mode based on travel context
+
 - [x] **Weather-aware recommendations** - Provide comfort suggestions via HA webhook ✅ (Pre-Bed Sleep Advisor Mar 23)
 - [ ] Implement advanced predictive models for occupancy and activity patterns
 - [ ] Integrate external data sources: local weather forecasts, energy price signals
@@ -38,6 +47,21 @@ goal_id: "goal-g08"
 - [ ] Finalize the integration of G08 as a core component of the "autonomous living" ecosystem
 - [ ] Document lessons learned and strategy for 2027 home orchestration
 - [ ] Establish continuous validation and improvement mechanisms for orchestration logic
+
+> [!tip] 🚀 **NEW: External Environmental Context Layer**
+> **Gap:** G08 tracks home environment but missing external context that correlates with energy/mood.
+- [ ] **Location Mode Tracking:** Auto-detect or prompt for context
+  - [ ] **Sub-task: Location Modes** - Home / Office / Travel / Outdoor / Commute
+  - [ ] **Sub-task: Context-Aware Automation** - Different automations per location
+- [ ] **Weather-Energy Correlation:** External weather impacting internal state
+  - [ ] **Sub-task: Weather API Integration** - OpenWeatherMap or similar
+  - [ ] **Sub-task: Correlation Dashboard** - Barometric pressure → headaches, sun → energy
+- [ ] **Air Quality Monitoring:** Indoor/outdoor AQ correlation
+  - [ ] **Sub-task: WAQI Integration** - Outdoor air quality API
+  - [ ] **Sub-task: Alert Thresholds** - Warn when AQ affects sleep/exercise
+- [ ] **Seasonal Pattern Analysis:** Long-term environmental patterns
+  - [ ] **Sub-task: Seasonal Affective Tracking** - Light therapy reminders
+  - [ ] **Sub-task: Heating/Cooling Prediction** - Anticipate HVAC needs
 
 ## Dependencies
 - **Systems:** S07 (Smart Home System for device control), S04 (Digital Twin for contextual intelligence), S08 (Automation Orchestrator for workflow integration)

@@ -18,7 +18,7 @@ Use MariaDB directly - no n8n or PostgreSQL duplication needed. Home Assistant a
 ### MariaDB Connection
 | Parameter | Value |
 |-----------|-------|
-| Host | `[INTERNAL_IP]` or `core-mariadb` (Docker) |
+| Host | `{{INTERNAL_IP}}` or `core-mariadb` (Docker) |
 | Port | 3306 |
 | Database | `homeassistant` |
 | User | `homeassistant` |
@@ -83,4 +83,4 @@ ORDER BY last_changed DESC;
 
 ## Files
 - [MariaDB connection docs](../S07_Smart-Home/MariaDB.md)
-- [Device inventory](../10_Goals/G08_Predictive-Smart-Home-Orchestration/DEVICE_INVENTORY.md)
+- [Device inventory](../../../10_Goals/G08_Predictive-Smart-Home-Orchestration/DEVICE_INVENTORY.md)

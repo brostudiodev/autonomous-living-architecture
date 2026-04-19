@@ -6,7 +6,7 @@ automation_id: "G09_sync_daily_goals.py"
 goal_id: "goal-g09"
 systems: ["S04", "S11"]
 owner: "Michal"
-updated: "2026-03-20"
+updated: "2026-04-18"
 ---
 
 # G09: Goal Activity Synchronization Engine (Static Tracker)

@@ -6,7 +6,7 @@ automation_id: "G11_hygiene_agent"
 goal_id: "goal-g11"
 systems: ["S11", "S08", "S10"]
 owner: "Michal"
-updated: "2026-03-31"
+updated: "2026-04-18"
 ---
 
 # 🤖 Automation Spec: G11_hygiene_agent.py
@@ -40,10 +40,10 @@ Ensures that Google Tasks stay clean and relevant by automatically marking them 
 
 ## Dependencies
 ### Systems
-- [S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md)
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md)
-- [S10 Productivity](../../../20_Systems/S10_Productivity/README.md)
-- [S11 Meta-System](../../../20_Systems/S11_Meta-System-Integration/README.md)
+- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
+- [S08 Automation Orchestrator](../../20_Systems/S08_Automation-Orchestrator/README.md)
+- [S10 Productivity](../../20_Systems/S09_Productivity-Time/README.md)
+- [S11 Meta-System](../../20_Systems/S11_Meta-System-Integration/README.md)
 
 ### External Services
 - Google Tasks API

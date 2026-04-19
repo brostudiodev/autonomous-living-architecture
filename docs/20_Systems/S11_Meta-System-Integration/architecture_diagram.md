@@ -1,9 +1,9 @@
 ```mermaid
 graph TD
     subgraph Ingestion
-        A[Telegram Input]
-        B[Webhook Input]
-        C[Chat Input]
+        A[Telegram Webhook]
+        B[Webhook API /intelligence-hub]
+        C[n8n Chat Input]
     end
 
     subgraph Tagging & Auth

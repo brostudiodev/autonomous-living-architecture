@@ -165,9 +165,9 @@ FROM v_upcoming_expenses;
 - **30-day window:** Covers all recurring and one-time expenses
 
 ## Related Documentation
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
+- [S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md)
 - [WF106: Expense Calendar Sync](./WF106__expense-calendar-sync.md)
-- [G05 Autonomous Financial Command Center](../../10_Goals/G05_Autonomous-Financial-Command-Center/README.md)
+- [G05 Autonomous Financial Command Center](../../../10_Goals/G05_Autonomous-Financial-Command-Center/README.md)
 
 ## n8n JSON Import
 - [WF107__expense-calendar-alerts.json](./WF107__expense-calendar-alerts.json)

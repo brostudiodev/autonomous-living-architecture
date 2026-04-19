@@ -4,40 +4,48 @@ type: "progress_monitor"
 status: "active"
 goal_id: "goal-g03"
 created: "2026-02-11"
-last_updated: "2026-02-11"
-version: "1.0"
+last_updated: "2026-04-19"
+version: "1.2"
 ---
 
 # G03 Autonomous Household Operations - Progress Monitor
 
 **Purpose:** Track major achievements, milestones, and progress for G03 Autonomous Household Operations goal.
 
-**Update Frequency:** Updated automatically based on Activity-log.md files and monthly summaries
-
 ---
 
-## 🎯 Executive Summary - Q1 2026 Progress
+## 🎯 Executive Summary - Q2 2026 Progress
 
 ### Overall Completion Status
-- **Q1 Progress**: 75% Complete ✅
-- **Current Phase**: Smart Home Integration
-- **Key Focus**: Predictive algorithms and automation deployment
+- **Q1 Progress**: 100% Complete ✅
+- **Q2 Progress**: 45% Complete 🚀
+- **Current Phase**: Reliability Hardening & Price Intelligence v2
+- **Key Focus**: Stable data streams and promo-matched restocking
 
 ---
 
 ## ✅ Major Achievements
 
-### Automated Pantry Inventory Sync (February 2026)
+### Appliance Maintenance Integration (April 2026)
 **Implementation Summary:**
-- Rebuilt `pantry_sync.py` to automate data flow directly from Google Sheets (`Magazynek_domowy`) to PostgreSQL.
-- Established Google Sheets as the primary User Interface (UI) while maintaining PostgreSQL as the Single Source of Truth (SSOT).
-- Integrated dictionary and inventory synchronization with robust handling of empty fields and date normalization.
-- Connected pantry status to the Digital Twin engine for real-time monitoring and briefing generation.
+- **Predictive Health Orchestration**: Fully integrated `appliance_status` (HVAC, Water Softener, Boiler Filters) into the `G04_life_sentinel.py` monitoring loop.
+- **Cycle-Aware & Time-Aware Tracking**: Enabled both cycle-based (Washing Machine) and calendar-based (Filters) maintenance alerts.
+- **Mission Aggregation**: Automated injection of critical maintenance tasks into the daily "Golden Mission" list, ensuring home infrastructure is maintained before failure.
 
 **Technical Specifications:**
-- **Sync Engine**: Python-based ETL process using `gspread` and Google Service Account authentication.
-- **Database**: PostgreSQL `autonomous_pantry` (inventory + dictionary tables).
-- **Integration**: Automated updates triggered via `autonomous_daily_manager.py` and n8n workflows.
+- **Tracking**: `HVAC Filter` (180d), `Water Softener Salt` (30d), `Boiler Water Filter` (90d).
+- **Automation**: `G04_life_sentinel.py` → `G11_mission_aggregator.py`.
+
+### Price Intelligence v2 Deployment (April 2026)
+**Implementation Summary:**
+- Successfully migrated to `G03_price_scouter_v2.py`.
+- Fixed systemic path mapping errors that caused "Script Failure" alerts in the Daily Note.
+- Integrated v2 price scouting with the self-healing logic to ensure automatic recovery from API flakes.
+
+**Technical Specifications:**
+- **Script**: `G03_price_scouter_v2.py`.
+- **Mapping**: Added to `G11_self_healing_logic.py` under both `PRICE_SCOUT` and `PRICE_SCOUTER` keys.
+- **Integration**: Daily Note now correctly displays promo-matched grocery suggestions based on the cheapest basket algorithm.
 
 ### Predictive Algorithms Implementation (January 2026)
 **Implementation Summary:**

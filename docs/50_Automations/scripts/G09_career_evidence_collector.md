@@ -1,37 +1,47 @@
 ---
-title: "G09: Career Evidence Collector"
+title: "Automation Spec: G09 Career Evidence Collector"
 type: "automation_spec"
 status: "active"
-automation_id: "G09_career_evidence_collector"
+system_id: "S09"
 goal_id: "goal-g09"
-systems: ["S09", "S11"]
 owner: "Michal"
-updated: "2026-03-12"
+updated: "2026-04-18"
+review_cadence: "monthly"
 ---
 
-# G09: Career Evidence Collector
+# 🤖 Automation Spec: G09 Career Evidence Collector
 
-## Purpose
-Automatically builds a "Technical Brag Document" by scanning Git commit history for high-impact prefixes (`feat`, `fix`, `perf`, `arch`). This ensures professional wins are captured in real-time for performance reviews and branding.
+## 🎯 Purpose
+Automate the collection of technical achievements by scanning Git history for high-impact commits (features, fixes, refactors). This builds a "Technical Brag Document" in real-time, supporting career positioning and performance reviews with zero manual effort.
 
-## Triggers
-- Scheduled: Part of the `autonomous_daily_manager.py` daily sync cycle.
+## 📝 Scope
+- **In Scope:** Scanning local Git repositories for commits in the last 24h; Filtering by keyword (feat, fix, refactor, etc.); Formatting for Daily Note injection.
+- **Out of Scope:** Pushing commits to remote; Synthesizing business impact (handled by `G09_career_growth_reporter.py`).
 
-## Inputs
-- Local Git Repository history (last 7 days).
+## 🔄 Inputs/Outputs
+- **Inputs:** Local Git logs (via `git log`).
+- **Outputs:** `CAREER_WINS` report injected into the Obsidian Daily Note.
 
-## Processing Logic
-1. **Fetch:** Execute `git log` for the last 7 days.
-2. **Filter:** Match commit messages against impact patterns (feat, fix, perf, etc.).
-3. **Format:** Generate a bulleted list with dates and commit summaries.
-4. **Persist:** Append the list to `Technical_Wins_Log.md` in the G09 goal folder.
+## 🛠️ Dependencies
+- **Systems:** S09 Career Intelligence & Positioning.
+- **Services:** Git (Local CLI).
+- **Credentials:** Local file system permissions.
 
-## Outputs
-- Updated `docs/10_Goals/G09_Automated-Career-Intelligence/Technical_Wins_Log.md`.
-- Activity log entry.
+## ⚙️ Logic & Procedure
+1. **Command:** Executes `git log --since='24 hours ago'`.
+2. **Filtering:** Filters commit messages against a regex pattern: `feat|perf|fix|refactor|arch|surgical|auto`.
+3. **Injection:** The `autonomous_daily_manager.py` calls the collector and injects any found wins into the "🚀 Career Growth & Impact" collapsible section.
+4. **Trigger:** Automated via `G11_global_sync.py`.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Git Command Error | Exit code != 0 | Log failure, skip cycle | Log Critical |
-| Permission Denied | File write error | Check OS permissions | Log Warning |
+## ⚠️ Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Git not installed | CommandNotFound error in logs | Ensure Git is available in the environment |
+| Not a Git Repo | "Not a git repository" error | Verify `BASE_DIR` points to the correct root |
+| No commits | Returns empty string (Normal) | No action needed |
+
+## 🔒 Security Notes
+- **Secrets:** Only commit messages are read; no source code or sensitive data is exported.
+
+---
+*System Hardening v5.4 - April 2026*

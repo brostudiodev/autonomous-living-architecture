@@ -6,7 +6,7 @@ automation_id: "G01_progressive_overload.py"
 goal_id: "goal-g01"
 systems: ["S07", "S11"]
 owner: "Michal"
-updated: "2026-03-19"
+updated: "2026-04-18"
 ---
 
 # G01: Progressive Overload Analyzer (HIT-Focused)

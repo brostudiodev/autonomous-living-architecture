@@ -6,7 +6,7 @@ automation_id: "G10__schedule_optimizer"
 goal_id: "goal-g10"
 systems: ["S09", "S04"]
 owner: "Michal"
-updated: "2026-03-21"
+updated: "2026-04-18"
 ---
 
 # G10: Schedule Optimizer

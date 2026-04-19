@@ -6,7 +6,7 @@ automation_id: "G11_db_backup.py"
 goal_id: "goal-g11"
 systems: ["S03"]
 owner: "Michal"
-updated: "2026-03-11"
+updated: "2026-04-18"
 ---
 
 # G11: Automated Database Backup
@@ -24,14 +24,15 @@ Ensures disaster recovery capability by performing daily logical backups (`pg_du
 - Database List: `autonomous_health`, `autonomous_finance`, `autonomous_pantry`, `autonomous_training`, `autonomous_learning`, `autonomous_life_logistics`, `digital_twin_michal`.
 
 ## Processing Logic
-1.  **Preparation:** Checks for existence of backup directory (`_meta/backups/db`).
-2.  **Authentication:** Sets the `PGPASSWORD` environment variable for non-interactive execution.
-3.  **Execution:** Loops through the database list and executes `pg_dump`.
-4.  **Verification:** Checks exit codes for each dump operation.
+1.  **Preparation:** Checks for existence of standardized backup directory (`_meta/backups/db/`).
+2.  **Container Discovery:** Autonomously identifies the active PostgreSQL Docker container using `docker ps`.
+3.  **Authentication (Syntax Repair):** Uses `docker exec -e PGPASSWORD=${DB_PASSWORD}` for secure, non-interactive execution within the container environment, resolving previous syntax errors with legacy password handling.
+4.  **Execution:** Loops through the database list and executes `pg_dump` via the identified container.
+5.  **Verification:** Checks exit codes for each dump operation and cleans up incomplete files on failure.
 
 ## Outputs
-- **Storage:** `.sql` backup files in `_meta/backups/db/` with datestamped filenames.
-- **Centralized Logging:** Reports `SUCCESS` or `PARTIAL` status to `system_activity_log`.
+- **Storage:** Normalized `.sql` backup files in `_meta/backups/db/` with datestamped filenames (e.g., `autonomous_health_2026-04-18.sql`).
+- **Centralized Logging:** Reports `SUCCESS`, `PARTIAL`, or `FAILURE` status to `system_activity_log`.
 
 ## Dependencies
 ### Systems

@@ -1,67 +1,68 @@
 ---
-title: "G05: Budget Rebalancer"
+title: "G05: Budget Rebalancer (v2.0)"
 type: "automation_spec"
 status: "active"
 automation_id: "G05_budget_rebalancer"
 goal_id: "goal-g05"
 systems: ["S05", "S11"]
 owner: "Michal"
-updated: "2026-03-20"
+updated: "2026-04-18"
 ---
 
-# G05: Budget Rebalancer
+# G05: Budget Rebalancer (Buffer-First)
 
 ## Purpose
-Identifies budget breaches and surpluses across financial categories, providing automated reallocation suggestions or executing rebalances for amounts up to **2000 PLN** based on autonomy policies and current savings rate.
+Identifies budget breaches and resolves them using a tiered priority system. It first attempts to use global income surplus (Buffer-First) before raiding other planned categories, ensuring that categories with actual spending are protected from unrealistic budget cuts.
 
 ## Triggers
 - **Daily Manager:** Part of the `autonomous_daily_manager.py` cycle.
+- **Global Sync:** Executed as a consumer script in `G11_global_sync.py`.
 - **Manual Execute:** `python3 G05_budget_rebalancer.py --execute` for forced database and sheet update.
 
-## Inputs
-- **Transactions Data**: Aggregated by category for the current month from `autonomous_finance` database.
-- **Budget Definitions**: Monthly targets and priority levels from the database.
-- **Rules Engine:** Evaluates if a specific rebalance can be auto-executed.
+## Tiered Resolution Logic (v2.0)
+
+### 🔴 Breach Detection
+Identifies categories where actual spending (`actual_amount`) exceeds the monthly budget (`budget_amount`).
+
+### 🛡️ Tier 1: Buffer-First (Income Surplus)
+- **Source:** Fetches `net_savings` from `v_monthly_pnl` (Income - Expenses).
+- **Rule:** If a breach is detected and a global surplus exists, the system increases the target budget directly using these unallocated funds.
+- **Safety:** Leaves a minimum **500 PLN** safety floor in the income buffer.
+- **Autonomy:** Buffer-First increases are considered **Full Autonomy** (Auto-Act) as they don't impact other planned categories.
+
+### 💸 Tier 2: Category Reallocation (Surplus Raiding)
+- **Source:** Finds `Low/Medium` priority categories with remaining funds.
+- **Spending Floor Safeguard:** **CRITICAL:** The system can only take from the **REMAINING** surplus (Budget - Spent). It is physically impossible for the system to reduce a budget below what has already been spent in that month.
+- **Rule:** Leaves a 20% safety buffer in the source category.
+- **Policy:** Evaluates amount and priority via `G11_rules_engine`.
 
 ## Processing Logic
-1.  **Breach Detection**: Identifies categories where actual spending exceeds the monthly budget.
-2.  **Surplus Identification**: Finds categories with remaining funds, leaving a 20% safety buffer.
-3.  **Policy Evaluation:** For each potential transfer, it calls `G11_rules_engine` with `amount`, `priority`, and `savings_rate`.
-4.  **Autonomy Levels (NEW Mar 28):**
-    -   **Full Autonomy (Low-Stakes):** Transfers < 100 PLN from `surplus_priority_below: 4` are auto-executed.
-    -   **Sleep-Driven Safety:** If Sleep Score < 70, all rebalancing thresholds are **halved** automatically.
-    -   **Limited Autonomy:** Transfers up to 2000 PLN require 1-click Telegram approval.
-5.  **Agentic Execution:**
-    -   If the engine returns `AUTO_ACT`, the script updates the `budgets` table immediately.
-    -   If the engine returns `ASK_HUMAN`, it creates a `PENDING` request for proactive Telegram approval.
-    -   Approved requests are executed via `G11_decision_handler.py`.
-6.  **Synchronization:** Automatically calls `G05_finance_sync.py --to-sheets` to push changes to Google Sheets.
-7.  **Reporting:** Injects suggestions into the `%%REBALANCE%%` marker in the Daily Note for manual visibility.
+1.  **Ingestion:** Loads transactions and budget states from `autonomous_finance`.
+2.  **PnL Context:** Fetches current month Net Savings and Savings Rate.
+3.  **Resolution Loop:** For each breach, applies Tier 1 then Tier 2 logic.
+4.  **Database Update:** Surgically updates the `budgets` table (single entry per ID).
+5.  **Synchronization:** Calls `G05_finance_sync.py` to push changes to Google Sheets.
 
 ## Changelog
 | Date | Change |
 |------|--------|
 | 2026-03-20 | Initial budget rebalancing logic |
-| 2026-03-28 | Implemented Low-Stakes Full Autonomy and Sleep-Driven Safety thresholds |
-
-## Outputs
-- **Markdown Suggestions**: Detailed reallocation plan injected into the Daily Note.
-- **Database Updates**: Direct adjustments to the `budgets` table.
-- **Google Sheets Sync**: Updates the "Budget" tab in the Finance spreadsheet.
-- **Telegram Notification**: Confirms autonomous execution and amount.
+| 2026-03-28 | Implemented Sleep-Driven Safety thresholds |
+| 2026-04-13 | **v2.0: Implemented Buffer-First logic and Spending Floor Safeguard.** |
 
 ## Dependencies
-### Systems
-- [S05 Data Layer - Finance](../../10_Goals/G05_Autonomous-Financial-Command-Center/README.md)
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S11 Meta-System](../../20_Systems/S11_Meta-System-Integration/README.md)
+- **Database:** `autonomous_finance` (PostgreSQL).
+- **Views:** `v_budget_performance`, `v_monthly_pnl`.
+- **Sync:** `G05_finance_sync.py`.
 
 ## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Sheet Sync Fail | Exception in gspread | DB updated, but notify user of sync lag | Telegram |
-| Insufficient Surplus | Algorithm check | Reports shortfall and recommends manual review | Daily Note |
+| Failure Scenario | Detection | Response |
+|---|---|---|
+| Buffer Exhausted | `income_buffer < 50` | Fall back to Tier 2 (Category Reallocation). |
+| Total Insolvency | All surpluses < 1 PLN | Report breach as "Unresolved" in Daily Note. |
+| Duplicate IDs | Repo logic check | Duplicate budget IDs (with spaces) are ignored or cleaned. |
 
-## Monitoring
-- **Success metric**: Percentage of budget breaches covered autonomously.
-- **Audit**: Review "AI changes" column in Google Sheets.
+---
+*Related Documentation:*
+- [G05_budget_rebalancer_pro.md](G05_budget_rebalancer_pro.md)
+- [autonomy_policies.yaml](../autonomy_policies.yaml)

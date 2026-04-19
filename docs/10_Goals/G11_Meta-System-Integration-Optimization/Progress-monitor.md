@@ -4,34 +4,55 @@ type: "progress_monitor"
 status: "active"
 goal_id: "goal-g11"
 created: "2026-02-11"
-last_updated: "2026-03-17"
-version: "1.1"
+last_updated: "2026-04-16"
+version: "1.3"
 ---
 
 # G11 Meta-System Integration Optimization - Progress Monitor
 
 **Purpose:** Track major achievements, milestones, and progress for G11 Meta-System Integration Optimization goal.
 
-**Update Frequency:** Updated manually based on Activity-log.md files and monthly summaries
-
 ---
 
-## 🎯 Executive Summary - Q1 2026 Progress
+## 🎯 Executive Summary - Q2 2026 Progress
 
 ### Overall Completion Status
-- **Q1 Progress**: 85% Complete ✅
-- **Current Phase**: Autonomy Activation & System Reliability
-- **Key Focus**: Centralized decision logic and heartbeat monitoring
+- **Q2 Progress**: 40% Complete 🚀
+- **Current Phase**: Reliability Hardening & n8n Orchestration
+- **Key Focus**: Elimination of systemic flakes and architectural debt.
 
 ---
 
-## ✅ Major Achievements
+## ✅ Major Achievements (April 16, 2026)
+
+### Reliability Hardening & Orchestration (April 16, 2026)
+**Implementation Summary:**
+- **Freshness-Aware Sync:** Re-engineered `G11_global_sync.py` to wait for fresh Zepp biometric data (HRV, Sleep) before triggering `DAILY_NOTE` and `MORNING_BRIEFING`. This ensures zero-stale briefings.
+- **n8n Orchestration Shift:** Successfully migrated `G10_schedule_negotiator` and `G11_friction_resolver` to n8n workflows (`WF010`, `WF011`), reducing local script dependency and improving LLM reliability.
+- **Architectural Cleanup:** Resolved long-standing port conflicts and endpoint clashes in the `Digital Twin API` (G04), restoring stable connectivity indicators across the system.
+
+**Technical Specifications:**
+- **Sync Logic**: 3x retry loop with strict `data_is_fresh` gating.
+- **Archive Status**: Legacy scripts deprecated and moved to `scripts/archive/`.
+- **Connectivity**: API status restored to "✅ Online" in all dashboards.
+
+### Level 5 "Zero-Click" Autonomy Loop (April 04, 2026)
+**Implementation Summary:**
+- **Automated Execution:** Integrated `G11_decision_proposer.py` and `G11_decision_handler.py --all` into the core `autonomous_daily_manager.py` cycle. 
+- **Policy Relaxation:** Updated `autonomy_policies.yaml` to allow auto-procurement of predictive restocks (trusted items) and increased price variance thresholds.
+- **Result:** The system now autonomously identifies needs, proposes restocks, approves them (based on trust), and executes the order (adding to tasks/cart) without manual clicks.
+
+**Technical Specifications:**
+- **Sync Integration**: Orchestrated parallel proposal with sequential auto-execution.
+- **Domain Coverage**: Financial Rebalancing, Household Procurement, Health Adjustments.
+
+---
+
+## ✅ Major Achievements (March 2026)
 
 ### Rules Engine Logic Activation (March 17, 2026)
 **Implementation Summary:**
 - **Centralized Autonomy:** Fully activated `G11_rules_engine.py` with dynamic condition evaluation.
-- **Key Mapping:** Implemented smart key mapping (e.g., `max_amount_pln` -> `amount`, `readiness_below` -> `readiness_score`) to normalize policy checks against runtime context.
-- **Threshold Logic:** Added numeric comparison logic for `min`, `max`, `above`, and `below` thresholds, enabling the system to autonomously approve routine actions.
 - **Confidence-Based Promotion:** Enabled the system to "learn" from human patterns, automatically promoting actions with 3+ identical historical approvals to `AUTO_ACT`.
 
 **Technical Specifications:**

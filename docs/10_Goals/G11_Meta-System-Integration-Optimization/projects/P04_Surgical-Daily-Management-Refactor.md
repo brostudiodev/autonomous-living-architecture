@@ -32,6 +32,6 @@ To transform the `autonomous_daily_manager.py` from a simple script aggregator i
 - **Proactivity:** Urgent grocery needs are now pushed to Telegram instead of waiting for a manual check.
 
 ## Related Documentation
-- [G12_context_resumer.py](../../50_Automations/scripts/G12_context_resumer.md)
-- [G03_price_scouter.md](../../50_Automations/scripts/G03_price_scouter.md)
-- [G05_llm_categorizer.md](../../50_Automations/scripts/G05_llm_categorizer.md)
+- [G12_context_resumer.py](../../../50_Automations/scripts/G12_context_resumer.md)
+- [G03_price_scouter.md](../../../50_Automations/scripts/G03_price_scouter.md)
+- [G05_llm_categorizer.md](../../../50_Automations/scripts/G05_llm_categorizer.md)

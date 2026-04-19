@@ -6,7 +6,7 @@ automation_id: "G11_inbox_processor_pro"
 goal_id: "goal-g11"
 systems: ["S04", "S10"]
 owner: "Michal"
-updated: "2026-03-28"
+updated: "2026-04-18"
 ---
 
 # G11: Inbox Processor Pro
@@ -25,7 +25,7 @@ Automatically processes the `00_Inbox/` directory to clear "Inbox Debt" by categ
 
 ## Processing Logic
 1. **Self-Cleaning (NEW Mar 28):** Automatically identifies and deletes files < 50 bytes (empty or redundant notes).
-2. **Scan:** Identifies all markdown files in the Inbox, processing newer files first.
+2. **Scan:** Identifies all markdown files in the Inbox, processing newer files first. (Limit: 50 files per run, optimized for high throughput).
 3. **Analyze (Gemini):** For each file, determine the primary Goal ID (G01-G12) and extract:
    - A 1-sentence strategic "takeaway".
    - Actionable tasks with priority levels.
@@ -57,3 +57,4 @@ Automatically processes the `00_Inbox/` directory to clear "Inbox Debt" by categ
 |------|--------|
 | 2026-03-12 | Initial AI triage script |
 | 2026-03-28 | Consolidated router logic, added Google Tasks sync, and self-cleaning for empty files |
+| 2026-04-13 | Increased processing limit from 15 to 50 files for rapid debt elimination. |

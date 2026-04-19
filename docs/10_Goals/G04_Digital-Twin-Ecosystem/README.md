@@ -4,7 +4,7 @@ type: "goal"
 status: "active"
 goal_id: "goal-g04"
 owner: "Michal"
-updated: "2026-02-16"
+updated: "2026-04-08"
 review_cadence: "monthly"
 ---
 
@@ -41,7 +41,7 @@ Create a centralized AI-powered intelligence hub that aggregates data from all s
 - [x] Autonomy ROI Tracking Engine deployed (G04_log_roi)
 - [x] Database-driven Hydration & Caffeine tracking
 - [x] **Obsidian Semantic Synthesis:** Project status and vault intelligence active.
-- [x] **Cooperative Telegram Bot:** Interactive decisions via `G04_telegram_bot.py`.
+- [x] **Cooperative Telegram Bot:** Interactive decisions via n8n webhook (WF001 Agent Router) for inbound, `G04_digital_twin_notifier.py` for outbound.
 - [x] **Standardized Daily Interface:** Formalized `Daily-Note-Interface-Spec.md` for Obsidian.
 - [x] Monitoring in place - Integrated with S01 observability
 - [x] Core data models for Digital Twin entities defined
@@ -135,15 +135,19 @@ Create a centralized AI-powered intelligence hub that aggregates data from all s
 ## Current Status: **PRODUCTION READY (85% Complete)**
 
 ### Core Implemented Systems
-- **Telegram Bot:** AndrzejSmartBot with full command processing
+- **Telegram Bot (INBOUND):** n8n Webhook via WF001 Agent Router - receives commands, processes intents
+- **Telegram Bot (OUTBOUND):** `G04_digital_twin_notifier.py` - sends briefings, alerts, approvals
 - **Multi-Channel Input:** text, voice, YouTube, web pages, images, PDFs
 - **AI Intelligence:** Google Gemini for content extraction
 - **GitHub Integration:** Auto-saves to Obsidian vault
 
+> [!note]
+> **Telegram Architecture (2026-04-08):** Inbound messages → n8n Webhook (WF001). Outbound notifications → Python (`G04_digital_twin_notifier.py`)
+
 ## Owner & Review
 - **Owner:** Michal
 - **Review Cadence:** Monthly
-- **Last Updated:** 2026-02-16
+- **Last Updated:** 2026-04-08
 
 ---
 

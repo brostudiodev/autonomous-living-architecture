@@ -3,7 +3,7 @@ title: "G09: Roadmap"
 type: "goal_roadmap"
 status: "active"
 owner: "Michal"
-updated: "2026-03-27"
+updated: "2026-04-12"
 goal_id: "goal-g09"
 ---
 
@@ -17,7 +17,20 @@ goal_id: "goal-g09"
 - [x] Set up basic dashboards in S01 (Observability) for career progress monitoring ✅
 - [x] Begin feeding career data into G12 (Meta-System) for holistic personal growth insights ✅ (Implemented via G11 Mapper)
 
-## Q2 (Apr–Jun)
+## Q2 (Apr–Jun) - Career Agent Implementation Phase
+
+> [!tip] 🚀 **Q2 Focus: Implement n8n Career Agent**
+- [ ] **System Stability Audit:** Verify career tracking working reliably
+  - [ ] **Sub-task: Career Sync Check** - Ensure skill/progress data syncs to DB
+  - [ ] **Sub-task: Dashboard Check** - Verify career dashboards show accurate data
+
+> [!tip] 🚀 **Missing n8n Agent Implementation**
+- [ ] **n8n Career Agent:** Implement native n8n agent for LinkedIn/Substack automation
+  - [ ] **Sub-task: Agent Design** - Create n8n workflow with LangChain for career domain
+  - [ ] **Sub-task: LinkedIn Integration** - Connect to LinkedIn API for posting/messaging
+  - [ ] **Sub-task: Substack Integration** - Connect to Substack for article scheduling
+  - [ ] **Sub-task: Content Generator** - LLM-powered content generation from system data
+
 - [/] Expand data sources: job market trends, target role requirements
 - [x] Implement skill gap analysis based on target role specifications ✅ (Mar 06 - G09 AI Analyzer)
 - [x] Automated system for identifying relevant learning opportunities (G06) ✅ (Mar 06 - G09 AI Analyzer)
@@ -32,6 +45,25 @@ goal_id: "goal-g09"
 - [ ] Implement automated resume/portfolio generation from project logs
 - [ ] Automated follow-up sequences for networking and applications
 - [ ] Integrate with G02 (Automationbro) for tracking public impact
+
+> [!tip] 🚀 **NEW: Relationship Intelligence Subsystem**
+> **Gap:** #1 predictor of happiness/longevity - currently 0% tracked. G09 extends to personal relationships.
+- [ ] **Relationship Database:** Track important people in your life
+  - [ ] **Sub-task: Contact Schema** - Name, relationship type, last contact, next check-in
+  - [ ] **Sub-task: Relationship Types** - Family, Friend, Colleague, Mentor, Client
+  - [ ] **Sub-task: Importance Score** - Rate relationship importance (1-10)
+- [ ] **Interaction Logging:** Automated capture of meaningful interactions
+  - [ ] **Sub-task: Daily Prompt** - "Who did you connect with today?"
+  - [ ] **Sub-task: Quality Rating** - How fulfilling was the interaction?
+  - [ ] **Sub-task: Duration Tracking** - Time spent with each person
+- [ ] **Relationship Health Dashboard:** Proactive maintenance reminders
+  - [ ] **Sub-task: Decay Alerts** - "You haven't contacted X in 14 days"
+  - [ ] **Sub-task: Birthday Reminders** - Never miss important dates
+  - [ ] **Sub-task: Social Energy Map** - Visualize who energizes vs. drains you
+- [ ] **Social Capital Tracking:** Build and maintain your network strategically
+  - [ ] **Sub-task: Network Size Metrics** - Total contacts, active relationships
+  - [ ] **Sub-task: Support Network Mapping** - Who can you lean on for what
+  - [ ] **Sub-task: Reciprocity Score** - Balance of giving vs. receiving
 
 ## Q4 (Oct–Dec)
 - [ ] Achieve comprehensive predictive career intelligence system

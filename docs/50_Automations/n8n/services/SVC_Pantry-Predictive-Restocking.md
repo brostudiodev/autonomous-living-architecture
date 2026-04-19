@@ -57,6 +57,6 @@ The service will execute the following logic weekly:
 -   Dynamically adjust the "restock window" based on external factors (e.g., planned holidays).
 
 ## 7. Related Documentation
-- [Automation Spec: WF105 Pantry Management](./WF105__pantry-management.md)
-- [Data Schema: S03 Pantry](../../20_Systems/S03_Data-Layer/Pantry-Schema.md)
-- [Sub-Project Master: Pantry Management System](../../10_Goals/G03_Autonomous-Household-Operations/README.md)
+- [Automation Spec: WF105 Pantry Management](../workflows/WF105__pantry-management.md)
+- [Data Schema: S03 Pantry](../../../20_Systems/S03_Data-Layer/Pantry-Schema.md)
+- [Sub-Project Master: Pantry Management System](../../../10_Goals/G03_Autonomous-Household-Operations/README.md)

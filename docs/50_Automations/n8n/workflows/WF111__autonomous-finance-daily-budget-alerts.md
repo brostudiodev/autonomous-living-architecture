@@ -2,7 +2,7 @@
 title: "WF111: Autonomous Finance - Daily Budget Alerts"
 type: "automation_spec"
 status: "inactive"
-automation_id: "WF111__autonomous-finance-daily-budget-alerts"
+automation_id: "WF{{LONG_IDENTIFIER}}"
 goal_id: "goal-g05"
 systems: ["S03", "S08"]
 owner: "Michal"
@@ -34,8 +34,8 @@ This workflow proactively monitors budget utilization and triggers alerts for ca
 
 ## Dependencies
 ### Systems
--   [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md) (PostgreSQL `autonomous_finance` database with `get_current_budget_alerts()` function deployed).
--   [S08 Automation Orchestrator](../../20_Systems/S08_Automation-Orchestrator/README.md) (n8n instance).
+-   [S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md) (PostgreSQL `autonomous_finance` database with `get_current_budget_alerts()` function deployed).
+-   [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md) (n8n instance).
 
 ### External Services
 -   PostgreSQL database service.

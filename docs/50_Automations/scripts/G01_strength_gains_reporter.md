@@ -33,8 +33,8 @@ Generates a weekly Markdown report in Obsidian summarizing HIT strength progress
 
 ## Dependencies
 ### Systems
-- [S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md) - PostgreSQL database.
-- [S01 Observability](../../../20_Systems/S01_Observability-Monitoring/README.md) - Progress reporting.
+- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md) - PostgreSQL database.
+- [S01 Observability](../../20_Systems/S01_Observability-Monitoring/README.md) - Progress reporting.
 
 ### External Services
 - Obsidian (File system)

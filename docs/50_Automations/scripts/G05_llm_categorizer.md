@@ -6,7 +6,7 @@ automation_id: "G05_llm_categorizer.py"
 goal_id: "goal-g05"
 systems: ["S05"]
 owner: "Michal"
-updated: "2026-03-20"
+updated: "2026-04-19"
 ---
 
 # G05: Financial Intelligence (LLM Categorizer)
@@ -17,7 +17,7 @@ Automates the classification of raw financial transactions into a hierarchical c
 ## Key Features
 - **Multi-Stage Classification:**
     1.  **Regex Match:** Immediate classification for known merchants.
-    2.  **Historical Memory:** Checks previous user corrections for similar transactions.
+    2.  **Historical Memory (Updated Apr 19):** Checks transaction history up to **3650 days (10 years)** back for similar patterns.
     3.  **LLM Inference:** Uses Gemini Pro to categorize unique or complex transactions based on descriptions.
 - **Feedback Loop:** If the LLM is uncertain, it marks the transaction as "Other" and triggers a human review request via the `G05_LOOP` marker in Obsidian.
 - **Accuracy Tracking:** Maintains logs of automated vs. human-corrected categories.

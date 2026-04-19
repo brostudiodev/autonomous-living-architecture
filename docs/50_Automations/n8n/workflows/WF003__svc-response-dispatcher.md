@@ -24,7 +24,7 @@ Centralized response delivery service that routes formatted responses from Intel
 ## Triggers
 - **Primary**: Execute Workflow calls from:
   - `ROUTER_Intelligence-Hub`
-  - [WF002: SVC_Command-Handler](../WF002__svc-command-handler.md)
+  - [WF002: SVC_Command-Handler](./WF002__svc-command-handler.md)
   - `SVC_Intelligence-Processor`
   - Any service requiring response delivery
 - **Type**: `executeWorkflowTrigger` (no external endpoints)

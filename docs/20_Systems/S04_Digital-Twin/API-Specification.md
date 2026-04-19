@@ -4,9 +4,9 @@ type: "system_spec"
 status: "active"
 system_id: "S04"
 goal_id: "goal-g04"
-version: "5.4"
+version: "6.0"
 owner: "Michal"
-updated: "2026-03-12"
+updated: "2026-04-17"
 ---
 
 # S04: Digital Twin API Master Registry
@@ -23,12 +23,24 @@ Every endpoint **MUST** return a JSON object with these keys to maintain n8n com
 
 ---
 
+## 🏥 Health & Observability (NEW v6.0)
+
+Endpoints designed for Docker healthchecks and monitoring.
+
+| Endpoint | Method | Description | Primary Logic / Source |
+|---|---|---|---|
+| `/health/live` | GET | **Liveness.** Confirms the FastAPI process is running. | Static response |
+| `/health/ready`| GET | **Readiness.** Probes all 8 domain DBs and engine status. | `G04_startup_probe.py` |
+| `/tools/health`| GET | **Manifest Audit.** Verifies existence and syntax of 61+ tools. | `registry.get_tools()` + `py_compile` |
+
+---
+
 ## 🛠️ Restoration & Recovery Guide
-If the API fails (e.g., 404s or 500s):
-1.  **Check Process:** `ps aux | grep G04_digital_twin_api.py`.
-2.  **Check Container:** `docker logs digital-twin-api`.
-3.  **Verify Script Path:** Ensure all imported scripts (G01–G12) exist in `scripts/`.
-4.  **Endpoint Restoration:** Every endpoint must be explicitly defined using `@app.api_route` or `@app.get/post` in `G04_digital_twin_api.py`.
+If the API fails (e.g., 404s or 500s) or reports a **CRITICAL** state:
+1.  **Check Detailed Troubleshooting:** [Failure Modes & Troubleshooting](./Failure-Modes-and-Troubleshooting.md)
+2.  **Check Process:** `ps aux | grep G04_digital_twin_api.py`.
+3.  **Check Container:** `docker logs digital-twin-api`.
+4.  **Verify Script Path:** Ensure all imported scripts (G01–G12) exist in `scripts/`.
 5.  **Restart Logic:** After any change, run `docker restart digital-twin-api`.
 
 ---
@@ -37,6 +49,11 @@ If the API fails (e.g., 404s or 500s):
 
 | Endpoint | Method | Description | Primary Logic / Source |
 |---|---|---|---|
+| `/reflection` | GET | **Inquiry.** Fetch today's personalized reflection questions for n8n. | `G10_reflection_generator.py` |
+| `/reflection` | POST | **Injection.** Submit reflection answers from n8n to Obsidian. | `G10_evening_summarizer.py` |
+| `/finance/alerts`| GET | **Alert Monitor.** Clean list of budget breaches for n8n. | `engine.get_finance_alerts()` |
+| `/health/readiness`| GET | **Bio-Audit.** Granular breakdown of biological/operational/financial readiness. | `engine.get_readiness_detail()` |
+| `/system/activity`| GET | **Reliability.** 24h success rate and recent failure details. | `engine.get_system_reliability()` |
 | `/all` | GET/POST | **Uber-Context.** Full state for LLM reasoning. | `engine.get_full_context()` |
 | `/status` | GET/POST | **The Glance.** Summary of Health, Finance, Focus. | `engine.generate_summary()` |
 | `/suggested` | GET/POST | **Director's Report.** Connectivity, Insights, Schedule. | `engine.generate_suggested_report()` |
@@ -48,14 +65,29 @@ If the API fails (e.g., 404s or 500s):
 | `/todos` | GET/POST | **Agenda.** Consolidated Google Tasks. | `G10_google_tasks_sync.py` |
 | `/tasks` | GET/POST | **Recommendations.** Biometric-aware next steps. | `engine.get_task_recommendations()` |
 | `/search` | GET/POST | **Vault Query.** Keyword search in Obsidian. | `engine.search_vault(query)` |
-| `/memory` | GET/POST | **Strategic Archive.** Recent advice and decisions. | `engine.get_memory_status()` |
+| `/memory` | GET/POST | **Strategic Archive.** Last 20 advice items and decisions. | `engine.get_memory_status()` |
 | `/strategic_audit` | GET/POST | **Truth-First Audit.** Intent vs. Reality analysis. | `G11_strategic_auditor.py` |
 | `/simulate` | GET/POST | **Projection.** Q4 goal completion likelihood. | Static heuristic (Engine) |
-| /chat | POST | **Terminal.** Handles NL and Slash commands (e.g., `/approve [ID]`, `/approve all`, `/deny [ID]`). | `AgentZero.ask()` |
+| `/chat` | POST | **Terminal.** Handles NL and Slash commands (e.g., `/approve [ID]`, `/approve all`, `/deny [ID]`). | `AgentZero.ask()` |
+
+---
+
+## 🛠️ Agentic Tool Framework (NEW v1.0)
+
+The Tool Framework allows agents to discover and execute G-series scripts autonomously without manual n8n workflow creation.
+
+| Endpoint | Method | Description | Primary Logic / Source |
+|---|---|---|---|
+| `/tools` | GET | **Discovery.** List all registered tools with descriptions. | `registry.get_tools()` |
+| `/tool/list` | GET | **Alias.** Definitive list for AI tool discovery. | `registry.get_tools()` |
+| `/tool/help` | GET | **Documentation.** Human/AI guide for the framework. | `generate_tool_help_text()` |
+| `/execute_tool`| POST | **Action.** Execute a script by its ID. Body: `{"tool_id": "...", "params": {"key": "value"}}`. | `registry.execute_tool()` |
+| `/chat` (Slash) | POST | **Shortcut.** Execute via `/tool/execute [ID]` or list via `/tools`. | `AgentZero.ask()` |
 
 ---
 
 ## ⚖️ Decision Engine (The Approval Loop)
+
 
 The Decision Engine allows the system to propose high-confidence actions that require human consent before execution.
 
@@ -103,7 +135,7 @@ The Decision Engine allows the system to propose high-confidence actions that re
 | `/logistics_sync`| GET/POST | **Deadlines.** Sync legal/admin documents. | `G04_logistics_sync.py` |
 | `/shopping_list`| GET/POST | **Procurement.** Generate shopping manifest. | `G03_household_manifest.py` |
 | `/shopping/populate_cart` | POST | **One-Click Cart.** Push to Google Tasks. | `G03_cart_aggregator.py` |
-| `/log_coffee` | GET/POST | **Caffeine.** Log 100mg cup + return total with timestamp (HH:MM:SS - DD.MM.YYYY). | `AgentZero.log_caffeine()` |
+| `/log_coffee` | GET/POST | **Caffeine.** Log 100mg cup + 250ml water hydration. Returns total with timestamp. | `AgentZero.log_caffeine()` |
 | `/log_water` | GET/POST | **Water.** Log 250ml glass + return total with timestamp (HH:MM:SS - DD.MM.YYYY). | `AgentZero.log_water()` |
 | `/log_reflection`| GET/POST | **Evening.** Generate Stoic coach reflection. | `G10_reflection_generator.py` |
 | `/log_event` | POST | **Memory.** Record manual decision/event. | `engine.save_to_memory()` |

@@ -4,7 +4,7 @@ type: "goal"
 status: "active"
 goal_id: "goal-g10"
 owner: "Michal"
-updated: "2026-03-31"
+updated: "2026-04-08"
 review_cadence: "monthly"
 ---
 

@@ -247,9 +247,9 @@ SELECT cron.schedule('refresh-savings-rate', '0 */6 * * *',
 - Maintenance burden of two systems
 
 ## Related Decisions
-- [Adr-0006](./Adr-0006-PostgreSQL-Partitioning.md) - PostgreSQL Partitioning Strategy
-- [Adr-0009](./Adr-0009-Centralized-Observability.md) - Centralized Observability Stack
-- [Adr-0014](./Adr-0014-Security-by-Design.md) - Security by Design Implementation
+- [Adr-0006](./Adr-0006-PostgreSQL-Partitioning-Strategy.md) - PostgreSQL Partitioning Strategy
+- [Adr-0009](./Adr-00{{LONG_IDENTIFIER}}.md) - Centralized Observability Stack
+- [Adr-0014](./Adr-00{{LONG_IDENTIFIER}}.md) - Security by Design Implementation
 
 ## Metrics
 

@@ -3,7 +3,7 @@ title: "G12: Roadmap"
 type: "goal_roadmap"
 status: "active"
 owner: "Michal"
-updated: "2026-03-28"
+updated: "2026-04-02"
 goal_id: "goal-g12"
 ---
 
@@ -23,16 +23,30 @@ goal_id: "goal-g12"
 - [x] **Context Resumer (v1.5):** Enhanced with executable terminal commands for rapid mission resumption ✅ (Mar 23)
 - [x] **AI Journaling Support:** Automated prompt generation injected into daily reflections ✅ (Mar 23)
 
-## Q2 (Apr–Jun)
+## Q2 (Apr–Jun) - Optimization Phase
+
+> [!tip] 🚀 **Q2 Focus: System Stability & Minor Improvements**
+- [ ] **System Stability Audit:** Verify documentation automations working reliably
+  - [ ] **Sub-task: WF105 Check** - Ensure activity log generation runs without errors
+  - [ ] **Sub-task: Auto-Documenter Check** - Verify Gemini doc generation works
+  - [ ] **Sub-task: Link Maintainer Check** - Test cross-reference updates
+- [ ] **Minor Improvements:**
+  - [ ] **Sub-task: Search Optimization** - Improve documentation search (pre-Q3)
+  - [ ] **Sub-task: Audit Refinement** - Streamline monthly audit process
+
 - [x] Document all existing critical systems (S00-S10) according to GDS (done 2026-02-16)
 - [x] Update system READMEs (S00-S11) to follow Documentation Standard (done 2026-02-16)
 - [x] Implement **G12 Auto-Documenter** script (uses Gemini to generate .md specs from code) ✅ (Mar 05)
 - [x] Document all existing production automations (n8n, scripts, HA) ✅ (Mar 23)
+- [x] **Complete n8n Service Documentation:** Documented 38+ n8n workflow services with full specs ✅ (Apr 10)
+- [x] **Schedule Master List:** Created `SCHEDULE_All-Workflows.md` tracking all workflow trigger times ✅ (Apr 10)
 - [x] **Interactive Architectural Diagrams:** Launched dynamic Mermaid.js connectivity map at `/map` ✅ (Mar 28)
+- [x] **Automated Goal Progress Tracking (v1.0):** System automatically identifies activity from tasks/commits and checks Power Goal boxes in Daily Note ✅ (Apr 01)
 - [x] Develop a system for auto-generating cross-references and links within documentation ✅ (Mar 06 - G12 Link Maintainer)
 - [x] Implement a periodic review process for documentation accuracy and currency ✅ (Mar 23)
 - [x] **Conduct Q2 audit of all goals against GDS (monthly)** ✅ (Mar 23)
 - [x] Explore LLM-assisted documentation generation for routine tasks ✅ (Mar 23)
+- [x] **Stale Documentation Monitor (G12-SDM):** Automated detection of documentation neglected for >30 days ✅ (Apr 02)
 
 ## Q3 (Jul–Sep)
 - [ ] Develop a search and knowledge retrieval system for all documentation

@@ -31,7 +31,7 @@ Provides a unified input processing for Telegram, Webhook, and Chat sources. It 
 
 ## Dependencies
 ### Systems
-- [S04 Messaging & Interaction Layer](../../20_Systems/S04_Digital-Twin/README.md)
+- [S04 Messaging & Interaction Layer](../../../20_Systems/S04_Digital-Twin/README.md)
 
 ### External Services
 - Telegram API
@@ -52,7 +52,7 @@ Provides a unified input processing for Telegram, Webhook, and Chat sources. It 
 This is a core processing service. A manual fallback would involve manually crafting the JSON object that this service would have produced.
 
 ## Related Documentation
-- [WF001: ROUTER_Intelligence-Hub](../WF001_Agent_Router.md)
-- [WF002: SVC_Command-Handler](../WF002__svc-command-handler.md)
-- [WF003: SVC_Response-Dispatcher](../WF003__svc-response-dispatcher.md)
-- [WF004: SVC_Intelligence-Processor](../WF004__intelligence-hub-input.md)
+- [WF001: ROUTER_Intelligence-Hub](./WF001_Agent_Router.md)
+- [WF002: SVC_Command-Handler](./WF002__svc-command-handler.md)
+- [WF003: SVC_Response-Dispatcher](./WF003__svc-response-dispatcher.md)
+- [WF004: SVC_Intelligence-Processor](./WF004__intelligence-hub-input.md)

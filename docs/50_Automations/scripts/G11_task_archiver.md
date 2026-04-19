@@ -6,7 +6,7 @@ automation_id: "G11_task_archiver"
 goal_id: "goal-g11"
 systems: ["S10"]
 owner: "Michal"
-updated: "2026-03-26"
+updated: "2026-04-18"
 ---
 
 # G11_task_archiver: Stale Task Cleanup

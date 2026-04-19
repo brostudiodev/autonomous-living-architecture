@@ -141,7 +141,7 @@ brostudiodev/autonomous-living/
     ├── G08_Predictive-Smart-Home-Orchestration/Roadmap.md
     ├── G09_Complete-Process-Documentation/Roadmap.md
     ├── G10_Automated-Career-Intelligence/Roadmap.md
-    ├── G11_Intelligent-Productivity-Time-Architecture/Roadmap.md
+    ├── G{{LONG_IDENTIFIER}}/Roadmap.md
     └── G11_Meta-System-Integration-Optimization/Roadmap.md
 ```
 
@@ -249,7 +249,7 @@ To add a new goal:
 
 ## Related Documentation
 
-*   Goal Documentation Standard
-*   SOP: Weekly Review
-*   System: S03 Data Layer
-*   System: S10 Daily Goals Automation
+*   [Goal Documentation Standard](../../../../10_Goals/Documentation-Standard.md)
+*   [SOP: Weekly Review](../../../../30_Sops/Weekly-Review-SOP.md)
+*   [System: S03 Data Layer](../../../../20_Systems/S03_Data-Layer/README.md)
+*   [System: S10 Daily Goals Automation](../../../../20_Systems/S10_Daily-Goals-Automation/README.md)

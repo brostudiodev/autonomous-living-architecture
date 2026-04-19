@@ -63,8 +63,8 @@ Standard response procedures when budget optimization opportunities or anomalies
 
 ## Related Documentation
 
-- [G05 Financial Command Center](../../10_Goals/G05_Autonomous-Financial-Command-Center/README.md)
-- [Autonomy Rules Runbook](../../40_Runbooks/G11/Autonomy-Rules-Runbook.md)
+- [G05 Financial Command Center](../10_Goals/G05_Autonomous-Financial-Command-Center/README.md)
+- [Autonomy Rules Runbook](../40_Runbooks/G11/Autonomy-Rules-Runbook.md)
 
 ---
 *Owner: Michal*

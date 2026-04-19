@@ -49,5 +49,5 @@ Ensure all tasks from external sources (Google Tasks) and internal sources (Obsi
 - **If Tasks Overload:** If more than 10 tasks appear in the Daily Sync, use the "Sunday Morning Admin" block to aggressively prune the backlog.
 
 ## Related Documentation
-- [G10 README](../10_Goals/G10_Intelligent-Productivity-Time-Architecture/README.md)
+- [G10 README](../10_Goals/G{{LONG_IDENTIFIER}}/README.md)
 - [G10-google-tasks-sync Automation](../50_Automations/scripts/G10_google_tasks_sync.md)

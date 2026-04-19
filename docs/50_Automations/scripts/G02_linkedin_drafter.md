@@ -35,7 +35,7 @@ Automatically generates high-engagement LinkedIn post drafts from newly publishe
 
 ## Dependencies
 ### Systems
-- [S02 Content Distribution](../../20_Systems/S02_Content-Distribution/README.md)
+- [S12 LinkedIn Ideas System](../../20_Systems/S12_LinkedIn-Ideas-System/README.md)
 - [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
 
 ### External Services

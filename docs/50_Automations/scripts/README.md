@@ -3,7 +3,7 @@ title: "Scripts"
 type: "index"
 status: "active"
 owner: "Michal"
-updated: "2026-02-07"
+updated: "2026-04-09"
 ---
 
 # Scripts
@@ -17,6 +17,9 @@ Small, reliable utilities that n8n/HA/scheduled jobs can call.
 - Exit codes matter
 - Document inputs/outputs in a sibling `.md`
 
+## Quick Links
+- **[Coding Patterns & Standards](./Coding-Patterns.md)** - Mandatory patterns for all new scripts
+- **[db_config.py](./db_config.md)** - Centralized database configuration (Migrated 2026-04-09)
 
 ---
 

@@ -54,7 +54,7 @@ To enable: set `OLLAMA_ENABLED=true` in `.env` file.
 
 ### Systems
 - [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S05 Finance System](../../20_Systems/S05_Intelligent-Routing-Hub/README.md)
+- [S05 Finance System](../../20_Systems/S04_Digital-Twin/README.md)
 
 ### External Services
 - Ollama Docker container (localhost:11434)

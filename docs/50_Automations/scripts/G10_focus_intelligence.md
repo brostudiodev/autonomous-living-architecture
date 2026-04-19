@@ -6,7 +6,7 @@ automation_id: "G10_focus_intelligence"
 goal_id: "goal-g10"
 systems: ["S04", "S07", "S08"]
 owner: "Michal"
-updated: "2026-03-23"
+updated: "2026-04-18"
 ---
 
 # G10_focus_intelligence: Focus Mode Status Check
@@ -97,7 +97,7 @@ Queries readiness score (from G07 biometrics) and office environment (from G08 H
 - [S08 Automation Orchestrator](../../20_Systems/S08_Automation-Orchestrator/README.md) - Integration
 
 ### External Services
-- Home Assistant REST API (`http://[INTERNAL_IP]:8123`)
+- Home Assistant REST API (`http://{{INTERNAL_IP}}:8123`)
 - PostgreSQL (`digital_twin_michal`)
 
 ### Scripts
@@ -138,12 +138,12 @@ python scripts/G10_focus_intelligence.py
 
 Manual check in Home Assistant:
 ```bash
-curl http://[INTERNAL_IP]:8123/api/states/binary_sensor.lumi_lumi_sensor_motion_aq2_occupancy
+curl http://{{INTERNAL_IP}}:8123/api/states/binary_sensor.lumi_lumi_sensor_motion_aq2_occupancy
 ```
 
 ## Related Documentation
 
-- [G10 Roadmap](../../10_Goals/G10_Intelligent-Productivity-Time-Architecture/Roadmap.md)
+- [G10 Roadmap](../../10_Goals/G{{LONG_IDENTIFIER}}/Roadmap.md)
 - [G08 Smart Home Monitor](./G08_home_monitor.md)
 - [G10 Schedule Optimizer](./G10_schedule_optimizer.md)
 - [SOP: Daily Briefing Management](../../30_Sops/Daily-Briefing-Management.md)

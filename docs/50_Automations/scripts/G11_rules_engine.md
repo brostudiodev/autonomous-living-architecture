@@ -6,13 +6,18 @@ automation_id: "G11_rules_engine"
 goal_id: "goal-g11"
 systems: ["S11", "S04"]
 owner: "Michal"
-updated: "2026-03-20"
+updated: "2026-04-14"
 ---
 
 # script: G11_rules_engine.py
 
 ## Purpose
 The decision authority core of the Autonomous Living Ecosystem. It evaluates domain-specific actions against the `autonomy_policies.yaml` to decide whether an action can be performed automatically (`AUTO_ACT`) or requires human intervention (`ASK_HUMAN`).
+
+## 🚀 Enhancements (Apr 14)
+1. **Rich Reporting & Payloads:** Standardized the `decision_requests.payload` to always include `recommended_action`, `reason`, and `description` (from policy config). This ensures that n8n and Telegram always have the necessary context for human approval.
+2. **Flexible Deduplication:** Instead of exact JSON matching, the engine now uses domain-specific keys for deduplication (e.g., `category` for household procurement, `amount` for finance). This prevents redundant requests for the same item/transaction within a 24-hour window.
+3. **Policy-Driven Descriptions:** Now pulls human-readable descriptions directly from `autonomy_policies.yaml` to provide better context in automated reports.
 
 ## Triggers
 - **Library Call:** Called by other scripts (e.g., `G05_budget_rebalancer.py`, `G05_llm_categorizer.py`, `G01_training_planner.py`) to validate actions.
@@ -41,8 +46,8 @@ The decision authority core of the Autonomous Living Ecosystem. It evaluates dom
 
 ## Dependencies
 ### Systems
-- [S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md)
-- [S04 Digital Twin](../../../20_Systems/S04_Digital-Twin/README.md)
+- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
+- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
 
 ## Error Handling
 | Failure Scenario | Detection | Response | Alert |
@@ -52,4 +57,4 @@ The decision authority core of the Autonomous Living Ecosystem. It evaluates dom
 
 ---
 *Governance:*
-This script is the primary enforcer of the [Decision Authority Framework](../../../60_Decisions_adrs/ADR-0005-Decision-Authority-Framework.md).
+This script is the primary enforcer of the [Decision Authority Framework](../../60_Decisions_adrs/Adr-0017-Decision-Authority-Framework.md).

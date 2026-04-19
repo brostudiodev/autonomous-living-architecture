@@ -35,7 +35,7 @@ updated: "2026-03-23"
 
 ## ⚠️ Known Issues / Maintenance
 - HA Token expiry (typically long-lived but requires monitoring).
-- Network latency between script host and HA instance ([INTERNAL_IP]).
+- Network latency between script host and HA instance ({{INTERNAL_IP}}).
 
 ---
 *Updated: 2026-03-23 - Hardened occupancy logic and added laptop monitoring.*

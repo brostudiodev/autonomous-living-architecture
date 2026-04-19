@@ -35,14 +35,14 @@ Provide real-time Linux system monitoring (CPU, memory, disk, network, processes
 - Hardware sensors via Linux kernel
 
 ### Outputs
-- **Web UI**: http://[INTERNAL_IP]:61208
+- **Web UI**: http://{{INTERNAL_IP}}:61208
 - **Home Assistant**: Sensor entity via `glances` integration
-- **JSON API**: http://[INTERNAL_IP]:61208/api/3/all
+- **JSON API**: http://{{INTERNAL_IP}}:61208/api/3/all
 
 ## Dependencies
 
 ### Systems
-- [S01 Observability & Monitoring](../S01_Observability-Monitoring/README.md)
+- [S01 Observability & Monitoring](../../20_Systems/S01_Observability-Monitoring/README.md)
 - Home Assistant (for dashboard integration)
 
 ### Hardware
@@ -68,7 +68,7 @@ Wants=network-online.target
 [Service]
 Type=simple
 User=root
-ExecStart=/usr/bin/glances -w -B 0.0.0.0
+ExecStart=/usr/bin/glances -w -B {{INTERNAL_IP}}
 Restart=always
 RestartSec=5
 
@@ -85,9 +85,9 @@ systemctl status glances
 
 | Setting | Value |
 |---------|-------|
-| Bind Address | 0.0.0.0 |
+| Bind Address | {{INTERNAL_IP}} |
 | Port | 61208 |
-| Host IP | [INTERNAL_IP] |
+| Host IP | {{INTERNAL_IP}} |
 
 ## Home Assistant Integration
 
@@ -96,13 +96,13 @@ systemctl status glances
 **Option 1: UI**
 1. Configuration → Devices & Services → Add Integration
 2. Search "Glances"
-3. Enter: Host `[INTERNAL_IP]`, Port `61208`
+3. Enter: Host `{{INTERNAL_IP}}`, Port `61208`
 
 **Option 2: YAML**
 ```yaml
 sensor:
   - platform: glances
-    host: [INTERNAL_IP]
+    host: {{INTERNAL_IP}}
     port: 61208
 ```
 
@@ -171,7 +171,7 @@ If HA integration fails:
 
 ## Related Documentation
 
-- [S01 Observability & Monitoring](../S01_Observability-Monitoring/README.md)
+- [S01 Observability & Monitoring](../../20_Systems/S01_Observability-Monitoring/README.md)
 - [Service Registry - Monitoring Stack](../../20_Systems/Service-Registry.md)
 - [Home Assistant Glances Integration](https://www.home-assistant.io/integrations/glances/)
 - [Glances Documentation](https://glances.readthedocs.io/)

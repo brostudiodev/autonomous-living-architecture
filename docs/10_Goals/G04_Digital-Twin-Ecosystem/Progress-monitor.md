@@ -4,28 +4,71 @@ type: "progress_monitor"
 status: "active"
 goal_id: "goal-g04"
 created: "2026-02-11"
-last_updated: "2026-02-11"
-version: "1.0"
+last_updated: "2026-04-19"
+version: "1.2"
 ---
 
 # G04 Digital Twin Ecosystem - Progress Monitor
 
 **Purpose:** Track major achievements, milestones, and progress for G04 Digital Twin Ecosystem goal.
 
-**Update Frequency:** Updated automatically based on Activity-log.md files and monthly summaries
-
 ---
 
-## 🎯 Executive Summary - Q1 2026 Progress
+## 🎯 Executive Summary - Q2 2026 Progress
 
 ### Overall Completion Status
 - **Q1 Progress**: 100% Complete ✅
-- **Current Phase**: Data Integration & Visualization
-- **Key Focus**: Multi-source data ingestion and visualization framework
+- **Q2 Progress**: 40% Complete 🚀
+- **Current Phase**: Architectural Refactoring & Resilience
+- **Key Focus**: Port conflict resolution and Briefing Optimization
 
 ---
 
 ## ✅ Major Achievements
+
+### Appliance Health & Maintenance Integration (April 2026)
+**Implementation Summary:**
+- **Cross-Domain Orchestration**: Connected the `G04_life_sentinel.py` (originally for anniversaries/logistics) to the `appliance_status` database.
+- **Predictive Maintenance Alerts**: Household maintenance tasks (HVAC filters, water softener salt, boiler filters) are now autonomously tracked alongside birthdays and logistical expiries.
+- **Unified Mission Injection**: Maintenance alerts are automatically promoted to the "Golden Mission" (Top 5) list via `G11_mission_aggregator.py`, ensuring high visibility for critical home infrastructure care.
+
+**Technical Specifications:**
+- **Trigger**: `G04_life_sentinel.py` (Daily scan).
+- **Scope**: Cycles-based (Washing machine/Dishwasher) and Time-based (Filters/Salt) maintenance.
+- **Urgency**: Integrated tiered escalation (🚨 EMERGENCY for overdue/threshold reached).
+
+### Unlimited History Unlock (April 2026)
+**Implementation Summary:**
+- **System-Wide Lookback Expansion**: Removed hardcoded time limits across the entire Digital Twin ecosystem, expanding the default lookback from 7/30 days to 3650 days (10 years).
+- **Engine Optimization**: Updated `G04_digital_twin_engine.py` to support deep historical queries for sleep trends, workout stats, finance forecasts, and system reliability.
+- **API Alignment**: Refactored `G04_digital_twin_api.py` endpoints (`/history`, `/workout/stats`, `/health/trend`) to provide full historical access by default.
+- **Agent Intelligence Boost**: Successfully "unlocked" memory for Training, Finance, Knowledge, and Learning agents, enabling them to analyze data across the entire database history.
+
+**Technical Specifications:**
+- **Lookback**: 3650 days (Standardized across all domains).
+- **Impact**: Agents can now correlate current performance with data from years prior (e.g., comparing 2026 workouts with early 2025 baselines).
+- **Resilience**: Fixed JSON parsing errors in N8N agent configurations to ensure stable multi-year data processing.
+
+### API Architectural Hardening (April 2026)
+**Implementation Summary:**
+- **Endpoint Conflict Resolution**: Resolved a critical clash in `G04_digital_twin_api.py` where duplicate `/status` definitions caused dashboard errors.
+- **Resilient Health Checks**: Increased API health check timeouts to 5s to prevent false-negative "Offline" states during heavy DB load.
+- **Port Management**: Identified and cleared zombie processes holding port 5677, restoring container stability.
+
+**Technical Specifications:**
+- **API Status**: ✅ Online
+- **Health Check**: Consolidated GET/POST `/status` endpoint with unified reporting logic.
+- **Metrics**: 100% API uptime post-refactor.
+
+### Briefing Tactical Optimization (April 2026)
+**Implementation Summary:**
+- **Audit Filtering**: Upgraded `G04_digital_twin_engine.py` to automatically filter out "Audit" tasks from the Morning Briefing.
+- **Mission Clarity**: Shifted the briefing focus from system maintenance to high-impact roadmap missions.
+- **Inbox Transparency**: Integrated low-confidence tagging in `G11_inbox_processor_pro.py` to ensure "Digital Twin" knowledge doesn't silently ignore vague notes.
+
+**Technical Specifications:**
+- **Logic**: regex-based `audit` keyword exclusion in `get_roadmap_mins` and `get_all_roadmap_todos`.
+- **Visibility**: Improved dashboard clarity by removing 10+ redundant system-maintenance lines.
 
 ### Digital Twin Engine & REST API (February 2026)
 **Actual Implementation:**

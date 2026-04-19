@@ -60,8 +60,8 @@ This workflow acts as a central monitoring service, regularly checking the execu
 
 ## Dependencies
 ### Systems
--   [S08 Automation Orchestrator](../../20_Systems/S08_Automation-Orchestrator/README.md) (n8n instance - this workflow relies on n8n's internal API)
--   [S01 Observability & Monitoring](../../20_Systems/S01_Observability-Monitoring/README.md) (as this provides core monitoring functionality)
+-   [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md) (n8n instance - this workflow relies on n8n's internal API)
+-   [S01 Observability & Monitoring](../../../20_Systems/S01_Observability-Monitoring/README.md) (as this provides core monitoring functionality)
 
 ### External Services
 -   n8n Internal API

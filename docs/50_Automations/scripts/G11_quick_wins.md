@@ -6,7 +6,7 @@ automation_id: "G11_quick_wins"
 goal_id: "goal-g11"
 systems: ["S04", "S10"]
 owner: "Michal"
-updated: "2026-03-20"
+updated: "2026-04-02"
 ---
 
 # G11: Quick Wins
@@ -24,7 +24,7 @@ Aggregates the top 3 most urgent and actionable items across multiple domains (L
 - Google Tasks API (via `G10_google_tasks_sync.py`)
 
 ## Processing Logic
-1.  **Logistics:** Fetch top 2 items due soonest (ascending order).
+1.  **Logistics:** Fetch top 2 items due soonest (ascending order) that are due within the next **3 days**.
 2.  **Pantry:** Fetch top 1 item with lowest stock ratio (quantity/threshold).
 3.  **Course Prep (NEW Mar 28):** Fetch upcoming courses starting within 3 days.
 4.  **Finance (NEW Mar 28):** Fetch the most severe financial anomaly (e.g., fraudulent/unusual spend).

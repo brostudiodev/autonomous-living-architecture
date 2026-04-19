@@ -2,8 +2,8 @@
 title: "Automation Spec: G10_mission_briefing.py"
 type: "automation_spec"
 status: "draft"
-created: "2026-03-05"
-updated: "2026-03-05"
+created: "2026-04-16"
+updated: "2026-04-16"
 ---
 
 # 🤖 Automation Spec: G10_mission_briefing.py
@@ -16,7 +16,7 @@ updated: "2026-03-05"
 - **Language:** Python
 - **Triggers:** Manual Execution
 - **Databases:** None
-- **Dependencies:** `pathlib, re, datetime, os`
+- **Dependencies:** `datetime, sys, os, re, pathlib`
 
 ## 🛠️ Logic Flow
 1. [Step 1]

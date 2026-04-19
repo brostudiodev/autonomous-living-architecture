@@ -6,13 +6,13 @@ automation_id: "G04__logistics_sync"
 goal_id: "goal-g04"
 systems: ["S03", "S04"]
 owner: "Michal"
-updated: "2026-03-04"
+updated: "2026-04-14"
 ---
 
-# G04: Life Logistics Sync
+# G04: Life Logistics Sync (v2.0 - Zero-Clobber)
 
 ## Purpose
-Synchronizes critical life deadlines (passports, IDs, recurring payments, home maintenance) from the Master Google Sheet to a dedicated PostgreSQL database.
+Synchronizes critical life deadlines (passports, IDs, recurring payments, home maintenance) and yearly events (birthdays, anniversaries) from the Master Google Sheet to a dedicated PostgreSQL database.
 
 ## Triggers
 - **Daily:** Triggered via `G11_global_sync.py` during the morning block.
@@ -20,26 +20,31 @@ Synchronizes critical life deadlines (passports, IDs, recurring payments, home m
 - **Manual:** `python3 G04_logistics_sync.py`
 
 ## Inputs
-- **Google Sheet:** `Life_Logistics` (ID: `[SPREADSHEET_ID]`)
-- **Tabs:** Identity & Legal, Asset & Home Maintenance, Health & Prevention Calendar, Subscription & Warranty Registry, Personal Specs.
+- **Google Sheet:** `Life_Logistics` (ID: `{{LONG_IDENTIFIER}}`)
+- **Tabs:** Identity & Legal, Asset & Home Maintenance, Health & Prevention Calendar, Subscription & Warranty Registry, Personal Specs, Anniversaries.
 - **Credentials:** `google_credentials_digital-twin-michal.json`
 
 ## Processing Logic
 1. Connects to `autonomous_life_logistics` PostgreSQL database.
-2. Truncates the existing table to ensure a fresh "Source of Truth" sync.
-3. Iterates through the 5 predefined tabs in the Google Sheet.
-4. Parses dates and numeric values, handling empty fields.
-5. **STATUS Capture (New):** Fetches the `STATUS` column (States: empty, DONE, REJECTED).
-6. Inserts rows into the `autonomous_life_logistics` table, including the `status` field.
-7. **Downstream Impact:** Digital Twin Engine, Calendar Sync, and Quick Wins now automatically filter out items where status is **'DONE'** or **'REJECTED'**.
+2. **Zero-Clobber UPSERT (Apr 13):** No longer uses TRUNCATE. Instead, it uses `ON CONFLICT` to preserve manual status changes (DONE/REJECTED) while updating metadata.
+3. Iterates through the 6 predefined tabs in the Google Sheet.
+4. **Anniversaries Tab (NEW Apr 14):** Specialized handling for yearly recurring events. Ingests Name, Relationship, and Original Date.
+5. Parses dates and numeric values, handling empty fields.
+6. **Post-Sync Cleanup:**
+    - Items missing from the logistics tabs are marked as `DONE` in the database.
+    - Items missing from the `Anniversaries` tab are deleted from the database.
+7. **Downstream Impact:** `G04_life_sentinel.py` now monitors both standard expirations and yearly anniversaries.
 
 ## Outputs
-- **Database Table:** `autonomous_life_logistics.public.autonomous_life_logistics`
-- **Database Columns:** `id`, `category`, `item_name`, `due_date`, `amount`, `alert_threshold_days`, `notes`, `status`, `updated_at`.
-- **Console Output:** Summary of synced entries per tab.
+- **Database Tables:** 
+    - `autonomous_life_logistics` (Standard items)
+    - `anniversaries` (Yearly recurring items)
+- **Database Columns (Logistics):** `id`, `category`, `item_name`, `due_date`, `amount`, `alert_threshold_days`, `notes`, `status`, `last_synced_at`, `updated_at`.
+- **Database Columns (Anniversaries):** `id`, `name`, `relationship_type`, `original_date`, `alert_threshold_days`, `last_synced_at`, `updated_at`.
 
 ## Dependencies
-### Systems
+...
+
 - [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
 - [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
 

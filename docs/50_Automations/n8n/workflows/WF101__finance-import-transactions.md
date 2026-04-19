@@ -74,6 +74,6 @@ ORDER BY potential_savings DESC;
 - **Alert Volume:** 0-2 notifications per day (typical)
 
 ## Related Documentation
-- Runbook: [Budget-Optimization-Response.md](../../40_Runbooks/Budget-Optimization-Response.md)
-- SOP: [Monthly-Budget-Review.md](../../30_Sops/Monthly-Budget-Review.md)
-- System: [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
+- Runbook: [Budget-Optimization-Response.md](../../../40_Runbooks/Budget-Optimization-Response.md)
+- SOP: [Monthly-Budget-Review.md](../../../30_Sops/Monthly-Budget-Review.md)
+- System: [S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md)

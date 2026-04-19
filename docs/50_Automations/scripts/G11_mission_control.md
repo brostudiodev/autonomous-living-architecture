@@ -6,7 +6,7 @@ automation_id: "G11_mission_control"
 goal_id: "goal-g11"
 systems: ["S11", "S10"]
 owner: "Michal"
-updated: "2026-03-23"
+updated: "2026-04-18"
 ---
 
 # G11: Mission Control (Task Automation)
@@ -40,7 +40,7 @@ Bridges the gap between system intelligence and human execution by autonomously 
 ## Dependencies
 ### Systems
 - [S11 Meta-System Integration](../../20_Systems/S11_Meta-System-Integration/README.md)
-- [S10 Productivity Architecture](../../20_Systems/S10_Productivity-Architecture/README.md)
+- [S09 Productivity & Time Architecture](../../20_Systems/S09_Productivity-Time/README.md)
 
 ### External Services
 - **Google Tasks API**: Requires valid OAuth2 credentials (`google_tasks_token.pickle`).

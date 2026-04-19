@@ -28,13 +28,15 @@ Provides a centralized "State & Threshold" monitoring layer for non-flow data po
 | `status` | VARCHAR(20) | 'Pending' or 'Done' |
 | `alert_threshold_days` | INTEGER | Days before due_date to start alerting (Default: 30) |
 | `notes` | TEXT | Additional context (Location, Provider, etc.) |
-| `updated_at` | TIMESTAMP | Last sync timestamp |
+| `last_synced_at` | TIMESTAMP | Last time the item was present in the Google Sheet |
+| `updated_at` | TIMESTAMP | Last sync/modification timestamp |
 
 ## Automation Architecture
 
 ### 1. Ingestion (`G04_logistics_sync.py`)
-- **Source:** Master Google Sheet `Life_Logistics` (ID: `[SPREADSHEET_ID]`)
-- **Logic:** Full truncate and reload sync pattern. Each row in the sheet represents a discrete deadline.
+- **Source:** Master Google Sheet `Life_Logistics` (ID: `{{SPREADSHEET_ID}}`)
+- **Logic:** **Zero-Clobber UPSERT** pattern. Preservation of status for existing items. 
+- **Self-Healing:** Items removed from the Google Sheet are automatically marked as `DONE` in the database to prevent stale alerts and maintain historical records.
 - **Trigger:** Daily Global Sync (`G11`) or Manual API Trigger (`/logistics_sync`).
 
 ### 2. Intelligence Engine (`G04_digital_twin_engine.py`)

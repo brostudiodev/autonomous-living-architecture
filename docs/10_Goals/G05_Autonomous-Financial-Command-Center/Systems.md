@@ -20,6 +20,7 @@ goal_id: "goal-g05"
 |---------|--------|------------|-------------|
 | Centralized Transaction Ledger | S03 Data Layer | PostgreSQL: `transactions` | - |
 | Automated Transaction Ingest | S03 Data Layer | [G05_finance_sync.py](../../50_Automations/scripts/G05_finance_sync.md) | - |
+| **AI Transaction Categorization** | **S03 Data Layer** | **[SVC_Financial-AI-Categorizer](../../50_Automations/n8n/services/SVC_Financial-AI-Categorizer.md)** | - |
 | AI-Powered Categorization | S03 Data Layer | [G05_llm_categorizer.md](../../50_Automations/scripts/G05_llm_categorizer.md) | - |
 | Real-time Budget Monitoring | S03 Data Layer | [view: v_budget_performance](../../20_Systems/S03_Data-Layer/README.md) | - |
 | Automated Budget Alerts | S04 Digital Twin | [G04_digital_twin_engine.md](../../50_Automations/scripts/G04_digital_twin_engine.md) | - |

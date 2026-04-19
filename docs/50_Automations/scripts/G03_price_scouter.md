@@ -3,7 +3,7 @@ title: "Automation Spec: G03_price_scouter.py"
 type: "automation_spec"
 status: "draft"
 created: "2026-03-18"
-updated: "2026-03-18"
+updated: "2026-04-16"
 ---
 
 # 🤖 Automation Spec: G03_price_scouter.py

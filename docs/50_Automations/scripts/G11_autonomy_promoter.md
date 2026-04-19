@@ -6,7 +6,7 @@ automation_id: "G11_autonomy_promoter"
 goal_id: "goal-g11"
 systems: ["S11"]
 owner: "Michal"
-updated: "2026-03-28"
+updated: "2026-04-18"
 ---
 
 # G11: Autonomy Promotion Agent

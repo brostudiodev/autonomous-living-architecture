@@ -33,7 +33,7 @@ Due to specific and highly sensitive parsing behavior of Grafana's PostgreSQL da
 -   **Title:** `💰 Financial Command Center - Real Savings Intelligence V2`
 -   **JSON File:** `docs/Documents/autonomous-living/docs/Financial-Command-Center.json` (Note: The actual file is named `Financial-Command-Center.json` and its contents reflect this V2 dashboard)
 -   **Data Source:** `grafana-postgresql-datasource` (provisioned)
-    *   **Host:** `[INTERNAL_IP]:5432`
+    *   **Host:** `{{INTERNAL_IP}}:5432`
     *   **Database:** `autonomous_finance`
     *   **User:** `root`
     *   **Password:** `[See .env]`
@@ -107,7 +107,7 @@ SELECT period_date AS time, total_expense AS Total_Expenses FROM v_monthly_pnl W
 
 ## Dependencies
 -   **System:** [S03 Data Layer](../../S03_Data-Layer/README.md) - PostgreSQL views and functions for data queries.
--   **PostgreSQL Database:** `autonomous_finance` (host: `[INTERNAL_IP]:5432`).
+-   **PostgreSQL Database:** `autonomous_finance` (host: `{{INTERNAL_IP}}:5432`).
 -   **Grafana Server:** Hosting and visualization.
 
 ## Troubleshooting

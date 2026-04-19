@@ -12,6 +12,65 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ---
 
+## [2026.Q2.Sprint3] - 2026-04-19
+
+### Added - Predictive Life Simulation (G04)
+- **6-Month Outcome Simulator:** Launched `G04_life_simulator.py`. Aggregates cross-domain trends (Health, Finance, Brand, Productivity) to project life status 180 days from today using linear regression on a 90-day rolling baseline.
+- **Tool Registration:** Registered `life_simulator` in `G04_tool_manifest.json` with support for Markdown and JSON outputs.
+
+### Changed - G11 Meta-System Hardening
+- **Documentation Standard Enforcement:** Upgraded `G11_script_health.py` and `G11_friction_discovery.py` documentation from draft to active, codifying actual logic, dependencies, and failure modes.
+- **Predictive Failure Documentation:** Verified and synchronized `G11_failure_predictor.md` with current heuristic logic.
+
+### Fixed - Finance Intelligence Data Source
+- **Cashflow Query Realignment:** Corrected the data source for financial projections in the simulator to use `v_daily_cashflow` instead of the non-existent `daily_budget_tracking` table.
+
+---
+
+## [2026.Q2.Sprint3] - 2026-04-17
+
+### Added - Dynamic Reality & Social Autonomy (G09/G10/G11)
+- **Focus Reality Analyzer:** Launched `G10_focus_analyzer.py` to automate the daily "Reality Audit". Calculates a daily Focus Score by correlating ActivityWatch telemetry.
+- **Relationship Harvester:** Deployed `G09_relationship_harvester.py` to autonomously update social contact dates by correlating Google Calendar events with the relationships database.
+- **Friction-to-Fix Pipeline:** Established `digital_friction_log` table and `/ouch` API command for instant logging of system bottlenecks via Telegram.
+- **Supplement Orchestrator:** Launched `G07_supplement_orchestrator.py` to automatically push recovery supplement tasks to Google Tasks based on biological readiness.
+
+### Fixed - Digital Twin Architectural Integrity (G04)
+- **Race Condition Fix:** Refactored `DigitalTwinEngine` in `G04_digital_twin_engine.py` to be stateless regarding `target_date`. Removed `self.target_date` and moved it to explicit method arguments to prevent data duplication in concurrent API requests.
+- **API Realignment:** Removed local LLM dependencies from `G04_digital_twin_api.py` for date extraction, aligning with the "n8n as the Brain" mandate.
+- **Historical Data Retrieval:** Fixed `health_history_ep` and `/health/history` to correctly honor the `target_date` parameter.
+- **Trend Discovery:** Added `/sleep/trend` endpoint for raw 30-day biometric data access for n8n.
+
+### Changed - System Monitoring
+- **Self-Healing Transparency:** Upgraded `G11_self_healing_logic.py` to log its own status to `system_activity_log`.
+
+---
+
+## [2026.Q2.Sprint2] - 2026-04-16
+
+### Added - G11 Reliability Blocking
+- **Freshness-Aware Sync:** Implemented retry logic in `G11_global_sync.py` that explicitly waits for fresh Zepp biometric data before allowing `DAILY_NOTE` and `MORNING_BRIEFING` execution.
+- **Self-Healing Blacklist:** Added capability to `G11_self_healing_logic.py` to blacklist scripts migrated to n8n, preventing infinite retry loops for archived code.
+
+### Changed - n8n Migration (G10/G11)
+- **Orchestration Shift:** Migrated `Schedule Negotiator` and `Friction Resolver` from standalone Python scripts to managed n8n workflows (`WF010`, `WF011`) for better error handling and LLM observability.
+- **Archival:** Moved legacy scripts to `scripts/archive/` and updated `G04_tool_manifest.json`.
+
+### Changed - Digital Twin Experience (G04)
+- **Briefing Noise Filter:** Modified `G04_digital_twin_engine.py` to filter out "Audit" tasks from roadmap missions, keeping the Morning Briefing tactical and concise.
+- **Inbox Transparency:** Upgraded `G11_inbox_processor_pro.py` to tag low-confidence items with specific metadata for manual review instead of skipping them.
+
+### Fixed - System Integrity
+- **API Conflict Resolution:** Fixed a critical endpoint clash in `G04_digital_twin_api.py` (duplicate `/status` definition) and increased health check timeouts to 5s in `G11_meta_mapper.py`.
+- **Path Standardization:** Corrected `PRICE_SCOUTER` references to use `G03_price_scouter_v2.py` across the entire ecosystem (sync, manager, self-healing).
+- **Data Fallback Fix:** Disabled silent yesterday-data fallback in `DigitalTwinEngine` biometrics queries to ensure freshness audits accurately reflect reality.
+
+### Documentation
+- Created: `P05_April-Reliability-Hardening.md`.
+- Updated: `Roadmap.md` (G03, G04, G10, G11), `Progress-monitor.md`, `Changelog.md`.
+
+---
+
 ## [2026.Q2.Sprint1] - 2026-03-31
 
 ### Added - G10 Mood & Energy Engine

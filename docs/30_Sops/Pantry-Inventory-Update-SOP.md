@@ -33,8 +33,8 @@ Keep pantry inventory accurate through natural language commands via Telegram.
 - Expiration warnings sent 3 days before expiry
 
 ## Related Documentation
-- [G03 Autonomous Household Operations](../../10_Goals/G03_Autonomous-Household-Operations/README.md)
-- [PROJ Inventory Management Workflow](../../50_Automations/n8n/services/PROJ_Inventory-Management.md)
+- [G03 Autonomous Household Operations](../10_Goals/G03_Autonomous-Household-Operations/README.md)
+- [PROJ Inventory Management Workflow](../50_Automations/n8n/services/PROJ_Inventory-Management.md)
 
 ---
 *Owner: Michal*

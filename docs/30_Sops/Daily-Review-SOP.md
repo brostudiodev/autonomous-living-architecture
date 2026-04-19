@@ -22,7 +22,7 @@ Daily review of tasks, goals, and system status to maintain productivity and cat
 ## Related Documentation
 - [SOP: Daily Briefing Management](./Daily-Briefing-Management.md)
 - [SOP: Evening Automation System](./Evening-Automation-System.md)
-- [G10 Intelligent Productivity Time Architecture](../../10_Goals/G10_Intelligent-Productivity-Time-Architecture/README.md)
+- [G10 Intelligent Productivity Time Architecture](../10_Goals/G{{LONG_IDENTIFIER}}/README.md)
 
 ---
 *Owner: Michal*

@@ -3,7 +3,7 @@ title: "G07: Roadmap"
 type: "goal_roadmap"
 status: "active"
 owner: "Michal"
-updated: "2026-03-27"
+updated: "2026-04-12"
 goal_id: "goal-g07"
 ---
 
@@ -18,6 +18,13 @@ goal_id: "goal-g07"
 - [x] Begin feeding health data into G12 (Meta-System) for holistic insights ✅ (Implemented via G11 Mapper)
 
 ## Q2 (Apr–Jun) - Phase: The Biometric Stream
+
+> [!tip] 🚀 **Q2 Focus: System Stability**
+- [ ] **System Stability Audit:** Verify all health syncs working reliably
+  - [ ] **Sub-task: Zepp Sync Check** - Ensure health data (HRV, sleep) syncs without gaps
+  - [x] **Withings Sync Check** - Refactored to direct API sync (G07_withings_direct_sync.py) with muscle/bone/hydration tracking ✅ (Apr 15)
+  - [ ] **Sub-task: Readiness Score Check** - Validate biometric algorithm accuracy
+
 - [x] Implement Amazfit/Zepp API data extraction (Heart Rate, HRV, Sleep Quality - Deep/REM) ✅ (Mar 04)
 - [x] Establish "Biological Readiness Score" algorithm (S03 Data Layer) ✅ (Unified in `biometrics` table via band-logic)
 - [x] Connect health telemetry to G04 Digital Twin for real-time state updates ✅ (Integrated via `get_health_status` and `get_task_recommendations`)
@@ -29,9 +36,24 @@ goal_id: "goal-g07"
 
 ## Q3 (Jul–Sep) - Phase: Biological Closed-Loop
 - [ ] Implement "Recovery-First" scheduling (G07 feeds G10 Dynamic Scheduler)
-- [ ] Predictive health anomaly detection (AI identifies oncoming illness/fatigue)
+- [x] **Illness & Fatigue Detector (G07-ID):** Autonomous anomaly detection for HRV/Readiness drops ✅ (Apr 03)
 - [ ] Automate supplement/nutrition recommendations based on biometric load
 - [ ] Achieve 100% automated health baseline monitoring
+
+> [!tip] 🚀 **NEW: Body Signals & Internal State Tracking**
+> **Gap:** G07 health predictions incomplete without internal signals beyond wearables.
+- [ ] **Gut Health Tracking:** Add digestion patterns to daily note
+  - [ ] **Sub-task: Digestion Log** - Morning/evening gut comfort rating (1-5)
+  - [ ] **Sub-task: Correlation Engine** - Link gut health to energy/food/stress
+- [ ] **Supplement Compliance:** Automated tracking of supplement intake
+  - [ ] **Sub-task: Supplement Schedule** - Define daily/weekly supplement protocol
+  - [ ] **Sub-task: Compliance Dashboard** - Track missed doses, adherence rate
+- [ ] **Stress Self-Assessment:** Periodic check-ins throughout day
+  - [ ] **Sub-task: Mood Triggers** - Log what caused stress spikes
+  - [ ] **Sub-task: Recovery Correlation** - Link stress to sleep/HRV
+- [ ] **Bloodwork Integration:** Periodic biomarker tracking
+  - [ ] **Sub-task: Manual Entry Form** - Easy input for lab results
+  - [ ] **Sub-task: Trend Dashboard** - Vitamin D, cholesterol, etc.
 
 ## Q4 (Oct–Dec)
 - [ ] Achieve a comprehensive and integrated predictive health management system

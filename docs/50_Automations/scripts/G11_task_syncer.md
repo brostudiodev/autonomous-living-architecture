@@ -2,8 +2,8 @@
 title: "Automation Spec: G11_task_syncer.py"
 type: "automation_spec"
 status: "draft"
-created: "2026-03-13"
-updated: "2026-03-13"
+created: "2026-04-16"
+updated: "2026-04-18"
 ---
 
 # 🤖 Automation Spec: G11_task_syncer.py
@@ -16,7 +16,7 @@ updated: "2026-03-13"
 - **Language:** Python
 - **Triggers:** Manual Execution
 - **Databases:** PostgreSQL
-- **Dependencies:** `G11_log_system, psycopg2, datetime, os, dotenv, G10_google_tasks_sync`
+- **Dependencies:** `db_config, datetime, G11_log_system, G10_google_tasks_sync, os, psycopg2`
 
 ## 🛠️ Logic Flow
 1. [Step 1]

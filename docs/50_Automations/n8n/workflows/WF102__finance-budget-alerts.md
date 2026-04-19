@@ -92,6 +92,6 @@ ORDER BY alert_severity DESC;
 - **Escalation:** SMS for CRITICAL alerts (future enhancement)
 
 ## Related Documentation
-- Runbook: [Budget-Alert-Response.md](../../40_Runbooks/Budget-Alert-Response.md)
-- SOP: [Daily-Financial-Review.md](../../30_Sops/Daily-Financial-Review.md)
-- System: [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
+- Runbook: [Budget-Alert-Response.md](../../../40_Runbooks/Budget-Alert-Response.md)
+- SOP: [Daily-Financial-Review.md](../../../30_Sops/Daily-Financial-Review.md)
+- System: [S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md)

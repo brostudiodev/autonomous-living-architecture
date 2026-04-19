@@ -1,64 +1,47 @@
 ---
-title: "Automation Spec: autonomous_daily_manager.py"
+title: "Daily Note Manager (S10/G12)"
 type: "automation_spec"
 status: "active"
-automation_id: "autonomous_daily_manager"
-goal_id: "goal-g04"
-systems: ["S04", "S11"]
 owner: "Michal"
-updated: "2026-03-22"
+updated: "2026-04-18"
 ---
 
-# 🤖 Automation Spec: autonomous_daily_manager.py
+# Purpose
+The **Daily Note Manager** (`autonomous_daily_manager.py`) is the core orchestrator of the daily "Single Source of Truth." It executes all sub-scripts in parallel, fetches system state, and surgically injects data into the Obsidian Daily Note.
 
-## Purpose
-The primary orchestrator for the Obsidian Daily Note. It aggregates data from all 12 goals (G01-G12), executes sub-scripts, and surgically injects reports, tasks, and decisions into the daily dashboard.
+# Scope
+- **In Scope:** Parallel script execution, YAML frontmatter restoration, surgical marker injection, goal refraction logic.
+- **Out Scope:** Long-running background processes or external API listeners.
 
-## Triggers
-- **CRON:** Scheduled at 06:00, 13:00, and 18:00 daily.
-- **Manual:** `fill-daily.sh` or `python3 autonomous_daily_manager.py`.
+# Core Logic Enhancements (Apr 13)
+1.  **Parallel Execution:** Uses `ThreadPoolExecutor` to run 50+ scripts concurrently, reducing sync time by ~70%.
+2.  **Manual Approval Processing:** Executes `G11_decision_handler.py` to scan the Daily Note for manual `#approve_[ID]` markers. Bulk auto-approval (`--all`) is disabled to prevent race conditions and ensure human-in-the-loop for sensitive actions.
+3.  **Nutrition Auto-fill:** Automatically populates `calories` and `protein` frontmatter fields using `selected_meal.json` (G03 integration).
+4.  **Golden Mission Integration:** Injects the Top 5 ranked missions from `G11_mission_aggregator.py`.
 
-## Inputs
-- **Databases:** All 7 PostgreSQL databases (Finance, Health, Training, Pantry, Learning, Logistics, Digital Twin).
-- **Template:** `99_System/Templates/Daily/Daily Note Template.md`.
-- **Sub-scripts:** Executes 20+ G-series scripts (e.g., `G10_task_sync.py`, `G01_progress_analyzer.py`, `G11_quick_wins.py`).
+# Inputs/Outputs
+- **Inputs:** `selected_meal.json`, `triaged_tasks.json`, PostgreSQL `digital_twin_michal`.
+- **Outputs:** Fully populated `YYYY-MM-DD.md` in Obsidian Vault.
 
-## Processing Logic
-1.  **Environment Setup:** Loads `.env` and checks for the 5-minute cooldown lockfile.
-2.  **Surgical Restoration:** 
-    -   The script identifies today's Daily Note file.
-    -   If the file doesn't exist, it's created from the `Daily Note Template.md`.
-    -   If the file **already exists**, the script proceeds to surgically update its content while preserving manual entries.
-3.  **Sub-Script Execution:** Runs registered reports and captures Markdown output.
-4.  **Data Fetching:**
-    -   **Biometrics:** Retrieves sleep, readiness, and HRV.
-    -   **Tasks:** Syncs Google Tasks and Roadmap missions.
-    -   **Decisions:** Fetches pending and resolved requests.
-    - **Primary Directive:** Fetches the concise CEO mission from `G12_context_resumer.py`.
-5.  **Surgical Injection:** 
-    -   **MISSION:** Injects the concise Primary Directive.
-    -   **Clutter Reduction (NEW Mar 30):** The script no longer generates the technical `SYSTEM_REPORT` or the expanded `RICH_MISSION` briefing, ensuring the Daily Note remains a high-level strategic dashboard. Detailed logs remain available in the database.
-6.  **Frontmatter Restoration:** Rebuilds YAML with fresh biometrics.
-7.  **Git Sync:** Commits and pushes changes to the Second Brain repository.
+# Dependencies
+- **Systems:** S04, S10, S11
+- **Files:** Obsidian Daily Note Template, `.env`
 
-## Outputs
-- **Daily Note:** `{{ROOT_LOCATION}}/Obsidian Vault/01_Daily_Notes/YYYY-MM-DD.md` (Updated).
-- **Activity Log:** Success/Failure status for every subsystem in `system_activity_log`.
+# Procedure
+- Triggered by file-watchers or manual execution.
+- **Locking:** Uses `/tmp/autonomous_daily_manager.lock` to prevent recursive loops and has a 5-minute cooldown.
 
-## Dependencies
-### Systems
-- [S04 Digital Twin](../../../20_Systems/S04_Digital-Twin/README.md)
-- [S10 Intelligent Productivity](../../../20_Systems/S10_Intelligent-Productivity/README.md)
-- [S11 Meta-System Integration](../../../20_Systems/S11_Meta-System-Integration/README.md)
+# Failure Modes
+| Scenario | Response |
+|----------|----------|
+| Script Failure | Parallel executor logs failure; dashboard shows ⚠️ status. |
+| Template Missing | Script aborts to prevent corrupted note creation. |
+| DB Offline | Frontmatter restoration skips dynamic fields; logs error. |
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Marker Missing | Regex search fails | Log warning, skip section | System Report |
-| Script Crash | Subprocess non-zero exit | Log failure, inject error msg | System Report |
-| Git Conflict | `git push` fails | Log error | System Report |
+# Security Notes
+- Sanitizes all injected strings to prevent Markdown/YAML breakage.
+- Uses absolute paths for reliability in different execution environments.
 
-## Manual Fallback
-If the dashboard is corrupted:
-1.  Close Obsidian.
-2.  Run `fill-daily.sh --force`. This recreates the note from the template and re-injects all data.
+# Owner + Review Cadence
+- **Owner:** Michal
+- **Review:** Monthly (Audit dashboard markers and performance)

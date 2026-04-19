@@ -291,9 +291,9 @@ python scripts/G11_mission_control.py
 ## Dependencies
 
 ### Systems
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
-- [S09 Productivity & Time](../../20_Systems/S09_Productivity-Time/README.md)
-- [S11 Meta-System Integration](../../20_Systems/S11_Meta-System-Integration/README.md)
+- [S04 Digital Twin](../20_Systems/S04_Digital-Twin/README.md)
+- [S09 Productivity & Time](../20_Systems/S09_Productivity-Time/README.md)
+- [S11 Meta-System Integration](../20_Systems/S11_Meta-System-Integration/README.md)
 
 ### Scripts
 | Script | Purpose |
@@ -320,8 +320,8 @@ python scripts/G11_mission_control.py
 - [G11_mission_control.md](../50_Automations/scripts/G11_mission_control.md)
 
 ### System Docs
-- [G10 Roadmap](../../10_Goals/G10_Intelligent-Productivity-Time-Architecture/Roadmap.md)
-- [G11 Roadmap](../../10_Goals/G11_Meta-System-Integration-Optimization/Roadmap.md)
+- [G10 Roadmap](../10_Goals/G{{LONG_IDENTIFIER}}/Roadmap.md)
+- [G11 Roadmap](../10_Goals/G11_Meta-System-Integration-Optimization/Roadmap.md)
 
 ---
 

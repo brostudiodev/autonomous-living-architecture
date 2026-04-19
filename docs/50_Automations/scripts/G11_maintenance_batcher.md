@@ -6,7 +6,7 @@ automation_id: "G11_maintenance_batcher"
 goal_id: "goal-g11"
 systems: ["S11", "S08", "S07"]
 owner: "Michal"
-updated: "2026-03-31"
+updated: "2026-04-18"
 ---
 
 # 🤖 Automation Spec: G11_maintenance_batcher.py
@@ -42,9 +42,9 @@ Reduces daily cognitive load and "alert fatigue" by batching non-critical hardwa
 
 ## Dependencies
 ### Systems
-- [S07 Smart Home](../../../20_Systems/S07_Smart-Home/README.md)
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md)
-- [S11 Meta-System](../../../20_Systems/S11_Meta-System-Integration/README.md)
+- [S07 Smart Home](../../20_Systems/S07_Smart-Home/README.md)
+- [S08 Automation Orchestrator](../../20_Systems/S08_Automation-Orchestrator/README.md)
+- [S11 Meta-System](../../20_Systems/S11_Meta-System-Integration/README.md)
 
 ### External Services
 - Home Assistant (REST API)

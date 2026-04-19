@@ -4,7 +4,7 @@ type: "system"
 status: "active"
 system_id: "system-s02"
 owner: "Michal"
-updated: "2026-02-16"
+updated: "2026-04-08"
 review_cadence: "monthly"
 ---
 

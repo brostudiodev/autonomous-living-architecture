@@ -37,7 +37,7 @@ Closes the loop between biometric/objective data and human subjective feeling. A
 ## Dependencies
 ### Systems
 - [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
-- [S10 Intelligent Productivity](../../10_Goals/G10_Intelligent-Productivity-Time-Architecture/README.md)
+- [S10 Intelligent Productivity](../../10_Goals/G{{LONG_IDENTIFIER}}/README.md)
 
 ### External Services
 - **n8n:** Required for Telegram interaction and LLM summarization.

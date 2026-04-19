@@ -1,39 +1,60 @@
 ---
-title: "G12: Auto-Did Logger"
-type: "automation_spec"
+title: "G12: Auto Did Logger"
+type: "automation"
 status: "active"
-automation_id: "G12_auto_did_logger"
-goal_id: "goal-g12"
-systems: ["S03", "S11"]
 owner: "Michal"
-updated: "2026-03-12"
+updated: "2026-04-18"
+goal_id: "goal-g12"
 ---
 
-# G12: Auto-Did Logger
+# G12: Auto Did Logger
 
 ## Purpose
-Eliminates manual effort by auto-populating the "Did" section of Daily Notes based on actual system activity logs and git commits.
+The `G12_auto_did_logger.py` is a "Zero-Touch Documentation" tool that automatically captures daily accomplishments from various system sources and injects them into the Obsidian Daily Note. This eliminates the need for manual tracking of technical progress.
 
-## Triggers
-- Triggered by `autonomous_daily_manager.py` during its regular sync cycle.
+## Scope
+- **In Scope:**
+    - Scanning Git commits for goal-related changes.
+    - Scanning PostgreSQL `system_activity_log` for script successes.
+    - Scanning Google Tasks for completed items.
+    - Updating the "Did" section of each goal in the current Daily Note.
+- **Out Scope:**
+    - Editing goal roadmaps directly (handled by `G09_sync_daily_goals.py`).
+    - Logging manual (non-digital) activities.
 
-## Inputs
-- Database: `digital_twin_michal.system_activity_log` (last 24h).
-- Git: Commit history of the `autonomous-living` repository.
-- Goal IDs mapped to script names.
+## Inputs/Outputs
+- **Inputs:**
+    - Git Repository (`{{ROOT_LOCATION}}/autonomous-living`)
+    - PostgreSQL Database (`digital_twin_michal.system_activity_log`)
+    - Google Tasks API (Completed tasks in last 24h)
+    - Current Daily Note (`Obsidian Vault/01_Daily_Notes/YYYY-MM-DD.md`)
+- **Outputs:**
+    - Updated Daily Note with "Did" logs for each touched goal.
 
-## Processing Logic
-1. **Query:** Fetch all `SUCCESS` logs from the last 24 hours.
-2. **Deduplicate:** Group multiple runs of the same script into a single summary.
-3. **Format:** Generate human-readable strings (e.g., "G03: Cart Aggregator updated (5 items)").
-4. **Git Scan:** Check for commits to specific goal folders in `docs/10_Goals/`.
-5. **Inject:** Update the YAML `goals_activities` or the "After Work - Power Goals" section in the Daily Note.
+## Dependencies
+- **Systems:** [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md), [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
+- **Services:** Google Tasks API
+- **Scripts:** [G11_log_system.py](./G11_log_system.md), [G10_google_tasks_sync.py](./G10_google_tasks_sync.md)
 
-## Outputs
-- Updated Daily Note with automated activity logs.
+## Procedure
+This script is executed automatically by the `autonomous_daily_manager.py` (during morning sync) and `autonomous_evening_manager.py` (before shutdown), and can be triggered manually:
+```bash
+{{ROOT_LOCATION}}/autonomous-living/.venv/bin/python3 scripts/G12_auto_did_logger.py
+```
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| DB Connection Loss | psql error | Fallback to manual input placeholder | Log critical |
-| Template Mismatch | Regex fail | Append to end of file instead of specific section | Log warning |
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Database Connection Fail | Error log: "❌ DB Error" | Check PostgreSQL container status and `.env` credentials. |
+| Google Tasks Auth Expired | Error log: "❌ Tasks Error" | Run `G10_google_tasks_sync.py --reauth` to refresh token. |
+| Daily Note Missing | Error log: "❌ Daily note not found" | Ensure `fill-daily.sh` has run for the current day. |
+| Regex Match Failure | No update in note | Check if Daily Note structure matches the expected `**GXX**` pattern. |
+
+## Security Notes
+- Uses `google_tasks_token.pickle` for API access.
+- Accesses PostgreSQL via `.env` credentials.
+- No sensitive data is logged to the Daily Note; only task titles and commit messages.
+
+## Owner + Review Cadence
+- **Owner:** Michal
+- **Review Cadence:** Monthly audit of logging accuracy.

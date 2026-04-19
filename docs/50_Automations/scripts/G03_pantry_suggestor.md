@@ -6,7 +6,7 @@ automation_id: "G03_pantry_suggestor.py"
 goal_id: "goal-g03"
 systems: ["S03", "S05"]
 owner: "Michal"
-updated: "2026-03-23"
+updated: "2026-04-18"
 ---
 
 # G03: Pantry Suggestion Engine
