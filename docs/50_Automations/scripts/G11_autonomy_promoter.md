@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G11_autonomy_promoter"
 goal_id: "goal-g11"
 systems: ["S11"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G11: Autonomy Promotion Agent

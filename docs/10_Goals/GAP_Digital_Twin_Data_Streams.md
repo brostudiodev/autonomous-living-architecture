@@ -2,7 +2,7 @@
 title: "Digital Twin Data Streams Gap Analysis"
 type: "analysis"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 created: "2026-04-12"
 last_updated: "2026-04-12"
 ---
@@ -267,5 +267,5 @@ A "complete" Digital Twin would have:
 ---
 
 *Document created: 2026-04-12*  
-*Owner: Michal*  
+*Owner: Michał*  
 *Review Cadence: Monthly*

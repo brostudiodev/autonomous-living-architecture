@@ -2,7 +2,7 @@
 title: "Service: Financial AI Categorizer"
 type: "automation"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-10"
 ---
 

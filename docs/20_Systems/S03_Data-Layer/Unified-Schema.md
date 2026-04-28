@@ -4,7 +4,7 @@ type: "system_spec"
 status: "active"
 system_id: "S03"
 goal_id: "goal-g11"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-27"
 ---
 

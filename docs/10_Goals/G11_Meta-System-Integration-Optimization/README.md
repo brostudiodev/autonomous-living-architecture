@@ -3,7 +3,7 @@ title: "G11: Meta-System Integration & Optimization"
 type: "goal"
 status: "active"
 goal_id: "goal-g11"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-18"
 review_cadence: "monthly"
 ---
@@ -99,7 +99,7 @@ Define the Meta-System architecture and core data integration patterns for holis
 - Cross-goal data sharing must respect individual constraints
 
 ## Owner & Review
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-04-08
 

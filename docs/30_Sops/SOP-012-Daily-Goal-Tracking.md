@@ -35,7 +35,7 @@ Every Daily Note contains two distinct goal-tracking sections:
 
 ## 🛠️ Troubleshooting
 *   **Goal markers missing:** If `%%GOAL_PROGRESS%%` is missing, the orchestrator will attempt a fallback update of the manual checkboxes. Ensure markers exist in `Daily Note Template.md`.
-*   **Sync failure:** Verify that your goal links follow the format `[[P - Workout - Reach Target Body Fat]]` and that the `GXX` code is correct.
+*   **Sync failure:** Verify that your goal links follow the format `[P - Workout - Reach Target Body Fat](P - Workout - Reach Target Body Fat.md)` and that the `GXX` code is correct.
 
 ---
 *Created: 2026-03-29*  

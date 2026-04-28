@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G05_llm_categorizer.py"
 goal_id: "goal-g05"
 systems: ["S05"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-19"
 ---
 

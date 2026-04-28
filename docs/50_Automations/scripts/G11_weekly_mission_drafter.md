@@ -2,7 +2,7 @@
 title: "Weekly Mission Drafter (G11)"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-02"
 ---
 
@@ -40,5 +40,5 @@ The **Weekly Mission Drafter** (`G11_weekly_mission_drafter.py`) automates the s
 - Read access to roadmaps, Write access to the Reviews directory.
 
 # Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly (verify quality of suggested focus)

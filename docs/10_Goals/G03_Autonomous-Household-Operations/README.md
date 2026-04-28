@@ -3,7 +3,7 @@ title: "G03: Autonomous Household Operations"
 type: "goal"
 status: "active"
 goal_id: "goal-g03"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-08"
 review_cadence: "monthly"
 ---
@@ -123,7 +123,7 @@ Create AI-powered household management systems that automate daily operations, o
 - **Production n8n Workflow:** PROJ_Inventory-Management with complete specification.
 
 ## Owner & Review
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-03-06
 

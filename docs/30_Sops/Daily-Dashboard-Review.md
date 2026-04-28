@@ -2,7 +2,7 @@
 title: "SOP: Daily Dashboard Review"
 type: "sop"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 goal_id: "goal-g11"
 updated: "2026-03-26"
 ---

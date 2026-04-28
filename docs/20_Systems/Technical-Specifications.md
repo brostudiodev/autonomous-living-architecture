@@ -2,7 +2,7 @@
 title: "Technical Specifications"
 type: "documentation"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-16"
 ---
 
@@ -86,7 +86,7 @@ project_watcher:
 vault_intelligence:
   metrics:
     - total_notes
-    - orphan_notes (no `[[links]]`)
+    - orphan_notes (no ``[[links]]``)
     - top_tags (regex extraction)
     - last_active_note
   performance: "First 100 files scanned per request"

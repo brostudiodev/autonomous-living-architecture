@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G11_decision_proposer"
 goal_id: "goal-g11"
 systems: ["S04", "S08"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-14"
 ---
 

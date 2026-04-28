@@ -2,7 +2,7 @@
 title: "Automation Spec: G10 ActivityWatch Sync"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-16"
 ---
 

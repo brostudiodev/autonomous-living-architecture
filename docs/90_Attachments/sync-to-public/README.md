@@ -2,7 +2,7 @@
 title: "Sync-to-Public System Documentation"
 type: "system_documentation"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-07"
 ---
 
@@ -271,7 +271,7 @@ Related Documentation
     Standard: Goal Documentation Standard
 
 Last Updated: 2026-02-04
-Owner: Michal
+Owner: Michał
 Status: Active
 
 ---

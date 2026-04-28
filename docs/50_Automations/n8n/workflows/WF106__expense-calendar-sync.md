@@ -5,7 +5,7 @@ status: "active"
 automation_id: "WF106__expense-calendar-sync"
 goal_id: "goal-g05"
 systems: ["S08", "S03"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-17"
 ---
 

@@ -2,7 +2,7 @@
 title: "G10: Systems"
 type: "goal_systems"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-21"
 goal_id: "goal-g10"
 ---
@@ -39,6 +39,7 @@ goal_id: "goal-g10"
 | **Schedule Optimizer** | S09/S04 | [G10_schedule_optimizer](../../50_Automations/scripts/G10_schedule_optimizer.md) | - |
 | **Location Intelligence** | S09/S04 | [G10_location_intelligence](../../50_Automations/scripts/G10_location_intelligence.md) | - |
 | **Mood Engine** | S04/S11 | [G10_mood_engine](../../50_Automations/scripts/G10_mood_engine.md) | - |
+| **ActivityWatch Analysis** | S09/S04 | [G10_activity_analyzer](../../50_Automations/scripts/G10_activity_analyzer.md) | - |
 | **Proactive Schedule Adjustment** | **S04 Digital Twin** | **[G11_approval_prompter](../../50_Automations/scripts/G11_approval_prompter.md)** | [Telegram-Approval-SOP.md](../../30_Sops/Telegram-Approval-SOP.md) |
 | **Execute Schedule Changes** | **S08 Orchestrator** | **[G11_decision_handler](../../50_Automations/scripts/G11_decision_handler.md)** | [Autonomy-Rules-Runbook.md](../../40_Runbooks/G11/Autonomy-Rules-Runbook.md) |
 

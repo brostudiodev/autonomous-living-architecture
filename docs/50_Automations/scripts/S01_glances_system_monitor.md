@@ -5,7 +5,7 @@ status: "active"
 automation_id: "S01_glances"
 goal_id: "goal-g11"
 systems: ["S01"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-28"
 ---
 

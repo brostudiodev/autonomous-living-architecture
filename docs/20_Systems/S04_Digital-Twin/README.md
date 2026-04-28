@@ -3,7 +3,7 @@ title: "S04: Digital Twin (Intelligence Hub)"
 type: "system"
 status: "active"
 system_id: "system-s04"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-09"
 review_cadence: "monthly"
 ---
@@ -38,6 +38,8 @@ The central intelligence hub and orchestration layer for the autonomous living e
 |----------|--------|---------|--------|
 | `/health/live` | GET | Liveness check (process up) | JSON |
 | `/health/ready`| GET | Readiness check (All 8 DBs + Engine) | JSON |
+| `/cache/status` | GET | Cache age and staleness audit | Standardized JSON |
+| `/cache/refresh`| POST | Manual Uber-Context refresh trigger | Standardized JSON |
 | `/tools/health`| GET | Runtime validation of all 61+ tools | JSON |
 | `/all` | GET | Full system context aggregation | Standardized JSON |
 | `/status` | GET | Quick glance at system health | Standardized JSON |

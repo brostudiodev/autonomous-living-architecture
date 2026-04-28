@@ -2,7 +2,7 @@
 title: "SOP: Daily Review"
 type: "sop"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 goal_id: "goal-g10"
 updated: "2026-03-26"
 ---
@@ -25,5 +25,5 @@ Daily review of tasks, goals, and system status to maintain productivity and cat
 - [G10 Intelligent Productivity Time Architecture](../10_Goals/G{{LONG_IDENTIFIER}}/README.md)
 
 ---
-*Owner: Michal*
+*Owner: Michał*
 *Review Cadence: Monthly*

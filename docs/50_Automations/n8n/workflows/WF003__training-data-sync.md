@@ -5,7 +5,7 @@ status: "active"
 automation_id: "WF003__training-data-sync"
 goal_id: "goal-g01"
 systems: ["S03", "S01"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-11"
 ---
 

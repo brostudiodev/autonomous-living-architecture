@@ -3,7 +3,7 @@ title: "G07: Predictive Health Management"
 type: "goal"
 status: "active"
 goal_id: "goal-g07"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-08"
 review_cadence: "monthly"
 ---
@@ -112,7 +112,7 @@ Implement comprehensive health data collection and analysis systems that provide
 - **G04 Integration:** Data ingestion every 8 hours
 
 ## Owner & Review
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-02-16
 

@@ -2,7 +2,7 @@
 title: "G01: Training Session Template"
 type: "session_template"
 status: "template"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-07"
 goal_id: "goal-g01"
 ---

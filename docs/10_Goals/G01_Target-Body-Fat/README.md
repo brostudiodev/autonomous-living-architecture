@@ -3,7 +3,7 @@ title: "G01: Reach Target Body Fat"
 type: "goal"
 status: "active"
 goal_id: "goal-g01"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-08"
 review_cadence: "monthly"
 ---
@@ -111,7 +111,7 @@ Achieve visible body recomposition (lower body fat, maintain/gain strength) thro
 - 🚧 Progression planner (planned Q2)
 
 ## Owner & Review
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-02-25
 

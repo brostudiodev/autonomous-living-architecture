@@ -2,7 +2,7 @@
 title: "S12: System Timeline (Master Schedule)"
 type: "system_doc"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-10"
 ---
 

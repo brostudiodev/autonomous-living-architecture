@@ -3,7 +3,7 @@ title: "Adr-0005: Foundation-First Goal Strategy"
 type: "decision"
 status: "accepted"
 date: "2025-07-01"
-deciders: ["Michal"]
+deciders: ["Michał"]
 consulted: []
 informed: []
 ---

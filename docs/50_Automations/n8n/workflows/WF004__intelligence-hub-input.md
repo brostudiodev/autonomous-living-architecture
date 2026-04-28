@@ -5,7 +5,7 @@ status: "active"
 automation_id: "WF004__intelligence-hub-input"
 goal_id: "goal-g04"
 systems: ["S03", "S04"]
-owner: "Michal"
+owner: "Michał"
 created: "2026-02-03"
 updated: "2026-02-07"
 ---

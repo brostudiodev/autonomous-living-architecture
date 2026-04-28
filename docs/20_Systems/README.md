@@ -2,7 +2,7 @@
 title: "Systems"
 type: "index"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-16"
 ---
 
@@ -26,6 +26,7 @@ updated: "2026-04-16"
 | **[S12: LinkedIn Ideas](./S12_LinkedIn-Ideas-System/README.md)** | Content | Automated system for harvesting and drafting LinkedIn posts. |
 | **[S13: Substack Ideas](./S13_Substack-Notes-Ideas-System/README.md)** | Content | Framework for converting goal achievements into Substack drafts. |
 | **[S14: System Timeline](./S12_System_Timeline.md)** | Schedule | Unified view of all cron and n8n trigger timelines. |
+| **[Goal Correlation Map](./Goal-Correlation-Map.md)** | Architecture | Shows how all 12 goals interconnect via Digital Twin. |
 
 ## What belongs here
 ...

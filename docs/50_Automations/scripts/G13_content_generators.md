@@ -4,7 +4,7 @@ type: automation_spec
 status: active
 date: "2026-03-26"
 goal_id: goal-g13
-owner: "Michal"
+owner: "Michał"
 tags: [automation, content, linkedin, substack, ideas]
 ---
 
@@ -153,8 +153,8 @@ python3 99_System/scripts/G13_run_content_pipeline.py
 
 ## Related Goals
 
-- [[G02 Automationbro Recognition|G02]] - Building personal brand
-- [[G11 Meta-System Integration|G11]] - Automation infrastructure
+- [G02](G02 Automationbro Recognition.md) - Building personal brand
+- [G11](G11 Meta-System Integration.md) - Automation infrastructure
 
 ## Changelog
 

@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G06_learning_ingester"
 goal_id: "goal-g06"
 systems: ["S03", "S04"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-26"
 ---
 

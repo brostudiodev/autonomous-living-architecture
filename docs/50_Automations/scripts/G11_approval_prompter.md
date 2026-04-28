@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G11_approval_prompter"
 goal_id: "goal-g11"
 systems: ["S04", "S08"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G11: Approval Prompter

@@ -2,7 +2,7 @@
 title: "Vault Janitor (G12)"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-02"
 ---
 
@@ -41,5 +41,5 @@ The **Vault Janitor** (`G12_vault_janitor.py`) maintains high performance and fo
 - No external data transmission.
 
 # Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly (verify hygiene effectiveness)

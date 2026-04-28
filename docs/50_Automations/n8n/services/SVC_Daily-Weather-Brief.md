@@ -5,7 +5,7 @@ status: "active"
 service_id: "SVC_Daily-Weather-Brief"
 goal_id: "goal-g08"
 systems: ["S04", "S07", "S08"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-10"
 ---
 

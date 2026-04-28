@@ -2,7 +2,7 @@
 title: "G09: Roadmap"
 type: "goal_roadmap"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-12"
 goal_id: "goal-g09"
 ---
@@ -38,6 +38,10 @@ goal_id: "goal-g09"
 - [/] **Active Track:** AI Architect devstyle (Starts Mar 30)
 - [x] Create automated reports on career growth and development areas
 - [x] LinkedIn profile integration and professional profile maintenance
+- [x] **Relationship Harvesting v1.0:** Deployed `G09_relationship_harvester.py` with bidirectional discovery (Google Calendar events + Obsidian Daily Journal scanning). ✅ (Apr 25)
+- [x] **Autonomous Career Strategist Deployed:** Launched `G09_career_strategist.py` to link Learning (G06) progress with Skill Inventory and Market Demand. ✅ (2026-04-27)
+- [x] **Market Pulse Integration:** Upgraded `G09_market_scout_handler.py` to autonomously update market demand in PostgreSQL from n8n data. ✅ (2026-04-27)
+- [x] **Strategic Content Loop:** Integrated career advice into `G13_content_idea_generator.py` to drive high-value brand content. ✅ (2026-04-27)
 
 ## Q3 (Jul–Sep)
 - [ ] AI-driven personalized career path recommendations

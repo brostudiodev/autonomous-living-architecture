@@ -3,7 +3,7 @@ title: "G02: Automationbro Recognition - Execution State"
 type: "goal_execution"
 status: "active"
 goal_id: "goal-g02"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-07"
 ---
 

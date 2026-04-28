@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G10_task_sync"
 goal_id: "goal-g10"
 systems: ["S03", "S08"]
-owner: "Michal"
-updated: "2026-03-22"
+owner: "Michał"
+updated: "2026-04-27"
 ---
 
 # G10: Task Sync
@@ -23,14 +23,17 @@ Provides bidirectional synchronization of completed tasks between the Obsidian D
 - **Google Tasks API:** List of tasks completed in the last 24 hours.
 
 ## Processing Logic
-1. **Obsidian -> Google Tasks:**
+1. **Prefetching (MTD Optimization 2026-04-27):**
+    - Fetches all pending Google Tasks in a single call to cache titles and IDs.
+    - Prevents timeouts and excessive API overhead.
+2. **Obsidian -> Google Tasks:**
     - Scans the today's daily note for tasks marked as completed (`- [x]`).
-    - For each completed task, calls `mark_task_completed(title)` in `G10_google_tasks_sync.py`.
-2. **Google Tasks -> Obsidian:**
+    - Uses cached ID-based lookup to mark tasks completed in Google Tasks, minimizing API latency.
+3. **Google Tasks -> Obsidian:**
     - Fetches tasks completed on Google Tasks within the last 24 hours.
     - Searches for matching task titles in the today's daily note.
     - If a matching uncompleted task (`- [ ]`) is found, marks it as completed (`- [x]`).
-3. **ROI Logging:**
+4. **ROI Logging:**
     - Logs 1 minute of "Time Architecture" ROI for every task successfully synced.
 
 ## Outputs
@@ -41,7 +44,7 @@ Provides bidirectional synchronization of completed tasks between the Obsidian D
 ## Dependencies
 ### Systems
 - [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S08 Personal Agents](../../20_Systems/S08_Personal-Agents/README.md)
+- [S08 Personal Agents](../../20_Systems/S08_Automation-Orchestrator/README.md)
 
 ### External Services
 - **Google Tasks API:** Requires valid OAuth token (`google_tasks_token.pickle`).
@@ -53,7 +56,7 @@ Provides bidirectional synchronization of completed tasks between the Obsidian D
 ## Error Handling
 | Failure Scenario | Detection | Response | Alert |
 |---|---|---|---|
-| Google API Timeout | Exception during fetch | Skip sync, retry next cycle | Log warning |
+| Google API Timeout | Exception during fetch | Skip sync, retry next cycle. Optimized 2026-04-27 to reduce risk. | Log warning |
 | Missing Daily Note | File not found | Exit silently (too early) | None |
 | Title Mismatch | No regex match | Skip task | None |
 

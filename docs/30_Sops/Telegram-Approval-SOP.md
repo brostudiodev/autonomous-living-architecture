@@ -3,7 +3,7 @@ title: "SOP: Telegram Approval System"
 type: "sop"
 status: "active"
 goal_id: "goal-g11"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-25"
 ---
 
@@ -45,5 +45,5 @@ Upon approval, the `G11_decision_handler.py` is triggered to:
 - **Message not sent:** Verify `G11_approval_prompter.py` is running in the global sync.
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly (verify autonomy rate)

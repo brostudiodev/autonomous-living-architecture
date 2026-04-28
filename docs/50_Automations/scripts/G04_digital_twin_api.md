@@ -5,14 +5,14 @@ status: "active"
 automation_id: "G04_digital_twin_api"
 goal_id: "goal-g04"
 systems: ["S04"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-25"
 ---
 
 # G04: Digital Twin Central API
 
 ## Purpose
-The primary communication interface for the Autonomous Living ecosystem. It acts as the high-performance bridge between the Python execution layer and the n8n/Obsidian interfaces. Version 7.1 (Model Hardening & Syntax Fix Milestone).
+The primary communication interface for the Autonomous Living ecosystem. It acts as the high-performance bridge between the Python execution layer and the n8n/Obsidian interfaces. Version 7.3 (Environment Parity & Redis-First Milestone).
 
 ## Triggers
 - **Persistent Service**: Runs via Uvicorn/FastAPI on port 5677 (or internal container port).
@@ -25,7 +25,7 @@ The primary communication interface for the Autonomous Living ecosystem. It acts
 - **Structured JSON**: Specific models for `/reflect`, `/log_event`, and `/memory/operation`.
 - **System States**: Aggregated data from all PostgreSQL databases (Finance, Health, Training, etc.).
 
-## Complete Endpoint Directory
+## Complete Endpoint Directory (100% Reachable)
 
 ### 🧠 Intelligence & Planning
 Endpoints for high-level synthesis and scheduling.
@@ -34,8 +34,12 @@ Endpoints for high-level synthesis and scheduling.
 |----------|--------|-------------|
 | `/status` | GET/POST | **Consolidated:** Returns high-level summary via `AgentZero.ask("/status")`. |
 | `/suggested` | GET/POST | Alias for tactical briefing via suggestion engine. |
-| `/tomorrow` | GET/POST | Forecasted briefing for the next day. |
+| `/tomorrow` | GET/POST | **RECOVERED:** Forecasted briefing for the next day. |
 | `/today` | GET/POST | **Native Handler:** Standardized today's mission briefing and schedule. |
+| `/os` | GET/POST | **RECOVERED:** Returns real-time system health and vital sentinel report. |
+| `/vision` | GET/POST | **RECOVERED:** Returns strategic roadmap status and Q1/Q2 priority missions. |
+| `/roi` | GET/POST | **RECOVERED:** Detailed Autonomy ROI (Time Reclaimed) report. |
+| `/tasks` | GET/POST | **RECOVERED:** Returns priority tasks and intelligence-led recommendations. |
 | `/readiness`| GET/POST | **Agent-Driven:** Detailed biological/financial readiness report. |
 | `/forecast` | GET/POST | **Agent-Driven:** Unified financial burn and runway prediction. |
 | `/workout` | GET/POST | **Agent-Driven:** Summary of training sessions and HIT progression. |
@@ -43,6 +47,7 @@ Endpoints for high-level synthesis and scheduling.
 | `/all` | GET/POST | **Uber-Context:** Returns token-efficient system state for AI ingestion. |
 | `/system/activity`| GET/POST | Returns the last 10 entries from the System Activity Log. |
 | `/system/gaps`| GET/POST | Autonomously detects missing documentation or script failures. |
+| `/best_day` | GET/POST | **STANDARDIZED:** Identifies historical peak performance days (correlated metrics). |
 
 ### 🛡️ System Health & Observability
 Endpoints for monitoring the integrity and readiness of the Digital Twin.
@@ -51,10 +56,15 @@ Endpoints for monitoring the integrity and readiness of the Digital Twin.
 |----------|--------|-------------|
 | `/health/live` | GET | Liveness check for Docker/Process status. |
 | `/health/ready`| GET | Readiness check: Verifies all 8 domain databases are reachable. |
+| `/cache/status` | GET | **NEW:** Returns current age and status of the Uber-Context cache. |
+| `/cache/refresh`| GET/POST | **NEW:** Manually triggers a refresh of the Uber-Context cache. |
+| `/health/readiness`| GET | **RECOVERED:** Detailed multi-component readiness diagnostic. |
 | `/health/domain/{name}` | GET | Per-domain health probe. Returns circuit breaker status and DB connectivity. |
-| `/tools/health`| GET | Runtime validation of all 61+ agent tools. Supports `AUDIT_MODE` check (unless `fast=True`). |
+| `/tools/health`| GET | **RECOVERED:** Runtime validation of all 61+ agent tools. Supports `AUDIT_MODE` check. |
 | `/system/gaps`| GET | Scans for script failures, stale data, and missing documentation. |
-| `/health/dashboard`| GET | Returns the Unified System Health Dashboard (G11) with sync integrity checks. |
+| `/health/dashboard`| GET | **RECOVERED:** Returns the Unified System Health Dashboard (G11) with sync integrity checks. |
+| `/strategic_audit`| GET/POST | **RECOVERED:** Comprehensive strategic alignment audit (Vision vs. Execution). |
+| `/audit` | GET/POST | **RECOVERED:** Runs a full G12 standard documentation audit and coherence check. |
 | `/map` | GET | Returns the technical architecture and connectivity map of the ecosystem. |
 | `/help`| GET/POST | **Dynamic Directory:** Returns a categorized and AI-optimized list of all active API endpoints. |
 
@@ -134,7 +144,8 @@ Endpoints for autonomous agent script execution.
 
 ## Processing Logic
 1.  **Resilience First**: All JSON endpoints follow the **200 OK Standard**. If internal logic fails, a descriptive error is returned in the `report` field instead of an HTTP exception.
-2.  **Dynamic Discovery**: The `/help` and `/chat` interfaces now utilize dynamic route introspection to generate a categorized endpoint directory in real-time.
+2.  **Redis-First Caching (NEW Apr 25)**: The `/all` endpoint prioritizes Redis (`twin:context:all`) for sub-millisecond response times and persistence across API restarts. Fallback to PostgreSQL is automatic if Redis is unavailable.
+3.  **Dynamic Discovery**: The `/help` and `/chat` interfaces now utilize dynamic route introspection to generate a categorized endpoint directory in real-time.
 3.  **Help Intercept**: The chat engine intercepts `/help`, `help`, and `/commands` queries, bypassing the LLM to return the technical API directory for zero-latency guidance.
 4.  **Domain Isolation**: All database calls are protected by the `DomainIsolator` (Circuit Breaker). If a database is slow or offline, the API fast-fails for that specific domain while keeping other services active.
 5.  **Model Hardening (NEW Apr 18)**: Standardized Pydantic models for `/state/update` and `/query` to prevent `NameError` on agent ingestion.

@@ -2,7 +2,7 @@
 title: "Service: Decision Pattern Analyzer"
 type: "automation"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-10"
 ---
 

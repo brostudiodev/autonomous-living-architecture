@@ -2,7 +2,7 @@
 title: "Life Expiry Sentinel (G04)"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-19"
 ---
 
@@ -53,7 +53,7 @@ The sentinel uses a tiered escalation model based on days remaining until `due_d
 - Database credentials stored in `.env`.
 
 # Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly (verify sync integrity between Google Sheets and DB)
 
 ---

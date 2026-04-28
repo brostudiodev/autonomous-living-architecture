@@ -3,7 +3,7 @@ title: "Automation Spec: G11_weekly_briefing_bot.py"
 type: "automation_spec"
 status: "draft"
 created: "2026-03-05"
-updated: "2026-03-05"
+updated: "2026-04-23"
 ---
 
 # 🤖 Automation Spec: G11_weekly_briefing_bot.py

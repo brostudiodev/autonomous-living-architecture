@@ -3,7 +3,7 @@ title: "ADR-0012: Rule-Based Intent Classification"
 type: "decision_record"
 status: "active"
 decision_id: "ADR-0012"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-12"
 ---
 
@@ -11,7 +11,7 @@ updated: "2026-02-12"
 
 - **Status**: Active
 - **Date**: 2026-02-12
-- **DECIDERS**: Michal
+- **DECIDERS**: Michał
 
 ## Context and Problem Statement
 

@@ -3,7 +3,7 @@ title: "G11: Technical Correlations & Dependencies Matrix"
 type: "meta_documentation"
 status: "active"
 version: "1.0"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-02"
 goal_id: "goal-g11"
 ---

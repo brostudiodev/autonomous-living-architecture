@@ -2,7 +2,7 @@
 title: "Strength & TUT Auditor (G01)"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-02"
 ---
 
@@ -40,5 +40,5 @@ The **Strength & TUT Auditor** (`G01_strength_auditor.py`) provides autonomous f
 - Credentials managed via `.env`.
 
 # Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly (Check progression logic alignment with physical results)

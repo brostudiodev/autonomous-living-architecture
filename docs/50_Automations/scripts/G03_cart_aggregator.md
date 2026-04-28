@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G03_cart_aggregator"
 goal_id: "goal-g03"
 systems: ["S03", "S10"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-28"
 ---
 

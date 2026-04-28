@@ -2,7 +2,7 @@
 title: "SOP: Meal Planning Maintenance"
 type: "sop"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-02"
 ---
 

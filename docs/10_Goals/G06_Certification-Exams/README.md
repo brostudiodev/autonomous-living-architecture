@@ -3,7 +3,7 @@ title: "G06: Certification Exams"
 type: "goal"
 status: "active"
 goal_id: "goal-g06"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-08"
 review_cadence: "quarterly"
 ---
@@ -89,7 +89,7 @@ Achieve targeted professional certifications that validate skills and enhance ca
 - No sensitive personal data shared with exam providers
 
 ## Owner & Review
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Quarterly
 - **Last Updated:** 2026-02-16
 

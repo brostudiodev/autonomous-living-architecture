@@ -5,7 +5,7 @@ status: "active"
 service_id: "SVC_Command-Handler"
 goal_id: "goal-g04"
 systems: ["S04", "S08"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-07"
 ---
 

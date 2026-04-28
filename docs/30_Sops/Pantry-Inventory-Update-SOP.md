@@ -2,7 +2,7 @@
 title: "SOP: Pantry Inventory Update"
 type: "sop"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 goal_id: "goal-g03"
 updated: "2026-03-26"
 ---
@@ -37,5 +37,5 @@ Keep pantry inventory accurate through natural language commands via Telegram.
 - [PROJ Inventory Management Workflow](../50_Automations/n8n/services/PROJ_Inventory-Management.md)
 
 ---
-*Owner: Michal*
+*Owner: Michał*
 *Review Cadence: Monthly*

@@ -2,7 +2,7 @@
 title: "Project in a Nutshell"
 type: "overview"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-20"
 ---
 
@@ -60,7 +60,7 @@ Beyond personal efficiency, this system serves as a master blueprint I use to **
 
 ---
 
-## 👤 Meet the Architect: Michal
+## 👤 Meet the Architect: Michał
 I am an **AI/Hyperautomation Architect** with 20+ years of experience engineering complex systems for the world's largest companies. 
 
 I built this ecosystem to prove that the same patterns that run a Fortune 500 company—**Decoupling, Observability, and Automation**—can be used to build a better, more focused, and more autonomous human life.

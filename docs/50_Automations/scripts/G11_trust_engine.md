@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G11_trust_engine"
 goal_id: "goal-g11"
 systems: ["S11"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G11: Trust Engine (Autonomy Policy Promoter)

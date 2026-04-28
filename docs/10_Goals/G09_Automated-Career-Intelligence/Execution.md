@@ -3,7 +3,7 @@ title: "G09: Automated Career Intelligence - Execution State"
 type: "goal_execution"
 status: "active"
 goal_id: "goal-g09"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-07"
 ---
 

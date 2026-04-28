@@ -2,7 +2,7 @@
 title: "G12: Knowledge Retrieval Agent"
 type: "automation"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-08"
 goal_id: "goal-g12"
 ---
@@ -36,5 +36,5 @@ Call via CLI or Agent Zero delegation:
 ```
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Part of G12 Documentation Audit.

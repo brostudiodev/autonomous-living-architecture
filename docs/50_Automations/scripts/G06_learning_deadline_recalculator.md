@@ -2,7 +2,7 @@
 title: "Learning Deadline Recalculator (G06)"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-02"
 ---
 
@@ -40,5 +40,5 @@ The **Learning Deadline Recalculator** (`G06_learning_deadline_recalculator.py`)
 - Read/Write access to the learning database is required.
 
 # Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly (verify if recalculated deadlines are driving better adherence)

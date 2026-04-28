@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G11_obsidian_safe_sync"
 goal_id: "goal-g11"
 systems: ["S11", "S08"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-19"
 ---
 

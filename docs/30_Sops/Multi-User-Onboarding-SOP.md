@@ -2,7 +2,7 @@
 title: "SOP: Family Member Onboarding (Multi-User)"
 type: "sop"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-02"
 ---
 

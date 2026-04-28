@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G11_tools_health"
 goal_id: "goal-g11"
 systems: ["S11", "S04"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-18"
 ---
 
@@ -29,5 +29,5 @@ Provides a discovery and health validation layer for all G11 Meta-System tools. 
 
 ---
 *Related Documentation:*
-- [G04_tool_manifest.md](../S04_Digital-Twin/G04_tool_manifest.md)
+- [G04_tool_manifest.json](../../../_meta/G04_tool_manifest.json)
 - [G11_script_health.md](G11_script_health.md)

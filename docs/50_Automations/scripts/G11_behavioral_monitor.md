@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G11_behavioral_monitor"
 goal_id: "goal-g11"
 systems: ["S11", "S04"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-16"
 ---
 
@@ -76,7 +76,7 @@ Monitors behavioral patterns and detects anomalies that may indicate:
 - Anomaly data is personal - handle with care
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Weekly (review anomalies)
 - **Last Review:** 2026-03-16
 

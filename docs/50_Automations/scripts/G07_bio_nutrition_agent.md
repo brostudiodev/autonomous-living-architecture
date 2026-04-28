@@ -2,8 +2,8 @@
 title: "G07: Bio-Nutrition Agent"
 type: "automation"
 status: "active"
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 goal_id: "goal-g07"
 ---
 
@@ -36,5 +36,5 @@ Provides daily nutritional and supplemental recommendations based on the previou
 ```
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Quarterly review of recovery performance.

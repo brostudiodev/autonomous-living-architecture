@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G13_substack_scheduler"
 goal_id: "goal-g13"
 systems: ["S02", "S04"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-09"
 ---
 

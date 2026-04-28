@@ -5,7 +5,7 @@ status: "active"
 system_id: "S04"
 goal_id: "goal-g04"
 version: "1.1"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-12"
 ---
 

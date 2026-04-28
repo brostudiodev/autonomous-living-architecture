@@ -4,7 +4,7 @@ type: "dashboard_spec"
 status: "active"
 dashboard_uid: "goals-dashboard"
 system_id: "system-s05"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-25"
 review_cadence: "monthly"
 ---
@@ -124,6 +124,6 @@ curl -fsS http://localhost:9090/api/v1/query?query=autonomous_goals_total | jq '
 - Protect Grafana admin credentials and restrict dashboard access appropriately.
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review cadence:** Monthly
 - **Last updated:** 2026-02-25

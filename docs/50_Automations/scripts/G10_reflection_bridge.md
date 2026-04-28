@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G10_reflection_bridge"
 goal_id: "goal-g10"
 systems: ["S04", "S10", "S11"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-26"
 ---
 
@@ -26,7 +26,7 @@ Closes the loop between biometric/objective data and human subjective feeling. A
 
 ## Processing Logic
 1.  **Generate:** `G10_reflection_generator.py` analyzes the day and creates 3 logic-based questions.
-2.  **Prompt:** n8n calls `GET /reflection/prompts` and interacts with Michal.
+2.  **Prompt:** n8n calls `GET /reflection/prompts` and interacts with Michał.
 3.  **Submit:** n8n calls `POST /reflection/submit` with the raw input and AI summary.
 4.  **Inject:** `G10_evening_summarizer.py` surgically updates the Daily Note using `%%REFLECTION%%` and `%%JOURNAL%%` markers.
 

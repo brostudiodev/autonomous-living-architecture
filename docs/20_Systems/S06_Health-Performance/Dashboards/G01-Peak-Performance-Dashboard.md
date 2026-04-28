@@ -5,7 +5,7 @@ status: "active"
 dashboard_uid: "g01-performance-sql"
 goal_id: "goal-g01"
 system_id: "system-s05"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-25"
 review_cadence: "monthly"
 ---
@@ -112,6 +112,6 @@ curl -fsS -u 'admin:autonomous2026' -H 'Content-Type: application/json' \
 - Keep DB password only in provisioning env (`AUTONOMOUS_POSTGRES_PASSWORD`).
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review cadence:** Monthly
 - **Last updated:** 2026-02-25

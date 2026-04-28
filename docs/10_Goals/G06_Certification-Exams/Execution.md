@@ -3,7 +3,7 @@ title: "G06: Certification Exams - Execution State"
 type: "goal_execution"
 status: "active"
 goal_id: "goal-g06"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-07"
 ---
 

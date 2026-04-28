@@ -5,14 +5,14 @@ status: "active"
 automation_id: "PROJ_Personal-Agent"
 goal_id: "goal-g10"
 systems: ["S04", "S10"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-15"
 ---
 
 # PROJ_Personal-Agent
 
 ## Purpose
-The **Personal Agent** is a decisive and proactive AI assistant specialized in managing Michal's time and tasks. It operates on a **"Assume & Act"** philosophy, immediately executing requests related to Google Calendar and Google Tasks by making intelligent assumptions when inputs are incomplete.
+The **Personal Agent** is a decisive and proactive AI assistant specialized in managing Michał's time and tasks. It operates on a **"Assume & Act"** philosophy, immediately executing requests related to Google Calendar and Google Tasks by making intelligent assumptions when inputs are incomplete.
 
 ## Key Features
 - **Decisive Task & Calendar Execution:** Automatically adds, lists, and completes tasks and events without asking for clarification.

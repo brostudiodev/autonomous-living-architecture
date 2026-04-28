@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G03_meal_planner"
 goal_id: "goal-g03"
 systems: ["S03", "S06"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-28"
 ---
 

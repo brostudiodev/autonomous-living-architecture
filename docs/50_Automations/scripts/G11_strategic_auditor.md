@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G11_strategic_auditor"
 goal_id: "goal-g11"
 systems: ["S01", "S11"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-13"
 ---
 

@@ -2,7 +2,7 @@
 title: "System Sanity Auditor (G11)"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-16"
 ---
 
@@ -53,5 +53,5 @@ The script is integrated into the "System Actions" bar in the Obsidian Daily Not
 - Executes scripts in a subprocess; standard system permissions apply.
 
 # Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Bi-weekly (ensure new scripts are added to manifest and support `AUDIT_MODE`).

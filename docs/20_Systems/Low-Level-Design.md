@@ -2,8 +2,8 @@
 title: "Low-Level Design Documentation"
 type: "documentation"
 status: "active"
-owner: "Michal"
-updated: "2026-04-16"
+owner: "Michał"
+updated: "2026-04-25"
 ---
 
 # Low-Level Design Documentation
@@ -120,41 +120,17 @@ response_schema:
     data: object
     processing_time_ms: integer
 
-#### **Digital Twin Status API**
+#### **Digital Twin Central API**
 ```yaml
 endpoint: /status
 method: GET
 port: 5677
-authentication: Internal Network
-purpose: Aggregated life state summary
+authentication: Internal Network / Bearer Token (Roadmap)
+purpose: Aggregated life state summary and AI command hub (Port 5677)
 
-response_schema:
-  type: object
-  properties:
-    summary:
-      type: string
-      description: Human-readable multi-domain status briefing
-    state:
-      type: object
-      properties:
-        health:
-          type: object
-          properties:
-            last_workout: string
-            days_since_workout: integer
-            bodyweight_kg: number
-            bodyfat_pct: number
-        finance:
-          type: object
-          properties:
-            mtd_net: number
-            active_budget_alerts: integer
-        pantry:
-          type: object
-          properties:
-            low_stock_count: integer
-            low_stock_items: array
-        timestamp: string
+endpoint: /docs
+method: GET
+purpose: Interactive Swagger/OpenAPI documentation
 ```
 ```
 
@@ -167,28 +143,46 @@ response_schema:
 #### **Transactions Table**
 ```sql
 CREATE TABLE transactions (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    transaction_date TIMESTAMP WITH TIME ZONE NOT NULL,
-    amount DECIMAL(15,2) NOT NULL,
-    currency VARCHAR(3) DEFAULT 'PLN',
+    transaction_id TEXT PRIMARY KEY,
+    transaction_date DATE NOT NULL,
+    amount NUMERIC(15,2) NOT NULL,
+    category_id INTEGER REFERENCES categories(category_id),
     description TEXT,
-    category_id UUID REFERENCES categories(id),
-    merchant_id UUID REFERENCES merchants(id),
-    account_id UUID NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    user_id VARCHAR(50) DEFAULT 'michal',
-    
-    CONSTRAINT check_amount_positive CHECK (amount > 0),
-    CONSTRAINT check_valid_currency CHECK (currency ~ '^[A-Z]{3}$')
-) PARTITION BY RANGE (transaction_date);
+    type TEXT DEFAULT 'Expense',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
 
--- Yearly partitions
-CREATE TABLE transactions_2025 PARTITION OF transactions
-    FOR VALUES FROM ('2025-01-01') TO ('2026-01-01');
+#### **Wealth Assets Table**
+```sql
+CREATE TABLE wealth_assets (
+    asset_id SERIAL PRIMARY KEY,
+    account_name TEXT UNIQUE,
+    category TEXT,
+    ownership TEXT,
+    current_value NUMERIC(15,2),
+    currency TEXT,
+    exchange_rate NUMERIC(10,4),
+    include_in_fire BOOLEAN,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
 
-CREATE TABLE transactions_2026 PARTITION OF transactions
-    FOR VALUES FROM ('2026-01-01') TO ('2027-01-01');
+#### **Net Worth History Table**
+```sql
+CREATE TABLE net_worth_history (
+    id SERIAL PRIMARY KEY,
+    snapshot_date DATE UNIQUE NOT NULL,
+    total_assets NUMERIC(15,2),
+    liquid_assets NUMERIC(15,2),
+    invested_assets NUMERIC(15,2),
+    fire_progress_pct NUMERIC(5,2),
+    runway_months NUMERIC(10,2),
+    avg_monthly_burn NUMERIC(15,2),
+    years_of_freedom NUMERIC(5,2),
+    savings_rate_pct NUMERIC(5,2),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 ```
 
 #### **Categories Table**
@@ -830,6 +824,34 @@ networks:
 
 ---
 
+---
+
+## 🚀 **ORCHESTRATION LOGIC**
+
+### **G11 Global Sync Engine**
+The system uses a tiered dependency graph to ensure data consistency during the daily synchronization cycle.
+
+| Tier | Name | Responsibility | Key Scripts |
+|------|------|----------------|-------------|
+| **0** | Source Sync | Pulling raw data from external APIs | ZEPP_HEALTH, WITHINGS_SYNC, GOOGLE_TASKS |
+| **1** | Analysis | Processing raw data into actionable insights | TRAINING_SYNC, FINANCE_CATEGORIZER, TASK_TRIAGE |
+| **2** | Intelligence | High-level decision making and reporting | MISSION_CONTROL, NET_WORTH_SNAPSHOT, MOOD_ENGINE |
+
+---
+
+## 💾 **DATA PERSISTENCE & CACHING**
+
+### **PostgreSQL Schema**
+(existing DB details...)
+
+### **Redis Data Models (v7.1 Migration)**
+| Key | Type | TTL | Purpose |
+|-----|------|-----|---------|
+| `twin:context:all` | JSON | 3600s | Aggregated uber-context for millisecond API response. |
+| `authentik:session:*` | String | Variable | Managed by Authentik for SSO session state. |
+
+---
+
 ## 🛡️ **SECURITY IMPLEMENTATION**
 
 ### **API Authentication**
@@ -1086,7 +1108,7 @@ echo "Blue port: ${BLUE_PORT}, Green port: ${GREEN_PORT}"
 # Check which color is currently active
 CURRENT_COLOR=$(docker ps --filter "name=${SERVICE_NAME}" --format "{{.Names}}" | grep -E "(blue|green)" | head -1 | cut -d'-' -f3)
 
-if [[ $CURRENT_COLOR == "blue" ]]; then
+if [$CURRENT_COLOR == "blue"]($CURRENT_COLOR == "blue".md); then
     TARGET_COLOR="green"
     TARGET_PORT=$GREEN_PORT
     ACTIVE_PORT=$BLUE_PORT

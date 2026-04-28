@@ -2,7 +2,7 @@
 title: "G06: Metrics"
 type: "goal_metrics"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-07"
 goal_id: "goal-g06"
 ---
@@ -12,7 +12,7 @@ goal_id: "goal-g06"
 ## KPI list
 | Metric | Target | How measured | Frequency | Owner |
 |---|---:|---|---|---|
-| Example KPI | TBD | TBD | weekly | Michal |
+| Example KPI | TBD | TBD | weekly | Michał |
 
 ## Leading indicators
 - ...

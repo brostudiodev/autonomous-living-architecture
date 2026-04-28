@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G02_linkedin_drafter.py"
 goal_id: "goal-g02"
 systems: ["S02", "S04"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-11"
 ---
 

@@ -3,7 +3,7 @@ title: "G10: Roadmap"
 type: "goal_roadmap"
 status: "active"
 goal_id: "goal-g10"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-16"
 ---
 
@@ -63,6 +63,7 @@ updated: "2026-04-16"
 - [x] **n8n Daily Briefings:** Calendar Brief, Tasks Brief, Morning Brief, Evening Planner workflows ✅ (Apr 10)
 - [x] **PROJ_Training-Intelligence-System:** AI-powered workout and training insights ✅ (Apr 10)
 - [x] **n8n Schedule Negotiator (G10-SN):** Migrated legacy Python script to n8n workflow for biometric-aware planning ✅ (Apr 16)
+- [x] **Focus Intelligence Hardening:** Resolved `Path` and `BASE_DIR` errors in `G10_focus_intelligence.py`. Added robust absolute path logic for Docker compatibility. ✅ (Apr 25)
 - [/] **AI-driven focus/distraction pattern analysis** - Optimize when you work best
 > 
 > **Architecture:** System checks data → Triggers HA webhook if action needed → HA handles device control

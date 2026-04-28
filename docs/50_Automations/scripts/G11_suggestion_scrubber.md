@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G11_suggestion_scrubber"
 goal_id: "goal-g11"
 systems: ["S04", "S10", "S11"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-19"
 ---
 

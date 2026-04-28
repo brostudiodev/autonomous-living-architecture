@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G04_autonomy_roi_tracker"
 goal_id: "goal-g04"
 systems: ["S03", "S04", "S11"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-08"
 ---
 

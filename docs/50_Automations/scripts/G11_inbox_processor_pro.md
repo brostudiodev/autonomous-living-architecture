@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G11_inbox_processor_pro"
 goal_id: "goal-g11"
 systems: ["S04", "S10"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G11: Inbox Processor Pro

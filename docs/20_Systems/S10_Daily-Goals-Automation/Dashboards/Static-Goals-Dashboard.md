@@ -4,7 +4,7 @@ type: "dashboard_spec"
 status: "active"
 dashboard_uid: "static-goals-dashboard"
 system_id: "system-s05"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-25"
 review_cadence: "monthly"
 ---
@@ -91,6 +91,6 @@ curl -fsS http://localhost:8082/static_goals | jq '.data | type, length'
 - Restrict Grafana access; avoid exposing dashboards publicly.
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review cadence:** Monthly
 - **Last updated:** 2026-02-25

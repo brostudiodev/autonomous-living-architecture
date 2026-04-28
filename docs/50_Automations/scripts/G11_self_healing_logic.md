@@ -2,8 +2,8 @@
 title: "Self-Healing Logic (G11)"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # Purpose
@@ -45,5 +45,5 @@ The **Self-Healing Logic** (`G11_self_healing_logic.py`) provides system-level r
 - Uses `load_dotenv` for DB credentials.
 
 # Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Weekly (Goal G11 health check)

@@ -5,7 +5,7 @@ status: "active"
 automation_id: "WF104"
 goal_id: "goal-g04"
 systems: ["S04", "S03"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-26"
 ---
 
@@ -48,5 +48,5 @@ Aggregates data from multiple sources (Google Sheets, Obsidian, PostgreSQL) and 
 - [S04 Data Ingestion](./Data-Ingestion.md)
 
 ---
-*Owner: Michal*
+*Owner: Michał*
 *Review Cadence: Monthly*

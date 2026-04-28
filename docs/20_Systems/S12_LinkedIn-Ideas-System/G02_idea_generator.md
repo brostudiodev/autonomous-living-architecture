@@ -3,7 +3,7 @@ title: "G02_idea_generator.py"
 type: "script"
 status: "active"
 goal_id: "goal-g02"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-18"
 systems: ["S04", "S08"]
 ---
@@ -248,15 +248,15 @@ Every idea follows the "benefits for everyone" philosophy:
 
 ## Related Documentation
 
-- [[docs/20_Systems/S12_LinkedIn-Ideas-System/README.md|LinkedIn Ideas System]]
-- [[docs/20_Systems/S13_Substack-Notes-Ideas-System/README.md|Substack Notes System]]
-- [[02_Projects/LinkedIn Ideas Basket|LinkedIn Ideas Basket]]
-- [[02_Projects/Substack Notes Ideas Basket|Substack Notes Basket]]
+- [LinkedIn Ideas System](docs/20_Systems/S12_LinkedIn-Ideas-System/README.md)
+- [Substack Notes System](docs/20_Systems/S13_Substack-Notes-Ideas-System/README.md)
+- [LinkedIn Ideas Basket](02_Projects/LinkedIn Ideas Basket.md)
+- [Substack Notes Basket](02_Projects/Substack Notes Ideas Basket.md)
 
 ---
 
 ## Owner & Review
 
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** As needed
 - **Last Updated:** 2026-03-18

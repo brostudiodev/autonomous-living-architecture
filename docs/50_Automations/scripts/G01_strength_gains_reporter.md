@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G01_strength_gains_reporter"
 goal_id: "goal-g01"
 systems: ["S01", "S03"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-25"
 ---
 

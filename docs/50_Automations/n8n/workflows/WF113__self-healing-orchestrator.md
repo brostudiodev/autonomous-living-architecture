@@ -2,7 +2,7 @@
 title: "Workflow Spec: WF113 Self-Healing Orchestrator"
 type: "n8n_workflow"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-16"
 ---
 

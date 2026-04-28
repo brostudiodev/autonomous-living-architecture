@@ -2,7 +2,7 @@
 title: "Service Registry & Infrastructure"
 type: "documentation"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-16"
 ---
 
@@ -59,9 +59,24 @@ services:
 
   digital-twin-api:
     port: 5677
-    purpose: REST interface for life state
+    purpose: Central Intelligence Hub and REST interface for life state
     status: Active
-    endpoints: /status, /all, /health, /hydration, /roi, /tomorrow, /log_water, /log_coffee, /system/velocity, /health/anomalies
+    endpoints: /status, /all, /health, /ouch, /roi, /tomorrow, /log_water, /log_coffee, /cache/status, /cache/refresh
+
+  qdrant:
+    port: 6333
+    purpose: Vector database for strategic memory and AI context
+    status: Active
+
+  ollama:
+    port: 11434
+    purpose: Local LLM runtime for private data processing
+    status: Active (Profiles: cpu, gpu-nvidia)
+
+  obsidian:
+    port: 3010
+    purpose: Web-based interface for the Second Brain (Obsidian Vault)
+    status: Active
 
   activitywatch:
     port: 5600
@@ -70,15 +85,29 @@ services:
     type: aw-server-rust (Docker)
     docs: ./S09_Productivity-Time/ActivityWatch.md
 
-  ### **Database Services**
+  ### **Database Services (Shield Mode Active 🛡️)**
+  
+  **RBAC Policy:** Root access restricted. Services use dedicated users.
+  - `dt_api_agent`: Twin API
+  - `dt_sync_worker`: Python Sync Scripts
+  - `dt_n8n_orchestrator`: n8n Workflows
+  - `dt_grafana`: Read-only Dashboards
+
   ```yaml
   databases:
   postgresql_financial:
-    host: localhost
+    host: postgres
     database: autonomous_finance
+    status: Shielded (RBAC)
     partitions: 2012-2027
-    status: Production Ready
-    schemas: transactions, budgets, digital_twin_updates, finance_entries (Historical)
+    schemas: transactions, budgets, digital_twin_updates
+    tables: net_worth_history (MTD Apr 27)
+
+  postgresql_career:
+    host: postgres
+    database: autonomous_career
+    status: Active
+    tables: skill_inventory, market_pulse, brand_to_skill_impact (MTD Apr 27)
 
   postgresql_health:
     host: localhost
@@ -478,6 +507,24 @@ schedules:
     script: G10_activitywatch_sync.py
     purpose: Attention telemetry synchronization
     duration: ~1 minute
+
+  career_strategist:
+    frequency: "Daily (Tier 1 Sync)"
+    script: G09_career_strategist.py
+    purpose: Align Learning progress with Market Demand and Content
+    duration: ~30 seconds
+
+  caffeine_cutoff_reminder:
+    frequency: "0 14 * * *" # 2:00 PM Daily
+    script: G10_caffeine_cutoff.py
+    purpose: Proactive Telegram alert to protect sleep quality
+    duration: ~5 seconds
+
+  net_worth_snapshot:
+    frequency: "Daily (Tier 2 Sync)"
+    script: G05_net_worth_snapshot.py
+    purpose: Wealth tracking and FIRE progress monitoring
+    duration: ~1 minute
   
   goals_exporter_scrape:
     frequency: "*/15 * * * *"  # Every 15 seconds
@@ -515,10 +562,11 @@ pg_cron_jobs:
 | Interface | Port | URL | Purpose |
 |-----------|------|-----|---------|
 | **Digital Twin API** | 5677 | `http://{{INTERNAL_IP}}:5677` | Life state, AI agent, data aggregation |
-| **n8n Web UI** | 5678 | `http://localhost:5678` | Workflow automation engine |
-| **Grafana** | 3003 | `http://localhost:3003` | Dashboards (Financial, Health, Goals) |
-| **Prometheus** | 9090 | `http://localhost:9090` | Metrics collection |
-| **Home Assistant** | 8123 | `http://{{INTERNAL_IP}}:8123` | Smart home control |
+| **n8n Web UI** | 5678 | `http://{{INTERNAL_IP}}:5678` | Workflow automation engine |
+| **Grafana** | 3003 | `http://{{INTERNAL_IP}}:3003` | Dashboards (Financial, Health, Goals) |
+| **Prometheus** | 9090 | `http://{{INTERNAL_IP}}:9090` | Metrics collection |
+| **Obsidian Web** | 3010 | `http://{{INTERNAL_IP}}:3010` | Web interface for Obsidian Vault |
+| **Home Assistant** | 8123 | `http://[HA_INTERNAL_IP]:8123` | Smart home control |
 | **Telegram Bot** | - | `@YourSmartBot` | Daily briefings, alerts |
 
 ### Databases
@@ -530,7 +578,7 @@ pg_cron_jobs:
 | `autonomous_training` | localhost:5432 | workouts, workout_sets, exercises, measurements |
 | `autonomous_pantry` | localhost:5432 | pantry_inventory, pantry_dictionary |
 | `autonomous_learning` | localhost:5432 | learning_progress, subject_metrics |
-| `autonomous_career` | localhost:5432 | skill_metrics, project_impact |
+| `autonomous_career` | localhost:5432 | skill_inventory, market_pulse, brand_to_skill_impact |
 | `digital_twin_michal` | localhost:5432 | strategic_memory, autonomy_roi, system_activity_log |
 | `autonomous_life_logistics` | localhost:5432 | logistics_items, document_expiries |
 
@@ -732,24 +780,26 @@ backups:
     docker_compose_files:
       frequency: On change
       retention: Git history
-      method: Git version control
-    
+      method: Unified docker-compose.yml (root)
+
     n8n_workflows:
       frequency: On export
       retention: Git history
       method: JSON export + git commit
-  
+
   application_data:
     google_sheets:
       frequency: API-based export
       retention: 90 days
       method: Google Takeout + local backup
-```
+  ```
 
----
+  ---
 
-## Conclusion
+  ## Conclusion
 
-This service registry represents a **production-ready autonomous living ecosystem** with sophisticated integration between financial, health, training, and AI systems. The infrastructure demonstrates mature DevOps practices with proper monitoring, alerting, backup strategies, and security controls.
+  This service registry represents a **production-ready autonomous living ecosystem** with sophisticated integration between financial, health, training, and AI systems. The infrastructure demonstrates mature DevOps practices with proper monitoring, alerting, backup strategies, and security controls.
 
-**Infrastructure Maturity: 9/10** - Highly sophisticated with production-grade reliability and observability.
+  **Infrastructure Maturity: 10/10** - Unified stack deployed for maximum operational efficiency and simplified auditing.
+
+  *Last updated: 2026-04-24*

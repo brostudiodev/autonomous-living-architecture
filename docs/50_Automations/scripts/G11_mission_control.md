@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G11_mission_control"
 goal_id: "goal-g11"
 systems: ["S11", "S10"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G11: Mission Control (Task Automation)

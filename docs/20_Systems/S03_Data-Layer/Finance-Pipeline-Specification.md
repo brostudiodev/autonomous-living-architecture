@@ -3,7 +3,7 @@ title: "Financial Data Ingestion & Notification Pipeline"
 type: "technical_specification"
 status: "active"
 system_id: "system-s03-finance-pipeline"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-01"
 ---
 
@@ -17,7 +17,7 @@ This document details the cross-system architecture for synchronizing manual fin
 ### 1. Source: Manual Entry (Google Sheets)
 - **Component:** Google Sheet `Zestawienie_finansowe-2026_FG_AI`
 - **Tabs:** `Transactions`, `Budget`, `Expense Calendar`
-- **User Action:** Michal adds/updates rows in the spreadsheet.
+- **User Action:** Michał adds/updates rows in the spreadsheet.
 
 ### 2. Ingestion: n8n Orchestration
 - **Workflow:** [WF109: Autonomous Finance - 2026 Data Sync](../../50_Automations/n8n/workflows/WF109__autonomous-finance-2026-data-sync.md)

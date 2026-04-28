@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G05_finance_optimizer.py"
 goal_id: "goal-g05"
 systems: ["S03", "S05"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-11"
 ---
 

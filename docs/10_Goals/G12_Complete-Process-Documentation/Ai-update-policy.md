@@ -2,7 +2,7 @@
 title: "AI Update Policy"
 type: "policy"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-07"
 goal_id: "goal-g12"
 ---

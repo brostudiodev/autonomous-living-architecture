@@ -3,7 +3,7 @@ title: "G02: Q2 Content Calendar"
 type: "content_calendar"
 status: "planning"
 goal_id: "goal-g02"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-14"
 ---
 

@@ -2,7 +2,7 @@
 title: "S00: Backups"
 type: "runbook"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-07"
 ---
 

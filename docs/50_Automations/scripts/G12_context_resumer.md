@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G12_context_resumer"
 goal_id: "goal-g12"
 systems: ["S04"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G12: Context Resumer

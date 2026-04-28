@@ -3,7 +3,7 @@ title: "G12: Complete Process Documentation - Execution State"
 type: "goal_execution"
 status: "active"
 goal_id: "goal-g12"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-07"
 ---
 

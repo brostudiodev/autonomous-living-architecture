@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G13_content_draft_agent.py"
 goal_id: "goal-g02"
 systems: ["S08"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-04"
 ---
 

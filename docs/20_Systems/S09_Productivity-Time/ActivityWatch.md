@@ -2,7 +2,7 @@
 title: "S09: ActivityWatch Telemetry"
 type: "system_component"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-16"
 ---
 
@@ -53,7 +53,7 @@ ActivityWatch server runs in Docker, but watchers must run on the machine where 
 - **Access:** The API is exposed on port 5600. Ensure your local firewall limits access to your internal network.
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Monthly (part of G10 Productivity Audit).
 
 ---

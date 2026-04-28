@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G11_health_endpoint"
 goal_id: "goal-g11"
 systems: ["S11", "S04"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-18"
 ---
 

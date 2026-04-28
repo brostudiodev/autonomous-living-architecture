@@ -5,7 +5,7 @@ status: "active"
 automation_id: "g09-career-sync"
 goal_id: "goal-g09"
 systems: ["S03", "S04"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-02"
 review_cadence: "Quarterly"
 ---

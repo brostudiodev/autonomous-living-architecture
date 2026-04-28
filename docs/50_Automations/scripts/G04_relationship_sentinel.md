@@ -2,7 +2,7 @@
 title: "Relationship Sentinel (G04)"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-02"
 ---
 
@@ -39,5 +39,5 @@ The **Relationship Sentinel** (`G04_relationship_sentinel.py`) ensures social co
 - Read-only access to relationship metadata.
 
 # Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly (update contact list and frequencies)

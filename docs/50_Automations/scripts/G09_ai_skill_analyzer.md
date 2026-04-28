@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G09_ai_skill_analyzer"
 goal_id: "goal-g09"
 systems: ["S09", "S04", "S10"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-09"
 ---
 
@@ -58,7 +58,7 @@ Uses LLM reasoning to analyze study history (G06) and suggest the "Next 3 Best A
 - **ROI Tracking:** Included in the G10 Planning ROI.
 
 ## Manual Fallback
-Michal can manually review the `v_learning_progress` view in the database or the `Roadmap.md` in G06 to determine next steps.
+Michał can manually review the `v_learning_progress` view in the database or the `Roadmap.md` in G06 to determine next steps.
 
 ---
 *Related Documentation:*

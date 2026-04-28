@@ -5,7 +5,7 @@ status: "active"
 service_id: "SVC_Zepp-Health-Sync"
 goal_id: "goal-g07"
 systems: ["S04", "S06", "S08"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-10"
 ---
 
@@ -80,7 +80,7 @@ Amazfit/Zepp API → G07_zepp_sync.py → PostgreSQL (autonomous_health)
 {
   "chat_id": "{{TELEGRAM_CHAT_ID}}",
   "source_type": "telegram",
-  "username": "Michal"
+  "username": "Michał"
 }
 ```
 

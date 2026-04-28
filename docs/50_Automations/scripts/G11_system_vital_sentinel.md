@@ -2,8 +2,8 @@
 title: "System Vital Sentinel (G11)"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # Purpose
@@ -41,5 +41,5 @@ The **System Vital Sentinel** (`G11_system_vital_sentinel.py`) provides enterpri
 - No sensitive data is exposed in health reports.
 
 # Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly (verify list of critical containers)

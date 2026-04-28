@@ -60,7 +60,7 @@ Transform from content creator to content strategist by creating a complete digi
   - Autonomous-living repository (technical expertise)
   - **Unified Intelligence Database**: Centralized `daily_intelligence` table merging all domain metrics.
 - **Features**:
-  - **Contextual Retrieval**: Provide other agents with the "State of the Twin" (e.g., "Michal is in Recovery Mode due to low HRV and 3 late-night sessions").
+  - **Contextual Retrieval**: Provide other agents with the "State of the Twin" (e.g., "Michał is in Recovery Mode due to low HRV and 3 late-night sessions").
   - **Semantic Search**: Across all personal and system data.
   - **Continuous Learning**: Daily reflection and friction logging (G11).
 

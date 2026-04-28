@@ -3,7 +3,7 @@ title: "Adr-0016: Event-Driven Architecture"
 type: "decision"
 status: "accepted"
 date: "2026-02-25"
-deciders: ["Michal"]
+deciders: ["Michał"]
 ---
 
 # Adr-0016: Event-Driven Architecture

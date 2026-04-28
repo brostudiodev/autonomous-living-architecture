@@ -2,7 +2,7 @@
 title: "G01: Systems"
 type: "goal_systems"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-28"
 goal_id: "goal-g01"
 ---

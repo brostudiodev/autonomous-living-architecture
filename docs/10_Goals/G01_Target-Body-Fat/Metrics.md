@@ -3,7 +3,7 @@ title: "G01: Metrics"
 type: "goal_metrics"
 status: "active"
 goal_id: "goal-g01"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-07"
 ---
 
@@ -12,9 +12,9 @@ updated: "2026-02-07"
 ## KPI list
 | Metric | Target | How measured | Frequency | Owner |
 |---|---:|---|---|---|
-| Body fat % (7-day MA) | -2 to -4% vs Jan baseline | `v_body_composition` (PostgreSQL) | Daily log, weekly eval | Michal |
-| Waist Circumference | Trending down | `physical_measurements` (PostgreSQL) | Every 15 days | Michal |
-| Progress Photos | 100% compliance | `physical_measurements.has_photo` | Monthly | Michal |
+| Body fat % (7-day MA) | -2 to -4% vs Jan baseline | `v_body_composition` (PostgreSQL) | Daily log, weekly eval | Michał |
+| Waist Circumference | Trending down | `physical_measurements` (PostgreSQL) | Every 15 days | Michał |
+| Progress Photos | 100% compliance | `physical_measurements.has_photo` | Monthly | Michał |
 | Training frequency | 2–4 sessions/week | `workouts` table (PostgreSQL) | Weekly | Auto (script) |
 | Load progression rate | +2.5–5% per exercise per month | `workout_sets` (PostgreSQL) trend | Monthly | Auto (script) |
 

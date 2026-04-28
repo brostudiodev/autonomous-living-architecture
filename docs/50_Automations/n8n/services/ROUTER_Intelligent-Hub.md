@@ -5,7 +5,7 @@ status: "active"
 service_id: "ROUTER_Intelligent-Hub"
 goal_id: "goal-g11"
 systems: ["S04", "S08", "S11"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-10"
 ---
 
@@ -262,7 +262,7 @@ curl -s http://localhost:5678/rest/workflows/ROUTER_Intelligent_Hub -u user:pass
 
 ## Security Notes
 
-- **Telegram Authentication:** Only user ID `{{TELEGRAM_CHAT_ID}}` (Michal) is authorized
+- **Telegram Authentication:** Only user ID `{{TELEGRAM_CHAT_ID}}` (Michał) is authorized
 - **Webhook Security:** No auth on webhook (internal-only, not exposed to internet)
 - **Chat Interface:** No auth required (assumes trusted internal network)
 - **Rate Limiting:** Not implemented at router level (handled by Telegram API)

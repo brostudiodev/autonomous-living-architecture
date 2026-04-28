@@ -2,7 +2,7 @@
 title: "Study Velocity Tracker (G06)"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-02"
 ---
 
@@ -39,5 +39,5 @@ The **Study Velocity Tracker** (`G06_study_velocity.py`) autonomously monitors p
 - Read-only access to learning data.
 
 # Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly (verify deadline alignment)

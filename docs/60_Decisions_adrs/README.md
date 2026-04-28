@@ -2,7 +2,7 @@
 title: "Architecture Decision Records (ADR)"
 type: "documentation"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-12"
 ---
 
@@ -25,10 +25,12 @@ This directory contains Architecture Decision Records (ADRs) that document impor
 - [Adr-0015](./Adr-0015-Level-5-Autonomy-Implementation.md) - Level 5 Autonomy Implementation (Zero-Click Loop)
 - [Adr-0016](./Adr-0016-Event-Driven-Architecture.md) - Event-Driven Architecture (LISTEN/NOTIFY)
 - [Adr-0017](./Adr-0017-Decision-Authority-Framework.md) - Decision Authority Framework (Rules Engine)
+- [Adr-0018](./Adr-0018-Standardized-Timeouts.md) - Standardized Timeouts and Syntax Hardening
+- [Adr-0019](./Adr-0019-Silent-Mode-and-Recursion-Prevention.md) - Silent Mode and Sync Recursion Prevention
 
 ### **Data & Metrics Decisions**
 - [Adr-0008](./Adr-0008-Real-Savings-Rate-Calculation.md) - Real Savings Rate Calculation
-- [Adr-0014](./Adr-00{{LONG_IDENTIFIER}}.md) - Centralized System Observability and ROI
+- [Adr-0014](./Adr-0014-Centralized-System-Observability-and-ROI.md) - Centralized System Observability and ROI
 
 ### **Integration & Routing Decisions**
 - [Adr-0010](./Adr-0010-Hub-and-Spoke-Integration.md) - Hub-and-Spoke Integration Pattern
@@ -36,7 +38,7 @@ This directory contains Architecture Decision Records (ADRs) that document impor
 - [Adr-0012](./Adr-0012-Rule-Based-Intent-Classification.md) - Rule-Based Intent Classification
 
 ### **Security & Hardening Decisions**
-- [Adr-0013](./Adr-00{{LONG_IDENTIFIER}}.md) - Security Hardening and Secrets Management
+- [Adr-0013](./Adr-0013-Security-Hardening-and-Secrets-Management.md) - Security Hardening and Secrets Management
 
 ## Missing ADRs (Gaps Identified)
 

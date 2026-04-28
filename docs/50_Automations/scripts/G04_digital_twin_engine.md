@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G04_digital_twin_engine.py"
 goal_id: "goal-g04"
 systems: ["S04"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-19"
 ---
 
@@ -32,10 +32,25 @@ The primary "brain" of the Autonomous Living ecosystem. This script aggregates d
 - **System-Wide DB Normalization (NEW Apr 18):** Completed a comprehensive normalization of database connection variables across the entire ecosystem. Migrated all G-series scripts to use centralized constants from `db_config.py` (e.g., `DB_FINANCE`, `DB_HEALTH`), resolving widespread typos (e.g., `DB_TRAININGG`) and variable truncation (`db_confi` -> `db_config`) that previously caused intermittent connectivity gaps.
 - **Unlocked Historical Data (NEW Apr 19):** Removed all history-based limitations (30/90 days). Default lookback and forecasting windows standardized to **3650 days (10 years)** across all analytical methods (`get_sleep_trend`, `get_workout_stats`, `generate_finance_forecast`, etc.). This enables seamless multi-year trend analysis and prevents data gaps in historical reporting.
 - **Circuit Breaker Integration (Added Apr 17):** Formalized the use of `@domain_circuit_breaker` in the core engine. All database queries are now protected by the `G04_domain_isolator`, enabling fast-failing for unstable domains and preventing system-wide hangs.
+- **Biometric Fallback Engine (NEW Apr 20):** Upgraded `get_health_status` to support autonomous data retrieval when target date records are missing (e.g., morning sync delay). The system now falls back to the latest available historical data to ensure energy-aware scheduling remains operational 24/7.
 
 ## Triggers
 - **Internal:** Called by `G04_digital_twin_api.py`, `autonomous_daily_manager.py`, and `G11_mission_aggregator.py`.
 - **Manual:** `python3 scripts/G04_digital_twin_engine.py` (prints suggested report) or `AUDIT_MODE=1 python3 scripts/G04_digital_twin_engine.py` for health check.
+
+## Changelog
+| Date | Version | Author | Change Description |
+|---|---|---|---|
+| 2026-04-01 | 1.0 | Michał | Initial documentation of core logic. |
+| 2026-04-04 | 2.0 | Michał | Added trend forecasting and predictive intelligence. |
+| 2026-04-08 | 2.1 | Michał | Updated for agent registry and scoped tool access. |
+| 2026-04-13 | 2.2 | Michał | Added proactive state updates and multi-date context support. |
+| 2026-04-14 | 2.3 | Michał | Implemented Personal Anniversary Engine and historical context. |
+| 2026-04-15 | 2.4 | Michał | Integrated centralized timezone and sanity audit protocols. |
+| 2026-04-17 | 2.5 | Michał | Added domain circuit breakers for all DB queries. |
+| 2026-04-18 | 2.6 | Michał | Standardized hydration target (2000ml) and DB connection vars. |
+| 2026-04-19 | 2.7 | Michał | Unlocked 10-year historical data access for all metrics. |
+| 2026-04-20 | 2.8 | Michał | Implemented biometric fallback logic in get_health_status. |
 
 ## Inputs
 - **Databases:** `digital_twin_michal`, `autonomous_finance`, `autonomous_health`, `autonomous_pantry`, `autonomous_training`, `autonomous_learning`, `autonomous_life_logistics`.

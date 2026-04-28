@@ -3,7 +3,7 @@ title: "SOP: Evening Automation System"
 type: "sop"
 status: "active"
 goal_id: "goal-g10, goal-g11"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-23"
 ---
 
@@ -334,5 +334,5 @@ python scripts/G11_mission_control.py
 
 ---
 
-*Owner: Michal*  
+*Owner: Michał*  
 *Review Cadence: Monthly*

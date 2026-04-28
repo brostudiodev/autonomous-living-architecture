@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G05_finance_anomaly_detector"
 goal_id: "goal-g05"
 systems: ["S05"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G05: Financial Anomaly Detector

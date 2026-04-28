@@ -2,7 +2,7 @@
 title: "G11: Friction Resolver"
 type: "automation"
 status: "deprecated"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-16"
 goal_id: "goal-g11"
 ---
@@ -41,5 +41,5 @@ The original script is located in `scripts/archive/G11_friction_resolver.py` for
 | Empty Frustrations | Status: SUCCESS (0 items) | Normal behavior if no friction reported. |
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Weekly during system audit.

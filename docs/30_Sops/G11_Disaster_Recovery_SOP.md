@@ -2,7 +2,7 @@
 title: "SOP: Disaster Recovery & Database Restoration"
 type: "sop"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-02"
 ---
 
@@ -63,5 +63,5 @@ rm autonomous_finance.sql
 - Store the GPG passphrase in a secure password manager (e.g., Bitwarden).
 
 # Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Quarterly (Run a test restore of a non-critical DB)

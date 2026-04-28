@@ -2,7 +2,7 @@
 title: "Google Drive Backup Sync (G11)"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-02"
 ---
 
@@ -38,5 +38,5 @@ The **Google Drive Backup Sync** (`G11_google_drive_backup.py`) handles the off-
 - **ENCRYPTION:** Files are uploaded in their GPG-encrypted state. Cleartext data NEVER leaves the local environment.
 
 # Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly (Check Drive folder for sync consistency)

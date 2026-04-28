@@ -5,7 +5,7 @@ status: "active"
 automation_id: "WF112__svc-workflow-heartbeat-monitor"
 goal_id: "goal-g11"
 systems: ["S08", "S01"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-18"
 ---
 

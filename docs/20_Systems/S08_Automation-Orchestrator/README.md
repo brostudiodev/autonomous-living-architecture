@@ -3,7 +3,7 @@ title: "S08: Automation Orchestrator"
 type: "system"
 status: "active"
 system_id: "system-s08"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-08"
 ---
 

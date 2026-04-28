@@ -2,8 +2,8 @@
 title: "Automation Spec: G11_friction_discovery.py"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
-updated: "2026-04-19"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # 🤖 Automation Spec: G11_friction_discovery.py

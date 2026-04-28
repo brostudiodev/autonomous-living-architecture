@@ -5,7 +5,7 @@ status: "active"
 service_id: "SVC_Google-Calendar"
 goal_id: "goal-g10"
 systems: ["S04", "S08", "S10"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-10"
 ---
 

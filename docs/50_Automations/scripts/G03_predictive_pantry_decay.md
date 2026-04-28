@@ -2,8 +2,8 @@
 title: "Predictive Pantry Decay (G03)"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-25"
 ---
 
 # Purpose
@@ -44,5 +44,5 @@ The **Predictive Pantry Decay** (`G03_predictive_pantry_decay.py`) moves househo
 - Read/Write access to the pantry database required.
 
 # Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly (Verify model accuracy against physical stock)

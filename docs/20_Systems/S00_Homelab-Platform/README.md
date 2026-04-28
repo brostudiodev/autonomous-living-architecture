@@ -3,7 +3,7 @@ title: "S00: Homelab Platform"
 type: "system"
 status: "active"
 system_id: "system-s00"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-08"
 review_cadence: "monthly"
 ---
@@ -68,26 +68,28 @@ Provide the underlying infrastructure platform hosting all autonomous living sys
 - Disk space warnings
 
 ## Procedure
-1. **Weekly:** Check container status
-2. **Monthly:** Review resource usage, plan capacity
-3. **Quarterly:** Review security, update images
+1. **Daily:** Review unified `docker-compose.yml` status and container health.
+2. **Weekly:** Check container logs and perform maintenance via unified stack.
+3. **Monthly:** Review resource usage, plan capacity, and audit unified compose file.
+4. **Quarterly:** Review security, update images, and perform deep stack audit.
 
 ## Failure Modes
 | Scenario | Detection | Response |
 |----------|-----------|----------|
-| Container down | Monitor alert | Check logs, restart container |
-| Disk full | Space warning | Clean up old images, expand storage |
-| Network issue | Can't reach services | Check router, restart docker |
+| Container down | Monitor alert / `docker ps` | Check logs, restart container via `docker-compose restart <service>` |
+| Disk full | Space warning | Clean up old images (`docker system prune`), expand storage |
+| Network issue | Can't reach services | Check router, restart docker service, verify `autonomous-network` |
 
 ## Security Notes
 - SSH restricted to local network
-- No exposed ports beyond reverse proxy
-- Regular image updates
+- No exposed ports beyond reverse proxy (Traefik)
+- Regular image updates and base OS patching
+- Unified `docker-compose.yml` for simplified audit and security management
 
 ## Owner & Review
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Monthly
-- **Last Updated:** 2026-02-16
+- **Last Updated:** 2026-04-24
 
 ---
 

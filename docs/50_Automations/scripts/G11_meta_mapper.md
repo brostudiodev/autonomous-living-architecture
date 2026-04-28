@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G11_meta_mapper"
 goal_id: "goal-g11"
 systems: ["S03", "S04"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-16"
 ---
 

@@ -3,7 +3,7 @@ title: "G01: Training Journal (Low-Volume HIT)"
 type: "training_guide"
 status: "active"
 goal_id: "goal-g01"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-08"
 ---
 

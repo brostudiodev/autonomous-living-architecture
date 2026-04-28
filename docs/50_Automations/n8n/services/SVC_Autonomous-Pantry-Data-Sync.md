@@ -5,7 +5,7 @@ status: "active"
 automation_id: "SVC_Autonomous-Pantry-Data-Sync"
 goal_id: "goal-g03"
 systems: ["S03", "S08"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-25"
 ---
 
@@ -91,5 +91,5 @@ SELECT upsert_pantry_item(
 - [SOP: Pantry Inventory Update](../../30_Sops/Pantry-Inventory-Update-SOP.md)
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly (verify data integrity and sync reliability)

@@ -5,7 +5,7 @@ status: "active"
 system_id: "S04"
 goal_id: "goal-g04"
 version: "1.1"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-12"
 ---
 
@@ -39,7 +39,7 @@ When an agent (specialist) requests a tool execution via the Digital Twin API:
 
 ## 📓 Audit & Logging
 - **Success:** Every authorized tool execution is logged in `system_activity_log` with the `agent_id` field populated.
-- **Violation:** Unauthorized attempts trigger a `SECURITY_AUDIT` entry and a high-priority Telegram alert to Michal.
+- **Violation:** Unauthorized attempts trigger a `SECURITY_AUDIT` entry and a high-priority Telegram alert to Michał.
 
 ## 📝 Maintenance
 - **New Tools:** When adding a script to `scripts/`, it MUST be registered in the manifest with a domain tag.

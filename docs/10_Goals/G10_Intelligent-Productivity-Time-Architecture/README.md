@@ -3,7 +3,7 @@ title: "G10: Intelligent Productivity & Time Architecture"
 type: "goal"
 status: "active"
 goal_id: "goal-g10"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-08"
 review_cadence: "monthly"
 ---
@@ -119,7 +119,7 @@ This goal is orchestrated via the **G04 Digital Twin API** and the **Daily Manag
 - Assume adversarial reading for shared calendars
 
 ## Owner & Review
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-03-31
 

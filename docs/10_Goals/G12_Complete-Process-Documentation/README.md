@@ -3,7 +3,7 @@ title: "G12: Complete Process Documentation"
 type: "goal"
 status: "active"
 goal_id: "goal-g12"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-08"
 review_cadence: "monthly"
 ---
@@ -101,7 +101,7 @@ To justify the "Automation-First" North Star, I track the Return on Investment (
 - Internal-only data marked appropriately
 
 ## Owner & Review
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-02-16
 

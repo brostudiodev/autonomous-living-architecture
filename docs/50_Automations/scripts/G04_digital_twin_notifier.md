@@ -5,14 +5,14 @@ status: "active"
 automation_id: "G04_digital_twin_notifier"
 goal_id: "goal-g04"
 systems: ["S04"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-14"
 ---
 
 # G04_digital_twin_notifier: Unified Communication Layer
 
 ## Purpose
-Provides a centralized, reliable interface for all system scripts to communicate with Michal via Telegram. It abstracts away message splitting, error handling, and formatting modes.
+Provides a centralized, reliable interface for all system scripts to communicate with Michał via Telegram. It abstracts away message splitting, error handling, and formatting modes.
 
 ## 🚀 Enhancements (Apr 14)
 1. **Rich Error Diagnosis:** Updated to always print the full Telegram API response text on failure (e.g., HTTP 400). This enables instant diagnosis of formatting or character escaping issues.

@@ -2,7 +2,7 @@
 title: "G04: Implementation Roadmap"
 type: "goal_roadmap"
 status: "current"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-20"
 goal_id: "goal-g04"
 ---

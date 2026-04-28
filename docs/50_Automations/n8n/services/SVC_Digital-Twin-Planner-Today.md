@@ -5,7 +5,7 @@ status: "active"
 automation_id: "SVC_Digital-Twin-Planner-Today"
 goal_id: "goal-g10"
 systems: ["S04", "S09"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-10"
 ---
 

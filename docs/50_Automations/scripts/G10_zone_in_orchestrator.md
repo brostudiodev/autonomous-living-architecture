@@ -2,7 +2,7 @@
 title: "Zone-In Orchestrator (G10)"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-02"
 ---
 
@@ -39,5 +39,5 @@ The **Zone-In Orchestrator** (`G10_zone_in_orchestrator.py`) minimizes context-s
 - Script generation is local and restricted to the user's home directory.
 
 # Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly (update context mappings for new projects)

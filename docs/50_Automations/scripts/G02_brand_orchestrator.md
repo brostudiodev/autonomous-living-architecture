@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G02_brand_orchestrator"
 goal_id: "goal-g02"
 systems: ["S02", "S05"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G02: Brand Orchestrator

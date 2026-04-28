@@ -3,7 +3,7 @@ title: "G10: Outcomes"
 type: "goal_outcomes"
 status: "active"
 goal_id: "goal-g10"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-13"
 ---
 

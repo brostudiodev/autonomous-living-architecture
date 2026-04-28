@@ -2,7 +2,7 @@
 title: "SOP: Monthly Budget Review"
 type: "sop"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 goal_id: "goal-g05"
 updated: "2026-03-26"
 ---
@@ -31,5 +31,5 @@ Monthly review of financial performance and budget alignment to ensure spending 
 - [G05 Finance Anomaly Detector](../50_Automations/scripts/G05_finance_anomaly_detector.md)
 
 ---
-*Owner: Michal*
+*Owner: Michał*
 *Review Cadence: Monthly*

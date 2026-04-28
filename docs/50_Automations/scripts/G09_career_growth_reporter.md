@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G09_career_growth_reporter.py"
 goal_id: "goal-g09"
 systems: ["S04", "S09"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-11"
 ---
 

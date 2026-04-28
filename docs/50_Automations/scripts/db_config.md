@@ -5,7 +5,7 @@ status: "active"
 automation_id: "db_config"
 goal_id: "goal-g12"
 systems: ["S03", "S04"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-09"
 ---
 
@@ -167,7 +167,7 @@ logger = setup_logger(__file__)
 
 ## Owner & Review
 
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Monthly (via G12 Documentation Audit)
 - **Last Updated:** 2026-04-15
 - **Migration Status:** Core scripts ✅ migrated (Timezone centralization complete)

@@ -3,7 +3,7 @@ title: "Adr-0008: Real Savings Rate Calculation"
 type: "decision"
 status: "accepted"
 date: "2025-09-01"
-deciders: ["Michal"]
+deciders: ["Michał"]
 consulted: []
 informed: []
 ---

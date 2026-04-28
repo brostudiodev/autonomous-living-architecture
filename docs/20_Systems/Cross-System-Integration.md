@@ -2,7 +2,7 @@
 title: "Cross-System Integration Architecture"
 type: "documentation"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-16"
 ---
 
@@ -40,8 +40,18 @@ Source Systems → G04 Digital Twin → PostgreSQL Storage
 #### **Total Recall: Cross-Domain SQL Analytics (NEW Mar 31)**
 The **Total Recall** architecture allows the AI Agent to bypass domain-specific endpoints and perform direct, read-only SQL queries across multiple PostgreSQL databases.
 - **Mechanism:** `DigitalTwinAPI` `/query` endpoint.
-- **Access:** `health` (biometrics), `finance` (transactions), `twin` (memory/tasks), `training` (workouts).
-- **Use Case:** AI-driven correlation analysis (e.g., "Mood vs. Net Worth").
+- **Access:** `health` (biometrics), `finance` (transactions), `twin` (memory/tasks), `training` (workouts), `career` (skills/market), `learning` (study history).
+- **Use Case:** AI-driven correlation analysis (e.g., "Mood vs. Net Worth" or "Sleep vs. Spending").
+
+#### **Career-Learning Strategic Steering (NEW Apr 27)**
+A closed-loop system connecting professional development with market demand and public brand presence.
+- **G06 Learning → G09 Career:** Automated synchronization of study hours into proficiency boosts in the Skill Inventory.
+- **G09 Career ↔ G13 Content:** Career Strategist analyzes proficiency gaps against market demand and injects high-priority themes into the Content Idea harvest.
+- **n8n Market Scout → G09 Career:** Real-time market demand updates autonomously steer the system's professional focus.
+
+#### **Financial Wealth & FIRE Layer (NEW Apr 27)**
+Expands beyond cash-flow to long-term financial autonomy.
+- **G05 Finance ↔ G11 Mission:** Automated Net Worth tracking and FIRE progress milestones dynamically injected into the daily Golden Mission.
 
 #### **Output & Broadcasting**
 ```

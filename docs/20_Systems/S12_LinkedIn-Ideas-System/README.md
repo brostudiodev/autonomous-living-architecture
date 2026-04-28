@@ -2,7 +2,7 @@
 title: "LinkedIn Ideas System"
 type: "system"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-17"
 goal_id: "goal-g02"
 systems: ["S04", "S08"]
@@ -90,7 +90,7 @@ title: "[IDEA] Idea Title"
 date_created: YYYY-MM-DD
 date_source: YYYY-MM-DD
 source_type: (Daily Note / Q2 Calendar / System Win / AI Generated)
-source_link: [[link to source]]
+source_link: `[[link to source]]`
 status: 🆕 New / 👀 Reviewed / 🔄 In Progress / ✅ Published / ⏸️ Paused
 linkedin_format: (Short story / Technical deep dive / Personal story)
 tags: []
@@ -253,7 +253,7 @@ Obsidian Vault/
 
 ## Ownership & Review
 
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-03-17
 
@@ -261,9 +261,9 @@ Obsidian Vault/
 
 ## Key Links
 
-- Q2 Content Calendar: [[docs/10_Goals/G02_Automationbro-Recognition/Q2-Content-Calendar|Q2 Content Calendar]]
-- G02 Goal: [[docs/10_Goals/G02_Automationbro-Recognition/README.md|G02 README]]
-- Ideas Basket: [[Obsidian Vault/02_Projects/LinkedIn Ideas Basket/README|Ideas Basket]]
+- Q2 Content Calendar: [Q2 Content Calendar](docs/10_Goals/G02_Automationbro-Recognition/Q2-Content-Calendar.md)
+- G02 Goal: [G02 README](docs/10_Goals/G02_Automationbro-Recognition/README.md)
+- Ideas Basket: `[[Obsidian Vault/02_Projects/LinkedIn Ideas Basket/README|Ideas Basket]]` (Vault Reference)
 
 ---
 

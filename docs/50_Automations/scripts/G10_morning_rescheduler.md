@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G10_morning_rescheduler"
 goal_id: "goal-g10"
 systems: ["S10"]
-owner: "Michal"
-updated: "2026-04-16"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G10: Dynamic Morning Rescheduler

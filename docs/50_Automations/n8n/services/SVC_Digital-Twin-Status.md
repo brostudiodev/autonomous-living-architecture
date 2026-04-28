@@ -5,7 +5,7 @@ status: "active"
 service_id: "SVC_Digital-Twin-Status"
 goal_id: "goal-g04"
 systems: ["S04", "S08"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-10"
 ---
 
@@ -84,7 +84,7 @@ Provides a real-time summary of the entire Autonomous Living ecosystem, includin
 {
   "chat_id": "{{TELEGRAM_CHAT_ID}}",
   "source_type": "telegram",
-  "username": "Michal"
+  "username": "Michał"
 }
 ```
 
@@ -94,7 +94,7 @@ Or from Router:
   "_router": {
     "chat_id": "{{TELEGRAM_CHAT_ID}}",
     "trigger_source": "telegram",
-    "username": "Michal"
+    "username": "Michał"
   }
 }
 ```
@@ -111,7 +111,7 @@ Or from Router:
       "type": "telegram",
       "chat_id": "{{TELEGRAM_CHAT_ID}}"
     },
-    "username": "Michal"
+    "username": "Michał"
   },
   "success": true
 }

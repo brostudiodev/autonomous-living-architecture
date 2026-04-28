@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G08_home_monitor"
 goal_id: "goal-g08"
 systems: ["S08", "S10"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-23"
 ---
 

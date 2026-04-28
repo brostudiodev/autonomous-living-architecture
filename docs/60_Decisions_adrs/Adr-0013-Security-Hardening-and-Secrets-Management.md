@@ -3,7 +3,7 @@ title: "ADR-0013: Security Hardening & Secrets Management"
 type: "adr"
 status: "accepted"
 date: "2026-03-03"
-owner: "Michal"
+owner: "Michał"
 ---
 
 # ADR-0013: Security Hardening & Secrets Management

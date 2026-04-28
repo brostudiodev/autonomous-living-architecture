@@ -3,7 +3,7 @@ title: "G10: Metrics"
 type: "goal_metrics"
 status: "active"
 goal_id: "goal-g10"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-15"
 ---
 
@@ -14,17 +14,17 @@ updated: "2026-02-15"
 ### Calendar Management Metrics
 | Metric | Target | How measured | Frequency | Owner |
 |---|---:|---|---|---|
-| Calendar request success rate | ≥ 95% | n8n execution logs + manual validation | Weekly | Michal |
-| End-to-end response time | ≤ 10s | n8n workflow duration tracking | Daily | Michal |
-| Monthly LLM cost | < $5 USD | Google Cloud billing dashboard | Monthly | Michal |
-| User correction rate | ≤ 5% | Manual tracking in activity logs | Weekly | Michal |
+| Calendar request success rate | ≥ 95% | n8n execution logs + manual validation | Weekly | Michał |
+| End-to-end response time | ≤ 10s | n8n workflow duration tracking | Daily | Michał |
+| Monthly LLM cost | < $5 USD | Google Cloud billing dashboard | Monthly | Michał |
+| User correction rate | ≤ 5% | Manual tracking in activity logs | Weekly | Michał |
 
 ### Productivity System Metrics
 | Metric | Target | How measured | Frequency | Owner |
 |---|---:|---|---|---|
 | **Planning ROI** | > 10 mins/day | [Autonomy ROI Tracker](../G04_Digital-Twin-Ecosystem/Systems.md) | Daily | Digital Twin |
 | **Readiness Adherence** | > 80% | [G10_tomorrow_planner.py](../../50_Automations/scripts/G10_tomorrow_planner.md) | Weekly | Digital Twin |
-| **Deep Work Hours** | > 15h/week | RescueTime / Calendar Audit | Weekly | Michal |
+| **Deep Work Hours** | > 15h/week | RescueTime / Calendar Audit | Weekly | Michał |
 
 ## Leading indicators
 ### Calendar Management

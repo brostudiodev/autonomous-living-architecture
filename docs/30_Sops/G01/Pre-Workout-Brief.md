@@ -2,7 +2,7 @@
 title: "SOP: G01 Pre-Workout Brief"
 type: "sop"
 status: "planned"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-21"
 ---
 

@@ -2,14 +2,14 @@
 title: "Service: Autonomous Friction Resolver"
 type: "automation"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-10"
 ---
 
 # SVC_Autonomous-Friction-Resolver
 
 ## Purpose
-The Autonomous Friction Resolver is a "Self-Correction" engine that scans Michal's entire Digital Twin ecosystem for inefficiencies, risks, or wasted effort. It identifies "friction" across domains (Finance, Health, Smart Home, Pantry, Logistics) and proposes concrete, actionable **Quick Wins** to resolve them.
+The Autonomous Friction Resolver is a "Self-Correction" engine that scans Michał's entire Digital Twin ecosystem for inefficiencies, risks, or wasted effort. It identifies "friction" across domains (Finance, Health, Smart Home, Pantry, Logistics) and proposes concrete, actionable **Quick Wins** to resolve them.
 
 ## Scope
 - **In Scope:** Analyzing budget breaches, hydration deficits, smart home sensor failures, pantry low stock, task overloads, and cross-domain correlations.

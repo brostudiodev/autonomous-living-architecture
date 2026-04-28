@@ -2,7 +2,7 @@
 title: "Project: April Reliability Hardening & n8n Migration"
 type: "project"
 status: "completed"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-16"
 goal_id: "goal-g11"
 ---

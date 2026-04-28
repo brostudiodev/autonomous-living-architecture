@@ -5,7 +5,7 @@ status: "active"
 automation_id: "WF012__svc-google-calendar"
 goal_id: "goal-g04"
 systems: ["S05", "S08"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-11"
 ---
 
@@ -163,7 +163,7 @@ Response Format:
 {
   "response_text": "✅ **Dodałem spotkanie do kalendarza**
 
-📝 **Tytuł:** Okulista - Michal
+📝 **Tytuł:** Okulista - Michał
 🗓️ **Data:** Wtorek, 17 lutego 2026
 ⏰ **Czas:** 15:40 - 16:40
 📍 **Lokalizacja:** Krzywicka
@@ -173,7 +173,7 @@ Response Format:
 • Czas trwania: 60 minut (domyślnie)
 
 **🎯 Optymalny format następnym razem:**
-`Okulista - Michal 17 lutego 15:40-16:30 ul. Krzywicka 12`",
+`Okulista - Michał 17 lutego 15:40-16:30 ul. Krzywicka 12`",
   "success": true,
   "_router": {...},
   "metadata": {...},
@@ -225,7 +225,7 @@ Input: "Dodaj spotkanie do kalendarza: Okulista michal 17 luty godz 15 40 krzywi
 
 AI Extraction:
 
-    Title: "Okulista - Michal" (name capitalized)
+    Title: "Okulista - Michał" (name capitalized)
     Date: February 17, 2026
     Time: 15:40
     Duration: 60 minutes (default)
@@ -235,7 +235,7 @@ Response:
 ```
 ✅ **Dodałem spotkanie do kalendarza**
 
-📝 **Tytuł:** Okulista - Michal
+📝 **Tytuł:** Okulista - Michał
 🗓️ **Data:** Wtorek, 17 lutego 2026
 ⏰ **Czas:** 15:40 - 16:40
 📍 **Lokalizacja:** Krzywicka
@@ -245,7 +245,7 @@ Response:
 • Czas trwania: 60 minut (domyślnie)
 
 **🎯 Optymalny format następnym razem:**
-`Okulista - Michal 17 lutego 15:40-16:30 ul. Krzywicka 12`
+`Okulista - Michał 17 lutego 15:40-16:30 ul. Krzywicka 12`
 ```
 
 ### Example 3: Availability Check
@@ -354,7 +354,7 @@ Proszę dodaj ręcznie:
 Before deployment:
 
     Test minimal input: "dentysta 5"
-    Test full details: "Okulista - Michal 17 lutego 15:40-16:30 ul. Krzywicka 12"
+    Test full details: "Okulista - Michał 17 lutego 15:40-16:30 ul. Krzywicka 12"
     Test availability: "czy mam spotkanie jutro?"
     Test day overview: "co mam w piątek?"
     Test past dates: "spotkanie 5" (when today is 11th)

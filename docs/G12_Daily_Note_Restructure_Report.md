@@ -2,7 +2,7 @@
 title: "G12: Daily Note & Agentic Intelligence Handover Report"
 type: "report"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-08"
 goal_id: "goal-g12"
 ---

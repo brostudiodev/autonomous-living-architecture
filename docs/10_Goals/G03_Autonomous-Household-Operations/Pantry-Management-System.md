@@ -3,7 +3,7 @@ title: "Pantry Management System"
 type: "sub_project"
 parent_goal: "G03"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 systems: ["S03", "S07"]
 automation: "WF105"
 updated: "2026-04-03"

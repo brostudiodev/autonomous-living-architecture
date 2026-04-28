@@ -3,7 +3,7 @@ title: "G04: Digital Twin Ecosystem - Execution State"
 type: "goal_execution"
 status: "active"
 goal_id: "goal-g04"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-07"
 ---
 

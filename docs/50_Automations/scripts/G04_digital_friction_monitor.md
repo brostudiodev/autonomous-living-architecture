@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G04_digital_friction_monitor"
 goal_id: "goal-g04"
 systems: ["S04", "S11"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G04_digital_friction_monitor: Resilience Analytics

@@ -5,7 +5,7 @@ status: "active"
 service_id: "SVC_Input-Normalizer"
 goal_id: "goal-g11"
 systems: ["S04", "S08", "S11"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-10"
 ---
 
@@ -82,7 +82,7 @@ Unified input processing service that normalizes and authenticates all incoming 
 ### Stage 3: Authentication (Telegram only)
 - **Node:** `Telegram Auth` (Code)
 - Validates user ID against authorized list:
-  - **Authorized User:** `{{TELEGRAM_CHAT_ID}}` (Michal)
+  - **Authorized User:** `{{TELEGRAM_CHAT_ID}}` (Michał)
   - Returns `_auth_result.status: "authorized"` or `"unauthorized"`
 
 ### Stage 4: Non-Telegram Bypass
@@ -111,7 +111,7 @@ Unified input processing service that normalizes and authenticates all incoming 
 {
   "message": {
     "chat": { "id": "{{TELEGRAM_CHAT_ID}}" },
-    "from": { "id": "{{TELEGRAM_CHAT_ID}}", "username": "Michal", "first_name": "Michal" },
+    "from": { "id": "{{TELEGRAM_CHAT_ID}}", "username": "Michal", "first_name": "Michał" },
     "text": "Hello world",
     "message_id": 123
   }

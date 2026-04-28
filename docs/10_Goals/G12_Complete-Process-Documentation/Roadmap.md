@@ -2,7 +2,7 @@
 title: "G12: Roadmap"
 type: "goal_roadmap"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-02"
 goal_id: "goal-g12"
 ---
@@ -34,6 +34,8 @@ goal_id: "goal-g12"
   - [ ] **Sub-task: Search Optimization** - Improve documentation search (pre-Q3)
   - [ ] **Sub-task: Audit Refinement** - Streamline monthly audit process
 
+- [x] **Documentation Integrity Audit:** Implement a script to detect missing weekly notes and resolve broken Wikilinks. ✅ (Apr 27 - G12_weekly_note_backfiller.py)
+- [x] **Vault Navigation Cleanup:** Resolved 700+ broken links by backfilling missing 2025/2026 weekly reviews. ✅ (Apr 27)
 - [x] Document all existing critical systems (S00-S10) according to GDS (done 2026-02-16)
 - [x] Update system READMEs (S00-S11) to follow Documentation Standard (done 2026-02-16)
 - [x] Implement **G12 Auto-Documenter** script (uses Gemini to generate .md specs from code) ✅ (Mar 05)
@@ -47,6 +49,13 @@ goal_id: "goal-g12"
 - [x] **Conduct Q2 audit of all goals against GDS (monthly)** ✅ (Mar 23)
 - [x] Explore LLM-assisted documentation generation for routine tasks ✅ (Mar 23)
 - [x] **Stale Documentation Monitor (G12-SDM):** Automated detection of documentation neglected for >30 days ✅ (Apr 02)
+- [x] **Documentation Integrity Hardening:** Fixed `G12_documentation_audit.py` to support Docker-native paths. Synchronized `Daily Note Template.md` with active surgical markers to ensure dashboard reliability. ✅ (Apr 25)
+
+> [!tip] 🚀 **Multi-User Spawn Documentation**
+- [ ] **docker-compose documentation:** Create docker-compose.draft.md explaining unified compose
+- [ ] **Folder structure docs:** Create docs/FOLDER_STRUCTURE.md with spawnable structure
+- [ ] **SPAWN procedure:** Create docs/SPAWN.md step-by-step spawn guide
+- [ ] **Environment template:** Create .env.example with all required variables
 
 ## Q3 (Jul–Sep)
 - [ ] Develop a search and knowledge retrieval system for all documentation

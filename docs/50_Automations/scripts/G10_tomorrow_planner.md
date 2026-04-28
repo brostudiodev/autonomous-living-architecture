@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G10_tomorrow_planner"
 goal_id: "goal-g10"
 systems: ["S04", "S10"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-28"
 ---
 

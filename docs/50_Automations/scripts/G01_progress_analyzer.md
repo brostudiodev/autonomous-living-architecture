@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G01_progress_analyzer.py"
 goal_id: "goal-g01"
 systems: ["S03", "S06"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G01: Progress Analyzer (Body Composition)

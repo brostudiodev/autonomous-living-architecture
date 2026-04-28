@@ -2,7 +2,7 @@
 title: "S04: Tool Registry & Agent Execution"
 type: "system_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-01"
 ---
 
@@ -46,5 +46,5 @@ The Tool Registry provides a unified, domain-driven interface for Agent Zero and
 - **Parameters:** Parameters are currently passed as env-aware variables to ensure safe execution (Future G11-FH expansion).
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Monthly audit of tool performance and accuracy.

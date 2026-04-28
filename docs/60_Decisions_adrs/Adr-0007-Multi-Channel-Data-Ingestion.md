@@ -3,7 +3,7 @@ title: "Adr-0007: Multi-Channel Data Ingestion"
 type: "decision"
 status: "accepted"
 date: "2025-08-15"
-deciders: ["Michal"]
+deciders: ["Michał"]
 ---
 
 # Adr-0007: Multi-Channel Data Ingestion

@@ -2,7 +2,7 @@
 title: "Automation Spec: G05 Pre-emptive Financial Rebalancer"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-03"
 ---
 

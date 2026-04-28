@@ -2,8 +2,8 @@
 title: "G11: Roadmap"
 type: "goal_roadmap"
 status: "active"
-owner: "Michal"
-updated: "2026-04-12"
+owner: "Michał"
+updated: "2026-04-23"
 goal_id: "goal-g11"
 ---
 
@@ -46,11 +46,16 @@ goal_id: "goal-g11"
 > - [x] **Schedule Master List:** Created `SCHEDULE_All-Workflows.md` tracking all workflow trigger times ✅ (Apr 10)
 > - [x] **Bio-Feedback Load Balancer (G10-BFLB):** Autonomous schedule pivoting based on readiness ✅ (Apr 03)
 > - [x] **Pre-emptive Financial Rebalancer (G05-PFR):** Automated budget reallocations based on friction forecasts ✅ (Apr 03)
+- [x] **System Startup Probe Resilience:** Hardened service discovery for varied container naming ✅ (Apr 27)
+- [x] **Approval Noise Reduction:** Silenced stale task requests for < 30 days overdue ✅ (Apr 27)
+- [x] **Biometric Sanity Guard:** Prevented sensor glitches from polluting health context ✅ (Apr 27)
+- [x] **Net Worth Automation:** Month-end financial snapshot and FIRE calculation automated ✅ (Apr 27)
 
 > [!tip] 🚀 **NEW: Recurring Friction & Failure Intelligence**
 > **Gap:** G11 needs systematic failure logging for true self-healing and proactive maintenance.
-- [ ] **Friction Log System:** Capture repeated frustrations automatically
-  - [ ] **Sub-task: Manual Friction Prompt** - Daily: "What frustrated you today?"
+- [x] **Friction Log System:** Capture repeated frustrations automatically (Implemented via G11_friction_harvester.py) ✅ (Apr 24)
+  - [x] **Sub-task: Manual Friction Prompt** - Daily: "What frustrated you today?" (Obsidian Frontmatter sync established) ✅ (Apr 24)
+  - [x] **Sub-task: Cross-Repo Link Standard:** Propose a standard for linking from Obsidian to the docs/ folder that works across both the filesystem and the web. ✅ (Apr 23 - Root Symlinking Strategy)
   - [ ] **Sub-task: Auto-Capture** - System failures logged automatically (already in G11-FH)
   - [ ] **Sub-task: Pattern Detection** - Identify recurring friction themes
 - [ ] **Failure Knowledge Base:** Build resolution database
@@ -85,9 +90,43 @@ goal_id: "goal-g11"
 - [x] **Schedule Master List:** Created `SCHEDULE_All-Workflows.md` tracking all workflow trigger times ✅ (Apr 10)
 - [x] **Bio-Feedback Load Balancer (G10-BFLB):** Autonomous schedule pivoting based on readiness ✅ (Apr 03)
 - [x] **Pre-emptive Financial Rebalancer (G05-PFR):** Automated budget reallocations based on friction forecasts ✅ (Apr 03)
+- [x] **System Startup Probe Resilience:** Hardened service discovery for varied container naming ✅ (Apr 27)
+- [x] **Approval Noise Reduction:** Silenced stale task requests for < 30 days overdue ✅ (Apr 27)
+- [x] **Biometric Sanity Guard:** Prevented sensor glitches from polluting health context ✅ (Apr 27)
+- [x] **Net Worth Automation:** Month-end financial snapshot and FIRE calculation automated ✅ (Apr 27)
 - [x] **Reliability Hardening (G11-RH):** Implemented strict biometric freshness gating and n8n orchestration migration ✅ (Apr 16)
 - [x] **API Architectural Cleanup (G11-AAC):** Resolved port conflicts and consolidated Digital Twin endpoints ✅ (Apr 16)
-- 
+- [x] **Docker Infrastructure Hardening:** Refactored volume path calculation in core engines (`G04`, `G12`) to eliminate absolute host path dependencies. Improved container-local path resilience. ✅ (Apr 25)
+
+> [!danger] 🛡️ **System Security Hardening (G11-SSH)**
+> **Gap:** Critical vulnerabilities identified in database access (root user), API exposure (no auth), and container permissions.
+- [ ] **API Security Migration:**
+  - [x] **Phase 1: Permissive Logging** - Implement `X-API-KEY` logic that logs missing keys without blocking requests. ✅ (Apr 22)
+  - [ ] **Phase 2: Node Identification** - Audit logs to identify and update all n8n/script callers with the new key.
+  - [ ] **Phase 3: Full Enforcement** - Reject all requests missing a valid `X-API-KEY`.
+- [x] **DB Least Privilege (RBAC):** Migrated entire stack from `root` to service-specific restricted users. ✅ (Apr 22)
+- [x] **Container Hardening:** Updated Dockerfiles and Compose to run all core services as non-privileged users (`UID 1000`). ✅ (Apr 22)
+- [ ] **Credential Rotation:** System-wide rotation of DB passwords and n8n encryption keys.
+
+> [!tip] 🌍 **Global Language Agnostic Layer (Translation Gate)**
+> **Gap:** Multi-language inputs (PL/EN) complicate regex and tool-calling accuracy.
+- [ ] **Phase 1: Translation Ingestion** - Implement front-door translation to Standardized English for all incoming queries.
+- [ ] **Phase 2: Intent Simplification** - Refactor AgentZero and scripts to use English-only keyword/intent detection (removing Polish regex).
+- [ ] **Phase 3: Bidi-Response Engine** - Ensure system detects input language and translates English internal logic back to User's language for responses.
+
+> [!tip] 🚀 **Infrastructure Restructure (Multi-User Package) - [IMPL_Infrastructure_Consolidation.md](IMPL_Infrastructure_Consolidation.md)**
+- [x] **Unified docker-compose:** Create single docker-compose.yml combining all services from scattered locations ✅ (Apr 27)
+  - [x] **Sub-task: Merge** - Combine grafana/, local-ai-packaged/, infrastructure/docker-compose.yml ✅ (Apr 27)
+  - [ ] **Sub-task: Consolidate exporters** - g01 + goals → metrics-exporter (port 8081)
+  - [ ] **Sub-task: Add profiles** - CPU/GPU for Ollama, optional for Obsidian
+  - [x] **Sub-task: Refactor volumes** - Move absolute paths (e.g. /home/{{USER}}/...) to relative or standard container paths ✅ (Apr 27)
+  - [ ] **Sub-task: Dockerfile Hardening** - Add .dockerignore and optimize G04/metrics images to exclude secrets
+- [x] **Weekly Note Generator:** Create a script to "touch" the missing weekly notes based on the template to resolve the 700+ broken Wikilinks. ✅ (Apr 27 - G12_weekly_note_backfiller.py)
+- [ ] **Folder structure documentation:** Create docs/FOLDER_STRUCTURE.md defining spawnable structure
+- [ ] **Spawn procedure:** Create SPAWN.md documentation for duplicating to new users
+- [ ] **Environment template:** Create .env.example with all configurable variables
+- [ ] **Test package spawn:** Verify new instance spawns correctly
+
 - **Architecture Principle:** All device control stays in Home Assistant. System provides intelligence, recommendations, and triggers HA webhooks when needed.
 
 - [x] **Data Intelligence:** Deploy `v_unified_daily_intelligence` materialized view for cross-domain health analysis.
@@ -177,3 +216,4 @@ goal_id: "goal-g11"
 - **Systems:** S01 (Observability), S03 (Data Layer), S04 (Digital Twin), S08 (Automation Orchestrator)
 - **External:** All other goals (G01-G11) for data sources and functional components.
 - **Other goals:** G09 (Complete Process Documentation) for documenting Meta-System architecture and processes. All other goals are feeders/consumers of G12.
+G12.

@@ -3,7 +3,7 @@ title: "G05: Metrics"
 type: "goal_metrics"
 status: "active"
 goal_id: "goal-g05"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-07"
 ---
 
@@ -12,12 +12,14 @@ updated: "2026-02-07"
 ## KPI List
 | Metric | Target | How Measured | Frequency | Owner |
 |---|---:|---|---|---|
-| **Real Savings Rate** | ≥ 25% | PostgreSQL view `v_real_savings_monthly` | Monthly | Michal |
-| **Projection Accuracy** | ≤ 5% error | Compare projected vs actual EoM | Monthly | Michal |
-| **Data Freshness** | ≤ 24h lag | n8n workflow success rate | Daily | Michal |
-| **Dashboard Uptime** | ≥ 99% | Grafana availability monitoring | Weekly | Michal |
-| **Auto-categorization Rate** | ≥ 90% | Transactions with automatic categories | Weekly | Michal |
+| **Real Savings Rate** | ≥ 25% | PostgreSQL view `v_real_savings_monthly` | Monthly | Michał |
+| **Projection Accuracy** | ≤ 5% error | Compare projected vs actual EoM | Monthly | Michał |
+| **Data Freshness** | ≤ 24h lag | n8n workflow success rate | Daily | Michał |
+| **Dashboard Uptime** | ≥ 99% | Grafana availability monitoring | Weekly | Michał |
+| **Auto-categorization Rate** | ≥ 90% | Transactions with automatic categories | Weekly | Michał |
 | **Financial Admin ROI** | > 30 mins/month | [Autonomy ROI Tracker](../G04_Digital-Twin-Ecosystem/Systems.md) | Monthly | Digital Twin |
+| **FIRE Progress %** | (Targeted) | `v_fire_readiness` | Monthly | Michał |
+| **Survival Runway** | ≥ 6 months | `v_fire_readiness` (Months of cash) | Monthly | Michał |
 
 ## Leading Indicators
 - Daily budget burn rate vs. expected linear progression
@@ -31,7 +33,8 @@ updated: "2026-02-07"
 - Budget variance analysis (planned vs actual spending)
 
 ## Data Sources
-- **Primary:** PostgreSQL database views and functions
+- **Source of Truth (Wealth):** Google Sheet `Wealth FIRE` tab (manual entry for accounts/values)
+- **Primary (Cashflow):** PostgreSQL database views and functions
 - **Automation:** n8n workflows for data ingestion and alerts
 - **Visualization:** Grafana dashboard panels
 - **Validation:** Manual spot-checks during weekly reviews

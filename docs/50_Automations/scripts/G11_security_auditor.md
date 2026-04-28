@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G11_security_auditor.py"
 goal_id: "goal-g11"
 systems: ["S11", "S02"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G11: Automated Security Auditor

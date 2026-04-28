@@ -3,7 +3,7 @@ title: "G05: Roadmap"
 type: "goal_roadmap"
 status: "active"
 goal_id: "goal-g05"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-19"
 ---
 
@@ -23,7 +23,8 @@ updated: "2026-04-19"
 ## Q2 2026 (Optimization Phase)
 
 > [!tip] 🚀 **NEW: Financial Wealth & Autonomy Layer (Q3 Focus)**
-- [ ] **Financial Wealth Dashboard (G05-FWD):** Track Net Worth and FIRE milestones using historical savings rate and asset performance.
+- [x] **Financial Wealth Dashboard (G05-FWD):** Track Net Worth and FIRE milestones using historical savings rate and asset performance. ✅ (Completed 2026-04-27 via `G05_net_worth_snapshot.py`)
+- [x] **FIRE Progress Integration:** Automated calculation of FIRE % and inclusion in Daily Mission. ✅ (Completed 2026-04-27)
 - [ ] **FIRE Calculator:** Multi-year projections based on current burn rate vs investment growth.
 - [ ] **Asset Allocation Audit:** Monthly AI-powered review of diversification strategies.
 
@@ -38,10 +39,11 @@ updated: "2026-04-19"
 
 > [!tip] 🚀 **NEW: Financial Deep Metrics (Wealth Layer)**
 > **Gap:** G05 tracks cash flow but missing wealth-building visibility for true financial autonomy.
-- [ ] **Net Worth Tracking:** Create `net_worth_snapshots` table with monthly snapshots
-  - [ ] **Sub-task: Asset Categories** - Define stock/bond/cash/real estate categories
-  - [ ] **Sub-task: Liability Tracking** - Add loans, mortgages, credit balances
-  - [ ] **Sub-task: Auto-snapshot** - Automate monthly net worth calculation (1st of month)
+- [x] **Net Worth Tracking:** Create `net_worth_snapshots` table with monthly snapshots
+  - [x] **Sub-task: Asset Categories** - Define stock/bond/cash/real estate categories
+  - [x] **Sub-task: Liability Tracking** - Add loans, mortgages, credit balances
+  - [x] **Sub-task: Auto-snapshot** - Automate monthly net worth calculation (1st of month) ✅ (2026-04-27)
+- [x] **FIRE Progress Integration:** Automated calculation of FIRE % and inclusion in Daily Mission. ✅ (Completed 2026-04-27)
 - [ ] **Asset Allocation Dashboard:** Visualize diversification across investment types
 - [ ] **Debt Payoff Progress:** Track贷款还款进度, show payoff timeline
 - [ ] **FIRE Calculator:** Time-to-financial-freedom projection based on current savings rate

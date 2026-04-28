@@ -3,7 +3,7 @@ title: "S05: Observability Dashboards"
 type: "system"
 status: "active"
 system_id: "system-s05"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-08"
 ---
 

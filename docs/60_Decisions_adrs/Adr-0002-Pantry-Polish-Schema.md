@@ -2,7 +2,7 @@
 title: "Adr-0002: Pantry System Polish Column Headers"
 type: "adr"
 status: "accepted"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-07"
 systems: ["S03"]
 goals: ["G03"]

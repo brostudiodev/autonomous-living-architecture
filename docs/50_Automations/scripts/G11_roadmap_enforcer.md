@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G11_roadmap_enforcer"
 goal_id: "goal-g11"
 systems: ["S11", "S04"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # 🤖 Automation Spec: G11_roadmap_enforcer.py

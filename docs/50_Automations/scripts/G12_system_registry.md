@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G12_system_registry.py"
 goal_id: "goal-g12"
 systems: ["S11", "S04"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-19"
 ---
 

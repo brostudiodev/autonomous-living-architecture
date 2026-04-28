@@ -2,7 +2,7 @@
 title: "Automations"
 type: "index"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-07"
 ---
 

@@ -3,7 +3,7 @@ title: "Automation Spec: G11_self_healing_client.py"
 type: "automation_spec"
 status: "active"
 created: "2026-03-16"
-updated: "2026-03-16"
+updated: "2026-04-28"
 ---
 
 # 🤖 Automation Spec: G11_self_healing_client.py

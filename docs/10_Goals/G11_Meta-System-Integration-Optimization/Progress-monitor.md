@@ -25,6 +25,17 @@ version: "1.3"
 
 ## ✅ Major Achievements (April 16, 2026)
 
+### Infrastructure Volume Persistence & Fast-Response Alerts (April 2026)
+**Implementation Summary:**
+- **Live Script Synchronization**: Updated `docker-compose.yml` to include directory volume mounting for the `digital-twin-api` service. This ensures that local script updates are immediately reflected in the running container without requiring rebuilds.
+- **Alert Latency Reduction**: Shortened the Uber-Context cache cycle from 10 minutes to **2 minutes**. This drastically improves the responsiveness of proactive alerts (Water, Sleep, Readiness) in Telegram.
+- **Temporal Consistency**: Refactored hydration and health engine logic to use dynamic `target_date` instead of hardcoded `CURRENT_DATE`, eliminating "midnight-sync" data drifts.
+
+**Technical Specifications:**
+- **Volume**: `./scripts:/app` mapping in Docker Compose.
+- **Cache**: `INTERVAL '2 minutes'` in `digital_twin_updates` lookup.
+- **Accuracy**: Hydration alerts now reflect coffee-to-water conversions in near real-time.
+
 ### Reliability Hardening & Orchestration (April 16, 2026)
 **Implementation Summary:**
 - **Freshness-Aware Sync:** Re-engineered `G11_global_sync.py` to wait for fresh Zepp biometric data (HRV, Sleep) before triggering `DAILY_NOTE` and `MORNING_BRIEFING`. This ensures zero-stale briefings.

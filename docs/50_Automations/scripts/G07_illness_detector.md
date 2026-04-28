@@ -2,7 +2,7 @@
 title: "Automation Spec: G07 Illness & Fatigue Detector"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-03"
 ---
 

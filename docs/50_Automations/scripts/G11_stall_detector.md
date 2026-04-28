@@ -2,7 +2,7 @@
 title: "Stalled Goal Detector (G11)"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-02"
 ---
 
@@ -42,5 +42,5 @@ The **Stalled Goal Detector** (`G11_stall_detector.py`) ensures that none of the
 - Read-only access to system logs and documentation.
 
 # Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly (verify stall sensitivity)

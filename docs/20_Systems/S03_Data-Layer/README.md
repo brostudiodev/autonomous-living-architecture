@@ -3,7 +3,7 @@ title: "S03: Data Layer (The Source of Truth)"
 type: "system"
 status: "active"
 system_id: "system-s03"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-08"
 ---
 

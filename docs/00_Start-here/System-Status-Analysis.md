@@ -2,7 +2,7 @@
 title: "System Implementation Status"
 type: "analysis"
 status: "current"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-21"
 ---
 

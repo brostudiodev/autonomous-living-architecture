@@ -26,6 +26,52 @@ version: "1.2"
 
 ## ✅ Major Achievements
 
+### April 2026 Resilience & Dependency Alignment (April 25)
+**Implementation Summary:**
+- **Redis Dependency Alignment**: Identified and resolved a critical environment mismatch where the local `.venv` lacked the `redis` library required for the v7.1 "Redis-First" strategy. Standardized local dependencies with the Docker environment.
+- **Engine Initialization Fix**: Resolved a Python `SyntaxError` in `G04_digital_twin_engine.py` (line 241) caused by a malformed try-except block that prevented the Digital Twin from booting.
+- **Emergency Mode Hardening**: Fixed a `NameError` in `G04_digital_twin_api.py` where the degraded mode handler attempted to access an undefined error variable.
+- **System Connectivity Restored**: Successfully re-established the link between the host scripts and the `digital-twin-api` container, restoring the "Online" status to the Daily Note dashboard.
+
+**Technical Specifications:**
+- **Dependencies Installed**: `redis`, `pydantic>=2.7.0` (aligned with FastAPI 0.129.0 requirements).
+- **Service Status**: `digital-twin-api` restarted and healthy.
+- **Verification**: `autonomous_daily_manager.py` successfully injects `Digital Twin: ✅ Online` into Obsidian.
+
+### Daily Mission Briefing Automation (April 26)
+**Implementation Summary:**
+- **Automated Telegram Delivery**: Upgraded `G10_tomorrow_planner.py` to automatically transmit the daily mission briefing to Telegram.
+- **Reduced Friction**: Eliminated the need to manually check logs or Obsidian for the next day's top priorities.
+- **Security Alignment**: Patched database connection logic to use the `dt_sync_worker` service account, resolving "Root user" permission warnings.
+
+**Technical Specifications:**
+- **Script**: `G10_tomorrow_planner.py`
+- **Integration**: `G04_digital_twin_notifier.py` (Telegram API)
+- **RBAC**: Forced `user=dt_sync_worker` for Learning database queries.
+
+### Uber-Context Reliability & Cache Management (April 2026)
+**Implementation Summary:**
+- **Deterministic Hydration Mapping**: Resolved a critical data mapping error in `G04_digital_twin_engine.py` where hydration metrics were being omitted from the Uber-Context (/all) response.
+- **Cache Management API**: Introduced `/cache/status` and `/cache/refresh` endpoints to the Central API. These allow real-time auditing of cache age and manual refresh triggers, bypassing the standard 2-minute auto-refresh when immediate data consistency is required.
+- **Stale Task Remediation**: Performed a system-wide purge of the Google Tasks backlog, clearing 12+ stale "Hydration" and "Maintenance" tasks that were causing alert noise and data confusion.
+- **AgentZero Native Cache Control**: Integrated `/cache` commands directly into `AgentZero.ask()`, enabling the AI supervisor to autonomously verify and refresh its own context.
+
+**Technical Specifications:**
+- **Cache Endpoint**: `/cache/status` (GET) and `/cache/refresh` (POST/GET).
+- **TTL Threshold**: 600 seconds (Staleness warning).
+- **Data Integrity**: Verified 100% parity between PostgreSQL `water_log` and API `/all` output.
+
+### API Query Resilience & JSON Robustness (April 2026)
+**Implementation Summary:**
+- **Refined JSON Extraction**: Re-engineered the `/query` endpoint in `G04_digital_twin_api.py` to handle complex nested JSON structures and array-wrapped payloads typical of n8n and Telegram integrations.
+- **AgentZero Intelligent Routing**: Implemented an automatic routing layer that detects natural language commands (like `/query`) within JSON payloads and seamlessly redirects them to `AgentZero` logic.
+- **Robust Error Handling**: Moved payload parsing into fail-safe try-except blocks, ensuring that malformed inputs trigger helpful usage hints instead of `422 Unprocessable Entity` or `500 Critical Error` states.
+
+**Technical Specifications:**
+- **Compatibility**: Supports both pipe-separated (`DB | SELECT`) and JSON (`{"db": "...", "sql": "..."}`) formats.
+- **Logging**: Added `Query Raw Body` and `Query Request Headers` logging for real-time observability of incoming agent data.
+- **Resilience**: Short-circuits known "Empty Data" patterns to prevent backend database crashes.
+
 ### Appliance Health & Maintenance Integration (April 2026)
 **Implementation Summary:**
 - **Cross-Domain Orchestration**: Connected the `G04_life_sentinel.py` (originally for anniversaries/logistics) to the `appliance_status` database.

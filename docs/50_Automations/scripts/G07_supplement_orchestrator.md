@@ -2,9 +2,9 @@
 title: "G07: Supplement Orchestrator"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 goal_id: "goal-g07"
-updated: "2026-04-18"
+updated: "2026-04-28"
 ---
 
 # G07: Supplement Orchestrator
@@ -47,6 +47,6 @@ python3 G07_supplement_orchestrator.py
 - **Domain:** Predictive Health Management.
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly.
 ---

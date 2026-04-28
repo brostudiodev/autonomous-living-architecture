@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G10_mood_engine"
 goal_id: "goal-g10"
 systems: ["S09"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-31"
 ---
 

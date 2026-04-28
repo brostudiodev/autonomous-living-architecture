@@ -3,7 +3,7 @@ title: "Adr-0014: Centralized System Observability and ROI Tracking"
 type: "decision"
 status: "accepted"
 date: "2026-03-08"
-deciders: ["Michal", "Gemini CLI"]
+deciders: ["Michał", "Gemini CLI"]
 consulted: []
 informed: []
 ---

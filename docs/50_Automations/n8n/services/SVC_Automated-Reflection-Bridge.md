@@ -2,14 +2,14 @@
 title: "Service: Automated Reflection Bridge"
 type: "automation"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-10"
 ---
 
 # SVC_Automated-Reflection-Bridge
 
 ## Purpose
-The Automated Reflection Bridge is an "Evening Synthesis" engine that summarizes the entire day's activities, biological states, and system-generated insights into a structured Polish reflection. It serves as the final daily audit, connecting patterns between health, finance, and productivity before Michal winds down for sleep.
+The Automated Reflection Bridge is an "Evening Synthesis" engine that summarizes the entire day's activities, biological states, and system-generated insights into a structured Polish reflection. It serves as the final daily audit, connecting patterns between health, finance, and productivity before Michał winds down for sleep.
 
 ## Scope
 - **In Scope:** Daily biometric analysis (HRV, Sleep, Readiness), hydration tracking, budget breach summaries, task completion status, and cross-domain pattern recognition.

@@ -4,7 +4,7 @@ type: "runbook"
 status: "deprecated"
 goal_id: "goal-g01"
 automation_id: "WF_G01_001__sheets-to-github-sync"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-17"
 ---
 

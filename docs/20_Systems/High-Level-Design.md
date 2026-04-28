@@ -3,7 +3,7 @@ title: "High-Level Design"
 type: "documentation"
 status: "active"
 owner: "Michal"
-updated: "2026-02-20"
+updated: "2026-04-25"
 ---
 
 # High-Level Design Document
@@ -35,14 +35,15 @@ The Autonomous Living ecosystem is a sophisticated personal automation platform 
 **Purpose:** Human-system interaction and multi-channel communication
 **Components:**
 - Telegram Bot (AndrzejSmartBot) - Primary communication interface
-- Digital Twin REST API (FastAPI) - Programmatic state access (Port 5677)
+- Digital Twin REST API (FastAPI) - Central Intelligence Hub (Port 5677)
 - Webhook API - External system integration
 - Grafana Dashboards - Visual analytics and monitoring
 
 #### **Layer 2: Intelligence & Orchestration**
 **Purpose:** AI processing, workflow orchestration, and decision coordination
 **Components:**
-- Digital Twin Hub (G04) - Central intelligence aggregator and state engine. Features the `/all` Uber-Context endpoint for high-density LLM situational awareness.
+- Digital Twin Hub (G04) - Central intelligence aggregator and state engine.
+- Friction & Failure Intelligence (G11) - Autonomous self-healing and "ouch" detection engine.
 - Google Gemini AI - Natural language processing and analysis
 - n8n Workflow Engine - Visual workflow orchestration platform
 - Intent Classification Router - Intelligent request routing
@@ -52,9 +53,12 @@ The Autonomous Living ecosystem is a sophisticated personal automation platform 
 **Production Systems:**
 - G01 Training System - Health optimization through body fat tracking
 - G03 Pantry Management - AI-powered household inventory management
-- G05 Financial Command - Autonomous budgeting and expense tracking
+- G05 Financial Command - Wealth tracking & FIRE autonomy (NEW Apr 27)
 - G07 Health Integration - Biometric data collection and analysis
-- G08 Smart Home - REST-based environmental monitoring and security hub
+- G08 Smart Home - REST-based environmental monitoring
+- G09 Career Intelligence - Strategic market steering & content loop (NEW Apr 27)
+- G10 Productivity - Task & attention telemetry architecture
+- G13 Content Engine - Automated achievement harvesting (NEW Apr 27)
 
 #### **Layer 4: Data Integration & Storage**
 **Purpose:** Unified data management and cross-system correlation
@@ -67,9 +71,12 @@ The Autonomous Living ecosystem is a sophisticated personal automation platform 
 #### **Layer 5: Infrastructure & Observability**
 **Purpose:** Reliable execution platform with comprehensive monitoring
 **Components:**
-- Docker Container Platform - Service orchestration and isolation
+- Docker Container Platform - Service orchestration with standardized .env/.dockerignore.
+- Authentik SSO/OIDC - Enterprise-grade identity management (Port 9000/9444).
+- Redis Caching - High-performance session and state caching.
 - Prometheus Metrics Collection - Real-time performance monitoring
 - Centralized System Activity Log - Database-driven heartbeat for all automations
+- Friction Intelligence - Quantifying and resolving system friction.
 - Autonomy ROI Tracker - Empirical time-savings quantification engine
 - Grafana Visualization - Operational intelligence dashboards
 - Automated Backup & Recovery - Data protection and system resilience
@@ -211,7 +218,7 @@ gantt
 - **Key Capability:** Fully autonomous daily note enrichment, Google Calendar integration, and Google Tasks synchronization
 - **Impact:** Eliminates morning planning "decision tax" and ensures focus matches reality
 
-#### **G12 Meta-System Integration** ✅ **Q1 PRODUCTION READY**
+#### **G11 Meta-System Integration** ✅ **Q1 PRODUCTION READY**
 - **Role:** System orchestration and continuous optimization
 - **Integration Point:** Monitors and coordinates all foundation systems
 - **Key Capability:** System connectivity mapping, automated Autonomy ROI quantification, and centralized activity heartbeats.
@@ -219,17 +226,18 @@ gantt
 
 ### **Eight Growth Systems (Application Layer)**
 
-#### **Currently Q1 Production-Ready (6/8):**
+#### **Currently Q2 Production-Ready (7/8):**
 - **G01 Training System:** Health optimization through biometric tracking
+- **G02 Automationbro:** Brand recognition & content strategy
 - **G03 Pantry Management:** AI-powered household operations
+- **G05 Wealth Layer:** Net Worth & FIRE progress tracking (Apr 27)
+- **G06 Learning:** Strategic skill development
 - **G07 Health Integration:** Comprehensive biometric data collection
-- **G02 Automationbro:** Content generation (partial)
-- **G09 Documentation:** Knowledge capture system (partial)
+- **G09 Career Intelligence:** Strategic market steering & content loop (Apr 27)
+- **G13 Content Engine:** Achievement harvesting & draft generation (Apr 27)
 
-#### **Documentation Only (2/8):**
-- **G06 Certification Exams:** Professional development tracking
-- **G08 Smart Home:** IoT integration and automation
-- **G10 Career Intelligence:** Professional positioning system
+#### **Monitoring/Docs Status (1/8):**
+- **G08 Smart Home:** IoT integration (Read-only status active)
 
 ---
 

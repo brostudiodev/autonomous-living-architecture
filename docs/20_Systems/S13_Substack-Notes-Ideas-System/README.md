@@ -2,7 +2,7 @@
 title: "Substack Notes Ideas System"
 type: "system"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-17"
 goal_id: "goal-g02"
 systems: ["S04", "S08"]
@@ -90,7 +90,7 @@ title: "[SN] Note Title"
 date_created: YYYY-MM-DD
 date_source: YYYY-MM-DD
 source_type: LinkedIn / Daily Note / Q2 Calendar
-source_link: [[link to source]]
+source_link: `[[link to source]]`
 status: 🆕 New
 linkedin_version_date: YYYY-MM-DD
 substack_format: Short note (max 2000 chars)
@@ -211,7 +211,7 @@ Obsidian Vault/
 
 ## Ownership & Review
 
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-03-17
 
@@ -219,9 +219,9 @@ Obsidian Vault/
 
 ## Key Links
 
-- LinkedIn Ideas Basket: [[Obsidian Vault/02_Projects/LinkedIn Ideas Basket|LinkedIn Ideas]]
-- Substack Notes Basket: [[Obsidian Vault/02_Projects/Substack Notes Ideas Basket|Substack Notes]]
-- G02 Goal: [[docs/10_Goals/G02_Automationbro-Recognition/README.md|G02 README]]
+- LinkedIn Ideas Basket: `[[Obsidian Vault/02_Projects/LinkedIn Ideas Basket|LinkedIn Ideas]]` (Vault Reference)
+- Substack Notes Basket: `[[Obsidian Vault/02_Projects/Substack Notes Ideas Basket|Substack Notes]]` (Vault Reference)
+- G02 Goal: [G02 README](docs/10_Goals/G02_Automationbro-Recognition/README.md)
 
 ---
 

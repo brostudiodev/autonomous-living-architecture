@@ -2,9 +2,9 @@
 title: "G09: Relationship Harvester"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 goal_id: "goal-g09"
-updated: "2026-04-18"
+updated: "2026-04-28"
 ---
 
 # G09: Relationship Harvester
@@ -49,6 +49,6 @@ python3 G09_relationship_harvester.py
 - **Synergy:** Works with `G04_relationship_sentinel.py` to prevent false reminders for people recently met.
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Bi-weekly.
 ---

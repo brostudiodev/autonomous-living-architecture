@@ -2,7 +2,7 @@
 title: "Goals"
 type: "index"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-12"
 ---
 
@@ -23,6 +23,7 @@ Click on a goal to view its full documentation, outcomes, and roadmap:
 10. **[🟡 G10: Intelligent Productivity](./G{{LONG_IDENTIFIER}}/README.md)** (Time & Tasks)
 11. **[🟡 G11: Meta-System Integration](./G11_Meta-System-Integration-Optimization/README.md)** (Optimization)
 12. **[🟡 G12: Complete Process Documentation](./G12_Complete-Process-Documentation/README.md)** (Governance)
+13. **[🟡 G13: Autonomous Content Engine](./G13_Autonomous-Content-Engine/README.md)** (Content & Brand)
 
 ## How to use
 Each goal folder contains:

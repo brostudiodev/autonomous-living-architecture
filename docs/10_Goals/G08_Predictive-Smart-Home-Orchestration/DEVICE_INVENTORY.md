@@ -2,7 +2,7 @@
 title: "G08 Device Inventory"
 type: "reference"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 goal_id: "goal-g08"
 updated: "2026-03-26"
 ---
@@ -68,5 +68,5 @@ Device status is tracked via:
 - [S07 Smart Home System](../../20_Systems/S07_Smart-Home/README.md)
 
 ---
-*Owner: Michal*
+*Owner: Michał*
 *Last Updated: 2026-03-26*

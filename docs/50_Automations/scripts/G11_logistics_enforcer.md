@@ -2,7 +2,7 @@
 title: "Automation Spec: G11 Logistics Enforcer"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-03"
 ---
 

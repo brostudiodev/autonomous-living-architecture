@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G09_autonomous_did_logger"
 goal_id: "goal-g09"
 systems: ["S04", "S11", "S12"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-09"
 ---
 

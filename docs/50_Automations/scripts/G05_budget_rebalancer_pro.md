@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G05_budget_rebalancer_pro"
 goal_id: "goal-g05"
 systems: ["S05"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-13"
 ---
 

@@ -2,7 +2,7 @@
 title: "Digital Twin Tracking Implementation Plan"
 type: "implementation_plan"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 created: "2026-04-12"
 last_updated: "2026-04-16"
 ---
@@ -526,5 +526,5 @@ CREATE TABLE learning_by_technology (
 ---
 
 *Document created: 2026-04-12*  
-*Owner: Michal*  
+*Owner: Michał*  
 *Review Cadence: Weekly during implementation*

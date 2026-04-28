@@ -2,7 +2,7 @@
 title: "Goal Documentation Standard"
 type: "standard"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-08"
 ---
 
@@ -48,14 +48,15 @@ docs/10_Goals/
 *Note: Links in templates are placeholders and should be updated to point to the actual target in the final document.*
 
 ### README.md (Goal Entry Point)
+*Note: Links below are illustrative placeholders for new goals.*
 ```markdown
 # GXX: Goal Name
 
 ## Key Links
-- Outcomes: [Outcomes.md](./Outcomes.md)
-- Metrics: [Metrics.md](./Metrics.md)
-- Systems: [Systems.md](./Systems.md)
-- Roadmap: [Roadmap.md](./Roadmap.md)
+- Outcomes: [Outcomes.md](#)
+- Metrics: [Metrics.md](#)
+- Systems: [Systems.md](#)
+- Roadmap: [Roadmap.md](#)
 ```
 
 ### `Systems.md` (Critical: Traceability Matrix)

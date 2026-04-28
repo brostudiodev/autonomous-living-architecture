@@ -5,7 +5,7 @@ status: "active"
 automation_id: "g01-physical-tracking"
 goal_id: "goal-g01"
 systems: ["S03", "S04"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-02"
 review_cadence: "Monthly"
 ---

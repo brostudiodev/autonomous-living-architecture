@@ -2,7 +2,7 @@
 title: "G07: Roadmap"
 type: "goal_roadmap"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-12"
 goal_id: "goal-g07"
 ---
@@ -20,10 +20,10 @@ goal_id: "goal-g07"
 ## Q2 (Apr–Jun) - Phase: The Biometric Stream
 
 > [!tip] 🚀 **Q2 Focus: System Stability**
-- [ ] **System Stability Audit:** Verify all health syncs working reliably
-  - [ ] **Sub-task: Zepp Sync Check** - Ensure health data (HRV, sleep) syncs without gaps
+- [x] **System Stability Audit:** Verify all health syncs working reliably ✅ (Apr 24)
+  - [x] **Sub-task: Zepp Sync Check** - Ensure health data (HRV, sleep) syncs without gaps (Hardened with HRV Sanity Guard & Sync Overwrite logic) ✅ (Apr 24)
   - [x] **Withings Sync Check** - Refactored to direct API sync (G07_withings_direct_sync.py) with muscle/bone/hydration tracking ✅ (Apr 15)
-  - [ ] **Sub-task: Readiness Score Check** - Validate biometric algorithm accuracy
+  - [x] **Sub-task: Readiness Score Check** - Validate biometric algorithm accuracy (Verified and corrected historical gaps) ✅ (Apr 24)
 
 - [x] Implement Amazfit/Zepp API data extraction (Heart Rate, HRV, Sleep Quality - Deep/REM) ✅ (Mar 04)
 - [x] Establish "Biological Readiness Score" algorithm (S03 Data Layer) ✅ (Unified in `biometrics` table via band-logic)

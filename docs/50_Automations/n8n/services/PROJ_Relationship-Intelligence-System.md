@@ -5,14 +5,14 @@ status: "active"
 automation_id: "PROJ_Relationship-Intelligence-System"
 goal_id: "goal-g09"
 systems: ["S03", "S08"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-14"
 ---
 
 # PROJ_Relationship-Intelligence-System
 
 ## Purpose
-The **Relationship Intelligence System** is an AI agent designed to help Michal maintain and optimize his social and professional networks. It monitors contact frequency, identifies overdue interactions, and suggests strategic outreach based on desired maintenance levels, ensuring no important relationship is neglected.
+The **Relationship Intelligence System** is an AI agent designed to help Michał maintain and optimize his social and professional networks. It monitors contact frequency, identifies overdue interactions, and suggests strategic outreach based on desired maintenance levels, ensuring no important relationship is neglected.
 
 ## Triggers
 - **Sub-workflow:** Triggered by `ROUTER_Intelligent_Hub` when keywords related to "contact", "social", "relationship", or names are detected.

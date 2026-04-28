@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G10__schedule_optimizer"
 goal_id: "goal-g10"
 systems: ["S09", "S04"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G10: Schedule Optimizer
@@ -31,6 +31,7 @@ Generates a dynamic, readiness-aware daily schedule by mapping biological state 
     - **Goal-Aware Mode:** When in `Peak` state, the picker scans for tasks containing goal tags (e.g., `G01` to `G12`) or `#deep`.
     - **Standard Mode:** Picks the top incomplete task for each category-specific block.
     - **Energy Filter:** Automatically skips `#deep` tasks if in `Recovery` or `Critical` states.
+    - **Biometric State Hardening (NEW Apr 20):** Explicitly calls `engine.get_health_status()`, `engine.get_finance_status()`, and `engine.get_logistics_status()` before state access to ensure the lazy-loaded Digital Twin state is fully populated. Prevents "0% Readiness" reports during early morning execution.
 3. **Agentic Trigger:** If the state is `Critical (MVD)`, it calls the `G11_rules_engine` with `readiness_score` and `recommended_action = 'Switch to Recovery Schedule'`.
 4. **Approval Workflow:** If the engine returns `ASK_HUMAN`, it creates a `PENDING` request for proactive Telegram approval.
 5. **Execution:** Approved adjustments are executed via `G11_decision_handler.py`, which force-updates the Daily Note with the MVD schedule.
@@ -68,3 +69,4 @@ Generates a dynamic, readiness-aware daily schedule by mapping biological state 
 |------|--------|
 | 2026-03-21 | Initial schedule optimizer logic with biometric thresholds |
 | 2026-03-28 | Added Peak state goal-aware task prioritization and energy-based #deep task filtering |
+| 2026-04-20 | Fixed state initialization bug by explicitly calling status fetchers before logic execution. |

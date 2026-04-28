@@ -2,8 +2,8 @@
 title: "Daily Note Manager (S10/G12)"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # Purpose
@@ -43,5 +43,5 @@ The **Daily Note Manager** (`autonomous_daily_manager.py`) is the core orchestra
 - Uses absolute paths for reliability in different execution environments.
 
 # Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly (Audit dashboard markers and performance)

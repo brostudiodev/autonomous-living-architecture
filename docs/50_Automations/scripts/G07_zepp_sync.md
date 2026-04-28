@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G07_zepp_sync"
 goal_id: "goal-g07"
 systems: ["S03", "S06"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-28"
 ---
 
@@ -28,9 +28,10 @@ Automates the extraction of biometric data from the Zepp (Amazfit) cloud into th
 1. **Freshness Audit:** Checks if `sleep_score > 0` already exists for `CURRENT_DATE`.
 2. **Authentication:** Uses cached token or performs a fresh login via `huami_token.zepp`.
 3. **Extraction:** Pulls summaries for the last 3 days to catch gaps.
-4. **Readiness Calculation:** Applies internal algorithm considering Sleep Score, HRV, and RHR.
-5. **Hard Verification:** During the morning window (before 09:00), the script reports **FAILURE** if today's sleep data is missing, triggering the global retry loop.
-6. **Upsert:** Merges data into `biometrics` and `sleep_log` tables.
+4. **Biometric Sanity Guard:** Implements a strict filter for HRV values. Values < 5ms or > 250ms are rejected as pathological/sensor glitches and marked as unknown (0) to prevent incorrect recovery advice.
+5. **Readiness Calculation:** Applies internal algorithm considering Sleep Score, HRV, and RHR.
+6. **Hard Verification:** During the morning window (before 09:00), the script reports **FAILURE** if today's sleep data is missing, triggering the global retry loop.
+7. **Upsert:** Merges data into `biometrics` and `sleep_log` tables.
 
 ## Outputs
 - **Database:** Updated `biometrics` and `sleep_log` rows.

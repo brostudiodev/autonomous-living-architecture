@@ -3,7 +3,7 @@ title: "G03: Autonomous Household Operations - Execution State"
 type: "goal_execution"
 status: "active"
 goal_id: "goal-g03"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-07"
 ---
 

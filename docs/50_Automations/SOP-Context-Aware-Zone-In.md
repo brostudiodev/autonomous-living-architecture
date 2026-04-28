@@ -2,7 +2,7 @@
 title: "SOP: Context-Aware Zone In"
 type: "sop"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-03"
 ---
 
@@ -46,5 +46,5 @@ Missions are automatically updated via `G11_mission_aggregator.py`. If the `zone
 - Script only accesses local file paths and public URL schemes. No external credentials used.
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Bi-monthly or when new IDE/Vault structures are introduced.

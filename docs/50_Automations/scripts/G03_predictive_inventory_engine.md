@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G03_predictive_inventory_engine"
 goal_id: "goal-g03"
 systems: ["S03", "S04", "S05"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-16"
 ---
 

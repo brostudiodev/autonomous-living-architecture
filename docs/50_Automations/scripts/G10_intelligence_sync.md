@@ -4,7 +4,7 @@ type: "automation_spec"
 status: "active"
 automation_id: "G10_intelligence_sync.py"
 goal_id: "goal-g10"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-04"
 ---
 

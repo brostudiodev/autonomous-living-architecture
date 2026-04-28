@@ -2,7 +2,7 @@
 title: "Automation Spec: G11_script_health.py"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-19"
 ---
 

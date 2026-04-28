@@ -5,7 +5,7 @@ status: "active"
 automation_id: "setup_habits"
 goal_id: "goal-g11"
 systems: ["S04"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-25"
 ---
 

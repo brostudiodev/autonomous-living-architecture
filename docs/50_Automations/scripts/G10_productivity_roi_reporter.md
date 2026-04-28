@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G10_productivity_roi_reporter"
 goal_id: "goal-g10"
 systems: ["S04", "S10"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G10: Productivity ROI Reporter

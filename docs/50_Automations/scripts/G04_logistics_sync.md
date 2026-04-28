@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G04__logistics_sync"
 goal_id: "goal-g04"
 systems: ["S03", "S04"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-14"
 ---
 

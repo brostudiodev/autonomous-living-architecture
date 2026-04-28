@@ -2,7 +2,7 @@
 title: "G12: Systems"
 type: "goal_systems"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-02"
 goal_id: "goal-g12"
 ---

@@ -3,7 +3,7 @@ title: "Automation Spec: G11_task_syncer.py"
 type: "automation_spec"
 status: "draft"
 created: "2026-04-16"
-updated: "2026-04-18"
+updated: "2026-04-28"
 ---
 
 # 🤖 Automation Spec: G11_task_syncer.py

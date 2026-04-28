@@ -2,7 +2,7 @@
 title: "PROJ: AI Strategic Auditor"
 type: "n8n_workflow"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 goal_id: "goal-g11"
 updated: "2026-04-16"
 ---
@@ -88,7 +88,7 @@ The "Director's Verdict" highlights:
 - AI prompt uses Polish for personalized delivery
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly (during G11 system audit)
 - **Last Updated:** 2026-04-16
 

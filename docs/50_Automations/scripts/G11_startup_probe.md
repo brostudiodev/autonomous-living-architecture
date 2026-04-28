@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G11_startup_probe"
 goal_id: "goal-g11"
 systems: ["S11", "S04"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G11: Startup Health Probe
@@ -16,15 +16,15 @@ Ensures that all critical infrastructure services (n8n, Digital Twin API, Postgr
 
 ## Processing Logic
 1. **Service Verification**:
-    - **Docker Services**: Utilizes `docker inspect -f '{{.State.Running}}'` to verify the operational state of the `n8n` and `postgres` containers. This provides a more robust check than simple port polling by verifying the actual container state.
+    - **Docker Services**: Utilizes `docker inspect` to verify the operational state of critical containers. It first attempts an exact match (e.g., `postgres`), then falls back to searching for any running container ending in `_postgres` or `_n8n` to handle environment variations.
     - **API Services**: Uses `requests.get` with a strict 10-second timeout to verify the responsiveness of the Digital Twin API via its `/health/ready` endpoint.
 2. **Retry Mechanism**: If services are offline, it retries up to 5 times with a 10-second delay between attempts.
 3. **Reporting**: Logs the outcome (SUCCESS/FAILURE) to the `system_activity_log`.
 4. **Fast-Fail**: Exits with a non-zero status code if critical services remain offline after all retries.
 
 ## Monitored Services
-- **n8n**: Verified via `docker inspect` (Container name: `n8n`).
-- **Postgres**: Verified via `docker inspect` (Container name: `postgres`).
+- **n8n**: Verified via `docker inspect` (Container name: `n8n` or fallback search).
+- **Postgres**: Verified via `docker inspect` (Container name: `postgres` or fallback search for `*_postgres`).
 - **API**: Verified via HTTP GET to `http://localhost:5677/health/ready`.
 
 ---

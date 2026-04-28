@@ -2,7 +2,7 @@
 title: "External LLM: Documentation Generator Prompt"
 type: "prompt"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-07"
 ---
 
@@ -47,7 +47,7 @@ status: "active"
 automation_id: "{ID}"
 goal_id: "goal-gXX"
 systems: ["SXX", "SYY"]
-owner: "Michal"
+owner: "Michał"
 updated: "YYYY-MM-DD"
 ---
 
@@ -112,7 +112,7 @@ title: "{Name}"
 type: "sop"
 status: "active"
 goal_id: "goal-gXX"
-owner: "Michal"
+owner: "Michał"
 updated: "YYYY-MM-DD"
 ---
 
@@ -148,7 +148,7 @@ title: "{Name}"
 type: "runbook"
 status: "active"
 goal_id: "goal-gXX"
-owner: "Michal"
+owner: "Michał"
 updated: "YYYY-MM-DD"
 ---
 
@@ -195,7 +195,7 @@ The user will paste a filled block like this:
 DOCUMENTATION REQUEST
 DOC_KIND: one of [goal_project | automation_n8n | automation_script | automation_home_assistant | sop | runbook]
 TODAY: YYYY-MM-DD
-OWNER: Michal
+OWNER: Michał
 
 GOAL
 GOAL_ID: goal-gXX

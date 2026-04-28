@@ -2,7 +2,7 @@
 title: "Stale Documentation Monitor (G12)"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-04"
 ---
 
@@ -39,5 +39,5 @@ The **Stale Documentation Monitor** (`G12_stale_docs_monitor.py`) scans the goal
 - No sensitive data processed.
 
 # Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly (Goal G12 audit)

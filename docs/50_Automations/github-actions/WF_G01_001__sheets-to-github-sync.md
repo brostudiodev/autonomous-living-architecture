@@ -5,7 +5,7 @@ status: "deprecated"
 automation_id: "WF_G01_001__sheets-to-github-sync"
 goal_id: "goal-g01"
 systems: ["S03"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-17"
 ---
 

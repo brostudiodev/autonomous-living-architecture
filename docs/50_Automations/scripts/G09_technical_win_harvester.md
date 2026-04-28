@@ -2,7 +2,7 @@
 title: "Technical Win Harvester (G09)"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-02"
 ---
 
@@ -40,5 +40,5 @@ The **Technical Win Harvester** (`G09_technical_win_harvester.py`) automates the
 - No source code or secrets are extracted.
 
 # Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Quarterly (Review career growth report based on harvested wins)

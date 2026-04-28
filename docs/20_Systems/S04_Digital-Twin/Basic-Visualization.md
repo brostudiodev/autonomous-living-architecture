@@ -3,7 +3,7 @@ title: "S04: Digital Twin Basic Visualization"
 type: "system_visualization"
 status: "prototype"
 system_id: "S04"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-10"
 ---
 
@@ -26,7 +26,7 @@ This document specifies the basic visualization components for the Digital Twin,
 
 **Person Entity Card**
 ```
-👤 Michal (Primary Person)
+👤 Michał (Primary Person)
 ├── Health Metrics
 │   ├── Body Fat Progress: 65% (G01)
 │   ├── Sleep Score: 85% (G07)

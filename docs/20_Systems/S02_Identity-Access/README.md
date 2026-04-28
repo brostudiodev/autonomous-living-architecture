@@ -3,7 +3,7 @@ title: "S02: Identity & Access"
 type: "system"
 status: "active"
 system_id: "system-s02"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-08"
 review_cadence: "monthly"
 ---
@@ -15,42 +15,51 @@ Manage authentication, authorization, and access control across all autonomous l
 
 ## Scope
 ### In Scope
-- User authentication
-- API key management
-- Credential storage
-- Access control lists
+- User authentication & Single Sign-On (SSO)
+- Identity Provider integration (Authentik)
+- API key management & Bearer Tokens
+- OIDC / SAML support for internal services
+- Credential storage & Access control lists
 
 ### Out of Scope
-- Identity provider integration (future)
-- Multi-user support
+- Biometric authentication (Local hardware)
+- Public-facing user registration (Invite only)
 
 ## Interfaces
 ### Inputs
-- Authentication requests
+- Authentication requests (OAuth2/OIDC)
 - Credential updates
+- User session data (Redis)
 
 ### Outputs
-- Auth tokens
+- Auth tokens (JWT)
 - Access decisions
+- Unified identity context
 
 ### APIs/events
+- Authentik API (9000/9444)
 - Local authentication
 - Credential APIs
 
 ## Dependencies
 ### Services
+- **Authentik Server/Worker** - Primary Identity Provider
+- **Redis** - Session and task caching
+- **PostgreSQL** - Identity database
 - n8n credential manager
-- System keychain
 
 ## Procedure
-1. **Monthly:** Review credential rotation
-2. **Quarterly:** Audit access permissions
+1. **Daily:** Monitor Authentik worker logs for sync failures.
+2. **Monthly:** Review credential rotation and user session activity.
+3. **Quarterly:** Audit access permissions and OIDC application links.
 
 ## Failure Modes
 | Scenario | Detection | Response |
 |----------|-----------|----------|
-| Credential expires | Auth fails | Update credential |
-| Access revoked | 403 response | Re-authenticate |
+| Authentik Offline | 500/502 on login pages | Check Docker logs, restart server/worker |
+| Redis Connection Fail | Authentik worker timeout | Ensure Redis healthcheck is passing in docker-compose |
+| Port Conflict (9443) | Docker startup error | Mapped to 9444 to avoid Portainer conflict |
+| Credential expires | Auth fails | Update credential / Rotate token |
 
 ## Security Notes
 - Credentials stored in system keychain
@@ -58,9 +67,9 @@ Manage authentication, authorization, and access control across all autonomous l
 - API keys rotated regularly
 
 ## Owner & Review
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Monthly
-- **Last Updated:** 2026-02-16
+- **Last Updated:** 2026-04-25
 
 ---
 

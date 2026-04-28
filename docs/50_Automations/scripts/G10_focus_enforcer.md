@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G10_focus_enforcer"
 goal_id: "goal-g10"
 systems: ["S04", "S08"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-18"
 ---
 

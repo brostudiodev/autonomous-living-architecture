@@ -2,7 +2,7 @@
 title: "G11: Systems"
 type: "goal_systems"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-02"
 goal_id: "goal-g11"
 ---
@@ -18,6 +18,8 @@ goal_id: "goal-g11"
 
 | Outcome | System | Automation | SOP/Runbook |
 |---------|--------|------------|-------------|
+| **Unified Infrastructure Orchestration** | **S11 Router** | [docker-compose.yml](../../../docker-compose.yml) | [RB004: Infrastructure Consolidation](../../40_Runbooks/RB004_Infrastructure_Consolidation.md) |
+| **API Security Enforcement** | S04 Digital Twin | [G04_digital_twin_api.py](../../50_Automations/scripts/G04_digital_twin_api.md) | [API-Security-Migration-Runbook.md](../../40_Runbooks/G11/API-Security-Migration-Runbook.md) |
 | **Weekly Pattern Analysis** | **S11 Router** | **[SVC_Decision-Pattern-Analyzer](../../50_Automations/n8n/services/SVC_Decision-Pattern-Analyzer.md)** | - |
 | **Evening Reflection Bridge** | **S11 Router** | **[SVC_Automated-Reflection-Bridge](../../50_Automations/n8n/services/SVC_Automated-Reflection-Bridge.md)** | - |
 | **Autonomous Friction Detection** | **S11 Router** | **[SVC_Autonomous-Friction-Resolver](../../50_Automations/n8n/services/SVC_Autonomous-Friction-Resolver.md)** | - |
@@ -44,6 +46,9 @@ goal_id: "goal-g11"
 | Google Tasks Suggestion Sync | S11 Router | [G11_suggestion_scrubber.md](../../50_Automations/scripts/G11_suggestion_scrubber.md) | - |
 | Aggregated Daily Focus | S04 Digital Twin | [G11 Mission Aggregator](../../50_Automations/scripts/G11_mission_aggregator.md) | [SOP: Daily Dashboard Review](../../30_Sops/Daily-Dashboard-Review.md) |
 | Autonomous Goal Selection | S04 Digital Twin | [G11 Goal Recommender](../../50_Automations/scripts/G11_goal_recommender.md) | [SOP: Daily Dashboard Review](../../30_Sops/Daily-Dashboard-Review.md) |
+| **Technical Failure Harvesting** | S11 Router | [G11_technical_failure_harvester](../../50_Automations/scripts/G11_technical_failure_harvester.md) | - |
+| **Failure Pattern Analysis** | S11 Router | [G11_failure_analyzer](../../50_Automations/scripts/G11_failure_analyzer.md) | - |
+| **Knowledge Base Population** | S11 Router | [G11_populate_kb](../../50_Automations/scripts/G11_populate_kb.md) | - |
 | **System Self-Healing** | S11 Router | [G11 Self-Healing Logic](../../50_Automations/scripts/G11_self_healing_logic.md) | [SOP: System Maintenance](../../30_Sops/System-Maintenance-SOP.md) |
 | **Stall Detector** | S11 Router | [G11_stall_detector.md](../../50_Automations/scripts/G11_stall_detector.md) | - |
 | **Enterprise Data Protection** | S03 Data Layer | [G11 Recovery Shield](../../50_Automations/scripts/G11_db_recovery_shield.md) | [SOP: Disaster Recovery](../../30_Sops/G11_Disaster_Recovery_SOP.md) |

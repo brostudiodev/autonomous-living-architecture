@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G11_system_audit.py"
 goal_id: "goal-g11"
 systems: ["S03", "S11"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G11: Data Integrity Auditor

@@ -5,14 +5,14 @@ status: "active"
 automation_id: "finance_rebalance.py"
 goal_id: "goal-g05"
 systems: ["S05"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-19"
 ---
 
 # G05: Budget Rebalance Wrapper
 
 ## Purpose
-Acts as the execution bridge between the Obsidian Daily Note UI and the financial rebalancing engine. It allows Michal to manually trigger the full autonomous rebalancing flow (including database updates and Google Sheets sync) with a single click.
+Acts as the execution bridge between the Obsidian Daily Note UI and the financial rebalancing engine. It allows Michał to manually trigger the full autonomous rebalancing flow (including database updates and Google Sheets sync) with a single click.
 
 ## Triggers
 - **Manual (Obsidian):** `[💸 Execute Budget Rebalancing]` button in the Daily Note.

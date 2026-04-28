@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G04_snapshot_manager"
 goal_id: "goal-g04"
 systems: ["S04", "S03"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-19"
 ---
 

@@ -5,7 +5,7 @@ status: "active"
 service_id: "SVC_Response-Dispatcher"
 goal_id: "goal-g11"
 systems: ["S04", "S08", "S11"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-10"
 ---
 
@@ -73,7 +73,7 @@ Universal response formatting and delivery service that routes system outputs to
 - Preserves intentional formatting:
   - `*bold*` - temporarily replaced with markers, then restored
   - `` `code` `` - temporarily replaced with markers, then restored
-- Removes Obsidian wiki-links: `[[...]]`
+- Removes Obsidian wiki-links: ``[[...]]``
 - Escapes remaining brackets: `[` → `\[`, `]` → `\]`
 
 ### Stage 4: Source Routing
@@ -239,7 +239,7 @@ curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
 |--------|------------------|-------|
 | `*bold*` | ✅ Yes | Converted to Telegram Markdown |
 | `` `code` `` | ✅ Yes | Converted to Telegram code |
-| `[[wiki-links]]` | ❌ No | Stripped |
+| ``[[wiki-links]]`` | ❌ No | Stripped |
 | `[brackets]` | ✅ Yes | Escaped as `\[brackets\]` |
 | Markdown links | ✅ Yes | Full support |
 

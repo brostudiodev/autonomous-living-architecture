@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G07_withings_direct_sync.py"
 goal_id: "goal-g07"
 systems: ["S03", "S07"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-15"
 ---
 

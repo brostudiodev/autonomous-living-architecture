@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G11_pre_flight_check"
 goal_id: "goal-g11"
 systems: ["S11", "S03"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-13"
 ---
 

@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G02_substack_sync"
 goal_id: "goal-g02"
 systems: ["S03", "S04", "S11"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-22"
 ---
 

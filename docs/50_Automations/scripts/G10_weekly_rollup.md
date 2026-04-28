@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G10_weekly_rollup"
 goal_id: "goal-g10"
 systems: ["S04", "S11"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-20"
 ---
 

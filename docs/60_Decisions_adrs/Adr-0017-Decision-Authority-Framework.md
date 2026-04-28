@@ -3,7 +3,7 @@ title: "Adr-0007: Decision Authority Framework"
 type: "decision"
 status: "accepted"
 date: "2026-03-20"
-deciders: ["Michal"]
+deciders: ["Michał"]
 ---
 
 # Adr-0007: Decision Authority Framework

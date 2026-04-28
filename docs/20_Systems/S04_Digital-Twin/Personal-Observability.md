@@ -4,7 +4,7 @@ type: "system_spec"
 status: "active"
 goal_id: "goal-g10"
 system_id: "S04"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-19"
 ---
 
@@ -19,7 +19,7 @@ Evolves traditional journaling into a high-fidelity telemetry stream for the Dig
 
 ### **Layer 1: System Config (Context Anchor)**
 - **Source:** `00_Start-here/Principles.md`, `North-Star.md`, and known behavioral patterns.
-- **Role:** Provides the LLM with the "Operating Manual" for Michal. Values, long-term goals, and hard constraints.
+- **Role:** Provides the LLM with the "Operating Manual" for Michał. Values, long-term goals, and hard constraints.
 - **Implementation:** Injected into Agent Zero's system prompt and RAG context.
 
 ### **Layer 2: Runtime Logging (Daily Telemetry)**

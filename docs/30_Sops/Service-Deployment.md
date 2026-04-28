@@ -2,7 +2,7 @@
 title: "SOP: Service Deployment"
 type: "sop"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-21"
 ---
 

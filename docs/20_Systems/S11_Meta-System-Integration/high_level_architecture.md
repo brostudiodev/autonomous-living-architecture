@@ -3,7 +3,7 @@ title: "ROUTER Intelligence Hub: High-Level Architecture"
 type: "architecture"
 status: "active"
 system_id: "S11"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-16"
 ---
 

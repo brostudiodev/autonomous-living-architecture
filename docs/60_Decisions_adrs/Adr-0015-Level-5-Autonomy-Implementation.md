@@ -3,7 +3,7 @@ title: "Adr-0015: Level 5 Autonomy Implementation (Zero-Click Loop)"
 type: "decision"
 status: "accepted"
 date: "2026-04-04"
-deciders: ["Michal", "Gemini Assistant"]
+deciders: ["Michał", "Gemini Assistant"]
 ---
 
 # Adr-0015: Level 5 Autonomy Implementation (Zero-Click Loop)

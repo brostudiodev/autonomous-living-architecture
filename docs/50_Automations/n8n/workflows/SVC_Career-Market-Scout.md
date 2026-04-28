@@ -2,7 +2,7 @@
 title: "SVC: Career Market Scout"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 goal_id: "goal-g09"
 systems: ["S11", "S04"]
 updated: "2026-04-09"

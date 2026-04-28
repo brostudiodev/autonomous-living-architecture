@@ -5,7 +5,7 @@ status: "active"
 automation_id: "WF103"
 goal_id: "goal-g05"
 systems: ["S05", "S03"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-26"
 ---
 
@@ -46,5 +46,5 @@ Ingests financial data from Google Sheets (Expense Calendar, Transaction Log) in
 - [G05 LLM Categorizer](../../scripts/G05_llm_categorizer.md)
 
 ---
-*Owner: Michal*
+*Owner: Michał*
 *Review Cadence: Monthly*

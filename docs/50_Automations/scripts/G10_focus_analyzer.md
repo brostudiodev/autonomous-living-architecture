@@ -2,7 +2,7 @@
 title: "G10: Focus Reality Analyzer"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 goal_id: "goal-g10"
 updated: "2026-04-17"
 ---
@@ -57,6 +57,6 @@ python3 G10_focus_analyzer.py --mock
 - **Template:** `%%FOCUS_REALITY_START%%` / `%%FOCUS_REALITY_END%%` markers in Daily Note Template.
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly alignment with G10 roadmap.
 ---

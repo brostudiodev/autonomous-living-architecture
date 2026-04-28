@@ -144,7 +144,7 @@ class DigitalTwinLLM:
         
         Question: {query}
         
-        Provide a comprehensive, expert-level response as if you are a digital twin of Michal.
+        Provide a comprehensive, expert-level response as if you are a digital twin of Michał.
         """
         
         response = self.llm.invoke(prompt)
@@ -229,7 +229,7 @@ CONTEXT:
 QUESTION: {user_query}
 
 INSTRUCTIONS:
-1. Respond as Michal's digital twin with authentic voice and expertise
+1. Respond as Michał's digital twin with authentic voice and expertise
 2. Draw from personal experiences, goal achievements, and technical knowledge
 3. Maintain consistent personality: helpful, knowledgeable, focused, insightful
 4. Provide practical, actionable insights when appropriate

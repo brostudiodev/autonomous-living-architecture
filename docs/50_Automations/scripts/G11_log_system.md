@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G11_log_system.py"
 goal_id: "goal-g11"
 systems: ["S04", "S11"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G11: Centralized System Logger

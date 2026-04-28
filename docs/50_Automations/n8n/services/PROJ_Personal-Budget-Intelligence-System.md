@@ -5,7 +5,7 @@ status: "active"
 automation_id: "PROJ_Finance-Intelligence-System"
 goal_id: "goal-g05"
 systems: ["S03", "S08"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-13"
 ---
 

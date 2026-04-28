@@ -3,7 +3,7 @@ title: "Runbook: Daily Note Integrity & Sync Failures"
 type: "runbook"
 status: "active"
 goal_id: "goal-g10"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-24"
 ---
 

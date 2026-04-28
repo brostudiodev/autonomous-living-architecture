@@ -2,7 +2,7 @@
 title: "ROUTER: Partner Hub"
 type: "n8n_workflow"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 goal_id: "goal-g03"
 updated: "2026-04-16"
 ---
@@ -103,7 +103,7 @@ You are the Household Partner Assistant. You only have access to PANTRY and GROC
 - All restricted requests receive polite denial
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Quarterly (or when adding new partners)
 - **Last Updated:** 2026-04-16
 

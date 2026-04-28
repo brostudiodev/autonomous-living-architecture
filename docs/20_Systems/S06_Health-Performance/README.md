@@ -3,7 +3,7 @@ title: "S06: Health & Performance"
 type: "system"
 status: "active"
 system_id: "system-s06"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-08"
 ---
 

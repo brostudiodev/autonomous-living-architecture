@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G03_appliance_monitor"
 goal_id: "goal-g03"
 systems: ["S03", "S04", "S07"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G03_appliance_monitor: Maintenance Prediction Engine

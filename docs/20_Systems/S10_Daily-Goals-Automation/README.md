@@ -3,7 +3,7 @@ title: "S10: Daily Goals Automation"
 type: "system"
 status: "active"
 system_id: "system-s10"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-08"
 ---
 

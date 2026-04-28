@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G03_pantry_suggestor.py"
 goal_id: "goal-g03"
 systems: ["S03", "S05"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G03: Pantry Suggestion Engine

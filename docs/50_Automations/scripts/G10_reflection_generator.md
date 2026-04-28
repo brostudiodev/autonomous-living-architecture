@@ -5,7 +5,7 @@ status: "active"
 automation_id: "g10-reflection-generator"
 goal_id: "goal-g10"
 systems: ["S04", "S10"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-10"
 review_cadence: "Monthly"
 ---

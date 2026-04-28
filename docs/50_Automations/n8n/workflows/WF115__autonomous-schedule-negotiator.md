@@ -2,7 +2,7 @@
 title: "Workflow Spec: WF115 Autonomous Schedule Negotiator"
 type: "n8n_workflow"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-10"
 ---
 

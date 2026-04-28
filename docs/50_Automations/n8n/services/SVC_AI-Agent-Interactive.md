@@ -5,14 +5,14 @@ status: "active"
 service_id: "SVC_AI-Agent-Interactive"
 goal_id: "goal-g11"
 systems: ["S04", "S08"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-15"
 ---
 
 # SVC_AI-Agent-Interactive (v2.9 - Agent Zero)
 
 ## Purpose
-The **Interactive AI Agent (Agent Zero)** is the central autonomous supervisor of Michal's life ecosystem. It acts as a multi-tool orchestrator, coordinating 9 specialized domain agents to manage health, finance, productivity, and knowledge. It maintains long-term strategic memory and real-time system awareness.
+The **Interactive AI Agent (Agent Zero)** is the central autonomous supervisor of Michał's life ecosystem. It acts as a multi-tool orchestrator, coordinating 9 specialized domain agents to manage health, finance, productivity, and knowledge. It maintains long-term strategic memory and real-time system awareness.
 
 ## Key Features (v2.9)
 - **Agent Zero Model:** Acts as a high-level supervisor with a "Survive → Perform → Grow" priority hierarchy.

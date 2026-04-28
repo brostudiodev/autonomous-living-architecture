@@ -2,8 +2,8 @@
 title: "G12: Auto Did Logger"
 type: "automation"
 status: "active"
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 goal_id: "goal-g12"
 ---
 
@@ -56,5 +56,5 @@ This script is executed automatically by the `autonomous_daily_manager.py` (duri
 - No sensitive data is logged to the Daily Note; only task titles and commit messages.
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Monthly audit of logging accuracy.

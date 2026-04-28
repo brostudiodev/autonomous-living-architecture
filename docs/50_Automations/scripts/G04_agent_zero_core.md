@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G04_agent_zero_core"
 goal_id: "goal-g04"
 systems: ["S04"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-18"
 ---
 
@@ -22,8 +22,8 @@ Agent Zero is the central strategic brain of the Digital Twin ecosystem. It acts
 - **`/hydration`**: Real-time water/coffee balance tracking and replenishment advice.
 
 ### 💰 Financial Strategy
-- **`/finance`**: High-level budget status.
-- **`/forecast` (NEW Apr 18)**: Predicts liquidity runway and daily burn rate based on current month performance.
+- **`/finance` (ENHANCED Apr 21)**: Provides a detailed budget dashboard. In addition to the alert count, it now lists every active budget breach with utilization percentage and recommended action (e.g., "STOP SPENDING").
+- **`/forecast`**: Predicts liquidity runway and daily burn rate based on current month performance.
 
 ### 🏋️ Training & HIT Analytics (NEW Apr 18)
 - **`/workout`**: Summarizes the last 5 sessions and highlights muscular progression markers (TUT, failures).
@@ -33,6 +33,14 @@ Agent Zero is the central strategic brain of the Digital Twin ecosystem. It acts
 
 ### 🏠 Smart Home (Read-Only)
 - **`/home_status`**: Aggregated environment overview (Temperature, Occupancy, Hardware Alerts).
+
+## Changelog
+| Date | Version | Author | Change Description |
+|---|---|---|---|
+| 2026-04-18 | 5.4 | Michał | Initial documentation of v5.4 logic (Hardened Discovery). |
+| 2026-04-21 | 5.5 | Michał | Enhanced `/finance` command to return detailed alert lists and budget utilization stats. |
+| 2026-04-21 | 5.6 | Michał | API Audit: Recovered and formatted `/os`, `/vision`, `/roi`, `/tasks`, `/analytics/trends`, and `/workout/stats` commands. |
+| 2026-04-21 | 5.7 | Michał | Full API Sync: Implemented missing mappings for `/audit`, `/strategic_audit`, `/career`, `/decisions/pending`, `/history`, and `/best_day`. Hardened `/memory` against NoneType errors. |
 
 ## Command Processing Directory
 The following commands are natively handled by the `AgentZero.ask()` method:

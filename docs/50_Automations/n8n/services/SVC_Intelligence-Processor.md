@@ -5,14 +5,14 @@ status: "active"
 service_id: "SVC_Intelligence-Processor"
 goal_id: "goal-g11"
 systems: ["S04", "S08", "S11"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-10"
 ---
 
 # SVC: Intelligence Processor
 
 ## Purpose
-AI-powered content analysis service that processes user-captured content (notes, ideas, URLs, transcripts) and extracts actionable intelligence. It analyzes content against Michal's 12 Power Goals, identifies automation opportunities, and automatically creates structured notes in Obsidian via GitHub.
+AI-powered content analysis service that processes user-captured content (notes, ideas, URLs, transcripts) and extracts actionable intelligence. It analyzes content against Michał's 12 Power Goals, identifies automation opportunities, and automatically creates structured notes in Obsidian via GitHub.
 
 ## Triggers
 
@@ -113,7 +113,7 @@ AI-powered content analysis service that processes user-captured content (notes,
 - **Model:** Google Gemini (temperature: 0.3)
 - **System Prompt:** Analyzes content against 12 Power Goals:
 
-**Michal's 12 Power Goals:**
+**Michał's 12 Power Goals:**
 1. Reach Target Body Fat (15%)
 2. Be recognizable Automationbro
 3. Autonomous Household Operations

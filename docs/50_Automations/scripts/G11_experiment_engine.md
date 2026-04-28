@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G11_experiment_engine"
 goal_id: "goal-g11"
 systems: ["S11", "S04"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-16"
 ---
 
@@ -75,7 +75,7 @@ Enables A/B testing of personal behaviors to optimize decisions. The system choo
 - Policy recommendations require human approval before apply
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Monthly (review active experiments)
 - **Last Review:** 2026-03-16
 

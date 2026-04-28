@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G04__system_velocity_reporter"
 goal_id: "goal-g04"
 systems: ["S04", "S01"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-21"
 ---
 

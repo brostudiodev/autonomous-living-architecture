@@ -5,14 +5,14 @@ status: "active"
 automation_id: "G12_goal_progress_orchestrator"
 goal_id: "goal-g12"
 systems: ["S04", "S11", "S12"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G12_goal_progress_orchestrator: Automatic (System-Driven) Tracking
 
 ## Purpose
-Acts as the **Automatic (Suggestive) Tracker** for the ecosystem. It autonomously analyzes system data and task completion to populate the Daily Note with initial "Did" and "Next" suggestions. This reduces friction for Michal, who then uses **G09** (`ctrl+shift+G`) to verify and commit these entries to long-term storage.
+Acts as the **Automatic (Suggestive) Tracker** for the ecosystem. It autonomously analyzes system data and task completion to populate the Daily Note with initial "Did" and "Next" suggestions. This reduces friction for Michał, who then uses **G09** (`ctrl+shift+G`) to verify and commit these entries to long-term storage.
 
 ## 🛠️ Implementation Notes (Apr 14 Update)
 - **Path Management:** Standardized path resolution using `OBSIDIAN_VAULT`, `BASE_DIR`, and `GOALS_PATH` constants to ensure cross-environment reliability.
@@ -21,8 +21,8 @@ Acts as the **Automatic (Suggestive) Tracker** for the ecosystem. It autonomousl
 
 ## 📊 Goal Tracking Hierarchy
 1.  **Level 1: Suggestion (G12)** - System runs autonomously, finds completed tasks, scans roadmaps, and populates the `%%GOAL_PROGRESS%%` section in the Daily Note.
-2.  **Level 2: Verification (Michal)** - Michal reviews the suggested "Did" and "Next" fields in Obsidian, making manual adjustments if necessary.
-3.  **Level 3: Commitment (G09)** - Michal triggers `ctrl+shift+G`. This executes G09, which takes the *current* state of the Daily Note and permanently logs it to the individual `Activity-log.md` files.
+2.  **Level 2: Verification (Michał)** - Michał reviews the suggested "Did" and "Next" fields in Obsidian, making manual adjustments if necessary.
+3.  **Level 3: Commitment (G09)** - Michał triggers `ctrl+shift+G`. This executes G09, which takes the *current* state of the Daily Note and permanently logs it to the individual `Activity-log.md` files.
 
 ## Triggers
 - **System Sync:** Part of the `G11_global_sync.py` pipeline (runs before the Daily Note is finalized).
@@ -55,7 +55,7 @@ Acts as the **Automatic (Suggestive) Tracker** for the ecosystem. It autonomousl
 ## Dependencies
 ### Systems
 - [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
-- [S12 Complete Process Documentation](../../20_Systems/S12_Complete-Process-Documentation/README.md)
+- [S12 Complete Process Documentation](../../20_Systems/S11_Meta-System-Integration/README.md)
 
 ## Error Handling
 | Failure Scenario | Detection | Response | Alert |

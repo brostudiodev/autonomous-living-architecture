@@ -2,7 +2,7 @@
 title: "G04: Digital Twin API Failure"
 type: "runbook"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-31"
 ---
 

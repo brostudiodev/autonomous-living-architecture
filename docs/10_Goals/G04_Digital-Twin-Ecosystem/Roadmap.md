@@ -2,7 +2,7 @@
 title: "G04: Roadmap"
 type: "goal_roadmap"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-17"
 goal_id: "goal-g04"
 ---
@@ -42,6 +42,20 @@ goal_id: "goal-g04"
 - [x] **Unlimited History Unlock (G04-UHU):** Standardized 10-year lookback and removed data retrieval limits across all agents, engines, and endpoints ✅ (Apr 19)
 - [x] **Digital Twin System Hardening (G04-STB):** Resolved parameter mismatches and command translation errors in Engine/API ✅ (Apr 17)
 - [x] **Briefing Tactical Optimization (G04-BTO):** Filtered redundant audit tasks from briefings for mission clarity ✅ (Apr 16)
+- [x] **Personal Bio-Context Expansion (G04-PBC):** Create separate "Personal" folder for document-based context about Michal. Fully integrated into Digital Twin via G04_personal_context_sync.py. ✅ (Apr 25)
+- [x] **API Resilience & Discovery (G04-ARD):** Fixed endpoint shadowing and redundant route clashing. Upgraded project discovery to recursive scanning to support nested PARA-style projects. ✅ (Apr 25)
+- [x] **Personal Intelligence API (G04-PIA):** Launched `/personal` endpoint providing deep bio-context (CV, Identity, Health Baselines) directly from PostgreSQL for zero-touch AI awareness. ✅ (Apr 25)
+- [ ] **LLM Operational Guardrails (G04-LOG):** Implement a pre-processing "Guardrail" layer in n8n Language Gate to detect prompt injection and prevent high-risk autonomous actions.
+- [ ] **API Security Hardening (G04-ASH):**
+    - [ ] **Bearer Token Auth:** Transition from simple API keys to standard Bearer Token authentication.
+    - [ ] **Swagger/OpenAPI:** Implement interactive API documentation at `/docs` for service discovery.
+    - [ ] **SSO/OIDC Integration:** Implement OpenID Connect (OIDC) using Authentik/Authelia for unified identity management across UI and API.
+
+> [!tip] 🚀 **Multi-User Package Support**
+- [ ] **API user context:** Add X-User-ID header routing for multi-user isolation
+- [ ] **Port configuration:** Ensure all ports configurable via .env
+- [ ] **Test with multiple instances:** Verify parallel deployments work
+
 - [x] Integrate additional data sources (e.g., smart home sensors, health trackers)
 - [x] Implement event-driven architecture for real-time twin updates
 - [x] Develop advanced querying capabilities and data analysis within S04

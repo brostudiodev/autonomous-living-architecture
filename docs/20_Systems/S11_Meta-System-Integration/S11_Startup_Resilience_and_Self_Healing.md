@@ -3,7 +3,7 @@ title: "S11: Startup Resilience and Self-Healing"
 type: "architecture"
 status: "active"
 system_id: "system-s11-resilience"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-18"
 ---
 
@@ -62,5 +62,5 @@ Ensures 100% observability of the automation surface.
 | Sequential Failures (3+) | Failure Predictor (Task C5) | Flag as CRITICAL in dashboard, notify via Telegram |
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Weekly during system audit.

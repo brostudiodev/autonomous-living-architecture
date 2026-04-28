@@ -2,7 +2,7 @@
 title: "SOP: Domain Correlation Analysis"
 type: "sop"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-03"
 ---
 
@@ -42,5 +42,5 @@ Enables the system to identify relationships and patterns between isolated life 
 | Schema Error | "Unknown column" in logs | Verify table structures in `G04_digital_twin_engine.py`. |
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Quarterly or when adding new telemetry sources (e.g., environment sensors).

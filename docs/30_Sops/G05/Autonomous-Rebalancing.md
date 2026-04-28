@@ -2,7 +2,7 @@
 title: "SOP: Autonomous Budget Rebalancing"
 type: "sop"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 goal_id: "goal-g05"
 updated: "2026-03-26"
 ---
@@ -33,4 +33,4 @@ This SOP describes the process for autonomous financial rebalancing within the A
 - Connection failures to PostgreSQL or Google Sheets trigger a `FAILURE` log in `system_activity_log`.
 
 ## Review Process
-Michal reviews the `Budget Rebalancing Suggestions` section in the Daily Note every morning. If an autonomous action was taken, it is marked with 🚀.
+Michał reviews the `Budget Rebalancing Suggestions` section in the Daily Note every morning. If an autonomous action was taken, it is marked with 🚀.

@@ -5,7 +5,7 @@ status: "active"
 automation_id: "WF101__finance-import-transactions"
 goal_id: "goal-g05"
 systems: ["S08", "S03"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-07"
 ---
 

@@ -3,7 +3,7 @@ title: "G04: Digital Twin Ecosystem"
 type: "goal"
 status: "active"
 goal_id: "goal-g04"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-08"
 review_cadence: "monthly"
 ---
@@ -22,6 +22,7 @@ Create a centralized AI-powered intelligence hub that aggregates data from all s
 ## Scope
 ### In Scope
 - Multi-channel input processing (text, voice, images, PDFs, YouTube)
+- **English-Only Intent Processing:** Standardized internal core logic for accuracy (ADR-0020).
 - Data aggregation from all goals (G01-G11)
 - Real-time state representation
 - Cross-system data ingestion pipelines
@@ -33,12 +34,14 @@ Create a centralized AI-powered intelligence hub that aggregates data from all s
 - Autonomous decision making (planned Q3)
 
 ## Intent
-Create a centralized AI-powered intelligence hub that aggregates data from all systems, provides multi-channel communication interfaces, and enables intelligent automation across the autonomous living ecosystem.
+Create a centralized AI-powered intelligence hub that aggregates data from all systems, provides multi-channel communication interfaces, and enables intelligent automation across the autonomous living ecosystem. **The system core operates in English, utilizing SVC_Language-Gate for input normalization.**
 
 ## Definition of Done (2026)
 - [x] Production-grade AI router implemented (WF001)
+- [x] **Language Standardization:** Internal logic hardened to English (ADR-0020).
 - [x] n8n workflows active 24/7
 - [x] Autonomy ROI Tracking Engine deployed (G04_log_roi)
+
 - [x] Database-driven Hydration & Caffeine tracking
 - [x] **Obsidian Semantic Synthesis:** Project status and vault intelligence active.
 - [x] **Cooperative Telegram Bot:** Interactive decisions via n8n webhook (WF001 Agent Router) for inbound, `G04_digital_twin_notifier.py` for outbound.
@@ -110,7 +113,8 @@ Create a centralized AI-powered intelligence hub that aggregates data from all s
 - **`/today`**: Uses `G10_today_status.py` to regex-parse the active Daily Note. It extracts YAML frontmatter (Mood, Energy, Sleep) and Markdown task lists. High value for mobile "on-the-go" checking.
 - **`/recurring`**: Integrated with `G10_calendar_client.py`. Supports RRULE-based recurring events to automate frequent scheduling.
 - **Morning Briefing**: Time-gated in `G11_global_sync.py` to only trigger between 05:00 and 10:00 AM, preventing redundant midday notifications during system syncs.
-- Progress Monitor: [Progress-monitor.md](Progress-monitor.md)
+- P01: Intelligence Hub: [projects/P01_Intelligence-Hub.md](projects/P01_Intelligence-Hub.md)
+- P02: Personal Context Integration: [projects/P02_Personal-Context-Integration.md](projects/P02_Personal-Context-Integration.md)
 - n8n Workflows: [../../50_Automations/n8n/workflows/WF001_Agent_Router.md](../../50_Automations/n8n/workflows/WF001_Agent_Router.md)
 
 ## Procedure
@@ -145,9 +149,9 @@ Create a centralized AI-powered intelligence hub that aggregates data from all s
 > **Telegram Architecture (2026-04-08):** Inbound messages → n8n Webhook (WF001). Outbound notifications → Python (`G04_digital_twin_notifier.py`)
 
 ## Owner & Review
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Monthly
-- **Last Updated:** 2026-04-08
+- **Last Updated:** 2026-04-25
 
 ---
 

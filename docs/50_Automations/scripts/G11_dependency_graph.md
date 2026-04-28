@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G11_dependency_graph"
 goal_id: "goal-g11"
 systems: ["S11"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-18"
 ---
 

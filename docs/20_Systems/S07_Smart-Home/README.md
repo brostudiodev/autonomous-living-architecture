@@ -3,7 +3,7 @@ title: "S07: Smart Home Orchestration"
 type: "system"
 status: "active"
 system_id: "system-s07"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-08"
 ---
 

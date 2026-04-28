@@ -2,7 +2,7 @@
 title: "SOP: System Maintenance & Self-Healing"
 type: "sop"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-02"
 ---
 
@@ -52,5 +52,5 @@ The system rotates local backups, but if disk space is low:
 - Maintenance tasks often require database access. Always use the `.venv` Python interpreter to ensure `psycopg2` and other dependencies are loaded correctly.
 
 # Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly (during G11 system audit)

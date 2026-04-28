@@ -3,7 +3,7 @@ title: "SOP: Log Workout in 60 Seconds"
 type: "sop"
 status: "active"
 goal_id: "goal-g01"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-07"
 ---
 
@@ -268,5 +268,5 @@ Script will check:
 ## Revision History
 | Date | Version | Changes | Author |
 |---|---|---|---|
-| 2026-01-23 | 1.0 | Initial SOP | Michal |
+| 2026-01-23 | 1.0 | Initial SOP | Michał |
 

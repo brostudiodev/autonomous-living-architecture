@@ -2,7 +2,7 @@
 title: "Coding Patterns & Standards"
 type: "coding_standard"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-09"
 ---
 
@@ -289,4 +289,4 @@ def my_function():
 ---
 
 *Last Updated: 2026-04-09 | G12 Documentation Audit*
-*Author: Michal | Part of db_config.py migration*
+*Author: Michał | Part of db_config.py migration*

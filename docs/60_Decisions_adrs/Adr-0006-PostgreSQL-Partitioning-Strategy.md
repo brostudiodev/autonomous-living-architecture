@@ -3,7 +3,7 @@ title: "Adr-0006: PostgreSQL Partitioning Strategy"
 type: "decision"
 status: "proposed"
 date: "2026-04-12"
-deciders: ["Michal"]
+deciders: ["Michał"]
 ---
 
 # Adr-0006: PostgreSQL Partitioning Strategy

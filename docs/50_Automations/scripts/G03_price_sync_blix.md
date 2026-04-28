@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G03_price_sync_blix"
 goal_id: "goal-g03"
 systems: ["S03"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G03: Price Sync Blix

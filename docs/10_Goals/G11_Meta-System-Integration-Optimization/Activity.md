@@ -3,7 +3,7 @@ title: "G11: Meta-System Integration - Activity Log"
 type: "activity_log"
 status: "active"
 goal_id: "goal-g11"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-20"
 ---
 

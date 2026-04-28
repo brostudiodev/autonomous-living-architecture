@@ -2,8 +2,8 @@
 title: "Architecture Diagrams"
 type: "documentation"
 status: "active"
-owner: "Michal"
-updated: "2026-04-08"
+owner: "Michał"
+updated: "2026-04-25"
 ---
 
 # Autonomous Living Architecture Diagrams
@@ -183,9 +183,11 @@ flowchart TB
     PANTRY_DB --> TWIN_DB
 
     TWIN_DB --> TWIN_ENGINE
+    TWIN_ENGINE --> REDIS_CACHE
     GLOBAL_SYNC --> TWIN_ENGINE
-    TWIN_ENGINE --> DAILY_NOTE
-    TWIN_ENGINE --> TELEGRAM_NOTIFY
+    REDIS_CACHE --> DAILY_NOTE
+    REDIS_CACHE --> TELEGRAM_NOTIFY
+    TWIN_ENGINE --> SWAGGER_UI
 
     %% Direction 2 Flow
     USER_CMD --> TELEGRAM_TRIGGER
@@ -267,11 +269,17 @@ graph TB
     subgraph "User Interface Layer"
         TELEGRAM_IN["Telegram (INBOUND)<br/>User messages → n8n Webhook"]
         TELEGRAM_OUT["Telegram (OUTBOUND)<br/>G04_digital_twin_notifier.py"]
-        TWIN_API[Digital Twin API<br/>Port 5677]
+        TWIN_API[Digital Twin API<br/>Port 5677 /docs]
+        AUTHENTIK_UI[Authentik UI<br/>Port 9000/9444]
         WEBHOOK[Webhook API<br/>/intelligence-hub]
         N8N_CHAT[n8n Chat Interface]
         GRAFANA[Grafana Dashboards<br/>Port 3003]
         OBSIDIAN[Obsidian Vault<br/>Daily Notes]
+    end
+
+    subgraph "🔐 Identity & Security Layer"
+        AUTHENTIK[Authentik SSO/OIDC<br/>User Identity]
+        REDIS[Redis Cache<br/>Sessions & State]
     end
 
     subgraph "🧠 Intelligence & Orchestration Layer (n8n = Brain)"
@@ -808,3 +816,9 @@ graph TB
 *Core Architecture Pattern documented: 2026-04-08*
 *Bidirectional Flow Architecture documented: 2026-04-08*
 *Telegram split architecture documented: 2026-04-08*
+
+---
+
+## 📚 Related Documentation
+
+- **[Goal Correlation Map](./Goal-Correlation-Map.md)** - Shows how all 12 goals interconnect via Digital Twin with data flow diagrams and correlation matrix

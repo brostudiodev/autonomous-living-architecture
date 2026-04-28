@@ -2,14 +2,14 @@
 title: "Service: Autonomous Schedule Negotiator"
 type: "automation"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-10"
 ---
 
 # SVC_Autonomous-Schedule-Negotiator
 
 ## Purpose
-The Autonomous Schedule Negotiator is a real-time "Time Optimization" engine that balances Michal's current biological readiness (energy levels) with his task demands. It dynamically reshuffles the daily schedule to ensure high-stakes work is performed during peak energy windows, while protecting recovery and sleep preparation.
+The Autonomous Schedule Negotiator is a real-time "Time Optimization" engine that balances Michał's current biological readiness (energy levels) with his task demands. It dynamically reshuffles the daily schedule to ensure high-stakes work is performed during peak energy windows, while protecting recovery and sleep preparation.
 
 ## Scope
 - **In Scope:** Biological readiness constraints, hydration tracking, task categorization (High/Medium/Other), roadmap mission integration, and focus block optimization.

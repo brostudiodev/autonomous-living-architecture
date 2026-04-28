@@ -5,7 +5,7 @@ status: "deprecated"
 automation_id: "G07_weight_sync.py"
 goal_id: "goal-g07"
 systems: ["S03", "S07"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-15"
 ---
 

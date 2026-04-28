@@ -35,7 +35,7 @@ This repository demonstrates how to architect resilient, integrated autonomous l
 
 ## 👨‍💻 About the Architect
 
-**Michal** - IT T&T Automation Specialist specializing in RPA, AI, and Hyperautomation. 20+ years of experience in programming and project management in the manufacturing sector. ITIL 4 & PRINCE2 certified professional combining enterprise automation expertise with systematic life optimization.
+**Michał** - IT T&T Automation Specialist specializing in RPA, AI, and Hyperautomation. 20+ years of experience in programming and project management in the manufacturing sector. ITIL 4 & PRINCE2 certified professional combining enterprise automation expertise with systematic life optimization.
 
 I built this ecosystem to prove that the same patterns that run a Fortune 500 company—**Decoupling, Observability, and Automation**—can be used to build a better, more focused, and more autonomous human life.
 
@@ -99,10 +99,18 @@ Most automation projects organize by technology. This system organizes by **busi
 │             ↓ running on                                    │
 └─────────────────────────────────────────────────────────────┘
 ┌─────────────────────────────────────────────────────────────┐
-│              Infrastructure (infrastructure/)               │
+│              Infrastructure (docker-compose.unified.yml)    │
 │    Docker | Prometheus | Grafana | PostgreSQL | Gemini AI   │
 └─────────────────────────────────────────────────────────────┘
 ```
+
+### 🚀 Unified Deployment (G11-SSH/PSO)
+The entire ecosystem is now consolidated into a single, hardened **Unified Docker Stack**. This ensures enterprise-grade portability, security, and one-click deployment.
+
+- **Primary Stack:** `docker-compose.unified.yml` (Consolidates Core, AI, and Monitoring)
+- **Security:** Standardized on bridge networks, non-root users, and hardened API gateways.
+- **Portability:** 100% relative path mapping (no more hardcoded host paths).
+- **Runbook:** [RB004: Infrastructure Consolidation Procedure](docs/40_Runbooks/RB004_Infrastructure_Consolidation.md)
 
 ### Repository Structure: Enterprise IT Applied to Life
 | Directory | Purpose | Enterprise Equivalent |

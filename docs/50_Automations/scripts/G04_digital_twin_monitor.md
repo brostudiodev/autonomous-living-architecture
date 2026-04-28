@@ -5,14 +5,14 @@ status: "active"
 automation_id: "G04_digital_twin_monitor.py"
 goal_id: "goal-g04"
 systems: ["S04", "S01"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-20"
 ---
 
 # G04: Digital Twin System Monitor
 
 ## Purpose
-The primary watchdog for the ecosystem's infrastructure and logical health. It performs proactive checks on both the underlying system (databases, disk space) and the high-level system states (budget, pantry, health) to alert Michal of critical issues before they impact autonomy.
+The primary watchdog for the ecosystem's infrastructure and logical health. It performs proactive checks on both the underlying system (databases, disk space) and the high-level system states (budget, pantry, health) to alert Michał of critical issues before they impact autonomy.
 
 ## Key Features
 - **Infrastructure Sentinels:** 

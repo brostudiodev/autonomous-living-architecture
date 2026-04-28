@@ -5,7 +5,7 @@ status: "active"
 automation_id: "PROJ_Expense_Calendar"
 goal_id: "goal-g05"
 systems: ["S03", "S04", "S05"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-10"
 review_cadence: "Monthly"
 ---

@@ -3,7 +3,7 @@ title: "G08: Systems"
 type: "goal_systems"
 status: "active"
 goal_id: "goal-g08"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-24"
 ---
 

@@ -2,7 +2,7 @@
 title: "SOP: Monthly Documentation Audit"
 type: "sop"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-04"
 ---
 

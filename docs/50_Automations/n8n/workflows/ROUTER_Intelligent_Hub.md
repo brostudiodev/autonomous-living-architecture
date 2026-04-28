@@ -2,7 +2,7 @@
 title: "ROUTER: Intelligent Hub"
 type: "n8n_workflow"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 goal_id: "goal-g04"
 updated: "2026-04-16"
 ---
@@ -113,7 +113,7 @@ Triggers → Normalizer → Auth → Converge → Format Detector → Intent Cla
 - Webhook URL should be kept secure
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly (during G11 system audit)
 - **Last Updated:** 2026-04-16
 

@@ -3,7 +3,7 @@ title: "SOP: Daily Task Review & Sync"
 type: "sop"
 status: "active"
 goal_id: "goal-g10"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-20"
 ---
 

@@ -5,7 +5,7 @@ status: "active"
 automation_id: "g07-health-trend-reporter"
 goal_id: "goal-g07"
 systems: ["S03", "S10"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-10"
 review_cadence: "Monthly"
 ---

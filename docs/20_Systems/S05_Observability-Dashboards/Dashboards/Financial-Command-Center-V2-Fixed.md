@@ -5,7 +5,7 @@ status: "active"
 dashboard_uid: "financial-command-center-real-v2-fixed"
 goal_id: "goal-g05"
 system_id: "system-s05"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-25"
 review_cadence: "monthly"
 ---
@@ -134,6 +134,6 @@ curl -fsS -u 'admin:autonomous2026' -H 'Content-Type: application/json' \
 - Keep DB credentials only in env/provisioning (`AUTONOMOUS_POSTGRES_PASSWORD`).
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review cadence:** Monthly
 - **Last updated:** 2026-02-25

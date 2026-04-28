@@ -5,7 +5,7 @@ status: "active"
 automation_id: "WF005__price-scouter-ai"
 goal_id: "goal-g03"
 systems: ["S08", "S04", "S03"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-09"
 ---
 
@@ -60,7 +60,7 @@ Autonomously scrapes major retailer aggregators (Biedronka, Lidl, Dino, Auchan) 
 - **ROI Tracking:** Logs 10 minutes saved per successful scout.
 
 ## Manual Fallback
-If scraping fails, the system provides a raw shopping list without price comparisons, and Michal must refer to manual flyers (Blix app).
+If scraping fails, the system provides a raw shopping list without price comparisons, and Michał must refer to manual flyers (Blix app).
 
 ---
 *Related Documentation:*

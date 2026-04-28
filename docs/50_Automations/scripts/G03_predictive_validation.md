@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G03_predictive_validation"
 goal_id: "goal-g03"
 systems: ["S04"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-27"
 ---
 

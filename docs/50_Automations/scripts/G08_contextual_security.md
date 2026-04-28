@@ -2,8 +2,8 @@
 title: "G08: Contextual Security Agent"
 type: "automation"
 status: "active"
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 goal_id: "goal-g08"
 ---
 
@@ -37,5 +37,5 @@ Proposes home security and energy-saving actions based on the user's calendar ("
 ```
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Monthly review of decision accuracy.

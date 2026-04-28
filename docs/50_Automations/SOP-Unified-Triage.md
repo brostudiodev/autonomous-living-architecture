@@ -2,7 +2,7 @@
 title: "SOP: Unified Triage"
 type: "sop"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-03"
 ---
 
@@ -50,5 +50,5 @@ To add a new domain to the triage:
 - Database credentials are managed via `.env`.
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly (during G12 Documentation Audit).

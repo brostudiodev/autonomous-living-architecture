@@ -3,7 +3,7 @@ title: "Automation Spec: G02_content_performance.py"
 type: "automation_spec"
 status: "draft"
 created: "2026-03-25"
-updated: "2026-04-18"
+updated: "2026-04-28"
 ---
 
 # 🤖 Automation Spec: G02_content_performance.py

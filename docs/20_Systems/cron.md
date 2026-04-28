@@ -2,7 +2,7 @@
 title: "Cron Jobs & Scheduled Tasks"
 type: "system_doc"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 review_cadence: "monthly"
 created: "2026-02-20"
 updated: "2026-02-20"
@@ -192,6 +192,6 @@ SELECT * FROM cron.job_run_details ORDER BY end_time DESC LIMIT 10;
 
 ---
 
-*Owner: Michal*  
+*Owner: Michał*  
 *Last Updated: 2026-03-19*  
 *Review Cadence: Monthly*

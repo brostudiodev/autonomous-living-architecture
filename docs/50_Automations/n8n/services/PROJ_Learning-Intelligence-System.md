@@ -5,14 +5,14 @@ status: "active"
 automation_id: "PROJ_Learning-Intelligence-System"
 goal_id: "goal-g06"
 systems: ["S03", "S06"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-15"
 ---
 
 # PROJ_Learning-Intelligence-System (v2.0)
 
 ## Purpose
-The **Learning Intelligence System** is an advanced AI agent (G06) designed to act as Michal's personal study coach and certification strategist. It autonomously tracks study velocity, assesses certification risk based on deadlines, and manages a technical knowledge base (Learning Concepts).
+The **Learning Intelligence System** is an advanced AI agent (G06) designed to act as Michał's personal study coach and certification strategist. It autonomously tracks study velocity, assesses certification risk based on deadlines, and manages a technical knowledge base (Learning Concepts).
 
 ## Key Features (v2.0)
 - **Mathematical Risk Assessment:** Pre-calculates `risk_status` (CRITICAL/URGENT) and `required_hours_per_week` directly in SQL.

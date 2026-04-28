@@ -3,7 +3,7 @@ title: "G01: Outcomes"
 type: "goal_outcomes"
 status: "active"
 goal_id: "goal-g01"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-07"
 ---
 

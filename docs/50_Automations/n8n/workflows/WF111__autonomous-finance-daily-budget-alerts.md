@@ -5,7 +5,7 @@ status: "inactive"
 automation_id: "WF{{LONG_IDENTIFIER}}"
 goal_id: "goal-g05"
 systems: ["S03", "S08"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-18"
 ---
 

@@ -2,7 +2,7 @@
 title: "G10: ActivityWatch Sync"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 goal_id: "goal-g10"
 updated: "2026-04-16"
 ---
@@ -47,8 +47,8 @@ ActivityWatch (Docker) → Server API → G10_activitywatch_sync.py → PostgreS
 ## Dependencies
 
 ### Systems
-- [S03 Data Layer](../20_Systems/S03_Data-Layer/README.md)
-- [S04 Digital Twin](../20_Systems/S04_Digital-Twin/README.md)
+- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
+- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
 
 ### Infrastructure
 - ActivityWatch server running (Docker: `activitywatch/activitywatch`)
@@ -153,7 +153,7 @@ Add to evening summarizer:
 - Window titles may contain sensitive info - handle accordingly
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly (during G10 stability audit)
 - **Last Updated:** 2026-04-16
 

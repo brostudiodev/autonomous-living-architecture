@@ -2,7 +2,7 @@
 title: "Telegram Receiver (G04) - DEPRECATED"
 type: "automation_spec"
 status: "deprecated"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-08"
 ---
 

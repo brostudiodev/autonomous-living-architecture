@@ -2,7 +2,7 @@
 title: "SOP: Digital Twin Memory Management"
 type: "sop"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-02"
 ---
 

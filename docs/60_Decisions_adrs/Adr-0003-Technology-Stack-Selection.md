@@ -3,7 +3,7 @@ title: "Adr-0003: Technology Stack Selection"
 type: "decision"
 status: "accepted"
 date: "2025-08-01"
-deciders: ["Michal"]
+deciders: ["Michał"]
 consulted: []
 informed: []
 ---

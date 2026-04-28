@@ -6,11 +6,11 @@ This directory contains the specifications for AI-driven intelligence workflows 
 
 | Goal | Workflow Name | Template | Purpose |
 |------|---------------|----------|---------|
-| G04 | Proactive Reflection Drafter | [WF_proactive_reflection_drafter.json](./templates/WF_proactive_reflection_drafter.json) | Generates daily journal reflection drafts based on 360° system state. |
+| G04 | Proactive Reflection Drafter | [TBD] | Generates daily journal reflection drafts based on 360° system state. |
 | G05 | Financial AI Categorizer | [WF_financial_categorizer.json](./templates/WF_financial_categorizer.json) | Assigns budget categories to uncategorized transactions using LLM reasoning. |
 | G06 | Learning Ingester | [WF_learning_ingester.json](./templates/WF_learning_ingester.json) | Transforms raw study notes into structured Atomic Notes for the Brain. |
-| G11 | Task Triage Pro | [WF_task_triage_pro.json](./templates/WF_task_triage_pro.json) | Prioritizes Google Tasks based on daily biometric readiness. |
-| G11 | Decision Pattern Analyzer | [WF_decision_pattern_analyzer.json](./templates/WF_decision_pattern_analyzer.json) | Performs meta-analysis of manual decisions to identify cognitive biases. |
+| G11 | Task Triage Pro | [TBD] | Prioritizes Google Tasks based on daily biometric readiness. |
+| G11 | Decision Pattern Analyzer | [TBD] | Performs meta-analysis of manual decisions to identify cognitive biases. |
 | G13 | Content Draft Agent | [WF_content_draft_agent.json](./templates/WF_content_draft_agent.json) | Drafts LinkedIn and Substack content based on daily technical wins. |
 
 ## Architectural Pattern: "Python = Body, n8n = Brain"

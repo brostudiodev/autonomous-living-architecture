@@ -2,7 +2,7 @@
 title: "Credentials Template (no secrets)"
 type: "template"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-07"
 ---
 

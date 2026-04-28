@@ -5,7 +5,7 @@ status: "active"
 automation_id: "g05-bank-ingest"
 goal_id: "goal-g05"
 systems: ["S03"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-02"
 review_cadence: "Monthly"
 ---

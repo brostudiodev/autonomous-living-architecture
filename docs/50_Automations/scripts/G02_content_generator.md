@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G02_content_generator"
 goal_id: "goal-g02"
 systems: ["S02"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-13"
 ---
 

@@ -2,8 +2,8 @@
 title: "G05: Tax & Savings Allocation Agent"
 type: "automation"
 status: "active"
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 goal_id: "goal-g05"
 ---
 
@@ -43,5 +43,5 @@ Executed automatically via `autonomous_daily_manager.py`:
 | Duplicate Processing | Status: SUCCESS (0 items) | Script correctly identifies processed IDs. |
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Monthly financial review.

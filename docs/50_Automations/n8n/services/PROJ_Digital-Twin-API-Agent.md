@@ -5,14 +5,14 @@ status: "active"
 automation_id: "PROJ_Digital-Twin-API-Agent"
 goal_id: "goal-g04"
 systems: ["S04", "S08", "S11"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-13"
 ---
 
 # Agent Zero: Digital Twin API Agent
 
 ## Purpose
-**Agent Zero** is the primary strategic interface for Michal's Digital Twin. It is a high-density analytical system designed as a peer-level engineering partner. Unlike standard chatbots, Agent Zero has direct access to 40+ API endpoints in the autonomous ecosystem, allowing it to provide proactive, data-driven advice and execute system-wide actions.
+**Agent Zero** is the primary strategic interface for Michał's Digital Twin. It is a high-density analytical system designed as a peer-level engineering partner. Unlike standard chatbots, Agent Zero has direct access to 40+ API endpoints in the autonomous ecosystem, allowing it to provide proactive, data-driven advice and execute system-wide actions.
 
 ## Triggers
 - **Sub-workflow:** Primary entry point from `ROUTER_Intelligent_Hub`.

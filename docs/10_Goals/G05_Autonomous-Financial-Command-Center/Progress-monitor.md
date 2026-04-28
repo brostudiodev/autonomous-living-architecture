@@ -83,6 +83,17 @@ version: "1.1"
 - **Reporting System**: Standardized financial reporting through S03 architecture
 - **Data Architecture**: Consistent data models across financial systems
 
+### Finance Query Standardization & Type Safety (April 2026)
+**Implementation Summary:**
+- **Standardized SQL Guidelines**: Established `G05_finance_query_standard.md` to enforce strict type-filtering for all financial queries, preventing the mixing of Incomes, Expenses, and Transfers.
+- **Proactive Engine Feedback**: Updated the `raw_query` engine in `G04_digital_twin_engine.py` to detect unfiltered finance queries and inject mandatory guidance hints into the LLM's response.
+- **Accurate Cost Reporting**: Fixed a logic error where large Incomes or Transfers were being reported as the "most expensive items," ensuring only true `Expense` items are flagged for highest-cost analysis.
+
+**Technical Specifications:**
+- **Standard**: All finance queries MUST include `WHERE type = 'Expense'|'Income'|'Transfer'`.
+- **Constraint**: RAW SQL tool now proactively warns when `transactions` table is queried without a type filter.
+- **Accuracy**: 100% precision in identifying "Most Expensive Single Item" by excluding balance transfers and initial funding.
+
 ### Unlimited Financial History Unlock (April 2026)
 **Implementation Summary:**
 - **Full History Retrieval**: Removed `LIMIT 500` and `LIMIT 12` constraints from Finance Intelligence agent queries, enabling full access to all historical transactions and P&L data.

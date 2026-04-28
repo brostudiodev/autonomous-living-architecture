@@ -3,7 +3,7 @@ title: "G10: Intelligent Productivity Time Architecture - Activity Log"
 type: "activity_log"
 status: "active"
 goal_id: "goal-g10"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-20"
 ---
 

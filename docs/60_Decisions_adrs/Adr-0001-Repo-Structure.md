@@ -2,7 +2,7 @@
 title: "Adr-0001: Repo Structure"
 type: "adr"
 status: "accepted"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-07"
 ---
 

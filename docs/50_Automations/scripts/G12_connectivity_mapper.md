@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G12_connectivity_mapper"
 goal_id: "goal-g12"
 systems: ["S04", "S11"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-28"
 ---
 

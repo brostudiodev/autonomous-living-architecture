@@ -2,7 +2,7 @@
 title: "Autonomy Rules Runbook"
 type: "runbook"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 goal_id: "goal-g11"
 systems: ["S08", "S11"]
 updated: "2026-03-26"
@@ -225,12 +225,12 @@ schedule:
 - [G11 Meta-System Integration](../../10_Goals/G11_Meta-System-Integration-Optimization/README.md)
 - [G11 Decision Handler Automation](../../50_Automations/scripts/G11_decision_handler.md)
 - [Telegram Approval SOP](../../30_Sops/Telegram-Approval-SOP.md)
-- [G05 Financial Systems](../G05/README.md)
-- [G03 Household Systems](../G03/README.md)
-- [G10 Productivity Systems](../G10/README.md)
+- [G05 Financial Systems](../../10_Goals/G05_Autonomous-Financial-Command-Center/README.md)
+- [G03 Household Systems](../../10_Goals/G03_Autonomous-Household-Operations/README.md)
+- [G10 Productivity Systems](../../10_Goals/G{{LONG_IDENTIFIER}}/README.md)
 
 ---
 
-*Owner: Michal*  
+*Owner: Michał*  
 *Review Cadence: Monthly*  
 *Last Updated: 2026-03-26*

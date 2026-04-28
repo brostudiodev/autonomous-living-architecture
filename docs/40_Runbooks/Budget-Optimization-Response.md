@@ -2,7 +2,7 @@
 title: "Budget Optimization Response"
 type: "runbook"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 goal_id: "goal-g05"
 systems: ["S05", "S11"]
 updated: "2026-03-26"
@@ -67,5 +67,5 @@ Standard response procedures when budget optimization opportunities or anomalies
 - [Autonomy Rules Runbook](../40_Runbooks/G11/Autonomy-Rules-Runbook.md)
 
 ---
-*Owner: Michal*
+*Owner: Michał*
 *Review Cadence: Monthly*

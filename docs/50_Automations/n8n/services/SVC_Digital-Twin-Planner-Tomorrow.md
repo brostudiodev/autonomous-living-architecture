@@ -5,7 +5,7 @@ status: "active"
 automation_id: "SVC_Digital-Twin-Planner-Tomorrow"
 goal_id: "goal-g10"
 systems: ["S04", "S09"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-10"
 ---
 
@@ -23,7 +23,7 @@ A production-ready n8n sub-workflow that orchestrates the "Tomorrow's Mission Br
 ## Processing Logic
 1. **Normalize Router Input** (Code node, lines 19-29): Extracts command, cleans `/training` prefix, detects language from keywords (Polish: jaki, kiedy, ile, trening vs English: what, when, how, workout), extracts `chat_id`, `source_type`, and `username`.
 2. **Fetch Twin Planner Tomorrow** (HTTP Request node, line 32): GET request to `http://{{INTERNAL_IP}}:5677/tomorrow` - fetches tomorrow's planner data from Digital Twin API.
-3. **Format for Dispatcher** (Code node, lines 52-62): Parses JSON response, extracts `today_summary` (wins), `tomorrow_preview` (calendar, missions), `strategic_advice`. Sanitizes text for Telegram (strips Wiki-links `[[]]`, converts `[]` to `()`, replaces underscores with dashes). Constructs structured briefing message.
+3. **Format for Dispatcher** (Code node, lines 52-62): Parses JSON response, extracts `today_summary` (wins), `tomorrow_preview` (calendar, missions), `strategic_advice`. Sanitizes text for Telegram (strips Wiki-links `[](.md)`, converts `[]` to `()`, replaces underscores with dashes). Constructs structured briefing message.
 
 ## Outputs
 - **Formatted Response:** `{"response_text": "🌙 Mission Briefing...", "chat_id": "...", "metadata": {...}}`

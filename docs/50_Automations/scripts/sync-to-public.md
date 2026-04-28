@@ -4,7 +4,7 @@ type: "automation_spec"
 status: "active"
 automation_id: "sync_to_public"
 goal_id: "goal-g12"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-31"
 ---
 

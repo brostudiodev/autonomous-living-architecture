@@ -2,7 +2,7 @@
 title: "Automation Spec: G04_life_simulator.py"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-19"
 ---
 

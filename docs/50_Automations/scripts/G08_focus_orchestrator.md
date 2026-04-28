@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G08_focus_orchestrator"
 goal_id: "goal-g08"
 systems: ["S07", "S08"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-09"
 ---
 
@@ -16,7 +16,7 @@ Automates the physical and digital environment for "Deep Work" and "Professional
 
 ## ⚠️ CRITICAL MANDATE
 **DO NOT ENABLE OR UNCOMMENT HOME ASSISTANT CONTROL LOGIC.** 
-Michal has explicitly requested that this script **NOT** trigger any HA services (lights, sockets, etc.) until further notice. This is a hard constraint for all AI agents.
+Michał has explicitly requested that this script **NOT** trigger any HA services (lights, sockets, etc.) until further notice. This is a hard constraint for all AI agents.
 
 ## Triggers
 - **When:** Scheduled via `G11_global_sync.py` (runs periodically).

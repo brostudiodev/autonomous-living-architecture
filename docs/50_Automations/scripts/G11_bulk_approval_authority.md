@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G11_bulk_approval_authority"
 goal_id: "goal-g11"
 systems: ["S11"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-27"
 ---
 

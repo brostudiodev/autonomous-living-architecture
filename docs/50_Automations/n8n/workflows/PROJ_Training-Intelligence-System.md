@@ -5,14 +5,14 @@ status: "active"
 automation_id: "PROJ_Training-Intelligence-System"
 goal_id: "goal-g01"
 systems: ["S03", "S04"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-18"
 ---
 
 # Training Intelligence System (N8N)
 
 ## Purpose
-An autonomous agentic workflow that provides deep intelligence and analysis for Michal's training data. It interfaces with the `autonomous_training` database to answer queries about workout history, progression, and body composition.
+An autonomous agentic workflow that provides deep intelligence and analysis for Michał's training data. It interfaces with the `autonomous_training` database to answer queries about workout history, progression, and body composition.
 
 ## Triggers
 - **ExecuteWorkflowTrigger**: Called by the central Router or Digital Twin API.

@@ -3,7 +3,7 @@ title: "G05: Test Budget Alerting System"
 type: "runbook"
 status: "complete"
 goal_id: "goal-g05"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-08"
 ---
 

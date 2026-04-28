@@ -2,7 +2,7 @@
 title: "Autonomous Goal Recommender (G11)"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-02"
 ---
 
@@ -40,5 +40,5 @@ The **Goal Recommender** (`G11_goal_recommender.py`) autonomously selects three 
 - Credentials managed via `.env`.
 
 # Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly (Goal G11 audit)

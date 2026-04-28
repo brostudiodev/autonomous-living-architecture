@@ -2,7 +2,7 @@
 title: "Daily Note Markers Specification"
 type: "specification"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-18"
 ---
 

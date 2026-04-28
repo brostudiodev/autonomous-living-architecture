@@ -2,7 +2,7 @@
 title: "Runbook: Budget Alert Response"
 type: "runbook"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-21"
 ---
 

@@ -2,7 +2,7 @@
 title: "G10: Schedule Negotiator"
 type: "automation"
 status: "deprecated"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-16"
 goal_id: "goal-g10"
 ---
@@ -40,5 +40,5 @@ The original script is located in `scripts/archive/G10_schedule_negotiator.py` f
 | Biometric Data Stale | Warning in log | Use 70% readiness as conservative default. |
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Monthly audit of schedule accuracy and "Assumed & Acted" success rate.

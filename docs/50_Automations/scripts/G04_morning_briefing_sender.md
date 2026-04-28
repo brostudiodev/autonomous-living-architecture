@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G04_morning_briefing_sender"
 goal_id: "goal-g04"
 systems: ["S04", "S10"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G04_morning_briefing_sender: Daily Strategic Broadcast

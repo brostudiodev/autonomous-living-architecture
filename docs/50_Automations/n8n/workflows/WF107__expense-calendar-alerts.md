@@ -6,7 +6,7 @@ automation_id: "WF107__expense-calendar-alerts"
 workflow_name: "SVC_Expense-Calendar-Alerts"
 goal_id: "goal-g05"
 systems: ["S08", "S03"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-17"
 ---
 

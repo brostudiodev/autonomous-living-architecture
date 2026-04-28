@@ -1,0 +1,34 @@
+# .dockerignore
+# Exclude sensitive files and local environment noise from Docker images
+
+# Credentials and Config
+.env
+.env.example
+*.json
+*.pickle
+*.key
+credentials/
+secrets/
+
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Documentation (Optional, but excluded per user preference for container)
+docs/
+*.md
+
+# Local OS noise
+.DS_Store
+Thumbs.db

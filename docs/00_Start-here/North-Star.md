@@ -2,7 +2,7 @@
 title: "North Star"
 type: "strategy"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-14"
 ---
 

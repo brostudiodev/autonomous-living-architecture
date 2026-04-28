@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G10_journal_data_collector"
 goal_id: "goal-g10"
 systems: ["S04", "S11"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G10_journal_data_collector: Daily Data Collection

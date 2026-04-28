@@ -4,8 +4,8 @@ type: "automation_spec"
 status: "active"
 system_id: "S05"
 goal_id: "goal-g05"
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 review_cadence: "monthly"
 ---
 

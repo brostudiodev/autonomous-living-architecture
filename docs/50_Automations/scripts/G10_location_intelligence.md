@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G10_location_intelligence"
 goal_id: "goal-g10"
 systems: ["S09", "S04"]
-owner: "Michal"
-updated: "2026-04-16"
+owner: "Michał"
+updated: "2026-04-23"
 ---
 
 # G10: Location Intelligence

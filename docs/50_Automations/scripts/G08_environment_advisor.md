@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G08_environment_advisor"
 goal_id: "goal-g08"
 systems: ["S04", "S07"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-25"
 ---
 

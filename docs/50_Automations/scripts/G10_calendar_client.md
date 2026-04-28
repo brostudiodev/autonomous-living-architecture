@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G10_calendar_client.py"
 goal_id: "goal-g10"
 systems: ["S10"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-04"
 ---
 

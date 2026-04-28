@@ -2,7 +2,7 @@
 title: "SVC: Digital Twin API"
 type: "n8n_workflow"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 goal_id: "goal-g04"
 updated: "2026-04-16"
 ---
@@ -84,7 +84,7 @@ This workflow is triggered automatically by AI agents. To test manually:
 - Chat IDs are logged for audit purposes
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly (during G11 system audit)
 - **Last Updated:** 2026-04-16
 

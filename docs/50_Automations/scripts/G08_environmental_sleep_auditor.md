@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G08_environmental_sleep_auditor"
 goal_id: "goal-g08"
 systems: ["S08", "S07"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G08: Sleep Environment Auditor

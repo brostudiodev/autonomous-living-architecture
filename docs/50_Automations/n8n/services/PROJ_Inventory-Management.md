@@ -5,14 +5,14 @@ status: "active"
 automation_id: "PROJ_Inventory-Management"
 goal_id: "goal-g03"
 systems: ["S03", "S08"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-13"
 ---
 
 # PROJ: Inventory Management (Multi-Location AI Agent)
 
 ## Purpose
-The **Inventory Management System** is an AI-driven agent designed to maintain a unified view of Michal's household inventory across multiple physical locations (currently **Spizarka** and **Gabinet**). It provides natural language control over product quantities, handles low-stock alerts, and manages a synonym dictionary to resolve naming variations.
+The **Inventory Management System** is an AI-driven agent designed to maintain a unified view of Michał's household inventory across multiple physical locations (currently **Spizarka** and **Gabinet**). It provides natural language control over product quantities, handles low-stock alerts, and manages a synonym dictionary to resolve naming variations.
 
 ## Triggers
 - **Sub-workflow:** Triggered by `ROUTER_Intelligent_Hub` when a `/pantry` command or related intent is detected.

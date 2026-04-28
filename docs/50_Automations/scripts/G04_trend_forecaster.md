@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G04_trend_forecaster"
 goal_id: "goal-g04"
 systems: ["S04"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-19"
 ---
 

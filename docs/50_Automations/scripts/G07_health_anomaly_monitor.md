@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G07__health_anomaly_monitor"
 goal_id: "goal-g07"
 systems: ["S06", "S04"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-21"
 ---
 

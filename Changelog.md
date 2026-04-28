@@ -2,13 +2,32 @@
 title: "Autonomous Living - Master Changelog"
 type: "changelog"
 status: "active"
-updated: "2026-03-13"
+updated: "2026-04-25"
 ---
 
 # Changelog
 
 All notable changes to the Autonomous Living system are documented here.
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
+
+---
+
+## [2026.Q2.Sprint4] - 2026-04-25
+
+### Fixed - Digital Twin Architectural Integrity (G04)
+- **Recursive Project Discovery:** Upgraded `DigitalTwinEngine.get_obsidian_projects` to recursively scan `02_Projects` subdirectories. This resolves issues where projects in subfolders (e.g., `Systems/`, `Life/`) were invisible to the API.
+- **Docker Path Robustness:** Refactored path calculation in `G04_digital_twin_engine.py` and `G12_documentation_audit.py` to use absolute paths correctly within the Docker environment (`/app/docs`, `/app/obsidian`), eliminating `FileNotFoundError` during vault stats and audits.
+- **API Endpoint Consolidation:** Removed redundant and clashing `/map` and `/memory` routes in `G04_digital_twin_api.py`. Fixed the `/pantry/suggestions` 404 by ensuring correct route ordering and `AgentZero` command mapping.
+- **Vault Asset Integrity:** Relocated `P - G11.md` from the vault root to `02_Projects/Systems/` to align with the PARA structure and ensure API discoverability.
+
+### Fixed - Automation Reliability (G09/G10/G12)
+- **Relationship Harvester Completion:** Fixed `NameError` in `G09_relationship_harvester.py` by implementing the missing `harvest_from_calendar` function and correcting the `Path` library imports.
+- **Focus Intelligence Hardening:** Resolved `Path` and `BASE_DIR` errors in `G10_focus_intelligence.py`. Added robust absolute path logic for daily log generation.
+- **Daily Note Template Restoration:** Re-inserted 10+ missing surgical markers (e.g., `%%HABITS%%`, `%%QUICK_WINS%%`, `%%ROADMAP%%`) into `Daily Note Template.md` and the 2026-04-25 note to ensure 100% automated dashboard coverage.
+
+### Improved - System Observability
+- **API Audit Resilience:** Added sequential request delays and increased timeouts in `G04_api_audit_test.py` to prevent connection resets when stress-testing the single-threaded API.
+- **Biometric Continuity:** Manually triggered `G07_zepp_sync.py` to resolve a data gap, ensuring 100% biometric coverage (Readiness: 93) for today's daily note.
 
 ---
 

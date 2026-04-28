@@ -2,7 +2,7 @@
 title: "G05: Systems"
 type: "goal_systems"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-16"
 goal_id: "goal-g05"
 ---
@@ -31,6 +31,8 @@ goal_id: "goal-g05"
 | **Execute Rebalance Action** | **S08 Orchestrator** | **[G11_decision_handler](../../50_Automations/scripts/G11_decision_handler.md)** | [Autonomy-Rules-Runbook.md](../../40_Runbooks/G11/Autonomy-Rules-Runbook.md) |
 | Bidirectional Sheets Sync (AI Tracking) | S03 Data Layer | [G05_finance_sync.md](../../50_Automations/scripts/G05_finance_sync.md) | - |
 | Manual Rebalance Execution | S05 Finance | [finance_rebalance.md](../../50_Automations/scripts/finance_rebalance.md) | - |
+| **Net Worth & FIRE Tracking** | S05 Finance | [G05_net_worth_snapshot.md](../../50_Automations/scripts/G05_net_worth_snapshot.md) | [Daily Mission Briefing] |
+| **FIRE Progress Monitor** | S05 Finance | [G11_mission_aggregator.md](../../50_Automations/scripts/G11_mission_aggregator.md) | [Golden Mission List] |
 | **Liquidity Rebalancing Agent** | S05 Finance | [G05_liquidity_rebalancer.md](../../50_Automations/scripts/G05_liquidity_rebalancer.md) | - |
 | **Execute Account Transfer** | S08 Orchestrator | [G11_decision_handler.md](../../50_Automations/scripts/G11_decision_handler.md) | - |
 | Historical Finance Persistence | S03 Data Layer | PostgreSQL: `finance_entries` | - |

@@ -3,7 +3,7 @@ title: "Adr-0004: Digital Twin as Central Hub"
 type: "decision"
 status: "accepted"
 date: "2025-08-15"
-deciders: ["Michal"]
+deciders: ["Michał"]
 consulted: []
 informed: []
 ---

@@ -5,7 +5,7 @@ status: "active"
 automation_id: "SVC_Digital-Twin-API-Gateway"
 goal_id: "goal-g04"
 systems: ["S04"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-17"
 ---
 

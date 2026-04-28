@@ -2,7 +2,7 @@
 title: "G10: Mood & Energy Engine"
 type: "system_documentation"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-31"
 goal_id: "goal-g10"
 ---
@@ -44,5 +44,5 @@ The Mood & Energy Engine autonomously calculates and suggests daily intelligence
 - Personal health and financial data used for calculation are kept within the local PostgreSQL environment.
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review Cadence:** Quarterly (with G10 roadmap review).

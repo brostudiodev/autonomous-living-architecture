@@ -2,7 +2,7 @@
 title: "System Reliability Auditor (G11)"
 type: "automation_spec"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-02"
 ---
 
@@ -40,5 +40,5 @@ The **System Reliability Auditor** (`G11_system_reliability_auditor.py`) provide
 - Read-only access to system logs.
 
 # Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Weekly (investigate any script with < 90% reliability)

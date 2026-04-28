@@ -2,7 +2,7 @@
 title: "SVC: Autonomous Pantry Data Sync"
 type: "n8n_workflow"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 goal_id: "goal-g03"
 updated: "2026-04-16"
 ---
@@ -111,7 +111,7 @@ Synchronizes household inventory data from Google Sheets (Magazynek_domowy) to P
 - No sensitive data in email alerts (statistics only)
 
 ## Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Monthly (during G03 household audit)
 - **Last Updated:** 2026-04-16
 

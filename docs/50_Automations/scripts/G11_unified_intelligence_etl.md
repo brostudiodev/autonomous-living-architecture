@@ -5,7 +5,7 @@ status: "active"
 automation_id: "g11-unified-intelligence-etl"
 goal_id: "goal-g11"
 systems: ["S03", "S04", "S11"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-03-10"
 review_cadence: "Quarterly"
 ---

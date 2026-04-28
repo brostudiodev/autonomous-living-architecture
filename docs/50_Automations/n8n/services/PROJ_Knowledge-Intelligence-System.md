@@ -5,12 +5,12 @@ status: "active"
 automation_id: "PROJ_Knowledge-Intelligence-System"
 goal_id: "goal-g12"
 systems: ["S04", "S12"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-13"
 ---
 
 # Purpose
-The **Knowledge Intelligence System** is an autonomous n8n agent designed to manage and retrieve information from Michal's Second Brain (Obsidian Vault and PostgreSQL activity logs). It bridges the gap between raw documentation and actionable insights, ensuring that system architecture, SOPs, and historical decisions are always accessible.
+The **Knowledge Intelligence System** is an autonomous n8n agent designed to manage and retrieve information from Michał's Second Brain (Obsidian Vault and PostgreSQL activity logs). It bridges the gap between raw documentation and actionable insights, ensuring that system architecture, SOPs, and historical decisions are always accessible.
 
 # Scope
 - **In Scope:** Searching Obsidian Vault content, reporting documentation activity logs, monitoring vault health (stale notes, empty files), and providing technical context to Agent Zero.
@@ -69,5 +69,5 @@ The workflow follows a linear intelligence pipeline:
 - **Data Privacy:** Sensitive data placeholders used in responses; raw DB credentials never exposed in agent context.
 
 # Owner + Review Cadence
-- **Owner:** Michal
+- **Owner:** Michał
 - **Review:** Weekly (verify search accuracy and documentation coverage via `G12_documentation_audit.py`)

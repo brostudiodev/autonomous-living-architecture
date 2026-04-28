@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G10_focus_intelligence"
 goal_id: "goal-g10"
 systems: ["S04", "S07", "S08"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G10_focus_intelligence: Focus Mode Status Check

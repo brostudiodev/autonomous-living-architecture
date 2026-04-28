@@ -17,11 +17,14 @@ We will implement a system-wide "Standardized Timeout" policy and perform a surg
 |-----------|-----------------|----------------|
 | **Database (PostgreSQL)** | **3 seconds** | `connect_timeout=3` in `db_config.py` and direct `psycopg2.connect` calls. |
 | **HTTP Requests** | **10 seconds** | `timeout=10` for all `requests.get/post` calls (unless specialized like LLMs). |
-| **Subprocesses** | **30 seconds** | `timeout=30` for all `subprocess.run` calls (unless specialized like DB backups). |
+| **Subprocesses (Standard)** | **30 seconds** | Default for individual scripts (G11_self_healing audit). |
+| **Subprocesses (Consumers)** | **300 seconds** | For complex orchestration consumers (G11_global_sync). |
+| **Orchestration Wrapper** | **1800 seconds** | For top-level wrappers (G11_obsidian_safe_sync). |
 
 ### 2. Implementation Rules
 - **Centralized Config:** `scripts/db_config.py` is the source of truth for DB connection defaults.
 - **Explicit Wrappers:** Use `scripts/utils/timeout_helpers.py` for new scripts, but keep existing G-series scripts explicit and readable.
+- **Hierarchical Timeouts:** Orchestrators MUST have timeouts larger than the sum of their children (or significantly larger for parallel execution).
 - **Syntax Integrity:** Ensure all `subprocess.run` calls use balanced parentheses and proper argument passing.
 
 ## Consequences

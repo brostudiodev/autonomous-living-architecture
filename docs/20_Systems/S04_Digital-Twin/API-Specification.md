@@ -5,7 +5,7 @@ status: "active"
 system_id: "S04"
 goal_id: "goal-g04"
 version: "6.0"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-17"
 ---
 
@@ -31,6 +31,8 @@ Endpoints designed for Docker healthchecks and monitoring.
 |---|---|---|---|
 | `/health/live` | GET | **Liveness.** Confirms the FastAPI process is running. | Static response |
 | `/health/ready`| GET | **Readiness.** Probes all 8 domain DBs and engine status. | `G04_startup_probe.py` |
+| `/cache/status` | GET | **Cache Audit.** Check age and status of the Uber-Context cache. | `digital_twin_updates` table |
+| `/cache/refresh`| ANY | **Cache Control.** Force refresh of the Uber-Context (/all). | `G04_context_cache_manager.py` |
 | `/tools/health`| GET | **Manifest Audit.** Verifies existence and syntax of 61+ tools. | `registry.get_tools()` + `py_compile` |
 
 ---

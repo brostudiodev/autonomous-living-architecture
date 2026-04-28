@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G11_task_archiver"
 goal_id: "goal-g11"
 systems: ["S10"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G11_task_archiver: Stale Task Cleanup
@@ -35,11 +35,12 @@ Identifies and archives stale Google Tasks based on configurable rules. Prevents
 | Shopping list items | Any task in "Shopping" list | ❌ Never archived (protected) |
 | No due date + no #today | No date, no priority tag | ✅ Auto-approve |
 | Completed > 3 days | Task completed + 3 days | ✅ Auto-approve |
-| Overdue 7-30 days | Due date passed | ⚠️ Telegram approval required |
 | Overdue > 30 days | Due date passed + 30 days | ✅ Auto-approve |
 | Overdue > 1 year | Due date passed + 365 days | ✅ Auto-approve |
 
 ## Approval Logic
+
+Note: Tasks overdue for 7-30 days were previously flagged for approval, but this was silenced to reduce noise. Now only tasks > 30 days are actioned (auto-archived).
 
 ```
 Task identified as stale

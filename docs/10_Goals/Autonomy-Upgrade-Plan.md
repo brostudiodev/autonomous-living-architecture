@@ -2,7 +2,7 @@
 title: "Autonomy Upgrade Plan"
 type: "strategy"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 goal_id: "goal-g11"
 updated: "2026-03-27"
 ---
@@ -63,5 +63,5 @@ See [G11 Roadmap](./G11_Meta-System-Integration-Optimization/Roadmap.md) for det
 - [G11 Meta-System Integration](./G11_Meta-System-Integration-Optimization/README.md)
 
 ---
-*Owner: Michal*
+*Owner: Michał*
 *Review Cadence: Quarterly*

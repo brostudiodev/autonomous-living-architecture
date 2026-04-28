@@ -2,7 +2,7 @@
 title: "G06: Roadmap"
 type: "goal_roadmap"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-19"
 goal_id: "goal-g06"
 ---

@@ -4,7 +4,7 @@ type: "project"
 status: "active"
 project_id: "P01"
 goal_id: "goal-g04"
-owner: "Michal"
+owner: "Michał"
 created: "2026-02-03"
 updated: "2026-02-07"
 ---

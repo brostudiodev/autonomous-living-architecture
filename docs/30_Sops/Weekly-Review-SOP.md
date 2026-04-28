@@ -2,7 +2,7 @@
 title: "SOP: Weekly Review"
 type: "sop"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 goal_id: "goal-g10"
 updated: "2026-03-26"
 ---
@@ -31,5 +31,5 @@ Weekly strategic reflection and planning to maintain momentum toward quarterly g
 - [G10 Intelligent Productivity Time Architecture](../10_Goals/G{{LONG_IDENTIFIER}}/README.md)
 
 ---
-*Owner: Michal*
+*Owner: Michał*
 *Review Cadence: Monthly*

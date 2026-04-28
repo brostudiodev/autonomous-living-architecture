@@ -5,7 +5,7 @@ status: "active"
 service_id: "SVC_Digital-Twin-Morning-Briefing"
 goal_id: "goal-g04"
 systems: ["S04", "S08", "S10"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-10"
 ---
 
@@ -88,7 +88,7 @@ Generates a comprehensive morning briefing with daily priorities, tasks, health 
   "query": "/morning_briefing",
   "chat_id": "{{TELEGRAM_CHAT_ID}}",
   "source_type": "telegram",
-  "username": "Michal"
+  "username": "Michał"
 }
 ```
 
@@ -105,7 +105,7 @@ Generates a comprehensive morning briefing with daily priorities, tasks, health 
       "chat_id": "{{TELEGRAM_CHAT_ID}}"
     },
     "language": "pl",
-    "username": "Michal"
+    "username": "Michał"
   },
   "success": true
 }

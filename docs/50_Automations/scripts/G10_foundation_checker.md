@@ -5,8 +5,8 @@ status: "active"
 automation_id: "G10_foundation_checker"
 goal_id: "goal-g10"
 systems: ["S04", "S09"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
 # G10_foundation_checker: Tomorrow's Foundation Prep

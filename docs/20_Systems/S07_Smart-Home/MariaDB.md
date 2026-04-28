@@ -3,7 +3,7 @@ title: "Home Assistant MariaDB"
 type: "reference"
 status: "active"
 system_id: "S07"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-16"
 ---
 

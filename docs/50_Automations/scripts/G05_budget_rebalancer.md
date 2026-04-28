@@ -5,50 +5,51 @@ status: "active"
 automation_id: "G05_budget_rebalancer"
 goal_id: "goal-g05"
 systems: ["S05", "S11"]
-owner: "Michal"
-updated: "2026-04-18"
+owner: "Michał"
+updated: "2026-04-28"
 ---
 
-# G05: Budget Rebalancer (Buffer-First)
+# G05: Budget Rebalancer (v2.1)
 
 ## Purpose
-Identifies budget breaches and resolves them using a tiered priority system. It first attempts to use global income surplus (Buffer-First) before raiding other planned categories, ensuring that categories with actual spending are protected from unrealistic budget cuts.
+Identifies budget breaches and generates resolution suggestions using a tiered priority system. It first attempts to use global income surplus (Buffer-First) before raiding other planned categories. **As of v2.1, all rebalancing actions require human-in-the-loop approval to prevent unauthorized threshold increases.**
 
 ## Triggers
-- **Daily Manager:** Part of the `autonomous_daily_manager.py` cycle.
-- **Global Sync:** Executed as a consumer script in `G11_global_sync.py`.
-- **Manual Execute:** `python3 G05_budget_rebalancer.py --execute` for forced database and sheet update.
+- **Daily Manager:** Part of the `autonomous_daily_manager.py` cycle (Suggestion mode).
+- **Global Sync:** Executed as a consumer script in `G11_global_sync.py` (Suggestion mode).
+- **Manual Execute:** `python3 G05_budget_rebalancer.py --execute` for forced database and sheet update (Human-triggered).
 
-## Tiered Resolution Logic (v2.0)
+## Tiered Resolution Logic (v2.1)
 
 ### 🔴 Breach Detection
 Identifies categories where actual spending (`actual_amount`) exceeds the monthly budget (`budget_amount`).
 
-### 🛡️ Tier 1: Buffer-First (Income Surplus)
+### 🛡️ Tier 1: Buffer-First (Income Surplus Suggestion)
 - **Source:** Fetches `net_savings` from `v_monthly_pnl` (Income - Expenses).
-- **Rule:** If a breach is detected and a global surplus exists, the system increases the target budget directly using these unallocated funds.
+- **Rule:** If a breach is detected and a global surplus exists, the system suggests increasing the target budget using these unallocated funds.
 - **Safety:** Leaves a minimum **500 PLN** safety floor in the income buffer.
-- **Autonomy:** Buffer-First increases are considered **Full Autonomy** (Auto-Act) as they don't impact other planned categories.
+- **Authority:** **LIMITED** (Human-in-the-loop). Even buffer usage must be approved via Telegram command `/approve [id]`.
 
 ### 💸 Tier 2: Category Reallocation (Surplus Raiding)
 - **Source:** Finds `Low/Medium` priority categories with remaining funds.
 - **Spending Floor Safeguard:** **CRITICAL:** The system can only take from the **REMAINING** surplus (Budget - Spent). It is physically impossible for the system to reduce a budget below what has already been spent in that month.
 - **Rule:** Leaves a 20% safety buffer in the source category.
-- **Policy:** Evaluates amount and priority via `G11_rules_engine`.
+- **Policy:** Evaluates amount and priority via `G11_rules_engine` (set to `Limited` authority).
 
 ## Processing Logic
 1.  **Ingestion:** Loads transactions and budget states from `autonomous_finance`.
 2.  **PnL Context:** Fetches current month Net Savings and Savings Rate.
-3.  **Resolution Loop:** For each breach, applies Tier 1 then Tier 2 logic.
-4.  **Database Update:** Surgically updates the `budgets` table (single entry per ID).
-5.  **Synchronization:** Calls `G05_finance_sync.py` to push changes to Google Sheets.
+3.  **Resolution Loop:** For each breach, applies Tier 1 then Tier 2 logic and generates a `Decision Request`.
+4.  **Database Update:** Only executed if `--execute` flag is present (via manual approval handler).
+5.  **Synchronization:** Calls `G05_finance_sync.py` after a successful update.
 
 ## Changelog
 | Date | Change |
 |------|--------|
 | 2026-03-20 | Initial budget rebalancing logic |
 | 2026-03-28 | Implemented Sleep-Driven Safety thresholds |
-| 2026-04-13 | **v2.0: Implemented Buffer-First logic and Spending Floor Safeguard.** |
+| 2026-04-13 | v2.0: Implemented Buffer-First logic and Spending Floor Safeguard. |
+| 2026-04-21 | **v2.1: Disabled autonomous execution. Shifted to 'Human-in-the-Loop' suggestion model.** |
 
 ## Dependencies
 - **Database:** `autonomous_finance` (PostgreSQL).
@@ -65,4 +66,4 @@ Identifies categories where actual spending (`actual_amount`) exceeds the monthl
 ---
 *Related Documentation:*
 - [G05_budget_rebalancer_pro.md](G05_budget_rebalancer_pro.md)
-- [autonomy_policies.yaml](../autonomy_policies.yaml)
+- [autonomy_policies.yaml](../../../scripts/autonomy_policies.yaml)

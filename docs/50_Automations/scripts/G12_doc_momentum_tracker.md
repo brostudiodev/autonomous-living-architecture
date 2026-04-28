@@ -5,7 +5,7 @@ status: "active"
 automation_id: "G12_doc_momentum_tracker"
 goal_id: "goal-g12"
 systems: ["S04", "S12"]
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-09"
 ---
 

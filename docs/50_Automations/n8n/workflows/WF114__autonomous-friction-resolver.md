@@ -2,7 +2,7 @@
 title: "Workflow Spec: WF114 Autonomous Friction Resolver"
 type: "n8n_workflow"
 status: "active"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-10"
 ---
 

@@ -3,7 +3,7 @@ title: "System Integration & Sync Orchestration"
 type: "technical_specification"
 status: "active"
 system_id: "system-orchestration"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-04-16"
 ---
 

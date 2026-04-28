@@ -3,7 +3,7 @@ title: "G05: Validate Savings Rate Calculation"
 type: "runbook"
 status: "draft"
 goal_id: "goal-g05"
-owner: "Michal"
+owner: "Michał"
 updated: "2026-02-08"
 ---
 
