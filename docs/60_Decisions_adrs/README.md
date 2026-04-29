@@ -27,6 +27,7 @@ This directory contains Architecture Decision Records (ADRs) that document impor
 - [Adr-0017](./Adr-0017-Decision-Authority-Framework.md) - Decision Authority Framework (Rules Engine)
 - [Adr-0018](./Adr-0018-Standardized-Timeouts.md) - Standardized Timeouts and Syntax Hardening
 - [Adr-0019](./Adr-0019-Silent-Mode-and-Recursion-Prevention.md) - Silent Mode and Sync Recursion Prevention
+- [Adr-0009](./Adr-0009-Centralized-Observability-Stack.md) - Centralized Observability Stack
 
 ### **Data & Metrics Decisions**
 - [Adr-0008](./Adr-0008-Real-Savings-Rate-Calculation.md) - Real Savings Rate Calculation
@@ -39,11 +40,6 @@ This directory contains Architecture Decision Records (ADRs) that document impor
 
 ### **Security & Hardening Decisions**
 - [Adr-0013](./Adr-0013-Security-Hardening-and-Secrets-Management.md) - Security Hardening and Secrets Management
-
-## Missing ADRs (Gaps Identified)
-
-- **Adr-0007** - Multi-Channel Data Ingestion
-- **Adr-0009** - Centralized Observability Stack (Implementation Details)
 
 ## Templates & Governance
 See [Documentation Standard](../10_Goals/Documentation-Standard.md) for ADR creation rules.
