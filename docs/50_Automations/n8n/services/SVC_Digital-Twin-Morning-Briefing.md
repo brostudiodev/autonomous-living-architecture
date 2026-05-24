@@ -114,9 +114,9 @@ Generates a comprehensive morning briefing with daily priorities, tasks, health 
 ## Dependencies
 
 ### Systems
-- [S04 Digital Twin](../../../20_Systems/S04_Digital-Twin/README.md) - Morning briefing data source
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md) - Workflow execution
-- [S10 Intelligent Productivity](../../../20_Systems/S09_Productivity-Time/README.md) - Task/schedule data
+- [S04 Digital Twin](../../../20_Systems/README.md) - Morning briefing data source
+- [S08 Automation Orchestrator](../../../20_Systems/README.md) - Workflow execution
+- [S10 Intelligent Productivity](../../../20_Systems/README.md) - Task/schedule data
 
 ### Workflows Called
 - **SVC_Response-Dispatcher** - Progress and final responses

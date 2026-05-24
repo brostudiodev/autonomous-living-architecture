@@ -47,8 +47,8 @@ The **Inventory Management System** is an AI-driven agent designed to maintain a
 
 ## Dependencies
 ### Systems
-- [Autonomous Household (G03)](../../../10_Goals/G03_Autonomous-Household-Operations/README.md)
-- [Data Layer (S03)](../../../20_Systems/S03_Data-Layer/README.md) - Google Sheets.
+- [Autonomous Household (G03)](../../../20_Systems/README.md)
+- [Data Layer (S03)](../../../20_Systems/README.md) - Google Sheets.
 
 ### External Services
 - **Google Sheets API:** Read/Write access to `Magazynek_domowy`.

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Twin | Mission Control</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="https://img.icons8.com/ios-filled/50/000000/artificial-intelligence.png">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar: Real-time Vitals -->
+        <aside class="vitals-sidebar">
+            <div class="sidebar-header">
+                <h2>📊 System Vitals</h2>
+                <div id="system-status-light" class="status-light status-unknown" title="System Health"></div>
+            </div>
+            <div id="vitals-container">
+                <div class="vital-card">
+                    <span class="label">Biological Readiness</span>
+                    <span id="readiness-val" class="value">--</span>
+                </div>
+                <div class="vital-card">
+                    <span class="label">HRV (ms)</span>
+                    <span id="hrv-val" class="value">--</span>
+                </div>
+                <div class="vital-card">
+                    <span class="label">Sleep Score</span>
+                    <span id="sleep-val" class="value">--</span>
+                </div>
+                <div class="vital-card">
+                    <span class="label">Steps Today</span>
+                    <span id="steps-val" class="value">--</span>
+                </div>
+                <div class="vital-card">
+                    <span class="label">Hydration (ml)</span>
+                    <span id="water-val" class="value">--</span>
+                </div>
+                <div class="vital-card">
+                    <span class="label">Caffeine (mg)</span>
+                    <span id="caffeine-val" class="value">--</span>
+                </div>
+                <div class="vital-card">
+                    <span class="label">Financial Velocity</span>
+                    <span id="finance-val" class="value">--</span>
+                </div>
+                <div class="vital-card">
+                    <span class="label">Pantry Status</span>
+                    <span id="pantry-val" class="value">--</span>
+                </div>
+            </div>
+            <div class="quick-actions">
+                <button onclick="sendCommand('/log_coffee')" title="Log Coffee">☕</button>
+                <button onclick="sendCommand('/log_water')" title="Log Water">💧</button>
+                <button onclick="sendCommand('/tools')" title="Agent Tools">🛠️</button>
+                <button onclick="sendCommand('/suggested')" title="Suggested Report">🧠</button>
+                <button onclick="sendCommand('/simulate')" title="Simulate Q4">🔮</button>
+                <button onclick="window.open('/map', '_self')" title="System Connectivity Map">🗺️</button>
+                <button onclick="window.open('/system/status', '_self')" title="System Status Dashboard">🛡️</button>
+                <button onclick="window.open('/docs', '_blank')" title="API Documentation">📚</button>
+            </div>
+        </aside>
+
+        <!-- Main: Command Terminal -->
+        <main class="terminal-main">
+            <header>
+                <h1>🤖 Digital Twin Control Center</h1>
+                <p>Autonomous Living OS v5.2</p>
+            </header>
+            
+            <div id="terminal-output" class="terminal-window">
+                <div class="log-entry system">Welcome, Michał. System is ready for input.</div>
+            </div>
+
+            <div class="input-area">
+                <input type="text" id="cmd-input" placeholder="Enter command or natural language..." autocomplete="off">
+                <button id="send-btn">SEND</button>
+            </div>
+        </main>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+</html>

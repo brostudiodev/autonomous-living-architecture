@@ -55,9 +55,9 @@ Build a **reliable, explainable, and mostly self-driving financial data layer + 
 
 ## Dependencies
 ### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md) - PostgreSQL database.
-- [S08 Automation Orchestrator](../../20_Systems/S08_Automation-Orchestrator/README.md) - n8n workflows.
-- [S05 Observability Dashboards](../../20_Systems/S05_Observability-Dashboards/README.md) - Grafana visualization.
+- [S03 Data Layer](../../20_Systems/README.md) - PostgreSQL database.
+- [S08 Automation Orchestrator](../../20_Systems/README.md) - n8n workflows.
+- [S05 Observability Dashboards](../../20_Systems/README.md) - Grafana visualization.
 
 ### External
 - Google Sheets (Source data).
@@ -86,11 +86,18 @@ Build a **reliable, explainable, and mostly self-driving financial data layer + 
 - **Review Cadence:** Monthly
 - **Last Updated:** 2026-02-19
 
+## Infrastructure & Resource Strategy
+The Financial Command Center operates within a **Resource Rationalized Container Stack**. 
+- **PostgreSQL High-Concurrency:** The database is tuned for high concurrent script connections (140+ agents).
+- **Isolation:** Memory limits (2G for Postgres, 256M for API) prevent financial data ingestion spikes from crashing other domains.
+- **Reference:** See [[Adr-0027-Container-Resource-Rationalization.md|Adr-0027]] in `docs/60_Decisions_adrs/` for the "How and Why" of this orchestration.
+
 ## Key Links
-- Outcomes: [Outcomes.md](Outcomes.md)
-- Metrics: [Metrics.md](Metrics.md)
-- Systems: [Systems.md](Systems.md)
-- Roadmap: [Roadmap.md](Roadmap.md)
+- Outcomes: [Outcomes.md](../G02_Automationbro-Recognition/Outcomes.md)
+- Metrics: [Metrics.md](../G02_Automationbro-Recognition/Metrics.md)
+- Systems: [Systems.md](../G02_Automationbro-Recognition/Systems.md)
+- Roadmap: [Roadmap.md](../G02_Automationbro-Recognition/Roadmap.md)
+- **Spec:** [Person-Specific Tracking](../../50_Automations/scripts/G05_person_specific_tracking.md)
 
 ## Database Schemas
 - **Reference Folder:** [database_schemas/](./database_schemas/)
@@ -103,7 +110,7 @@ Build a **reliable, explainable, and mostly self-driving financial data layer + 
 - **Core Innovation:** Separates "operational income" from "system transactions" (INIT/transfers)
 - **Philosophy:** All intelligence in PostgreSQL functions, Grafana only visualizes
 - **Current Challenge:** Fixing savings rate calculation to show real wealth-building behavior
-- **Grafana Dashboard (V2) Note:** The dashboard is explicitly designed to meet Grafana's strict `rawSql` parsing requirements (single-line, no comments, unquoted aliases with underscores). Refer to [S05: Observability & Financial Dashboards](../../20_Systems/S05_Observability-Dashboards/README.md) for details.
+- **Grafana Dashboard (V2) Note:** The dashboard is explicitly designed to meet Grafana's strict `rawSql` parsing requirements (single-line, no comments, unquoted aliases with underscores). Refer to [S05: Observability & Financial Dashboards](../../20_Systems/README.md) for details.
 
 ---
 

@@ -39,5 +39,5 @@ We implement a multi-tiered Decision Authority Framework managed by the `G11_rul
 - Approval history tracked in `digital_twin_michal.decision_requests`.
 
 ## Related Decisions
-- [Adr-0015](./Adr-0015-Level-5-Autonomy-Implementation.md) - The transition to Zero-Click loop.
-- [Adr-0012](./Adr-0012-Rule-Based-Intent-Classification.md) - How intents are identified before evaluation.
+- [Adr-0015](Adr-0015-Level-5-Autonomy-Implementation.md) - The transition to Zero-Click loop.
+- [Adr-0012](Adr-0012-Rule-Based-Intent-Classification.md) - How intents are identified before evaluation.

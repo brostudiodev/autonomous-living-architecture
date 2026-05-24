@@ -1,0 +1,14 @@
+import pytest
+from modules.{{ name }}.module import Module
+
+def test_module_init():
+    manifest = {"name": "{{ name }}", "description": "{{ description }}"}
+    mod = Module("{{ name }}", manifest)
+    assert mod.name == "{{ name }}"
+
+def test_module_sync_skeleton():
+    manifest = {"name": "{{ name }}", "description": "{{ description }}"}
+    mod = Module("{{ name }}", manifest)
+    mod.shadow_mode = True # Safe for testing
+    mod.sync()
+    assert True

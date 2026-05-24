@@ -17,7 +17,7 @@ updated: "2026-02-07"
 | **Data Freshness** | ≤ 24h lag | n8n workflow success rate | Daily | Michał |
 | **Dashboard Uptime** | ≥ 99% | Grafana availability monitoring | Weekly | Michał |
 | **Auto-categorization Rate** | ≥ 90% | Transactions with automatic categories | Weekly | Michał |
-| **Financial Admin ROI** | > 30 mins/month | [Autonomy ROI Tracker](../G04_Digital-Twin-Ecosystem/Systems.md) | Monthly | Digital Twin |
+| **Financial Admin ROI** | > 30 mins/month | [Autonomy ROI Tracker](../G02_Automationbro-Recognition/Systems.md) | Monthly | Digital Twin |
 | **FIRE Progress %** | (Targeted) | `v_fire_readiness` | Monthly | Michał |
 | **Survival Runway** | ≥ 6 months | `v_fire_readiness` (Months of cash) | Monthly | Michał |
 

@@ -16,7 +16,7 @@ Ensure all system documentation remains current, accurate, and compliant with th
 ### 1. Automated Scan
 Run the documentation audit script to identify immediate structural issues and broken links.
 ```bash
-{{ROOT_LOCATION}}/autonomous-living/.venv/bin/python3 {{ROOT_LOCATION}}/autonomous-living/scripts/G12_documentation_audit.py
+{{ROOT_LOCATION}}/autonomous-living/.venv/bin/python3 {{ROOT_LOCATION}}/autonomous-living/modules/docs/scripts/G12_documentation_audit.py
 ```
 
 ### 2. Review Audit Report
@@ -28,7 +28,7 @@ Open `docs/G12_Documentation_Audit_Report.md` and review the results.
 ### 3. Stale Document Review
 Check for documents that haven't been updated in 30+ days.
 ```bash
-{{ROOT_LOCATION}}/autonomous-living/.venv/bin/python3 {{ROOT_LOCATION}}/autonomous-living/scripts/G12_stale_docs_monitor.py
+{{ROOT_LOCATION}}/autonomous-living/.venv/bin/python3 {{ROOT_LOCATION}}/autonomous-living/modules/docs/scripts/G12_stale_docs_monitor.py
 ```
 For each stale document:
 - Verify if the system/goal logic has changed.

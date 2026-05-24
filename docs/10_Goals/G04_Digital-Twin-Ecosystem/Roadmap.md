@@ -3,7 +3,7 @@ title: "G04: Roadmap"
 type: "goal_roadmap"
 status: "active"
 owner: "Michał"
-updated: "2026-04-17"
+updated: "2026-05-01"
 goal_id: "goal-g04"
 ---
 
@@ -45,6 +45,37 @@ goal_id: "goal-g04"
 - [x] **Personal Bio-Context Expansion (G04-PBC):** Create separate "Personal" folder for document-based context about Michal. Fully integrated into Digital Twin via G04_personal_context_sync.py. ✅ (Apr 25)
 - [x] **API Resilience & Discovery (G04-ARD):** Fixed endpoint shadowing and redundant route clashing. Upgraded project discovery to recursive scanning to support nested PARA-style projects. ✅ (Apr 25)
 - [x] **Personal Intelligence API (G04-PIA):** Launched `/personal` endpoint providing deep bio-context (CV, Identity, Health Baselines) directly from PostgreSQL for zero-touch AI awareness. ✅ (Apr 25)
+
+> [!tip] 🚀 **Event-Driven Architecture (EDA) Transition (G04-EDA)**
+> **Goal:** Transition from REST polling to real-time reactive events for life telemetry.
+- [x] **Message Broker Deployment:** RabbitMQ live in Docker ✅ (May 01)
+- [x] **WebSocket Bridge:** Implemented RabbitMQ-to-WebSocket bridge in API for real-time UI updates ✅ (May 12)
+- [x] **Core Script Emission:** Progressive update of all sync scripts to emit `LifeEvents` (Ongoing)
+  - [x] `G07_zepp_sync.py` (Health) ✅
+  - [x] `G05_finance_sync.py` (Finance) ✅
+  - [x] `pantry_sync.py` (Pantry) ✅
+  - [x] `G10_activitywatch_sync.py` (Productivity) ✅
+  - [x] `G07_weight_sync.py` (Weight) ✅ (May 21)
+  - [x] `G02_substack_sync.py` (Brand) ✅ (May 21)
+  - [x] `G06_learning_sync.py` (Learning) ✅ (May 21)
+- [x] **n8n Trigger Migration: Pantry Sync** ✅ (May 22)
+- [ ] **n8n Trigger Migration: Finance Data Sync**
+- [ ] **n8n Trigger Migration: Finance Budget Sync**
+- [ ] **n8n Trigger Migration: AI Strategic Auditor**
+- [ ] **n8n Trigger Migration: Budget Intelligence** (Triggered by Sync)
+
+> [!danger] 🛡️ **Infrastructure Hardening (Phase 5 - Post-Audit)**
+- [x] **PgBouncer Alignment:** Migrate Digital Twin API and internal tools from Port 5432 to 6432 (PgBouncer) for connection pooling. ✅ (May 22)
+- [x] **Log Permission Alignment:** Standardized `structured_logs` ownership. Core services now run as non-root (UID 1000) with `group_add` for Docker socket access. ✅ (May 24)
+- [x] **Active Health Checks:** Implemented "RabbitMQ-Aware" health probes in API/Bridge to detect silent consumer death. Upgraded Docker healthchecks to use `AUDIT_MODE`. ✅ (May 24)
+
+> [!danger] 🚀 **NEW: Event-Driven Twin Foundation (G04-EDT)**
+
+> **Gap:** REST polling is too slow for reactive life telemetry. Transitioning to real-time events.
+- [x] **Message Broker Integration:**
+  - [x] **Sub-task: RabbitMQ Producer** - Enable G04 API to emit "LifeEvents" to RabbitMQ ✅ (May 21)
+  - [x] **Sub-task: State Change Emitter** - Auto-emit events on state cache refresh (e.g., "Health readiness dropped below 60") ✅ (May 21)
+  - [x] **Sub-task: WebSocket Bridge** - Implement lightweight WebSocket server for real-time Dashboard updates ✅ (May 12)
 - [ ] **LLM Operational Guardrails (G04-LOG):** Implement a pre-processing "Guardrail" layer in n8n Language Gate to detect prompt injection and prevent high-risk autonomous actions.
 - [ ] **API Security Hardening (G04-ASH):**
     - [ ] **Bearer Token Auth:** Transition from simple API keys to standard Bearer Token authentication.
@@ -68,68 +99,24 @@ goal_id: "goal-g04"
   - [x] **Sub-task: Career Agent (G09)** - LinkedIn/Substack automation agent in n8n ✅ (Apr 15)
   - [x] **Sub-task: Productivity Agent (G10)** - Calendar/Task orchestration agent in n8n ✅ (Apr 15)
 
-> [!tip] 🚀 **Future Infrastructure (Deferred to Q4)**
-> - ⚠️ **WebSocket Layer:** Deferred - requires Message Broker foundation first
-> - ⚠️ **Message Broker:** See G11 Meta-System Q3 (foundation for real-time)
+> [!tip] 🚀 **Future Infrastructure (Transitioned to Q2)**
+> - [ ] **WebSocket Layer:** Implementation accelerated
+> - [ ] **Message Broker:** Integrated via G11 Meta-System
 > - ⚠️ **GraphQL API:** See G11 Meta-System Q3
 
 ### Core Agentic Framework (Already ✅ Implemented in n8n)
-> [!note] The following are already implemented in n8n (no action needed):
-> - ✅ Agent Zero (Supervisor) - SVC_AI-Agent-Interactive.json with LangChain + PostgreSQL Memory
-> - ✅ Finance Agent - PROJ_Finance-Intelligence-System.json
-> - ✅ Inventory Agent - PROJ_Inventory Management.json
-> - ✅ Training/Health Agent - PROJ_Training-Intelligence-System.json
-> - ✅ Digital Twin API Agent - PROJ_Digital-Twin-API-Agent.json
-> 
-> **TODO: Complete n8n Service Documentation**
-> - [x] **Missing 15 MD files** - All 38+ n8n services documented in `docs/50_Automations/n8n/services/` ✅ (Apr 10)
-> 
-> **TODO: Add Domain-Specific Tools to Each Agent**
-> - [ ] **Domain Tool Assignment:** Add specialized tools to each AI agent based on their domain:
->   - [ ] **Finance Agent Tools:** budget queries, transaction search, expense categorization, savings rate calculation
->   - [ ] **Training Agent Tools:** workout logging, progression tracking, recovery analysis, measurement history
->   - [ ] **Inventory Agent Tools:** pantry CRUD, low-stock alerts, expiration tracking, shopping list generation
->   - [ ] **Scheduler/Productivity Agent Tools:** calendar CRUD, task management, focus mode control
->   - [ ] **Create Tool manifests** in n8n for each agent with specific capabilities
-> 
-> [!tip] 🚀 **Autonomy Enhancement (High Priority)**
-- [x] **#3 Cross-Domain Auto-Pivot (G04-CAP):** Dynamic scheduling based on biological reality (e.g., HIT session logs → auto-pivot tomorrow to Recovery/Admin mode) ✅ (Apr 19)
-- [ ] **#4 Context-Aware Notifications:** Only notify when out of norm or action needed (not fixed schedule).
-- [ ] **#5 Memory Semantic Search:** Implement vector DB or embedding-based search across strategic_memory.
-
-- [ ] Transition from "Script Hub" to "Agentic Framework" (Digital Twin as Orchestrator)
-  - [ ] **Sub-task: Agent Registry** - Define list of available agents (Finance, Health, Logistics, Productivity) with their capabilities
-  - [ ] **Sub-task: Tool Mapping** - Map each agent to specific API endpoints they can access
-  - [ ] **Sub-task: Agent Zero Router** - Update Agent Zero to route queries to appropriate sub-agents
-  - [ ] **Sub-task: Memory Sharing** - Ensure all agents can read/write to strategic_memory table
-- [ ] Implement Multi-Agent collaboration (e.g., Finance Agent talks to Logistics Agent)
-  - [ ] **Sub-task: Cross-Domain `/correlate` Endpoint** - Create endpoint that joins data from multiple domains (e.g., finance + health)
-  - [ ] **Sub-task: Correlation Engine** - Algorithm to find patterns between domains (spending → sleep, diet → energy, etc.)
-  - [ ] **Sub-task: Data Join View** - Create PostgreSQL materialized view with joined daily data (finance + health + productivity)
-  - [ ] **Sub-task: Agent Delegation Protocol** - Define how one agent can request data from another
-- [ ] **Concept Reveal:** Public demonstration of "The Self-Directing Life" (Brand Integration)
-- [ ] Integrate Long-Term Memory (Vector DB) for persistent context across sessions
-  - [ ] **Sub-task: Vector DB Evaluation** - Research options (Pinecone, Qdrant, pgvector)
-  - [ ] **Sub-task: Semantic Search** - Enable semantic similarity search across memories
-- [ ] Develop "Simulation Mode" to predict impacts of daily choices on long-term goals
-  - [ ] **Sub-task: Scenario Input** - Define format for "what-if" scenarios
-  - [ ] **Sub-task: Impact Model** - Build model to predict outcomes (financial, health, productivity)
+...
+- [x] **Simulation Mode Implementation (G04-SMI):** Monte Carlo models for long-term goal impact. [See Project P07](projects/P07_Monte-Carlo-Predictive-Engine.md) ✅ (May 21)
 
 ## Q4 (Oct–Dec) - Phase: The Predictive Partner
 
-> [!tip] 🚀 **Infrastructure Deferred (Requires G11 Message Broker First)**
+> [!tip] 🚀 **Infrastructure Transitioned to Q2**
 > - ⚠️ **GraphQL API:** Deferred to 2027 - depends on G11 Message Broker
 > - ⚠️ **Vector DB:** Deferred to 2027 - depends on Message Broker infrastructure
 > - ⚠️ **Agent-to-Agent Protocol:** Deferred to 2027 - depends on Message Broker
 
 ### Core Q4 Deliverables (Focus on Optimization)
-- [ ] Implement "What-If" Life Simulator (Monte Carlo simulations for long-term goal impact)
-- [ ] Achieve a comprehensive and real-time representation of the "autonomous living" ecosystem
-- [ ] Finalize the integration of G04 as the central data hub for G12 (Meta-System)
-- [ ] Document lessons learned and strategy for 2027 development
-- [ ] Establish continuous validation and calibration mechanisms for the Digital Twin
-- [ ] **System Optimization:** Focus on stability, performance, and autonomous operation of existing systems
-
+...
 ## Dependencies
 - **Systems:** S03 (Data Layer for persistence), S04 (Digital Twin for core logic), S08 (Automation Orchestrator for data processing workflows)
 - **External:** Google Gemini API (for LLM interactions), various data source APIs

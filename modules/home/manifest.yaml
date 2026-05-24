@@ -1,0 +1,20 @@
+name: home
+version: 1
+description: "Predictive Smart Home Orchestration & Monitoring"
+core: false
+sync_tier: 1
+depends_on: []
+env_vars:
+  - HASS_URL
+  - HA_URL
+  - HA_TOKEN
+api_routes:
+  - /api/v1/home
+capabilities:
+  - name: "environmental_status"
+    description: "Returns general home environmental status (temperature, humidity)."
+    api_endpoints: ["/api/v1/home/status"]
+  - name: "security_monitoring"
+    description: "Returns security and motion sensor status."
+    api_endpoints: ["/api/v1/home/security"]
+    events_emitted: ["low_battery_alert"]

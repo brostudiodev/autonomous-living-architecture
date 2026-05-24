@@ -1,0 +1,28 @@
+name: productivity
+version: 1
+description: "Intelligent Productivity: Calendar enforcement, Tasks sync & Activity analysis"
+core: false
+sync_tier: 1
+databases:
+  - autonomous_training
+  - digital_twin_michal
+depends_on:
+  - postgres
+api_routes:
+  - /api/v1/productivity
+env_vars: []
+capabilities:
+  - name: "task_management"
+    description: "Synchronizes tasks with Google Tasks and triages daily micro-slots."
+    api_endpoints: ["/api/v1/productivity/sync/tasks"]
+    events_emitted: ["tasks_updated"]
+  - name: "calendar_enforcement"
+    description: "Aligns Google Calendar with focus blocks and autonomous scheduling."
+    api_endpoints: ["/api/v1/productivity/calendar/enforce"]
+  - name: "mood_intelligence"
+    description: "Analyzes mood and energy patterns to optimize scheduling."
+    api_endpoints: ["/api/v1/productivity/mood/analysis"]
+  - name: "metrics_sync"
+    description: "Extracts productivity metrics from Obsidian daily notes."
+    api_endpoints: ["/api/v1/productivity/sync"]
+    events_emitted: ["sync_complete"]

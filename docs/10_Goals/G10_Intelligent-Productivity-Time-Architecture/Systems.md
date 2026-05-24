@@ -10,9 +10,9 @@ goal_id: "goal-g10"
 # Systems
 
 ## Enabling systems
-- [S04 Digital Twin Hub](../../20_Systems/S04_Digital-Twin/README.md) - Strategic direction and readiness scoring.
-- [S09 Productivity & Time Architecture](../../20_Systems/S09_Productivity-Time/README.md) - Calendar and task foundations.
-- [S10 Daily Goals Automation](../../20_Systems/S10_Daily-Goals-Automation/README.md) - Automated Obsidian orchestration.
+- [S04 Digital Twin Hub](../../20_Systems/README.md) - Strategic direction and readiness scoring.
+- [S09 Productivity & Time Architecture](../../20_Systems/README.md) - Calendar and task foundations.
+- [S10 Daily Goals Automation](../../20_Systems/README.md) - Automated Obsidian orchestration.
 
 ## Traceability (Outcome → System → Automation → SOP/Runbook)
 
@@ -21,14 +21,14 @@ goal_id: "goal-g10"
 | **AI Schedule Negotiation** | **S10 Automation** | **[SVC_Autonomous-Schedule-Negotiator](../../50_Automations/n8n/services/SVC_Autonomous-Schedule-Negotiator.md)** | - |
 | Autonomous Daily Planning | S10 Automation | [autonomous-daily-manager](../../50_Automations/scripts/autonomous_daily_manager.md) | - |
 | Adaptive Readiness Scheduling | S04 Digital Twin | [g04-digital-twin-engine](../../50_Automations/scripts/G04_digital_twin_engine.md) | - |
-| Evening Reflection & Prep | S10 Automation | [g10-evening-summarizer](../../50_Automations/scripts/G10_evening_summarizer.md) | - |
-| Daily Reflection Logging | S10 Automation | [log_reflection.md](../../50_Automations/scripts/log_reflection.md) | - |
-| Google Tasks Synchronization | S10 Automation | [G10_google_tasks_sync.md](../../50_Automations/scripts/G10_google_tasks_sync.md) | - |
-| Stale Task Archiver | S10 Automation | [G11_task_archiver.md](../../50_Automations/scripts/G11_task_archiver.md) | - |
-| Mission Refraction & Triage | S10 Automation | [mission-refractor](../../50_Automations/scripts/G11_mission_refractor.md) | - |
-| Professional Backlog Sync | S09 Productivity | [productivity-sync](../../50_Automations/scripts/G10_productivity_sync.md) | - |
-| Google Calendar Enforcement | S09 Productivity | [g10-calendar-enforcer](../../50_Automations/scripts/G10_calendar_enforcer.md) | - |
-| Morning Mission Dispatch | S04 Digital Twin | [morning-briefing-sender](../../50_Automations/scripts/G04_morning_briefing_sender.md) | - |
+| Evening Reflection & Prep | S10 Automation | [G10_evening_summarizer](../../50_Automations/scripts/G10_evening_summarizer.md) | - |
+| Daily Reflection Logging | S10 Automation | [G10_log_reflection](../../50_Automations/scripts/G10_log_reflection.md) | - |
+| Google Tasks Synchronization | S10 Automation | [G10_google_tasks_sync](../../50_Automations/scripts/G10_google_tasks_sync.md) | - |
+| Stale Task Archiver | S10 Automation | [G11_task_archiver](../../50_Automations/scripts/G11_task_archiver.md) | - |
+| Mission Refraction & Triage | S10 Automation | [G11_mission_refractor](../../50_Automations/scripts/G11_mission_refractor.md) | - |
+| Professional Backlog Sync | S09 Productivity | [G10_productivity_sync](../../50_Automations/scripts/G10_productivity_sync.md) | - |
+| Google Calendar Enforcement | S09 Productivity | [G10_calendar_enforcer](../../50_Automations/scripts/G10_calendar_enforcer.md) | - |
+| Morning Mission Dispatch | S04 Digital Twin | [G04_morning_briefing_sender](../../50_Automations/scripts/G04_morning_briefing_sender.md) | - |
 | **Focus Mode Intelligence** | S04/S07 | [G10_focus_intelligence](../../50_Automations/scripts/G10_focus_intelligence.md) | - |
 | **Journal Data Collection** | S04/S11 | [G10_journal_data_collector](../../50_Automations/scripts/G10_journal_data_collector.md) | - |
 | **AI Memory Generator** | S04/S11 | [G10_ai_memory_generator](../../50_Automations/scripts/G10_ai_memory_generator.md) | - |

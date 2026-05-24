@@ -1,163 +1,53 @@
 ---
-title: "G13 Content Auto-Generators"
-type: automation_spec
-status: active
-date: "2026-03-26"
-goal_id: goal-g13
+title: "Archived Automation Spec: G13_content_generators"
+type: "automation_spec"
+status: "archived"
 owner: "Michał"
-tags: [automation, content, linkedin, substack, ideas]
+updated: "2026-05-23"
 ---
 
-# G13: Content Auto-Generators
+# Archived Automation Spec: G13_content_generators
 
-## Overview
+## Purpose
+Preserves the historical documentation record for `G13_content_generators` after no matching active Python script was found in `scripts/` or `modules/<domain>/scripts/`.
 
-Automated content generation pipeline that harvests achievements from goal activity logs and generates ready-to-refine drafts for LinkedIn and Substack.
+## Scope
+### In Scope
+- Records that this automation spec is archived and is not part of the active production script surface.
+- Provides a stable name for historical cross-references and migration review.
 
-## Scripts
+### Out of Scope
+- Runtime behavior, scheduler configuration, and operational ownership for a live script.
+- New production changes or active automation guarantees.
 
-### 1. G13_content_idea_generator.py
+## Inputs/Outputs
+### Inputs
+- Historical references to `G13_content_generators` in older documentation or migration notes.
 
-**Purpose:** Harvest achievements from the last 7 days of goal activity logs and generate content ideas.
-
-**Input:**
-- All `Activity-log.md` files in `/docs/10_Goals/*/`
-- Last 7 days of activity
-
-**Output:**
-- `Obsidian Vault/00_Inbox/Content Ideas/YYYY-MM-DD - Content Harvest.md`
-
-**Features:**
-- Parses activity logs for "Action:" entries
-- Maps entries to goal names (G01-G12)
-- Generates 1-4 content ideas based on patterns
-- Includes raw success log + AI-powered draft suggestions
-
-### 2. G13_linkedin_draft_generator.py
-
-**Purpose:** Generate polished LinkedIn post drafts from content ideas.
-
-**Input:**
-- Latest file in `Obsidian Vault/00_Inbox/Content Ideas/`
-
-**Output:**
-- `Obsidian Vault/00_Inbox/LinkedIn Drafts/YYYY-MM-DD_LinkedIn_*.md`
-
-**Features:**
-- Processes LinkedIn-specific and "Both" typed ideas
-- Multiple post templates (personal story, how-to, numbers, opinion)
-- Includes checklist for final polish
-- Ready-to-copy post format
-
-### 3. G13_substack_draft_generator.py
-
-**Purpose:** Generate newsletter-ready Substack articles from content ideas.
-
-**Input:**
-- Latest file in `Obsidian Vault/00_Inbox/Content Ideas/`
-
-**Output:**
-- `Obsidian Vault/00_Inbox/Substack Drafts/YYYY-MM-DD_Substack_*.md`
-
-**Features:**
-- Processes Substack-specific and "Both" typed ideas
-- Newsletter article structure with intro, body, takeaways
-- Includes CTA and subscription prompt
-- SEO-friendly formatting
-
-### 4. G13_run_content_pipeline.py (Wrapper)
-
-**Purpose:** Run all three generators in sequence.
-
-**Location:** Obsidian Vault/99_System/scripts/
-
-**Usage:**
-```bash
-python3 99_System/scripts/G13_run_content_pipeline.py
-```
-
-## Workflow
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│  1. G13_content_idea_generator.py                          │
-│     └─> Harvests 7 days of activity logs                   │
-│     └─> Generates Content Ideas file                       │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│  2. G13_linkedin_draft_generator.py                        │
-│     └─> Reads latest Content Ideas                         │
-│     └─> Generates LinkedIn Drafts                          │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│  3. G13_substack_draft_generator.py                        │
-│     └─> Reads latest Content Ideas                         │
-│     └─> Generates Substack Drafts                          │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-                    📂 Obsidian Vault
-                    ├── Content Ideas/    (input)
-                    ├── LinkedIn Drafts/  (output)
-                    └── Substack Drafts/ (output)
-```
-
-## Output Locations
-
-| Script | Output Folder | File Pattern |
-|--------|--------------|--------------|
-| Idea Generator | `00_Inbox/Content Ideas/` | `YYYY-MM-DD - Content Harvest.md` |
-| LinkedIn Generator | `00_Inbox/LinkedIn Drafts/` | `YYYY-MM-DD_LinkedIn_*.md` |
-| Substack Generator | `00_Inbox/Substack Drafts/` | `YYYY-MM-DD_Substack_*.md` |
-
-## Usage
-
-### Run Full Pipeline
-```bash
-python3 {{ROOT_LOCATION}}/autonomous-living/scripts/G13_content_idea_generator.py
-python3 {{ROOT_LOCATION}}/autonomous-living/scripts/G13_linkedin_draft_generator.py
-python3 {{ROOT_LOCATION}}/autonomous-living/scripts/G13_substack_draft_generator.py
-```
-
-### Or Use Wrapper (from Obsidian Vault)
-```bash
-cd {{ROOT_LOCATION}}/Obsidian\ Vault
-python3 99_System/scripts/G13_run_content_pipeline.py
-```
-
-### Recommended Schedule
-- **Frequency:** Weekly (every Sunday)
-- **Best Time:** After CEO Weekly Briefing
-- **Output:** Ready-to-publish drafts by Monday morning
-
-## Not Auto-Publishing
-
-⚠️ **Important:** These scripts generate drafts only. They do NOT auto-publish to LinkedIn or Substack.
-
-**Manual Steps Required:**
-1. Review generated drafts
-2. Edit for personal voice and accuracy
-3. Add images/media
-4. Publish via LinkedIn/Substack interfaces
+### Outputs
+- Archived documentation status only. No active runtime output is expected from this record.
 
 ## Dependencies
+- No active script dependency is currently registered for this documentation file.
+- If this automation is restored, create or identify the active script and regenerate the spec with `G12_auto_documenter.py`.
 
-- Python 3.x
-- PyYAML (for frontmatter)
-- Access to autonomous-living Activity-log.md files
-- Obsidian Vault structure with Content Ideas folder
+## Procedure
+1. Search for an active implementation before using this document operationally.
+2. If no script exists, keep this file archived.
+3. If a script is restored, update `status` to `active`, add `script_hash`, and regenerate the spec.
+4. Re-run `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Related Goals
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Archived doc is mistaken for an active automation | No matching script exists in the active script directories | Locate or recreate the script before scheduling or invoking it. |
+| Historical link points here | Link resolves to an archived spec | Use the archive status to decide whether to update or remove the reference. |
+| Automation is restored | New script appears with this stem | Regenerate this spec as active documentation with a current `script_hash`. |
 
-- [G02](G02 Automationbro Recognition.md) - Building personal brand
-- [G11](G11 Meta-System Integration.md) - Automation infrastructure
+## Security Notes
+- Do not add secrets, raw tokens, passwords, or internal infrastructure addresses to archived documentation.
+- Use placeholders such as `[API_KEY]`, `{{DB_PASSWORD}}`, and `{{INTERNAL_IP}}` for any historical configuration notes.
 
-## Changelog
-
-| Date | Change |
-|------|--------|
-| 2026-03-26 | Initial implementation |
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Quarterly archive review, or immediately if a matching script is restored.

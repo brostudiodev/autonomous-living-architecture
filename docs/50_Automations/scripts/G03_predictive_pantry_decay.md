@@ -1,48 +1,87 @@
 ---
-title: "Predictive Pantry Decay (G03)"
+title: "Automation Spec: G03_predictive_pantry_decay.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-25"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "ed52a{{LONG_IDENTIFIER}}"
 ---
 
-# Purpose
-The **Predictive Pantry Decay** (`G03_predictive_pantry_decay.py`) moves household operations from reactive tracking to autonomous anticipation. It automatically depletes inventory for non-sensor items based on established daily consumption models.
+# 🤖 Automation Spec: G03_predictive_pantry_decay.py
 
-# Scope
-- **In Scope:** Common household staples (Eggs, Coffee, Milk, Bread, Butter) with predictable usage.
-- **Out Scope:** Items with highly variable usage or items tracked by physical sensors.
+## Purpose
+G03_predictive_pantry_decay.py.
 
-# Consumption Models
-| Item | Rate | Unit |
-|---|---|---|
-| Jajka | 2.0 | szt |
-| Kawa | 0.05 | kg |
-| Chleb | 0.3 | bochenek |
-| Mleko | 0.2 | litr |
-| Masło | 0.05 | kg |
+## Scope
+### In Scope
+- Documents the active implementation at `modules/pantry/scripts/G03_predictive_pantry_decay.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G03 Autonomous Household Operations` within the `pantry` automation domain.
 
-# Inputs/Outputs
-- **Inputs:** `pantry_inventory` table in PostgreSQL.
-- **Outputs:** Database updates and a Markdown depletion report for the Daily Note.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-# Dependencies
-- **Systems:** S03 (Data Layer), G03 (Household Operations)
-- **Database:** `autonomous_pantry`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G03_predictive_pantry_decay.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-# Procedure
-- Automatically executed by `autonomous_daily_manager.py` during the daily sync.
-- Deduplication: Only runs if the item hasn't been updated yet today.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
-# Failure Modes
+## Dependencies
+### Runtime
+- Python script: `modules/pantry/scripts/G03_predictive_pantry_decay.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `decimal`
+- `os`
+- `psycopg2`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/pantry/scripts/G03_predictive_pantry_decay.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| Item Missing | category not found | Script skips the item; logs warning. |
-| Negative Stock | new_qty < 0 | Script clamps quantity to 0.0. |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-# Security Notes
-- Read/Write access to the pantry database required.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-# Owner + Review Cadence
-- **Owner:** Michał
-- **Review:** Monthly (Verify model accuracy against physical stock)
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G03_predictive_pantry_decay.py`.
+
+## Implementation Notes
+- Top-level functions: run_predictive_decay
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, decimal, os, autonomous_sdk.db_config, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

@@ -4,7 +4,7 @@ type: "progress_monitor"
 status: "active"
 goal_id: "goal-g10"
 created: "2026-02-11"
-last_updated: "2026-04-19"
+last_updated: "2026-05-24"
 version: "1.3"
 ---
 
@@ -18,13 +18,34 @@ version: "1.3"
 
 ### Overall Completion Status
 - **Q1 Progress**: 100% Complete ✅
-- **Q2 Progress**: 45% Complete 🚀
-- **Current Phase**: n8n Migration & Orchestration stability
-- **Key Focus**: LLM-based schedule negotiation (WF010)
+- **Q2 Progress**: 75% Complete 🚀
+- **Current Phase**: Modular Kernel Consolidation & Intelligence
+- **Key Focus**: Transitioning calendar and task management to the Autonomous Kernel
 
 ---
 
 ## ✅ Major Achievements
+
+### Journal Data Centralization (May 17, 2026)
+**Implementation Summary:**
+- **Standardized Data Flow:** Refactored `G10_journal_data_collector.py` to use centralized paths from `db_config.py`.
+- **Fragmentation Prevention:** Ensured all daily journal summaries are stored in a single, predictable location in the project root (`_meta/journal_data/daily/`), preventing reporting failures in the weekly briefing engine.
+- **Reliable Metric Extraction:** Hardened the parsing of "Emotions Felt" and "Flags" from Daily Notes to ensure consistent journaling metadata.
+
+**Technical Specifications:**
+- **Path Resolution:** Migrated from relative paths to `db_config.META_PATH`.
+- **Integration:** Directly feeds the `G11_ceo_weekly_briefing` engine with verified daily state.
+
+### Modular Kernel Migration (May 2026)
+**Implementation Summary:**
+- **Script Consolidation:** Successfully migrated 9 standalone productivity scripts (Google Tasks Sync, Calendar Enforcer, Focus Enforcer, Mood Engine, Micro-Slot Triage, etc.) into the `modules/productivity/` framework.
+- **Unified Sync Loop:** Established a core sync pulse that coordinates task synchronization, calendar enforcement, and mood analysis in a single, tiered execution block.
+- **Metric Extraction Hardening:** Consolidated Obsidian metric extraction (time saved, energy, tasks) into `Module.sync_metrics()`, providing consistent data for the ROI tracker.
+
+**Technical Specifications:**
+- **Consolidated Logic:** `Module.sync_tasks()`, `Module.enforce_calendar()`, `Module.analyze_mood()`.
+- **Infrastructure:** Integrated with `autonomous_sdk` for reliable Google API interactions and PostgreSQL logging.
+- **Cleanup:** Archived 9 root scripts to `scripts/archive/`.
 
 ### Cross-Domain Auto-Pivot (April 2026)
 **Implementation Summary:**

@@ -7,13 +7,29 @@ owner: "Michał"
 updated: "2026-04-16"
 ---
 
-# System Integration & Sync Orchestration
+# System Integration & Sync Orchestration (Life-Nervous-System)
 
 ## Overview
-This document describes the high-level orchestration of the Autonomous Living ecosystem. It details how diverse data sources (Health, Finance, Pantry, Tasks) are synchronized, processed by the Digital Twin, and delivered to the user via Obsidian and Telegram.
+This document describes the high-level orchestration of the Autonomous Living ecosystem. It details how the system functions as a decentralized mesh of Agents, utilizing a **Reflex vs. Cortex** model for real-time reactivity and deep intelligence.
+
+## Orchestration Tiers
+
+### 1. The Reflex System (Fast Path)
+This tier handles near-instant reactions to life events. It bypasses complex reasoning to ensure zero-latency responses.
+- **Trigger:** RabbitMQ `LifeEvent` (e.g., `finance.warning.large_transaction`).
+- **Handler:** n8n Workflow or `G11_event_listener.py`.
+- **Latency:** <100ms.
+- **Example:** Immediate Telegram alert for a budget breach.
+
+### 2. The Cognitive Cortex (Deep Path)
+This tier handles deep analysis, strategic memory, and cross-domain planning. It subscribes to the event bus to maintain a holistic state.
+- **Trigger:** Event Bus Subscription + Scheduled Batch Syncs.
+- **Handler:** Digital Twin (G04) Engine + Gemini 1.5 Flash.
+- **Latency:** 2s - 10s.
+- **Example:** Adjusting the "Deep Work" intensity for tomorrow based on today's combined stress and sleep metrics.
 
 ## The Global Heartbeat (`G11_global_sync.py`)
-The system follows a sequential, retry-aware "Heartbeat" pattern to ensure data consistency and freshness.
+While the system is event-driven, a scheduled "Heartbeat" ensures data integrity and triggers batch-level maintenance.
 
 ### 1. Data Ingestion & Sync Loop (Retry Phase)
 The system attempts to synchronize all data sources in a loop (up to 3 times, with 10-minute intervals) to ensure biometrics and other cloud data are fresh before proceeding.
@@ -51,7 +67,7 @@ The system attempts to synchronize all data sources in a loop (up to 3 times, wi
 | Trigger | Method | Frequency |
 |---|---|---|
 | **Scheduled** | Crontab on GMKtek-G3 | Every 6-12 hours |
-| **Manual (Full)** | `python3 scripts/G11_global_sync.py` | As needed |
+| **Manual (Full)** | `python3 modules/meta/scripts/G11_global_sync.py` | As needed |
 | **API** | `GET /sync` on Digital Twin API | Triggered by n8n or Mobile |
 | **Mobile** | Telegram Command "/sync" | User-initiated |
 

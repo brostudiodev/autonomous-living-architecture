@@ -19,7 +19,7 @@ Standard procedure for maintaining the deterministic meal planning matrix and en
 
 ### 1. Updating the Recipe Matrix
 When you want to add a new standard meal:
-1.  Open `scripts/G03_meal_planner.py`.
+1.  Open `modules/pantry/scripts/G03_meal_planner.py`.
 2.  Locate the `RECIPES` list.
 3.  Add a new dictionary entry:
     ```python
@@ -39,7 +39,7 @@ When you want to add a new standard meal:
 ### 3. Verification
 Run the planner manually to test the new matrix:
 ```bash
-python3 scripts/G03_meal_planner.py
+python3 modules/pantry/scripts/G03_meal_planner.py
 ```
 
 ## ⚠️ Troubleshooting

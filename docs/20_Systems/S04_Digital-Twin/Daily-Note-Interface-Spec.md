@@ -3,7 +3,7 @@ title: "Interface Spec: Obsidian Daily Note"
 type: "interface_spec"
 status: "active"
 owner: "Michał"
-updated: "2026-04-01"
+updated: "2026-05-10"
 ---
 
 # 📝 Interface Spec: Obsidian Daily Note

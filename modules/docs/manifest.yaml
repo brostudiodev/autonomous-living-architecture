@@ -1,0 +1,25 @@
+name: docs
+version: 1
+description: "Complete Process Documentation & Knowledge Retrieval"
+core: false
+sync_tier: 2
+databases:
+  - digital_twin_michal
+depends_on:
+  - postgres
+api_routes:
+  - /api/v1/docs
+  - /api/v1/search
+env_vars:
+  - QDRANT_HOST
+  - QDRANT_PORT
+  - TWIN_API_URL
+capabilities:
+  - name: "system_audit"
+    description: "Audits repository documentation against the Goal Documentation Standard (GDS)."
+    api_endpoints: ["/api/v1/docs/status"]
+    events_emitted: ["audit_completed"]
+  - name: "knowledge_search"
+    description: "Hybrid semantic and keyword search across the entire project documentation."
+    api_endpoints: ["/api/v1/docs/search"]
+    events_emitted: ["search_performed"]

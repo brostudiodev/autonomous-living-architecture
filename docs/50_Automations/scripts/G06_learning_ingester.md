@@ -1,45 +1,88 @@
 ---
-title: "Automation Spec: G06 Learning Ingester"
+title: "Automation Spec: G06_learning_ingester.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G06_learning_ingester"
-goal_id: "goal-g06"
-systems: ["S03", "S04"]
-owner: "Michał"
-updated: "2026-03-26"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "f9bbf9e7057ff5b9735b2339479ca81845a0d28924e848f3cb2bdcacdec5a608"
 ---
 
-# G06: Learning Ingester
+# 🤖 Automation Spec: G06_learning_ingester.py
 
 ## Purpose
-Automates the transition of raw study notes into structured, atomic knowledge assets. This script ensures that learning compounds over time by linking new concepts to existing 2026 goals and existing vault notes.
+G06_learning_ingester.py.
 
-## Triggers
-- **Telegram Command:** `/study [raw text]` (Saves to Inbox).
-- **Daily Manager:** Processes files in `Obsidian Vault/00_Inbox/Learning`.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/learning/scripts/G06_learning_ingester.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G06 Certification Exams` within the `learning` automation domain.
 
-## Inputs
-- **Raw Markdown:** Files in the dedicated Obsidian inbox.
-- **AI Reasoning:** Gemini Pro for concept extraction and linking.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Scanning:** Looks for `.md` files in the `Learning` inbox.
-2.  **AI Transformation:**
-    *   Extracts a concise title.
-    *   Rewrites content into structured Markdown with headers.
-    *   Assigns tags and related Goal IDs (G01-G12).
-    *   Generates a one-sentence executive summary.
-3.  **Database Persistence:** Saves concepts to `learning_concepts` table in `autonomous_learning`.
-4.  **Vault Persistence:** Saves the structured note to `06_Brain/Atomic/`.
-5.  **Cleanup:** Deletes the raw inbox file after successful ingestion.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G06_learning_ingester.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Atomic Note:** A new, formatted `.md` file in Obsidian.
-- **Knowledge Entry:** Row in the PostgreSQL `learning_concepts` table.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-- **Digital Twin API:** For capture via Telegram.
-- **Gemini API:** For intelligent structuring.
+### Runtime
+- Python script: `modules/learning/scripts/G06_learning_ingester.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-## Monitoring
-- **Daily Note:** "Atomic Learning Ingested" section showing new concepts.
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `psycopg2`
+
+## Procedure
+1. Review the script source at `modules/learning/scripts/G06_learning_ingester.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G06_learning_ingester.py`.
+
+## Implementation Notes
+- Top-level functions: save_processed_note
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, json, modules.meta.scripts.G11_log_system`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

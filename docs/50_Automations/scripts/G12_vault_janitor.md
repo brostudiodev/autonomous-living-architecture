@@ -1,45 +1,87 @@
 ---
-title: "Vault Janitor (G12)"
+title: "Automation Spec: G12_vault_janitor.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-02"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "7bdb9ae50{{LONG_IDENTIFIER}}"
 ---
 
-# Purpose
-The **Vault Janitor** (`G12_vault_janitor.py`) maintains high performance and focus in the Obsidian Vault. It prevents the `00_Inbox` from becoming a clutter bottleneck by identifying stale notes and flagging low-value (empty) files.
+# 🤖 Automation Spec: G12_vault_janitor.py
 
-# Scope
-- **In Scope:** `00_Inbox` directory in the Second Brain vault.
-- **Out Scope:** All other vault folders (Archive, Resources, Systems, etc.).
+## Purpose
+G12_vault_janitor.py.
 
-# Logic & Thresholds
-- **Stale Note:** Any file in `00_Inbox` with a modification time (mtime) older than **72 hours**.
-- **Empty Note:** Any file with less than **50 characters** of content (excluding YAML frontmatter).
-- **Auto-Tagging:** Empty notes are automatically appended with the `#system/empty` tag for easy bulk deletion.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/docs/scripts/G12_vault_janitor.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G12 Complete Process Documentation` within the `docs` automation domain.
 
-# Inputs/Outputs
-- **Inputs:** Local file system metadata and file content from the Obsidian Vault.
-- **Outputs:** Stale note alerts for the `G11_mission_aggregator`.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-# Dependencies
-- **Systems:** S10 (Daily Goals Automation), G12 (Complete Process Documentation)
-- **Files:** `Obsidian Vault/00_Inbox/`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G12_vault_janitor.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-# Procedure
-- Automatically executed as part of the daily sync via `autonomous_daily_manager.py`.
-- Reports the top 3 oldest stale notes to the Golden Mission list (Weight 7).
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
 
-# Failure Modes
+## Dependencies
+### Runtime
+- Python script: `modules/docs/scripts/G12_vault_janitor.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
+
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `os`
+- `pathlib`
+- `sys`
+- `time`
+
+## Procedure
+1. Review the script source at `modules/docs/scripts/G12_vault_janitor.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| Inbox path missing | Script logs warning | Skip scan; ensure correct path in script. |
-| Permission Denied | File access error | Check OS-level permissions for the Vault directory. |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-# Security Notes
-- Read/Write access to the vault is required for tagging.
-- No external data transmission.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-# Owner + Review Cadence
-- **Owner:** Michał
-- **Review:** Monthly (verify hygiene effectiveness)
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G12_vault_janitor.py`.
+
+## Implementation Notes
+- Top-level functions: run_janitor, generate_report
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `pathlib, datetime, os, autonomous_sdk.db_config, sys, time`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

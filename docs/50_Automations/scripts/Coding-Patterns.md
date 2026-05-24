@@ -281,7 +281,7 @@ def my_function():
 
 ## Related Documentation
 
-- [db_config.py](./db_config.md) - Centralized database configuration
+- [db_config.py](db_config.md) - Centralized database configuration
 - [Documentation Standard](../../10_Goals/Documentation-Standard.md) - How to document scripts
 - [Principles](../../00_Start-here/Principles.md) - Architectural philosophy
 - [North Star](../../00_Start-here/North-Star.md) - Goal of full autonomy

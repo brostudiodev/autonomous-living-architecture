@@ -1,73 +1,87 @@
 ---
-title: "G11_global_sync.py: System Orchestration"
+title: "Automation Spec: G11_global_sync.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G11_global_sync"
-goal_id: "goal-g11"
-systems: ["S11", "S08"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "33dc6be54296{{LONG_IDENTIFIER}}"
 ---
 
-# G11: Global System Synchronization (v2.0)
+# 🤖 Automation Spec: G11_global_sync.py
 
 ## Purpose
-Acts as the primary orchestrator for the entire autonomous ecosystem. It ensures all data ingestion, analysis, and enforcement scripts run in the correct sequence to maintain a fresh Digital Twin state while preventing duplicate notifications.
+G11_global_sync.py.
 
-## Triggers
-- **When:** Scheduled via Crontab (typically via `G11_obsidian_safe_sync.py`):
-    - **Daily:** 06:15, 13:15, 16:15.
-- **Manual:** `python3 G11_global_sync.py`
-- **Wrapper:** `python3 G11_obsidian_safe_sync.py` (Preferred for file safety).
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_global_sync.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-## Tiered Execution Pipeline
-To ensure data integrity and respect system dependencies, the orchestrator utilizes a tiered execution model:
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-### 1. Data Sync Tiers (Sequential)
-Scripts are executed in order of dependency groups:
-- **Tier 0 (External Source):** Fetches reality from external APIs (Pantry, Health, Withings, Google Tasks, ActivityWatch, Substack).
-- **Tier 1 (Local Analysis):** Processes raw data into domain insights (Finance Categorizer, Training Sync, Inbox Triage, Goal Activity).
-- **Tier 2 (Higher Order Logic):** Performs cross-domain correlation and complex analysis (Finance Anomaly, Strength Report, Mission Control, Calendar Enforcer).
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_global_sync.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-### 2. Consumer Phase (De-duplicated)
-Scripts that perform final reporting or send Telegram notifications are executed **exactly once** after the sync tiers complete.
-- **Persistence Check:** Uses `was_successful_today(script_name)` from `G11_log_system.py` to prevent duplicate notifications.
-- **Repeatable Consumers:** Scripts like `DAILY_NOTE` and `SYSTEM_MONITOR` are allowed to run multiple times to keep the dashboard fresh.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
 
-### 3. Silent Orchestration (NEW Apr 20)
-- **SILENT_MODE Injection:** The orchestrator injects `SILENT_MODE="1"` into the environment of all sub-processes. This suppresses noisy intermediate Telegram notifications during the sync and retry phases.
-- **Audit Guardrails:** Implements `AUDIT_MODE` early-exit checks to prevent infinite recursion when called by the `G11_self_healing_supervisor`.
+## Dependencies
+### Runtime
+- Python script: `modules/meta/scripts/G11_global_sync.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-## Processing Logic
-1. **Environment Setup:** Sets `SILENT_MODE="1"` for all child processes.
-2. **Health Audit:** Triggers `G11_self_healing_supervisor.run_audit()` before syncing.
-3. **Auto-Documentation:** Scans for undocumented scripts via `G12_auto_documenter`.
-4. **Tiered Execution:** Runs Tiers 0-2 sequentially, reporting each to the `DomainIsolator`.
-5. **Misc Scripts:** Runs any registered scripts not explicitly assigned to a tier.
-6. **Freshness Check:** Retries the sync tiers (up to 3 attempts) if data is determined to be stale.
-7. **Consumer Execution:** Executes `MORNING_BRIEFING`, `DAILY_NOTE`, etc.
-8. **Logging:** Records success/failure of each script in the `system_activity_log` table.
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.log`
+- `core.orchestrator`
+- `core.registry`
+- `os`
+- `pathlib`
+- `sys`
 
-## Outputs
-- **Activity Logs:** Entries in `digital_twin_michal.system_activity_log`.
-- **Markdown Report:** Summary of all sync operations.
-- **De-duplicated Notifications:** Telegram messages sent exactly once per day.
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_global_sync.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Changelog
-| Date | Author | Description |
+## Failure Modes
+| Scenario | Detection | Response |
 |---|---|---|
-| 2026-04-12 | Michał | Tiered execution pipeline implementation. |
-| 2026-04-17 | Michał | Integrated DomainIsolator and circuit breaker logic. |
-| 2026-04-20 | Michał | Implemented SILENT_MODE injection and recursion prevention. Increased orchestration timeouts. |
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Notification Duplicate | `was_successful_today` returns True | Skip execution, print "already succeeded". |
-| Data Still Stale | Max retries reached | Proceed with partial data, log warning. |
-| DB Offline | Connection error | Skip DB-dependent checks, fall back to simple loop. |
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_global_sync.py`.
+
+## Implementation Notes
+- Top-level functions: main
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `pathlib, core.orchestrator, os, autonomous_sdk.db_config, core.registry, sys, autonomous_sdk.log`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*Related Documentation:*
-- [G11_log_system.md](G11_log_system.md)
-- [G04_morning_briefing_sender.md](G04_morning_briefing_sender.md)
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

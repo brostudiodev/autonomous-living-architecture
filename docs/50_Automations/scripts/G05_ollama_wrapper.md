@@ -2,129 +2,85 @@
 title: "Automation Spec: G05_ollama_wrapper.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G05_ollama_wrapper"
-goal_id: "goal-g05"
-systems: ["S03", "S05"]
-owner: "Michał"
-updated: "2026-03-27"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "{{LONG_IDENTIFIER}}"
 ---
 
-# G05_ollama_wrapper.py
+# 🤖 Automation Spec: G05_ollama_wrapper.py
 
 ## Purpose
+G05_ollama_wrapper.py.
 
-Unified LLM wrapper that provides toggle between local Ollama models and cloud Gemini API for financial queries. Designed to reduce API costs and improve privacy by running smaller models locally.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/finance/scripts/G05_ollama_wrapper.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G05 Autonomous Financial Command Center` within the `finance` automation domain.
 
-## ⚠️ Status: DISABLED
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-This automation is currently **DISABLED** due to hardware limitations. The current PC does not have sufficient resources to run LLMs efficiently (see [Hardware Limitations](../infrastructure/architecture/README.md#hardware-limitations)).
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G05_ollama_wrapper.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-To enable: set `OLLAMA_ENABLED=true` in `.env` file.
-
-## Triggers
-
-- **Manual**: Execute via `python3 scripts/G05_ollama_wrapper.py --test`
-- **Programmatic**: Import and call `call_llm(prompt, context)` from other scripts
-
-## Inputs
-
-- **Environment Variables**:
-  - `OLLAMA_ENABLED=true/false` (default: false)
-  - `OLLAMA_MODEL=llama3.1/phi3/deepseek-r1` (default: llama3.1)
-  - `GEMINI_API_KEY` (for fallback)
-- **Arguments**:
-  - `--test`: Run basic connectivity test
-  - `--enable`: Show enabling instructions
-  - `--quick`: Quick 2+2 test
-
-## Processing Logic
-
-1. Check `OLLAMA_ENABLED` environment variable
-2. If enabled: Route to local Ollama at `http://localhost:11434`
-3. If disabled: Route to Gemini API (cloud)
-4. Format prompt with optional context data
-5. Return response (or fallback)
-
-## Outputs
-
-- **Direct**: LLM response string
-- **Status**: Provider and model configuration via `status()` function
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- HTTP requests to configured local or external service endpoints.
 
 ## Dependencies
+### Runtime
+- Python script: `modules/finance/scripts/G05_ollama_wrapper.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S05 Finance System](../../20_Systems/S04_Digital-Twin/README.md)
+### Imports
+- `autonomous_sdk.db_config`
+- `json`
+- `os`
+- `requests`
+- `sys`
 
-### External Services
-- Ollama Docker container (localhost:11434)
-- Gemini API (cloud fallback)
+## Procedure
+1. Review the script source at `modules/finance/scripts/G05_ollama_wrapper.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-### Credentials
-- `GEMINI_API_KEY` in `.env` (for fallback mode)
-- No credentials needed for Ollama (local)
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## Hardware Requirements
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-| Model | RAM Needed | PC Status |
-|-------|-----------|-----------|
-| Phi-3 | ~4GB | ✅ Works (slow ~60s) |
-| Llama 3.1 (8B) | ~8GB | ❌ Too slow |
-| DeepSeek R1 (14B) | ~16GB | ❌ Cannot run |
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G05_ollama_wrapper.py`.
 
-**Current PC**: 29GB total, only ~3.6GB free during testing. Insufficient for larger models.
+## Implementation Notes
+- Top-level functions: call_n8n_llm, get_embeddings, call_llm, call_llm_json, status
+- Top-level classes: No top-level classes detected.
 
-See: [Hardware Limitations](../infrastructure/architecture/README.md#hardware-limitations)
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `os, autonomous_sdk.db_config, json, sys, requests`
 
-## Error Handling
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Ollama not running | Connection refused | Fall back to Gemini | None |
-| Model timeout | >120s | Return timeout error | None |
-| Out of memory | OOM killed | Fall back to Gemini | Log warning |
-| Invalid model | 404 from Ollama | Return error | None |
-
-## Monitoring
-
-- **Success metric**: LLM response returned within timeout
-- **Alert on**: 3 consecutive failures
-- **Dashboard**: N/A (manual testing)
-
-## Manual Fallback
-
-If Ollama wrapper fails:
-
-```bash
-# Test Ollama directly
-curl http://localhost:11434/api/tags
-
-# Check running models
-docker exec ollama ollama list
-
-# Enable Gemini fallback (default)
-# Ensure GEMINI_API_KEY is set in .env
-grep GEMINI_API_KEY .env
-```
-
-## Usage Examples
-
-```python
-# Basic usage
-from G05_ollama_wrapper import call_llm
-result = call_llm("What is my savings rate?")
-
-# With context
-context = {"savings_rate": 35, "monthly_income": 10000}
-result = call_llm("Is 35% savings rate good?", context=context)
-
-# Check status
-from G05_ollama_wrapper import status
-print(status())  # {"ollama_enabled": False, "model": "gemini-1.5-flash", ...}
-```
-
-## Related Documentation
-
-- [G05 Roadmap - Ollama item](../../10_Goals/G05_Autonomous-Financial-Command-Center/Roadmap.md)
-- [Ollama Docker Setup](../infrastructure/architecture/Docker-Setup.md)
-- [Python Environments](../infrastructure/architecture/Python-Environments.md)
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

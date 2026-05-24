@@ -1,43 +1,86 @@
 ---
-title: "Study Velocity Tracker (G06)"
+title: "Automation Spec: G06_study_velocity.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-02"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "a{{LONG_IDENTIFIER}}"
 ---
 
-# Purpose
-The **Study Velocity Tracker** (`G06_study_velocity.py`) autonomously monitors progress toward certification exams. It ensures that study habits align with exam deadlines by calculating the required daily effort and flagging risks.
+# 🤖 Automation Spec: G06_study_velocity.py
 
-# Scope
-- **In Scope:** Active career goals with defined deadlines, study sessions from `study_sessions` table.
-- **Out Scope:** General learning without specific deadlines.
+## Purpose
+G06_study_velocity.py.
 
-# Logic
-- **Required Velocity:** `(Required Hours - Completed Hours) / Days Until Deadline`.
-- **Actual Velocity:** Average hours per day over the **last 7 days**.
-- **Risk Threshold:** If `Actual Velocity < Required Velocity`, an alert is generated.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/learning/scripts/G06_study_velocity.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G06 Certification Exams` within the `learning` automation domain.
 
-# Inputs/Outputs
-- **Inputs:** `autonomous_learning` PostgreSQL database.
-- **Outputs:** Markdown report for Daily Note and risk alerts for `G11_mission_aggregator` (Weight 8).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-# Dependencies
-- **Systems:** S11 (Meta-System), G06 (Certification Exams)
-- **Database:** `autonomous_learning`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G06_study_velocity.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-# Procedure
-- Automatically executed as part of the daily sync via `autonomous_daily_manager.py`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
-# Failure Modes
+## Dependencies
+### Runtime
+- Python script: `modules/learning/scripts/G06_study_velocity.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `os`
+- `psycopg2`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/learning/scripts/G06_study_velocity.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| No Deadline Set | deadline IS NULL | Goal is skipped from velocity calculation. |
-| Zero Study History | actual_vel = 0 | Triggers a high-priority risk alert. |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-# Security Notes
-- Read-only access to learning data.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-# Owner + Review Cadence
-- **Owner:** Michał
-- **Review:** Monthly (verify deadline alignment)
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G06_study_velocity.py`.
+
+## Implementation Notes
+- Top-level functions: get_study_velocity, generate_report
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

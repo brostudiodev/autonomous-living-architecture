@@ -1,50 +1,86 @@
 ---
-title: "Automation Spec: G02 Content Pipeline Manager"
+title: "Automation Spec: G02_content_pipeline_manager.py"
 type: "automation_spec"
 status: "active"
-system_id: "S02"
-goal_id: "goal-g02"
-owner: "Michał"
-updated: "2026-04-01"
-review_cadence: "monthly"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "c6{{LONG_IDENTIFIER}}"
 ---
 
-# 🤖 Automation Spec: G02 Content Pipeline Manager
+# 🤖 Automation Spec: G02_content_pipeline_manager.py
 
-## 🎯 Purpose
-Provide a centralized view of the "Automationbro" content pipeline by scanning LinkedIn and Substack idea baskets for drafts and ready-to-post content. Reduces the friction of finding what to execute next in the brand-building process.
+## Purpose
+G02_content_pipeline_manager.py.
 
-## 📝 Scope
-- **In Scope:** Scanning `LinkedIn Ideas Basket` and `Substack Notes Ideas Basket` folders; Identifying status based on tags (#draft, #ready) or file metadata; Formatting a summary table for the Daily Note.
-- **Out of Scope:** Automatic posting to social platforms (handled by specialized sync scripts); LLM-based content generation.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/brand/scripts/G02_content_pipeline_manager.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G02 Automationbro Recognition` within the `brand` automation domain.
 
-## 🔄 Inputs/Outputs
-- **Inputs:** Obsidian Markdown files in content folders.
-- **Outputs:** `CONTENT_PIPELINE` report injected into the Obsidian Daily Note.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## 🛠️ Dependencies
-- **Systems:** S02 Identity & Access (Brand), S10 Daily Goals Automation.
-- **Services:** Local file system.
-- **Credentials:** None (Obsidian Vault access).
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G02_content_pipeline_manager.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## ⚙️ Logic & Procedure
-1. **Directory Scan:** Iterates through files with `IDEA-` or `SN-` prefixes.
-2. **Status Parsing:** 
-   - **✅ READY:** If content contains `#ready`.
-   - **📝 Draft:** If content contains `#draft` or `status: draft`.
-   - **💡 Idea:** Default status.
-3. **Injection:** `autonomous_daily_manager.py` calls the manager and injects the summary into the "📅 Content Pipeline" collapsible section.
-4. **Trigger:** Automated via `G11_global_sync.py`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
 
-## ⚠️ Failure Modes
+## Dependencies
+### Runtime
+- Python script: `modules/brand/scripts/G02_content_pipeline_manager.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
+
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `re`
+
+## Procedure
+1. Review the script source at `modules/brand/scripts/G02_content_pipeline_manager.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
 | Scenario | Detection | Response |
 |---|---|---|
-| Directory Missing | FileNotFoundError in logs | Verify `Obsidian Vault/02_Projects/` path |
-| No content found | Returns empty string (Normal) | No action needed |
-| Permission Denied | PermissionError in logs | Check file system permissions for the script |
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## 🔒 Security Notes
-- **Secrets:** No sensitive data or API tokens are used in this script.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G02_content_pipeline_manager.py`.
+
+## Implementation Notes
+- Top-level functions: scan_pipeline, generate_pipeline_report
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `re, datetime, os, autonomous_sdk.db_config, modules.meta.scripts.G11_log_system`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*System Hardening v5.4 - April 2026*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

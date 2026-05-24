@@ -1,164 +1,89 @@
 ---
-title: "G10_ai_memory_generator: Auto-fill 'One thing to remember'"
+title: "Automation Spec: G10_ai_memory_generator.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G10_ai_memory_generator"
-goal_id: "goal-g10"
-systems: ["S04", "S11"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "373deab9c0cb6d9ddc8074c7b87a97f0c8ef26705f6600f80016acf4945eb7d5"
 ---
 
-# G10_ai_memory_generator: Auto-fill 'One thing to remember'
+# 🤖 Automation Spec: G10_ai_memory_generator.py
 
 ## Purpose
+G10_ai_memory_generator.py.
 
-End-of-day automation that analyzes goals progress, system wins, and health/finance state to automatically generate a single key insight for the daily journal. Eliminates manual entry for the "One thing to remember" section.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/productivity/scripts/G10_ai_memory_generator.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G10 Intelligent Productivity Time Architecture` within the `productivity` automation domain.
 
-## Triggers
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-- **Scheduled:** Daily at 21:00 via `autonomous_evening_manager.py`
-- **Manual:** `python scripts/G10_ai_memory_generator.py`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G10_ai_memory_generator.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Inputs
-
-| Source | Data | Used For |
-|--------|------|----------|
-| Daily Note | Goal completion status (G01-G12) | Insight extraction |
-| Digital Twin Engine | Readiness, health, finance state | Pattern analysis |
-| `system_activity_log` | Successful automations from last 24h | Win detection |
-| `autonomous_decisions` | Today's decisions | Context |
-
-## Processing Logic
-
-1. **Parse Goal Progress** - Read today's daily note
-   - Extract completed goals from `Goal Progress Tracking` section
-   - Format: `G01: task description`
-
-2. **Get System Wins** - Query activity log
-   ```sql
-   SELECT script_name, details 
-   FROM system_activity_log 
-   WHERE status = 'SUCCESS' 
-   AND logged_at > NOW() - INTERVAL '24 hours'
-   ```
-
-3. **Get Decisions** - Query decisions table
-   ```sql
-   SELECT decision_type, action_taken, confidence
-   FROM autonomous_decisions 
-   WHERE DATE(created_at) = CURRENT_DATE
-   ```
-
-4. **Generate Insight** - Priority-based rule engine:
-   ```
-   IF completed_goals:
-       → "✅ G##: task - Major milestone achieved"
-   
-   ELIF system_wins:
-       → "🤖 System ran automatically - saved work"
-   
-   ELIF readiness >= 85:
-       → "🚀 Peak readiness - ideal day for deep work"
-   
-   ELIF readiness < 50:
-       → "💤 Low readiness - prioritize recovery"
-   
-   ELIF budget_alerts >= 5:
-       → "💸 N budget alerts - review tonight"
-   
-   ELIF system_gaps:
-       → "🔧 System gap detected"
-   
-   ELSE:
-       → "📊 N autonomous decisions made today"
-   ```
-
-5. **Update Daily Note** - Write to marker section
-   - Find `## One thing to remember from today`
-   - Replace empty `- ` with generated insight
-
-## Outputs
-
-| Output | Location | Format |
-|--------|----------|--------|
-| Daily Note Update | `01_Daily_Notes/YYYY-MM-DD.md` | Markdown |
-| Activity Log | `system_activity_log` table | PostgreSQL |
-
-### Example Output
-
-**Before:**
-```markdown
-## One thing to remember from today
-- 
-```
-
-**After:**
-```markdown
-## One thing to remember from today
-- 🤖 G10 Focus Intelligence ran automatically - saved manual work.
-```
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
+### Runtime
+- Python script: `modules/productivity/scripts/G10_ai_memory_generator.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### Systems
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md) - State provider
-- [S11 Meta-System Integration](../../20_Systems/S11_Meta-System-Integration/README.md) - Decision logging
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.log`
+- `datetime`
+- `modules.meta.scripts.G04_digital_twin_engine`
+- `os`
+- `os,`
+- `sys`
 
-### External Services
-- PostgreSQL (`digital_twin_michal`)
+## Procedure
+1. Review the script source at `modules/productivity/scripts/G10_ai_memory_generator.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-### Scripts
-- `G04_digital_twin_engine.py` - Digital Twin state
-- `G11_log_system.py` - Activity logging
-
-### Files
-- `{{ROOT_LOCATION}}/Obsidian Vault/01_Daily_Notes/YYYY-MM-DD.md`
-
-## Error Handling
-
+## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| Daily note not found | `os.path.exists()` returns False | Log warning, skip update |
-| Marker not found | String search fails | Log warning, skip |
-| Database query fails | `psycopg2` exception | Return None, don't crash |
-| Digital Twin fails | Exception in `DigitalTwinEngine()` | Use fallback insights |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
 ## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-- No sensitive data in outputs
-- Database credentials via `.env`
-- Read-only database operations
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G10_ai_memory_generator.py`.
 
-## Monitoring
+## Implementation Notes
+- Top-level functions: get_today_date_str, get_daily_note_path, parse_goal_progress_from_note, get_system_wins_from_log, get_key_decisions_from_log, generate_memory_insight, update_daily_note, run
+- Top-level classes: No top-level classes detected.
 
-- **Success metric:** Insight written to daily note
-- **Alert on:** 3 consecutive failures
-- **Dashboard:** Check `system_activity_log` for script status
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `datetime, os, autonomous_sdk.db_config, os,, sys, modules.meta.scripts.G04_digital_twin_engine, autonomous_sdk.log`
 
-## Manual Fallback
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
-If script fails:
-```bash
-cd {{ROOT_LOCATION}}/autonomous-living
-source .venv/bin/activate
-python scripts/G10_ai_memory_generator.py
-
-# If daily note doesn't update, manually add:
-# ## One thing to remember from today
-# - [your insight]
-```
-
-## Related Documentation
-
-- [G10 Roadmap](../../10_Goals/G{{LONG_IDENTIFIER}}/Roadmap.md)
-- [G10 Focus Intelligence](./G10_focus_intelligence.md)
-- [Autonomous Evening Manager](./autonomous_evening_manager.md)
-- [Daily Note Template](https://github.com/michalnowakowski/Obsidian-Vault/blob/main/99_System/Templates/Daily/Daily%20Note%20Template.md)
-
-## Changelog
-
-| Date | Change |
-|------|--------|
-| 2026-03-20 | Initial implementation |
-| 2026-03-20 | Integrated into `autonomous_evening_manager.py` |
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

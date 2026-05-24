@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Status | Digital Twin</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        body {
+            background: #0f0f12;
+            color: #eee;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-y: auto; /* Enable vertical scroll */
+            min-height: 100vh;
+        }
+        .status-card {
+            background: rgba(30, 30, 35, 0.9);
+            border-radius: 8px;
+            padding: 15px;
+            border-left: 5px solid #444;
+            height: auto; /* Let content determine height */
+            display: flex;
+            flex-direction: column;
+        }
+        .status-card.ok { border-left-color: #4CAF50; }
+        .status-card.warning { border-left-color: #FFC107; }
+        .status-card.error { border-left-color: #F44336; }
+        
+        .status-card h3 { 
+            margin-top: 0; 
+            color: #fff; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: rgba(30, 30, 35, 1);
+            padding-bottom: 10px;
+            z-index: 10;
+        }
+        .status-card table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .status-card th, .status-card td { text-align: left; padding: 8px; border-bottom: 1px solid #333; font-size: 0.85em; }
+        
+        .reliability-gauge {
+            text-align: center;
+            padding: 20px;
+            font-size: 2em;
+            font-weight: bold;
+        }
+        .reliability-gauge.high { color: #4CAF50; }
+        .reliability-gauge.med { color: #FFC107; }
+        .reliability-gauge.low { color: #F44336; }
+
+        header { padding: 20px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
+        .back-btn { background: #444; color: #fff; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; text-decoration: none; }
+        
+        /* Real-time Event Log */
+        .event-log {
+            height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.8em;
+            background: #000;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .event-entry { margin-bottom: 4px; border-bottom: 1px solid #222; padding-bottom: 2px; }
+        .event-time { color: #888; margin-right: 5px; }
+        .event-domain { font-weight: bold; color: #3498db; margin-right: 5px; }
+        .event-action { color: #eee; }
+        .event-INFO { color: #4CAF50; }
+        .event-WARNING { color: #FFC107; }
+        .event-CRITICAL, .event-FAILURE { color: #F44336; }
+
+        /* Decision List */
+        .decision-row:hover { background: rgba(255,255,255,0.05); }
+        .approve-btn { color: #4CAF50; cursor: pointer; border: 1px solid #4CAF50; padding: 2px 5px; border-radius: 3px; font-size: 0.8em; }
+        .deny-btn { color: #F44336; cursor: pointer; border: 1px solid #F44336; padding: 2px 5px; border-radius: 3px; font-size: 0.8em; margin-left: 5px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="reliability-gauge" id="global-reliability" style="padding: 0; font-size: 1.5em; border-right: 1px solid #333; padding-right: 20px;">
+                --%
+            </div>
+            <div>
+                <h1 style="font-size: 1.2em; margin: 0;">🛡️ System Status Dashboard</h1>
+                <p id="last-updated" style="margin: 0; font-size: 0.8em; color: #888;">Last Audit: Loading...</p>
+            </div>
+        </div>
+        <a href="/" class="back-btn">← Back to Terminal</a>
+    </header>
+
+    <div class="status-grid">
+        <section class="status-card" id="module-status">
+            <h3>🧩 Kernel Modules</h3>
+            <table>
+                <thead><tr><th>Module</th><th>Tier</th><th>Status</th></tr></thead>
+                <tbody id="module-list"></tbody>
+            </table>
+        </section>
+
+        <section class="status-card" id="decision-status">
+            <h3>📥 Pending Decisions <span id="decision-count" style="font-size: 0.7em; background: #3498db; padding: 2px 6px; border-radius: 10px;">0</span></h3>
+            <table>
+                <thead><tr><th>ID</th><th>Domain</th><th>Action</th></tr></thead>
+                <tbody id="decision-list"></tbody>
+            </table>
+        </section>
+
+        <section class="status-card" id="script-status" style="grid-column: span 2;">
+            <h3>📜 Automation Scripts Execution (24h)</h3>
+            <table>
+                <thead><tr><th>Script</th><th>Status</th><th>Last Sync</th><th>Uptime</th></tr></thead>
+                <tbody id="script-list"></tbody>
+            </table>
+        </section>
+
+        <section class="status-card" id="event-status" style="grid-column: span 2;">
+            <h3>📡 Real-time Event Bridge (EDA)</h3>
+            <div id="event-log" class="event-log"></div>
+        </section>
+    </div>
+
+    <script>
+        const eventLog = document.getElementById('event-log');
+
+        async function fetchStatus() {
+            try {
+                const response = await fetch('/health/audit');
+                const data = await response.json();
+                
+                if (data.error) {
+                    document.getElementById('last-updated').innerText = `Error: ${data.error}`;
+                    console.error("API Audit Error:", data.error);
+                    return;
+                }
+                
+                document.getElementById('last-updated').innerText = `Last Audit: ${new Date(data.timestamp).toLocaleString()}`;
+                
+                const reliability = (data.global_reliability || 0).toFixed(1);
+                const gauge = document.getElementById('global-reliability');
+                gauge.innerText = `${reliability}%`;
+                gauge.className = `reliability-gauge ${reliability >= 95 ? 'high' : reliability >= 85 ? 'med' : 'low'}`;
+
+                // Populate Modules
+                const moduleList = document.getElementById('module-list');
+                if (data.modules && Array.isArray(data.modules)) {
+                    moduleList.innerHTML = data.modules.map(m => `
+                        <tr>
+                            <td>${m.name} <small>(v${m.version})</small></td>
+                            <td>Tier ${m.sync_tier}</td>
+                            <td><span class="status-light status-online" style="display:inline-block; vertical-align:middle;"></span> Online</td>
+                        </tr>
+                    `).join('');
+                } else {
+                    moduleList.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#888;">No modules loaded</td></tr>';
+                }
+
+                // Populate Scripts
+                const scriptList = document.getElementById('script-list');
+                if (data.scripts && Array.isArray(data.scripts)) {
+                    scriptList.innerHTML = data.scripts.map(s => {
+                        const statusClass = s.status === 'SUCCESS' ? 'ok' : 'error';
+                        const icon = s.status === 'SUCCESS' ? '✅' : '❌';
+                        return `
+                            <tr>
+                                <td>${s.name}</td>
+                                <td class="${statusClass}">${icon} ${s.status}</td>
+                                <td>${new Date(s.last_sync).toLocaleString()}</td>
+                                <td>${s.uptime_7d}%</td>
+                            </tr>
+                        `;
+                    }).join('');
+                } else {
+                    scriptList.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#888;">No script status found</td></tr>';
+                }
+
+            } catch (err) {
+                console.error("Failed to fetch status:", err);
+                document.getElementById('last-updated').innerText = `Error: ${err.message}`;
+            }
+        }
+
+        async function fetchDecisions() {
+            try {
+                const response = await fetch('/decisions/pending');
+                const rootData = await response.json();
+                const decisions = (rootData.data && Array.isArray(rootData.data)) ? rootData.data : (Array.isArray(rootData.content) ? rootData.content : []);
+                
+                document.getElementById('decision-count').innerText = decisions.length;
+                const decisionList = document.getElementById('decision-list');
+                
+                if (decisions.length === 0) {
+                    decisionList.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#888;">No pending decisions</td></tr>';
+                    return;
+                }
+
+                decisionList.innerHTML = decisions.map(d => `
+                    <tr class="decision-row">
+                        <td>#${d.id}</td>
+                        <td>${(d.domain || 'unknown').toUpperCase()}</td>
+                        <td>
+                            <span class="approve-btn" onclick="resolveDecision(${d.id}, 'approve')">Approve</span>
+                            <span class="deny-btn" onclick="resolveDecision(${d.id}, 'deny')">Deny</span>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (err) {
+                console.error("Failed to fetch decisions:", err);
+            }
+        }
+
+        async function resolveDecision(id, action) {
+            try {
+                const response = await fetch(`/${action}/${id}`);
+                const data = await response.json();
+                alert(data.report || data.response_text || `Decision ${id} ${action}d`);
+                fetchDecisions();
+            } catch (err) {
+                alert(`Error resolving decision: ${err.message}`);
+            }
+        }
+
+        function appendEvent(data) {
+            const entry = document.createElement('div');
+            entry.className = 'event-entry';
+            
+            const time = new Date().toLocaleTimeString();
+            const severityClass = `event-${data.severity}`;
+            const domain = data.domain || data.source || "SYSTEM";
+            const details = data.payload.details || data.payload.message || JSON.stringify(data.payload);
+            
+            entry.innerHTML = `
+                <span class="event-time">[${time}]</span>
+                <span class="event-domain">[${domain.toUpperCase()}]</span>
+                <span class="event-action ${severityClass}">${data.action}</span>: 
+                <span class="event-details">${details}</span>
+            `;
+            
+            eventLog.insertBefore(entry, eventLog.firstChild);
+            if (eventLog.childNodes.length > 50) {
+                eventLog.removeChild(eventLog.lastChild);
+            }
+        }
+
+        function connectWebSocket() {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsUrl = `${protocol}//${window.location.host}/ws`;
+            const socket = new WebSocket(wsUrl);
+
+            socket.onopen = () => {
+                const entry = document.createElement('div');
+                entry.style.color = '#4CAF50';
+                entry.innerText = `[${new Date().toLocaleTimeString()}] 🚀 WebSocket connected to EDA Bridge.`;
+                eventLog.insertBefore(entry, eventLog.firstChild);
+            };
+
+            socket.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    appendEvent(data);
+                    
+                    // Trigger refresh on specific events
+                    if (["state_updated", "decision_proposed"].includes(data.action)) {
+                        fetchDecisions();
+                        fetchStatus();
+                    }
+                } catch (e) {
+                    console.error("Error parsing WebSocket message", e);
+                }
+            };
+
+            socket.onclose = () => {
+                setTimeout(connectWebSocket, 5000);
+            };
+        }
+
+        fetchStatus();
+        fetchDecisions();
+        connectWebSocket();
+        setInterval(fetchStatus, 30000);
+        setInterval(fetchDecisions, 15000);
+    </script>
+</body>
+</html>

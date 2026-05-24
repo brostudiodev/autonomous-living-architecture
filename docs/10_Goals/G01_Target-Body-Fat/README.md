@@ -74,12 +74,12 @@ Achieve visible body recomposition (lower body fat, maintain/gain strength) thro
 - Obsidian (dashboards)
 
 ## Key Links
-- Outcomes: [Outcomes.md](Outcomes.md)
-- Metrics: [Metrics.md](Metrics.md)
-- Systems: [Systems.md](Systems.md)
-- Roadmap: [Roadmap.md](Roadmap.md)
-- Activity Log: [Activity-log.md](Activity-log.md)
-- Training Journal: [Training/README.md](Training/README.md)
+- Outcomes: [Outcomes.md](../G02_Automationbro-Recognition/Outcomes.md)
+- Metrics: [Metrics.md](../G02_Automationbro-Recognition/Metrics.md)
+- Systems: [Systems.md](../G02_Automationbro-Recognition/Systems.md)
+- Roadmap: [Roadmap.md](../G02_Automationbro-Recognition/Roadmap.md)
+- Activity Log: [Activity-log.md](../Activity-log.md)
+- Training Journal: [Training/README.md](../../20_Systems/README.md)
 
 ## Procedure
 1. **Daily:** Weigh on Withings scale (morning, after toilet)

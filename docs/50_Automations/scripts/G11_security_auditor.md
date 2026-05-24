@@ -1,55 +1,88 @@
 ---
-title: "G11: Automated Security Auditor"
+title: "Automation Spec: G11_security_auditor.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G11_security_auditor.py"
-goal_id: "goal-g11"
-systems: ["S11", "S02"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "{{LONG_IDENTIFIER}}"
 ---
 
-# G11: Automated Security Auditor
+# 🤖 Automation Spec: G11_security_auditor.py
 
 ## Purpose
-Acts as a continuous security watchdog for the Autonomous Living ecosystem. It scans the codebase for accidentally exposed secrets and verifies that sensitive configuration files have restrictive file-system permissions.
+G11_security_auditor.py.
 
-## Key Features
-- **Secret Pattern Matching:** Uses regex to detect hardcoded API keys, tokens, and passwords in Python scripts.
-- **Permission Verification:** Checks critical files (`.env`, credentials) for insecure read/write access by unauthorized users.
-- **Environment Awareness:** Specifically filters out valid `os.getenv` calls to minimize false positives.
-- **Automated Alerts:** Triggers a `WARNING` in the system log if vulnerabilities are detected.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_security_auditor.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-## Triggers
-- **Automated:** Part of the `G11_global_sync.py` daily registry.
-- **Manual:** `python3 scripts/G11_security_auditor.py`
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Inputs
-- **Codebase:** Scans the `scripts/` directory.
-- **File System:** Inspects metadata of sensitive files defined in `SENSITIVE_FILES`.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_security_auditor.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Processing Logic
-1.  **Script Crawl:** Iterates through all `.py` files in the repository.
-2.  **Pattern Scan:** Searches for high-entropy strings assigned to variables like `api_key`, `token`, etc.
-3.  **Permission Check:** Uses the `stat` module to verify that sensitive files do not have "others-readable" or "others-writable" bits set.
-4.  **Logging:** Aggregates all findings into a single report and logs to `system_activity_log`.
-
-## Outputs
-- **System Activity Log:** `SUCCESS` (clean) or `WARNING` (issues found).
-- **Console Output:** Detailed list of security findings.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
 
 ## Dependencies
-### Systems
-- [S02 Identity & Access](../../20_Systems/S02_Identity-Access/README.md)
-- [S11 Meta-System Integration](../../20_Systems/S11_Meta-System-Integration/README.md)
+### Runtime
+- Python script: `modules/meta/scripts/G11_security_auditor.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Permission Denied | `OSError` | Skips file, continues audit | Console |
-| Missing .env | `os.path.exists` | Logs as warning | System Activity Log |
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.log`
+- `os`
+- `pathlib`
+- `re`
+- `stat`
+- `sys`
 
-## Manual Fallback
-If the auditor is offline:
-1.  Manually run `grep -r "api_key =" scripts/` to check for exposures.
-2.  Run `ls -l .env` to verify permissions are `-rw-------` (600).
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_security_auditor.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_security_auditor.py`.
+
+## Implementation Notes
+- Top-level functions: run_security_audit
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `re, pathlib, stat, os, autonomous_sdk.db_config, sys, autonomous_sdk.log`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

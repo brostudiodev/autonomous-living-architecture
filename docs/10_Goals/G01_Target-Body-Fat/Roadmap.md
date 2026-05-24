@@ -23,15 +23,15 @@ goal_id: "goal-g01"
 ## Q2 (Apr–Jun) - Optimization Phase
 
 > [!tip] 🚀 **Q2 Focus: Optimize Existing Systems**
-- [ ] **System Stability Audit:** Verify all automated health syncs are working reliably
-  - [ ] **Sub-task: Withings Sync Check** - Ensure weight/BF% data flows to DB without gaps
-  - [ ] **Sub-task: Workout Log Automation** - Verify training data syncs to PostgreSQL
+- [x] **System Stability Audit:** Verify all automated health syncs are working reliably ✅ (May 05)
+  - [x] **Sub-task: Withings Sync Check** - Ensure weight/BF% data flows to DB without gaps ✅ (May 05)
+  - [x] **Sub-task: Workout Log Automation** - Verify training data syncs to PostgreSQL ✅ (May 05)
 - [ ] **Missing Automation Implementation:**
-  - [ ] **Sub-task: Photo Logging Workflow** - Implement automated monthly photo logging
+  - [ ] **Sub-task: Photo logging workflow** - Implement automated monthly photo logging
   - [ ] **Sub-task: Waist/BF% Trend Analysis** - Add automated mid-year review generation
-- [ ] **Integration Optimization:**
-  - [ ] **Sub-task: G07 Health Integration** - Ensure readiness score flows into training decisions
-  - [ ] **Sub-task: G03 Nutrition Link** - Verify procurement automation for recovery foods
+- [x] **Integration Optimization:**
+  - [x] **Sub-task: G07 Health Integration** - Ensure readiness score flows into training decisions ✅ (May 05)
+  - [x] **Sub-task: G03 Nutrition Link** - Verify procurement automation for recovery foods ✅ (May 05)
 
 - [/] Implement monthly photo logging workflow
 - [x] Optimize training-recovery balance using G07/G10 readiness data (Mar 18)

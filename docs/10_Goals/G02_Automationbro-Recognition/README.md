@@ -17,12 +17,12 @@ review_cadence: "quarterly"
 *   **Audience Growth:** Track your influence and engagement through a centralized performance dashboard.
 
 ## Purpose
-Build public recognition as an automation expert through consistent content creation (articles, LinkedIn, YouTube) derived from the autonomous living system. The goal is establishing thought leadership in automation architecture patterns while documenting the journey.
+Build a world-class personal brand centered on AI, Hyperautomation, and Autonomous Living. Establish technical authority and reach a wider audience of engineers and decision-makers by leveraging automated content workflows (G13).
 
 ## Scope
 ### In Scope
 - Substack articles (every 4 days, max once/week, 40 articles by Dec 2026)
-- LinkedIn posts (3x weekly, automated from articles)
+- LinkedIn posts (3x weekly, automated via G13)
 - YouTube AI avatar videos (15 by Q2 2026)
 - Public architectural patterns from private repo
 - Content performance tracking
@@ -38,7 +38,7 @@ Build recognition as an automation expert through content creation that demonstr
 
 ## Definition of Done (2026)
 - [ ] 40 Substack articles published
-- [ ] LinkedIn presence active with 3 posts/week
+- [x] LinkedIn presence active with 3 posts/week (Automated via G13)
 - [ ] 15 YouTube AI avatar videos created
 - [ ] Key metrics for audience engagement defined and tracked
 - [ ] Content performance tracking implemented
@@ -50,6 +50,7 @@ Build recognition as an automation expert through content creation that demonstr
 - Content strategy decisions
 - Engagement analytics from platforms
 - AI tools for content generation (images, video)
+- **Activity Logs from all goals (G01-G12) harvested by G13**
 
 ## Outputs
 - Published Substack articles
@@ -60,11 +61,16 @@ Build recognition as an automation expert through content creation that demonstr
 
 ## Dependencies
 ### Systems
-- S01 Observability (analytics dashboards)
-- S08 Automation Orchestrator (content distribution)
+- [S01 Observability](../../20_Systems/README.md) (analytics dashboards)
+- [S08 Automation Orchestrator](../../20_Systems/README.md) (content distribution)
 - Substack API
 - LinkedIn API
 - YouTube API
+
+### Goals
+- [G13: Autonomous Content Engine](../../20_Systems/README.md) - Primary feed for content harvesting and drafting.
+- [G11: Meta-System Integration](../../20_Systems/README.md) - For tracking brand-related decisions.
+- [G04: Digital Twin Ecosystem](../../20_Systems/README.md) - Data source for performance metrics.
 
 ### External
 - Substack (publishing)
@@ -77,7 +83,7 @@ Build recognition as an automation expert through content creation that demonstr
 - Metrics: [Metrics.md](Metrics.md)
 - Systems: [Systems.md](Systems.md)
 - Roadmap: [Roadmap.md](Roadmap.md)
-- Activity Log: [Activity-log.md](Activity-log.md)
+- Activity Log: [Activity-log.md](../Activity-log.md)
 - Content Strategy: [Content-Strategy.md](Content-Strategy.md)
 
 ## Procedure

@@ -1,39 +1,53 @@
 ---
-title: "Automation Spec: withings_to_sheets.py"
+title: "Archived Automation Spec: withings_to_sheets"
 type: "automation_spec"
-status: "legacy"
-created: "2026-03-05"
-updated: "2026-04-15"
+status: "archived"
+owner: "Michał"
+updated: "2026-05-23"
 ---
 
-# 🤖 Automation Spec: withings_to_sheets.py (LEGACY)
+# Archived Automation Spec: withings_to_sheets
 
-## 📝 Overview
-**Purpose:** Synchronizes Withings Health data to a Google Sheet for human-readable review and historical backup.
-**Goal Alignment:** G07 Predictive Health Management
+## Purpose
+Preserves the historical documentation record for `withings_to_sheets` after no matching active Python script was found in `scripts/` or `modules/<domain>/scripts/`.
 
-> [!warning] ⚠️ **Status: LEGACY / SECONDARY**
-> This script is no longer the primary data path for the Digital Twin. It has been replaced by [G07_withings_direct_sync.md](./G07_withings_direct_sync.md) for automated database ingestion.
-> 
-> **Retained for:**
-> 1. Human-readable backup in Google Sheets (`Training_Journal` → `Withings_API`).
-> 2. Primary OAuth2 authentication (contains the browser-based authorization flow).
+## Scope
+### In Scope
+- Records that this automation spec is archived and is not part of the active production script surface.
+- Provides a stable name for historical cross-references and migration review.
 
-## ⚡ Technical Details
-- **Language:** Python
-- **Triggers:** Manual Execution (required when refresh tokens expire)
-- **Databases:** None
-- **Dependencies:** `urllib.parse, dotenv, webbrowser, google.oauth2.service_account, requests, gspread, json, os, http.server, datetime`
+### Out of Scope
+- Runtime behavior, scheduler configuration, and operational ownership for a live script.
+- New production changes or active automation guarantees.
 
-## 🛠️ Logic Flow
-1. Performs OAuth2 browser-based login if tokens are missing or invalid.
-2. Fetches the last 365 days of measurement groups from Withings.
-3. Clears and repopulates the `Withings_API` worksheet in the `Training_Journal` spreadsheet.
+## Inputs/Outputs
+### Inputs
+- Historical references to `withings_to_sheets` in older documentation or migration notes.
 
-## 📤 Outputs
-- **Google Sheet:** `Withings_API` worksheet populated with history.
-- **Tokens:** Updates `withings_tokens.json`.
+### Outputs
+- Archived documentation status only. No active runtime output is expected from this record.
 
-## ⚠️ Known Issues / Maintenance
-- Requires manual interaction for the browser login.
-- Should only be run when the Google Sheet backup is specifically needed or when re-authentication is required for the direct sync.
+## Dependencies
+- No active script dependency is currently registered for this documentation file.
+- If this automation is restored, create or identify the active script and regenerate the spec with `G12_auto_documenter.py`.
+
+## Procedure
+1. Search for an active implementation before using this document operationally.
+2. If no script exists, keep this file archived.
+3. If a script is restored, update `status` to `active`, add `script_hash`, and regenerate the spec.
+4. Re-run `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Archived doc is mistaken for an active automation | No matching script exists in the active script directories | Locate or recreate the script before scheduling or invoking it. |
+| Historical link points here | Link resolves to an archived spec | Use the archive status to decide whether to update or remove the reference. |
+| Automation is restored | New script appears with this stem | Regenerate this spec as active documentation with a current `script_hash`. |
+
+## Security Notes
+- Do not add secrets, raw tokens, passwords, or internal infrastructure addresses to archived documentation.
+- Use placeholders such as `[API_KEY]`, `{{DB_PASSWORD}}`, and `{{INTERNAL_IP}}` for any historical configuration notes.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Quarterly archive review, or immediately if a matching script is restored.

@@ -3,7 +3,7 @@ title: "G11: Roadmap"
 type: "goal_roadmap"
 status: "active"
 owner: "Michał"
-updated: "2026-04-23"
+updated: "2026-05-13"
 goal_id: "goal-g11"
 ---
 
@@ -22,68 +22,7 @@ goal_id: "goal-g11"
 ## Q2 (Apr–Jun)
 
 > [!tip] 🚀 **High-Impact Autonomy Tasks**
-> - [x] **Unified Daily Intelligence View** - Integrated into Telegram via `G11_approval_prompter.py` (Mar 18)
-> - [x] **Quick Wins Generation** - Unified execution zone in Daily Note (Mar 20)
-> - [x] **Predictive "Ghost" Schema** - Track system forecasting accuracy ✅ (Mar 23)
-> - [x] **Self-Healing Automation** - Unified approval loop for system issues (Mar 18)
-> - [x] **Stale Task Archiver** - Weekly cleanup of overdue Google Tasks (enhanced Mar 20, auto-approve >30d Mar 26)
-> - [x] **Agentic Approval Framework:** Transition from reporting to proactive "Ask & Act" via Telegram ✅ (Mar 25)
-> - [x] **G11 Decision Intelligence:** Manual decision reasoning log and monthly cognitive pattern analysis ✅ (Mar 26)
-> - [x] **Robust Sync Orchestration:** Producer/Consumer decoupling with retry-aware health sync ✅ (Mar 27)
-> - [x] **Autonomy Promotion Agent:** Self-evolving system that upgrades policy levels based on trust thresholds ✅ (Mar 28)
-> - [x] **Hidden Friction Discovery:** Statistical correlation engine identifying cross-domain lifestyle triggers ✅ (Mar 28)
-> - [x] **Maintenance Triage:** Consolidated hardware/logistics alerts to Sunday Admin task ✅ (Mar 31)
-> - [x] **Hygiene Agent:** Automated Google Tasks resolution based on DB state ✅ (Mar 31)
-> - [x] **Failure Hardening (G11-FH):** Implemented proactive failure notifications for all G-scripts via Telegram ✅ (Apr 01)
-> - [x] **Clutter-Free Intelligence (G11-CFI):** Developed a smart collapsible dashboard for the Daily Note (Apr 01)
-> - [x] **Golden Mission Aggregator (G11-GMA):** Automated Top 5 mission ranking from multi-source triaged tasks ✅ (Apr 02)
-> - [x] **Parallel Sync Orchestration (G11-PSO):** Refactored Daily Manager for concurrent execution (ThreadPool) ✅ (Apr 02)
-> - [x] **Enterprise Recovery Shield (G11-ERS):** Verified and encrypted database backup pipeline ✅ (Apr 02)
-> - [x] **Autonomous System Self-Healer (G11-ASH):** Automated retry and cleanup logic for failed syncs ✅ (Apr 02, Fix: Name mapping hardened Apr 09)
-> - [x] **Zero-Friction Goal Recommender (G11-ZGR):** Automated data-driven Power Goal selection ✅ (Apr 02)
-> - [x] **Logistics Enforcer (G11-LE):** Interactive Telegram prompts for overdue items (Done/Snooze) ✅ (Apr 03)
-- [x] **Complete n8n Service Documentation:** Documented all 38+ n8n automation services in G12 ✅ (Apr 15)
-> - [x] **Schedule Master List:** Created `SCHEDULE_All-Workflows.md` tracking all workflow trigger times ✅ (Apr 10)
-> - [x] **Bio-Feedback Load Balancer (G10-BFLB):** Autonomous schedule pivoting based on readiness ✅ (Apr 03)
-> - [x] **Pre-emptive Financial Rebalancer (G05-PFR):** Automated budget reallocations based on friction forecasts ✅ (Apr 03)
-- [x] **System Startup Probe Resilience:** Hardened service discovery for varied container naming ✅ (Apr 27)
-- [x] **Approval Noise Reduction:** Silenced stale task requests for < 30 days overdue ✅ (Apr 27)
-- [x] **Biometric Sanity Guard:** Prevented sensor glitches from polluting health context ✅ (Apr 27)
-- [x] **Net Worth Automation:** Month-end financial snapshot and FIRE calculation automated ✅ (Apr 27)
-
-> [!tip] 🚀 **NEW: Recurring Friction & Failure Intelligence**
-> **Gap:** G11 needs systematic failure logging for true self-healing and proactive maintenance.
-- [x] **Friction Log System:** Capture repeated frustrations automatically (Implemented via G11_friction_harvester.py) ✅ (Apr 24)
-  - [x] **Sub-task: Manual Friction Prompt** - Daily: "What frustrated you today?" (Obsidian Frontmatter sync established) ✅ (Apr 24)
-  - [x] **Sub-task: Cross-Repo Link Standard:** Propose a standard for linking from Obsidian to the docs/ folder that works across both the filesystem and the web. ✅ (Apr 23 - Root Symlinking Strategy)
-  - [ ] **Sub-task: Auto-Capture** - System failures logged automatically (already in G11-FH)
-  - [ ] **Sub-task: Pattern Detection** - Identify recurring friction themes
-- [ ] **Failure Knowledge Base:** Build resolution database
-  - [ ] **Sub-task: Error → Resolution Mapping** - Store how each failure was fixed
-  - [ ] **Sub-task: Prevention Triggers** - "If X fails, try Y before alerting user"
-  - [ ] **Sub-task: Time Lost Tracking** - Quantify impact of system issues
-- [ ] **Proactive Bottleneck Detection:** Prevent issues before they happen
-  - [ ] **Sub-task: Resource Monitoring** - Track CPU/memory/disk trends
-  - [ ] **Sub-task: Predictive Alerts** - "Disk will be full in 3 days"
-  - [ ] **Sub-task: Maintenance Scheduling** - Auto-schedule maintenance windows
-- [x] **Unified Daily Intelligence View** - Integrated into Telegram via `G11_approval_prompter.py` (Mar 18)
-- [x] **Quick Wins Generation** - Unified execution zone in Daily Note (Mar 20)
-- [x] **Predictive "Ghost" Schema** - Track system forecasting accuracy ✅ (Mar 23)
-- [x] **Self-Healing Automation** - Unified approval loop for system issues (Mar 18)
-- [x] **Stale Task Archiver** - Weekly cleanup of overdue Google Tasks (enhanced Mar 20, auto-approve >30d Mar 26)
-- [x] **Agentic Approval Framework:** Transition from reporting to proactive "Ask & Act" via Telegram ✅ (Mar 25)
-- [x] **G11 Decision Intelligence:** Manual decision reasoning log and monthly cognitive pattern analysis ✅ (Mar 26)
-- [x] **Robust Sync Orchestration:** Producer/Consumer decoupling with retry-aware health sync ✅ (Mar 27)
-- [x] **Autonomy Promotion Agent:** Self-evolving system that upgrades policy levels based on trust thresholds ✅ (Mar 28)
-- [x] **Hidden Friction Discovery:** Statistical correlation engine identifying cross-domain lifestyle triggers ✅ (Mar 28)
-- [x] **Maintenance Triage:** Consolidated hardware/logistics alerts to Sunday Admin task ✅ (Mar 31)
-- [x] **Hygiene Agent:** Automated Google Tasks resolution based on DB state ✅ (Mar 31)
-- [x] **Failure Hardening (G11-FH):** Implemented proactive failure notifications for all G-scripts via Telegram ✅ (Apr 01)
-- [x] **Clutter-Free Intelligence (G11-CFI):** Developed a smart collapsible dashboard for the Daily Note (Apr 01)
-- [x] **Golden Mission Aggregator (G11-GMA):** Automated Top 5 mission ranking from multi-source triaged tasks ✅ (Apr 02)
-- [x] **Parallel Sync Orchestration (G11-PSO):** Refactored Daily Manager for concurrent execution (ThreadPool) ✅ (Apr 02)
-- [x] **Enterprise Recovery Shield (G11-ERS):** Verified and encrypted database backup pipeline ✅ (Apr 02)
-- [x] **Autonomous System Self-Healer (G11-ASH):** Automated retry and cleanup logic for failed syncs ✅ (Apr 02, Fix: Name mapping hardened Apr 09)
+- [x] **Autonomous System Self-Healer (G11-ASH):** Automated retry and cleanup logic for failed syncs ✅ (Apr 02, Fix: Name mapping hardened Apr 09, Docker/Permission Fixes May 06)
 - [x] **Zero-Friction Goal Recommender (G11-ZGR):** Automated data-driven Power Goal selection ✅ (Apr 02)
 - [x] **Logistics Enforcer (G11-LE):** Interactive Telegram prompts for overdue items (Done/Snooze) ✅ (Apr 03)
 - [x] **Complete n8n Service Documentation:** Documented all 38+ n8n automation services in G12 ✅ (Apr 15)
@@ -92,128 +31,122 @@ goal_id: "goal-g11"
 - [x] **Pre-emptive Financial Rebalancer (G05-PFR):** Automated budget reallocations based on friction forecasts ✅ (Apr 03)
 - [x] **System Startup Probe Resilience:** Hardened service discovery for varied container naming ✅ (Apr 27)
 - [x] **Approval Noise Reduction:** Silenced stale task requests for < 30 days overdue ✅ (Apr 27)
+- [x] **Task Triage Hardening:** Aggressive noise reduction (>14d) with Goal/Commitment protection ✅ (May 06)
+- [x] **Instant Self-Healing Loop:** Integrated script failure events with targeted supervisor repair. ✅ (May 01)
+- [x] **High-Level Event Emission:** Upgraded core sync scripts (Health, Finance, Pantry, Weight, Brand, Learning) to broadcast completion. ✅ (May 21)
 - [x] **Biometric Sanity Guard:** Prevented sensor glitches from polluting health context ✅ (Apr 27)
 - [x] **Net Worth Automation:** Month-end financial snapshot and FIRE calculation automated ✅ (Apr 27)
-- [x] **Reliability Hardening (G11-RH):** Implemented strict biometric freshness gating and n8n orchestration migration ✅ (Apr 16)
+
+> [!danger] 🚀 **NEW: Event-Driven Architecture Acceleration (EDA)**
+- [x] **Message Broker (RabbitMQ) Deployment:** ✅ (May 01)
+  - [x] **Sub-task: Broker Setup** - Deploy RabbitMQ with Management UI in Docker ✅ (May 01)
+  - [x] **Sub-task: n8n Integration** - Configure n8n RabbitMQ Trigger nodes ✅ (May 01)
+  - [x] **Sub-task: LifeEvent Schema** - Define standardized JSON format (Source, Domain, Severity, Payload) ✅ (May 01)
+  - [x] **Sub-task: Twin Event Emitter** - Update core scripts and API to emit events on state change ✅ (May 05)
+
+> [!tip] 🚀 **NEW: Recurring Friction & Failure Intelligence**
+- [x] **Friction Log System:** Capture repeated frustrations automatically (Implemented via G11_friction_harvester.py) ✅ (Apr 24)
+  - [x] **Sub-task: Manual Friction Prompt** - Daily: "What frustrated you today?" (Obsidian Frontmatter sync established) ✅ (Apr 24)
+  - [x] **Sub-task: Cross-Repo Link Standard:** Root Symlinking Strategy ✅ (Apr 23)
+  - [x] **Sub-task: Auto-Capture** - System failures logged automatically (already in G11-FH) ✅
+  - [x] **Sub-task: Pattern Detection** - Identify recurring friction themes via G11_lifestyle_auditor.py ✅
+- [x] **Failure Knowledge Base:** Build resolution database ✅ (May 03)
+  - [x] **Sub-task: Error → Resolution Mapping** - Store how each failure was fixed via failure_resolutions table ✅
+  - [x] **Sub-task: Prevention Triggers** - "If X fails, try Y before alerting user" ✅
+- [x] **Reliability Hardening (G11-RH):** Implemented biometric freshness gating and n8n orchestration ✅ (Apr 16)
 - [x] **API Architectural Cleanup (G11-AAC):** Resolved port conflicts and consolidated Digital Twin endpoints ✅ (Apr 16)
-- [x] **Docker Infrastructure Hardening:** Refactored volume path calculation in core engines (`G04`, `G12`) to eliminate absolute host path dependencies. Improved container-local path resilience. ✅ (Apr 25)
+- [x] **Docker Infrastructure Hardening:** Refactored volume paths to eliminate absolute host dependencies ✅ (Apr 25)
 
 > [!danger] 🛡️ **System Security Hardening (G11-SSH)**
-> **Gap:** Critical vulnerabilities identified in database access (root user), API exposure (no auth), and container permissions.
 - [ ] **API Security Migration:**
-  - [x] **Phase 1: Permissive Logging** - Implement `X-API-KEY` logic that logs missing keys without blocking requests. ✅ (Apr 22)
-  - [ ] **Phase 2: Node Identification** - Audit logs to identify and update all n8n/script callers with the new key.
-  - [ ] **Phase 3: Full Enforcement** - Reject all requests missing a valid `X-API-KEY`.
-- [x] **DB Least Privilege (RBAC):** Migrated entire stack from `root` to service-specific restricted users. ✅ (Apr 22)
-- [x] **Container Hardening:** Updated Dockerfiles and Compose to run all core services as non-privileged users (`UID 1000`). ✅ (Apr 22)
-- [ ] **Credential Rotation:** System-wide rotation of DB passwords and n8n encryption keys.
+  - [x] **Phase 1: Permissive Logging** - Implement `X-API-KEY` logic ✅ (Apr 22)
+  - [ ] **Phase 2: Node Identification** - Audit logs to identify callers
+  - [ ] **Phase 3: Full Enforcement** - Reject requests without valid `X-API-KEY`
+- [x] **DB Least Privilege (RBAC):** Migrated entire stack from `root` to service-specific restricted users ✅ (Apr 22)
+- [x] **Container Hardening:** Updated core services to run as non-privileged users (`UID 1000`) ✅ (Apr 22)
 
-> [!tip] 🌍 **Global Language Agnostic Layer (Translation Gate)**
-> **Gap:** Multi-language inputs (PL/EN) complicate regex and tool-calling accuracy.
-- [ ] **Phase 1: Translation Ingestion** - Implement front-door translation to Standardized English for all incoming queries.
-- [ ] **Phase 2: Intent Simplification** - Refactor AgentZero and scripts to use English-only keyword/intent detection (removing Polish regex).
-- [ ] **Phase 3: Bidi-Response Engine** - Ensure system detects input language and translates English internal logic back to User's language for responses.
+> [!danger] 🛡️ **Infrastructure Hardening (Phase 5 - Post-Audit)**
+- [x] **Global PgBouncer Migration:** Align Grafana, `db-event-bridge`, and monitoring exporters to use the PgBouncer pooler (Port 6432). ✅ (May 22)
+- [ ] **DLX Queue Bindings:** Configure all core EDA queues to utilize the `life.events.dlx` Dead Letter Exchange for fault tolerance.
+- [ ] **Infrastructure Backup Service:** Deploy a dedicated `db-backup` container in `docker-compose` for automated, non-kernel-dependent snapshots.
+- [ ] **Centralized Log Aggregation:** Implement Grafana Loki to unify Python, n8n, and Docker logs into a single observability pane.
 
-> [!tip] 🚀 **Infrastructure Restructure (Multi-User Package) - [IMPL_Infrastructure_Consolidation.md](IMPL_Infrastructure_Consolidation.md)**
-- [x] **Unified docker-compose:** Create single docker-compose.yml combining all services from scattered locations ✅ (Apr 27)
-  - [x] **Sub-task: Merge** - Combine grafana/, local-ai-packaged/, infrastructure/docker-compose.yml ✅ (Apr 27)
-  - [ ] **Sub-task: Consolidate exporters** - g01 + goals → metrics-exporter (port 8081)
-  - [ ] **Sub-task: Add profiles** - CPU/GPU for Ollama, optional for Obsidian
-  - [x] **Sub-task: Refactor volumes** - Move absolute paths (e.g. /home/{{USER}}/...) to relative or standard container paths ✅ (Apr 27)
-  - [ ] **Sub-task: Dockerfile Hardening** - Add .dockerignore and optimize G04/metrics images to exclude secrets
-- [x] **Weekly Note Generator:** Create a script to "touch" the missing weekly notes based on the template to resolve the 700+ broken Wikilinks. ✅ (Apr 27 - G12_weekly_note_backfiller.py)
-- [ ] **Folder structure documentation:** Create docs/FOLDER_STRUCTURE.md defining spawnable structure
-- [ ] **Spawn procedure:** Create SPAWN.md documentation for duplicating to new users
-- [ ] **Environment template:** Create .env.example with all configurable variables
-- [ ] **Test package spawn:** Verify new instance spawns correctly
+> [!tip] 🚀 **Infrastructure Restructure (Multi-User Package)**
+- [x] **Unified docker-compose:** Created single docker-compose.yml combining all services ✅ (Apr 27)
+- [x] **Weekly Note Generator:** Resolved 700+ broken Wikilinks via G12_weekly_note_backfiller.py ✅ (Apr 27)
+- [x] **Folder structure documentation:** Created docs/FOLDER_STRUCTURE.md ✅ (May 06)
+- [x] **Spawn procedure:** Created docs/SPAWN.md step-by-step spawn guide ✅ (May 06)
+- [x] **Environment template:** Created .env.example with all required variables ✅ (May 06)
 
-- **Architecture Principle:** All device control stays in Home Assistant. System provides intelligence, recommendations, and triggers HA webhooks when needed.
-
-- [x] **Data Intelligence:** Deploy `v_unified_daily_intelligence` materialized view for cross-domain health analysis.
-- [x] **CEO Weekly Briefing:** Unified executive summary via Telegram (enhanced Mar 26 with full data aggregation)
-- [x] **Monthly Progress Summary** - Automated G01 reporter added to sync (Mar 20)
-- [x] **ROI Dashboard:** Quantify time saved vs. time invested analysis ✅ (Mar 08 - Autonomy ROI Tracker deployed)
-- [x] **Self-Healing Supervisor:** Proctor script that monitors system health and generates LLM fix prompts ✅ (Mar 06)
+> [!danger] 🚀 **NEW: System Observability & Reliability Hardening**
+- [x] **RabbitMQ Dead Letter Architecture:** Implemented DLX/DLQ to prevent silent event drops ✅ (May 12)
+- [x] **Structured Logging Migration:** Refactor core scripts to JSON standard via `utils/structured_logger.py` ✅ (May 12)
+  - [x] Phase 1: Core G11 Refactor - Listener, Emitter, and Startup Probe migrated ✅ (May 12)
+  - [x] Phase 2: High-Frequency Syncs - Migrate G03, G05, and G07 primary sync scripts ✅ (May 12)
+  - [x] Phase 3: System-Wide Decommissioning - Eliminate legacy `print()` in favor of `logger.info()` ✅ (May 12)
+- [ ] **End-to-End Correlation Tracking:** Implement trace auditing across script execution boundaries
 
 ## Q3 (Jul–Sep) - Phase: The Enterprise Nervous System
 
 > [!tip] 🚀 **Q3 Focus: Cognitive & Self-Healing Intelligence**
-- [ ] **Friction & Failure Intelligence (G11-FFI):** Build a resolution database mapping recurring errors to successful fixes via `/ouch` (friction) log.
-- [ ] **Decision Pattern Intelligence (G11-DPI):** Implement outcome tracking and "Post-Decision Audits" to advise future actions based on historical success.
-- [ ] **Real-Time Data Pipeline:** Replace polling with event-driven data sync
->   - [ ] **Sub-task: Change Data Capture** - Implement CDC from PostgreSQL (Debezium or custom)
->   - [ ] **Sub-task: Stream Processing** - Set up data streaming for real-time dashboards
->   - [ ] **Sub-task: Materialized Views** - Create refreshed-on-change views for cross-domain queries
-> - [ ] **Enhanced Cross-Domain Analytics:** Strengthen the unified daily intelligence view
->   - [ ] **Sub-task: Data Join Optimization** - Optimize `v_unified_daily_intelligence` for faster queries
->   - [ ] **Sub-task: New Correlations** - Add finance ↔ productivity, health ↔ productivity correlations
-
-> [!tip] 🚀 **NEW: Cognitive & Decision Pattern Intelligence**
-> **Gap:** G11 Decision Intelligence needs historical data to advise "based on similar past decisions."
-- [ ] **Decision Log Enhancement:** Build decision history
-  - [ ] **Sub-task: Decision Template** - Structured capture: What, Why, Constraints, Outcome
-  - [ ] **Sub-task: Outcome Follow-up** - Prompt: "Did the decision work? 1-10"
-  - [ ] **Sub-task: Context Linking** - Connect decisions to goals/situations
-- [ ] **Cognitive Pattern Analysis:** Identify decision-making biases
-  - [ ] **Sub-task: Bias Detection** - Flag recency bias, loss aversion, etc.
-  - [ ] **Sub-task: Decision Speed Tracking** - Time-to-decision vs. quality
-  - [ ] **Sub-task: Reversal Rate** - Track decisions that were undone
-- [ ] **Predictive Decision Advisor:** AI-powered recommendations
-  - [ ] **Sub-task: Similar Past Decision Lookup** - "Similar decision: X, outcome was Y"
-  - [ ] **Sub-task: Decision Confidence Score** - AI rates confidence in recommendation
-  - [ ] **Sub-task: Learning Loop** - Track if user followed AI advice, outcome comparison
-- [ ] **Real-Time Data Pipeline:** Replace polling with event-driven data sync
-  - [ ] **Sub-task: Change Data Capture** - Implement CDC from PostgreSQL (Debezium or custom)
-  - [ ] **Sub-task: Stream Processing** - Set up data streaming for real-time dashboards
-  - [ ] **Sub-task: Materialized Views** - Create refreshed-on-change views for cross-domain queries
+- [x] **Friction & Failure Intelligence (G11-FFI):** Build a resolution database mapping friction logs to fixes ✅ (May 06)
+- [x] **Decision Pattern Intelligence (G11-DPI):** Implemented outcome tracking and structured Decision Logs (What/Why/Constraints) ✅ (May 22)
+- [x] **Real-Time Data Pipeline Phase 1 (CDC):** Transition to True CDC (WAL Streaming) ✅ (May 07)
+- [x] **2026-05-09 Update:** Decommissioned WAL Streaming in favor of robust **LISTEN/NOTIFY** triggers to remove plugin dependencies (wal2json) and improve reliability across all 8 DBs. ✅ (May 09)
+  - [x] **Sub-task: Trigger Consolidation** - Deploy unified triggers to all domain databases. ✅ (May 09)
+  - [x] **Sub-task: Bridge Refactor** - Update db-event-bridge to handle multi-threaded LISTEN sessions. ✅ (May 09)
+- [x] **Decision Log Enhancement:** Structured capture: What, Why, Constraints, Outcome (Integrated into G11-DPI) ✅ (May 22)
+- [ ] **Cognitive Pattern Analysis:** Identify decision-making biases (recency, loss aversion)
 - [ ] **Enhanced Cross-Domain Analytics:** Strengthen the unified daily intelligence view
-  - [ ] **Sub-task: Data Join Optimization** - Optimize `v_unified_daily_intelligence` for faster queries
-  - [ ] **Sub-task: New Correlations** - Add finance ↔ productivity, health ↔ productivity correlations
 
-> [!tip] 🚀 **Core Infrastructure Deferred to Q4**
-> - ⚠️ **Message Broker:** Deferred to Q4 - requires more system stability first
-> - ⚠️ **GraphQL API:** Deferred to Q4 - requires Message Broker foundation
-> - ⚠️ **Infrastructure-as-Code:** Deferred to Q4
-> - ⚠️ **Secret Management:** Deferred to Q4
+> [!construction] 🏗️ **Modular SDK & Module System (G11-MSM) - ACCELERATED TO Q2**
+>
+> **Objective:** Formalize the implicit SDK patterns into a clean `autonomous_sdk` package and migrate all legacy root scripts into domain modules.
+>
+> **Current Status:** [MODULAR_MIGRATION_STATUS.md](../../_meta/MODULAR_MIGRATION_STATUS.md)
+>
+> ### Phase 1-5: Infrastructure & Hardening ✅ (May 14)
+> - [x] **Create `autonomous_sdk/` package** (Re-export layer for DB, Log, Event, CB)
+> - [x] **Module Manifest Standard** (Pydantic validation + Discovery)
+> - [x] **Orchestrator Modernization** (Registry-driven tiered execution)
+> - [x] **Modular API** (Domain-based routers: `/api/v1/pantry`, etc.)
+> - [x] **Module Generator** (Automated skeleton reification)
+>
+### Phase 6: Migration & Cleanup ✅ (May 15)
+- [x] **Migrate G01 (Training)** - 10 scripts moved to module
+- [x] **Migrate G03 (Pantry)** - 8 scripts moved to module
+- [x] **Migrate G05 (Finance)** - 9 scripts moved to module
+- [x] **Migrate G07 (Health)** - 6 scripts moved to module
+- [x] **Migrate G10 (Productivity)** - 10 scripts moved to module
+- [x] **Migrate remaining domains** (Career, Learning, Logistics, Home, Brand) ✅ (May 15)
+- [x] **Full Domain Logic Exhaustion** (Migrate peripheral/secondary scripts for G03, G05, G07) ✅ (May 15)
+- [x] **Finalize Proxy Layer** — move migrated files to modular directories and replace root scripts with lightweight proxies for 100% backward compatibility. ✅ (May 15)
 
-- [ ] **Automated Load Balancing** and failover for high-availability Digital Twin
-- [ ] **AI-driven autonomous decision-making** across integrated systems
+> [!danger] 🚀 **NEW: Event-Driven Efficiency & Optimization (Q2 Final)**
+>
+> **Objective:** Transition to "Intelligence-as-a-Service" model. Offload all deterministic routing and recovery logic to System-Native Python, reserving n8n exclusively for LLM reasoning and Human-in-the-Loop interaction.
+>
+> - [ ] **Intelligence-as-a-Service (IaaS) Migration:**
+>   - [x] **Sub-task: Native EDA Router** - Refactor `G11_event_listener.py` to handle all domain routing (`if health then...`) locally via `subprocess` or `module.sync()`. ✅ (May 21)
+>   - [ ] **Sub-task: Tiered Self-Healing** - Implement "Strategy Patterns" in `G11_self_healing_logic.py`. Only call n8n `self-healing` webhook if local retry patterns fail 3x.
+>   - [ ] **Sub-task: n8n De-Cluttering** - Decommission `Universal-Autonomy-Orchestrator` in favor of high-signal, targeted webhooks for **Decision Advisory** only.
+>   - [ ] **Sub-task: Stability Audit** - Ensure all system-native APIs and connections are hardened for 100% uptime before offloading n8n crons.
+
 
 ## Q4 (Oct–Dec) - Phase: The Autonomous Director
 
-> [!tip] 🚀 **Infrastructure Phase (Event-Driven Architecture)**
-- [ ] **Message Broker (RabbitMQ)** for true Event-Driven responses
-  - [ ] **Sub-task: Broker Setup** - Deploy RabbitMQ in Docker
-  - [ ] **Sub-task: n8n Integration** - Configure n8n to consume events from message broker
-  - [ ] **Sub-task: Digital Twin Events** - Emit events from Python scripts to broker
-  - [ ] **Sub-task: Event Schema** - Define event format (JSON with domain, action, payload)
-- [ ] **Unified Data API (GraphQL)** to replace domain-specific REST calls
-  - [ ] **Sub-task: Schema Definition** - Create unified GraphQL schema across all databases
-  - [ ] **Sub-task: GraphQL Server** - Deploy via FastAPI/Strawberry
-  - [ ] **Sub-task: Migration Path** - Update n8n workflows to use GraphQL progressively
-- [ ] **Infrastructure-as-Code (Ansible/Terraform)** for system recoverability
-  - [ ] **Sub-task: Inventory** - Document all services requiring IaC
-  - [ ] **Sub-task: Ansible Playbooks** - Create playbooks for Docker stack deployment
-  - [ ] **Sub-task: Recovery Testing** - Validate restore from code on clean system
-- [ ] **Centralized Secret Management (Vault)** to eliminate .env risks
-  - [ ] **Sub-task: Vault Setup** - Deploy HashiCorp Vault (or bitwarden_rs for simpler alternative)
-  - [ ] **Sub-task: Secret Migration** - Move API keys from .env to Vault
-  - [ ] **Sub-task: n8n Integration** - Configure n8n to read secrets from Vault
+> [!tip] 🚀 **Real-Time Data Pipeline Phase 2 (Hardening)**
+- [ ] **Sub-task: LSN Resilience** - Implement Log Sequence Number tracking for zero-loss restarts
+- [ ] **Sub-task: Legacy Cleanup** - Remove old PostgreSQL triggers to reduce DB overhead
 
 > [!tip] 🚀 **Full Autonomy Implementation**
-- [ ] **Strategic "CEO" Reallocation Engine** (Autonomous goal conflict resolution)
-  - [ ] **Sub-task: Conflict Detection** - Identify when goals compete for resources (time/money)
-  - [ ] **Sub-task: Decision Matrix** - Implement weighted scoring for resource allocation
-  - [ ] **Sub-task: Autonomous Execution** - Auto-adjust schedules/budgets based on priority
-- [ ] **Priority Matrix:** Weighted objective function to reallocate Time/Money across systems
-- [ ] **Full Meta-System:** Complete ecosystem optimization with automated improvements
-- [ ] **Predictive maintenance** for all automation systems
-- [ ] **Finalize "Personal OS"** experience with intuitive controls and assistants
-- [ ] **Document advanced enterprise methodology** ready for consulting
-- [ ] **Comprehensive security and resilience audit** of the entire ecosystem
+- [ ] **Strategic "CEO" Reallocation Engine:** Autonomous goal conflict resolution
+- [ ] **Infrastructure-as-Code (Ansible/Terraform):** Standardize system recoverability
+- [ ] **Unified Data API (GraphQL):** Replace domain-specific REST calls
+- [ ] **Centralized Secret Management (Vault):** Eliminate .env risks
+- [ ] **Level 5 Autonomy Expansion:** Scale automated decision logic to Career and Learning domains
 
 ## Dependencies
 - **Systems:** S01 (Observability), S03 (Data Layer), S04 (Digital Twin), S08 (Automation Orchestrator)
 - **External:** All other goals (G01-G11) for data sources and functional components.
 - **Other goals:** G09 (Complete Process Documentation) for documenting Meta-System architecture and processes. All other goals are feeders/consumers of G12.
-G12.

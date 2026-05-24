@@ -1,42 +1,90 @@
 ---
-title: "Google Drive Backup Sync (G11)"
+title: "Automation Spec: G11_google_drive_backup.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-02"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "2cc8b55e8c4a7808d29ac2b6cf16d359fb253a902b23d3b056b3faefb59eddf7"
 ---
 
-# Purpose
-The **Google Drive Backup Sync** (`G11_google_drive_backup.py`) handles the off-site storage of encrypted system backups. It ensures that critical data is available for recovery even in the case of local hardware failure.
+# 🤖 Automation Spec: G11_google_drive_backup.py
 
-# Scope
-- **In Scope:** Uploading `.sql.gpg` files to a dedicated "Autonomous Backups" folder on Google Drive.
-- **Out Scope:** Managing Drive storage quotas or deleting old cloud backups (retention is currently manual/unlimited on Drive).
+## Purpose
+Runs the google drive backup automation for Meta-System Integration Optimization.
 
-# Inputs/Outputs
-- **Inputs:** Encrypted backup files from `_meta/backups/db/`.
-- **Outputs:** Google Drive file IDs and sync status.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_google_drive_backup.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-# Dependencies
-- **Systems:** S03 (Data Layer), G11 (Meta-System)
-- **API:** Google Drive API v3 (Scope: `drive.file`)
-- **Files:** `client_secret.json`, `google_drive_token.pickle`
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-# Procedure
-- Triggered automatically by `G11_db_recovery_shield.py` after successful encryption.
-- **Deduplication:** Checks for existing file names in the target folder to prevent redundant uploads.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_google_drive_backup.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-# Failure Modes
-| Scenario | Response |
-|----------|----------|
-| Auth Token Expired | Attempt auto-refresh; log failure if manual re-auth needed. |
-| Network Timeout | Log PARTIAL status; retry during next morning sync. |
-| Folder Missing | Script autonomously creates "Autonomous Backups" folder. |
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
-# Security Notes
-- **DRIVE SCOPE:** Uses the narrow `drive.file` scope, meaning the script can only see and access files it created itself.
-- **ENCRYPTION:** Files are uploaded in their GPG-encrypted state. Cleartext data NEVER leaves the local environment.
+## Dependencies
+### Runtime
+- Python script: `modules/meta/scripts/G11_google_drive_backup.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-# Owner + Review Cadence
-- **Owner:** Michał
-- **Review:** Monthly (Check Drive folder for sync consistency)
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.log`
+- `autonomous_sdk.utils.google_auth_helper`
+- `googleapiclient.discovery`
+- `googleapiclient.http`
+- `io`
+- `os`
+- `pathlib`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_google_drive_backup.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_google_drive_backup.py`.
+
+## Implementation Notes
+- Top-level functions: No top-level functions detected.
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `pathlib, autonomous_sdk.utils.google_auth_helper, os, autonomous_sdk.db_config, googleapiclient.discovery, googleapiclient.http, io, sys, autonomous_sdk.log`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

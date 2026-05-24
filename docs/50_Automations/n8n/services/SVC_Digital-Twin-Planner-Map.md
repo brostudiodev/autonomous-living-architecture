@@ -35,8 +35,8 @@ An n8n sub-workflow that connects the Intelligent-Hub to the Digital Twin API's 
 
 ## Dependencies
 ### Systems
-- [Digital Twin System](../../../20_Systems/S04_Digital-Twin/README.md)
-- [Meta-System Integration (S11)](../../../20_Systems/S11_Meta-System-Integration/README.md)
+- [Digital Twin System](../../../20_Systems/README.md)
+- [Meta-System Integration (S11)](../../../20_Systems/README.md)
 
 ### External Services
 - **Digital Twin API:** Running on `{{INTERNAL_IP}}:5677`.

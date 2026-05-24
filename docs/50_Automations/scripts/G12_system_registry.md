@@ -1,49 +1,89 @@
 ---
-title: "G12: Meta-System Dashboard Registry"
+title: "Automation Spec: G12_system_registry.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G12_system_registry.py"
-goal_id: "goal-g12"
-systems: ["S11", "S04"]
-owner: "Michał"
-updated: "2026-03-19"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "20ce82aa43d68d96ef{{LONG_IDENTIFIER}}"
 ---
 
-# G12: Meta-System Dashboard Registry
+# 🤖 Automation Spec: G12_system_registry.py
 
 ## Purpose
-Acts as the central "Heartbeat" aggregator for the entire Autonomous Living ecosystem. It collects metrics from the PostgreSQL database and the documentation audit report to generate a high-level executive dashboard in Obsidian.
+G12_system_registry.py.
 
-## Triggers
-- **Scheduled:** Part of the `G11_global_sync.py` registry (runs 3x daily).
-- **Manual:** `python3 scripts/G12_system_registry.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/docs/scripts/G12_system_registry.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G12 Complete Process Documentation` within the `docs` automation domain.
 
-## Inputs
-- **Database:** `digital_twin_michal` (Tables: `system_activity_log`, `autonomous_decisions`, `decision_requests`).
-- **Files:** `docs/G12_Documentation_Audit_Report.md`.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Automation Analytics:** Calculates the success rate of all scripts over the last 24 hours.
-2.  **Autonomy Metrics:** Counts decisions made today and identifies pending human-in-the-loop approvals.
-3.  **Documentation Parsing:** Extracts the documentation health percentage from the latest audit report.
-4.  **Surgical Update:** Overwrites `99_System/Meta-System-Dashboard.md` with a clean, formatted Markdown table and status report.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G12_system_registry.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Obsidian Dashboard:** `99_System/Meta-System-Dashboard.md`.
-- **Console Feedback:** Confirmation of the dashboard update.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S11 Meta-System Integration](../../20_Systems/S11_Meta-System-Integration/README.md)
-- [G12 Complete Process Documentation](../../10_Goals/G12_Complete-Process-Documentation/README.md)
+### Runtime
+- Python script: `modules/docs/scripts/G12_system_registry.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| DB Connection Fail | `psycopg2` exception | Defaults to "Error" in dashboard | Console Output |
-| Audit File Missing | `os.path.exists` failure | Reports health as "Unknown" | Dashboard Status |
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `os`
+- `psycopg2`
+- `re`
+- `sys`
 
-## Manual Fallback
-If the dashboard is stale:
-1.  Run the audit first: `python3 scripts/G12_documentation_audit.py`.
-2.  Run the registry: `python3 scripts/G12_system_registry.py`.
+## Procedure
+1. Review the script source at `modules/docs/scripts/G12_system_registry.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G12_system_registry.py`.
+
+## Implementation Notes
+- Top-level functions: get_db_stats, get_doc_health, generate_dashboard
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `re, psycopg2, datetime, os, autonomous_sdk.db_config, json, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

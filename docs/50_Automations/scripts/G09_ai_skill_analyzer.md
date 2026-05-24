@@ -1,67 +1,88 @@
 ---
-title: "G09_ai_skill_analyzer.py: Learning Strategy"
+title: "Automation Spec: G09_ai_skill_analyzer.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G09_ai_skill_analyzer"
-goal_id: "goal-g09"
-systems: ["S09", "S04", "S10"]
-owner: "Michał"
-updated: "2026-03-09"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "b0e328684a3e90909ffb305fd3d469846fb4ac9ebb72da3dd472ce9b11ef4cc6"
 ---
 
-# G09: AI Skill Analyzer
+# 🤖 Automation Spec: G09_ai_skill_analyzer.py
 
 ## Purpose
-Uses LLM reasoning to analyze study history (G06) and suggest the "Next 3 Best Actions" for learning, ensuring that study time is focused on the highest-priority certification gaps.
+G09_ai_skill_analyzer.py.
 
-## Triggers
-- **When:** Scheduled via `G11_global_sync.py` (runs periodically).
-- **Manual:** `python3 G09_ai_skill_analyzer.py`
-- **Internal:** Called by `autonomous_daily_manager.py` during dashboard generation.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/career/scripts/G09_ai_skill_analyzer.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G09 Automated Career Intelligence` within the `career` automation domain.
 
-## Inputs
-- **Career Context:** Active goals, required hours, and recent study history from `G09_career_data_provider`.
-- **Environment Variables:** `GOOGLE_GEMINI_API_KEY`.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Fetch Context:** Gathers detailed study metrics and goal gaps from the `autonomous_learning` database.
-2. **AI Analysis:** 
-    - Sends the context to Gemini 1.5 Flash.
-    - Requests specific, actionable next steps (not generic topics).
-    - Prioritizes goals with the largest "hour gap" and highest priority.
-3. **Persist Recommendations:** Saves the JSON output to `learning_recommendations.json`.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G09_ai_skill_analyzer.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **JSON Registry:** `learning_recommendations.json` containing 3 specific actions.
-- **Console Log:** Displays the recommendations.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
 
 ## Dependencies
-### Systems
-- [S09 Career Intelligence](../../10_Goals/G09_Automated-Career-Intelligence/README.md)
-- [S04 Digital Twin Hub](../../20_Systems/S04_Digital-Twin/README.md)
+### Runtime
+- Python script: `modules/career/scripts/G09_ai_skill_analyzer.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-### External Services
-- Google Gemini API
+### Imports
+- `G05_ollama_wrapper`
+- `G09_career_data_provider`
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.log`
+- `json`
+- `os`
+- `requests`
 
-### Credentials
-- `GOOGLE_GEMINI_API_KEY` (stored in `.env`)
+## Procedure
+1. Review the script source at `modules/career/scripts/G09_ai_skill_analyzer.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| API Timeout | Exception in request | Use fallback generic tasks | Console |
-| DB Offline | Connection error in provider | Log error, return empty list | None |
-| Invalid JSON | JSON parse error from LLM | Attempt regex cleanup, then fallback | None |
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## Monitoring
-- **Success metric:** Specific learning recommendations appear in the Obsidian Daily Note and Google Calendar.
-- **ROI Tracking:** Included in the G10 Planning ROI.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-## Manual Fallback
-Michał can manually review the `v_learning_progress` view in the database or the `Roadmap.md` in G06 to determine next steps.
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G09_ai_skill_analyzer.py`.
+
+## Implementation Notes
+- Top-level functions: analyze_learning_needs
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `os, autonomous_sdk.db_config, json, G05_ollama_wrapper, G09_career_data_provider, requests, autonomous_sdk.log`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*Related Documentation:*
-- [G06_learning_sync.md](G06_learning_sync.md)
-- [G09_career_data_provider.md](G09_career_data_provider.md)
-- [autonomous_daily_manager.md](autonomous_daily_manager.md)
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

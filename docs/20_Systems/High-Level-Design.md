@@ -3,7 +3,7 @@ title: "High-Level Design"
 type: "documentation"
 status: "active"
 owner: "Michal"
-updated: "2026-04-25"
+updated: "2026-05-19"
 ---
 
 # High-Level Design Document
@@ -15,7 +15,7 @@ The Autonomous Living ecosystem is a sophisticated personal automation platform 
 ## 🎯 **System Vision & Architecture Principles**
 
 ### **Core Vision**
-*"By end of 2026, ordinary life operations run with minimal manual work, backed by automation, observability, recoverability, and security."*
+*"To live a fully autonomous life, where all routine operations are handled by a self-healing, intelligent system, allowing for 100% focus on creation, strategy, and high-impact human relationships."*
 
 ### **Architectural Principles**
 1. **Data-First Decision Making:** All decisions based on quantitative data and trends
@@ -39,26 +39,24 @@ The Autonomous Living ecosystem is a sophisticated personal automation platform 
 - Webhook API - External system integration
 - Grafana Dashboards - Visual analytics and monitoring
 
-#### **Layer 2: Intelligence & Orchestration**
+#### Layer 2: Intelligence & Orchestration
 **Purpose:** AI processing, workflow orchestration, and decision coordination
 **Components:**
-- Digital Twin Hub (G04) - Central intelligence aggregator and state engine.
-- Friction & Failure Intelligence (G11) - Autonomous self-healing and "ouch" detection engine.
-- Google Gemini AI - Natural language processing and analysis
-- n8n Workflow Engine - Visual workflow orchestration platform
-- Intent Classification Router - Intelligent request routing
+- **Modular Kernel (core/):** Centralized API, Orchestrator, and Module Registry.
+- **Autonomous SDK:** Unified system-wide library for Database (DB_TWIN/DB_FINANCE), Event Emission (RabbitMQ), and Structured JSON Logging.
+- **n8n Workflow Engine:** The "Strategic Brain" handling LLM reasoning and multi-agent coordination.
+- **Digital Twin Hub (G04):** State engine and intelligence aggregator.
 
-#### **Layer 3: Domain Systems**
-**Purpose:** Specialized automation for life domains
-**Production Systems:**
-- G01 Training System - Health optimization through body fat tracking
-- G03 Pantry Management - AI-powered household inventory management
-- G05 Financial Command - Wealth tracking & FIRE autonomy (NEW Apr 27)
-- G07 Health Integration - Biometric data collection and analysis
-- G08 Smart Home - REST-based environmental monitoring
-- G09 Career Intelligence - Strategic market steering & content loop (NEW Apr 27)
-- G10 Productivity - Task & attention telemetry architecture
-- G13 Content Engine - Automated achievement harvesting (NEW Apr 27)
+#### Layer 3: Domain Systems (Userland)
+**Purpose:** Self-contained, capability-oriented modules
+**Implementation:** Every domain is implemented as a standard Python module in `modules/`, containing its own logic, specific scripts, and metadata.
+**Core Modules:**
+- **Health & Bio:** Training (G01), Health (G07)
+- **Logistics & Environment:** Pantry (G03), Home (G08), Logistics
+- **Wealth & Career:** Finance (G05), Career (G09), Brand
+- **Growth & Intelligence:** Learning (G06), Productivity (G10), Content (G13)
+- **Infrastructure:** Meta (G11), Docs (G12)
+
 
 #### **Layer 4: Data Integration & Storage**
 **Purpose:** Unified data management and cross-system correlation
@@ -71,15 +69,13 @@ The Autonomous Living ecosystem is a sophisticated personal automation platform 
 #### **Layer 5: Infrastructure & Observability**
 **Purpose:** Reliable execution platform with comprehensive monitoring
 **Components:**
-- Docker Container Platform - Service orchestration with standardized .env/.dockerignore.
-- Authentik SSO/OIDC - Enterprise-grade identity management (Port 9000/9444).
-- Redis Caching - High-performance session and state caching.
-- Prometheus Metrics Collection - Real-time performance monitoring
-- Centralized System Activity Log - Database-driven heartbeat for all automations
-- Friction Intelligence - Quantifying and resolving system friction.
-- Autonomy ROI Tracker - Empirical time-savings quantification engine
-- Grafana Visualization - Operational intelligence dashboards
-- Automated Backup & Recovery - Data protection and system resilience
+- Docker Container Platform: Standardized service orchestration.
+- Authentik SSO/OIDC: Enterprise-grade identity management.
+- Redis Caching: High-performance session and state caching.
+- Prometheus & Grafana: Real-time telemetry and operational dashboards.
+- **ShadowCursor:** Intercepts database writes for safe system-wide validation/dry-runs.
+- Centralized Activity Log: Universal heartbeat for all 13 modules.
+- Automated Backup & Recovery: Disaster resilience for SSoT.
 
 ---
 
@@ -141,26 +137,24 @@ graph TD
 
 ### **Event-Driven Data Pipeline**
 
-#### **Real-Time Processing**
+#### **Real-Time Reactive Processing (EDA)**
 ```mermaid
 sequenceDiagram
-    participant U as User
-    participant T as Telegram
-    participant G04 as Digital Twin
-    participant AI as Gemini AI
     participant DB as PostgreSQL
-    participant N as n8n
-    participant S as Slack
+    participant BR as DB-Event-Bridge
+    participant RM as RabbitMQ
+    participant EO as EDA-Orchestrator (Python)
+    participant N8N as Strategic Brain (n8n)
+    participant T as Telegram
     
-    U->>T: Send Command
-    T->>G04: Webhook Event
-    G04->>AI: Process with context
-    AI->>G04: Analysis and tool calls
-    G04->>DB: Store/Retrieve state
-    G04->>N: Trigger workflows
-    N->>S: Send notification
-    S->>U: Confirm via Slack
-    G04->>T: Final response
+    DB->>BR: pg_notify (New Transaction/Biometric)
+    BR->>RM: Emit Event (finance.info.insert)
+    RM->>EO: Consume Event
+    EO->>DB: Execute Deterministic Task (Sync/Categorize)
+    EO->>N8N: Call SVC_LLM_Categorize
+    N8N->>RM: Emit Outcome (finance.info.breach)
+    RM->>N8N: Consume Breach Event
+    N8N->>T: Notify User with Strategy
 ```
 
 #### **Scheduled Data Synchronization**
@@ -243,8 +237,13 @@ gantt
 
 ## 📊 **INTEGRATION STRATEGY**
 
-### **Hub-and-Spoke Integration Pattern**
-The Digital Twin (G04) serves as the central hub, with domain systems as spokes:
+### **Decentralized Mesh Integration (Life-Nervous-System)**
+The ecosystem has transitioned from a rigid Hub-and-Spoke model to a decentralized **Autonomous Agent Mesh** (ADR-0031).
+
+#### **Communication Patterns**
+1.  **The Fast Reflex (EDA):** Agents emit `LifeEvents` to RabbitMQ. n8n "reflex" workflows and Python-native routers respond in real-time without waiting for central polling.
+2.  **The Cognitive Cortex (G04):** The Digital Twin acts as a high-level subscriber. It observes all events to update long-term memory, provide semantic search, and perform cross-domain reasoning.
+3.  **Intelligence-as-a-Service:** Systems (Action level) call specialized n8n webhooks (Intelligence level) only when high-cognitive reasoning or interactive decision-making is required.
 
 #### **Data Integration Patterns**
 1. **Health-Finance Loop:** Health metrics influence resource allocation
@@ -253,10 +252,11 @@ The Digital Twin (G04) serves as the central hub, with domain systems as spokes:
 4. **Documentation-Content Loop:** System learning feeds brand building
 
 #### **Integration Quality Levels**
-- **Level 4 (Autonomous):** G04-G05, G04-G01, G04-G07, G04-G10 - Fully automated data exchange and predictive scheduling
-- **Level 3 (Assisted):** G04-G03, G04-G12 - AI-enhanced with unified ROI/Activity logging
-- **Level 2 (Coordinated):** G04-G02, G04-G09 - Automated triggers with manual processing
-- **Level 1 (Independent):** G06, G08, G10 - Manual operation with data collection only
+- **Level 5 (Autonomous Mesh):** Systems autonomously emit events and react to bus signals (G05, G03, G07, G11, G10).
+- **Level 4 (Proactive):** Automated data exchange and predictive scheduling via Digital Twin Cortex.
+- **Level 3 (Assisted):** AI-enhanced with unified ROI/Activity logging.
+- **Level 2 (Coordinated):** Automated triggers with manual processing.
+- **Level 1 (Independent):** Manual operation with data collection only.
 
 ---
 

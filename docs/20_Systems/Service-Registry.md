@@ -3,7 +3,7 @@ title: "Service Registry & Infrastructure"
 type: "documentation"
 status: "active"
 owner: "Michał"
-updated: "2026-04-16"
+updated: "2026-05-19"
 ---
 
 # Service Registry & Infrastructure
@@ -59,9 +59,9 @@ services:
 
   digital-twin-api:
     port: 5677
-    purpose: Central Intelligence Hub and REST interface for life state
+    purpose: Central Intelligence Hub and REST interface for 13 life domains.
     status: Active
-    endpoints: /status, /all, /health, /ouch, /roi, /tomorrow, /log_water, /log_coffee, /cache/status, /cache/refresh
+    endpoints: /status, /all, /health, /readiness, /finance, /pantry, /workout, /career, /logistics, /sync, /execute_tool, /search
 
   qdrant:
     port: 6333
@@ -95,37 +95,19 @@ services:
 
   ```yaml
   databases:
-  postgresql_financial:
-    host: postgres
-    database: autonomous_finance
-    status: Shielded (RBAC)
-    partitions: 2012-2027
-    schemas: transactions, budgets, digital_twin_updates
-    tables: net_worth_history (MTD Apr 27)
-
-  postgresql_career:
-    host: postgres
-    database: autonomous_career
-    status: Active
-    tables: skill_inventory, market_pulse, brand_to_skill_impact (MTD Apr 27)
-
-  postgresql_health:
-    host: localhost
-    database: autonomous_health
-    status: Active
-    tables: biometrics, water_log, caffeine_log, sleep_log, body_metrics, activity_log
-
-  postgresql_digital_twin:
-    host: localhost
-    database: digital_twin_michal
-    status: Active
-    tables: strategic_memory, autonomy_roi, system_activity_log, person_attributes, ghost_predictions, decision_requests, activity_watch_events
-
-  postgresql_pantry:
-    host: localhost
-    database: autonomous_pantry
-    status: Active
-    tables: pantry_inventory, pantry_dictionary
+  postgresql_core:
+    host: pgbouncer (6432)
+    databases: 
+      - autonomous_finance (Finance, Budget, Wealth)
+      - autonomous_health (Biometrics, Sleep, Hydration)
+      - autonomous_training (HIT Workouts, Progress)
+      - autonomous_pantry (Inventory, Price Intelligence)
+      - autonomous_career (Skills, Market, Brand)
+      - autonomous_learning (Study Velocity, Subjects)
+      - autonomous_logistics (Deadlines, Docs)
+      - digital_twin_michal (Meta, ROI, Activity Log, Memory)
+    status: Shielded (RBAC enabled via PgBouncer)
+    safety: ShadowCursor intercepted writes for dry-runs.
   ```
 
 ```
@@ -133,6 +115,34 @@ services:
 ---
 
 ## 🔄 **AUTOMATION SERVICES (N8N)**
+
+### **Intelligence Layer Services (SVC)**
+```yaml
+llm_services:
+  SVC_LLM_Categorize:
+    endpoint: /llm/categorize
+    purpose: Transaction classification & budget breach detection.
+    status: Active
+    logic: Gemini 1.5 Flash
+
+  SVC_LLM_Generate-Idea:
+    endpoint: /llm/generate-idea
+    purpose: Strategic ROI-based content ideation.
+    status: Active
+    logic: Gemini 1.5 Flash
+
+  SVC_LLM_Draft-Content:
+    endpoint: /llm/draft-content
+    purpose: Platform-aware drafting for @Automationbro.
+    status: Active
+    logic: Gemini 1.5 Flash
+
+  SVC_LLM_Decision-Proposal:
+    endpoint: /llm/decision-proposal
+    purpose: G11 Rules Engine evaluation vs North Star.
+    status: Active
+    logic: Gemini 1.5 Flash
+```
 
 ### **Morning Brief Services**
 ```yaml
@@ -467,11 +477,11 @@ morning_brief:
 ### **Other Schedules**
 ```yaml
 schedules:
-  digital_twin_ingestion:
-    frequency: "0 */8 * * *"  # Every 8 hours
-    workflow: WF104
-    purpose: Multi-system data collection
-    duration: ~5 minutes
+  global_system_sync:
+    frequency: "0 6,13,16 * * *"  # Daily 06:00, 13:00, 16:00
+    script: G11_global_sync.py
+    purpose: Orchestrates 40+ scripts across all 13 modules.
+    logic: Sequential domain-sync via autonomous_sdk.
   
   budget_alerts:
     frequency: "0 8,20 * * *"     # Daily at 8 AM & 8 PM
@@ -573,14 +583,14 @@ pg_cron_jobs:
 
 | Database | Host | Tables |
 |----------|------|--------|
-| `autonomous_finance` | localhost:5432 | transactions, budgets, merchants, categories, accounts |
-| `autonomous_health` | localhost:5432 | biometrics, water_log, caffeine_log, sleep_log, body_metrics |
-| `autonomous_training` | localhost:5432 | workouts, workout_sets, exercises, measurements |
-| `autonomous_pantry` | localhost:5432 | pantry_inventory, pantry_dictionary |
-| `autonomous_learning` | localhost:5432 | learning_progress, subject_metrics |
-| `autonomous_career` | localhost:5432 | skill_inventory, market_pulse, brand_to_skill_impact |
-| `digital_twin_michal` | localhost:5432 | strategic_memory, autonomy_roi, system_activity_log |
-| `autonomous_life_logistics` | localhost:5432 | logistics_items, document_expiries |
+| `autonomous_finance` | localhost:6432 (PgBouncer) | transactions, budgets, merchants, categories, accounts |
+| `autonomous_health` | localhost:6432 (PgBouncer) | biometrics, water_log, caffeine_log, sleep_log, body_metrics |
+| `autonomous_training` | localhost:6432 (PgBouncer) | workouts, workout_sets, exercises, measurements |
+| `autonomous_pantry` | localhost:6432 (PgBouncer) | pantry_inventory, pantry_dictionary |
+| `autonomous_learning` | localhost:6432 (PgBouncer) | learning_progress, subject_metrics |
+| `autonomous_career` | localhost:6432 (PgBouncer) | skill_inventory, market_pulse, brand_to_skill_impact |
+| `digital_twin_michal` | localhost:6432 (PgBouncer) | strategic_memory, autonomy_roi, system_activity_log |
+| `autonomous_life_logistics` | localhost:6432 (PgBouncer) | logistics_items, document_expiries |
 
 ### External APIs (No Direct DB Access)
 
@@ -802,4 +812,4 @@ backups:
 
   **Infrastructure Maturity: 10/10** - Unified stack deployed for maximum operational efficiency and simplified auditing.
 
-  *Last updated: 2026-04-24*
+  *Last updated: 2026-05-19*

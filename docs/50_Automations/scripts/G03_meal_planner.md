@@ -1,66 +1,90 @@
 ---
-title: "G03_meal_planner: Intelligent Meal Selection"
+title: "Automation Spec: G03_meal_planner.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G03_meal_planner"
-goal_id: "goal-g03"
-systems: ["S03", "S06"]
-owner: "Michał"
-updated: "2026-03-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "96e{{LONG_IDENTIFIER}}"
 ---
 
-# G03_meal_planner: Intelligent Meal Selection
+# 🤖 Automation Spec: G03_meal_planner.py
 
 ## Purpose
-Generates high-protein meal suggestions based on current pantry inventory and upcoming nutritional needs. Minimizes food waste by prioritizing expiring items and ensures recovery nutrition for training days.
+G03_meal_planner.py.
 
-## Triggers
-- **Scheduled:** Part of the daily global sync.
-- **Manual:** `python scripts/G03_meal_planner.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/pantry/scripts/G03_meal_planner.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G03 Autonomous Household Operations` within the `pantry` automation domain.
 
-## Inputs
-- **Inventory:** `pantry_inventory` table (Items > 0 qty).
-- **Expiring:** `pantry_inventory` table (Items expiring within 7 days).
-- **Nutrition Goals:** High-protein priority (Power Goal G01).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Pantry Analysis:** Fetches all available items and identifies those near expiration.
-2. **AI Suggestion Engine (Gemini 1.5 Flash):**
-    - Sends inventory and expiring list to Gemini.
-    - Requests 3 meal options (Breakfast, Lunch, Dinner).
-    - **NEW (Mar 28):** Allows suggestions with 1-2 missing essential ingredients.
-    - Gemini returns JSON with `ingredients_used` and `ingredients_missing`.
-3. **Deterministic Fallback:** If AI fails, matches inventory against a hardcoded recipe matrix (e.g., Omelette, Spaghetti).
-4. **Chef's Choice:** Selects the first suggestion as the primary recommendation for the day.
-5. **State Persistence:** Saves the choice to `selected_meal.json` for the `G03_cart_aggregator`.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G03_meal_planner.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **JSON:** `selected_meal.json` (Includes `missing_ingredients` for auto-procurement).
-- **Markdown:** [Obsidian Meal Suggestions](../../../../Obsidian Vault/00_Inbox/Meal-Suggestions.md).
-- **Telegram:** Sends "Chef's Choice" briefing with nutrition info and ingredient status.
-- **System Integration:** Missing ingredients are automatically picked up by `G03_cart_aggregator.py` for the shopping list.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S06 Health Performance](../../20_Systems/S06_Health-Performance/README.md)
+### Runtime
+- Python script: `modules/pantry/scripts/G03_meal_planner.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### External Services
-- Google Gemini API
+### Imports
+- `G05_ollama_wrapper`
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.events`
+- `datetime`
+- `json`
+- `os`
+- `psycopg2`
+- `requests`
 
-## Error Handling
+## Procedure
+1. Review the script source at `modules/pantry/scripts/G03_meal_planner.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| Gemini API Timeout | Exception caught | Fallback to deterministic recipe matrix |
-| DB Connection Fail | Exception caught | Log error, skip execution |
-| Empty Pantry | Inventory count = 0 | Skip suggestions, notify user |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## Monitoring
-- **Success metric:** 100% of "Chef's Choice" ingredients (used + missing) accounted for in shopping list.
-- **ROI:** Logged as "Meal Planning" cognitive load saved.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-## Changelog
-| Date | Change |
-|------|--------|
-| 2026-03-03 | Initial meal planning logic |
-| 2026-03-28 | Integrated missing ingredients logic for autonomous procurement |
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G03_meal_planner.py`.
+
+## Implementation Notes
+- Top-level functions: get_pantry_data, get_ai_suggestions, get_deterministic_suggestions, run_meal_planner
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, json, autonomous_sdk.events, G05_ollama_wrapper, requests`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

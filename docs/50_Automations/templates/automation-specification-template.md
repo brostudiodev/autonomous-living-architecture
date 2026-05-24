@@ -71,8 +71,8 @@ One-sentence description of what this automation does.
 
 ## Dependencies
 ### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S10 Daily Goals Automation](../../20_Systems/S10_Daily-Goals-Automation/README.md)
+- [S03 Data Layer](../../20_Systems/README.md)
+- [S10 Daily Goals Automation](../../20_Systems/README.md)
 
 ### External Services
 - GitHub API (authentication via SSH key)
@@ -173,6 +173,6 @@ Reference relevant Standard Operating Procedures for manual processes.
 
 See these existing automation specifications for examples:
 
-- [WF103__finance-data-ingestion-pipeline.md](../n8n/workflows/WF103__finance-data-ingestion-pipeline.md)
+- [WF109__autonomous-finance-2026-data-sync.md](../n8n/workflows/WF109__autonomous-finance-2026-data-sync.md)
 - [WF104__digital-twin-data-ingestion.md](../n8n/workflows/WF104__digital-twin-data-ingestion.md)
-- [enhanced-transaction-categorization.md](../scripts/enhanced-transaction-categorization.md)
+- [G04_digital_twin_engine.md](../scripts/G04_digital_twin_engine.md)

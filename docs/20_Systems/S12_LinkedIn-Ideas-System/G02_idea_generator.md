@@ -248,8 +248,8 @@ Every idea follows the "benefits for everyone" philosophy:
 
 ## Related Documentation
 
-- [LinkedIn Ideas System](docs/20_Systems/S12_LinkedIn-Ideas-System/README.md)
-- [Substack Notes System](docs/20_Systems/S13_Substack-Notes-Ideas-System/README.md)
+- [LinkedIn Ideas System](../README.md)
+- [Substack Notes System](../README.md)
 - [LinkedIn Ideas Basket](02_Projects/LinkedIn Ideas Basket.md)
 - [Substack Notes Basket](02_Projects/Substack Notes Ideas Basket.md)
 

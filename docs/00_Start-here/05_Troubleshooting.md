@@ -17,7 +17,7 @@ updated: "2026-02-28"
 
 ### AI suggestions seem "hallucinated" or incorrect
 - **Cause:** Usually due to stale context in the database.
-- **Action:** Run a manual sync: `python3 scripts/G11_global_sync.py`.
+- **Action:** Run a manual sync: `python3 modules/meta/scripts/G11_global_sync.py`.
 
 ---
 
@@ -26,7 +26,7 @@ updated: "2026-02-28"
 ### Stale metrics in Grafana dashboards
 - **Check:** Look for error logs in n8n (`http://localhost:5678`).
 - **Cause:** Likely an expired API token (Withings, Google).
-- **Action:** Re-run the authentication script: `python3 scripts/G07_auth_helper.py`.
+- **Action:** Re-run the authentication script: `python3 modules/health/scripts/G07_auth_helper.py`.
 
 ### Database connection errors (5432)
 - **Cause:** PostgreSQL container might be down or resource-starved.
@@ -50,6 +50,6 @@ updated: "2026-02-28"
 1. Check the specific **Runbook** for the affected goal: `docs/40_Runbooks/`.
 2. Run the system-wide audit:
    ```bash
-   python3 scripts/G11_system_audit.py
+   python3 modules/meta/scripts/G11_system_audit.py
    ```
 3. If the error persists, open a technical issue in the private repository.

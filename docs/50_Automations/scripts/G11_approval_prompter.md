@@ -1,66 +1,90 @@
 ---
-title: "G11: Approval Prompter"
+title: "Automation Spec: G11_approval_prompter.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G11_approval_prompter"
-goal_id: "goal-g11"
-systems: ["S04", "S08"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "96d26d04af5ee286b7744fa667ee771e891540d2fd4b69d5783097537efffa44"
 ---
 
-# G11: Approval Prompter
+# 🤖 Automation Spec: G11_approval_prompter.py
 
 ## Purpose
-Pushes pending decision requests from the `decision_requests` table to the user via Telegram with interactive buttons for Approval/Denial.
+G11_approval_prompter.py.
 
-## Triggers
-- **Scheduled:** Part of `G11_global_sync.py` and `autonomous_daily_manager.py`.
-- **Manual:** `{{ROOT_LOCATION}}/autonomous-living/.venv/bin/python3 G11_approval_prompter.py`.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_approval_prompter.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-## Inputs
-- **Database:** `decision_requests` table in `digital_twin_michal`.
-- **Environment Variables:** `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`.
-- **Configuration:** `API_BASE_URL` (Direct IP of the Digital Twin API).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. Fetch `PENDING` requests where `is_notified = FALSE`.
-2. Format request payload into a user-friendly message.
-3. **Integration Layer (REFINED Apr 07):** Messages now include a hybrid interface:
-    - **Tap-to-Copy:** Standard `/approve {ID}` commands in `<code>` blocks for manual entry.
-    - **One-Tap Deep Links:** `t.me` links (`/start approve_{ID}`) for zero-friction approval.
-4. **Command Translation:** The Digital Twin API (G04) automatically translates deep-link parameters and underscored commands back into the standard space-separated format.
-5. Send message to the user.
-6. Mark the request as `is_notified = TRUE`.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_approval_prompter.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Telegram:** Formatted messages with `<code>` blocks and clickable deep links.
-- **Database:** Updated `is_notified` flag in `decision_requests`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
+- HTTP requests to configured local or external service endpoints.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin Ecosystem](../../20_Systems/S04_Digital-Twin/README.md)
-- [S08 Automation Orchestrator](../../20_Systems/S08_Automation-Orchestrator/README.md)
+### Runtime
+- Python script: `modules/meta/scripts/G11_approval_prompter.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### External Services
-- Telegram Bot API.
+### Imports
+- `autonomous_sdk`
+- `json`
+- `modules.meta.scripts.G04_digital_twin_notifier`
+- `os`
+- `pathlib`
+- `psycopg2`
+- `sys`
 
-### Credentials
-- Telegram Bot Token & Chat ID.
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_approval_prompter.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Telegram API Error | `requests` exception | Skip current request, retry on next cycle | Log Error |
-| DB Update Fail | `psycopg2` exception | Request remains `is_notified=FALSE`, will retry | Log Warning |
-| API Unreachable | Button click (User side) | User receives browser error; can fallback to text commands | Bot logs error if text used |
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## Monitoring
-- Success metric: Number of approval prompts successfully sent.
-- Feedback: Successful decision resolutions monitored via `G11_decision_handler` activity logs.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-## Manual Fallback
-If buttons fail, the user can type:
-- `/approve [ID]`
-- `/deny [ID]`
-Directly in the Telegram chat.
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_approval_prompter.py`.
+
+## Implementation Notes
+- Top-level functions: prompt_pending_approvals
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, pathlib, autonomous_sdk, os, modules.meta.scripts.G04_digital_twin_notifier, json, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

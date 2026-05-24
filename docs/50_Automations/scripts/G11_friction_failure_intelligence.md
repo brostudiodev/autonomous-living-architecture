@@ -1,66 +1,53 @@
 ---
-title: "Automation: Friction & Failure Intelligence (G11)"
-type: "automation"
-status: "active"
+title: "Archived Automation Spec: G11_friction_failure_intelligence"
+type: "automation_spec"
+status: "archived"
 owner: "Michał"
-updated: "2026-04-21"
-goal_id: "goal-g11"
+updated: "2026-05-23"
 ---
 
-# Friction & Failure Intelligence (G11)
+# Archived Automation Spec: G11_friction_failure_intelligence
 
 ## Purpose
-Systematically capture, analyze, and resolve operational friction and script failures to prevent time leaks and maintain Level 5 Autonomy.
+Preserves the historical documentation record for `G11_friction_failure_intelligence` after no matching active Python script was found in `scripts/` or `modules/<domain>/scripts/`.
 
 ## Scope
-- **In Scope:** Manual "ouch" logging via Telegram/API, failure pattern matching, auto-resolution proposals, and lock-file management.
-- **Out Scope:** Complex hardware failure physical repairs.
+### In Scope
+- Records that this automation spec is archived and is not part of the active production script surface.
+- Provides a stable name for historical cross-references and migration review.
+
+### Out of Scope
+- Runtime behavior, scheduler configuration, and operational ownership for a live script.
+- New production changes or active automation guarantees.
 
 ## Inputs/Outputs
-- **Inputs:** 
-    - `/ouch <note>` command (Manual)
-    - `system_activity_log` FAILURE entries (Automated)
-    - `failure_knowledge_base` (Static Patterns)
-- **Outputs:**
-    - `friction_log` entries (DB)
-    - Triage/Decision proposals (for approval)
-    - Telegram notifications with 💡 auto-resolution tips.
+### Inputs
+- Historical references to `G11_friction_failure_intelligence` in older documentation or migration notes.
+
+### Outputs
+- Archived documentation status only. No active runtime output is expected from this record.
 
 ## Dependencies
-- **Systems:** [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md), [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
-- **Scripts:** `G11_log_system.py`, `G11_failure_resolver.py`, `G11_setup_friction_db.py`, `G04_digital_twin_api.py`
-- **Database:** `digital_twin_michal` (PostgreSQL)
+- No active script dependency is currently registered for this documentation file.
+- If this automation is restored, create or identify the active script and regenerate the spec with `G12_auto_documenter.py`.
 
 ## Procedure
-
-### 1. Database Setup (One-time or Migration)
-```bash
-python3 scripts/G11_setup_friction_db.py
-```
-
-### 2. Manual Friction Logging
-- Send `/ouch <description>` to the Telegram bot.
-- Domain and severity default to `general` and `3` respectively.
-
-### 3. Adding Failure Resolutions
-Insert new patterns into the `failure_knowledge_base` table:
-```sql
-INSERT INTO failure_knowledge_base (error_pattern, resolution_type, resolution_payload) 
-VALUES ('.*database.*locked.*', 'command', 'sudo service postgresql restart');
-```
+1. Search for an active implementation before using this document operationally.
+2. If no script exists, keep this file archived.
+3. If a script is restored, update `status` to `active`, add `script_hash`, and regenerate the spec.
+4. Re-run `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
 ## Failure Modes
-
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| Unknown Failure | No match in KB | Notify user via Telegram as standard FAILURE |
-| DB Connection Loss | Exception in log_activity | Fallback to console print; Trigger G11_db_recovery_shield |
-| Recursive Auto-fix | Loop detection | Knowledge base success_count stops after N failures |
+|---|---|---|
+| Archived doc is mistaken for an active automation | No matching script exists in the active script directories | Locate or recreate the script before scheduling or invoking it. |
+| Historical link points here | Link resolves to an archived spec | Use the archive status to decide whether to update or remove the reference. |
+| Automation is restored | New script appears with this stem | Regenerate this spec as active documentation with a current `script_hash`. |
 
 ## Security Notes
-- Database credentials managed via central `db_config.py`.
-- No sensitive keys stored in the `failure_knowledge_base`.
+- Do not add secrets, raw tokens, passwords, or internal infrastructure addresses to archived documentation.
+- Use placeholders such as `[API_KEY]`, `{{DB_PASSWORD}}`, and `{{INTERNAL_IP}}` for any historical configuration notes.
 
 ## Owner + Review Cadence
-- **Owner:** Michał
-- **Review Cadence:** Monthly during System Audit.
+- Owner: Michał
+- Review cadence: Quarterly archive review, or immediately if a matching script is restored.

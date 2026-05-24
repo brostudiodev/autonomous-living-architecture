@@ -1,0 +1,15 @@
+"""
+modules/{{ name }}/module.py
+==========================
+{{ description }}
+"""
+
+from autonomous_sdk.module import BaseModule
+from autonomous_sdk.events import emit
+
+class Module(BaseModule):
+    def sync(self):
+        self.logger.info("🚀 Running {{ name | capitalize }} Sync...")
+        # TODO: Implement domain logic
+        self.log_activity("sync", "SUCCESS")
+        emit("{{ name }}", "sync_complete", {"status": "synced"})

@@ -1,8 +1,8 @@
 ---
-title: "ADR-0012: Rule-Based Intent Classification"
+title: "Adr-0012: Rule-Based Intent Classification"
 type: "decision_record"
 status: "active"
-decision_id: "ADR-0012"
+decision_id: "Adr-0012"
 owner: "Michał"
 updated: "2026-02-12"
 ---

@@ -31,8 +31,8 @@ An n8n service workflow that fetches the latest auto-generated Strategic Progres
 
 ## Dependencies
 ### Systems
-- [S04 Digital Twin](../../../20_Systems/S04_Digital-Twin/README.md)
-- [G11 Strategic Summarizer](../../../scripts/G11_strategic_summarizer.py)
+- [S04 Digital Twin](../../../20_Systems/README.md)
+- [G11 Strategic Summarizer](../../../modules/meta/scripts/G11_strategic_summarizer.py)
 
 ### External Services
 - **Digital Twin API:** Must be online and accessible at the specified IP/Port.

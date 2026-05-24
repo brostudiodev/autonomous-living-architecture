@@ -1,0 +1,33 @@
+name: pantry
+version: 1
+description: "Inventory Management, Price Intelligence & Automated Procurement"
+core: false
+sync_tier: 1
+databases:
+  - autonomous_pantry
+depends_on:
+  - postgres
+api_routes:
+  - /api/v1/pantry
+  - /api/v1/cart
+  - /api/v1/meal
+env_vars:
+  - GOOGLE_SHEET_ID_PANTRY
+  - HASS_URL
+  - HA_TOKEN
+capabilities:
+  - name: "inventory_sync"
+    description: "Synchronizes inventory data between Google Sheets and PostgreSQL."
+    api_endpoints: ["/api/v1/pantry/sync"]
+    events_emitted: ["sync_complete"]
+  - name: "price_intelligence"
+    description: "Scrapes retail aggregators for promotions and identifies best prices."
+    api_endpoints: ["/api/v1/pantry/prices/sync"]
+    events_emitted: ["prices_synced"]
+  - name: "restock_suggestions"
+    description: "Predicts item depletion and suggests restocking actions."
+    api_endpoints: ["/api/v1/pantry/suggestions"]
+  - name: "cart_aggregation"
+    description: "Consolidates all procurement requirements into a unified shopping cart."
+    api_endpoints: ["/api/v1/pantry/cart/aggregate"]
+    events_emitted: ["manifest_ready"]

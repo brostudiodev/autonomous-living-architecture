@@ -271,9 +271,9 @@ dependency_sequence:
 - Risk of strategic drift
 
 ## Related Decisions
-- [Adr-0004](./Adr-0004-Digital-Twin-Architecture.md) - Digital Twin as Central Hub
-- [Adr-0010](./Adr-0010-Hub-and-Spoke-Integration.md) - Hub-and-Spoke Integration Pattern
-- [Adr-0003](./Adr-0003-Technology-Stack-Selection.md) - Technology Stack Selection
+- [Adr-0004](Adr-0004-Digital-Twin-Architecture.md) - Digital Twin as Central Hub
+- [Adr-0010](Adr-0010-Hub-and-Spoke-Integration.md) - Hub-and-Spoke Integration Pattern
+- [Adr-0003](Adr-0003-Technology-Stack-Selection.md) - Technology Stack Selection
 
 ## Metrics
 

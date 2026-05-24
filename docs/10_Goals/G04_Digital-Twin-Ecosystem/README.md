@@ -10,6 +10,15 @@ review_cadence: "monthly"
 
 # G04: Digital Twin Ecosystem
 
+## Goal Statement
+To engineer a **"Cognitive Cortex"** for the autonomous life—a central intelligence hub that maintains long-term state, provides semantic cross-domain search, and handles complex multi-domain reasoning by observing the ecosystem's real-time event stream.
+
+## Strategic Shift (2026-05-12)
+G04 has transitioned from a low-level **Integration Hub** (routing all traffic) to a high-level **Cognitive Subscriber** (ADR-0031). 
+- **Spinal Cord:** RabbitMQ handles real-time event routing.
+- **Reflexes:** n8n and Python-native routers handle instant actions.
+- **Cortex (G04):** Focuses on long-term memory, predictive trends, and strategic "/ask" resolution.
+
 ## 🌟 What you achieve
 *   **Your Life at a Glance:** A single "brain" that knows your health, finance, tasks, and home status in real-time.
 *   **Voice & Text Interface:** Talk to your life via Telegram to ask questions like "How am I doing today?" or "What's my next mission?"
@@ -22,7 +31,7 @@ Create a centralized AI-powered intelligence hub that aggregates data from all s
 ## Scope
 ### In Scope
 - Multi-channel input processing (text, voice, images, PDFs, YouTube)
-- **English-Only Intent Processing:** Standardized internal core logic for accuracy (ADR-0020).
+- **English-Only Intent Processing:** Standardized internal core logic for accuracy (Adr-0020).
 - Data aggregation from all goals (G01-G11)
 - Real-time state representation
 - Cross-system data ingestion pipelines
@@ -38,7 +47,7 @@ Create a centralized AI-powered intelligence hub that aggregates data from all s
 
 ## Definition of Done (2026)
 - [x] Production-grade AI router implemented (WF001)
-- [x] **Language Standardization:** Internal logic hardened to English (ADR-0020).
+- [x] **Language Standardization:** Internal logic hardened to English (Adr-0020).
 - [x] n8n workflows active 24/7
 - [x] Autonomy ROI Tracking Engine deployed (G04_log_roi)
 
@@ -83,10 +92,10 @@ Create a centralized AI-powered intelligence hub that aggregates data from all s
 - Telegram Bot
 
 ## Key Links
-- Outcomes: [Outcomes.md](Outcomes.md)
-- Metrics: [Metrics.md](Metrics.md)
-- Systems: [Systems.md](Systems.md)
-- Roadmap: [Roadmap.md](Roadmap.md)
+- Outcomes: [Outcomes.md](../G02_Automationbro-Recognition/Outcomes.md)
+- Metrics: [Metrics.md](../G02_Automationbro-Recognition/Metrics.md)
+- Systems: [Systems.md](../G02_Automationbro-Recognition/Systems.md)
+- Roadmap: [Roadmap.md](../G02_Automationbro-Recognition/Roadmap.md)
 
 ### 🛠️ API Endpoints (S04 Digital Twin)
 | Endpoint | Method | Description | Response Field |

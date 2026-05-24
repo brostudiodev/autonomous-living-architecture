@@ -1,37 +1,87 @@
 ---
-title: "G11: System Heartbeat Monitor"
+title: "Automation Spec: G11_system_heartbeat.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G11_system_heartbeat"
-goal_id: "goal-g11"
-systems: ["S11"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "60a43b24ec7d6ead9367fc7fd8331802c6f42d6f6d20eda6d337b4b82b318d9c"
 ---
 
-# G11: System Heartbeat Monitor
+# 🤖 Automation Spec: G11_system_heartbeat.py
 
 ## Purpose
-Ensures the high availability of the Digital Twin API by performing periodic health checks. Monitors latency and status codes to detect system degradation before it impacts user experience.
+G11_system_heartbeat.py.
 
-## Triggers
-- Scheduled: Part of the `autonomous_daily_manager.py` daily sync cycle.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_system_heartbeat.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-## Inputs
-- External: `http://localhost:5677/status` (Digital Twin API).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Request:** Perform an HTTP GET request to the status endpoint.
-2. **Measure:** Calculate response time (latency).
-3. **Verify:** Check for status 200 OK.
-4. **Log:** Record the result and latency in the activity log.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_system_heartbeat.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- Latency telemetry in `system_activity_log`.
-- Critical failure alert (if unresponsive).
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- HTTP requests to configured local or external service endpoints.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| API Timeout | `requests.timeout` | Log critical failure | Log Critical |
-| Slow Response | Latency > 2s | Log warning | Log Warning |
+## Dependencies
+### Runtime
+- Python script: `modules/meta/scripts/G11_system_heartbeat.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
+
+### Imports
+- `autonomous_sdk.db_config`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `requests`
+- `sys`
+- `time`
+
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_system_heartbeat.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_system_heartbeat.py`.
+
+## Implementation Notes
+- Top-level functions: get_api_url, check_system_heartbeat
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `os, autonomous_sdk.db_config, modules.meta.scripts.G11_log_system, sys, time, requests`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

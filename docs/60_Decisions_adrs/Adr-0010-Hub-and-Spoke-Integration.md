@@ -1,19 +1,19 @@
 ---
 title: "Adr-0010: Hub-and-Spoke Integration Pattern"
 type: "decision"
-status: "accepted"
+status: "outdated"
 date: "2025-09-15"
+superseded_by: "[Adr-0031](Adr-0031-Life-Nervous-System-Architecture.md)"
 deciders: ["Michał"]
-consulted: []
-informed: []
 ---
 
-# Adr-0010: Hub-and-Spoke Integration Pattern
+# Adr-0010: Hub-and-Spoke Integration Pattern (OUTDATED)
 
 ## Status
-Accepted
+Outdated - Superseded by [Adr-0031](Adr-0031-Life-Nervous-System-Architecture.md)
 
 ## Context
+**Note: This architecture was active during the Foundation Phase (2025) but was found to be too slow and rigid for the 2026 Autonomy-First vision.**
 The autonomous-living ecosystem needs to coordinate data and actions across 12 different goal systems:
 
 ### **Integration Challenges**
@@ -316,9 +316,9 @@ class G01Connector(SpokeConnector):
 - Poor user experience for cross-system interactions
 
 ## Related Decisions
-- [Adr-0004](./Adr-0004-Digital-Twin-Architecture.md) - Digital Twin as Central Hub
-- [Adr-0016](./Adr-0016-Event-Driven-Architecture.md) - Event-Driven Architecture
-- [Adr-0012](./Adr-0012-API-First-Design.md) - API-First Design Principle
+- [Adr-0004](Adr-0004-Digital-Twin-Architecture.md) - Digital Twin as Central Hub
+- [Adr-0016](Adr-0016-Event-Driven-Architecture.md) - Event-Driven Architecture
+- [Adr-0012](./Adr-0012-Rule-Based-Intent-Classification.md) - Rule-Based Intent Classification
 
 ## Metrics
 

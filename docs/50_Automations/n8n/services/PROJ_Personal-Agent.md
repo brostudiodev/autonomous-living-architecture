@@ -54,8 +54,8 @@ The **Personal Agent** is a decisive and proactive AI assistant specialized in m
 
 ## Dependencies
 ### Systems
-- [Intelligent Productivity (G10)](../../../10_Goals/G{{LONG_IDENTIFIER}}/README.md)
-- [Digital Twin Ecosystem (G04)](../../../10_Goals/G04_Digital-Twin-Ecosystem/README.md)
+- [Intelligent Productivity (G10)](../../../20_Systems/README.md)
+- [Digital Twin Ecosystem (G04)](../../../20_Systems/README.md)
 - [External APIs]: Google Calendar, Google Tasks.
 
 ## Error Handling

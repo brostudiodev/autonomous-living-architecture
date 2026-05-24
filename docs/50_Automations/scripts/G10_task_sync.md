@@ -1,72 +1,89 @@
 ---
-title: "G10: Task Sync"
+title: "Automation Spec: G10_task_sync.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G10_task_sync"
-goal_id: "goal-g10"
-systems: ["S03", "S08"]
-owner: "Michał"
-updated: "2026-04-27"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "292f695e27deaa00f5986b273eb2fbcadd288f328e9d690f7fc49125c2f2b8d0"
 ---
 
-# G10: Task Sync
+# 🤖 Automation Spec: G10_task_sync.py
 
 ## Purpose
-Provides bidirectional synchronization of completed tasks between the Obsidian Daily Note and Google Tasks to eliminate double-entry.
+G10_task_sync.py.
 
-## Triggers
-- **Scheduled:** Part of the `autonomous_daily_manager.py` cycle (Morning/Evening).
-- **Manual:** Can be run via CLI to force synchronization.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/productivity/scripts/G10_task_sync.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G10 Intelligent Productivity Time Architecture` within the `productivity` automation domain.
 
-## Inputs
-- **Obsidian Daily Note:** `01_Daily_Notes/YYYY-MM-DD.md` (for task completion status `[x]`).
-- **Google Tasks API:** List of tasks completed in the last 24 hours.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Prefetching (MTD Optimization 2026-04-27):**
-    - Fetches all pending Google Tasks in a single call to cache titles and IDs.
-    - Prevents timeouts and excessive API overhead.
-2. **Obsidian -> Google Tasks:**
-    - Scans the today's daily note for tasks marked as completed (`- [x]`).
-    - Uses cached ID-based lookup to mark tasks completed in Google Tasks, minimizing API latency.
-3. **Google Tasks -> Obsidian:**
-    - Fetches tasks completed on Google Tasks within the last 24 hours.
-    - Searches for matching task titles in the today's daily note.
-    - If a matching uncompleted task (`- [ ]`) is found, marks it as completed (`- [x]`).
-4. **ROI Logging:**
-    - Logs 1 minute of "Time Architecture" ROI for every task successfully synced.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G10_task_sync.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Obsidian Note:** Updated completion status for tasks.
-- **Google Tasks:** Updated status for tasks.
-- **ROI Log:** Entry in `autonomy_roi` table in `digital_twin_michal` database.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S08 Personal Agents](../../20_Systems/S08_Automation-Orchestrator/README.md)
+### Runtime
+- Python script: `modules/productivity/scripts/G10_task_sync.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-### External Services
-- **Google Tasks API:** Requires valid OAuth token (`google_tasks_token.pickle`).
-- **Obsidian Vault:** Local filesystem access.
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G04_digital_twin_engine`
+- `modules.productivity.scripts.G10_google_tasks_sync`
+- `os`
+- `re`
+- `sys`
 
-### Credentials
-- `google_tasks_token.pickle`: User OAuth credentials for Tasks API.
+## Procedure
+1. Review the script source at `modules/productivity/scripts/G10_task_sync.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Google API Timeout | Exception during fetch | Skip sync, retry next cycle. Optimized 2026-04-27 to reduce risk. | Log warning |
-| Missing Daily Note | File not found | Exit silently (too early) | None |
-| Title Mismatch | No regex match | Skip task | None |
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## Monitoring
-- **Success metric:** Task sync counts logged to `system_activity_log`.
-- **Alert on:** 3 consecutive sync failures.
-- **Dashboard:** Digital Twin Activity Log.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-## Manual Fallback
-If sync fails, users must manually check tasks in both systems. To force a sync:
-```bash
-{{ROOT_LOCATION}}/autonomous-living/.venv/bin/python3 {{ROOT_LOCATION}}/autonomous-living/scripts/G10_task_sync.py
-```
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G10_task_sync.py`.
+
+## Implementation Notes
+- Top-level functions: get_today_file, sync_tasks
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `re, datetime, os, autonomous_sdk.db_config, sys, modules.meta.scripts.G04_digital_twin_engine, modules.productivity.scripts.G10_google_tasks_sync`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

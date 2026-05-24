@@ -1,120 +1,92 @@
 ---
-title: "G11_experiment_engine.py: Personal Behavior Experimentation Framework"
+title: "Automation Spec: G11_experiment_engine.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G11_experiment_engine"
-goal_id: "goal-g11"
-systems: ["S11", "S04"]
-owner: "Michał"
-updated: "2026-03-16"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "744{{LONG_IDENTIFIER}}"
 ---
 
-# G11: Experiment Engine (A/B Testing for Behaviors)
+# 🤖 Automation Spec: G11_experiment_engine.py
 
 ## Purpose
-Enables A/B testing of personal behaviors to optimize decisions. The system chooses variants, applies them to schedules, evaluates outcomes, and auto-updates policies based on results.
+G11_experiment_engine.py.
 
 ## Scope
 ### In Scope
-- Defining and running behavioral experiments (sleep timing, workout schedules, caffeine cutoff)
-- Random variant assignment with tracking
-- Metric collection and statistical evaluation
-- Auto-updating policies based on winning variants
-- Integration with Rules Engine for policy recommendations
+- Documents the active implementation at `modules/meta/scripts/G11_experiment_engine.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
 ### Out of Scope
-- Direct execution of experiment variants (delegated to domain scripts)
-- Long-term longitudinal studies
-- Complex statistical analysis (beyond basic averages)
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Triggers
-- **Passive:** Called by G11_daily_orchestrator or manual trigger
-- **Manual:** `python3 G11_experiment_engine.py --start sleep_timing_01`
-- **Scheduled:** Daily via `G11_global_sync.py`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_experiment_engine.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Inputs
-- **Config File:** `experiments.yaml`
-- **Database:** `digital_twin_michal`
-- **External:** Health data (readiness, HRV), Productivity data (tasks completed)
-
-## Processing Logic
-1. **Load Experiments:** Read `experiments.yaml` for active experiments
-2. **Variant Assignment:** Randomly assign variant (A or B) for new runs
-3. **Metric Recording:** Collect target metrics during experiment period
-4. **Evaluation:** Compare variant performance, determine winner
-5. **Policy Update:** If winner meets threshold, recommend policy update
-
-## Outputs
-- **DB Records:** `experiment_runs`, `experiment_results` tables
-- **Recommendations:** Policy updates for Rules Engine
-- **Daily Briefings:** Current variant assignments
-
-## Failure Modes
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Config file missing | FileNotFoundError | Use defaults, log warning | Console |
-| DB connection fail | psycopg2 Error | Skip logging, continue | Log warning |
-| Insufficient data | < 5 samples | Wait for more data | Console |
-| Metric API fail | Request Error | Skip metric, log | Log warning |
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Console output for manual runs or scheduler logs.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md) - Database storage
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md) - Health/Productivity data
-- [G11 Rules Engine](G11_rules_engine.md) - Policy integration
+### Runtime
+- Python script: `modules/meta/scripts/G11_experiment_engine.py`
+- Trigger mode: Manual Execution, CLI with Arguments
+- Databases: PostgreSQL
 
-### External Services
-- PostgreSQL (digital_twin_michal)
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `os`
+- `pathlib`
+- `psycopg2`
+- `random`
+- `sys`
+- `yaml`
 
-### Credentials
-- DB credentials from `.env`
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_experiment_engine.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
 ## Security Notes
-- Experiment data stored in local DB only
-- No external API calls with personal data
-- Policy recommendations require human approval before apply
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
 ## Owner + Review Cadence
-- **Owner:** Michał
-- **Review Cadence:** Monthly (review active experiments)
-- **Last Review:** 2026-03-16
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_experiment_engine.py`.
+
+## Implementation Notes
+- Top-level functions: main
+- Top-level classes: ExperimentEngine
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution, CLI with Arguments
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, pathlib, datetime, random, os, autonomous_sdk.db_config, yaml, json, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-
-## Usage Examples
-
-### List Active Experiments
-```bash
-python3 scripts/G11_experiment_engine.py --list
-```
-
-### Start an Experiment
-```bash
-python3 scripts/G11_experiment_engine.py --start sleep_timing_01
-```
-
-### Record a Metric
-```bash
-python3 scripts/G11_experiment_engine.py --record sleep_timing_01 readiness_score 85
-```
-
-### Evaluate Results
-```bash
-python3 scripts/G11_experiment_engine.py --evaluate sleep_timing_01
-```
-
-### Run Daily Check
-```bash
-python3 scripts/G11_experiment_engine.py --daily
-```
-
----
-
-## Related Documentation
-- [Autonomy Upgrade Plan](../../10_Goals/Autonomy-Upgrade-Plan.md)
-- [G11 Rules Engine](G11_rules_engine.md)
-- [G11 Self-Healing Supervisor](G11_self_healing_supervisor.md)
-- [experiments.yaml](../experiments.yaml)
-
----
-*Updated: 2026-03-16 by Digital Twin Assistant*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

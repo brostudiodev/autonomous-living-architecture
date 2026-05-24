@@ -1,0 +1,26 @@
+name: career
+version: 1
+description: "Automated Career Intelligence & Positioning System"
+core: false
+sync_tier: 2
+databases:
+  - autonomous_career
+  - autonomous_learning
+depends_on:
+  - postgres
+  - rabbitmq
+api_routes:
+  - /api/v1/career
+env_vars:
+  - GOOGLE_SHEET_ID_RELATIONSHIPS
+capabilities:
+  - name: "skill_inventory"
+    description: "Returns the current skill inventory and proficiency levels."
+    api_endpoints: ["/api/v1/career/skills"]
+  - name: "career_gaps"
+    description: "Returns skills with high market demand but low proficiency."
+    api_endpoints: ["/api/v1/career/gaps"]
+    events_emitted: ["skill_gap"]
+  - name: "goal_sync"
+    description: "Synchronizes goal activities from Obsidian Daily Notes to documentation."
+    events_emitted: ["sync_complete"]

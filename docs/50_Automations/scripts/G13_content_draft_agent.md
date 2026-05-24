@@ -1,40 +1,90 @@
 ---
-title: "Content Draft Agent (G13)"
+title: "Automation Spec: G13_content_draft_agent.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G13_content_draft_agent.py"
-goal_id: "goal-g02"
-systems: ["S08"]
-owner: "Michał"
-updated: "2026-04-04"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "ca2cebc07987bf{{LONG_IDENTIFIER}}"
 ---
 
 # 🤖 Automation Spec: G13_content_draft_agent.py
 
-## 📝 Overview
-**Purpose:** Automatically generates LinkedIn and Substack content drafts based on the day's technical achievements ("Wins").
-**Goal Alignment:** G02 Automationbro Recognition (Content Pipeline)
+## Purpose
+G13_content_draft_agent.py.
+
+## Scope
+### In Scope
+- Documents the active implementation at `modules/content/scripts/G13_content_draft_agent.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G13 Autonomous Content Engine` within the `content` automation domain.
+
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
+
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G13_content_draft_agent.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
+
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- HTTP requests to configured local or external service endpoints.
+
+## Dependencies
+### Runtime
+- Python script: `modules/content/scripts/G13_content_draft_agent.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
+
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `pathlib`
+- `requests`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/content/scripts/G13_content_draft_agent.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G13_content_draft_agent.py`.
+
+## Implementation Notes
+- Top-level functions: get_latest_ideas, get_career_strategy, draft_content, run_agent
+- Top-level classes: No top-level classes detected.
 
 ## ⚡ Technical Details
 - **Language:** Python
-- **Triggers:** Called by `autonomous_evening_manager.py` (during cognitive shutdown).
-- **Databases:** None (Direct file system and Gemini API integration)
-- **Dependencies:** `requests`, `G09_technical_win_harvester.py`, `G04_digital_twin_notifier.py`
-
-## 🛠️ Logic Flow
-1. **Harvesting:** Calls `harvest_wins()` to retrieve today's commits and technical updates.
-2. **Consultation:** Sends the harvested context to Gemini (Flash 1.5) with a brand-aligned prompt.
-3. **Creation:** Generates two distinct drafts: a professional LinkedIn post and a "Building in Public" Substack snippet.
-4. **Storage:** Saves the drafts as a Markdown file in the Obsidian `00_Inbox/Content Ideas/` folder.
-5. **Notification:** Sends a Telegram alert when new drafts are ready for review.
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `pathlib, datetime, os, autonomous_sdk.db_config, json, modules.meta.scripts.G11_log_system, sys, requests`
 
 ## 📤 Outputs
-- **Markdown File:** `YYYY-MM-DD - Autonomous Drafts.md` with frontmatter and draft content.
-- **Telegram Notification:** Prompt for user review.
-
-## ⚠️ Known Issues / Maintenance
-- **AI Context:** Draft quality depends on the clarity of the harvested commit messages/wins.
-- **Gemini Key:** Requires a valid `GEMINI_API_KEY` in `.env`.
+- See Inputs/Outputs section above.
 
 ---
-*Content Autonomy v1.0 - April 2026*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

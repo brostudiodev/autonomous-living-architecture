@@ -22,10 +22,10 @@ goal_id: "goal-g08"
 ## Q2 (Apr–Jun) - Optimization Phase
 
 > [!tip] 🚀 **Q2 Focus: System Stability & Minor Features**
-- [ ] **System Stability Audit:** Verify smart home automations working reliably
-  - [ ] **Sub-task: HA API Check** - Ensure Home Assistant API responding correctly
-  - [ ] **Sub-task: Sensor Sync Check** - Verify temperature/humidity/occupancy data flows
-  - [ ] **Sub-task: Pre-Bed Advisor Check** - Test evening alerts trigger correctly
+- [x] **System Stability Audit:** Verify smart home automations working reliably ✅ (May 06)
+  - [x] **Sub-task: HA API Check** - Ensure Home Assistant API responding correctly ✅ (May 06)
+  - [x] **Sub-task: Sensor Sync Check** - Verify temperature/humidity/occupancy data flows ✅ (May 06)
+  - [x] **Sub-task: Pre-Bed Advisor Check** - Test evening alerts trigger correctly ✅ (May 06)
 - [ ] **Minor Features:**
   - [ ] **Sub-task: Security Mode** - Complete dynamic security mode based on travel context
 

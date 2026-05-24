@@ -1,39 +1,86 @@
 ---
-title: "G07: Health Recovery Pro"
+title: "Automation Spec: G07_health_recovery_pro.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G07_health_recovery_pro"
-goal_id: "goal-g07"
-systems: ["S07"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "f9c2b7ef0f3bf2f0a897e65ae5463a43738499a09e905dfa97f6b7adc55b5ec2"
 ---
 
-# G07: Health Recovery Pro
+# 🤖 Automation Spec: G07_health_recovery_pro.py
 
 ## Purpose
-Provides data-driven recovery advice by analyzing short-term biometrics (7-day HRV/Sleep) to determine the ideal training intensity or required deload periods.
+G07_health_recovery_pro.py.
 
-## Triggers
-- Scheduled: Part of the `autonomous_daily_manager.py` daily sync cycle.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/health/scripts/G07_health_recovery_pro.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G07 Predictive Health Management` within the `health` automation domain.
 
-## Inputs
-- Database: `autonomous_health.biometrics` (Filtered for last 7 days).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Analyze HRV:** Compare latest HRV reading against the 7-day average. 
-2. **Detect Trends:** 
-   - Suppression: HRV < 90% of average (Overreaching/Stress).
-   - Supercompensation: HRV > 110% of average (Peak Readiness).
-3. **Analyze Sleep:** Compare average weekly sleep quality and score.
-4. **Formulate Advice:** Generate a non-AI recommendation (e.g., "Schedule HIT today" or "Focus on active recovery").
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G07_health_recovery_pro.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- Recovery insight injected into the Daily Intelligence Summary.
-- Activity log entry.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Missing Data | No reading for current date | Skip analysis for that day | Log Warning |
-| DB Sync Lag | Data not updated from Zepp | Wait for next sync cycle | Log Info |
+## Dependencies
+### Runtime
+- Python script: `modules/health/scripts/G07_health_recovery_pro.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `pandas`
+- `psycopg2`
+
+## Procedure
+1. Review the script source at `modules/health/scripts/G07_health_recovery_pro.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G07_health_recovery_pro.py`.
+
+## Implementation Notes
+- Top-level functions: analyze_recovery_trends
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, pandas, os, autonomous_sdk.db_config, modules.meta.scripts.G11_log_system`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

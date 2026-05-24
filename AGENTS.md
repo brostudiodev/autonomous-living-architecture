@@ -1,12 +1,13 @@
 # AGENTS.md - Autonomous Living Development Guide
 
-## Core Architecture
+## Core Architecture (v3.2 - Intelligence Layer Migration)
 
-- **n8n = Brain** - LLM orchestration, decision-making, agent coordination
-- **Python scripts = Body** - Data access, execution, API endpoints
-- **PostgreSQL = Memory** - 8 databases for different domains
-- **FastAPI (port 5677) = API Gateway** - Digital Twin REST API
-- **Obsidian = Visualization** - Daily notes, dashboards, planning
+- **n8n = Brain (Intelligence Layer)** - LLM orchestration, standardized reasoning services, agent coordination. All AI-driven logic is centralized here.
+- **Python scripts = Body (Execution Layer)** - Data harvesting, database management, system execution. No direct LLM calls or API keys allowed.
+- **G05_ollama_wrapper = Bridge** - Standardized interface (`call_llm`) for Python-to-n8n communication.
+- **PostgreSQL = Memory** - 8 databases for different domains.
+- **FastAPI (port 5677) = API Gateway** - Digital Twin REST API.
+- **Obsidian = Visualization** - Daily notes, dashboards, planning.
 
 ## Key Commands
 

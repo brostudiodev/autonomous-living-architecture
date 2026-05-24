@@ -1,72 +1,93 @@
 ---
-title: "G12_goal_progress_orchestrator: Automated Did/Next Logging"
+title: "Automation Spec: G12_goal_progress_orchestrator.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G12_goal_progress_orchestrator"
-goal_id: "goal-g12"
-systems: ["S04", "S11", "S12"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "e3a3b{{LONG_IDENTIFIER}}"
 ---
 
-# G12_goal_progress_orchestrator: Automatic (System-Driven) Tracking
+# 🤖 Automation Spec: G12_goal_progress_orchestrator.py
 
 ## Purpose
-Acts as the **Automatic (Suggestive) Tracker** for the ecosystem. It autonomously analyzes system data and task completion to populate the Daily Note with initial "Did" and "Next" suggestions. This reduces friction for Michał, who then uses **G09** (`ctrl+shift+G`) to verify and commit these entries to long-term storage.
+G12_goal_progress_orchestrator.py.
 
-## 🛠️ Implementation Notes (Apr 14 Update)
-- **Path Management:** Standardized path resolution using `OBSIDIAN_VAULT`, `BASE_DIR`, and `GOALS_PATH` constants to ensure cross-environment reliability.
-- **Resilience:** Fixed a critical `NameError` where `OBSIDIAN_VAULT` was used without being defined in the global scope.
-- **Goal Mapping:** Renamed internal mapping to `POWER_GOALS` for consistency with system-wide nomenclature.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/docs/scripts/G12_goal_progress_orchestrator.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G12 Complete Process Documentation` within the `docs` automation domain.
 
-## 📊 Goal Tracking Hierarchy
-1.  **Level 1: Suggestion (G12)** - System runs autonomously, finds completed tasks, scans roadmaps, and populates the `%%GOAL_PROGRESS%%` section in the Daily Note.
-2.  **Level 2: Verification (Michał)** - Michał reviews the suggested "Did" and "Next" fields in Obsidian, making manual adjustments if necessary.
-3.  **Level 3: Commitment (G09)** - Michał triggers `ctrl+shift+G`. This executes G09, which takes the *current* state of the Daily Note and permanently logs it to the individual `Activity-log.md` files.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Triggers
-- **System Sync:** Part of the `G11_global_sync.py` pipeline (runs before the Daily Note is finalized).
-- **Manual:** `python3 G12_goal_progress_orchestrator.py`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G12_goal_progress_orchestrator.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Inputs
-| Source | Data | Used For |
-|--------|------|----------|
-| Git Logs | Commits from Code & Vault repos | Development/Documentation progress |
-| Google Tasks | Completed tasks (last 24h) | Execution tracking |
-| domain_health | Sleep, Readiness, HRV | Biological wins (G01/G07) |
-| domain_finance | Transaction counts | Financial sync progress (G05) |
-| activity_log | Success signals from scripts | System automation wins (G11/G04) |
-| Daily Note | Manual checkboxes (`- [x]`) | Human-driven activities |
-
-## Processing Logic
-1. **Activity Aggregation (NEW Apr 07):** Scans 5 distinct sources (Git, DB, Tasks, System, Notes) to build a comprehensive view of the day's achievements.
-2. **Goal Mapping:** Uses an enhanced heuristic engine with priority weighting to assign activities to G01-G12 based on keywords and tags.
-    - **Logic Refinement (Apr 13):** Implemented safety checks for `None` task descriptions to prevent `AttributeError` crashes during classification.
-3. **Next Step Retrieval:** Fetches top 2 incomplete items from roadmap for each touched goal.
-4. **Data Population:**
-   - **Frontmatter:** Updates `goals_touched` and `goals_activities` YAML fields.
-   - **Body:** Injects formatted Markdown into `%%GOAL_PROGRESS%%` section.
-5. **Resilience & Self-Healing:** If markers are missing, the script automatically creates the section under the Reflection header to ensure logging continues.
-
-## Outputs
-- **Updated Daily Note:** Populated frontmatter and `Goal Progress Tracking` section.
-- **System Activity Log:** Number of goals auto-logged.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
-- [S12 Complete Process Documentation](../../20_Systems/S11_Meta-System-Integration/README.md)
+### Runtime
+- Python script: `modules/docs/scripts/G12_goal_progress_orchestrator.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Note Not Found | File check | Exit with info | Console log |
-| Ambiguous Task | Heuristic failure | Skip task categorization | Logged as 'Misc' |
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `pathlib`
+- `psycopg2`
+- `re`
+- `subprocess`
+- `sys`
+- `yaml`
 
-## Monitoring
-- Success metric: Reduction in manual "Did/Next" entries.
-- Accuracy: Periodically review `goals_activities` frontmatter.
+## Procedure
+1. Review the script source at `modules/docs/scripts/G12_goal_progress_orchestrator.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Related Documentation
-- [G09_sync_daily_goals](./G09_sync_daily_goals.md)
-- [G12_auto_did_logger](./G12_auto_did_logger.md)
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G12_goal_progress_orchestrator.py`.
+
+## Implementation Notes
+- Top-level functions: get_goal_for_task, get_db_activities, get_git_activities, get_completed_tasks_activities, extract_activities_from_note, get_next_steps_from_roadmap, run_orchestrator
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `re, psycopg2, pathlib, datetime, os, autonomous_sdk.db_config, yaml, json, modules.meta.scripts.G11_log_system, sys, subprocess`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

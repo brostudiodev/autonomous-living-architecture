@@ -1,41 +1,88 @@
 ---
-title: "Automation Spec: G02 Brand Orchestrator"
+title: "Automation Spec: G02_brand_orchestrator.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G02_brand_orchestrator"
-goal_id: "goal-g02"
-systems: ["S02", "S05"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "c783ce63849206{{LONG_IDENTIFIER}}"
 ---
 
-# G02: Brand Orchestrator
+# 🤖 Automation Spec: G02_brand_orchestrator.py
 
 ## Purpose
-Manages the end-to-end content creation pipeline for Automationbro. It ensures a consistent flow of thought leadership by automating idea capture, drafting, and scheduling.
+G02_brand_orchestrator.py.
 
-## Triggers
-- **Telegram Command:** `/idea [content]` logs to the idea pool.
-- **Daily Manager:** Executes the drafting and scheduling logic.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/brand/scripts/G02_brand_orchestrator.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G02 Automationbro Recognition` within the `brand` automation domain.
 
-## Inputs
-- **Idea Pool:** `brand_ideas` table.
-- **Performance Data:** `brand_metrics` for high-impact topic selection.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Idea Capture:** Logs raw concepts from Telegram.
-2.  **Drafting:** Identifies new ideas and triggers drafting (integration with `G02_linkedin_drafter.py`).
-3.  **Scheduling:** Automatically assigns post dates (Next Tuesday/Thursday) to maintain a consistent cadence.
-4.  **Performance Feedback:** Compares upcoming topics with past high-impression metrics to suggest refinements.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G02_brand_orchestrator.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Content Queue:** Managed in the `content_calendar` table.
-- **Drafts:** Markdown or text files ready for review.
-- **Daily Report:** Status of the content pipeline in Obsidian.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-- **PostgreSQL:** `autonomous_finance` (brand schema).
-- **Gemini API:** For intelligent drafting.
+### Runtime
+- Python script: `modules/brand/scripts/G02_brand_orchestrator.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-## Monitoring
-- **Obsidian:** "Content Pipeline" section in the Daily Note.
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `os`
+- `pathlib`
+- `psycopg2`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/brand/scripts/G02_brand_orchestrator.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G02_brand_orchestrator.py`.
+
+## Implementation Notes
+- Top-level functions: log_idea, get_high_impact_topics, run_pipeline
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, pathlib, datetime, os, autonomous_sdk.db_config, json, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

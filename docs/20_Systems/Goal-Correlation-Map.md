@@ -163,9 +163,9 @@ G10 (Productivity) → "Switch to recovery mode?"
 ## Dependencies
 
 **Systems:**
-- [S03 Data Layer](../20_Systems/S03_Data-Layer/README.md)
-- [S04 Digital Twin](../20_Systems/S04_Digital-Twin/README.md)
-- [S08 Automation Orchestrator](../20_Systems/S08_Automation-Orchestrator/README.md)
+- [S03 Data Layer](README.md)
+- [S04 Digital Twin](README.md)
+- [S08 Automation Orchestrator](README.md)
 
 **Credentials:**
 - PostgreSQL (dt_sync_worker)
@@ -184,8 +184,8 @@ G10 (Productivity) → "Switch to recovery mode?"
 
 ## Cross-References
 
-- [Roadmap Overview](../10_Goals/README.md)
-- [Low-Level-Design](./Low-Level-Design.md)
-- [Architecture Diagrams](./Architecture-Diagrams.md)
-- [S04 Digital Twin README](../20_Systems/S04_Digital-Twin/README.md)
-- [G11 Meta-System Roadmap](../10_Goals/G11_Meta-System-Integration-Optimization/Roadmap.md)
+- [Roadmap Overview](README.md)
+- [Low-Level-Design](Low-Level-Design.md)
+- [Architecture Diagrams](Architecture-Diagrams.md)
+- [S04 Digital Twin README](README.md)
+- [G11 Meta-System Roadmap](../10_Goals/G02_Automationbro-Recognition/Roadmap.md)

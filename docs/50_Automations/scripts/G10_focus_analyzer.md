@@ -1,62 +1,87 @@
 ---
-title: "G10: Focus Reality Analyzer"
+title: "Automation Spec: G10_focus_analyzer.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-goal_id: "goal-g10"
-updated: "2026-04-17"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "0d8f82{{LONG_IDENTIFIER}}"
 ---
 
-# G10: Focus Reality Analyzer
+# 🤖 Automation Spec: G10_focus_analyzer.py
 
 ## Purpose
-Quantifies the "Reality Audit" by analyzing ActivityWatch telemetry. It calculates a daily Focus Score (Productive vs. Distraction) to provide an objective measure of deep work efficiency.
+G10_focus_analyzer.py.
 
 ## Scope
 ### In Scope
-- Aggregating today's `activity_watch_events`.
-- Calculating Focus Score: `(Productive / (Productive + Unproductive)) * 100`.
-- Identifying top 3 focus drivers and distractions.
-- Formatting a markdown report for the Obsidian Daily Note.
+- Documents the active implementation at `modules/productivity/scripts/G10_focus_analyzer.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G10 Intelligent Productivity Time Architecture` within the `productivity` automation domain.
 
 ### Out of Scope
-- Data synchronization (handled by `G10_activitywatch_sync.py`).
-- Real-time focus blocking.
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
 ## Inputs/Outputs
-### Input
-- **Source:** PostgreSQL `digital_twin_michal.public.activity_watch_events`
-- **Mock Mode:** Supports `--mock` flag for UI testing.
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G10_focus_analyzer.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-### Output
-- **Markdown Report:** Injected into Obsidian Daily Note via `%%FOCUS_REALITY%%` marker.
-- **Log:** `system_activity_log` with status and focus score.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
+
+## Dependencies
+### Runtime
+- Python script: `modules/productivity/scripts/G10_focus_analyzer.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `psycopg2`
+- `sys`
 
 ## Procedure
-### Manual Execution
-```bash
-python3 G10_focus_analyzer.py
-```
+1. Review the script source at `modules/productivity/scripts/G10_focus_analyzer.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-### Mock Preview
-```bash
-python3 G10_focus_analyzer.py --mock
-```
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## Logic & Metrics
-- **Focus Score:** Ratio of productive minutes to total classified minutes.
-- **Classification:** Inherited from `G10_activitywatch_sync.py` classifications.
-- **Report Sections:**
-  - Focus Score with Emoji indicator.
-  - Duration/Percentage table (Productive, Distraction, Neutral).
-  - Top Focus Drivers (Apps/Windows).
-  - Top Distractions.
-
-## Integration
-- **Orchestrator:** `autonomous_daily_manager.py` (runs in parallel).
-- **Template:** `%%FOCUS_REALITY_START%%` / `%%FOCUS_REALITY_END%%` markers in Daily Note Template.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
 ## Owner + Review Cadence
-- **Owner:** Michał
-- **Review:** Monthly alignment with G10 roadmap.
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G10_focus_analyzer.py`.
+
+## Implementation Notes
+- Top-level functions: get_focus_stats, generate_report
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, modules.meta.scripts.G11_log_system, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
 ---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

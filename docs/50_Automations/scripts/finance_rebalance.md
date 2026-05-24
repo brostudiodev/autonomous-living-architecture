@@ -1,49 +1,85 @@
 ---
-title: "G05: Budget Rebalance Wrapper"
+title: "Automation Spec: finance_rebalance.py"
 type: "automation_spec"
 status: "active"
-automation_id: "finance_rebalance.py"
-goal_id: "goal-g05"
-systems: ["S05"]
-owner: "Michał"
-updated: "2026-03-19"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "43cc9a38a4276657bb4bf3ec7ec6020a26c5b167e33de5ce51c351f8babb74ca"
 ---
 
-# G05: Budget Rebalance Wrapper
+# 🤖 Automation Spec: finance_rebalance.py
 
 ## Purpose
-Acts as the execution bridge between the Obsidian Daily Note UI and the financial rebalancing engine. It allows Michał to manually trigger the full autonomous rebalancing flow (including database updates and Google Sheets sync) with a single click.
+Runs the finance rebalance operational utility.
 
-## Triggers
-- **Manual (Obsidian):** `[💸 Execute Budget Rebalancing]` button in the Daily Note.
-- **Manual (CLI):** `python3 scripts/finance_rebalance.py`.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/finance/scripts/finance_rebalance.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `Shared operational automation` within the `finance` automation domain.
 
-## Inputs
-- **Script:** `scripts/G05_budget_rebalancer.py`.
-- **Environment:** Path to the Python virtual environment.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Environment Setup:** Identifies the correct Python interpreter.
-2.  **Execution:** Invokes `G05_budget_rebalancer.py` with the `--execute` flag.
-3.  **Reporting:** Captures the stdout/stderr of the engine and displays it to the user.
-4.  **Completion:** Verifies the rebalancing action and confirms the Google Sheets sync status.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `finance_rebalance.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Subprocess Trigger:** Executes the core rebalancing and sync logic.
-- **Console Output:** Provides immediate feedback on the rebalancing results.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S05 Finance System](../../10_Goals/G05_Autonomous-Financial-Command-Center/README.md)
-- [G05 Budget Rebalancer (Engine)](G05_budget_rebalancer.md)
+### Runtime
+- Python script: `modules/finance/scripts/finance_rebalance.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Engine Error | `CalledProcessError` | Log failure, display engine output | Console Error |
-| Sync Timeout | Subprocess timeout | Terminate, notify user | Console Error |
+### Imports
+- `autonomous_sdk.db_config`
+- `os`
+- `subprocess`
+- `sys`
 
-## Manual Fallback
-If the wrapper fails:
-1.  Run the engine directly: `python3 scripts/G05_budget_rebalancer.py --execute`.
-2.  Verify the `system_activity_log` for detailed failure reasons.
+## Procedure
+1. Review the script source at `modules/finance/scripts/finance_rebalance.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `finance_rebalance.py`.
+
+## Implementation Notes
+- Top-level functions: run_rebalance
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `sys, subprocess, os, autonomous_sdk.db_config`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

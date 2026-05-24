@@ -1,33 +1,89 @@
 ---
-title: "G11_startup_probe.py: Critical Infrastructure Audit"
+title: "Automation Spec: G11_startup_probe.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G11_startup_probe"
-goal_id: "goal-g11"
-systems: ["S11", "S04"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "eebf70f3ed08350d76da72c49b224cee0015668d4fb4084c434ddf562a5f3562"
 ---
 
-# G11: Startup Health Probe
+# 🤖 Automation Spec: G11_startup_probe.py
 
 ## Purpose
-Ensures that all critical infrastructure services (n8n, Digital Twin API, Postgres) are online and healthy before the system begins its daily operational cycle. It prevents script failures caused by underlying service unavailability.
+Runs the startup probe automation for Meta-System Integration Optimization.
 
-## Processing Logic
-1. **Service Verification**:
-    - **Docker Services**: Utilizes `docker inspect` to verify the operational state of critical containers. It first attempts an exact match (e.g., `postgres`), then falls back to searching for any running container ending in `_postgres` or `_n8n` to handle environment variations.
-    - **API Services**: Uses `requests.get` with a strict 10-second timeout to verify the responsiveness of the Digital Twin API via its `/health/ready` endpoint.
-2. **Retry Mechanism**: If services are offline, it retries up to 5 times with a 10-second delay between attempts.
-3. **Reporting**: Logs the outcome (SUCCESS/FAILURE) to the `system_activity_log`.
-4. **Fast-Fail**: Exits with a non-zero status code if critical services remain offline after all retries.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_startup_probe.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-## Monitored Services
-- **n8n**: Verified via `docker inspect` (Container name: `n8n` or fallback search).
-- **Postgres**: Verified via `docker inspect` (Container name: `postgres` or fallback search for `*_postgres`).
-- **API**: Verified via HTTP GET to `http://localhost:5677/health/ready`.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
+
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_startup_probe.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
+
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- HTTP requests to configured local or external service endpoints.
+
+## Dependencies
+### Runtime
+- Python script: `modules/meta/scripts/G11_startup_probe.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
+
+### Imports
+- `autonomous_sdk`
+- `datetime`
+- `os`
+- `pathlib`
+- `requests`
+- `subprocess`
+- `sys`
+- `time`
+
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_startup_probe.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_startup_probe.py`.
+
+## Implementation Notes
+- Top-level functions: No top-level functions detected.
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `pathlib, datetime, autonomous_sdk, os, sys, subprocess, time, requests`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*Related Documentation:*
-- [G11_global_sync.md](G11_global_sync.md)
-- [G11_system_vital_sentinel.md](G11_system_vital_sentinel.md)
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

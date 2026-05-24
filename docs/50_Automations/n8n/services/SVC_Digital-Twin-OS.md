@@ -32,8 +32,8 @@ Serves the "Personal OS Meta-Optimization" report, providing high-signal warning
 
 ## Dependencies
 ### Systems
-- [S11 Intelligence Router](../../../20_Systems/S11_Meta-System-Integration/README.md) - Host logic for Meta-Rules.
-- [S04 Digital Twin](../../../20_Systems/S04_Digital-Twin/README.md) - State source.
+- [S11 Intelligence Router](../../../20_Systems/README.md) - Host logic for Meta-Rules.
+- [S04 Digital Twin](../../../20_Systems/README.md) - State source.
 
 ## Error Handling
 | Failure Scenario | Detection | Response | Alert |

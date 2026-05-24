@@ -1,55 +1,91 @@
 ---
-title: "G04: Digital Twin System Monitor"
+title: "Automation Spec: G04_digital_twin_monitor.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G04_digital_twin_monitor.py"
-goal_id: "goal-g04"
-systems: ["S04", "S01"]
-owner: "Michał"
-updated: "2026-03-20"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "ca2f837702f365c506b3076e9442d0e5f0f4dfaf776d5b518e66399124b59e6f"
 ---
 
-# G04: Digital Twin System Monitor
+# 🤖 Automation Spec: G04_digital_twin_monitor.py
 
 ## Purpose
-The primary watchdog for the ecosystem's infrastructure and logical health. It performs proactive checks on both the underlying system (databases, disk space) and the high-level system states (budget, pantry, health) to alert Michał of critical issues before they impact autonomy.
+G04_digital_twin_monitor.py.
 
-## Key Features
-- **Infrastructure Sentinels:** 
-    - **DB Connectivity:** Actively tests each of the 7 PostgreSQL databases.
-    - **Disk Space:** Monitors host storage and alerts if usage exceeds 90%.
-- **Proactive Alerting:** Detects critical biological readiness (<65), budget breaches, and low pantry stock.
-- **State Management:** Uses `monitor_state.json` to track sent alerts and prevent notification spam.
-- **Telegram Integration:** Sends rich-text formatted alerts directly to the Digital Twin mobile bot.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G04_digital_twin_monitor.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G04 Digital Twin Ecosystem` within the `meta` automation domain.
 
-## Triggers
-- **Automated:** Part of the `G11_global_sync.py` registry (3x daily).
-- **Manual:** `python3 scripts/G04_digital_twin_monitor.py`
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Inputs
-- **Engine:** `DigitalTwinEngine` for high-level state data.
-- **System Metadata:** `shutil` for disk usage and `psycopg2` for database pings.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G04_digital_twin_monitor.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Processing Logic
-1.  **Infrastructure Audit:** Pings all configured database connections and checks disk availability.
-2.  **Domain Audit:** Requests the current system state from the `DigitalTwinEngine`.
-3.  **Threshold Analysis:** Compares current metrics against critical "hardened" thresholds.
-4.  **Deduplication:** Compares current alerts against `last_alerts` in the state file.
-5.  **Dispatch:** Sends any *new* alerts to Telegram and updates the local state.
-
-## Outputs
-- **Telegram:** Real-time proactive alerts.
-- **System Activity Log:** `SUCCESS` or `FAILURE` of the monitoring cycle.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S01 Observability & Monitoring](../../20_Systems/S01_Observability-Monitoring/README.md)
-- [S04 Digital Twin Hub](../../20_Systems/S04_Digital-Twin/README.md)
+### Runtime
+- Python script: `modules/meta/scripts/G04_digital_twin_monitor.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-## Manual Fallback
-If the monitor fails:
-1. Verify Telegram bot connectivity via `G04_telegram_bot.py`.
-2. Check database status manually via `G11_system_audit.py`.
-3. Verify disk space using `df -h`.
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `modules.meta.scripts.G04_digital_twin_engine`
+- `modules.meta.scripts.G04_digital_twin_notifier`
+- `os`
+- `psycopg2`
+- `shutil`
+- `subprocess`
+
+## Procedure
+1. Review the script source at `modules/meta/scripts/G04_digital_twin_monitor.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G04_digital_twin_monitor.py`.
+
+## Implementation Notes
+- Top-level functions: load_state, save_state, check_disk_usage, check_db_connectivity, run_monitor
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, shutil, os, autonomous_sdk.db_config, modules.meta.scripts.G04_digital_twin_notifier, json, modules.meta.scripts.G04_digital_twin_engine, subprocess`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
 ---
-*Hardened 2026-03-20 with infrastructure sentinels.*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

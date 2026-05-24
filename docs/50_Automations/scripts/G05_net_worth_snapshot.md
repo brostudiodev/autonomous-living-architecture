@@ -1,52 +1,88 @@
 ---
-title: "G05_net_worth_snapshot: Wealth & FIRE Automation"
+title: "Automation Spec: G05_net_worth_snapshot.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G05_net_worth_snapshot"
-goal_id: "goal-g05"
-systems: ["S05"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "3bd{{LONG_IDENTIFIER}}"
 ---
 
-# G05: Net Worth Snapshot
+# 🤖 Automation Spec: G05_net_worth_snapshot.py
 
 ## Purpose
-Automates the calculation and historical tracking of Net Worth and "Years of Freedom" (FIRE progress). This removes the manual effort of aggregating account balances and projecting financial independence milestones at month-end.
+Runs the net worth snapshot automation for Autonomous Financial Command Center.
 
-## Triggers
-- **Scheduled:** Integrated into `G11_global_sync.py`. Auto-executes on the 1st of each month.
-- **Manual:** `python scripts/G05_net_worth_snapshot.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/finance/scripts/G05_net_worth_snapshot.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G05 Autonomous Financial Command Center` within the `finance` automation domain.
 
-## Inputs
-- **Google Sheet**: "Wealth FIRE" tab for asset inventory and "FIRE Constants" for target metrics.
-- **Database**: `v_month_end_projection` (for current burn rate).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Infrastructure Check**: Creates the `wealth_assets`, `fire_configuration`, and `net_worth_history` tables if they do not exist.
-2. **Sheet Sync**: Synchronizes the "Wealth FIRE" tab from Google Sheets.
-    - **Cleaning**: Deletes existing `wealth_assets` rows before sync to ensure 100% parity with the sheet.
-    - **Normalization**: Normalizes all values to PLN using the provided `Exchange_Rate`.
-3. **Configuration Sync**: Pulls `target_monthly_spend` and `safe_withdrawal_rate` from the "FIRE Constants" sheet.
-4. **Calculations**:
-    - **True Net Worth**: Sum of all assets normalized to PLN.
-    - **FIRE Fund**: Sum of assets where `include_in_fire` is TRUE and `ownership` is 'Michal' or 'Shared'.
-    - **FIRE Progress**: `(FIRE Fund / (target_monthly_spend * 12 / swr)) * 100`.
-    - **Survival Runway**: `FIRE Fund / current_monthly_burn`.
-5. **Persistence**: Updates the `net_worth_history` table with detailed metrics for historical trend analysis.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G05_net_worth_snapshot.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Database**: New row in `net_worth_history`.
-- **Console**: Log of the calculated Net Worth and freedom years.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-- **System**: [S05 Observability Dashboards](../../20_Systems/S05_Observability-Dashboards/README.md)
-- **Database**: `autonomous_finance` (PostgreSQL)
+### Runtime
+- Python script: `modules/finance/scripts/G05_net_worth_snapshot.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-## Monitoring
-- **Success Metric**: Monthly snapshot present in the financial dashboard by the 2nd of each month.
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `google.oauth2.service_account`
+- `gspread`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `psycopg2`
+
+## Procedure
+1. Review the script source at `modules/finance/scripts/G05_net_worth_snapshot.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G05_net_worth_snapshot.py`.
+
+## Implementation Notes
+- Top-level functions: get_sheets_client, parse_val, sync_wealth_data
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, gspread, os, autonomous_sdk.db_config, google.oauth2.service_account, modules.meta.scripts.G11_log_system`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*Related Documentation:*
-- [G05_finance_sync.md](G05_finance_sync.md)
-- [G05_budget_rebalancer.md](G05_budget_rebalancer.md)
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

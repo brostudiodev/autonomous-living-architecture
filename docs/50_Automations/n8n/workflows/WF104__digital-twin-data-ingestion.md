@@ -38,14 +38,14 @@ Aggregates data from multiple sources (Google Sheets, Obsidian, PostgreSQL) and 
 
 ## Dependencies
 
-- [S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md)
-- [S04 Digital Twin](../../../20_Systems/S04_Digital-Twin/README.md)
+- [S03 Data Layer](../../../20_Systems/README.md)
+- [S04 Digital Twin](../../../20_Systems/README.md)
 - Google Sheets API
 
 ## Related Documentation
 
-- [Digital Twin Data Models](./Data-Models.md)
-- [S04 Data Ingestion](./Data-Ingestion.md)
+- [Digital Twin Data Models](../../../20_Systems/S04_Digital-Twin/Data-Models.md)
+- [S04 Data Ingestion](../../../20_Systems/S04_Digital-Twin/Data-Ingestion.md)
 
 ---
 *Owner: Michał*

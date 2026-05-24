@@ -2,43 +2,88 @@
 title: "Automation Spec: G03_predictive_inventory_engine.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G03_predictive_inventory_engine"
-goal_id: "goal-g03"
-systems: ["S03", "S04", "S05"]
-owner: "Michał"
-updated: "2026-04-16"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "839837a6e476d56665{{LONG_IDENTIFIER}}"
 ---
 
 # 🤖 Automation Spec: G03_predictive_inventory_engine.py
 
 ## Purpose
-Proactively manages household inventory by predicting when items will run out based on depletion rates. It bridges the gap between current stock and procurement by proposing restocks *before* critical thresholds are reached, while respecting financial budget constraints.
+G03_predictive_inventory_engine.py.
 
-## Triggers
-- **Daily Sync:** Part of the `G11_global_sync.py` pipeline.
-- **Manual:** `python3 G03_predictive_inventory_engine.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/pantry/scripts/G03_predictive_inventory_engine.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G03 Autonomous Household Operations` within the `pantry` automation domain.
 
-## Inputs
-- **Pantry Data:** `pantry_inventory` table in `autonomous_pantry`.
-- **Budget Data:** `get_current_budget_alerts()` function in `autonomous_finance`.
-- **System Context:** Digital Twin engine for unified state.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Inventory Scan:** Retrieves all items from `pantry_inventory` where `critical_threshold` IS NOT NULL.
-   - **NULL Threshold:** Item is ignored (not tracked for autonomous procurement).
-   - **0 Threshold:** Item is tracked (alert/propose when current quantity is 0).
-2. **Depletion Calculation:** (Q2 Heuristic) Calculates `days_left` based on current quantity vs threshold.
-   - If `threshold == 0` and `qty > 0`, assumes 30 days left (safety buffer).
-   - Otherwise, calculates depletion over a 14-day standard usage cycle.
-3. **Budget Check:** Queries the financial system for active high/critical alerts.
-4. **Decision Proposal:** If `days_left <= 7`:
-   - Proposes a restock via `G11_decision_proposer`.
-   - Attaches a budget warning if the financial system reports breaches.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G03_predictive_inventory_engine.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Decision Requests:** Injected into `digital_twin_michal.decision_requests` under `household.auto_procurement`.
-- **Activity Log:** Records number of restocks proposed.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
-## Related Documentation
-- [Goal: G03 Autonomous Household](../../10_Goals/G03_Autonomous-Household-Operations/README.md)
-- [System: S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
+## Dependencies
+### Runtime
+- Python script: `modules/pantry/scripts/G03_predictive_inventory_engine.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `G04_digital_twin_engine`
+- `G11_decision_proposer`
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `psycopg2`
+
+## Procedure
+1. Review the script source at `modules/pantry/scripts/G03_predictive_inventory_engine.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G03_predictive_inventory_engine.py`.
+
+## Implementation Notes
+- Top-level functions: No top-level functions detected.
+- Top-level classes: PredictiveInventoryEngine
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `G04_digital_twin_engine, psycopg2, G11_decision_proposer, datetime, os, autonomous_sdk.db_config, json, modules.meta.scripts.G11_log_system`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

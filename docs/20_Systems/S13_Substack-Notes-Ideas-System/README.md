@@ -221,7 +221,7 @@ Obsidian Vault/
 
 - LinkedIn Ideas Basket: `[[Obsidian Vault/02_Projects/LinkedIn Ideas Basket|LinkedIn Ideas]]` (Vault Reference)
 - Substack Notes Basket: `[[Obsidian Vault/02_Projects/Substack Notes Ideas Basket|Substack Notes]]` (Vault Reference)
-- G02 Goal: [G02 README](docs/10_Goals/G02_Automationbro-Recognition/README.md)
+- G02 Goal: [G02 README](../README.md)
 
 ---
 

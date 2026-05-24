@@ -16,7 +16,7 @@ This document provides a unified view of all scheduled activities across the Aut
 |:---|:---|:---|:---|
 | **00:01** | Cron | `G04_snapshot_manager.py` | Daily system state snapshot |
 | **06:00** | Cron | `autonomous_weekly_manager.py` | (Sunday Only) Weekly Review |
-| **06:15** | Cron | `G11_obsidian_safe_sync.py` | First Sync: Daily Note, Health, Finance |
+| **06:15** | Kernel | `core/orchestrator.py` | Tiered Global Sync: Health, Finance, Triage |
 | **06:15** | Cron | `G04_morning_briefing_sender.py` | (Mon-Fri) Initial Morning Briefing |
 | **06:45** | n8n | `SVC_Daily-Calendar-Brief` | Daily schedule synthesis |
 | **06:46** | n8n | `SVC_Daily-Tasks-Brief` | Task priority overview |

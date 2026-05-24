@@ -2,37 +2,88 @@
 title: "Automation Spec: G11_friction_discovery.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "79{{LONG_IDENTIFIER}}"
 ---
 
 # 🤖 Automation Spec: G11_friction_discovery.py
 
-## 📝 Overview
-**Purpose:** Discovers "hidden friction" by analyzing cross-domain correlations in the system's unified intelligence data. It identifies how variables in one domain (e.g., sleep) impact outcomes in another (e.g., spending).
-**Goal Alignment:** G11 Meta-System Integration & Continuous Optimization.
+## Purpose
+G11_friction_discovery.py.
+
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_friction_discovery.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
+
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
+
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_friction_discovery.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
+
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
+
+## Dependencies
+### Runtime
+- Python script: `modules/meta/scripts/G11_friction_discovery.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `modules.meta.scripts.G04_digital_twin_notifier`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `pandas`
+- `psycopg2`
+
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_friction_discovery.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_friction_discovery.py`.
+
+## Implementation Notes
+- Top-level functions: discover_friction
+- Top-level classes: No top-level classes detected.
 
 ## ⚡ Technical Details
-- **Language:** Python 3.x
-- **Triggers:** Weekly Mission Sync (Sundays) / Manual Execution
-- **Databases:** PostgreSQL (digital_twin_michal)
-- **Dependencies:** `pandas`, `psycopg2`, `db_config`, `G04_digital_twin_notifier`
-
-## 🛠️ Logic Flow
-1. **Data Load:** Fetches up to 10 years of `daily_intelligence` data into a Pandas DataFrame.
-2. **Correlation Analysis:**
-   - **Financial Friction:** Compares average daily spending on days with good sleep vs. poor sleep.
-   - **Productivity Pivot:** Correlates readiness scores with time saved (ROI).
-   - **Activity Stress:** Calculates correlation between step counts and budget alerts.
-3. **Insight Generation:** Flags significant deviations (e.g., spending >20% higher after poor sleep).
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, pandas, datetime, os, autonomous_sdk.db_config, modules.meta.scripts.G04_digital_twin_notifier, json, modules.meta.scripts.G11_log_system`
 
 ## 📤 Outputs
-- **Telegram Message:** Detailed report of discovered correlations and system suggestions.
-- **Log Entry:** Success/Failure log in `system_activity_log`.
-
-## ⚠️ Known Issues / Maintenance
-- Requires at least 7 days of unified data to provide meaningful insights.
-- Heuristics are currently hardcoded; could be expanded to include more variables (mood, weather, etc.).
+- See Inputs/Outputs section above.
 
 ---
-*Updated: 2026-04-19 by Digital Twin Assistant*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

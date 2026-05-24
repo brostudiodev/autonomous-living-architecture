@@ -1,49 +1,88 @@
 ---
-title: "G10: Dynamic Morning Rescheduler"
+title: "Automation Spec: G10_morning_rescheduler.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G10_morning_rescheduler"
-goal_id: "goal-g10"
-systems: ["S10"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "b58a44f76e2b5{{LONG_IDENTIFIER}}"
 ---
 
-# G10: Dynamic Morning Rescheduler
+# 🤖 Automation Spec: G10_morning_rescheduler.py
 
 ## Purpose
-Automatically realigns the daily schedule at 07:00 AM based on real-time biometric readiness scores. This ensures that high-cognitive "Deep Work" blocks are only scheduled when the body is in a capable state, and promotes recovery or admin tasks when energy is low.
+G10_morning_rescheduler.py.
 
-## Triggers
-- **CRON:** 07:00 AM daily.
-- **Manual:** `python3 G10_morning_rescheduler.py`.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/productivity/scripts/G10_morning_rescheduler.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G10 Intelligent Productivity Time Architecture` within the `productivity` automation domain.
 
-## Inputs
-- **Biometrics:** `readiness_score` and `sleep_score` from the `digital_twin_michal` database (via `G04_digital_twin_engine`).
-- **Tasks:** Google Tasks with tags like `#deep` or `#roadmap`.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Readiness Check:** Fetches the latest biometrics from Amazfit/Zepp.
-2.  **State Determination:** 
-    -   `Peak` (>85): Prioritizes Power Goal missions.
-    -   `Standard`: Default schedule.
-    -   `Recovery` (50-65): Shifts deep work, prioritizes maintenance.
-    -   `Critical` (<50): Triggers Minimum Viable Day (MVD) mode.
-3.  **Schedule Regeneration:** Calls `G10_schedule_optimizer` to build a new set of time blocks.
-4.  **Notification:** Sends a Telegram summary of the realignment and current system state.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G10_morning_rescheduler.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Digital Twin:** Updates the suggested schedule in the Daily Note.
-- **Telegram:** Real-time state alert (e.g., "Recovery Mode Active").
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Scripts
-- [G10 Schedule Optimizer](./G10_schedule_optimizer.md)
-- [G04 Digital Twin Engine](./G04_digital_twin_engine.md)
-- [G04 Telegram Notifier](./G04_digital_twin_notifier.md)
+### Runtime
+- Python script: `modules/productivity/scripts/G10_morning_rescheduler.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
+
+### Imports
+- `G04_digital_twin_notifier`
+- `G10_schedule_optimizer`
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/productivity/scripts/G10_morning_rescheduler.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
 ## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| API Timeout | Exception caught | Falls back to standard/last known schedule. |
-| Zero Scores | Check for 0 value | Logs warning, assumes 'Standard' state. |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G10_morning_rescheduler.py`.
+
+## Implementation Notes
+- Top-level functions: run_rescheduler
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `G10_schedule_optimizer, datetime, os, G04_digital_twin_notifier, autonomous_sdk.db_config, modules.meta.scripts.G11_log_system, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

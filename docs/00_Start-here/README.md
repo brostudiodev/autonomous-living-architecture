@@ -9,17 +9,17 @@ updated: "2026-02-28"
 # Autonomous Living Documentation
 
 ## 🏁 **Start Here: The High-Level View**
-- **[Quick Start Guide](./03_Quick-Start-Guide.md)** - **GET STARTED NOW.** 30-minute setup for the full system.
-- **[Project in a Nutshell](./01_Project-in-a-nutshell.md)** - A one-page executive summary of the vision, the tech, and the benefits.
-- **[What Is Autonomous Living?](./02_What-Is-Autonomous-Living.md)** - Plain-language guide for everyone. Explains automation vs autonomy, what you can achieve, and how to start - no technical skills required.
-- **[System Implementation Status](./System-Status-Analysis.md)** - Real-time analysis of what's actually built vs documented.
+- **[Quick Start Guide](03_Quick-Start-Guide.md)** - **GET STARTED NOW.** 30-minute setup for the full system.
+- **[Project in a Nutshell](01_Project-in-a-nutshell.md)** - A one-page executive summary of the vision, the tech, and the benefits.
+- **[What Is Autonomous Living?](02_What-Is-Autonomous-Living.md)** - Plain-language guide for everyone. Explains automation vs autonomy, what you can achieve, and how to start - no technical skills required.
+- **[System Implementation Status](System-Status-Analysis.md)** - Real-time analysis of what's actually built vs documented.
 
 ## 🚀 **Quick Start - What's Actually Working**
 
 **⚠️ IMPORTANT UPDATE:** This system is significantly more implemented than previously documented. Before reading goal documentation, review the current implementation status.
 
 ### 📊 **Real Implementation Analysis (Start Here)**
-- **[System Implementation Status](./System-Status-Analysis.md)** - Comprehensive analysis of what's actually built vs documented
+- **[System Implementation Status](System-Status-Analysis.md)** - Comprehensive analysis of what's actually built vs documented
 - **[Cross-System Integration Architecture](../20_Systems/Cross-System-Integration.md)** - Active data flows and working integrations
 - **[Service Registry & Infrastructure](../20_Systems/Service-Registry.md)** - All active services, APIs, and endpoints
 
@@ -41,7 +41,7 @@ updated: "2026-02-28"
 ## 📖 **Traditional Documentation Structure**
 
 ### 🌟 **Strategic Vision**
-- **[North Star](./North-Star.md)** - Automation-First Living by end of 2026
+- **[North Star](North-Star.md)** - Automation-First Living by end of 2026
 
 ### 🎯 **Goals Overview**
 The 12 goals are structured with **4 foundation goals** enabling the other 8:
@@ -64,23 +64,23 @@ The 12 goals are structured with **4 foundation goals** enabling the other 8:
 
 ### 🏗️ **Systems Architecture**
 - **[Systems Overview](../20_Systems/README.md)** - Core infrastructure capabilities
-- **[Observability & Monitoring](../20_Systems/S01_Observability-Monitoring/README.md)** - Prometheus + Grafana stack
-- **[Data Layer](../20_Systems/S03_Data-Layer/README.md)** - PostgreSQL schemas and functions
+- **[Observability & Monitoring](../20_Systems/README.md)** - Prometheus + Grafana stack
+- **[Data Layer](../20_Systems/README.md)** - PostgreSQL schemas and functions
 
 ### 🔧 **Automation & Workflows**
-- **[Automation Platform](../50_Automations/README.md)** - n8n workflow orchestration
+- **[Automation Platform](../20_Systems/README.md)** - n8n workflow orchestration
 - **[n8n Workflows](../50_Automations/n8n/workflows/)** - Individual workflow specifications
 
 ### 📚 **Procedures & Runbooks**
-- **[SOPs](../30_Sops/README.md)** - Standard Operating Procedures
-- **[Runbooks](../40_Runbooks/README.md)** - Incident response procedures
+- **[SOPs](../20_Systems/README.md)** - Standard Operating Procedures
+- **[Runbooks](../20_Systems/README.md)** - Incident response procedures
 
 ---
 
 ## 🔍 **How to Navigate This Documentation**
 
 ### 🚀 **For Implementation Status**
-Start with **[System Implementation Status](./System-Status-Analysis.md)** to understand what's actually working.
+Start with **[System Implementation Status](System-Status-Analysis.md)** to understand what's actually working.
 
 ### 🏗️ **For Architecture Understanding**
 Review **[Cross-System Integration](../20_Systems/Cross-System-Integration.md)** to see how systems connect.
@@ -113,18 +113,18 @@ Navigate to individual goal folders under **[../10_Goals/](../10_Goals/)** - but
 
 ## 🔄 **Development Workflow**
 
-### **Data Flow Pattern:**
+### **Data Flow Pattern (EDA-First):**
 ```
-User Input → G04 Router → AI Processing → System Action → Response
-      ↓
-Cross-System Context → Intelligent Decision Making → Coordination
+Event Signal (Bus) → RED-Dispatcher → Reactive Action → Response/Self-Healing
+      ↑                                     ↓
+Manual Command → Telegram Router → Digital Twin → Database Update
 ```
 
 ### **Integration Pattern:**
 ```
-Individual Systems → G04 Digital Twin → Processing → Distribution
-Health → G04 → Context → Training Optimization
-Finance → G04 → Context → Budget-Aware Decisions
+Individual Systems → RabbitMQ (life.events) → Dispatcher → Cross-Domain Response
+Health Update → Event Bus → Schedule Optimizer → Instant Focus Adjust
+Script Failure → Event Bus → Self-Healing Supervisor → Targeted Repair
 ```
 
 ---

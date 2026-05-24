@@ -2,13 +2,22 @@
 title: "G11: Meta-System Integration & Optimization"
 type: "goal"
 status: "active"
-goal_id: "goal-g11"
 owner: "Michał"
-updated: "2026-04-18"
+updated: "2026-05-15"
+goal_id: "goal-g11"
 review_cadence: "monthly"
 ---
 
 # G11: Meta-System Integration & Optimization
+
+## Goal Statement
+To engineer the **"Spinal Cord"** of the autonomous life—a robust, event-driven orchestration layer that binds all life domains into a single reactive entity, ensuring zero-latency communication, autonomous self-healing, and continuous ROI optimization.
+
+## Strategic Shift (2026-05-12)
+G11 has evolved from a simple **Sync Orchestrator** to a **Decentralized Nervous System** (ADR-0031). 
+- **The Medium:** RabbitMQ (`life.events`) replaces polling/cron as the primary trigger mechanism.
+- **The Reflexes:** Deterministic routing (e.g., Health WARNING → Recovery Pivot) is handled natively in Python for maximum speed.
+- **The Governance:** Autonomy policies enforce security and safety boundaries across all agent interactions.
 
 ## 🌟 What you achieve
 *   **Level 5 "Zero-Click" Autonomy:** The system now autonomously proposes AND executes low-risk decisions (procurement, rebalancing) without human intervention.
@@ -43,6 +52,8 @@ Define the Meta-System architecture and core data integration patterns for holis
 - [x] Self-Healing Audits implemented (`G11_system_audit.py`)
 - [x] **Interactive Decision Authority Loop** (Telegram + Obsidian + Google Sheets)
 - [x] **Autonomous Level 5 Loop** (Auto-Propose -> Auto-Approve -> Auto-Execute) ✅ (Apr 04)
+- [x] **Reactive Event-Driven Architecture** (Real-time cross-domain orchestration) ✅ (May 01)
+- [x] **Full-System Observability** (Structured JSON Logging across 360+ scripts) ✅ (May 12)
 - [x] **Self-Healing Supervisor** (Automated retry and cleanup logic) ✅ (Apr 02)
 - [x] **Universal Timeouts & Syntax Hardening** (Standardized DB/HTTP/Subprocess timeouts) ✅ (Apr 18)
 - [x] Automated Documentation Scanner deployed (`G12_auto_documenter.py`)
@@ -76,11 +87,11 @@ Define the Meta-System architecture and core data integration patterns for holis
 - All external APIs used by goals
 
 ## Key Links
-- Outcomes: [Outcomes.md](Outcomes.md)
-- Metrics: [Metrics.md](Metrics.md)
-- Systems: [Systems.md](Systems.md)
-- Roadmap: [Roadmap.md](Roadmap.md)
-- Activity Log: [Activity-log.md](Activity-log.md)
+- Outcomes: [Outcomes.md](../G02_Automationbro-Recognition/Outcomes.md)
+- Metrics: [Metrics.md](../G02_Automationbro-Recognition/Metrics.md)
+- Systems: [Systems.md](../G02_Automationbro-Recognition/Systems.md)
+- Roadmap: [Roadmap.md](../G02_Automationbro-Recognition/Roadmap.md)
+- Activity Log: [Activity-log.md](../Activity-log.md)
 - Architecture: [Architecture-and-Integration.md](Architecture-and-Integration.md)
 
 ## Procedure
@@ -101,7 +112,7 @@ Define the Meta-System architecture and core data integration patterns for holis
 ## Owner & Review
 - **Owner:** Michał
 - **Review Cadence:** Monthly
-- **Last Updated:** 2026-04-08
+- **Last Updated:** 2026-05-12
 
 ---
 
@@ -112,3 +123,7 @@ Building and maintaining this level of technical rigor is a massive investment. 
 <a href='https://ko-fi.com/michalnowakowski' target='_blank'><img height='60' style='border:0px;height:60px;' src='https://storage.ko-fi.com/cdn/kofi3.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
 **Support my hard work in engineering a fully autonomous life.** Every coffee fuels another line of code, another automated insight, and another step toward the 2026 North Star. Your contributions help maintain the infrastructure and research shared in this open-source blueprint.
+
+## Infrastructure Architecture (Adr-0027)
+The system uses a **Resource Rationalized Container Strategy** to prevent OOM cascades. 
+- All memory limits and high-concurrency DB tuning are documented in [[Adr-0027-Container-Resource-Rationalization.md|Adr-0027]].

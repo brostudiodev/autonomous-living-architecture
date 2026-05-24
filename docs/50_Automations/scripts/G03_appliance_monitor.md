@@ -1,61 +1,91 @@
 ---
-title: "G03_appliance_monitor: Maintenance Prediction Engine"
+title: "Automation Spec: G03_appliance_monitor.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G03_appliance_monitor"
-goal_id: "goal-g03"
-systems: ["S03", "S04", "S07"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "deec7803a2{{LONG_IDENTIFIER}}"
 ---
 
-# G03_appliance_monitor: Maintenance Prediction Engine
+# 🤖 Automation Spec: G03_appliance_monitor.py
 
 ## Purpose
-Monitors the usage cycles of household appliances (Dishwasher, Washing Machine) and generates proactive maintenance requests (salt, filters, cleaning) via the Decision Engine.
+G03_appliance_monitor.py.
 
-## Triggers
-- **Daily Briefing:** Part of the `autonomous_daily_manager.py` execution.
-- **Global Sync:** Included in `G11_global_sync.py`.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/pantry/scripts/G03_appliance_monitor.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G03 Autonomous Household Operations` within the `pantry` automation domain.
 
-## Inputs
-- **Home Assistant API:** Power sensor data (if used for real-time detection).
-- **Database:** `digital_twin_michal.appliance_status` (Stores current counts and thresholds).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Cycle Tracking:**
-   - Increments `cycles_since_maintenance` for active appliances detected via HA power state changes.
-2. **Threshold Auditing:**
-   - Compares current cycle count against `maintenance_threshold`.
-   - Generates a `PENDING` decision request in the Decision Engine when a threshold is breached.
-3. **Automated Reset:**
-   - Once human approval is received (via `G11_decision_handler.py`), the cycle count is reset to 0 and the maintenance event is recorded in strategic memory.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G03_appliance_monitor.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Markdown Summary:** Status table in Daily Note under `%%APPLIANCE_START%%`.
-- **Decision Request:** Entry in `decision_requests` table (domain: `household`).
-- **Activity Log:** Performance tracking in `system_activity_log`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
+- HTTP requests to configured local or external service endpoints.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
-- [S07 Smart Home System](../../20_Systems/S07_Smart-Home/README.md) (Home Assistant)
+### Runtime
+- Python script: `modules/pantry/scripts/G03_appliance_monitor.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### Credentials
-- Database and HA credentials via `.env`
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.events`
+- `datetime`
+- `json`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `psycopg2`
+- `requests`
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| DB Connection Fail | psycopg2 Exception | Exit with error | Logged to `system_activity_log` |
-| HA API Timeout | Requests timeout | Skip real-time tracking | Log warning |
+## Procedure
+1. Review the script source at `modules/pantry/scripts/G03_appliance_monitor.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Monitoring
-- Success metric: Number of maintenance cycles accurately recorded.
-- Dashboard: Digital Twin API `/status`.
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## Related Documentation
-- [G03_pantry_one_click](./G03_pantry_one_click.md)
-- [G11_decision_proposer](./G11_decision_proposer.md)
-- [G11_decision_handler](./G11_decision_handler.md)
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G03_appliance_monitor.py`.
+
+## Implementation Notes
+- Top-level functions: get_ha_state, monitor_appliances
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, json, modules.meta.scripts.G11_log_system, autonomous_sdk.events, requests`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

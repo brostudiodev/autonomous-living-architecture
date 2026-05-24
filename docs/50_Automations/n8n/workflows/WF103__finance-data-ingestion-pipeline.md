@@ -36,8 +36,8 @@ Ingests financial data from Google Sheets (Expense Calendar, Transaction Log) in
 
 ## Dependencies
 
-- [G05 Finance System](../../../10_Goals/G05_Autonomous-Financial-Command-Center/README.md)
-- [S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md)
+- [G05 Finance System](../../../20_Systems/README.md)
+- [S03 Data Layer](../../../20_Systems/README.md)
 - Google Sheets API
 
 ## Related Documentation

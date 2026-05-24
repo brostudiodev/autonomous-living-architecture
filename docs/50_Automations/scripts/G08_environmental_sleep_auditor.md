@@ -1,37 +1,86 @@
 ---
-title: "G08: Sleep Environment Auditor"
+title: "Automation Spec: G08_environmental_sleep_auditor.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G08_environmental_sleep_auditor"
-goal_id: "goal-g08"
-systems: ["S08", "S07"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "d4769e708{{LONG_IDENTIFIER}}"
 ---
 
-# G08: Sleep Environment Auditor
+# 🤖 Automation Spec: G08_environmental_sleep_auditor.py
 
 ## Purpose
-Proactively monitors the bedroom environment (Temperature/Humidity) to ensure optimal sleep conditions as defined by historical recovery data.
+G08_environmental_sleep_auditor.py.
 
-## Triggers
-- Scheduled: Part of the `autonomous_daily_manager.py` daily sync cycle.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/home/scripts/G08_environmental_sleep_auditor.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G08 Predictive Smart Home Orchestration` within the `home` automation domain.
 
-## Inputs
-- Home Assistant API: `sensor.bedroom_temperature` (or similar).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Fetch:** Get current states from Home Assistant.
-2. **Filter:** Extract the bedroom-specific temperature sensor value.
-3. **Compare:** Evaluate against the Ideal Sleep Zone (16.0°C - 20.5°C).
-4. **Alert:** If sub-optimal, generate a warning for the Daily Note.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G08_environmental_sleep_auditor.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- Environmental audit report in the Daily Note.
-- Activity log entry.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| HA API Unreachable | `requests.ConnectionError` | Log failure, skip | Log Warning |
-| Sensor Unavailable | State is 'unknown' | Log missing data | Log Info |
+## Dependencies
+### Runtime
+- Python script: `modules/home/scripts/G08_environmental_sleep_auditor.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
+
+### Imports
+- `G08_home_monitor`
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `os,`
+
+## Procedure
+1. Review the script source at `modules/home/scripts/G08_environmental_sleep_auditor.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G08_environmental_sleep_auditor.py`.
+
+## Implementation Notes
+- Top-level functions: audit_sleep_environment
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `G08_home_monitor, datetime, os, autonomous_sdk.db_config, os,, modules.meta.scripts.G11_log_system`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

@@ -1,49 +1,88 @@
 ---
-title: "script: G02 Automationbro Content Harvester"
+title: "Automation Spec: G02_content_harvester.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G02_content_harvester"
-goal_id: "goal-g02"
-systems: ["S08", "G02"]
-owner: "Michal"
-updated: "2026-02-25"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "e223d644afd9c805530{{LONG_IDENTIFIER}}"
 ---
 
-# script: G02_content_harvester.py
+# 🤖 Automation Spec: G02_content_harvester.py
 
 ## Purpose
-A specialized utility that scans project-wide activity logs to "harvest" technical achievements and autonomously generate high-signal content drafts for LinkedIn and Substack. This ensures that every technical win is leveraged for brand building with zero friction.
+G02_content_harvester.py.
 
-## Triggers
-- **Manual:** `python3 scripts/G02_content_harvester.py`
-- **Recommended:** Run after a significant build session or as part of the Sunday Weekly Review.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/brand/scripts/G02_content_harvester.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G02 Automationbro Recognition` within the `brand` automation domain.
 
-## Inputs
-- **Activity Logs:** All `Activity-log.md` files in `docs/10_Goals/`.
-- **Time Window:** Last 7 days.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Extraction:** Recursively finds all `Activity-log.md` files.
-2. **Filtering:** Filters for entries within the last 7 days.
-3. **Drafting:** Uses achievement context to generate structured Markdown drafts in Obsidian.
-4. **Categorization:** Includes ready-to-use hooks and tags for social platforms.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G02_content_harvester.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Obsidian Note:** A new file in `00_Inbox/Content Ideas/` named `YYYY-MM-DD - Automationbro Content Harvest.md`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
 
 ## Dependencies
-### Systems
-- [S08 Automation Orchestrator](../../20_Systems/S08_Automation-Orchestrator/README.md)
-- [G02 Automationbro Recognition](../../10_Goals/G02_Automationbro-Recognition/README.md)
+### Runtime
+- Python script: `modules/brand/scripts/G02_content_harvester.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-### External Services
-- Obsidian (File system)
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.log`
+- `datetime`
+- `os`
+- `pathlib`
+- `re`
+- `sys`
 
-## Manual Fallback
-If the harvester is unavailable, manually review the `G11 Strategic Summary` or recent `Activity-log.md` entries to find content inspiration.
+## Procedure
+1. Review the script source at `modules/brand/scripts/G02_content_harvester.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G02_content_harvester.py`.
+
+## Implementation Notes
+- Top-level functions: get_recent_achievements, generate_draft_note, main
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `re, pathlib, datetime, os, autonomous_sdk.db_config, sys, autonomous_sdk.log`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*Usage:*
-```bash
-./.venv/bin/python3 scripts/G02_content_harvester.py
-```
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

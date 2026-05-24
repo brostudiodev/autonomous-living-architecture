@@ -1,136 +1,94 @@
 ---
-title: "G11_ceo_weekly_briefing: CEO Weekly Briefing"
+title: "Automation Spec: G11_ceo_weekly_briefing.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G11_ceo_weekly_briefing"
-goal_id: "goal-g11"
-systems: ["S04", "S10", "S11"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "47ecbd08ed7a2842ff8bf4abd7d807ef569fde32aeaabd87ed533f73e545da5a"
 ---
 
-# G11_ceo_weekly_briefing: CEO Weekly Briefing
+# 🤖 Automation Spec: G11_ceo_weekly_briefing.py
 
 ## Purpose
+G11_ceo_weekly_briefing.py.
 
-Unified executive summary sent to Telegram every Sunday morning. Aggregates data from all systems into a single view for efficient weekly review.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_ceo_weekly_briefing.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-## Triggers
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-- **Scheduled:** Sundays at 8:00 AM via crontab
-- **Manual:** `python scripts/G11_ceo_weekly_briefing.py [--dry-run]`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_ceo_weekly_briefing.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Data Sources
-
-| Source | Data Retrieved |
-|--------|---------------|
-| PostgreSQL (finance) | Savings rate, MTD income/expenses, budget alerts |
-| PostgreSQL (training) | Weight, body fat, training sessions |
-| Journal Data (JSON) | Readiness, sleep, energy, time saved, goals |
-| Google Tasks API | Stale task counts, oldest overdue task |
-
-## Outputs
-
-### Telegram Message Sections
-
-```
-🤖 CEO WEEKLY BRIEFING - Week 13
-📅 2026-03-19 to 2026-03-25
-
-📊 WEEK AT A GLANCE
-• Days Tracked: 5/7
-• Energy: 3.5/5 avg
-• Time Saved: 45 min
-• Goals Active: 8/12 touched
-
-💰 FINANCE
-• Savings Rate: ✅ 28%
-• MTD Net: +2,400 PLN
-• ⚠️ Budget Alerts: Entertainment (92%)
-
-💪 HEALTH
-• Readiness: 78/100 avg
-• Sleep: 7.2h avg
-• Weight: 82.1 kg | BF: 20.5%
-• Training: 2 sessions this week
-
-🏆 TOP WINS
-1. G04: Deployed Agent Zero v2
-
-⚠️ STARVED GOALS: G06, G09
-
-📋 TASKS STATUS
-• Overdue: 3 tasks
-• ⏳ Awaiting Approval: 1
-• Oldest: "Nadplacac kredty" (11d)
-
-🎯 NEXT WEEK PRIORITIES
-• Continue momentum on G04: 5 sessions
-• Continue momentum on G10: 4 sessions
-• Address starved goals: G06
-```
-
-## Processing Logic
-
-```
-1. Fetch finance data from autonomous_finance DB
-2. Fetch health data from autonomous_training DB
-3. Load journal data from last 7 days
-4. Query Google Tasks for stale task status
-5. Calculate averages and detect patterns
-6. Generate formatted Telegram message
-7. Send via send_telegram_message()
-8. Log success/failure to system_activity_log
-```
-
-## Configuration
-
-### Crontab Entry
-
-```cron
-# CEO Weekly Briefing - Sundays 8:00 AM
-0 8 * * 0 cd {{ROOT_LOCATION}}/autonomous-living && .venv/bin/python scripts/G11_ceo_weekly_briefing.py >> _meta/daily-logs/ceo_briefing.log 2>&1
-```
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
+### Runtime
+- Python script: `modules/meta/scripts/G11_ceo_weekly_briefing.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### Systems
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md) - Data aggregation
-- [S10 Daily Goals Automation](../../20_Systems/S10_Daily-Goals-Automation/README.md) - Journal data
-- [S11 Meta-System Integration](../../20_Systems/S11_Meta-System-Integration/README.md) - Orchestration
+### Imports
+- `autonomous_sdk.db_config`
+- `collections`
+- `datetime`
+- `json`
+- `modules.meta.scripts.G04_digital_twin_notifier`
+- `modules.meta.scripts.G11_log_system`
+- `modules.productivity.scripts.G10_google_tasks_sync`
+- `os`
+- `pathlib`
+- `re`
+- `statistics`
+- `sys`
 
-### Scripts
-- `G04_digital_twin_notifier.py` - Telegram sending
-- `G11_log_system.py` - Activity logging
-- `G10_google_tasks_sync.py` - Google Tasks access
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_ceo_weekly_briefing.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-### External
-- PostgreSQL databases (autonomous_finance, autonomous_training)
-- Telegram Bot API
-
-## Error Handling
-
+## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| DB connection fails | Exception | Log error, continue with partial data |
-| Telegram send fails | send_telegram_message returns False | Log failure, print to console |
-| No journal data | days_tracked = 0 | Show "0/7 tracked", continue |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## Metrics
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-- **Success:** Message sent to Telegram
-- **Partial:** Some data sources failed (still sends)
-- **Failure:** Telegram send completely failed
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_ceo_weekly_briefing.py`.
 
-## Related Documentation
+## Implementation Notes
+- Top-level functions: get_week_dates, get_finance_data, get_health_data, parse_md_note, get_daily_notes_data, get_stale_tasks, get_top_wins, get_starved_goals, format_savings_rate, generate_briefing, run
+- Top-level classes: No top-level classes detected.
 
-- [SOP: Weekly Review Process](../../30_Sops/Weekly-Review-Process.md)
-- [G11 Weekly Briefing Enhancement Plan](./G11_weekly_briefing_enhancement.md)
-- [G11 Meta-System Roadmap](../../10_Goals/G11_Meta-System-Integration-Optimization/Roadmap.md)
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `re, pathlib, datetime, os, autonomous_sdk.db_config, collections, modules.meta.scripts.G04_digital_twin_notifier, json, modules.meta.scripts.G11_log_system, statistics, sys, modules.productivity.scripts.G10_google_tasks_sync`
 
-## Changelog
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
-| Date | Change |
-|------|--------|
-| 2026-03-26 | Initial creation - Unified CEO Briefing |
-| 2026-04-16 | Bugfix: Fixed misindented logger calls in task sync except blocks |
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

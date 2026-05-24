@@ -48,7 +48,7 @@ Weekly strategic review system that compares "Intent" (Roadmap progress) vs "Rea
 ## Dependencies
 
 ### Systems
-- [S04 Digital Twin](../20_Systems/S04_Digital-Twin/README.md)
+- [S04 Digital Twin](../../../20_Systems/README.md)
 - Telegram Bot (AndrzejSmartBot)
 
 ### Infrastructure
@@ -94,6 +94,6 @@ The "Director's Verdict" highlights:
 
 ## Related Documentation
 
-- [G11 Meta-System Roadmap](../10_Goals/G11_Meta-System-Integration-Optimization/Roadmap.md)
-- [Digital Twin Strategic Audit](../20_Systems/S04_Digital-Twin/README.md)
-- [Weekly Review SOP](../30_Sops/Weekly-Review-SOP.md)
+- [G11 Meta-System Roadmap](../../../10_Goals/G02_Automationbro-Recognition/Roadmap.md)
+- [Digital Twin Strategic Audit](../../../20_Systems/README.md)
+- [Weekly Review SOP](../../../30_Sops/Weekly-Review-SOP.md)

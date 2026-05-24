@@ -2,35 +2,87 @@
 title: "Automation Spec: G12_doc_momentum_tracker.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G12_doc_momentum_tracker"
-goal_id: "goal-g12"
-systems: ["S04", "S12"]
-owner: "Michał"
-updated: "2026-04-09"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "07345af4e7c06{{LONG_IDENTIFIER}}"
 ---
 
 # 🤖 Automation Spec: G12_doc_momentum_tracker.py
 
 ## Purpose
-Enforces documentation "Freshness" by automatically updating the metadata of system documentation based on actual script activity. It ensures that the `updated:` field in markdown files reflects the last time the corresponding system component successfully executed.
+G12_doc_momentum_tracker.py.
 
-## Triggers
-- **Daily Sync:** Part of the `G11_global_sync.py` pipeline.
-- **Manual:** `python3 G12_doc_momentum_tracker.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/docs/scripts/G12_doc_momentum_tracker.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G12 Complete Process Documentation` within the `docs` automation domain.
 
-## Inputs
-- **Activity Log:** `system_activity_log` from `digital_twin_michal`.
-- **Markdown Specs:** `docs/50_Automations/scripts/*.md`.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Success Detection:** Identifies all unique scripts that finished with status `SUCCESS` in the last 24 hours.
-2. **Path Mapping:** Matches script names (e.g., `G01_workout_sync`) to documentation files.
-3. **Regex Update:** Surgically replaces the `updated: "..."` line in the YAML frontmatter with today's date.
-4. **No-Change Optimization:** Only writes to the file if the date has actually changed.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G12_doc_momentum_tracker.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Frontmatter Updates:** Refreshed timestamps across the system documentation.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
-## Related Documentation
-- [Goal: G12 Process Documentation](../../10_Goals/G12_Complete-Process-Documentation/README.md)
-- [System: S12 Documentation Standards](../../20_Systems/S12_Documentation-Standards/README.md)
+## Dependencies
+### Runtime
+- Python script: `modules/docs/scripts/G12_doc_momentum_tracker.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `os`
+- `psycopg2`
+- `re`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/docs/scripts/G12_doc_momentum_tracker.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G12_doc_momentum_tracker.py`.
+
+## Implementation Notes
+- Top-level functions: No top-level functions detected.
+- Top-level classes: DocMomentumTracker
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `re, psycopg2, datetime, os, autonomous_sdk.db_config, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

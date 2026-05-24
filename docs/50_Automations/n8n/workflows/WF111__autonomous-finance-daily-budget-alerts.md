@@ -34,8 +34,8 @@ This workflow proactively monitors budget utilization and triggers alerts for ca
 
 ## Dependencies
 ### Systems
--   [S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md) (PostgreSQL `autonomous_finance` database with `get_current_budget_alerts()` function deployed).
--   [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md) (n8n instance).
+-   [S03 Data Layer](../../../20_Systems/README.md) (PostgreSQL `autonomous_finance` database with `get_current_budget_alerts()` function deployed).
+-   [S08 Automation Orchestrator](../../../20_Systems/README.md) (n8n instance).
 
 ### External Services
 -   PostgreSQL database service.

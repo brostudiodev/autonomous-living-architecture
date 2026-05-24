@@ -1,58 +1,92 @@
 ---
-title: "G02: Substack Content & Metrics Sync"
+title: "Automation Spec: G02_substack_sync.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G02_substack_sync"
-goal_id: "goal-g02"
-systems: ["S03", "S04", "S11"]
-owner: "Michał"
-updated: "2026-03-22"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "26c776{{LONG_IDENTIFIER}}"
 ---
 
-# G02: Substack Content & Metrics Sync
+# 🤖 Automation Spec: G02_substack_sync.py
 
 ## Purpose
-Automates the synchronization of Substack articles to the Obsidian vault and tracks brand metrics (subscribers, views) in the central database.
+G02_substack_sync.py.
 
-## Triggers
-- **Scheduled:** Part of the `G11_global_sync.py` cycle.
-- **Manual:** `python3 scripts/G02_substack_sync.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/brand/scripts/G02_substack_sync.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G02 Automationbro Recognition` within the `brand` automation domain.
 
-## Inputs
-- **RSS Feed:** `https://automationbro.substack.com/feed`
-- **Web Scraping:** `https://automationbro.substack.com/about` (for subscriber count)
-- **Environment:** `DB_PASSWORD` for PostgreSQL access.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Article Sync:**
-    *   Fetches the Substack RSS feed.
-    *   Compares post IDs with local files in `04_Resources/Automationbro/Articles`.
-    *   Converts HTML content to Markdown and saves new articles with proper frontmatter.
-2.  **Metrics Sync:**
-    *   Scrapes the Substack "About" page for the latest subscriber count.
-    *   Upserts metrics (date, subscribers, views) into the `brand_metrics` table in the `autonomous_finance` database.
-3.  **Reporting:**
-    *   Logs success/failure and item counts to the `system_activity_log`.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G02_substack_sync.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Obsidian Files:** New Markdown articles in the vault.
-- **Database:** Updated rows in `brand_metrics`.
-- **System Log:** SUCCESS/FAILURE entry.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
+- HTTP requests to configured local or external service endpoints.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
+### Runtime
+- Python script: `modules/brand/scripts/G02_substack_sync.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### External Services
-- **Substack:** RSS and HTTP access.
+### Imports
+- `autonomous_sdk.db_config`
+- `bs4`
+- `datetime`
+- `feedparser`
+- `os`
+- `psycopg2`
+- `re`
+- `requests`
+- `time`
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| RSS Feed Offline | `feedparser` empty result | Skip sync, log warning | System Report |
-| Scraping Blocked | HTTP 403/429 | Fallback to manual/placeholder count | System Report |
-| DB Error | `psycopg2` Exception | Log failure | System Report |
+## Procedure
+1. Review the script source at `modules/brand/scripts/G02_substack_sync.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Manual Fallback
-Run the script manually from the terminal to check for specific HTTP errors or database connectivity issues.
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G02_substack_sync.py`.
+
+## Implementation Notes
+- Top-level functions: clean_filename, fetch_substack_posts, sync_posts_to_obsidian, fetch_substack_metrics, sync_substack_metrics
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `re, psycopg2, datetime, feedparser, os, autonomous_sdk.db_config, bs4, time, requests`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

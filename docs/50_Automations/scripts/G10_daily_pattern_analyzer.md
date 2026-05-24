@@ -1,130 +1,89 @@
 ---
-title: "G10_daily_pattern_analyzer: Rule-Based Daily Summary"
+title: "Automation Spec: G10_daily_pattern_analyzer.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G10_daily_pattern_analyzer"
-goal_id: "goal-g10"
-systems: ["S04", "S11"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "7f37a5f893cf9b5{{LONG_IDENTIFIER}}"
 ---
 
-# G10_daily_pattern_analyzer: Rule-Based Daily Summary
+# 🤖 Automation Spec: G10_daily_pattern_analyzer.py
 
 ## Purpose
+G10_daily_pattern_analyzer.py.
 
-Generates a structured daily summary using rule-based analysis. No LLM required. Detects patterns, flags, and trends from collected daily data.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/productivity/scripts/G10_daily_pattern_analyzer.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G10 Intelligent Productivity Time Architecture` within the `productivity` automation domain.
 
-## Triggers
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-- **Scheduled:** Daily at 18:00 via `autonomous_evening_manager.py`
-- **Manual:** `python scripts/G10_daily_pattern_analyzer.py`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G10_daily_pattern_analyzer.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Inputs
-
-| Source | Data | Purpose |
-|--------|------|---------|
-| Journal Data | `_meta/journal_data/daily/YYYY-MM-DD.json` | Raw collected data |
-| Yesterday's Data | Same folder | For comparison |
-
-## Processing Logic
-
-### 1. Load Today's Data
-- Read JSON from `journal_data/daily/YYYY-MM-DD.json`
-
-### 2. Load Yesterday's Data
-- Calculate changes from yesterday
-
-### 3. Health Analysis
-```
-- Readiness change: ⬆️ / ⬇️ / ➡️
-- Compare with yesterday
-```
-
-### 4. Goal Completion
-```
-- Completion rate: X/Y (Z%)
-- List completed goals
-```
-
-### 5. Automation Stats
-```
-- Success/failure ratio
-- Time saved calculation
-```
-
-### 6. Flag Detection
-Health keywords: tired, dizzy, headache, sick, sleep
-Productivity keywords: procrastinated, distracted, overwhelmed, stuck
-
-### 7. Finance Alerts
-```
-- Budget alerts count
-- Alert icon if > 0
-```
-
-### 8. Generate Markdown Report
-Inject into daily note via marker
-
-## Outputs
-
-| Output | Location | Format |
-|--------|----------|--------|
-| Daily Note Update | `01_Daily_Notes/YYYY-MM-DD.md` | Markdown |
-
-### Example Output
-
-```markdown
-## 📊 Day Summary
-
-**Friday, Mar 20**
-
-| Metric | Value |
-|--------|-------|
-| Readiness | 87 ⬆️ +5 |
-| Sleep | 92 |
-| HRV | 8ms |
-| Goals | 4/8 (50%) |
-| Done | G10, G04, G03 |
-| Automations | 12/13 successful |
-| Time Saved | ~45 min |
-| Budget Alerts | ⚠️ 2 |
-
-**💡 Remember:** Automation saves time daily
-
-⚠️ **Health:** energy: 2x
-```
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
+### Runtime
+- Python script: `modules/productivity/scripts/G10_daily_pattern_analyzer.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-### Scripts
-- `G10_journal_data_collector.py` - Must run first
-- `G11_log_system.py` - Activity logging
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `re`
+- `sys`
 
-### Files
-- `_meta/journal_data/daily/YYYY-MM-DD.json`
+## Procedure
+1. Review the script source at `modules/productivity/scripts/G10_daily_pattern_analyzer.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Error Handling
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-| Scenario | Response |
-|----------|----------|
-| No data file | Warning, continue |
-| No marker in note | Warning, skip update |
-| Parse error | Log failure |
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-## Monitoring
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G10_daily_pattern_analyzer.py`.
 
-- **Success:** Report generated and saved
-- **Log:** Check `system_activity_log`
+## Implementation Notes
+- Top-level functions: get_today_date_str, get_daily_data_path, get_yesterday_data, load_today_data, calculate_readiness_change, calculate_completion_rate, detect_health_flags, detect_productivity_flags, generate_health_section, generate_goals_section, generate_automation_section, generate_finance_section
+- Top-level classes: No top-level classes detected.
 
-## Related Documentation
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `re, datetime, os, autonomous_sdk.db_config, json, modules.meta.scripts.G11_log_system, sys`
 
-- [G10 Journal Data Collector](./G10_journal_data_collector.md)
-- [G10 Weekly Rollup](./G10_weekly_rollup.md)
-- [SOP: Evening Automation System](../../30_Sops/Evening-Automation-System.md)
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
-## Changelog
-
-| Date | Change |
-|------|--------|
-| 2026-03-20 | Initial implementation |
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

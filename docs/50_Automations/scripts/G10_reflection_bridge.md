@@ -1,61 +1,53 @@
 ---
-title: "G10: Automated Daily Reflection (The Reflection Bridge)"
+title: "Archived Automation Spec: G10_reflection_bridge"
 type: "automation_spec"
-status: "active"
-automation_id: "G10_reflection_bridge"
-goal_id: "goal-g10"
-systems: ["S04", "S10", "S11"]
+status: "archived"
 owner: "Michał"
-updated: "2026-03-26"
+updated: "2026-05-23"
 ---
 
-# G10: Automated Daily Reflection (The Reflection Bridge)
+# Archived Automation Spec: G10_reflection_bridge
 
 ## Purpose
-Closes the loop between biometric/objective data and human subjective feeling. Automates the evening journaling process by generating data-driven prompts and injecting human responses directly into Obsidian.
+Preserves the historical documentation record for `G10_reflection_bridge` after no matching active Python script was found in `scripts/` or `modules/<domain>/scripts/`.
 
-## Triggers
-1.  **Generation:** Scheduled daily at 21:00 via `G11_global_sync.py` or n8n cron.
-2.  **Interaction:** n8n fetches prompts via API and sends to Telegram.
-3.  **Submission:** n8n sends summarized response back to the Digital Twin API.
+## Scope
+### In Scope
+- Records that this automation spec is archived and is not part of the active production script surface.
+- Provides a stable name for historical cross-references and migration review.
 
-## Inputs
-- **Digital Twin Engine:** For context-aware question generation (Readiness, Focus, Finance).
-- **PostgreSQL:** `reflection_prompts` and `reflection_answers` tables.
-- **Human Input:** Telegram voice or text response (processed by n8n).
+### Out of Scope
+- Runtime behavior, scheduler configuration, and operational ownership for a live script.
+- New production changes or active automation guarantees.
 
-## Processing Logic
-1.  **Generate:** `G10_reflection_generator.py` analyzes the day and creates 3 logic-based questions.
-2.  **Prompt:** n8n calls `GET /reflection/prompts` and interacts with Michał.
-3.  **Submit:** n8n calls `POST /reflection/submit` with the raw input and AI summary.
-4.  **Inject:** `G10_evening_summarizer.py` surgically updates the Daily Note using `%%REFLECTION%%` and `%%JOURNAL%%` markers.
+## Inputs/Outputs
+### Inputs
+- Historical references to `G10_reflection_bridge` in older documentation or migration notes.
 
-## Outputs
-- **Database:** Rows in `reflection_prompts` and `reflection_answers`.
-- **Obsidian:** Updated sections in the current Daily Note.
+### Outputs
+- Archived documentation status only. No active runtime output is expected from this record.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
-- [S10 Intelligent Productivity](../../10_Goals/G{{LONG_IDENTIFIER}}/README.md)
+- No active script dependency is currently registered for this documentation file.
+- If this automation is restored, create or identify the active script and regenerate the spec with `G12_auto_documenter.py`.
 
-### External Services
-- **n8n:** Required for Telegram interaction and LLM summarization.
-- **Google Gemini API:** (via n8n) for transcription/summary.
+## Procedure
+1. Search for an active implementation before using this document operationally.
+2. If no script exists, keep this file archived.
+3. If a script is restored, update `status` to `active`, add `script_hash`, and regenerate the spec.
+4. Re-run `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| API Offline | n8n request fails | Log to n8n | Telegram notification |
-| File Locked | script fails to write | Retry after 5 mins | System Activity Log |
-| Missing Markers | script log | Log warning | System Activity Log |
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Archived doc is mistaken for an active automation | No matching script exists in the active script directories | Locate or recreate the script before scheduling or invoking it. |
+| Historical link points here | Link resolves to an archived spec | Use the archive status to decide whether to update or remove the reference. |
+| Automation is restored | New script appears with this stem | Regenerate this spec as active documentation with a current `script_hash`. |
 
-## Monitoring
-- Success metric: Reflection injected into Obsidian daily note before 22:00.
-- Dashboard: Digital Twin API `/status`.
+## Security Notes
+- Do not add secrets, raw tokens, passwords, or internal infrastructure addresses to archived documentation.
+- Use placeholders such as `[API_KEY]`, `{{DB_PASSWORD}}`, and `{{INTERNAL_IP}}` for any historical configuration notes.
 
-## Manual Fallback
-If the bridge fails:
-1.  Open Obsidian.
-2.  Locate `%%REFLECTION_START%%` in the Daily Note.
-3.  Manually type your evening summary.
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Quarterly archive review, or immediately if a matching script is restored.

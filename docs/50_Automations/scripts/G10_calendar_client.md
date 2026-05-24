@@ -2,39 +2,86 @@
 title: "Automation Spec: G10_calendar_client.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G10_calendar_client.py"
-goal_id: "goal-g10"
-systems: ["S10"]
-owner: "Michał"
-updated: "2026-04-04"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "fffaf80d738f{{LONG_IDENTIFIER}}"
 ---
 
 # 🤖 Automation Spec: G10_calendar_client.py
 
-## 📝 Overview
-**Purpose:** Provides a low-level interface for Google Calendar API operations, including event creation (time-blocking), fetching daily/tomorrow's schedules, and managing recurring focus blocks.
-**Goal Alignment:** G10 Intelligent Productivity (Calendar Enforcer)
+## Purpose
+G10_calendar_client.py.
+
+## Scope
+### In Scope
+- Documents the active implementation at `modules/productivity/scripts/G10_calendar_client.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G10 Intelligent Productivity Time Architecture` within the `productivity` automation domain.
+
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
+
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G10_calendar_client.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
+
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
+
+## Dependencies
+### Runtime
+- Python script: `modules/productivity/scripts/G10_calendar_client.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
+
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.utils.google_auth_helper`
+- `datetime`
+- `googleapiclient.discovery`
+- `os`
+- `sys,`
+
+## Procedure
+1. Review the script source at `modules/productivity/scripts/G10_calendar_client.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G10_calendar_client.py`.
+
+## Implementation Notes
+- Top-level functions: get_calendar_service, upsert_block, create_recurring_event, get_today_events, get_tomorrow_events
+- Top-level classes: No top-level classes detected.
 
 ## ⚡ Technical Details
 - **Language:** Python
-- **Triggers:** Called by `G10_calendar_enforcer.py`, `autonomous_evening_manager.py`, and `G10_tomorrow_planner.py`.
-- **Databases:** None (Direct Google Calendar API integration)
-- **Dependencies:** `google.oauth2`, `googleapiclient.discovery`, `datetime`, `os`
-
-## 🛠️ Logic Flow
-1. **Authentication:** Uses a Service Account JSON key (`google_credentials_digital-twin-michal.json`).
-2. **Operations:**
-   - `get_today_events()` / `get_tomorrow_events()`: Fetches a list of events for a specific day.
-   - `upsert_block()`: Ensures a named event (e.g., "Deep Work") exists for a specific time window.
-   - `create_recurring_event()`: Handles complex RRULE-based recurring events.
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `datetime, autonomous_sdk.utils.google_auth_helper, os, autonomous_sdk.db_config, googleapiclient.discovery, sys,`
 
 ## 📤 Outputs
-- **Events List:** List of dictionaries containing time strings and summaries.
-- **Success/Failure:** Booleans for creation/modification tasks.
-
-## ⚠️ Known Issues / Maintenance
-- **Timezone:** Uses centralized `db_config.TIMEZONE` (default: `Europe/Warsaw`).
-- **API Quotas:** Standard Google Calendar API limits apply.
+- See Inputs/Outputs section above.
 
 ---
-*System Hardening - April 2026*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

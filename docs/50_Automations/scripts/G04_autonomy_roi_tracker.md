@@ -1,70 +1,53 @@
 ---
-title: "G04: Autonomy ROI Tracker"
+title: "Archived Automation Spec: G04_autonomy_roi_tracker"
 type: "automation_spec"
-status: "active"
-automation_id: "G04_autonomy_roi_tracker"
-goal_id: "goal-g04"
-systems: ["S03", "S04", "S11"]
+status: "archived"
 owner: "Michał"
-updated: "2026-03-08"
+updated: "2026-05-23"
 ---
 
-# G04: Autonomy ROI Tracker
+# Archived Automation Spec: G04_autonomy_roi_tracker
 
 ## Purpose
-Quantifies the time saved by autonomous systems by logging "time-saving events" to a central database. This provides empirical data for the "Autonomy ROI" KPI.
+Preserves the historical documentation record for `G04_autonomy_roi_tracker` after no matching active Python script was found in `scripts/` or `modules/<domain>/scripts/`.
 
-## Triggers
-- **Internal Call:** Triggered by other scripts via `DigitalTwinEngine.log_roi()`.
-- **G03_cart_aggregator.py:** Logged after successful shopping list generation.
-- **G05_llm_categorizer.py:** Logged after successful transaction categorization.
-- **G10_tomorrow_planner.py:** Logged after successful mission briefing generation.
+## Scope
+### In Scope
+- Records that this automation spec is archived and is not part of the active production script surface.
+- Provides a stable name for historical cross-references and migration review.
 
-## Inputs
-- **Source:** The script name triggering the log.
-- **Category:** Human-readable category (e.g., "Logistics & Procurement").
-- **Minutes:** Integer value of estimated time saved.
-- **Details:** Contextual string describing the specific action taken.
+### Out of Scope
+- Runtime behavior, scheduler configuration, and operational ownership for a live script.
+- New production changes or active automation guarantees.
 
-## Processing Logic
-1. Receive event data via `log_roi` method in `G04_digital_twin_engine.py`.
-2. Connect to `digital_twin_michal` PostgreSQL database.
-3. Insert record into `autonomy_roi` table with timestamp.
-4. Provide summary data via `get_roi_summary()` for dashboards and reports.
+## Inputs/Outputs
+### Inputs
+- Historical references to `G04_autonomy_roi_tracker` in older documentation or migration notes.
 
-## Outputs
-- **Database Record:** Entry in `digital_twin_michal.autonomy_roi`.
-- **ROI Summary:** JSON/Text output for `/roi` API endpoint and Daily Note updates.
+### Outputs
+- Archived documentation status only. No active runtime output is expected from this record.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
+- No active script dependency is currently registered for this documentation file.
+- If this automation is restored, create or identify the active script and regenerate the spec with `G12_auto_documenter.py`.
 
-### External Services
-- None (Local PostgreSQL)
+## Procedure
+1. Search for an active implementation before using this document operationally.
+2. If no script exists, keep this file archived.
+3. If a script is restored, update `status` to `active`, add `script_hash`, and regenerate the spec.
+4. Re-run `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-### Credentials
-- DB_PASSWORD (loaded from `.env`)
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Archived doc is mistaken for an active automation | No matching script exists in the active script directories | Locate or recreate the script before scheduling or invoking it. |
+| Historical link points here | Link resolves to an archived spec | Use the archive status to decide whether to update or remove the reference. |
+| Automation is restored | New script appears with this stem | Regenerate this spec as active documentation with a current `script_hash`. |
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| DB Connection Fail | Try/Except block in `log_roi` | Log error to console, continue execution | No alert (non-critical) |
-| Table Missing | `initialize_roi_table` check | Automatically create table if missing | Log info |
+## Security Notes
+- Do not add secrets, raw tokens, passwords, or internal infrastructure addresses to archived documentation.
+- Use placeholders such as `[API_KEY]`, `{{DB_PASSWORD}}`, and `{{INTERNAL_IP}}` for any historical configuration notes.
 
-## Monitoring
-- **Success metric:** Total minutes logged today > 0.
-- **Alert on:** 3 consecutive days of 0 ROI logged (indicates system stagnation).
-- **Dashboard:** Digital Twin Dashboard (`/roi` endpoint).
-
-## Manual Fallback
-If automation fails, manual ROI can be entered in the Obsidian Daily Note frontmatter:
-```yaml
-time_saved_minutes: 45
-```
-The system will aggregate both database and manual entries.
-
-## Related Documentation
-- [G04: Digital Twin README](../../10_Goals/G04_Digital-Twin-Ecosystem/README.md)
-- [G11: Meta-System README](../../10_Goals/G11_Meta-System-Integration-Optimization/README.md)
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Quarterly archive review, or immediately if a matching script is restored.

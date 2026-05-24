@@ -1,164 +1,90 @@
 ---
-title: "G10: ActivityWatch Sync"
+title: "Automation Spec: G10_activitywatch_sync.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-goal_id: "goal-g10"
-updated: "2026-04-16"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "0383f8d4da7a3e8{{LONG_IDENTIFIER}}"
 ---
 
-# G10: ActivityWatch Sync
+# 🤖 Automation Spec: G10_activitywatch_sync.py
 
 ## Purpose
-
-Synchronizes ActivityWatch events (window titles, app names, duration) into the Digital Twin database. Provides passive "Deep Work" and attention telemetry to close the productivity blind spot - actual screen time and distraction patterns.
+G10_activitywatch_sync.py.
 
 ## Scope
-
 ### In Scope
-- Fetching events from ActivityWatch server API
-- Classifying activities as productive/unproductive based on keywords
-- Storing events in `activity_watch_events` table
-- Logging sync activity to system_activity_log
+- Documents the active implementation at `modules/productivity/scripts/G10_activitywatch_sync.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G10 Intelligent Productivity Time Architecture` within the `productivity` automation domain.
 
 ### Out of Scope
-- ActivityWatch server installation (Docker-based)
-- Browser extension data (handled by ActivityWatch itself)
-- Active interruption logging (see G10 roadmaps)
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
 ## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G10_activitywatch_sync.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-### Input
-- **Source:** ActivityWatch server API
-- **Endpoint:** `http://localhost:5600/api/0/buckets/{bucket_id}/events`
-- **Authentication:** None (local network)
-
-### Output
-- **Target:** `digital_twin_michal.public.activity_watch_events`
-- **Sync Log:** `system_activity_log`
-
-### Data Flow
-```
-ActivityWatch (Docker) → Server API → G10_activitywatch_sync.py → PostgreSQL
-                                                  ↓
-                                          system_activity_log
-```
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
+- HTTP requests to configured local or external service endpoints.
 
 ## Dependencies
+### Runtime
+- Python script: `modules/productivity/scripts/G10_activitywatch_sync.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
-
-### Infrastructure
-- ActivityWatch server running (Docker: `activitywatch/activitywatch`)
-- ActivityWatch port: 5600
-- PostgreSQL `digital_twin_michal` database
-
-### External
-- ActivityWatch `aw-watcher-window` bucket must be running
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.log`
+- `datetime`
+- `json`
+- `os`
+- `psycopg2`
+- `requests`
+- `sys`
 
 ## Procedure
-
-### Manual Execution
-```bash
-cd {{ROOT_LOCATION}}/autonomous-living/scripts
-python3 G10_activitywatch_sync.py
-```
-
-### Expected Output
-```
-🚀 Starting ActivityWatch Sync...
-✅ Synced 42 events to database.
-```
-
-### n8n Workflow Setup
-Create workflow to run every hour:
-1. **Trigger:** Schedule (every 1 hour)
-2. **HTTP Request:** Call `http://localhost:5600/api/0/buckets` to verify connectivity
-3. **Execute Workflow:** Call this script via Execute Workflow node
-4. **Error Alert:** If events = 0 for 24h, send Telegram alert
-
-## Productivity Classification
-
-### Productive Keywords
-| Category | Apps/Sites |
-|----------|------------|
-| Development | vscode, pycharm, terminal, iterm, tmux |
-| Collaboration | github, gitlab, stack overflow |
-| Notes | obsidian, jupyter |
-| Infrastructure | postgres, docker, n8n |
-
-### Unproductive Keywords
-| Category | Apps/Sites |
-|----------|------------|
-| Social | youtube, facebook, twitter, reddit, instagram, linkedin |
-| Entertainment | netflix, disney+, hbo, twitch, gaming |
-
-### Classification Logic
-1. Combined app_name + window_title (lowercase)
-2. Check unproductive keywords first (priority)
-3. Check productive keywords
-4. Return `None` for neutral/unknown
-
-## Database Schema
-
-### Table: `activity_watch_events`
-| Column | Type | Description |
-|--------|------|-------------|
-| id | SERIAL | Primary key |
-| timestamp | TIMESTAMPTZ | Event start time |
-| duration_seconds | DOUBLE PRECISION | Event duration |
-| app_name | VARCHAR | Application name |
-| window_title | TEXT | Window title |
-| is_productive | BOOLEAN | NULL=unknown, TRUE=productive, FALSE=unproductive |
-| category | VARCHAR | Development/Leisure/Unknown |
-| bucket_id | VARCHAR | ActivityWatch bucket ID |
-| created_at | TIMESTAMPTZ | Record creation time |
+1. Review the script source at `modules/productivity/scripts/G10_activitywatch_sync.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
 ## Failure Modes
-
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| ActivityWatch server down | Connection refused | Log error, return 0 |
-| No window bucket | `aw-watcher-window` not found | Log warning |
-| API timeout | Request timeout | Retry next cycle |
-| Database error | PostgreSQL exception | Log error, return 0 |
-| Empty events | No new events | Log success, return 0 |
-
-## Integration with Daily Flow
-
-### Morning Brief (G10)
-Add to morning briefing:
-```sql
-SELECT 
-    COUNT(*) as total_events,
-    SUM(duration_seconds) as total_seconds,
-    COUNT(*) FILTER (WHERE is_productive = TRUE) as productive,
-    COUNT(*) FILTER (WHERE is_productive = FALSE) as unproductive
-FROM activity_watch_events
-WHERE timestamp >= CURRENT_DATE - 1;
-```
-
-### Evening Summary (G10)
-Add to evening summarizer:
-- Top 5 most-used apps
-- Unproductive app time
-- Focus score (productive hours / total hours)
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
 ## Security Notes
-
-- ActivityWatch API has no authentication (local network only)
-- No sensitive data stored in events
-- Window titles may contain sensitive info - handle accordingly
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
 ## Owner + Review Cadence
-- **Owner:** Michał
-- **Review:** Monthly (during G10 stability audit)
-- **Last Updated:** 2026-04-16
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G10_activitywatch_sync.py`.
 
-## Related Documentation
+## Implementation Notes
+- Top-level functions: get_last_sync_timestamp, classify_productivity, sync_activitywatch
+- Top-level classes: No top-level classes detected.
 
-- [G10 Roadmap](../../10_Goals/G{{LONG_IDENTIFIER}}/Roadmap.md)
-- [G10 Focus Intelligence](./G10_focus_intelligence.md)
-- [ActivityWatch Official](https://activitywatch.net/)
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, json, sys, requests, autonomous_sdk.log`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

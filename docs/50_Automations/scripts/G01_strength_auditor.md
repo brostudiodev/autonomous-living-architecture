@@ -1,44 +1,89 @@
 ---
-title: "Strength & TUT Auditor (G01)"
+title: "Automation Spec: G01_strength_auditor.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-02"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "f4b72c{{LONG_IDENTIFIER}}"
 ---
 
-# Purpose
-The **Strength & TUT Auditor** (`G01_strength_auditor.py`) provides autonomous feedback on HIT (High-Intensity Training) progression. It specifically focuses on **Time Under Tension (TUT)** as the primary driver for hypertrophy and strength, rather than just weight.
+# 🤖 Automation Spec: G01_strength_auditor.py
 
-# Scope
-- **In Scope:** `workout_sets` analysis, TUT comparison with previous sessions, PR detection, load adjustment recommendations.
-- **Out Scope:** Cardiorespiratory tracking, non-HIT training styles.
+## Purpose
+G01_strength_auditor.py.
 
-# Progression Logic
-- **TUT Threshold:** If TUT for an exercise reaches or exceeds **90 seconds**, the auditor recommends increasing the weight or increasing focus (slower/deeper reps) for the next session.
-- **PR Detection:** A Personal Record (PR) is flagged if current TUT exceeds previous TUT for the same weight, or if weight increases while maintaining TUT.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/training/scripts/G01_strength_auditor.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G01 Target Body Fat` within the `training` automation domain.
 
-# Inputs/Outputs
-- **Inputs:** `autonomous_training` PostgreSQL database (`workout_sets` and `exercises` tables).
-- **Outputs:** Markdown formatted report for the Obsidian Daily Note.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-# Dependencies
-- **Systems:** S07 (Health & Bio-Optimization), G01 (Target Body Fat)
-- **Database:** `autonomous_training`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G01_strength_auditor.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-# Procedure
-- Automatically executed by `autonomous_daily_manager.py` during the daily sync.
-- Reports are combined into the `TRAINING_DETAILS` collapsible section.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
-# Failure Modes
+## Dependencies
+### Runtime
+- Python script: `modules/training/scripts/G01_strength_auditor.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.log`
+- `datetime`
+- `decimal`
+- `os`
+- `pathlib`
+- `psycopg2`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/training/scripts/G01_strength_auditor.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| No Previous Data | Query returns NULL | Marks session as "Baseline Set". |
-| DB Connection Fail | Script logs error | Skips audit; Daily Note shows "No training data". |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-# Security Notes
-- Read-only database access.
-- Credentials managed via `.env`.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-# Owner + Review Cadence
-- **Owner:** Michał
-- **Review:** Monthly (Check progression logic alignment with physical results)
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G01_strength_auditor.py`.
+
+## Implementation Notes
+- Top-level functions: get_training_wins, generate_report
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, pathlib, datetime, decimal, os, autonomous_sdk.db_config, sys, autonomous_sdk.log`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

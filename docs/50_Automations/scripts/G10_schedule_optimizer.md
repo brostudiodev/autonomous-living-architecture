@@ -1,72 +1,89 @@
 ---
-title: "G10: Schedule Optimizer"
+title: "Automation Spec: G10_schedule_optimizer.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G10__schedule_optimizer"
-goal_id: "goal-g10"
-systems: ["S09", "S04"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "679d5cea6cf5cc4a53de32f6940ad3b5ea091cf0d40f6bc28d98fdf03c9e673e"
 ---
 
-# G10: Schedule Optimizer
+# 🤖 Automation Spec: G10_schedule_optimizer.py
 
 ## Purpose
-Generates a dynamic, readiness-aware daily schedule by mapping biological state (HRV, Sleep) and high-priority tasks (Google Tasks, Logistics, Finance) into optimized time blocks.
+G10_schedule_optimizer.py.
 
-## Triggers
-- **Scheduled:** Daily at 06:00 AM via `autonomous_daily_manager.py`.
-- **Manual:** Triggered via the Obsidian button `🎯 Plan Next Hour`.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/productivity/scripts/G10_schedule_optimizer.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G10 Intelligent Productivity Time Architecture` within the `productivity` automation domain.
 
-## Inputs
-- **Biometrics:** `readiness_score`, `sleep_score`, `hrv_ms` from `DB_HEALTH`.
-- **Tasks:** Google Tasks filtered by tags (`#deep`, `#admin`, `#work`, `#finance`, `#personal`, `#learning`).
-- **Logistics:** Upcoming document expiries from `DB_LOGISTICS`.
-- **Finance:** Active budget breaches from `DB_FINANCE`.
-- **Calendar:** Today's events from Google Calendar.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **State Analysis:** Categorizes the day as `Peak` (Readiness > 85, Sleep > 80), `Balanced`, `Recovery`, or `Critical (MVD)` based on biometric thresholds.
-2. **Task Selection (NEW Mar 28):** 
-    - **Goal-Aware Mode:** When in `Peak` state, the picker scans for tasks containing goal tags (e.g., `G01` to `G12`) or `#deep`.
-    - **Standard Mode:** Picks the top incomplete task for each category-specific block.
-    - **Energy Filter:** Automatically skips `#deep` tasks if in `Recovery` or `Critical` states.
-    - **Biometric State Hardening (NEW Apr 20):** Explicitly calls `engine.get_health_status()`, `engine.get_finance_status()`, and `engine.get_logistics_status()` before state access to ensure the lazy-loaded Digital Twin state is fully populated. Prevents "0% Readiness" reports during early morning execution.
-3. **Agentic Trigger:** If the state is `Critical (MVD)`, it calls the `G11_rules_engine` with `readiness_score` and `recommended_action = 'Switch to Recovery Schedule'`.
-4. **Approval Workflow:** If the engine returns `ASK_HUMAN`, it creates a `PENDING` request for proactive Telegram approval.
-5. **Execution:** Approved adjustments are executed via `G11_decision_handler.py`, which force-updates the Daily Note with the MVD schedule.
-6. **Block Assignment:** Assigns tasks to morning, admin, work, and evening blocks based on the determined state.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G10_schedule_optimizer.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Markdown Schedule:** Injected into the Obsidian Daily Note under `%%SCHEDULE%%`.
-- **Telegram Alert:** Dispatched if MVD Mode is triggered.
-- **Activity Log:** Success/Failure logged to `system_activity_log`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin Hub](../../20_Systems/S04_Digital-Twin/README.md)
-- [S09 Productivity Time](../../20_Systems/S09_Productivity-Time/README.md)
+### Runtime
+- Python script: `modules/productivity/scripts/G10_schedule_optimizer.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### External Services
-- Google Calendar API
-- Google Tasks API
-- Telegram Bot API
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.log`
+- `datetime`
+- `modules.meta.scripts.G04_digital_twin_engine`
+- `modules.productivity.scripts.G10_calendar_client`
+- `modules.productivity.scripts.G10_google_tasks_sync`
+- `os`
+- `os,`
 
-### Credentials
-- `google_tasks_token.pickle`
-- `TELEGRAM_BOT_TOKEN` in `.env`
+## Procedure
+1. Review the script source at `modules/productivity/scripts/G10_schedule_optimizer.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| API Timeout | Script hang | 30s timeout, fallback to "Standard" blocks | Log Warning |
-| DB Connection Fail | Exception | Fallback to "Standard" blocks without tasks | Log Failure |
-| Empty Task List | List length 0 | Use generic block titles | None |
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## Changelog
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-| Date | Change |
-|------|--------|
-| 2026-03-21 | Initial schedule optimizer logic with biometric thresholds |
-| 2026-03-28 | Added Peak state goal-aware task prioritization and energy-based #deep task filtering |
-| 2026-04-20 | Fixed state initialization bug by explicitly calling status fetchers before logic execution. |
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G10_schedule_optimizer.py`.
+
+## Implementation Notes
+- Top-level functions: optimize_schedule
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `autonomous_sdk.log, datetime, os, autonomous_sdk.db_config, os,, modules.meta.scripts.G04_digital_twin_engine, modules.productivity.scripts.G10_calendar_client, modules.productivity.scripts.G10_google_tasks_sync`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

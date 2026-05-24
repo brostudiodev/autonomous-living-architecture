@@ -34,7 +34,7 @@ The workflow does not take direct inputs via its trigger. Instead, it reads data
 
 ## Dependencies
 ### Systems
-- [S05 Finance-Automation](../../../20_Systems/S05_Observability-Dashboards/README.md)
+- [S05 Finance-Automation](../../../20_Systems/README.md)
 
 ### External Services
 - Google Sheets API
@@ -59,4 +59,4 @@ The workflow does not take direct inputs via its trigger. Instead, it reads data
 If the automation fails, the financial data can be reviewed by manually opening the Google Sheet: `https://docs.google.com/spreadsheets/d/{{SPREADSHEET_ID}}/edit`
 
 ## Related Documentation
-- [WF002: SVC_Command-Handler](./WF002__svc-command-handler.md)
+- [WF002: SVC_Command-Handler](WF002__svc-command-handler.md)

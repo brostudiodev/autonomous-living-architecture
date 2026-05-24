@@ -10,6 +10,44 @@ updated: "2026-04-25"
 All notable changes to the Autonomous Living system are documented here.
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
+### Fixed - System Stability & Hardening (G11)
+- **Emergency Recovery:** Restored system-wide automation (Daily Notes, Telegram Briefings) by un-archiving essential orchestrators and updating legacy Digital Twin API imports.
+- **Environment Alignment:** Hardened crontab with a comprehensive modular `PYTHONPATH` to ensure scheduled task compatibility with the new architecture.
+- **Legacy Compatibility:** Implemented Proxy scripts for core components to maintain backward compatibility during the modular migration.
+- **Bug Fixes:** Resolved `NameError` in Evening Manager, `TypeError` in Global Sync, and `KeyError` in Docs Module.
+- **Database Sequence Fix:** Corrected 40+ instances of invalid `psycopg2` parameter formatting (`cur.execute`) across the entire repository, restoring reliability to the Decision and Finance pipelines.
+- **API Resilience:** Implemented robust JSON error handling in `G13_content_draft_agent` to gracefully manage degraded responses from the n8n LLM drafting service.
+- **Logic Restoration:** Fixed indexing and placeholder count errors in the `decision_handler` and `approval_prompter`, ensuring human-in-the-loop approvals are fully functional.
+
+---
+
+## [2026.Q2.Sprint5] - 2026-05-21
+
+### Fixed - System Restoration & Modular Alignment (G11)
+- **Modular Path Resolution:** Upgraded the `G11_self_healing_supervisor` and `G11_self_healing_logic` with a robust `find_script` engine to intelligently locate scripts across all modular directories (`modules/*/scripts/`), resolving "File missing" errors.
+- **Import Standardization:** Performed batch updates across Meta, Productivity, Career, Finance, and Docs modules to fix `ModuleNotFoundError`. Standardized on absolute modular imports.
+- **SDK Call Alignment:** Fixed `emit_event` call signatures across the Meta module to use keyword arguments, resolving positional argument failures.
+- **Syntax & logic Repairs:** Surgically repaired `G11_db_event_bridge.py`, `G11_db_recovery_shield.py`, and `G11_self_healing_logic.py` to fix unclosed parentheses and escaped quote errors.
+- **Service Recognition:** Added logic to the supervisor to correctly recognize persistent services (like the Digital Twin API) as "Healthy" even if they report "Address already in use".
+- **Orchestrator Resilience:** Fixed `AttributeError` in `modules/meta/module.py` (missing `lock_dir`) and updated `sync_daily_note` to use `python3 -m` for relative import compatibility.
+
+---
+
+## [2026.Q2.Sprint5] - 2026-05-13
+
+### Added - Autonomous Kernel & Modular SDK (G11)
+- **Kernel Core Deployment:** Launched the `ModuleRegistry` and `Orchestrator` systems for dynamic module discovery and tiered sync execution.
+- **Autonomous Module Generator:** Launched `core/module_generator.py` for reifying natural language descriptions into complete module skeletons.
+- **Stability SDK:** Deployed `autonomous_sdk.circuit_breaker` to prevent cascading failures across modular boundaries.
+- **Standardized SDK Services:** Expanded SDK with unified `config`, `logger`, and `log` (activity) modules.
+- **Capabilities Discovery:** Added `GET /system/capabilities` to the Digital Twin API for real-time observability of modular assets.
+- **Unified Domain Architecture:** Ported all 13 Power Goals into the new modular framework.
+- **Health Standards:** Standardized `GET /health` endpoints across all 13 production modules.
+
+### Changed - Global Sync Evolution (G11)
+- **Orchestration Shift:** Migrated `G11_global_sync.py` to utilize the modular `Orchestrator`, enabling tiered execution and `MODULES_ENABLED` environment control.
+- **Digital Twin Realignment:** Refactored the Digital Twin as a primary consumer of the new SDK, enhancing cross-domain data aggregation.
+
 ---
 
 ## [2026.Q2.Sprint4] - 2026-04-25

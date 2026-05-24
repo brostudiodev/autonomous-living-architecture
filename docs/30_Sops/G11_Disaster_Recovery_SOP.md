@@ -11,7 +11,7 @@ This SOP provides the step-by-step procedure for restoring the Autonomous Living
 
 # Scope
 - **In Scope:** Restoring the 7 core PostgreSQL databases from `.sql.gpg` files.
-- **Out Scope:** Restoring the Docker environment itself (refer to [Infrastructure Runbook](../40_Runbooks/Infrastructure/Docker-Setup.md)).
+- **Out Scope:** Restoring the Docker environment itself (refer to [Infrastructure Runbook](../40_Runbooks/Infrastructure/Docker-Network-Recovery.md)).
 
 # Prerequisites
 1.  **GPG Passphrase:** You must have the `${DB_BACKUP_PASSPHRASE}` from your `.env` file.

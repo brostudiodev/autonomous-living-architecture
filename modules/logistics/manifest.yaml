@@ -1,0 +1,32 @@
+name: logistics
+version: 1
+description: "Autonomous Life Logistics & Digital Twin Intelligence"
+core: false
+sync_tier: 1
+databases:
+  - autonomous_life_logistics
+  - digital_twin_michal
+depends_on:
+  - postgres
+api_routes:
+  - /api/v1/logistics
+  - /api/v1/intelligence
+env_vars:
+  - GOOGLE_SHEET_ID_LOGISTICS
+  - GOOGLE_SHEET_ID_RELATIONSHIPS
+  - TELEGRAM_BOT_TOKEN
+  - TELEGRAM_CHAT_ID
+capabilities:
+  - name: "logistics_monitoring"
+    description: "Tracks document expiries, asset maintenance, and health calendars."
+    api_endpoints: ["/api/v1/logistics/expiries"]
+    events_emitted: ["sync_complete"]
+  - name: "subscription_registry"
+    description: "Manages active subscriptions and recurring financial obligations."
+    api_endpoints: ["/api/v1/logistics/subscriptions"]
+  - name: "relationship_sync"
+    description: "Synchronizes interpersonal contact frequency and triages reminders."
+    events_emitted: ["relationships_synced"]
+  - name: "roi_tracking"
+    description: "Calculates daily time saved by autonomous system components."
+    api_endpoints: ["/api/v1/intelligence/roi"]

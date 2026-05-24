@@ -50,8 +50,8 @@ An AI-powered financial assistant that manages an Expense Calendar spreadsheet. 
 
 ## Dependencies
 ### Systems
-- [S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md) - Google Sheets persistence.
-- [S05 Intelligent Routing Hub](../../../20_Systems/S04_Digital-Twin/README.md) - Router integration.
+- [S03 Data Layer](../../../20_Systems/README.md) - Google Sheets persistence.
+- [S05 Intelligent Routing Hub](../../../20_Systems/README.md) - Router integration.
 
 ### External Services
 - **Google Gemini API:** AI reasoning.
@@ -89,5 +89,5 @@ Edit the Google Sheet manually:
 - **Tab:** `Expense Calendar`
 
 ## Related Documentation
-- [Goal: G05 Autonomous Financial Command Center](../../../10_Goals/G05_Autonomous-Financial-Command-Center/README.md)
-- [System: S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md)
+- [Goal: G05 Autonomous Financial Command Center](../../../20_Systems/README.md)
+- [System: S03 Data Layer](../../../20_Systems/README.md)

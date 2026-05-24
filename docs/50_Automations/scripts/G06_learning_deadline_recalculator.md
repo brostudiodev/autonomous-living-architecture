@@ -1,44 +1,86 @@
 ---
-title: "Learning Deadline Recalculator (G06)"
+title: "Automation Spec: G06_learning_deadline_recalculator.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-02"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "80a99b0a30766ec0bfccd8b3640faf7c76783c31178d15c6fa904ac42ab2469d"
 ---
 
-# Purpose
-The **Learning Deadline Recalculator** (`G06_learning_deadline_recalculator.py`) ensures that certification goals remain mathematically realistic. It autonomously adjusts the `deadline` field in the `career_goals` table based on the user's actual study velocity.
+# 🤖 Automation Spec: G06_learning_deadline_recalculator.py
 
-# Scope
-- **In Scope:** Active career goals with defined required hours and deadlines.
-- **Out Scope:** Non-quantifiable learning goals or goals without deadlines.
+## Purpose
+G06_learning_deadline_recalculator.py.
 
-# Recalculation Logic
-- **Actual Velocity:** Average study hours per day calculated over the **last 14 days** (to provide a stable trend).
-- **Realistic Days Remaining:** `(Required Hours - Completed Hours) / Actual Velocity`.
-- **New Deadline:** `Current Date + Realistic Days Remaining`.
-- **Update Threshold:** The database is updated only if the new deadline differs from the current one by **more than 3 days**, avoiding minor "jitter" from day-to-day fluctuations.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/learning/scripts/G06_learning_deadline_recalculator.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G06 Certification Exams` within the `learning` automation domain.
 
-# Inputs/Outputs
-- **Inputs:** `career_goals` and `study_sessions` tables from the `autonomous_learning` database.
-- **Outputs:** Database updates and a Markdown adjustment report for the Daily Note.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-# Dependencies
-- **Systems:** S11 (Meta-System), G06 (Certification Exams)
-- **Database:** `autonomous_learning`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G06_learning_deadline_recalculator.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-# Procedure
-- Automatically executed by `autonomous_daily_manager.py` during the daily sync.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
-# Failure Modes
+## Dependencies
+### Runtime
+- Python script: `modules/learning/scripts/G06_learning_deadline_recalculator.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `os`
+- `psycopg2`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/learning/scripts/G06_learning_deadline_recalculator.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| Zero Velocity | `actual_vel = 0` | Script skips calculation (cannot divide by zero). |
-| DB Error | psycopg2 exception | Adjustment is skipped; system logs failure. |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-# Security Notes
-- Read/Write access to the learning database is required.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-# Owner + Review Cadence
-- **Owner:** Michał
-- **Review:** Monthly (verify if recalculated deadlines are driving better adherence)
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G06_learning_deadline_recalculator.py`.
+
+## Implementation Notes
+- Top-level functions: recalculate_deadlines
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

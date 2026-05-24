@@ -2,39 +2,84 @@
 title: "Automation Spec: G11_documentation_security_scanner.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-19"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "d69f7{{LONG_IDENTIFIER}}"
 ---
 
 # 🤖 Automation Spec: G11_documentation_security_scanner.py
 
-## 📝 Overview
-**Purpose:** Scans the entire documentation base (both `docs/` and the `Obsidian Vault/`) to identify potential security exposures, including internal IP addresses, hardcoded passwords, API keys, and sensitive database connection strings.
-**Goal Alignment:** G11 Meta-System Integration & Security Hardening.
+## Purpose
+G11_documentation_security_scanner.py.
+
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_documentation_security_scanner.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
+
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
+
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_documentation_security_scanner.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
+
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+
+## Dependencies
+### Runtime
+- Python script: `modules/meta/scripts/G11_documentation_security_scanner.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
+
+### Imports
+- `autonomous_sdk.db_config`
+- `os`
+- `pathlib`
+- `re`
+
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_documentation_security_scanner.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_documentation_security_scanner.py`.
+
+## Implementation Notes
+- Top-level functions: scan_directory, run_audit
+- Top-level classes: No top-level classes detected.
 
 ## ⚡ Technical Details
-- **Language:** Python 3.x
-- **Triggers:** Manual Execution / Part of documentation audit.
-- **Databases:** None (File-based scan).
-- **Dependencies:** `os`, `re`, `pathlib`.
-
-## 🛠️ Logic Flow
-1. **Directory Crawl:** Recursively walks through the `docs/` and `Obsidian Vault/` directories, skipping hidden folders (like `.git` and `.venv`).
-2. **Pattern Matching:** Searches all `.md` files for predefined regex patterns:
-    - **Internal IP:** Matches 192-dot-168-dot-x-dot-x, 10-dot-x-dot-x-dot-x, and 172-dot-16-31-dot-x-dot-x ranges.
-    - **Hardcoded Password:** Detects common assignment patterns (`password: "{{GENERIC_API_SECRET}}"`, etc.).
-    - **API Key / Token:** Identifies tokens and keys based on length and common naming.
-    - **Database URL:** Detects PostgreSQL connection strings containing credentials.
-3. **Filtering:** Automatically ignores placeholder patterns like `{{INTERNAL_IP}}` or `${DB_PASSWORD}` to avoid false positives.
-4. **Reporting:** Outputs the file path and the offending string for every exposure found.
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `pathlib, re, os, autonomous_sdk.db_config`
 
 ## 📤 Outputs
-- **Console Report:** Categorized list of exposures with direct file references.
-- **Exit Status:** Summarizes total issues found.
-
-## ⚠️ Known Issues / Maintenance
-- **Heuristic Limits:** May occasionally flag non-sensitive strings that match the patterns (e.g., long hex strings that aren't keys).
-- **MD Exclusive:** Currently only scans Markdown files.
+- See Inputs/Outputs section above.
 
 ---
-*Created: 2026-04-19 by Digital Twin Assistant*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

@@ -4,7 +4,7 @@ type: "system_visualization"
 status: "prototype"
 system_id: "S04"
 owner: "Michał"
-updated: "2026-02-10"
+updated: "2026-05-10"
 ---
 
 # S04: Digital Twin Basic Visualization
@@ -144,9 +144,9 @@ Key milestones and completed tasks:
 - **Charts**: Chart.js / D3.js
 
 ### Data Sources
-- **Primary**: GraphQL API (S04)
-- **Real-Time**: PostgreSQL subscriptions
-- **Fallback**: REST API endpoints
+- **Primary**: FastAPI REST API (S04)
+- **Real-Time**: PostgreSQL subscriptions / WebSocket
+- **Fallback**: Direct Database Access
 
 ### Dashboard Components
 
@@ -176,59 +176,32 @@ interface HomeEntity {
 }
 ```
 
-### GraphQL Queries
+### REST API Endpoints
 
-```graphql
-query DigitalTwinOverview {
-  person(id: "person-primary") {
-    healthMetrics
-    productivityMetrics
-    knowledgeMetrics
-    financialMetrics
-    lastUpdated
-  }
-  home(id: "home-main") {
-    environmentalData
-    energyConsumption
-    deviceInventory {
-      deviceId
-      name
-      status
-      lastSeen
-    }
-    occupancyStatus
-    lastUpdated
-  }
-  goals(status: "active") {
-    goalId
-    name
-    progressMetrics
-    targetDate
-    status
-  }
-  activeAlerts {
-    id
-    severity
-    message
-    timestamp
-  }
-}
+```bash
+# Get overall system status
+curl -X GET "http://localhost:5677/all"
+
+# Get person entity status
+curl -X GET "http://localhost:5677/person/primary"
+
+# Get home status
+curl -X GET "http://localhost:5677/home/main"
+
+# Get active goals
+curl -X GET "http://localhost:5677/goals?status=active"
 ```
 
-### WebSocket Subscriptions
+### WebSocket Updates
 
 ```typescript
-// Real-time updates subscription
-const subscription = gql`
-  subscription DigitalTwinUpdates {
-    digitalTwinUpdate {
-      entityType
-      updateType
-      data
-      timestamp
-    }
-  }
-`;
+// Real-time updates via FastAPI WebSocket bridge
+const socket = new WebSocket('ws://localhost:5677/ws');
+
+socket.onmessage = (event) => {
+  const update = JSON.parse(event.data);
+  console.log('System Update:', update);
+};
 ```
 
 ## Deployment Architecture
@@ -240,7 +213,7 @@ const subscription = gql`
 - **Monitoring**: Grafana dashboards
 
 ### Backend Integration
-- **GraphQL Server**: Apollo Server
+- **REST API Gateway**: FastAPI
 - **Database**: PostgreSQL (S03)
 - **Cache**: Redis for real-time data
 - **Authentication**: JWT tokens
@@ -251,7 +224,7 @@ const subscription = gql`
 1. ✅ Define core data models for Digital Twin entities
 2. ✅ Implement initial data ingestion pipelines from key sources
 3. 🔄 Develop basic visualization of Digital Twin state (current)
-4. ⏳ Establish GraphQL API layer for querying and updating twin state
+4. ⏳ Establish FastAPI REST API layer for querying and updating twin state
 
 ### Q2 Enhancements
 1. Interactive 3D visualization components
@@ -290,7 +263,7 @@ const subscription = gql`
 ---
 
 ## Related Documentation
-- [Digital Twin Data Models](./Data-Models.md)
-- [GraphQL API Specification](./GraphQL-API.md)
-- [Data Ingestion Pipelines](./Data-Ingestion.md)
-- [S03 Data Layer Integration](../S03_Data-Layer/README.md)
+- [Digital Twin Data Models](Data-Models.md)
+- [REST API Specification](REST-API.md)
+- [Data Ingestion Pipelines](Data-Ingestion.md)
+- [S03 Data Layer Integration](../README.md)

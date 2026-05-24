@@ -6,24 +6,28 @@ date: "2026-02-25"
 deciders: ["Michał"]
 ---
 
-# Adr-0016: Event-Driven Architecture
+# Adr-0016: Event-Driven Architecture (EDA)
 
 ## Status
-Accepted
+Accepted (v2.0 - Hybrid RabbitMQ Migration)
 
 ## Context
-The system initially relied on polling (scripts running on crontab) to detect changes in the database or external state. This created latency and unnecessary database load. To enable real-time responses (e.g., instant Telegram alerts when a pantry item is removed), the system needs to move to an event-driven model.
+The system initially relied on polling (scripts running on crontab) to detect changes, creating high latency. While v1.0 used pure PostgreSQL `LISTEN/NOTIFY`, it lacked a centralized message broker for cross-service synchronization and complex routing (e.g., Python to n8n).
 
 ## Decision
-We implement a real-time event loop using PostgreSQL `LISTEN/NOTIFY`:
-1.  **Triggers:** Database triggers on core tables (pantry, workouts) issue a `NOTIFY` command on change.
-2.  **Listener:** A dedicated daemon (`G04_digital_twin_listener.py`) listens for these events.
-3.  **Action:** The listener routes events to the appropriate notifier or handler.
+We transitioned to a **Hybrid RabbitMQ-based EDA**:
+1.  **Broker:** RabbitMQ (`life.events` Topic Exchange) serves as the central communication backbone.
+2.  **Universal Bridge:** `G11_db_event_bridge.py` captures PostgreSQL `NOTIFY` events from 8+ databases and forwards them as AMQP messages.
+3.  **Producers:** All core Python scripts utilize `G11_event_emitter.py` to broadcast state changes (e.g., `finance.bank_ingest_complete`).
+4.  **Consumers:**
+    *   **Execution (Local):** `G11_event_listener.py` handles deterministic system tasks (script restarts, DB syncs).
+    *   **Intelligence (n8n):** `EVENT_Universal-Autonomy-Orchestrator` handles strategic analysis and user interaction.
 
 ## Consequences
-- **Positive:** Near-zero latency for critical alerts. Reduced database polling load.
-- **Negative:** Adds a long-running daemon process that needs monitoring (S01).
+- **Positive:** Sub-second latency for budget alerts and schedule pivots. Decoupled "Intelligence" (n8n) from "Execution" (Python).
+- **Negative:** Increased infrastructure complexity (RabbitMQ + Bridge container).
 
 ## Implementation
-- Implemented in `G04_digital_twin_listener.py`.
-- Triggers defined in `autonomous_pantry_schema.sql` and others.
+- **Infrastructure:** `rabbitmq:3-management` in `docker-compose.yml`.
+- **Logic:** `G11_event_listener.py`, `G11_db_event_bridge.py`.
+- **Coverage:** Deployed universal triggers to 20+ tables across all 12 goals.

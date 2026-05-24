@@ -1,43 +1,84 @@
 ---
-title: "G04: Domain Isolator (Circuit Breaker)"
+title: "Automation Spec: G04_domain_isolator.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G04_domain_isolator.py"
-goal_id: "goal-g04"
-systems: ["S04"]
-owner: "Michał"
-updated: "2026-04-17"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "dda9e2090ec0943edb5fbb7d0ac6103a0df6560c152f3daedd63ceac1704cfb0"
 ---
 
-# G04: Domain Isolator (Circuit Breaker)
+# 🤖 Automation Spec: G04_domain_isolator.py
 
 ## Purpose
-A system-wide registry and orchestration module that prevents cascading failures across the Digital Twin ecosystem. It implements the **Circuit Breaker** pattern, ensuring that if one domain database (e.g., Health) hangs or fails, the rest of the system remains responsive.
+G04_domain_isolator.py - Proxy for Modular Isolator System.
 
-## Key Features
-- **Failure Tracking:** Tracks consecutive errors per domain (Finance, Health, Pantry, etc.).
-- **Fast-Fail Mechanism (Open Circuit):** After 3 consecutive failures, the circuit "opens" for 60 seconds. During this time, all requests to that domain fail immediately without attempting a database connection.
-- **Auto-Recovery (Half-Open):** After the timeout, a single trial request is allowed. If successful, the circuit "closes" (resumes normal operation).
-- **Graceful Degradation:** Provides standardized "degraded" state objects for callers when a domain is offline.
+## Scope
+### In Scope
+- Documents the active implementation at `scripts/G04_domain_isolator.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G04 Digital Twin Ecosystem` within the `legacy` automation domain.
 
-## Usage
-- **As a Decorator:** Used in `G04_digital_twin_engine.py` via `@domain_circuit_breaker(domain_name)`.
-- **As a Registry:** The `isolator` singleton is imported by the API and Engine to check or report status.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Status Modes
-| Status | Meaning | Action |
-|---|---|---|
-| **closed** | Normal operation. | All requests allowed. |
-| **open** | Failure threshold reached. | Requests blocked (fast-fail). |
-| **half-open** | Recovery timeout expired. | Single trial request allowed. |
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G04_domain_isolator.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
+
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin Hub](../../20_Systems/S04_Digital-Twin/README.md)
-- [G04: API Resilience Standard](./G04_api_resilience_standard.md)
+### Runtime
+- Python script: `scripts/G04_domain_isolator.py`
+- Trigger mode: Manual or scheduler invocation.
+- Databases: None detected by static scan.
 
-## Error Handling
-| Failure Scenario | Detection | Response |
+### Imports
+- `core.isolator`
+- `os`
+- `pathlib`
+- `sys`
+
+## Procedure
+1. Review the script source at `scripts/G04_domain_isolator.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
 |---|---|---|
-| Domain Registry Conflict | KeyError | Default to "closed" state. |
-| Reset Timeout Failure | Time comparison error | Circuit stays "open" for safety. |
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G04_domain_isolator.py`.
+
+## Implementation Notes
+- Top-level functions: No top-level functions detected.
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual or Scheduled Execution
+- **Databases:** None
+- **Dependencies:** `sys, pathlib, os, core.isolator`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

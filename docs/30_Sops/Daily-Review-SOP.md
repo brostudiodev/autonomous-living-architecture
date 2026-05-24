@@ -20,9 +20,9 @@ Daily review of tasks, goals, and system status to maintain productivity and cat
 5. End-of-day: Run evening automation (`autonomous_evening_manager.py` at 18:00)
 
 ## Related Documentation
-- [SOP: Daily Briefing Management](./Daily-Briefing-Management.md)
-- [SOP: Evening Automation System](./Evening-Automation-System.md)
-- [G10 Intelligent Productivity Time Architecture](../10_Goals/G{{LONG_IDENTIFIER}}/README.md)
+- [SOP: Daily Briefing Management](Daily-Briefing-Management.md)
+- [SOP: Evening Automation System](Evening-Automation-System.md)
+- [G10 Intelligent Productivity Time Architecture](../20_Systems/README.md)
 
 ---
 *Owner: Michał*

@@ -1,65 +1,94 @@
 ---
-title: "G07_zepp_sync: Biological Truth Synchronizer"
+title: "Automation Spec: G07_zepp_sync.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G07_zepp_sync"
-goal_id: "goal-g07"
-systems: ["S03", "S06"]
-owner: "Michał"
-updated: "2026-03-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "{{LONG_IDENTIFIER}}"
 ---
 
-# G07_zepp_sync: Biological Truth Synchronizer
+# 🤖 Automation Spec: G07_zepp_sync.py
 
 ## Purpose
-Automates the extraction of biometric data from the Zepp (Amazfit) cloud into the `autonomous_health` database. This data is the "Biological Truth" used for readiness-based scheduling and health trend analysis.
+G07_zepp_sync.py.
 
-## Triggers
-- **Scheduled:** Daily at 06:15, 13:15, 16:15 via `G11_obsidian_safe_sync.py` (crontab).
-- **Retry Logic:** Integrated into `G11_global_sync.py` with a 3-attempt loop (10-min intervals) if data is missing.
-- **Manual:** `python scripts/G07_zepp_sync.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/health/scripts/G07_zepp_sync.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G07 Predictive Health Management` within the `health` automation domain.
 
-## Inputs
-- **API:** Zepp (Huami) Cloud API.
-- **Cache:** `zepp_token.json` for session persistence.
-- **Environment:** `ZEPP_EMAIL`, `ZEPP_PASSWORD`.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Freshness Audit:** Checks if `sleep_score > 0` already exists for `CURRENT_DATE`.
-2. **Authentication:** Uses cached token or performs a fresh login via `huami_token.zepp`.
-3. **Extraction:** Pulls summaries for the last 3 days to catch gaps.
-4. **Biometric Sanity Guard:** Implements a strict filter for HRV values. Values < 5ms or > 250ms are rejected as pathological/sensor glitches and marked as unknown (0) to prevent incorrect recovery advice.
-5. **Readiness Calculation:** Applies internal algorithm considering Sleep Score, HRV, and RHR.
-6. **Hard Verification:** During the morning window (before 09:00), the script reports **FAILURE** if today's sleep data is missing, triggering the global retry loop.
-7. **Upsert:** Merges data into `biometrics` and `sleep_log` tables.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G07_zepp_sync.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Database:** Updated `biometrics` and `sleep_log` rows.
-- **Console:** Sync status and readiness score summary.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
+- HTTP requests to configured local or external service endpoints.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S06 Health Performance](../../20_Systems/S06_Health-Performance/README.md)
+### Runtime
+- Python script: `modules/health/scripts/G07_zepp_sync.py`
+- Trigger mode: Manual Execution, CLI with Arguments
+- Databases: PostgreSQL
 
-### External Services
-- Zepp Cloud Services
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.events`
+- `base64`
+- `datetime`
+- `huami_token.zepp`
+- `json`
+- `os`
+- `pathlib`
+- `psycopg2`
+- `requests`
+- `sys`
 
-## Error Handling
+## Procedure
+1. Review the script source at `modules/health/scripts/G07_zepp_sync.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| Cloud Delay | Data missing before 09:00 | Return `False` to trigger retry |
-| Auth Failure | 401/403 Status | Clear cache and re-login |
-| Rate Limit | 429 Status | Log warning, skip sync |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## Monitoring
-- **Success metric:** 100% of Daily Notes populated with today's biometrics by 07:00.
-- **Dashboard:** `v_health_sync_status` view.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-## Changelog
-| Date | Change |
-|------|--------|
-| 2026-03-04 | Initial Amazfit API integration |
-| 2026-03-27 | Added morning failure reporting for retry logic |
-| 2026-03-28 | Hardened freshness check (`sleep_score > 0`) and shifted crontab to 06:15 |
-| 2026-04-15 | Migrated hardcoded timezone to centralized `db_config.TIMEZONE` |
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G07_zepp_sync.py`.
+
+## Implementation Notes
+- Top-level functions: get_cached_token, save_token, get_live_token, check_db_freshness, sync_health_metrics, calculate_readiness, perform_sync, upsert_to_db, persist_health_history
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution, CLI with Arguments
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, base64, pathlib, datetime, huami_token.zepp, os, autonomous_sdk.db_config, json, autonomous_sdk.events, sys, requests`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

@@ -1,55 +1,88 @@
 ---
-title: "Automation Spec: G05 Budget Friction Predictor"
+title: "Automation Spec: G05_budget_friction_predictor.py"
 type: "automation_spec"
 status: "active"
-system_id: "S05"
-goal_id: "goal-g05"
-owner: "Michał"
-updated: "2026-04-28"
-review_cadence: "monthly"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "ea67e82360aafa85697c64c50985fe880406353158d3d4a7ba46e30d9526181d"
 ---
 
-# 🤖 Automation Spec: G05 Budget Friction Predictor
+# 🤖 Automation Spec: G05_budget_friction_predictor.py
 
-## 🎯 Purpose
-Predict potential monthly budget breaches *before* they occur by analyzing current spending velocity and weighted burn rates. Calculates **Safe Daily Allowance** to provide a recovery path for over-spending categories.
+## Purpose
+G05_budget_friction_predictor.py.
 
-## 📝 Scope
-- **In Scope:** Variable spending (Food, Lifestyle, etc.) via linear projection; Fixed costs (Rent, Utilities) via adjusted flat-rate projection; **Safe Daily Allowance** calculation; Ghost Schema logging.
-- **Out of Scope:** Automatic execution of transfers (handled by `G05_budget_rebalancer.py`); Investment strategy.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/finance/scripts/G05_budget_friction_predictor.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G05 Autonomous Financial Command Center` within the `finance` automation domain.
 
-## 🔄 Inputs/Outputs
-- **Inputs:** 
-  - `autonomous_finance.budgets` (Monthly targets)
-  - `autonomous_finance.transactions` (Current month spend)
-- **Outputs:**
-  - `FRICTION` report in `autonomous_daily_manager.py`
-  - Ghost Schema predictions in `digital_twin_michal.ghost_predictions`
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## 🛠️ Dependencies
-- **Systems:** S05 Autonomous Finance, S03 Data Layer (PostgreSQL)
-- **Services:** Digital Twin Engine (for Ghost Schema)
-- **Credentials:** `DB_PASSWORD` in `.env`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G05_budget_friction_predictor.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## ⚙️ Logic & Procedure
-The script uses a two-tier projection model:
-1. **Fixed Categories:** Assumes costs are mostly front-loaded. Projection = `current_spent * 1.1` (10% buffer for variable sub-fees).
-2. **Variable Categories:** Uses linear velocity: `(spent / day_of_month) * days_in_month`.
-3. **Safe Daily Allowance:** `(Total Budget - Current Spent) / Days Remaining`.
-4. **Status Assignment:** "AT RISK" (Predicted > 105%), "BUDGET FULLY UTILIZED" (Current = 100%), vs "BREACHED" (Current > 100%).
-5. **Logic Refinement (Apr 13):** Eliminates false-positive "exceeded by 0.00 PLN" alerts by strictly separating full utilization from actual breaches.
-6. **Trigger:** Automated via `G11_global_sync.py`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
-## ⚠️ Failure Modes
+## Dependencies
+### Runtime
+- Python script: `modules/finance/scripts/G05_budget_friction_predictor.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `calendar`
+- `datetime`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `pandas`
+- `psycopg2`
+
+## Procedure
+1. Review the script source at `modules/finance/scripts/G05_budget_friction_predictor.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
 | Scenario | Detection | Response |
 |---|---|---|
-| DB Unreachable | Script logs `FAILURE` to `G11_log_system` | Check PostgreSQL container health |
-| No Budget Found | Report shows "No budget data found" | Verify current month budgets in S05 |
-| Ghost Schema Error | Python traceback in logs | Verify Digital Twin DB connectivity |
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## 🔒 Security Notes
-- **Access Control:** Database access restricted to local network/Docker bridge.
-- **Secrets:** All DB credentials retrieved via environment variables; no plaintext passwords in code.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G05_budget_friction_predictor.py`.
+
+## Implementation Notes
+- Top-level functions: predict_budget_friction
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, pandas, calendar, datetime, os, autonomous_sdk.db_config, modules.meta.scripts.G11_log_system`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*System Hardening v5.4 - April 2026*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

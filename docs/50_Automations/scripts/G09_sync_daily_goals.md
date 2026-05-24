@@ -1,64 +1,95 @@
 ---
-title: "G09: Goal Activity Synchronization Engine"
+title: "Automation Spec: G09_sync_daily_goals.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G09_sync_daily_goals.py"
-goal_id: "goal-g09"
-systems: ["S04", "S11"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "5{{LONG_IDENTIFIER}}"
 ---
 
-# G09: Goal Activity Synchronization Engine (Static Tracker)
+# 🤖 Automation Spec: G09_sync_daily_goals.py
 
 ## Purpose
-Acts as the **Static (Activity-Based) Sync** for the goal tracking ecosystem. While G12 automatically populates suggestions, Michał uses G09 via `ctrl+shift+G` to definitively commit the final "Did" and "Next" logs from the Daily Note to the long-term `Activity-log.md` files in the documentation hierarchy.
+G09_sync_daily_goals.py.
 
-## Key Features
-- **Surgical Parsing:** Scans the "Power Goals" section of Obsidian Daily Notes for completed tasks.
-- **Goal Mapping:** Dynamically routes activity descriptions to the correct `docs/10_Goals/GXX_*/Activity-log.md` file.
-- **Idempotency:** Re-running the sync for the same day updates the existing entry rather than creating duplicates.
-- **Detailed Feedback (NEW Mar 28):** Now reports the exact count of goals tracked (e.g., "Goal Activity Sync Complete (3 goals tracked)") to provide Michał with immediate confirmation of sync volume.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/career/scripts/G09_sync_daily_goals.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G09 Automated Career Intelligence` within the `career` automation domain.
 
-## Triggers
-- **Automated:** Part of the `G11_global_sync.py` daily registry (runs 3x daily).
-- **Manual (Obsidian):** Triggered via `ctrl+shift+G` using the wrapper at `Obsidian Vault/99_System/scripts/sync_daily_goals.py`.
-- **Manual (CLI):** `python3 scripts/G09_sync_daily_goals.py`
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Architecture: Workflow Bridging
-To maintain a single source of truth while supporting Obsidian hotkeys, the system uses a **Redirection Wrapper**:
-1.  Michał triggers `ctrl+shift+G` in Obsidian.
-2.  The script within the Vault (`99_System/scripts/sync_daily_goals.py`) acts as a "thin client."
-3.  It redirects the execution to the centralized engine in `autonomous-living/scripts/` using the project's virtual environment.
-4.  This ensures that manual syncs are recorded in the `system_activity_log` and follow the same production logic as automated syncs.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G09_sync_daily_goals.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Inputs
-- **Obsidian Daily Note:** `01_Daily_Notes/YYYY-MM-DD.md`.
-- **Goal Registry:** Internal `GOAL_MAP` and `GOAL_DOCS_MAP` for path resolution.
-
-## Processing Logic
-1.  **Extract:** Identifies checked goals (`- [x] **GXX**`) and parses the associated **Did** and **Next** fields.
-2.  **Verify:** Checks if the target `Activity-log.md` exists in the `docs/10_Goals/` hierarchy.
-3.  **Format:** Generates a Markdown entry with date, weekday, action, and next steps.
-4.  **Upsert:** Performs a regex-based search for the current date's header. If found, it replaces the content; if not, it appends to the end of the file.
-
-## Outputs
-- **Goal Documentation:** Updated `Activity-log.md` files across all goal directories.
-- **Activity Log:** `SUCCESS` or `FAILURE` entry in `system_activity_log`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin Hub](../../20_Systems/S04_Digital-Twin/README.md)
-- [S11 Meta-System Integration](../../20_Systems/S11_Meta-System-Integration/README.md)
+### Runtime
+- Python script: `modules/career/scripts/G09_sync_daily_goals.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Note Not Found | `os.path.exists` | Logs skip info | Console |
-| Doc Folder Missing | `Path.exists` | Logs warning | System Activity Log |
-| Parse Error | `yaml.safe_load` | Aborts frontmatter update | Console |
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `logging`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `pathlib`
+- `platform`
+- `re`
+- `subprocess`
+- `sys`
+- `typing`
+- `yaml`
 
-## Manual Fallback
-If the auto-sync fails:
-1.  Manually copy the **Did** and **Next** content from the Daily Note.
-2.  Paste it into the relevant `Activity-log.md` under a `## YYYY-MM-DD` header.
+## Procedure
+1. Review the script source at `modules/career/scripts/G09_sync_daily_goals.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G09_sync_daily_goals.py`.
+
+## Implementation Notes
+- Top-level functions: main
+- Top-level classes: GoalSyncEngine
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `re, logging, pathlib, datetime, os, autonomous_sdk.db_config, yaml, json, modules.meta.scripts.G11_log_system, typing, platform, sys, subprocess`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

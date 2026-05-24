@@ -1,52 +1,87 @@
 ---
-title: "G10: Location Intelligence"
+title: "Automation Spec: G10_location_intelligence.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G10_location_intelligence"
-goal_id: "goal-g10"
-systems: ["S09", "S04"]
-owner: "Michał"
-updated: "2026-04-23"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "97732a04e407e35d774aefa34de6c6192f927c3aaeb5d37ff611cdae6359bae9"
 ---
 
-# G10: Location Intelligence
+# 🤖 Automation Spec: G10_location_intelligence.py
 
 ## Purpose
-Autonomously analyzes upcoming calendar events for location-based travel requirements. It estimates travel times and injects "🚗 Travel" blocks into Google Calendar to protect transit time and reduce manual planning friction.
+G10_location_intelligence.py.
 
-## Triggers
-- **Scheduled:** Part of `autonomous_daily_manager.py` (Daily at 06:00).
-- **Scheduled:** Part of `autonomous_evening_manager.py` (Daily at 18:00).
-- **Manual:** `python3 scripts/G10_location_intelligence.py`.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/productivity/scripts/G10_location_intelligence.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G10 Intelligent Productivity Time Architecture` within the `productivity` automation domain.
 
-## Inputs
-- **Calendar:** Tomorrow's events from the Primary Google Calendar (G10).
-- **Profiles:** Pre-defined travel estimates for common locations (Office, Gym, Home, etc.).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Logic Flow
-1.  **Scan:** Retrieves events for today and tomorrow from the primary calendar.
-2.  **Filter:** Identifies events with a non-empty `location` field that are not already travel blocks.
-3.  **Estimate:** Matches location keywords against the `TRAVEL_ESTIMATES` profile (defaulting to 30 mins).
-4.  **Deduplicate:** Checks if a "🚗 Travel to [Event]" block already exists at the calculated time.
-5.  **Inject:** Inserts a new Google Calendar event with a gray color (ID 8) and an opaque transparency.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G10_location_intelligence.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Calendar:** New events titled `🚗 Travel to [Summary]` in Google Calendar.
-- **Logs:** `system_activity_log` entry with the count of blocks added.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-- **Services:** Google Calendar API.
-- **Credentials:** `google_tasks_token.pickle` (Shared with G10 tasks).
-- **Profiles:** `TRAVEL_ESTIMATES` dictionary in script.
+### Runtime
+- Python script: `modules/productivity/scripts/G10_location_intelligence.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
+
+### Imports
+- `G10_calendar_client`
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `re`
+
+## Procedure
+1. Review the script source at `modules/productivity/scripts/G10_location_intelligence.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
 ## Failure Modes
-- **API Offline:** Connection error → Script skips execution and logs a warning.
-- **Overlap:** If travel time overlaps with another event, it still injects (User must resolve conflict).
-- **Unknown Location:** Defaults to 30-minute travel time.
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
 ## Security Notes
-- Read/Write access to Google Calendar.
-- No sensitive location data is logged outside the calendar itself.
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G10_location_intelligence.py`.
+
+## Implementation Notes
+- Top-level functions: identify_travel_needs
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `re, G10_calendar_client, datetime, os, autonomous_sdk.db_config, modules.meta.scripts.G11_log_system`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*Updated: 2026-04-06 | Initial automation specification.*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

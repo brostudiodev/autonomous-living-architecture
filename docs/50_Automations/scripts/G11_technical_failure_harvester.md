@@ -1,65 +1,85 @@
 ---
-title: "G11: Technical Failure Harvester"
+title: "Automation Spec: G11_technical_failure_harvester.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-goal_id: "goal-g11"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "26d85b66b68d6900395fa5e679a81729f5c55f854e67542b192856b697dad612"
 ---
 
-# G11: Technical Failure Harvester
+# 🤖 Automation Spec: G11_technical_failure_harvester.py
 
 ## Purpose
-
-Scans the `system_activity_log` for entries with `FAILURE` status and extracts technical details (tracebacks, error messages). It populates the `friction_log` with these entries to ensure that technical system failures are visible to the human-led and AI-led optimization processes.
+G11_technical_failure_harvester.py.
 
 ## Scope
-
 ### In Scope
-- Scanning `system_activity_log` for `status = 'FAILURE'`.
-- Deduplicating failures before inserting into `friction_log`.
-- Mapping `script_name` to specific system domains (Finance, Health, etc.).
-- Categorizing failures as `auto_technical` source.
+- Documents the active implementation at `modules/meta/scripts/G11_technical_failure_harvester.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
 ### Out of Scope
-- Resolving the failures (handled by G11: Failure Resolver).
-- Analyzing patterns (handled by G11: Failure Analyzer).
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
 ## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_technical_failure_harvester.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-### Input
-- **Source:** PostgreSQL Table `system_activity_log`
-- **Criteria:** `status = 'FAILURE'` and `details IS NOT NULL`
-
-### Output
-- **Target:** PostgreSQL Table `friction_log`
-- **Fields:** `description` (from details), `source` ('auto_technical'), `domain`, `severity` (4), `status` ('pending').
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
+### Runtime
+- Python script: `modules/meta/scripts/G11_technical_failure_harvester.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [G11 Meta-System](../../10_Goals/G11_Meta-System-Integration-Optimization/README.md)
-
-### Infrastructure
-- PostgreSQL `digital_twin_michal` database.
+### Imports
+- `autonomous_sdk`
+- `autonomous_sdk.db_config`
+- `pathlib`
+- `psycopg2`
 
 ## Procedure
-
-### Manual Execution
-```bash
-cd {{ROOT_LOCATION}}/autonomous-living/scripts
-{{ROOT_LOCATION}}/autonomous-living/.venv/bin/python3 G11_technical_failure_harvester.py
-```
+1. Review the script source at `modules/meta/scripts/G11_technical_failure_harvester.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
 ## Failure Modes
-
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| Database Connection Failure | Script logs error to stderr | Check Postgres container status |
-| Duplicate insertion | Subquery check in SQL | Expected behavior (no action) |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
 ## Owner + Review Cadence
-- **Owner:** Michał
-- **Review:** Monthly (during G11 reliability audit)
-- **Last Updated:** 2026-04-28
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_technical_failure_harvester.py`.
+
+## Implementation Notes
+- Top-level functions: harvest_technical_failures
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, autonomous_sdk, pathlib, autonomous_sdk.db_config`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

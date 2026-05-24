@@ -1,120 +1,86 @@
 ---
-title: "G10_focus_enforcer: Digital Focus Shielding"
+title: "Automation Spec: G10_focus_enforcer.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G10_focus_enforcer"
-goal_id: "goal-g10"
-systems: ["S04", "S08"]
-owner: "Michał"
-updated: "2026-04-18"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "d6d{{LONG_IDENTIFIER}}"
 ---
 
-# G10_focus_enforcer: Digital Focus Shielding
+# 🤖 Automation Spec: G10_focus_enforcer.py
 
 ## Purpose
+G10_focus_enforcer.py.
 
-Enforces focus by triggering digital shielding alerts during high-cognitive work windows. Automates the "Deep Work" state by notifying the user to enable DND mode on Slack, Discord, and mobile devices when readiness is high and the schedule demands focus.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/productivity/scripts/G10_focus_enforcer.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G10 Intelligent Productivity Time Architecture` within the `productivity` automation domain.
 
-## Triggers
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-- **Scheduled:** Daily at 6:00 AM, 7:00 AM, 8:00 AM via `G11_global_sync.py`
-- **Manual:** `python scripts/G10_focus_enforcer.py`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G10_focus_enforcer.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Inputs
-
-| Source | Data | Used For |
-|--------|------|----------|
-| Digital Twin Engine | Readiness score | Focus enforcement threshold |
-| System Clock | Current hour, weekday | Focus window validation |
-| PostgreSQL | `digital_twin_michal` database | System activity logging |
-
-## Processing Logic
-
-1. **Check Focus Window** - Validate if current time is between 06:00 and 09:00 on a weekday.
-   - If outside window → Terminate (No shielding required).
-
-2. **Check Readiness** - Fetch readiness score from Digital Twin Engine.
-   - Readiness < 50 → Terminate (Low energy recovery mode).
-
-3. **Enforce Shielding** - Send proactive Telegram alert for manual DND activation.
-   - Alerts user to set phone to DND.
-   - Alerts user to close Slack/Discord.
-   - Confirms "Deep Work Shield Active".
-
-4. **Future Expansion** - Roadmap includes direct Slack/Discord API status updates.
-
-## Outputs
-
-| Output | Location | Format |
-|--------|----------|--------|
-| Focus Shield Alert | Telegram Messenger | Push Notification |
-| Activity Log | `system_activity_log` table | PostgreSQL |
-
-### Example Alert
-
-```text
-🚀 **DEEP WORK SHIELD ACTIVE** 🚀
-
-State: Peak Readiness (87%)
-Window: 06:00 - 09:00
-
-🛡️ **Actions Taken:**
-- [ ] Set Phone to DND (Manual)
-- [ ] Close Slack/Discord (Manual)
-- [ ] Focus on your Roadmap Mission.
-
-_Automation is shielding your cognitive load._
-```
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
 
 ## Dependencies
+### Runtime
+- Python script: `modules/productivity/scripts/G10_focus_enforcer.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-### Systems
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md) - Readiness data source
-- [S08 Automation Orchestrator](../../20_Systems/S08_Automation-Orchestrator/README.md) - Integration
+### Imports
+- `G04_digital_twin_notifier`
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G04_digital_twin_engine`
+- `modules.meta.scripts.G11_log_system`
+- `os`
 
-### Scripts
-- `G04_digital_twin_engine.py` - Digital Twin state provider
-- `G04_digital_twin_notifier.py` - Telegram notification engine
-- `G11_log_system.py` - Activity logging
+## Procedure
+1. Review the script source at `modules/productivity/scripts/G10_focus_enforcer.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Error Handling
-
+## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| Digital Twin offline | Exception in `DigitalTwinEngine()` | Log failure, no alert sent |
-| Telegram API error | Return `False` from `send_telegram_message()` | Log failure |
-| Database write fails | `psycopg2` exception | Print warning, don't crash |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
 ## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-- No direct device control (notification-only)
-- Slack/Discord tokens (Future) will be stored in `.env`
-- No sensitive data in logs
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G10_focus_enforcer.py`.
 
-## Monitoring
+## Implementation Notes
+- Top-level functions: enforce_focus_mode
+- Top-level classes: No top-level classes detected.
 
-- **Success metric:** Alert sent during focus window
-- **Alert on:** Failure to send during focus window
-- **Dashboard:** Check `system_activity_log` for `G10_focus_enforcer` status
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `datetime, G04_digital_twin_notifier, os, autonomous_sdk.db_config, modules.meta.scripts.G11_log_system, modules.meta.scripts.G04_digital_twin_engine`
 
-## Manual Fallback
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
-If script fails:
-```bash
-cd {{ROOT_LOCATION}}/autonomous-living
-source .venv/bin/activate
-python scripts/G10_focus_enforcer.py
-```
-
-## Related Documentation
-
-- [G10 Roadmap](../../10_Goals/G{{LONG_IDENTIFIER}}/Roadmap.md)
-- [G10 Focus Intelligence](./G10_focus_intelligence.md)
-- [G10 Schedule Optimizer](./G10_schedule_optimizer.md)
-
-## Changelog
-
-| Date | Change |
-|------|--------|
-| 2026-03-23 | Initial implementation (v1.0) |
-| 2026-03-23 | Integrated into `G11_global_sync.py` |
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

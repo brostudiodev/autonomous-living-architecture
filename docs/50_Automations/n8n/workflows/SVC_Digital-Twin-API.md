@@ -47,7 +47,7 @@ Provides a bidirectional interface between n8n AI agents and the Digital Twin RE
 ## Dependencies
 
 ### Systems
-- [S04 Digital Twin](../20_Systems/S04_Digital-Twin/README.md)
+- [S04 Digital Twin](../../../20_Systems/README.md)
 
 ### Infrastructure
 - Digital Twin API running on port 5677
@@ -90,6 +90,6 @@ This workflow is triggered automatically by AI agents. To test manually:
 
 ## Related Documentation
 
-- [Digital Twin API Documentation](../20_Systems/S04_Digital-Twin/README.md)
-- [G04 Digital Twin Roadmap](../10_Goals/G04_Digital-Twin-Ecosystem/Roadmap.md)
-- [Agentic Framework](../20_Systems/S08_Automation-Orchestrator/README.md)
+- [Digital Twin API Documentation](../../../20_Systems/README.md)
+- [G04 Digital Twin Roadmap](../../../10_Goals/G02_Automationbro-Recognition/Roadmap.md)
+- [Agentic Framework](../../../20_Systems/README.md)

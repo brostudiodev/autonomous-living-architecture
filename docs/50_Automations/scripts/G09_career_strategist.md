@@ -1,51 +1,88 @@
 ---
-title: "G09: Career Strategist"
+title: "Automation Spec: G09_career_strategist.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G09_career_strategist"
-goal_id: "goal-g09"
-systems: ["S03", "S04", "S11"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "0fbf2ed746ad7{{LONG_IDENTIFIER}}"
 ---
 
-# G09: Career Strategist
+# 🤖 Automation Spec: G09_career_strategist.py
 
 ## Purpose
-Acts as the central intelligence bridge between Learning (G06) and Career (G09). It autonomously updates the skill inventory based on study progress and correlates proficiency with market demand to drive strategic brand content (G02/G13).
+G09_career_strategist.py.
 
-## Triggers
-- **Scheduled:** Daily via `G11_global_sync.py` (Tier 1).
+## Scope
+### In Scope
+- Documents the active implementation at `modules/career/scripts/G09_career_strategist.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G09 Automated Career Intelligence` within the `career` automation domain.
 
-## Inputs
-- **Learning Database:** `v_learning_progress` (Total hours per subject).
-- **Career Database:** `skill_inventory` (Current levels and market demand).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Skill Sync:** Maps G06 study hours to G09 proficiency levels (Heuristic: 1h = 1% proficiency, max 100%).
-2. **Gap Analysis:** Identifies skills with "High/Critical" market demand but <80% proficiency.
-3. **Strategic Advice:** Generates actionable content themes for the Digital Twin to demonstrate market readiness.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G09_career_strategist.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Database Update:** Refreshed `skill_inventory` proficiency and timestamps.
-- **Telegram Notification:** Strategic alerts if major gaps are detected (optional via `--notify`).
-- **Content Hooks:** Provides strategic direction for `G13_content_idea_generator.py`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S11 Intelligence Router](../../20_Systems/S11_Meta-System-Integration/README.md)
+### Runtime
+- Python script: `modules/career/scripts/G09_career_strategist.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### Databases
-- `autonomous_learning`
-- `autonomous_career`
+### Imports
+- `G04_digital_twin_notifier`
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.events`
+- `json`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `psycopg2`
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| DB Connection Fail | Exception | Log FAILURE to G11 | None |
-| LLM API Fail | Exception | Fallback to default study tracks | Log warning |
+## Procedure
+1. Review the script source at `modules/career/scripts/G09_career_strategist.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Monitoring
-- **Success metric:** "Synced X skills" in `system_activity_log`.
-- **Dashboard:** Career Intelligence Dashboard.
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G09_career_strategist.py`.
+
+## Implementation Notes
+- Top-level functions: sync_learning_to_skills, generate_strategic_advice, run_strategist
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, os, autonomous_sdk.db_config, G04_digital_twin_notifier, json, modules.meta.scripts.G11_log_system, autonomous_sdk.events`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

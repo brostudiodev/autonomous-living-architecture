@@ -1,72 +1,89 @@
 ---
-title: "G04: Life Logistics Sync"
+title: "Automation Spec: G04_logistics_sync.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G04__logistics_sync"
-goal_id: "goal-g04"
-systems: ["S03", "S04"]
-owner: "Michał"
-updated: "2026-04-14"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "b86c4724a835245b6f{{LONG_IDENTIFIER}}"
 ---
 
-# G04: Life Logistics Sync (v2.0 - Zero-Clobber)
+# 🤖 Automation Spec: G04_logistics_sync.py
 
 ## Purpose
-Synchronizes critical life deadlines (passports, IDs, recurring payments, home maintenance) and yearly events (birthdays, anniversaries) from the Master Google Sheet to a dedicated PostgreSQL database.
+G04_logistics_sync.py.
 
-## Triggers
-- **Daily:** Triggered via `G11_global_sync.py` during the morning block.
-- **On-Demand:** Via `GET /logistics_sync` endpoint on the Digital Twin API.
-- **Manual:** `python3 G04_logistics_sync.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G04_logistics_sync.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G04 Digital Twin Ecosystem` within the `meta` automation domain.
 
-## Inputs
-- **Google Sheet:** `Life_Logistics` (ID: `{{LONG_IDENTIFIER}}`)
-- **Tabs:** Identity & Legal, Asset & Home Maintenance, Health & Prevention Calendar, Subscription & Warranty Registry, Personal Specs, Anniversaries.
-- **Credentials:** `google_credentials_digital-twin-michal.json`
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. Connects to `autonomous_life_logistics` PostgreSQL database.
-2. **Zero-Clobber UPSERT (Apr 13):** No longer uses TRUNCATE. Instead, it uses `ON CONFLICT` to preserve manual status changes (DONE/REJECTED) while updating metadata.
-3. Iterates through the 6 predefined tabs in the Google Sheet.
-4. **Anniversaries Tab (NEW Apr 14):** Specialized handling for yearly recurring events. Ingests Name, Relationship, and Original Date.
-5. Parses dates and numeric values, handling empty fields.
-6. **Post-Sync Cleanup:**
-    - Items missing from the logistics tabs are marked as `DONE` in the database.
-    - Items missing from the `Anniversaries` tab are deleted from the database.
-7. **Downstream Impact:** `G04_life_sentinel.py` now monitors both standard expirations and yearly anniversaries.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G04_logistics_sync.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Database Tables:** 
-    - `autonomous_life_logistics` (Standard items)
-    - `anniversaries` (Yearly recurring items)
-- **Database Columns (Logistics):** `id`, `category`, `item_name`, `due_date`, `amount`, `alert_threshold_days`, `notes`, `status`, `last_synced_at`, `updated_at`.
-- **Database Columns (Anniversaries):** `id`, `name`, `relationship_type`, `original_date`, `alert_threshold_days`, `last_synced_at`, `updated_at`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-...
+### Runtime
+- Python script: `modules/meta/scripts/G04_logistics_sync.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `google.oauth2.service_account`
+- `gspread`
+- `os`
+- `psycopg2`
+- `re`
+- `sys`
 
-### External Services
-- Google Sheets API
+## Procedure
+1. Review the script source at `modules/meta/scripts/G04_logistics_sync.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-### Credentials
-- Service Account JSON in `/scripts`
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| API Quota Reached | HTTP 429 from Google | Wait and retry | Log Warning |
-| DB Connection Fail | Connection Timeout | Check if Postgres container is running | Log Error |
-| Invalid Date Format | Regex/Parser Exception | Skip row, log item name | Log Warning |
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-## Monitoring
-- **Success Metric:** Total rows in DB matches Google Sheet row count (excluding headers).
-- **Check:** `GET /audit` flags if logistics sync is older than 24h.
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G04_logistics_sync.py`.
 
-## Manual Fallback
-```bash
-cd {{ROOT_LOCATION}}/autonomous-living/scripts
-./.venv/bin/python3 G04_logistics_sync.py
-```
+## Implementation Notes
+- Top-level functions: get_sheets_client, parse_num, parse_threshold, parse_date, sync_logistics
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `re, psycopg2, datetime, gspread, os, autonomous_sdk.db_config, google.oauth2.service_account, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

@@ -289,8 +289,8 @@ SELECT upsert_expense_from_sheet(
 ```
 
 ## Related Documentation
-- [S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md)
-- [WF107: Expense Calendar Alerts](./WF107__expense-calendar-alerts.md)
+- [S03 Data Layer](../../../20_Systems/README.md)
+- [WF107: Expense Calendar Alerts](WF107__expense-calendar-alerts.md)
 - [Google Sheets Budget](https://docs.google.com/spreadsheets/d/{{SPREADSHEET_ID}})
 
 ## n8n JSON Import

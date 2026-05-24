@@ -1,59 +1,92 @@
 ---
-title: "G12: Context Resumer"
+title: "Automation Spec: G12_context_resumer.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G12_context_resumer"
-goal_id: "goal-g12"
-systems: ["S04"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "8{{LONG_IDENTIFIER}}"
 ---
 
-# G12: Context Resumer
+# 🤖 Automation Spec: G12_context_resumer.py
 
 ## Purpose
-Synthesizes the entire system state (readiness, finances, recent activity, system health) into a concise "Morning Mission Directive" to ensure rapid context resumption each day.
+G12_context_resumer.py.
 
-## Triggers
-- Scheduled execution at 06:00 via `autonomous_daily_manager.py`.
-- Manual execution via `fill-daily.sh`.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/docs/scripts/G12_context_resumer.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G12 Complete Process Documentation` within the `docs` automation domain.
 
-## Inputs
-- **System State**: Readiness, Sleep, ROI, and Project data from `DigitalTwinEngine`.
-- **Technical Context**: Recently modified files in `scripts/`, pending `TODO` counts.
-- **System Health**: Error counts and failures in `system_activity_log`.
-- **Career Intelligence**: Most recent technical win from `Technical_Wins_Log.md`.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Context Aggregation**: Collects health scores, financial alerts, technical activity, and recent wins.
-2.  **Synthesis (AI or Rule-Based)**:
-    *   **AI (Gemini)**: If `GEMINI_API_KEY` exists, generates a 3-sentence high-level directive.
-    *   **Rule-Based (Fallback)**: Uses deterministic logic based on readiness thresholds and system status.
-3.  **Rich Goal Block Generation**: Iterates through goals (G04, G05, G10) to generate navigation links and context.
-4.  **Terminal Command Injection**: Dynamically generates `python3 scripts/GXX_*.py` commands for immediate resumption of active missions.
-5.  **Output Segmentation**: Uses internal markers (`[RICH_MISSION_BLOCK_START]`) to allow the `autonomous_daily_manager.py` to surgically split the directive from the detailed context.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G12_context_resumer.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Structured String**: Segments the Directive from the Rich Mission context.
-- **Temporary Cache**: Writes to `scripts/morning_mission.txt`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
-- [S11 Meta-System Integration](../../20_Systems/S11_Meta-System-Integration/README.md)
+### Runtime
+- Python script: `modules/docs/scripts/G12_context_resumer.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### External Services
-- Google Gemini API (optional but recommended).
+### Imports
+- `G04_digital_twin_engine`
+- `G05_ollama_wrapper`
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `psycopg2`
+- `re`
+- `requests`
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| API Key Missing | Environment check | Switch to deterministic logic | Console log |
-| DB Error | Exception in query | Use default maintenance directive | Console log |
-| Gemini Timeout | Request timeout (20s) | Fallback to rule-based generation | Console log |
+## Procedure
+1. Review the script source at `modules/docs/scripts/G12_context_resumer.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Monitoring
-- **Success metric**: Presence of `🎯 MORNING MISSION` in today's daily note.
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## Manual Fallback
-If the generator fails, the system provides a generic maintenance directive.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G12_context_resumer.py`.
+
+## Implementation Notes
+- Top-level functions: get_last_win, get_technical_context, get_system_health, get_next_roadmap_tasks, generate_morning_directive
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `G04_digital_twin_engine, re, psycopg2, datetime, os, autonomous_sdk.db_config, json, modules.meta.scripts.G11_log_system, G05_ollama_wrapper, requests`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

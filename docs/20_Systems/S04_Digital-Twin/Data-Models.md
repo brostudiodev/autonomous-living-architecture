@@ -4,7 +4,7 @@ type: "system_data_models"
 status: "draft"
 system_id: "S04"
 owner: "Michał"
-updated: "2026-02-09"
+updated: "2026-05-10"
 ---
 
 # S04: Digital Twin Data Models

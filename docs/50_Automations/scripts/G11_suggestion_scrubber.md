@@ -1,59 +1,87 @@
 ---
-title: "G11: Suggestion Scrubber"
+title: "Automation Spec: G11_suggestion_scrubber.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G11_suggestion_scrubber"
-goal_id: "goal-g11"
-systems: ["S04", "S10", "S11"]
-owner: "Michał"
-updated: "2026-03-19"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "027{{LONG_IDENTIFIER}}"
 ---
 
-# G11: G11_suggestion_scrubber.py
+# 🤖 Automation Spec: G11_suggestion_scrubber.py
 
 ## Purpose
-Aggregates intelligent system suggestions (Health, Finance, Career, Logistics) from the Digital Twin Engine and synchronizes them to the "Suggestions" list in Google Tasks.
+G11_suggestion_scrubber.py.
 
-## Triggers
-- **Scheduled:** Part of the global sync cycle via `G11_global_sync.py`.
-- **Manual:** `python3 scripts/G11_suggestion_scrubber.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_suggestion_scrubber.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-## Inputs
-- **Digital Twin Engine:** `get_task_recommendations()` method.
-- **Data Sources:** Combined state of all sub-databases (Health, Finance, Pantry, etc.).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  Instantiates the `DigitalTwinEngine` to gather current system state and identify gaps or opportunities.
-2.  Retrieves structured recommendations (e.g., "Hydration needed", "HIT session overdue", "Review budget breaches").
-3.  Formats each recommendation into a Google Task title with appropriate categorization (e.g., `💡 Health: Drink 1250ml more`).
-4.  Pushes tasks to the "Suggestions" list in Google Tasks.
-5.  Sets the due date to Today to ensure visibility in daily views.
-6.  Prevents duplication by matching task titles.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_suggestion_scrubber.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Google Tasks:** "Suggestions" list updated with actionable system recommendations.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin Subsystem](../../20_Systems/S04_Digital-Twin/README.md)
-- [S10 Daily Goals Automation](../../20_Systems/S10_Daily-Goals-Automation/README.md)
-- [S11 Meta-System Integration](../../20_Systems/S11_Meta-System-Integration/README.md)
+### Runtime
+- Python script: `modules/meta/scripts/G11_suggestion_scrubber.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-### External Services
-- Google Tasks API
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.events`
+- `autonomous_sdk.log`
+- `datetime`
+- `os`
+- `pathlib`
+- `sys`
 
-### Credentials
-- `token.json` (User OAuth for Google Tasks)
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_suggestion_scrubber.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| API Auth Fail | `google.auth.exceptions.RefreshError` | Log error, notify manual reauth needed | Console |
-| Engine Offline | `Exception` in Engine init | Log failure, skip sync | System Sync Status: ❌ |
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## Monitoring
-- **Success Metric:** "Suggestions" task count matches engine output.
-- **Log:** `system_activity_log` records execution status.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-## Manual Fallback
-Review the "AI Suggested Priorities" section in the Obsidian Daily Note or check the Digital Twin API `/suggested` endpoint directly.
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_suggestion_scrubber.py`.
+
+## Implementation Notes
+- Top-level functions: sync_suggestions_to_tasks
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `pathlib, datetime, os, autonomous_sdk.db_config, autonomous_sdk.events, sys, autonomous_sdk.log`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

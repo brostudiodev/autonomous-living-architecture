@@ -45,8 +45,8 @@ AI-powered training intelligence system that provides workout summaries, exercis
 
 ## Dependencies
 ### Systems
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md) - n8n Execution engine.
-- [S07 Predictive Health Management](../../../20_Systems/S06_Health-Performance/README.md) - Training database.
+- [S08 Automation Orchestrator](../../../20_Systems/README.md) - n8n Execution engine.
+- [S07 Predictive Health Management](../../../20_Systems/README.md) - Training database.
 
 ### External Services
 - PostgreSQL (`autonomous_training` docker).

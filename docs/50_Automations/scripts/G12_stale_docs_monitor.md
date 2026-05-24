@@ -1,43 +1,88 @@
 ---
-title: "Stale Documentation Monitor (G12)"
+title: "Automation Spec: G12_stale_docs_monitor.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-04"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "48f30589b{{LONG_IDENTIFIER}}"
 ---
 
-# Purpose
-The **Stale Documentation Monitor** (`G12_stale_docs_monitor.py`) scans the goal and system documentation to identify files that haven't been updated in over 30 days. This ensures that the "Source of Truth" remains current and accurate.
+# 🤖 Automation Spec: G12_stale_docs_monitor.py
 
-# Scope
-- **In Scope:** `docs/10_Goals/` and `docs/20_Systems/` Markdown files.
-- **Out Scope:** `docs/90_Attachments/`, `_meta/` logs, and scripts.
+## Purpose
+G12_stale_docs_monitor.py.
 
-# Inputs/Outputs
-- **Inputs:** 
-  - File frontmatter (specifically the `updated:` field).
-  - File system metadata (mtime) as fallback.
-- **Outputs:** Markdown report of stale files for the `G11_mission_aggregator`.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/docs/scripts/G12_stale_docs_monitor.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G12 Complete Process Documentation` within the `docs` automation domain.
 
-# Dependencies
-- **Systems:** S04 (Digital Twin), G12 (Complete Process Documentation)
-- **Libraries:** `pyyaml`
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-# Procedure
-- Executed as part of the morning sync by `autonomous_daily_manager.py`.
-- Can be run manually to audit documentation freshness.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G12_stale_docs_monitor.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-# Failure Modes
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
+
+## Dependencies
+### Runtime
+- Python script: `modules/docs/scripts/G12_stale_docs_monitor.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
+
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.log`
+- `datetime`
+- `os`
+- `pathlib`
+- `re`
+- `yaml`
+
+## Procedure
+1. Review the script source at `modules/docs/scripts/G12_stale_docs_monitor.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| YAML Parse Error | Script logs warning | Fallback to file mtime |
-| Date/Datetime Mismatch | ValueError (Fix Apr 04) | Script now handles `datetime`, `date`, and `str` (ISO/standard) formats gracefully. |
-| Path not found | FileNotFoundError | Verify REPO_ROOT in .env |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-# Security Notes
-- Read-only access to documentation files.
-- No sensitive data processed.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-# Owner + Review Cadence
-- **Owner:** Michał
-- **Review:** Monthly (Goal G12 audit)
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G12_stale_docs_monitor.py`.
+
+## Implementation Notes
+- Top-level functions: get_stale_docs, generate_report
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `re, pathlib, datetime, os, autonomous_sdk.db_config, yaml, autonomous_sdk.log`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

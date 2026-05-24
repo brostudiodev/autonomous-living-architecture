@@ -1,57 +1,88 @@
 ---
-title: "G11: Mission Control (Task Automation)"
+title: "Automation Spec: G11_mission_control.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G11_mission_control"
-goal_id: "goal-g11"
-systems: ["S11", "S10"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "e50c0deb4358{{LONG_IDENTIFIER}}"
 ---
 
-# G11: Mission Control (Task Automation)
+# 🤖 Automation Spec: G11_mission_control.py
 
 ## Purpose
-Bridges the gap between system intelligence and human execution by autonomously injecting high-priority recommendations from the Digital Twin Engine into the user's task management system (Google Tasks).
+Runs the mission control automation for Meta-System Integration Optimization.
 
-## Triggers
-- **Global Sync:** Part of the `G11_global_sync.py` orchestration cycle.
-- **Manual Execute:** `python3 G11_mission_control.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_mission_control.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-## Inputs
-- **Digital Twin Engine:** Provides high-priority task recommendations based on current cross-domain state (Health, Finance, Logistics).
-- **Google Tasks API:** Used to fetch current tasks for deduplication and inject new missions.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Recommendation Retrieval:** Fetches all active task suggestions from `DigitalTwinEngine.get_task_recommendations()`.
-2.  **Filtering:** Selects only tasks with `high` or `medium` priority.
-3.  **Deduplication:** Fetches existing tasks from the "Missions (Autonomous)" and "My Tasks" lists to prevent duplicate injections.
-4.  **Injection:** 
-    - Adds new missions to the **"Missions (Autonomous)"** Google Tasks list.
-    - Prepends priority tags (e.g., `[HIGH]`) to the task title for immediate visibility on mobile/calendar.
-    - Sets the due date to the current day to ensure they appear in today's focus.
-5.  **ROI Tracking:** Logs 2 minutes of "Time Saved" per injected mission to the `autonomy_roi` table.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_mission_control.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Google Tasks:** New entries in the "Missions (Autonomous)" list.
-- **System Activity Log:** Records success and the number of missions injected.
-- **ROI Log:** Updates the productivity impact metrics.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
 
 ## Dependencies
-### Systems
-- [S11 Meta-System Integration](../../20_Systems/S11_Meta-System-Integration/README.md)
-- [S09 Productivity & Time Architecture](../../20_Systems/S09_Productivity-Time/README.md)
+### Runtime
+- Python script: `modules/meta/scripts/G11_mission_control.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-### External Services
-- **Google Tasks API**: Requires valid OAuth2 credentials (`google_tasks_token.pickle`).
+### Imports
+- `autonomous_sdk`
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G04_digital_twin_engine`
+- `modules.productivity.scripts.G10_google_tasks_sync`
+- `os`
+- `pathlib`
+- `sys`
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| API Auth Fail | `invalid_grant` or missing token | Logs error, skips injection | System Activity Log |
-| Deduplication Fail | Title mismatch | May result in duplicate task | Manual cleanup |
-| Engine Offline | Exception in engine call | Logs failure, aborts | System Activity Log |
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_mission_control.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Monitoring
-- **Success metric**: Number of high-priority missions successfully moved from "System Insight" to "Actionable Task".
-- **Audit**: Review the "Missions (Autonomous)" list in Google Tasks.
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_mission_control.py`.
+
+## Implementation Notes
+- Top-level functions: No top-level functions detected.
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `pathlib, datetime, autonomous_sdk, os, autonomous_sdk.db_config, sys, modules.meta.scripts.G04_digital_twin_engine, modules.productivity.scripts.G10_google_tasks_sync`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

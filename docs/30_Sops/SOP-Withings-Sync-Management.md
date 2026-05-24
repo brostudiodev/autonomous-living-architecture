@@ -72,8 +72,8 @@ After the data is synced to Google Sheets, it must be pushed to the `autonomous_
 
 ### Key Files
 - **Script (API -> Sheet):** `scripts/withings_to_sheets.py`
-- **Script (Sheet -> DB):** `scripts/G07_weight_sync.py`
-- **Tokens:** `scripts/withings_tokens.json`
+- **Script (Sheet -> DB):** `modules/health/scripts/G07_weight_sync.py`
+- **Tokens:** `config/auth/withings_tokens.json`
 - **Log:** `scripts/withings.log` (if redirected)
 
 ---

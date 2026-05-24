@@ -1,80 +1,81 @@
 ---
-title: "G04: Digital Twin Core Engine"
+title: "Automation Spec: G04_digital_twin_engine.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G04_digital_twin_engine.py"
-goal_id: "goal-g04"
-systems: ["S04"]
-owner: "Michał"
-updated: "2026-04-19"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "d{{LONG_IDENTIFIER}}"
 ---
 
-# G04: Digital Twin Core Engine
+# 🤖 Automation Spec: G04_digital_twin_engine.py
 
 ## Purpose
-The primary "brain" of the Autonomous Living ecosystem. This script aggregates data from all subsystems (Finance, Health, Logistics, Pantry, etc.) to provide holistic insights, generate strategic directives, and maintain the cross-domain correlation engine.
+G04_digital_twin_engine.py.
 
-## Key Features
-- **State Aggregation:** Pulls current reality from 7+ PostgreSQL databases.
-- **Time-Aware Historical Queries (NEW Apr 14):** Support for `target_date` in all major state methods (`get_health_status`, `generate_summary`, `get_full_context`). Allows the system to reconstruct historical system states for any given day.
-- **Personal Anniversary Engine (NEW Apr 14):** Specialized logic to track yearly recurring events (Birthdays, Weddings) via the `anniversaries` table.
-- **Strategic Memory:** Records and retrieves up to 20 "strategic_memory" items to maintain contextual continuity across days.
-- **Best Day Insight:** Identifies peak performance days by correlating sleep, readiness, and step data.
-- **Director's Insights (Fix Apr 01):** Specifically logic-checked to ensure "Previous Guidance" is fetched before the current state is saved to memory, preventing duplication of insights.
-- **Correlation Engine:** Detects patterns between domains (e.g., Caffeine vs. REM Sleep, Budget vs. Pantry).
-- **Primary Directive (Updated Apr 04):** Dynamically extracts the "Morning Mission" from `morning_mission.txt` for use by the G11 Mission Aggregator.
-- **Quarter-Aware Roadmap (Updated Apr 04):** `get_roadmap_mins()` now automatically detects the current quarter (e.g., Q2) and filters tasks accordingly.
-- **Autonomy ROI:** Calculates time saved via automated systems.
-- **Proactive State Updates (Added Apr 13):** `update_entity_state()` allows external agents to push real-time snapshots to the `digital_twin_updates` table, enabling high-frequency telemetry without polling bottlenecks.
-- **Sanity Audit Support (Added Apr 15):** Implemented `AUDIT_MODE=1` protocol for non-destructive system health verification (G11 compliance).
-- **Centralized Timezone (Added Apr 15):** Migrated hardcoded timezone logic to use `db_config.TIMEZONE` for consistent display of biometric events (Sleep start/end).
-- **Unified Hydration Target (NEW Apr 18):** Standardized the system-wide hydration goal to **2000ml** (Water + Coffee contribution). This target is now enforced across the engine (`get_hydration_status`), the task prompter (`get_task_recommendations`), and Agent Zero reports, eliminating conflicting "1750ml" or "2500ml" alerts.
-- **System-Wide DB Normalization (NEW Apr 18):** Completed a comprehensive normalization of database connection variables across the entire ecosystem. Migrated all G-series scripts to use centralized constants from `db_config.py` (e.g., `DB_FINANCE`, `DB_HEALTH`), resolving widespread typos (e.g., `DB_TRAININGG`) and variable truncation (`db_confi` -> `db_config`) that previously caused intermittent connectivity gaps.
-- **Unlocked Historical Data (NEW Apr 19):** Removed all history-based limitations (30/90 days). Default lookback and forecasting windows standardized to **3650 days (10 years)** across all analytical methods (`get_sleep_trend`, `get_workout_stats`, `generate_finance_forecast`, etc.). This enables seamless multi-year trend analysis and prevents data gaps in historical reporting.
-- **Circuit Breaker Integration (Added Apr 17):** Formalized the use of `@domain_circuit_breaker` in the core engine. All database queries are now protected by the `G04_domain_isolator`, enabling fast-failing for unstable domains and preventing system-wide hangs.
-- **Biometric Fallback Engine (NEW Apr 20):** Upgraded `get_health_status` to support autonomous data retrieval when target date records are missing (e.g., morning sync delay). The system now falls back to the latest available historical data to ensure energy-aware scheduling remains operational 24/7.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G04_digital_twin_engine.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G04 Digital Twin Ecosystem` within the `meta` automation domain.
 
-## Triggers
-- **Internal:** Called by `G04_digital_twin_api.py`, `autonomous_daily_manager.py`, and `G11_mission_aggregator.py`.
-- **Manual:** `python3 scripts/G04_digital_twin_engine.py` (prints suggested report) or `AUDIT_MODE=1 python3 scripts/G04_digital_twin_engine.py` for health check.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Changelog
-| Date | Version | Author | Change Description |
-|---|---|---|---|
-| 2026-04-01 | 1.0 | Michał | Initial documentation of core logic. |
-| 2026-04-04 | 2.0 | Michał | Added trend forecasting and predictive intelligence. |
-| 2026-04-08 | 2.1 | Michał | Updated for agent registry and scoped tool access. |
-| 2026-04-13 | 2.2 | Michał | Added proactive state updates and multi-date context support. |
-| 2026-04-14 | 2.3 | Michał | Implemented Personal Anniversary Engine and historical context. |
-| 2026-04-15 | 2.4 | Michał | Integrated centralized timezone and sanity audit protocols. |
-| 2026-04-17 | 2.5 | Michał | Added domain circuit breakers for all DB queries. |
-| 2026-04-18 | 2.6 | Michał | Standardized hydration target (2000ml) and DB connection vars. |
-| 2026-04-19 | 2.7 | Michał | Unlocked 10-year historical data access for all metrics. |
-| 2026-04-20 | 2.8 | Michał | Implemented biometric fallback logic in get_health_status. |
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G04_digital_twin_engine.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Inputs
-- **Databases:** `digital_twin_michal`, `autonomous_finance`, `autonomous_health`, `autonomous_pantry`, `autonomous_training`, `autonomous_learning`, `autonomous_life_logistics`.
-- **Obsidian:** Scans `02_Projects/` for active roadmap statuses.
-- **Local Files:** `morning_mission.txt` for primary directives.
-
-## Outputs
-- **Twin State:** A unified JSON state object used by the API and Bot.
-- **Director's Insights:** Markdown formatted insights for the Daily Note.
-- **Snapshots:** Persists daily system state to `twin_state_snapshots`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin Hub](../../20_Systems/S04_Digital-Twin/README.md)
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
+### Runtime
+- Python script: `modules/meta/scripts/G04_digital_twin_engine.py`
+- Trigger mode: Manual or scheduler invocation.
+- Databases: None detected by static scan.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Sub-DB Offline | `psycopg2` error | Skips that domain, populates error msg | Log Info |
-| Memory Full | Disk space check | Rotates older logs | Log Warning |
-| Missing morning_mission.txt | FileNotFoundError | Fallback to "Execute 2026 Power Goals" | Log Info |
+### Imports
+- `core.engine`
 
-## Manual Fallback
-If the engine is failing:
-1. Check connectivity to all Postgres databases.
-2. Run `python3 scripts/G04_digital_twin_engine.py` to see domain-specific error messages.
+## Procedure
+1. Review the script source at `modules/meta/scripts/G04_digital_twin_engine.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G04_digital_twin_engine.py`.
+
+## Implementation Notes
+- Top-level functions: No top-level functions detected.
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual or Scheduled Execution
+- **Databases:** None
+- **Dependencies:** `core.engine`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

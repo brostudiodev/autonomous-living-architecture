@@ -113,15 +113,25 @@ The entire ecosystem is now consolidated into a single, hardened **Unified Docke
 - **Runbook:** [RB004: Infrastructure Consolidation Procedure](docs/40_Runbooks/RB004_Infrastructure_Consolidation.md)
 
 ### Repository Structure: Enterprise IT Applied to Life
-| Directory | Purpose | Enterprise Equivalent |
+| Directory | Purpose | Status |
 |:---|:---|:---|
-| `00_Start-here` | Project governance and principles | Project Charter / Standards |
-| `10_Goals` | Business objectives and metrics | Business Units / OKRs |
-| `20_Systems` | Technical platforms and capabilities | Platform Engineering |
-| `30_Sops` | Operational procedures for humans | Operations Manuals |
-| `40_Runbooks` | Incident response and recovery | SRE / Incident Management |
-| `50_Automations`| Workflow orchestration | Middleware / Process Engine |
-| `60_Decisions_adrs`| Decisions with full context | Architecture Review Board |
+| `00_Start-here` | Project governance and principles | Production |
+| `core/` | **Kernel**: API, Orchestrator, Engine | Production |
+| `modules/` | **Userland**: Domain-specific logic & scripts | Production |
+| `autonomous_sdk/` | **Shared Library**: Database, Events, Logs | Production |
+| `docs/` | Comprehensive technical documentation | Production |
+| `infrastructure/` | Docker persistent data (DB, RabbitMQ) | Production |
+| `scripts/` | **Legacy Utilities & Proxies** | **DEPRECATED** |
+
+---
+
+### 🚀 Modular Architecture (May 2026 Update)
+The system has completed its migration to a **Modular Kernel Architecture**. 
+
+- **Modular Logic:** Every life domain (Health, Finance, Productivity) is a self-contained module in `modules/`.
+- **Centralized SDK:** All database connections, event emissions (RabbitMQ), and structured logging are handled by the `autonomous_sdk`.
+- **Visibility:** 100% of automation scripts are now visible on the [Digital Twin Map](http://{{INTERNAL_IP}}:5677/map) through standardized lifecycle logging.
+- **Legacy Path Deprecation:** The root `/scripts` folder is preserved for backward compatibility but is no longer the source of truth for production logic.
 
 ---
 

@@ -4,7 +4,7 @@ type: "progress_monitor"
 status: "active"
 goal_id: "goal-g09"
 created: "2026-02-11"
-last_updated: "2026-02-11"
+last_updated: "2026-05-24"
 version: "1.0"
 ---
 

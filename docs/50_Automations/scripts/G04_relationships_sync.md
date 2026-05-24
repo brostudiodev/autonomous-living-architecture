@@ -1,63 +1,90 @@
 ---
-title: "G04: Relationships Sync"
+title: "Automation Spec: G04_relationships_sync.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G04_relationships_sync"
-goal_id: "goal-g04"
-systems: ["S04", "S10"]
-owner: "Michał"
-updated: "2026-03-19"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "d22628396da{{LONG_IDENTIFIER}}"
 ---
 
-# G04: G04_relationships_sync.py
+# 🤖 Automation Spec: G04_relationships_sync.py
 
 ## Purpose
-Synchronizes relationship data from the `Life_Logistics` Google Sheet to the `autonomous_life_logistics` database and automatically generates Google Tasks for periodic contact reminders.
+G04_relationships_sync.py.
 
-## Triggers
-- **Scheduled:** Part of the global sync cycle via `G11_global_sync.py`.
-- **Manual:** `python3 scripts/G04_relationships_sync.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G04_relationships_sync.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G04 Digital Twin Ecosystem` within the `meta` automation domain.
 
-## Inputs
-- **Google Sheet:** `Life_Logistics` (Worksheet: `Relationships`)
-- **Headers:** `Name`, `Relationship_Type`, `Desired_Frequency_Days`, `Last_Contact_Date`, `Comment`
-- **Database:** `autonomous_life_logistics` (Table: `relationships`)
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  Connects to Google Sheets and fetches all records from the `Relationships` worksheet.
-2.  Truncates the `relationships` table in the database to ensure a clean sync.
-3.  Parses dates and frequencies, then inserts data into the local database.
-4.  **Automation Logic:** For each person, calculates `Next_Contact = Last_Contact_Date + Desired_Frequency_Days`.
-5.  If `Next_Contact <= Today`, creates a task in the "Relationships" Google Tasks list.
-6.  Prevents duplicate tasks by checking for existing active tasks with the same title.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G04_relationships_sync.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Database Table:** `autonomous_life_logistics.public.relationships`
-- **Google Tasks:** "Relationships" list updated with contact reminders.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin Subsystem](../../20_Systems/S04_Digital-Twin/README.md)
-- [S10 Daily Goals Automation](../../20_Systems/S10_Daily-Goals-Automation/README.md)
+### Runtime
+- Python script: `modules/meta/scripts/G04_relationships_sync.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### External Services
-- Google Sheets API
-- Google Tasks API
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `google.oauth2.service_account`
+- `gspread`
+- `modules.productivity.scripts.G10_google_tasks_sync`
+- `os`
+- `psycopg2`
+- `re`
+- `sys`
 
-### Credentials
-- `google_credentials_digital-twin-michal.json` (Service Account)
-- `token.json` (User OAuth for Google Tasks)
+## Procedure
+1. Review the script source at `modules/meta/scripts/G04_relationships_sync.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Sheet Missing | `WorksheetNotFound` Exception | Log error, skip sync | Console |
-| DB Connection Fail | `psycopg2.OperationalError` | Log error, exit | System Sync Status: ❌ |
-| API Rate Limit | `gspread.exceptions.APIError` | Retry with exponential backoff | Console |
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## Monitoring
-- **Success Metric:** Total entries synced > 0.
-- **Log:** `system_activity_log` (G11) records success/failure.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-## Manual Fallback
-Check the `Life_Logistics` Google Sheet directly and manually add tasks to Google Tasks.
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G04_relationships_sync.py`.
+
+## Implementation Notes
+- Top-level functions: get_sheets_client, parse_date, sync_relationships
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `re, psycopg2, datetime, gspread, os, autonomous_sdk.db_config, google.oauth2.service_account, sys, modules.productivity.scripts.G10_google_tasks_sync`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

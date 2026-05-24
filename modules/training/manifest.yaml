@@ -1,0 +1,28 @@
+name: training
+version: 1
+description: "High Intensity Training (HIT) & Body Composition Analysis"
+core: false
+sync_tier: 1
+databases:
+  - autonomous_training
+  - autonomous_health
+depends_on:
+  - postgres
+api_routes:
+  - /api/v1/training
+env_vars:
+  - GOOGLE_SHEET_ID_TRAINING
+capabilities:
+  - name: "workout_sync"
+    description: "Synchronizes workout data from Google Sheets to PostgreSQL."
+    api_endpoints: ["/api/v1/training/sync"]
+    events_emitted: ["sync_complete"]
+  - name: "progressive_overload"
+    description: "Analyzes TUT and volume trends to suggest weight increases."
+    api_endpoints: ["/api/v1/training/overload"]
+  - name: "strength_reporting"
+    description: "Generates weekly strength gains reports in Obsidian."
+    api_endpoints: ["/api/v1/training/gains"]
+  - name: "body_comp_analysis"
+    description: "Tracks weight and body fat trends via biometric data."
+    api_endpoints: ["/api/v1/training/composition"]

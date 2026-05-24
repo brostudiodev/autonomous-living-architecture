@@ -1,53 +1,89 @@
 ---
-title: "Mission Aggregator (G11)"
+title: "Automation Spec: G11_mission_aggregator.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "27649204290cd58aef{{LONG_IDENTIFIER}}"
 ---
 
-# Purpose
-The **Mission Aggregator** (`G11_mission_aggregator.py`) is a meta-automation designed to eliminate morning decision fatigue. It consolidates tasks from multiple autonomous sources, ranks them by strategic priority, and presents a single "Golden Mission" (Top 5) for the day.
+# 🤖 Automation Spec: G11_mission_aggregator.py
 
-# Scope
-- **In Scope:** Google Tasks (Triaged), Quick Wins (Logistics/Pantry/Finance/Learning), Roadmap Missions (G01-G12), Digital Twin Primary Directive.
-- **Out Scope:** Manual calendar events (handled by G10 Schedule Optimizer), low-priority habits.
+## Purpose
+G11_mission_aggregator.py.
 
-# Inputs/Outputs
-- **Inputs:** 
-  - `_meta/triaged_tasks.json` (G11 Task Triage)
-  - `G11_quick_wins.py` (Domain-specific wins)
-  - `G04_digital_twin_engine.py` (Strategic context)
-  - `morning_mission.txt` (via `engine.get_primary_directive()`)
-- **Outputs:** Markdown formatted "Top 5" list for the Obsidian Daily Note.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_mission_aggregator.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-# Logic Flow (Updated Apr 23)
-1. **Directives:** Fetches the top-level mission from `morning_mission.txt`.
-2. **Roadmaps:** Scans goal roadmaps for incomplete tasks specifically for the current quarter.
-3. **Sentinels:** Pulls alerts from logistics, health, and relationship agents.
-4. **Dynamic Weighting (NEW Apr 23):** Fetches the latest biological readiness score (G07).
-    *   **Peak State (>85):** Increases the priority weight of **Study Alerts (G06)** to 11.3, ensuring deep work learning tasks rise to the Top 5 when the user's cognitive state is optimal.
-5. **Ranking:** Applies weighted scoring (Directive > Sentinel > Heal > Learn (Peak) > Tasks > Wins).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-# Dependencies
-- **Systems:** S04 (Digital Twin), S08 (Automation Orchestrator)
-- **Files:** `.env` (DB Credentials), `G04_digital_twin_engine.py`, `morning_mission.txt`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_mission_aggregator.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-# Procedure
-- Triggered automatically by `autonomous_daily_manager.py` during the morning sync.
-- Can be run manually: `python3 scripts/G11_mission_aggregator.py`
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
-# Failure Modes
+## Dependencies
+### Runtime
+- Python script: `modules/meta/scripts/G11_mission_aggregator.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `modules.meta.scripts.G04_digital_twin_engine`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_mission_aggregator.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| Missing morning_mission.txt | FileNotFoundError | Fallback to "Execute 2026 Power Goals" |
-| Quarter Mismatch | Empty Roadmap results | Engine auto-detects quarter from system clock |
-| DB connection error | quick_wins fails | Skip DB-driven wins |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-# Security Notes
-- No secrets stored in script.
-- Uses standard DB environment variables.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-# Owner + Review Cadence
-- **Owner:** Michał
-- **Review:** Monthly (Goal G11 audit)
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_mission_aggregator.py`.
+
+## Implementation Notes
+- Top-level functions: get_triaged_tasks, get_quick_wins_list, get_roadmap_items, get_stale_docs_list, get_healing_needs, get_logistics_alerts, get_vault_hygiene_alerts, get_study_alerts, get_people_alerts, get_content_draft_alert, get_training_recommendation, get_fire_alerts
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `datetime, os, autonomous_sdk.db_config, json, modules.meta.scripts.G11_log_system, sys, modules.meta.scripts.G04_digital_twin_engine`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

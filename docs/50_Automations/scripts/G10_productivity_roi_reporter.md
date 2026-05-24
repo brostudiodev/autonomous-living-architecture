@@ -1,46 +1,87 @@
 ---
-title: "Automation Spec: G10 Productivity ROI Reporter"
+title: "Automation Spec: G10_productivity_roi_reporter.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G10_productivity_roi_reporter"
-goal_id: "goal-g10"
-systems: ["S04", "S10"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "7e600d05d696a028d4{{LONG_IDENTIFIER}}"
 ---
 
-# G10: Productivity ROI Reporter
+# 🤖 Automation Spec: G10_productivity_roi_reporter.py
 
 ## Purpose
-Generates daily and weekly productivity ROI analysis by quantifying reclaimed time from autonomous actions and measuring overall system reliability. It provides a data-driven "Efficiency Index" to track how effectively the system is managing your focus.
+G10_productivity_roi_reporter.py.
 
-## Triggers
-- **Daily Manager:** Part of the `autonomous_daily_manager.py` cycle.
-- **Manual:** `python3 G10_productivity_roi_reporter.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/productivity/scripts/G10_productivity_roi_reporter.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G10 Intelligent Productivity Time Architecture` within the `productivity` automation domain.
 
-## Inputs
-- **Autonomy ROI:** `autonomy_roi` table in `digital_twin_michal`.
-- **System Activity:** `system_activity_log` for reliability stats.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Reclaimed Time Aggregation:** Sums minutes saved for today and the last 7 days.
-2.  **Reliability Calculation:** Calculates success rate of all scripts in the last 24 hours.
-3.  **Efficiency Indexing:** Computes `(Hours Reclaimed Today) * (System Success Rate)`.
-4.  **Trend Analysis:** Generates a 7-day velocity chart with impact labeling (High/Normal/Low).
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G10_productivity_roi_reporter.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Markdown Report:** Detailed efficiency summary injected into the Daily Note under `%%VELOCITY%%`.
-- **System Activity Log:** Success/Failure of report generation.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin Ecosystem](../../20_Systems/S04_Digital-Twin/README.md)
-- [S10 Productivity Platform](../../20_Systems/S09_Productivity-Time/README.md)
+### Runtime
+- Python script: `modules/productivity/scripts/G10_productivity_roi_reporter.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| DB Connection Fail | Exception | Logs error, returns partial report | Console |
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `pandas`
+- `psycopg2`
 
-## Monitoring
-- **Daily Note:** "Productivity & Autonomy ROI" section.
+## Procedure
+1. Review the script source at `modules/productivity/scripts/G10_productivity_roi_reporter.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G10_productivity_roi_reporter.py`.
+
+## Implementation Notes
+- Top-level functions: generate_roi_report
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, pandas, datetime, os, autonomous_sdk.db_config, modules.meta.scripts.G11_log_system`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

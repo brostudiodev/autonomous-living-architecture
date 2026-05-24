@@ -1,52 +1,89 @@
 ---
-title: "Automation Spec: G04 Ghost Schema Accuracy Reporter"
+title: "Automation Spec: G04_ghost_schema_reporter.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G04_ghost_schema_reporter"
-goal_id: "goal-g04"
-systems: ["S04", "S11"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "b8cf0fa74745f4094445f9bb5a8994f1a76ea67daa2cae6350978feede007092"
 ---
 
-# G04: Ghost Schema Accuracy Reporter
+# 🤖 Automation Spec: G04_ghost_schema_reporter.py
 
 ## Purpose
-The "Self-Calibration" engine of the Digital Twin. It compares historical predictions (the "Ghost" values) with actual data to quantify system accuracy. If accuracy drops below thresholds, it automatically adjusts autonomy policies.
+G04_ghost_schema_reporter.py.
 
-## Triggers
-- **Daily Manager:** Executed as part of `autonomous_daily_manager.py`.
-- **Manual:** `python3 G04_ghost_schema_reporter.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G04_ghost_schema_reporter.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G04 Digital Twin Ecosystem` within the `meta` automation domain.
 
-## Inputs
-- **Predictions:** `ghost_predictions` table in `digital_twin_michal`.
-- **Actuals:** Queried from `autonomous_finance`, `autonomous_health`, and `autonomous_pantry`.
-- **Policies:** `autonomy_policies.yaml`.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Resolution:** Identifies pending predictions where the target date has reached.
-2.  **Comparison:** Fetches the actual value for the predicted domain/key.
-3.  **Accuracy Calculation:** Uses normalized error calculation: `1 - (|predicted - actual| / actual)`.
-4.  **Self-Calibration:**
-    *   **Finance:** If accuracy < 80%, reduces `max_rebalance_amount_pln` by 10% to require more human oversight.
-    *   **Health:** If accuracy < 85%, reduces `max_weight_increase_kg` to prevent aggressive overloading based on faulty trends.
-5.  **Persistence:** Updates the `ghost_predictions` table with results.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G04_ghost_schema_reporter.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Accuracy Report:** Markdown summary injected into the Daily Note.
-- **Policy Updates:** Direct modifications to `autonomy_policies.yaml`.
-- **Activity Log:** Records calibration events.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin Ecosystem](../../20_Systems/S04_Digital-Twin/README.md)
-- [S11 Meta-System Integration](../../20_Systems/S11_Meta-System-Integration/README.md)
+### Runtime
+- Python script: `modules/meta/scripts/G04_ghost_schema_reporter.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Actual Fetch Fail | Exception | Keeps prediction pending | Console |
-| YAML Write Fail | Exception | Logs failure | System Activity Log |
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `psycopg2`
+- `sys`
+- `yaml`
 
-## Monitoring
-- **Dashboard:** "Ghost Schema: Prediction Accuracy" section in the Daily Note.
+## Procedure
+1. Review the script source at `modules/meta/scripts/G04_ghost_schema_reporter.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G04_ghost_schema_reporter.py`.
+
+## Implementation Notes
+- Top-level functions: get_actual_value, get_pantry_confidence, calibrate_policies, run_reporter
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, yaml, modules.meta.scripts.G11_log_system, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

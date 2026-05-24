@@ -33,9 +33,27 @@ Ensure system-wide security, portability, and consistency by standardizing how D
 ### 3. Networking
 - **Autonomous Network:** All project-specific containers MUST share the `autonomous_network` to enable zero-configuration inter-service communication via container names (e.g., `DB_HOST=postgres`).
 
+### 4. Resource Constraints & Stability (NEW)
+**The "How and Why" of Current Settings:**
+- **Goal:** Transform a "best effort" homelab into a mission-critical "Autonomous OS" by eliminating random failures and OOM events.
+- **Why Memory Limits?** In a 19+ container stack, a single memory leak in a non-critical service (like an exporter) shouldn't be allowed to steal RAM from the Database or n8n. Strict limits force "fail-fast" behavior in leaking containers while protecting the core.
+- **Tiered Allocation Strategy:**
+    - **Tier 1: Core Hubs (2GB):** `postgres`, `n8n`. These handle high-concurrency SQL and LLM logic.
+    - **Tier 2: Middleware (512MB-1GB):** `authentik`, `rabbitmq`, `qdrant`. These are stable but need overhead for event spikes.
+    - **Tier 3: Leaf Services (64MB-256MB):** `exporters`, `apis`. Minimal footprint to maximize host efficiency.
+
+### 5. Service-Specific Tuning
+- **n8n Versioning:** Standardized on `docker.n8n.io/n8nio/n8n:latest` (Alpine).
+    - **Why:** The Debian image is significantly outdated (v0.x vs v2.x). To maintain security and features, we accept the lack of Python 3 in the standard Alpine image and delegate Python tasks to the host/dedicated containers.
+- **Postgres Optimization:** `shared_buffers` is set to 25% of the container limit (512MB of 2GB). This ensures Postgres has its own dedicated cache without relying on the host OS, improving consistency.
+- **RabbitMQ Safety:** `RABBITMQ_VM_MEMORY_HIGH_WATERMARK_RELATIVE=0.4` ensures RabbitMQ starts rejecting new messages before it hits the 512MB Docker limit. Without this, RabbitMQ would be OOM-killed during a message spike.
+
 ## Implementation Checklist
 - [x] Create root `.dockerignore`
 - [x] Synchronize `.env.example` with active `.env`
+- [x] Implement memory limits for all core services (2026-05-05)
+- [x] Tune RabbitMQ and Postgres for containerized environments (2026-05-05)
+- [x] Finalize n8n v1+ storage migration and environment cleanup (2026-05-05)
 - [ ] Refactor `docker-compose.yml` to use relative volume paths (Roadmap Task)
 
 ## Failure Modes

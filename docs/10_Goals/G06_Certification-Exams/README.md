@@ -65,11 +65,11 @@ Achieve targeted professional certifications that validate skills and enhance ca
 - Practice exam sites
 
 ## Key Links
-- Outcomes: [Outcomes.md](Outcomes.md)
-- Metrics: [Metrics.md](Metrics.md)
-- Systems: [Systems.md](Systems.md)
-- Roadmap: [Roadmap.md](Roadmap.md)
-- Activity Log: [Activity-log.md](Activity-log.md)
+- Outcomes: [Outcomes.md](../G02_Automationbro-Recognition/Outcomes.md)
+- Metrics: [Metrics.md](../G02_Automationbro-Recognition/Metrics.md)
+- Systems: [Systems.md](../G02_Automationbro-Recognition/Systems.md)
+- Roadmap: [Roadmap.md](../G02_Automationbro-Recognition/Roadmap.md)
+- Activity Log: [Activity-log.md](../Activity-log.md)
 
 ## Procedure
 1. **Quarterly:** Identify target certifications based on career goals

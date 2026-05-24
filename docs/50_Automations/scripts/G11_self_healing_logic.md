@@ -1,49 +1,89 @@
 ---
-title: "Self-Healing Logic (G11)"
+title: "Automation Spec: G11_self_healing_logic.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-24"
+updated: "2026-05-24"
+script_hash: "a{{LONG_IDENTIFIER}}"
 ---
 
-# Purpose
-The **Self-Healing Logic** (`G11_self_healing_logic.py`) provides system-level robustness by automatically recovering from common failures. It monitors the activity logs, retries failed scripts, and clears stale lock files to ensure continuous operation without manual intervention.
+# 🤖 Automation Spec: G11_self_healing_logic.py
 
-# Scope
-- **In Scope:** Retriable script failures, stale `/tmp/*.lock` files older than 30 minutes.
-- **Out Scope:** Critical financial scripts (G05 budget/liquidity rebalancers) requiring manual approval, persistent network outages.
+## Purpose
+G11_self_healing_logic.py.
 
-# Inputs/Outputs
-- **Inputs:** `system_activity_log` from the Digital Twin database.
-- **Outputs:** Script execution triggers and log activity.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_self_healing_logic.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-# Dependencies
-- **Systems:** S04 (Digital Twin), S08 (Automation Orchestrator), G11 (Meta-System)
-- **Database:** `digital_twin_michal` (activity log)
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-# Procedure
-- Executed by `autonomous_daily_manager.py` before and after parallel task execution.
-- Can be run manually: `python3 scripts/G11_self_healing_logic.py`.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_self_healing_logic.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-# Key Features
-- **Priority-Based Retry Policies:** Utilizes a `RETRY_POLICIES` map to assign specific limits based on script criticality.
-    - **API/Sync (Critical):** Up to 10 retries for `G04_digital_twin_api.py`.
-    - **Orchestration:** 5 retries for `G11_global_sync.py`.
-    - **Flaky APIs:** Limited to 2 retries for `G07_zepp_sync.py` to prevent rate-limiting.
-- **Manifest-Aware Recovery:** Automatically identifies script paths via name-mapping from the `system_activity_log`.
-- **Lock Sanitization:** Clears stale `.lock` files from `/tmp/` and the `scripts/` directory if they are older than 30 minutes.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
-# Failure Modes
+## Dependencies
+### Runtime
+- Python script: `modules/meta/scripts/G11_self_healing_logic.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `psycopg2`
+- `subprocess`
+- `sys`
+- `time`
+
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_self_healing_logic.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| Recursive Failure | Max retries reached (variable per script) | Log failure and skip; requires manual fix |
-| Database Offline | Script logs DB error | Fails silently to prevent crash during sync |
-| Permission Denied | subprocess.run error | Check sudo requirements for /tmp/ cleanup |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-# Security Notes
-- Script retries occur in the same environment as original scripts.
-- Uses `load_dotenv` for DB credentials.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-# Owner + Review Cadence
-- **Owner:** Michał
-- **Review:** Weekly (Goal G11 health check)
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_self_healing_logic.py`.
+
+## Implementation Notes
+- Top-level functions: find_script, clear_locks, run_self_healing
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `os, autonomous_sdk.db_config, time, sys, modules.meta.scripts.G11_log_system, datetime, psycopg2, subprocess`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

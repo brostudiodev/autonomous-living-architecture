@@ -11,19 +11,19 @@ updated: "2026-04-12"
 ## 🧭 Interactive Goal Index
 Click on a goal to view its full documentation, outcomes, and roadmap:
 
-1.  **[✅ G01: Target Body Fat](./G01_Target-Body-Fat/README.md)** (Health Optimization)
-2.  **[✅ G02: Automationbro Recognition](./G02_Automationbro-Recognition/README.md)** (Personal Brand)
-3.  **[🟡 G03: Autonomous Household](./G03_Autonomous-Household-Operations/README.md)** (Pantry & Logistics)
-4.  **[🟡 G04: Digital Twin Ecosystem](./G04_Digital-Twin-Ecosystem/README.md)** (Central Intelligence)
-5.  **[🟡 G05: Autonomous Financial Command](./G05_Autonomous-Financial-Command-Center/README.md)** (Wealth)
-6.  **[✅ G06: Certification Exams](./G06_Certification-Exams/README.md)** (Learning)
-7.  **[🟡 G07: Predictive Health](./G07_Predictive-Health-Management/README.md)** (Biometrics)
-8.  **[✅ G08: Predictive Smart Home](./G08_Predictive-Smart-Home-Orchestration/README.md)** (Environment)
-9.  **[🟡 G09: Automated Career Intelligence](./G09_Automated-Career-Intelligence/README.md)** (Professional)
-10. **[🟡 G10: Intelligent Productivity](./G{{LONG_IDENTIFIER}}/README.md)** (Time & Tasks)
-11. **[🟡 G11: Meta-System Integration](./G11_Meta-System-Integration-Optimization/README.md)** (Optimization)
-12. **[🟡 G12: Complete Process Documentation](./G12_Complete-Process-Documentation/README.md)** (Governance)
-13. **[🟡 G13: Autonomous Content Engine](./G13_Autonomous-Content-Engine/README.md)** (Content & Brand)
+1.  **[✅ G01: Target Body Fat](../20_Systems/README.md)** (Health Optimization)
+2.  **[✅ G02: Automationbro Recognition](../20_Systems/README.md)** (Personal Brand)
+3.  **[🟡 G03: Autonomous Household](../20_Systems/README.md)** (Pantry & Logistics)
+4.  **[🟡 G04: Digital Twin Ecosystem](../20_Systems/README.md)** (Central Intelligence)
+5.  **[🟡 G05: Autonomous Financial Command](../20_Systems/README.md)** (Wealth)
+6.  **[✅ G06: Certification Exams](../20_Systems/README.md)** (Learning)
+7.  **[🟡 G07: Predictive Health](../20_Systems/README.md)** (Biometrics)
+8.  **[✅ G08: Predictive Smart Home](../20_Systems/README.md)** (Environment)
+9.  **[🟡 G09: Automated Career Intelligence](../20_Systems/README.md)** (Professional)
+10. **[🟡 G10: Intelligent Productivity](../20_Systems/README.md)** (Time & Tasks)
+11. **[🟡 G11: Meta-System Integration](../20_Systems/README.md)** (Optimization)
+12. **[🟡 G12: Complete Process Documentation](../20_Systems/README.md)** (Governance)
+13. **[🟡 G13: Autonomous Content Engine](../20_Systems/README.md)** (Content & Brand)
 
 ## How to use
 Each goal folder contains:
@@ -38,9 +38,9 @@ New to tracking? Start here:
 
 | Document | Purpose |
 |----------|---------|
-| **[Digital Twin Tracking Summary](./Digital_Twin_Tracking_Summary.md)** | Quick reference for what's tracked |
-| **[Gap Analysis](./GAP_Digital_Twin_Data_Streams.md)** | What's missing and why it matters |
-| **[Implementation Plan](./IMP_Digital_Twin_Tracking_Implementation_Plan.md)** | How to implement new tracking |
+| **[Digital Twin Tracking Summary](Digital_Twin_Tracking_Summary.md)** | Quick reference for what's tracked |
+| **[Gap Analysis](GAP_Digital_Twin_Data_Streams.md)** | What's missing and why it matters |
+| **[Implementation Plan](IMP_Digital_Twin_Tracking_Implementation_Plan.md)** | How to implement new tracking |
 
 ### SQL Schemas (Ready to Run)
 Located in `../20_Systems/S03_Data-Layer/schemas/`:

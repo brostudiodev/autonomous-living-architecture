@@ -2,49 +2,88 @@
 title: "Automation Spec: G13_substack_scheduler.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G13_substack_scheduler"
-goal_id: "goal-g13"
-systems: ["S02", "S04"]
-owner: "Michał"
-updated: "2026-04-09"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "75006b783047876a824708a0eff95f4621effe53747531428e40834e9324b8e0"
 ---
 
 # 🤖 Automation Spec: G13_substack_scheduler.py
 
 ## Purpose
-Bridges the gap between n8n content generation and final publication. It allows the user to "Schedule" an Obsidian Substack draft for publication by converting it into a high-priority Google Task with a direct link and target time.
+G13_substack_scheduler.py.
 
-## Triggers
-- **Command:** Triggered via Telegram/API `/schedule_substack [draft_name]`.
-- **Manual:** `python3 G13_substack_scheduler.py [filename]`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/content/scripts/G13_substack_scheduler.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G13 Autonomous Content Engine` within the `content` automation domain.
 
-## Inputs
-- **Obsidian Drafts:** `Obsidian Vault/00_Inbox/Substack Drafts/*.md`.
-- **Target Time:** Logic defaults to the next available 09:00 AM.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **File Search:** Locates the specific draft in the Substack Drafts folder.
-2. **Metadata Extraction:** Extracts the title from the file's YAML frontmatter.
-3. **Task Creation:** Calls the Google Tasks API via `G10_google_tasks_sync.py` to create a "PUBLISH" task.
-4. **Visibility:** Injects the task into the "Content (Autonomous)" list.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G13_substack_scheduler.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Google Task:** A "🚀 PUBLISH: Substack - [Title]" task.
-- **System Activity Log:** Records the scheduling success.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
 
 ## Dependencies
-### Systems
-- [S02 Brand System](../../20_Systems/S12_LinkedIn-Ideas-System/README.md)
-- [S10 Productivity System](../../20_Systems/S09_Productivity-Time/README.md)
+### Runtime
+- Python script: `modules/content/scripts/G13_substack_scheduler.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-### External Services
-- Google Tasks API
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `modules.meta.scripts.G11_log_system`
+- `modules.productivity.scripts.G10_google_tasks_sync`
+- `os`
+- `re`
+- `sys`
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Draft Not Found | `os.path.exists()` fails | Return error to API | Telegram alert |
-| API Error | Google Tasks fail | Mark as failure | System Activity Log |
+## Procedure
+1. Review the script source at `modules/content/scripts/G13_substack_scheduler.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Monitoring
-- Success metric: Number of content drafts successfully moved to the "Scheduled" state.
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G13_substack_scheduler.py`.
+
+## Implementation Notes
+- Top-level functions: schedule_draft
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `re, datetime, os, autonomous_sdk.db_config, json, modules.meta.scripts.G11_log_system, sys, modules.productivity.scripts.G10_google_tasks_sync`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

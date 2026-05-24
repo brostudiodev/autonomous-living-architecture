@@ -1,61 +1,92 @@
 ---
-title: "G07: Withings Direct API Sync"
+title: "Automation Spec: G07_withings_direct_sync.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G07_withings_direct_sync.py"
-goal_id: "goal-g07"
-systems: ["S03", "S07"]
-owner: "Michał"
-updated: "2026-04-15"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "88{{LONG_IDENTIFIER}}"
 ---
 
-# G07: Withings Direct API Sync
+# 🤖 Automation Spec: G07_withings_direct_sync.py
 
 ## Purpose
-Directly synchronizes comprehensive body composition data from the Withings Health API to the central `autonomous_health.biometrics` database. This script replaces the legacy two-step Google Sheets synchronization to reduce latency, eliminate failure points, and capture additional metrics (muscle, bone, hydration).
+G07_withings_direct_sync.py.
 
-## Key Features
-- **Direct API Integration:** Connects directly to Withings OAuth2 API for high-reliability data fetching.
-- **Comprehensive Metrics:** Tracks weight, body fat %, muscle mass, bone mass, and hydration.
-- **Enhanced Data Fidelity:** Automatically calculates body fat percentage if mass data is available.
-- **Idempotent Upsert:** Uses PostgreSQL `ON CONFLICT` logic to update daily records without duplication.
-- **Audit Mode Support:** Includes a dedicated mode (`AUDIT_MODE=1`) for verifying API and database connectivity.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/health/scripts/G07_withings_direct_sync.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G07 Predictive Health Management` within the `health` automation domain.
 
-## Triggers
-- **Automated:** Part of the `G11_global_sync.py` registry (runs multiple times daily).
-- **Manual:** `python3 scripts/G07_withings_direct_sync.py`
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Inputs
-- **API:** Withings Measure API (`getmeas`).
-- **Database:** `autonomous_health` (Table: `biometrics`).
-- **Credentials:** `withings_tokens.json` (OAuth2 tokens).
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G07_withings_direct_sync.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Processing Logic
-1.  **Authentication:** Loads and refreshes Withings OAuth2 tokens as needed.
-2.  **Extraction:** Fetches the last 30 days of measurement groups from the Withings API.
-3.  **Data Transformation:** 
-    - Extracts weight, fat mass, muscle mass, bone mass, and hydration.
-    - Calculates `body_fat_pct` (Fat Mass / Weight * 100).
-4.  **Database Injection:** Upserts data into the `biometrics` table, updating existing records for the same date.
-
-## Outputs
-- **PostgreSQL:** Updated records in `autonomous_health.biometrics`.
-- **System Activity Log:** Reports success/failure and the number of records processed.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
+- HTTP requests to configured local or external service endpoints.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [G07 Predictive Health](../../10_Goals/G07_Predictive-Health-Management/README.md)
+### Runtime
+- Python script: `modules/health/scripts/G07_withings_direct_sync.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Auth Token Expired | 401 Response | Attempts token refresh | System Activity Log |
-| Refresh Token Expired | Refresh Fail | Logs error, requires manual rerun of `withings_to_sheets.py` | Console / Telegram |
-| DB Connection Fail | `psycopg2` exception | Logs error, exits | System Activity Log |
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `dotenv`
+- `json`
+- `os`
+- `pathlib`
+- `psycopg2`
+- `requests`
+- `sys`
 
-## Manual Fallback
-If weight data is missing:
-1.  Verify the scale is syncing to the Withings Health app.
-2.  Run `python3 scripts/G07_withings_direct_sync.py` manually.
-3.  If tokens are dead, run `python3 scripts/withings_to_sheets.py` to trigger the browser-based OAuth2 flow.
+## Procedure
+1. Review the script source at `modules/health/scripts/G07_withings_direct_sync.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G07_withings_direct_sync.py`.
+
+## Implementation Notes
+- Top-level functions: get_measure_value, sync_withings
+- Top-level classes: WithingsClient
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, pathlib, datetime, os, autonomous_sdk.db_config, json, sys, dotenv, requests`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

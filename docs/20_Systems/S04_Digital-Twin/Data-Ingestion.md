@@ -4,7 +4,7 @@ type: "system_data_ingestion"
 status: "complete"
 system_id: "S04"
 owner: "Michał"
-updated: "2026-02-10"
+updated: "2026-05-10"
 ---
 
 # S04: Digital Twin Data Ingestion Pipelines
@@ -112,34 +112,36 @@ This document outlines the initial data ingestion pipelines for populating the D
 }
 ```
 
-## Integration with Digital Twin GraphQL API (Ready for Implementation)
+## Integration with Digital Twin REST API (Production)
 
-Once the GraphQL API layer is implemented:
-1. Replace direct PostgreSQL inserts with GraphQL mutations
-2. Enable real-time synchronization with change events
-3. Add subscription-based updates for client applications
-4. Implement proper authentication and authorization
+The system now uses a FastAPI REST API for state management:
+1. All ingestion pipelines push data via standard POST/PUT requests to the FastAPI Gateway.
+2. Real-time synchronization is handled via the `/state/update` and `/emit` endpoints.
+3. The API acts as a validation layer before persisting data to the S03 Data Layer.
 
-**GraphQL Mutations** (prepared):
-```graphql
-mutation UpdatePersonEntity($input: PersonEntityInput!) {
-  updatePersonEntity(input: $input) {
-    entity_id
-    last_updated
-  }
-}
+**API Update Examples** (Standardized):
+```bash
+# Update Person Entity
+curl -X POST "http://localhost:5677/state/update" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "entity_type": "person",
+       "entity_id": "michal",
+       "data": { "health_metrics": { "focus_score": 88 } }
+     }'
 
-mutation UpdateGoalEntity($input: GoalEntityInput!) {
-  updateGoalEntity(input: $input) {
-    entity_id
-    progress_percentage
-    status
-  }
-}
+# Update Goal Progress
+curl -X POST "http://localhost:5677/state/update" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "entity_type": "goal",
+       "entity_id": "G04",
+       "data": { "progress_percentage": 75 }
+     }'
 ```
 
 ## Related Documentation
-- [Digital Twin Data Models](./Data-Models.md)
-- [S03 Data Layer README](../../20_Systems/S03_Data-Layer/README.md)
+- [Digital Twin Data Models](Data-Models.md)
+- [S03 Data Layer README](../README.md)
 - [WF105 Pantry Management AI Agent](../../50_Automations/n8n/workflows/WF105__pantry-management.md)
-- [Pantry Management System](../../10_Goals/G03_Autonomous-Household-Operations/README.md)
+- [Pantry Management System](../README.md)

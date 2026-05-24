@@ -1,37 +1,88 @@
 ---
-title: "G04: Knowledge Decay Monitor"
+title: "Automation Spec: G04_knowledge_decay_monitor.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G04_knowledge_decay_monitor"
-goal_id: "goal-g04"
-systems: ["S04", "S11"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "5{{LONG_IDENTIFIER}}"
 ---
 
-# G04: Knowledge Decay Monitor
+# 🤖 Automation Spec: G04_knowledge_decay_monitor.py
 
 ## Purpose
-Maintains the integrity of the Second Brain (Obsidian) by identifying "Orphaned" notes (no internal links) and "Dying" notes (active project notes not updated in >30 days).
+G04_knowledge_decay_monitor.py.
 
-## Triggers
-- Scheduled: Part of the `autonomous_daily_manager.py` daily sync cycle.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G04_knowledge_decay_monitor.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G04 Digital Twin Ecosystem` within the `meta` automation domain.
 
-## Inputs
-- Filesystem: `Obsidian Vault` (Markdown files).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Scan:** Iterate through all markdown files in the vault.
-2. **Orphan Check:** Identify notes that contain zero `[[` wiki-link brackets.
-3. **Decay Check:** For notes with `status: active` in YAML, compare the last modification time to current date.
-4. **Alert:** Generate a summary of orphans and stale notes.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G04_knowledge_decay_monitor.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- Integrity report injected into the Digital Twin status.
-- Activity log entry.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Large Vault Timeout | Script takes >60s | Optimize scan or skip subfolders | Log Warning |
-| Permission Denied | OS error | Log failure | Log Warning |
+## Dependencies
+### Runtime
+- Python script: `modules/meta/scripts/G04_knowledge_decay_monitor.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
+
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `pathlib`
+- `re`
+
+## Procedure
+1. Review the script source at `modules/meta/scripts/G04_knowledge_decay_monitor.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G04_knowledge_decay_monitor.py`.
+
+## Implementation Notes
+- Top-level functions: audit_knowledge_integrity
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `re, pathlib, datetime, os, autonomous_sdk.db_config, modules.meta.scripts.G11_log_system`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

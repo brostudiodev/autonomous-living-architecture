@@ -41,8 +41,8 @@ A JSON object containing the `response_text`, `chat_id`, `source_type`, and othe
 
 ## Dependencies
 ### Systems
-- [S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md)
-- [S07 Smart-Home](../../../20_Systems/S07_Smart-Home/README.md)
+- [S03 Data Layer](../../../20_Systems/README.md)
+- [S07 Smart-Home](../../../20_Systems/README.md)
 
 ### External Services
 - Google Sheets API
@@ -66,4 +66,4 @@ A JSON object containing the `response_text`, `chat_id`, `source_type`, and othe
 If the automation fails, the inventory can be managed by manually editing the Google Sheet: `https://docs.google.com/spreadsheets/d/{{SPREADSHEET_ID}}/edit`
 
 ## Related Documentation
-- [WF002: SVC_Command-Handler](./WF002__svc-command-handler.md)
+- [WF002: SVC_Command-Handler](WF002__svc-command-handler.md)

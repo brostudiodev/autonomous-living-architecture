@@ -42,9 +42,9 @@ Agent Zero possesses 37+ specialized tools, including:
 
 ## Dependencies
 ### Systems
-- [Digital Twin Ecosystem (G04)](../../../10_Goals/G04_Digital-Twin-Ecosystem/README.md)
-- [Automation Orchestrator (S08)](../../../20_Systems/S08_Automation-Orchestrator/README.md) - n8n engine.
-- [Data Layer (S03)](../../../20_Systems/S03_Data-Layer/README.md) - PostgreSQL databases.
+- [Digital Twin Ecosystem (G04)](../../../20_Systems/README.md)
+- [Automation Orchestrator (S08)](../../../20_Systems/README.md) - n8n engine.
+- [Data Layer (S03)](../../../20_Systems/README.md) - PostgreSQL databases.
 
 ### External Services
 - **Google Gemini API:** Core LLM reasoning.

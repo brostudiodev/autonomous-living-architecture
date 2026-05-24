@@ -134,12 +134,12 @@ The agent has access to Google Calendar tools:
 ## Dependencies
 
 ### Systems
-- [S04 Digital Twin](../../../20_Systems/S04_Digital-Twin/README.md) - State queries
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md) - Workflow execution
-- [S10 Intelligent Productivity](../../../20_Systems/S09_Productivity-Time/README.md) - Calendar data
+- [S04 Digital Twin](../../../20_Systems/README.md) - State queries
+- [S08 Automation Orchestrator](../../../20_Systems/README.md) - Workflow execution
+- [S10 Intelligent Productivity](../../../20_Systems/README.md) - Calendar data
 
 ### Called By
-- [ROUTER_Intelligent-Hub.md](./ROUTER_Intelligent-Hub.md) - Via `calendar` intent
+- [ROUTER_Intelligent-Hub.md](ROUTER_Intelligent-Hub.md) - Via `calendar` intent
 
 ### External Services
 - **Google Gemini API** - LLM reasoning (gemini-flash-lite-latest)

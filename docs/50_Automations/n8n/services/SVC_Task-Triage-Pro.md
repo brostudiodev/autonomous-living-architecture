@@ -6,7 +6,7 @@ automation_id: "SVC_Task-Triage"
 goal_id: "goal-g11"
 systems: ["S08", "S11"]
 owner: "Michał"
-updated: "2026-04-23"
+updated: "2026-05-19"
 ---
 
 # SVC: Task-Triage-Pro
@@ -16,6 +16,7 @@ The **Task Triage Pro** workflow autonomously prioritizes and categorizes Google
 
 ## Triggers
 - **Schedule Trigger:** Runs daily at 07:00 AM.
+- **Webhook Trigger:** Accessible via `POST /webhook/task-triage`. Enables event-driven triage (e.g., triggered immediately after Zepp biometrics sync).
 - **Manual Trigger:** Can be executed manually via n8n UI.
 
 ## Inputs
@@ -24,7 +25,8 @@ The **Task Triage Pro** workflow autonomously prioritizes and categorizes Google
 
 ## Processing Logic
 1. **Data Fetching:** Retrieves readiness score and current task list from the Digital Twin API.
-   - **Timeout (Updated Apr 23):** 60s (Increased from 15s to accommodate agentic `/todos` processing).
+   - **Timeout:** 60s.
+   - **Lazy Initialization (Added May 19):** Digital Twin API now automatically refreshes health data if the state is empty (e.g., after system restart), ensuring readiness data is always present.
 2. **Data Validation:** Ensures both biometrics and tasks are available before proceeding.
 3. **LLM Triage (Gemini 2.5 Flash):**
    - Categorizes tasks into: `URGENT_TODAY`, `BACKLOG`, `RECOVERY`, `NOTE_TO_OBSIDIAN`, `HABIT`.
@@ -39,8 +41,8 @@ The **Task Triage Pro** workflow autonomously prioritizes and categorizes Google
 ## Dependencies
 ### Systems
 - [Digital Twin API (S04)](../../../20_Systems/S00_Homelab-Platform/Architecture.md)
-- [n8n Automation Hub (S08)](../README.md)
-- [PostgreSQL (S03)](../../../20_Systems/S03_Data-Layer/README.md)
+- [n8n Automation Hub (S08)](../../../20_Systems/README.md)
+- [PostgreSQL (S03)](../../../20_Systems/README.md)
 
 ## Error Handling
 | Failure Scenario | Detection | Response | Alert |
@@ -50,4 +52,4 @@ The **Task Triage Pro** workflow autonomously prioritizes and categorizes Google
 | DB Write Fail | Postgres Node | Log failure and details | Gmail Alert |
 
 ---
-*Updated: 2026-04-23 | Increased API timeouts to 60s to resolve fetch failures.*
+*Updated: 2026-05-19 | Increased API timeouts to 60s to resolve fetch failures.*

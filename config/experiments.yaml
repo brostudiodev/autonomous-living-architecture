@@ -1,0 +1,115 @@
+# 🤖 Personal Experiments Configuration
+# A/B testing framework for optimizing behaviors and routines
+
+experiments:
+  - id: "sleep_timing_01"
+    name: "Sleep Timing Optimization"
+    description: "Test impact of earlier sleep (22:30) vs later (23:30) on readiness"
+    status: "active"
+    schedule: "daily"
+    duration_days: 7
+    
+    variants:
+      - "early_sleep"  # 22:30
+      - "late_sleep"  # 23:30
+    
+    variant_instructions:
+      early_sleep: "Target bedtime: 22:30. Set alarm for 06:00."
+      late_sleep: "Target bedtime: 23:30. Set alarm for 06:30."
+    
+    target_metric: "readiness_score"
+    success_threshold: 75
+    direction: "higher"
+    
+    policy_key: "health.sleep_timing"
+    
+    metrics_to_track:
+      - "readiness_score"
+      - "hrv"
+      - "sleep_quality"
+      - "mood_rating"
+
+  - id: "workout_timing_01"
+    name: "Morning vs Evening Workout"
+    description: "Test morning (07:00) vs evening (18:00) workouts on performance"
+    status: "pending"
+    schedule: "daily"
+    duration_days: 14
+    
+    variants:
+      - "morning_workout"  # 07:00
+      - "evening_workout"  # 18:00
+    
+    variant_instructions:
+      morning_workout: "Complete workout by 08:00. Track perceived energy."
+      evening_workout: "Complete workout between 18:00-19:30. Track perceived energy."
+    
+    target_metric: "workout_rpe"
+    success_threshold: 7
+    direction: "lower"  # Lower RPE = better
+    
+    policy_key: "health.workout_scheduling"
+    
+    metrics_to_track:
+      - "workout_rpe"  # Rate of perceived exertion
+      - "readiness_next_day"
+      - "sleep_quality"
+
+  - id: "caffeine_cutoff_01"
+    name: "Caffeine Cutoff Time"
+    description: "Test 14:00 vs 16:00 caffeine cutoff on sleep quality"
+    status: "pending"
+    schedule: "daily"
+    duration_days: 7
+    
+    variants:
+      - "cutoff_14"  # No caffeine after 14:00
+      - "cutoff_16"  # No caffeine after 16:00
+    
+    variant_instructions:
+      cutoff_14: "Last caffeine intake by 14:00. Log all drinks."
+      cutoff_16: "Last caffeine intake by 16:00. Log all drinks."
+    
+    target_metric: "rem_sleep_minutes"
+    success_threshold: 90
+    direction: "higher"
+    
+    policy_key: "health.caffeine_policy"
+    
+    metrics_to_track:
+      - "rem_sleep_minutes"
+      - "deep_sleep_minutes"
+      - "sleep_quality"
+
+  - id: "focus_block_01"
+    name: "Focus Block Duration"
+    description: "Test 90-min vs 45-min focus blocks on productivity"
+    status: "pending"
+    schedule: "daily"
+    duration_days: 7
+    
+    variants:
+      - "long_blocks"  # 90 min
+      - "short_blocks"  # 45 min
+    
+    variant_instructions:
+      long_blocks: "Work in 90-minute deep focus blocks with 15-min breaks."
+      short_blocks: "Work in 45-minute focused sprints with 5-min breaks."
+    
+    target_metric: "tasks_completed"
+    success_threshold: 8
+    direction: "higher"
+    
+    policy_key: "productivity.focus_strategy"
+    
+    metrics_to_track:
+      - "tasks_completed"
+      - "deep_work_hours"
+      - "energy_rating"
+
+# Global experiment settings
+settings:
+  randomization: "random"  # random | alternating
+  min_samples: 5  # Minimum data points before evaluation
+  auto_evaluate: true
+  notify_on_complete: true

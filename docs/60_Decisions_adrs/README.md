@@ -15,30 +15,36 @@ This directory contains Architecture Decision Records (ADRs) that document impor
 ## ADR Index
 
 ### **Strategic Architecture Decisions**
-- [Adr-0001](./Adr-0001-Repo-Structure.md) - Repository Structure & Organization
-- [Adr-0002](./Adr-0002-Pantry-Polish-Schema.md) - Pantry Polish Language Schema
-- [Adr-0003](./Adr-0003-Technology-Stack-Selection.md) - Technology Stack Selection
-- [Adr-0004](./Adr-0004-Digital-Twin-Architecture.md) - Digital Twin as Central Hub
-- [Adr-0005](./Adr-0005-Foundation-First-Strategy.md) - Foundation-First Goal Strategy
-- [Adr-0006](./Adr-0006-PostgreSQL-Partitioning-Strategy.md) - PostgreSQL Partitioning Strategy
-- [Adr-0007](./Adr-0007-Multi-Channel-Data-Ingestion.md) - Multi-Channel Data Ingestion
-- [Adr-0015](./Adr-0015-Level-5-Autonomy-Implementation.md) - Level 5 Autonomy Implementation (Zero-Click Loop)
-- [Adr-0016](./Adr-0016-Event-Driven-Architecture.md) - Event-Driven Architecture (LISTEN/NOTIFY)
-- [Adr-0017](./Adr-0017-Decision-Authority-Framework.md) - Decision Authority Framework (Rules Engine)
-- [Adr-0018](./Adr-0018-Standardized-Timeouts.md) - Standardized Timeouts and Syntax Hardening
-- [Adr-0019](./Adr-0019-Silent-Mode-and-Recursion-Prevention.md) - Silent Mode and Sync Recursion Prevention
+- [Adr-0001](Adr-0001-Repo-Structure.md) - Repository Structure & Organization
+- [Adr-0002](Adr-0002-Pantry-Polish-Schema.md) - Pantry Polish Language Schema
+- [Adr-0003](Adr-0003-Technology-Stack-Selection.md) - Technology Stack Selection
+- [Adr-0004](Adr-0004-Digital-Twin-Architecture.md) - Digital Twin as Cortex & Memory Node
+- [Adr-0005](Adr-0005-Foundation-First-Strategy.md) - Foundation-First Goal Strategy
+- [Adr-0006](Adr-0006-PostgreSQL-Partitioning-Strategy.md) - PostgreSQL Partitioning Strategy
+- [Adr-0007](Adr-0007-Multi-Channel-Data-Ingestion.md) - Multi-Channel Data Ingestion
+- [Adr-0015](Adr-0015-Level-5-Autonomy-Implementation.md) - Level 5 Autonomy Implementation (Zero-Click Loop)
+- [Adr-0016](Adr-0016-Event-Driven-Architecture.md) - Event-Driven Architecture (RabbitMQ Hybrid)
+- [Adr-0017](Adr-0017-Decision-Authority-Framework.md) - Decision Authority Framework (Rules Engine)
+- [Adr-0018](Adr-0018-Standardized-Timeouts.md) - Standardized Timeouts and Syntax Hardening
+- [Adr-0019](Adr-0019-Silent-Mode-and-Recursion-Prevention.md) - Silent Mode and Sync Recursion Prevention
+- [Adr-0025: CDC Architecture](Adr-0025-Postgres-CDC-Architecture.md)
+- [Adr-0026: Unified Search Optimization](Adr-0026-Unified-Search-Optimization.md)
+- [Adr-0027: Container Resource Rationalization](Adr-0027-Container-Resource-Rationalization.md)
+- [Adr-0028: Centralized Auth & Credential Relocation](Adr-0028-Centralized-Auth-Credential-Relocation.md)
+- [Adr-0029: PgBouncer Activation & Connection Pooling](Adr-0029-PgBouncer-Activation-Connection-Pooling.md)
+- [Adr-0031](Adr-0031-Life-Nervous-System-Architecture.md) - **The Life-Nervous-System Architecture (Mesh of Agents)**
 
 ### **Data & Metrics Decisions**
-- [Adr-0008](./Adr-0008-Real-Savings-Rate-Calculation.md) - Real Savings Rate Calculation
-- [Adr-0014](./Adr-0014-Centralized-System-Observability-and-ROI.md) - Centralized System Observability and ROI
+- [Adr-0008](Adr-0008-Real-Savings-Rate-Calculation.md) - Real Savings Rate Calculation
+- [Adr-0014](Adr-00{{LONG_IDENTIFIER}}.md) - Centralized System Observability and ROI
 
 ### **Integration & Routing Decisions**
-- [Adr-0010](./Adr-0010-Hub-and-Spoke-Integration.md) - Hub-and-Spoke Integration Pattern
-- [Adr-0011](./Adr-0011-Hardcoded-User-ID-in-Router.md) - Hardcoded User ID in Router (Technical Debt)
-- [Adr-0012](./Adr-0012-Rule-Based-Intent-Classification.md) - Rule-Based Intent Classification
+- [~~Adr-0010~~](Adr-0010-Hub-and-Spoke-Integration.md) - ~~Hub-and-Spoke Integration Pattern~~ (Superseded by Adr-0031)
+- [Adr-0011](Adr-0011-Hardcoded-User-ID-in-Router.md) - Hardcoded User ID in Router (Technical Debt)
+- [Adr-0012](Adr-0012-Rule-Based-Intent-Classification.md) - Rule-Based Intent Classification
 
 ### **Security & Hardening Decisions**
-- [Adr-0013](./Adr-0013-Security-Hardening-and-Secrets-Management.md) - Security Hardening and Secrets Management
+- [Adr-0013](Adr-00{{LONG_IDENTIFIER}}.md) - Security Hardening and Secrets Management
 
 ## Missing ADRs (Gaps Identified)
 
@@ -49,7 +55,7 @@ This directory contains Architecture Decision Records (ADRs) that document impor
 See [Documentation Standard](../10_Goals/Documentation-Standard.md) for ADR creation rules.
 
 ---
-*Last updated: 2026-04-12*
+*Last updated: 2026-05-09*
 ---
 
 ## ☕ Fuel the Architecture

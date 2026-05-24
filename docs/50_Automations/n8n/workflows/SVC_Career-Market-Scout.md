@@ -33,5 +33,5 @@ This n8n service workflow proactively monitors the job market for target roles (
 ```
 
 ## Related Documentation
-- [Goal: G09 Career Intelligence](../../../10_Goals/G09_Automated-Career-Intelligence/README.md)
+- [Goal: G09 Career Intelligence](../../../20_Systems/README.md)
 - [Script: Market Scout Handler](../../scripts/G09_market_scout_handler.md)

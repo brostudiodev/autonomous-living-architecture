@@ -32,8 +32,8 @@ Automated evening workflow that provides AI-generated reflection prompts based o
 
 ## Dependencies
 ### Systems
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md)
-- [S04 Digital Twin](../../../20_Systems/S04_Digital-Twin/README.md)
+- [S08 Automation Orchestrator](../../../20_Systems/README.md)
+- [S04 Digital Twin](../../../20_Systems/README.md)
 
 ### External Services
 - Telegram Bot.

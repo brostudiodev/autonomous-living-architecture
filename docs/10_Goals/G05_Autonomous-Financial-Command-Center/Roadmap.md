@@ -25,17 +25,18 @@ updated: "2026-04-19"
 > [!tip] 🚀 **NEW: Financial Wealth & Autonomy Layer (Q3 Focus)**
 - [x] **Financial Wealth Dashboard (G05-FWD):** Track Net Worth and FIRE milestones using historical savings rate and asset performance. ✅ (Completed 2026-04-27 via `G05_net_worth_snapshot.py`)
 - [x] **FIRE Progress Integration:** Automated calculation of FIRE % and inclusion in Daily Mission. ✅ (Completed 2026-04-27)
-- [ ] **FIRE Calculator:** Multi-year projections based on current burn rate vs investment growth.
-- [ ] **Asset Allocation Audit:** Monthly AI-powered review of diversification strategies.
+- [x] **FIRE Calculator:** Multi-year projections based on current burn rate vs investment growth. ✅ (May 05)
+- [x] **Asset Allocation Audit:** Monthly AI-powered review of diversification strategies. ✅ (May 05)
 
 > [!tip] 🚀 **Q2 Focus: System Stability & Minor Improvements**
-- [ ] **System Stability Audit:** Verify all financial automations working reliably
-  - [ ] **Sub-task: Transaction Sync Check** - Ensure bank data imports without gaps
-  - [ ] **Sub-task: Budget Alert Check** - Verify notifications trigger correctly
-  - [ ] **Sub-task: Rebalancer Check** - Test automated budget movements
+- [x] **System Stability Audit:** Verify all financial automations working reliably ✅ (May 05)
+  - [x] **Sub-task: Transaction Sync Check** - Ensure bank data imports without gaps ✅ (May 05)
+  - [x] **Sub-task: Budget Alert Check** - Verify notifications trigger correctly ✅ (May 05)
+  - [x] **Sub-task: Rebalancer Check** - Test automated budget movements ✅ (May 05)
 - [ ] **Minor Improvements:**
-  - [ ] **Sub-task: Categorization Accuracy** - Review and improve transaction categorization
-  - [ ] **Sub-task: Forecast Calibration** - Adjust predictive models based on recent accuracy
+  - [x] **Sub-task: Categorization Accuracy** - Review and improve transaction categorization (Added 'Garden' and 'Public Services' categories) ✅ (May 06)
+  - [x] **Sub-task: Person-Specific Tracking** - Implement synchronization and analysis for individual family members (Column M) ✅ (May 06)
+  - [x] **Sub-task: Forecast Calibration** - Adjust predictive models based on recent accuracy ✅ (May 05)
 
 > [!tip] 🚀 **NEW: Financial Deep Metrics (Wealth Layer)**
 > **Gap:** G05 tracks cash flow but missing wealth-building visibility for true financial autonomy.

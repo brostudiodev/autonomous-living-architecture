@@ -1,49 +1,85 @@
 ---
-title: "G12_weekly_note_backfiller: Obsidian Graph Integrity"
+title: "Automation Spec: G12_weekly_note_backfiller.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G12_weekly_note_backfiller"
-goal_id: "goal-g12"
-systems: ["S12"]
-owner: "Michał"
-updated: "2026-04-27"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "0943{{LONG_IDENTIFIER}}"
 ---
 
-# G12: Weekly Note Backfiller
+# 🤖 Automation Spec: G12_weekly_note_backfiller.py
 
 ## Purpose
-Ensures the structural integrity of the Obsidian Second Brain by identifying and backfilling missing weekly review notes. This resolves broken Wikilinks in daily notes and maintains a continuous historical record for the 2026 North Star vision.
+Runs the weekly note backfiller automation for Complete Process Documentation.
 
-## Triggers
-- **Manual:** `python scripts/G12_weekly_note_backfiller.py`
-- **Maintenance:** Run during system stability audits to clean up navigation debt.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/docs/scripts/G12_weekly_note_backfiller.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G12 Complete Process Documentation` within the `docs` automation domain.
 
-## Inputs
-- **Template:** `99_System/Templates/Weekly/Weekly Review Template.md`
-- **Target Directory:** `03_Areas/A - Systems/Reviews/`
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Gap Analysis**: Scans the target directory for missing weekly notes from 2025-W01 to the current 2026 week.
-2. **Templating**: For each missing week, it loads the standard Weekly Review Template.
-3. **Variable Replacement**:
-    - `{{date:YYYY-[W]WW}}` -> Week identifier (e.g., 2026-W17).
-    - `{{date:YYYY-MM-DD}}` -> Monday of that week.
-    - `{{date+6d:YYYY-MM-DD}}` -> Sunday of that week.
-    - `{{north_star}}` -> 2026 North Star link.
-4. **File Creation**: Writes the populated template to the appropriate year-prefixed filename.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G12_weekly_note_backfiller.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Markdown Files**: Missing weekly notes in the specified reviews folder.
-- **Console**: Summary of how many notes were backfilled.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
 
 ## Dependencies
-- **System**: [S11 Meta-System Integration](../../20_Systems/S11_Meta-System-Integration/README.md)
-- **Path**: `{{ROOT_LOCATION}}/Obsidian Vault`
+### Runtime
+- Python script: `modules/docs/scripts/G12_weekly_note_backfiller.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-## Monitoring
-- **Success Metric**: Zero broken links to weekly notes in the Obsidian "Link Audit" report.
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `os`
+- `pathlib`
+
+## Procedure
+1. Review the script source at `modules/docs/scripts/G12_weekly_note_backfiller.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G12_weekly_note_backfiller.py`.
+
+## Implementation Notes
+- Top-level functions: get_weekly_note_path, create_weekly_note, backfill
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `datetime, pathlib, os, autonomous_sdk.db_config`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*Related Documentation:*
-- [G12_documentation_audit.md](G12_documentation_audit.md)
-- [G11_obsidian_safe_sync.md](G11_obsidian_safe_sync.md)
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

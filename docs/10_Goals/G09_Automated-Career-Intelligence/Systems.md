@@ -10,13 +10,13 @@ goal_id: "goal-g09"
 # Systems
 
 ## Enabling systems
-- [S01 Observability & Monitoring](../../20_Systems/S01_Observability-Monitoring/README.md)
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md) - `autonomous_learning` database.
+- [S01 Observability & Monitoring](../../20_Systems/README.md)
+- [S03 Data Layer](../../20_Systems/README.md) - `autonomous_learning` database.
 
 ## Traceability (Outcome → System → Automation → SOP)
 | Outcome | System | Automation | SOP |
 |---|---|---|---|
-| Career Readiness Dashboard | S01 Observability | [Career-Intelligence-Dashboard](./Career-Intelligence-Dashboard.md) | - |
+| Career Readiness Dashboard | S01 Observability | [Career-Intelligence-Dashboard](Career-Intelligence-Dashboard.md) | - |
 | Automated Skill Gap Analysis | S03 Data Layer | [G09_career_strategist.md](../../50_Automations/scripts/G09_career_strategist.md) | - |
 | Learning Progress Tracking | S03 Data Layer | [script: learning-sync](../../50_Automations/scripts/G06_learning_sync.md) | - |
 | **Market Steering Intelligence** | **S11 Router** | **[G09_career_strategist.py](../../50_Automations/scripts/G09_career_strategist.md)** | - |

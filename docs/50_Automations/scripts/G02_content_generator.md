@@ -1,54 +1,91 @@
 ---
-title: "Automation Spec: G02 Content Generator"
+title: "Automation Spec: G02_content_generator.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G02_content_generator"
-goal_id: "goal-g02"
-systems: ["S02"]
-owner: "Michał"
-updated: "2026-04-13"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "2e0de3d24600{{LONG_IDENTIFIER}}"
 ---
 
-# 🤖 Automation Spec: G02 Content Generator
+# 🤖 Automation Spec: G02_content_generator.py
 
-## 🎯 Purpose
-Automates the drafting of high-impact content for LinkedIn and Substack by harvesting "Technical Wins" from the autonomous system's activity logs and git commits. Maintains the "Automationbro" persona and reduces creative friction.
+## Purpose
+Runs the content generator automation for Automationbro Recognition.
 
-## 📝 Scope
-- **In Scope:** Git commit harvesting (feat, fix, refactor); `system_activity_log` success scanning; LLM-based draft generation; Obsidian Inbox delivery.
-- **Out of Scope:** Automatic publishing (human-in-the-loop required); Graphics generation.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/brand/scripts/G02_content_generator.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G02 Automationbro Recognition` within the `brand` automation domain.
 
-## 🔄 Inputs/Outputs
-- **Inputs:** 
-  - `digital_twin_michal.system_activity_log` (Success entries)
-  - Local Git logs (7-day window)
-  - Gemini 1.5 Pro API (Architecture-focused prompts)
-- **Outputs:**
-  - `Obsidian Vault/00_Inbox/Q2-Content-Ideas.md`
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## 🛠️ Dependencies
-- **Systems:** S02 Brand & Recognition
-- **Services:** Digital Twin Engine (AgentZero bridge), Google Gemini API
-- **Tools:** `git`, `psycopg2`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G02_content_generator.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## ⚙️ Logic & Procedure
-1. **Harvesting:** Scans for unique successful script runs and recent git commits.
-2. **Context Synthesis:** Filters for high-value technical achievements (e.g., self-healing, architectural milestones).
-3. **Drafting:** Passes context to Gemini via a sharpened "Automationbro" prompt focusing on:
-   - Self-Healing Systems (G08/G11).
-   - Infinite Throughput (G11).
-   - Architectural Integrity (System-wide monitoring).
-4. **Trigger:** Manual execution or weekly scheduled run.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Console output for manual runs or scheduler logs.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
-## ⚠️ Failure Modes
+## Dependencies
+### Runtime
+- Python script: `modules/brand/scripts/G02_content_generator.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `psycopg2`
+- `re`
+- `subprocess`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/brand/scripts/G02_content_generator.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
 | Scenario | Detection | Response |
 |---|---|---|
-| No Wins Found | Logs "No recent wins found" | Skip generation to maintain high signal |
-| Gemini API Fail | Traceback in console | Fallback to raw win-list output |
-| Git Access Denied | Subprocess error | Log warning, proceed with DB-only wins |
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## Changelog
-| Date | Change |
-|------|--------|
-| 2026-03-18 | Initial content idea extractor |
-| 2026-04-13 | Sharpened prompt for 'Architecture-First' and 'Self-Healing' themes. |
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G02_content_generator.py`.
+
+## Implementation Notes
+- Top-level functions: get_architectural_wins, generate_content_ideas
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `re, psycopg2, datetime, os, autonomous_sdk.db_config, modules.meta.scripts.G11_log_system, sys, subprocess`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

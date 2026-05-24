@@ -1,57 +1,89 @@
 ---
-title: "System Sanity Auditor (G11)"
+title: "Automation Spec: G11_system_sanity_auditor.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-16"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "d3bcbcb0da922b82e7770ff3c9ab0cd82e0189a7e24ad11a3de91a016da44189"
 ---
 
-# Purpose
-The **System Sanity Auditor** (`G11_system_sanity_auditor.py`) provides a proactive "Smoke Test" for the entire Autonomous Living ecosystem. It verifies that every script in the system is healthy (dependencies met, database connections working, API keys valid) without actually executing their functional logic.
+# 🤖 Automation Spec: G11_system_sanity_auditor.py
 
-# Scope
-- **In Scope:** All scripts registered in `G04_tool_manifest.json`, environment variable verification, database connectivity checks, dependency validation.
-- **Out Scope:** Functional testing of script logic, data integrity validation (handled by domain-specific auditors).
+## Purpose
+Runs the system sanity auditor automation for Meta-System Integration Optimization.
 
-# Logic
-- **AUDIT_MODE Protocol:** Every functional script supports an `AUDIT_MODE=1` environment variable. When set, the script performs a non-destructive health check and exits with `0` (Healthy) or `1` (Broken).
-- **Orchestration:** The auditor iterates through the `G04_tool_manifest.json`, executes each script in `AUDIT_MODE`, and captures the output.
-- **Reporting:** Results are logged as `SANITY_CHECK` entries in the `system_activity_log` and summarized in a "Health Grid" for the Obsidian Daily Note.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_system_sanity_auditor.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-# Inputs/Outputs
-- **Inputs:** `G04_tool_manifest.json`, individual script exit codes and stdout/stderr.
-- **Outputs:** `system_activity_log` entries (SUCCESS/FAILURE), Health Grid in Obsidian Daily Note (`%%G11_RELIABILITY_START%%`).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-# Dependencies
-- **Systems:** G11 (Meta-System Integration), G04 (Digital Twin Ecosystem)
-- **Database:** `digital_twin_michal` (for logging)
-- **Files:** `scripts/_meta/G04_tool_manifest.json`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_system_sanity_auditor.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-# Procedure
-### Manual Execution (On-Demand Audit)
-To verify the system state manually (e.g., after updating dependencies or `.env` files), run the following command from the project root:
-```bash
-{{ROOT_LOCATION}}/autonomous-living/.venv/bin/python3 scripts/G11_system_sanity_auditor.py
-```
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
-### Dashboard Integration
-The script is integrated into the "System Actions" bar in the Obsidian Daily Note. Clicking **[⚡ Sanity Audit]** triggers a background check and refreshes the health grid.
+## Dependencies
+### Runtime
+- Python script: `modules/meta/scripts/G11_system_sanity_auditor.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-### Automated Execution
-- Integrated into the daily synchronization workflow (`autonomous_daily_manager.py`).
+### Imports
+- `autonomous_sdk`
+- `datetime`
+- `json`
+- `os`
+- `pathlib`
+- `subprocess`
+- `sys`
 
-# Failure Modes
-| Scenario | Response |
-|----------|----------|
-| Manifest Missing | Script exits with error; no audit performed. |
-| Script Missing | Logged as FAILURE in the health grid with "File missing". |
-| Timeout (30s) | Audit for that specific script is marked as FAILURE. |
-| DB Connectivity | Fails the auditor's own logging; printed to stderr. |
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_system_sanity_auditor.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-# Security Notes
-- Requires read/write access to `system_activity_log`.
-- Executes scripts in a subprocess; standard system permissions apply.
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-# Owner + Review Cadence
-- **Owner:** Michał
-- **Review:** Bi-weekly (ensure new scripts are added to manifest and support `AUDIT_MODE`).
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_system_sanity_auditor.py`.
+
+## Implementation Notes
+- Top-level functions: No top-level functions detected.
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `pathlib, datetime, autonomous_sdk, os, json, sys, subprocess`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

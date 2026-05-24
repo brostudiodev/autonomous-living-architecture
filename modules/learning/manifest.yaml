@@ -1,0 +1,26 @@
+name: learning
+version: 1
+description: "Adaptive Learning & Certification Architecture"
+core: false
+sync_tier: 1
+databases:
+  - autonomous_learning
+depends_on:
+  - postgres
+api_routes:
+  - /api/v1/learning
+env_vars: []
+capabilities:
+  - name: "learning_goals"
+    description: "Returns all active career/certification goals."
+    api_endpoints: ["/api/v1/learning/goals"]
+  - name: "session_sync"
+    description: "Ingests study sessions into the database."
+    api_endpoints: ["/api/v1/learning/sessions/sync"]
+    events_emitted: ["session_synced"]
+  - name: "velocity_tracking"
+    description: "Recalculates deadlines and reports study velocity risks."
+    events_emitted: ["sync_complete"]
+  - name: "concept_ingestion"
+    description: "Saves processed learning concepts to the database and Obsidian Brain."
+    api_endpoints: ["/api/v1/learning/concepts/save"]

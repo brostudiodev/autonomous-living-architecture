@@ -1,50 +1,88 @@
 ---
-title: "G01: Training Planner"
+title: "Automation Spec: G01_training_planner.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G01_training_planner"
-goal_id: "goal-g01"
-systems: ["S06"]
-owner: "Michał"
-updated: "2026-04-23"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "b5ceef5ec228e04d8{{LONG_IDENTIFIER}}"
 ---
 
-# G01: Training Planner
+# 🤖 Automation Spec: G01_training_planner.py
 
 ## Purpose
-Analyzes recent training performance and current biological readiness to suggest the optimal next workout session or recovery protocol.
+G01_training_planner.py.
 
-## Triggers
-- **Scheduled:** Part of `G11_global_sync.py` and `autonomous_daily_manager.py`.
-- **Manual:** `python3 scripts/G01_training_planner.py`.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/training/scripts/G01_training_planner.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G01 Target Body Fat` within the `training` automation domain.
 
-## Inputs
-- **Database:** `workouts` in `autonomous_training` (for recovery score and history).
-- **Database:** `biometrics` in `autonomous_health` (for `readiness_score`).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Context Fetching:** Retrieves latest `readiness_score` and `hrv_ms` (G07) and last workout data (G01).
-2.  **HRV Analysis (NEW Apr 23):** Calculates `hrv_suppression_pct` by comparing current `hrv_ms` against the 7-day average.
-3.  **Recovery Check:** If `readiness_score < 55`, recommends **RECOVERY / YOGA**.
-4.  **Volume Check:** Enforces at least 48h rest between high-intensity sessions.
-5.  **Session Suggestion:** Rotates templates (Session A/B) when `readiness_score >= 65`.
-6.  **Dynamic Progression:**
-    *   **Peak State (>85):** Suggests aggressive overload (+1kg weight or +2s TUT).
-    *   **Stable State (65-85):** Standard progression suggestions.
-    *   **Low Readiness (<65):** Maintenance-only session; PR attempts discouraged.
-7.  **Rules Engine Integration:** 
-    *   Logs suggestions to `autonomous_decisions`. 
-    *   **Context Fix (Apr 23):** Passes `hrv_suppression_pct` and `is_safe_downgrade` to the `health.auto_workout_adjustment` policy, enabling autonomous decision-making for training intensity adjustments.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G01_training_planner.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Database:** `autonomous_decisions` updates.
-- **Console:** Formatted recommendation text including progression adjustment.
-- **Obsidian:** Integrated into Daily Note dashboard.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S06 Health Performance System](../../20_Systems/S06_Health-Performance/README.md)
+### Runtime
+- Python script: `modules/training/scripts/G01_training_planner.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `G11_rules_engine`
+- `autonomous_sdk.db_config`
+- `datetime`
+- `os`
+- `pathlib`
+- `psycopg2`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/training/scripts/G01_training_planner.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G01_training_planner.py`.
+
+## Implementation Notes
+- Top-level functions: get_training_recommendation, format_recommendation_text, get_today_recommendation
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `G11_rules_engine, psycopg2, pathlib, datetime, os, autonomous_sdk.db_config, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*Updated: 2026-04-23 | Fixed HRV suppression context for Rules Engine.*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

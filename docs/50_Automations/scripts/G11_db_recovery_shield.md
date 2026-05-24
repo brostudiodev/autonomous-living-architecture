@@ -1,45 +1,91 @@
 ---
-title: "Database Recovery Shield (G11)"
+title: "Automation Spec: G11_db_recovery_shield.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "{{LONG_IDENTIFIER}}"
 ---
 
-# Purpose
-The **Database Recovery Shield** (`G11_db_recovery_shield.py`) provides enterprise-grade data protection. It ensures that all 7 critical system databases are backed up, verified for integrity, and encrypted before being stored.
+# 🤖 Automation Spec: G11_db_recovery_shield.py
 
-# Scope
-- **In Scope:** SQL dumps of all PostgreSQL databases, GPG encryption, restore verification tests.
-- **Out Scope:** Large binary file backups (images/PDFs), real-time streaming replication.
+## Purpose
+G11_db_recovery_shield.py.
 
-# Inputs/Outputs
-- **Inputs:** PostgreSQL databases via Docker `pg_dump`.
-- **Outputs:** Verified `.sql.gpg` files in `_meta/backups/db/`.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_db_recovery_shield.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-# Dependencies
-- **Systems:** S03 (Data Layer), G11 (Meta-System)
-- **Tools:** `docker`, `gpg`
-- **Environment:** `DB_BACKUP_PASSPHRASE` must be set in `.env`.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-# Procedure
-- Triggered daily by `autonomous_daily_manager.py`.
-- **Verification Logic:** Creates a temporary `{db}_verify_test` database, restores the dump (600s timeout), and checks for public tables.
-- **Encryption Logic:** Uses AES256 symmetric encryption via `gpg`.
-- **Backups:** `pg_dump` uses a 600s timeout to handle large DB volumes (S03 hardening).
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_db_recovery_shield.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-# Failure Modes
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
+
+## Dependencies
+### Runtime
+- Python script: `modules/meta/scripts/G11_db_recovery_shield.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
+
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.log`
+- `datetime`
+- `gnupg`
+- `os`
+- `pathlib`
+- `subprocess`
+- `sys`
+- `time`
+
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_db_recovery_shield.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| Verification Failed | Script logs PARTIAL/FAILURE | Alert via Telegram; check SQL file size. Timeouts increased to 600s for stability. |
-| Encryption Failed | `.gpg` file missing | Alert via Telegram; check gpg passphrase |
-| Disk Full | `pg_dump` error | Cleanup `_meta/backups/` manually |
-| SQL Dump Timeout | stderr log: "timeout" | Increase timeout in script or check DB load during backup. |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-# Security Notes
-- **PASSWORDS:** Never store the backup passphrase in cleartext in documentation. Use `${DB_BACKUP_PASSPHRASE}`.
-- **OFF-SITE:** Encrypted files are safe for Google Drive upload.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-# Owner + Review Cadence
-- **Owner:** Michał
-- **Review:** Monthly (verify restoration manually once a month)
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_db_recovery_shield.py`.
+
+## Implementation Notes
+- Top-level functions: get_postgres_container, verify_backup, encrypt_file, cleanup_old_backups, run_recovery_shield
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `autonomous_sdk.log, pathlib, datetime, os, autonomous_sdk.db_config, sys, subprocess, time, gnupg`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

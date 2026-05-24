@@ -2,61 +2,88 @@
 title: "Automation Spec: G11_hygiene_agent.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G11_hygiene_agent"
-goal_id: "goal-g11"
-systems: ["S11", "S08", "S10"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "5de0b2c2{{LONG_IDENTIFIER}}"
 ---
 
 # 🤖 Automation Spec: G11_hygiene_agent.py
 
 ## Purpose
-Ensures that Google Tasks stay clean and relevant by automatically marking them as completed when their underlying database conditions have been resolved. This eliminates the need for manual task list maintenance after an automation (or manual action) has already fixed a problem.
+G11_hygiene_agent.py.
 
-## Triggers
-- **Daily Sync:** Executed as part of `G11_global_sync.py` (positioned after data-fetching scripts like `G05_finance_sync.py` and `pantry_sync.py`).
-- **Manual:** `python3 G11_hygiene_agent.py` to scrub all task lists.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_hygiene_agent.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-## Inputs
-- **Google Tasks API:** Fetches all active tasks from all task lists.
-- **Finance Database (`autonomous_finance`):** Checks `v_budget_performance` for active breaches.
-- **Pantry Database (`autonomous_pantry`):** Checks `pantry_inventory` for current quantity vs. threshold.
-- **Logistics Database (`autonomous_life_logistics`):** Checks `status` of specific items.
-- **Environment:** `.env` for database credentials.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Task Scanning:** Retrieves all tasks with a status of `PENDING` across all task lists.
-2.  **Pattern Matching:**
-    -   **Budget Breaches:** Matches tasks with the phrase `Budget Breaches`. Queries the finance database. If the count of active breaches for the current month is 0, the task is marked as completed.
-    -   **Pantry Restock:** Matches tasks starting with `🛒 Buy [Item]`. Queries the pantry database for that item. If the `current_quantity` is greater than the `critical_threshold`, the task is marked as completed.
-    -   **Logistics Tasks:** Matches tasks with the pattern `📦 [Category]: [Item Name]`. Queries the logistics database. If the item's status is `DONE` or `Completed`, the task is marked as completed.
-3.  **Completion Execution:** Calls `G10_google_tasks_sync.mark_task_completed(title)` for each matching resolved task.
-4.  **Logging:** Records the number of tasks auto-resolved in the `system_activity_log`.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_hygiene_agent.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Google Tasks:** Updates task status to `completed` via API.
-- **Activity Log:** Success/Failure status recorded in `system_activity_log`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S08 Automation Orchestrator](../../20_Systems/S08_Automation-Orchestrator/README.md)
-- [S10 Productivity](../../20_Systems/S09_Productivity-Time/README.md)
-- [S11 Meta-System](../../20_Systems/S11_Meta-System-Integration/README.md)
+### Runtime
+- Python script: `modules/meta/scripts/G11_hygiene_agent.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### External Services
-- Google Tasks API
+### Imports
+- `autonomous_sdk`
+- `autonomous_sdk.db_config`
+- `datetime`
+- `os`
+- `pathlib`
+- `psycopg2`
+- `re`
+- `sys`
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| DB Query Error | `psycopg2` exception | Log error, skip that specific check | System Activity Log |
-| Google Tasks API Error | API exception | Log error, continue scanning | System Activity Log |
-| False Positive Match | Regex overlap | Log context, requires regex refinement | Manual task review |
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_hygiene_agent.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Manual Fallback
-If tasks are not being auto-resolved:
-1.  Check the `system_activity_log` for errors in DB connectivity or Google API.
-2.  Manually mark tasks as completed in Google Tasks.
-3.  Verify that the database state actually matches the resolution condition (e.g., query `v_budget_performance` directly).
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_hygiene_agent.py`.
+
+## Implementation Notes
+- Top-level functions: check_budget_resolved, check_pantry_resolved, check_logistics_resolved, run_hygiene
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `re, psycopg2, pathlib, datetime, autonomous_sdk, os, autonomous_sdk.db_config, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

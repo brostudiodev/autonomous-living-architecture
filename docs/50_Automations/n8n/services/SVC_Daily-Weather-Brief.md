@@ -129,9 +129,9 @@ Provides daily weather updates by combining data from OpenWeatherMap API (curren
 ## Dependencies
 
 ### Systems
-- [S04 Digital Twin](../../../20_Systems/S04_Digital-Twin/README.md) - Data aggregation
-- [S07 Smart Home System](../../../20_Systems/S07_Smart-Home/README.md) - Local sensors
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md) - Workflow execution
+- [S04 Digital Twin](../../../20_Systems/README.md) - Data aggregation
+- [S07 Smart Home System](../../../20_Systems/README.md) - Local sensors
+- [S08 Automation Orchestrator](../../../20_Systems/README.md) - Workflow execution
 
 ### External Services
 - **OpenWeatherMap API** - Weather data
@@ -166,10 +166,10 @@ curl -s "https://api.openweathermap.org/data/2.5/weather?q={{LOCATION_CITY_SHORT
 
 ## Related Services
 
-- [SVC_Daily-Calendar-Brief.md](./SVC_Daily-Calendar-Brief.md) - Calendar morning brief
-- [SVC_Daily-Tasks-Brief.md](./SVC_Daily-Tasks-Brief.md) - Tasks from Roadmaps
-- [SVC_Daily-SmartHome-Brief.md](./SVC_Daily-SmartHome-Brief.md) - Smart home status
-- [SVC_Daily-Workout-Suggestion.md](./SVC_Daily-Workout-Suggestion.md) - Training recommendation
+- [SVC_Daily-Calendar-Brief.md](SVC_Daily-Calendar-Brief.md) - Calendar morning brief
+- [SVC_Daily-Tasks-Brief.md](SVC_Daily-Tasks-Brief.md) - Tasks from Roadmaps
+- [SVC_Daily-SmartHome-Brief.md](SVC_Daily-SmartHome-Brief.md) - Smart home status
+- [SVC_Daily-Workout-Suggestion.md](SVC_Daily-Workout-Suggestion.md) - Training recommendation
 
 ---
 

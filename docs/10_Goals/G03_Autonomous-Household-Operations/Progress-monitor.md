@@ -4,7 +4,7 @@ type: "progress_monitor"
 status: "active"
 goal_id: "goal-g03"
 created: "2026-02-11"
-last_updated: "2026-04-19"
+last_updated: "2026-05-24"
 version: "1.2"
 ---
 
@@ -18,13 +18,24 @@ version: "1.2"
 
 ### Overall Completion Status
 - **Q1 Progress**: 100% Complete ✅
-- **Q2 Progress**: 45% Complete 🚀
-- **Current Phase**: Reliability Hardening & Price Intelligence v2
-- **Key Focus**: Stable data streams and promo-matched restocking
+- **Q2 Progress**: 75% Complete 🚀
+- **Current Phase**: Modular Architecture Transition & Kernel Integration
+- **Key Focus**: Transitioning from root scripts to the Autonomous Kernel
 
 ---
 
 ## ✅ Major Achievements
+
+### Modular Kernel Migration (May 2026)
+**Implementation Summary:**
+- **Full Script Consolidation:** Successfully migrated 8 domain-specific scripts (Pantry Sync, Cart Aggregator, Suggestor, Price Scouter, Appliance Monitor, etc.) from the `scripts/` root into the `modules/pantry/` modular framework.
+- **Architectural Hardening:** Replaced legacy procedural scripts with a unified `Module` class, leveraging the `autonomous_sdk` for safe DB access, event emission, and structured logging.
+- **API Expansion:** Deployed new REST endpoints in `modules/pantry/api.py` for automated cart aggregation and price intelligence, enabling real-time Digital Twin interaction.
+
+**Technical Specifications:**
+- **Consolidated Logic:** `Module.sync()`, `Module.aggregate_cart()`, `Module.plan_meals()`.
+- **Infrastructure:** Integrated with `core/orchestrator.py` for tiered execution.
+- **Cleanup:** Archived 8 legacy root scripts to `scripts/archive/`.
 
 ### Appliance Maintenance Integration (April 2026)
 **Implementation Summary:**

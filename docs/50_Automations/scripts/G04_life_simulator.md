@@ -2,41 +2,89 @@
 title: "Automation Spec: G04_life_simulator.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-19"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "3c34ec{{LONG_IDENTIFIER}}"
 ---
 
 # 🤖 Automation Spec: G04_life_simulator.py
 
-## 📝 Overview
-**Purpose:** The "6-Month Outcome Simulator" aggregates cross-domain trends (Health, Finance, Brand, Productivity) to project your life status 180 days from today. It uses linear regression on historical data to provide a "future glance" at your trajectory.
-**Goal Alignment:** G04 Digital Twin Ecosystem (Predictive Partner).
+## Purpose
+G04_life_simulator.py.
+
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G04_life_simulator.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G04 Digital Twin Ecosystem` within the `meta` automation domain.
+
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
+
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G04_life_simulator.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
+
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
+
+## Dependencies
+### Runtime
+- Python script: `modules/meta/scripts/G04_life_simulator.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `numpy`
+- `os`
+- `pandas`
+- `psycopg2`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/meta/scripts/G04_life_simulator.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G04_life_simulator.py`.
+
+## Implementation Notes
+- Top-level functions: get_kpi_data, project_metric, simulate
+- Top-level classes: No top-level classes detected.
 
 ## ⚡ Technical Details
-- **Language:** Python 3.x
-- **Triggers:** Manual Execution / Strategic Review
-- **Databases:** `autonomous_health`, `autonomous_finance`, `autonomous_career`, `digital_twin_michal`
-- **Dependencies:** `pandas`, `numpy`, `psycopg2`, `db_config`
-
-## 🛠️ Logic Flow
-1. **Data Harvest:** Fetches 90 days of history for key KPIs:
-    - **Health:** Body Fat %, Weight.
-    - **Finance:** Daily Net Cashflow.
-    - **Brand:** Substack & LinkedIn metrics.
-    - **Productivity:** Time Saved (ROI).
-2. **Smoothing:** Applies a 7-day rolling average to reduce daily noise.
-3. **Regression:** Performs linear regression (`numpy.polyfit`) using date ordinals.
-4. **Projection:** Calculates the expected value at `today + 180 days`.
-5. **Categorization:** Determines status (🟢, 🟡, 🔴) based on whether the trend aligns with goal directions.
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, pandas, numpy, datetime, os, autonomous_sdk.db_config, json, sys`
 
 ## 📤 Outputs
-- **Markdown Report:** Grouped by domain with current vs. projected values and status icons.
-- **JSON Data:** Full simulation results available via `--json` flag for API integration.
-
-## ⚠️ Known Issues / Maintenance
-- **Linearity Bias:** Assumes current trends will continue linearly; does not account for plateaus or exponential growth.
-- **Data Density:** Requires at least 5 data points per KPI to generate a trend.
-- **Brand Metrics:** Currently depends on manual or automated entry into `brand_impact` table.
+- See Inputs/Outputs section above.
 
 ---
-*Created: 2026-04-19 by Digital Twin Assistant*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

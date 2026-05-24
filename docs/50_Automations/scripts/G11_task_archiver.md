@@ -1,200 +1,91 @@
 ---
-title: "G11_task_archiver: Stale Task Cleanup"
+title: "Automation Spec: G11_task_archiver.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G11_task_archiver"
-goal_id: "goal-g11"
-systems: ["S10"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "3af232{{LONG_IDENTIFIER}}"
 ---
 
-# G11_task_archiver: Stale Task Cleanup
+# 🤖 Automation Spec: G11_task_archiver.py
 
 ## Purpose
+G11_task_archiver.py.
 
-Identifies and archives stale Google Tasks based on configurable rules. Prevents clutter from overdue tasks and maintains focus on current priorities. Includes intelligent approval bypass for extreme stale tasks.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_task_archiver.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-## Triggers
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-- **Scheduled:** Sundays at 10:00 AM via crontab
-- **Manual:** `python scripts/G11_task_archiver.py [--dry-run|--archive]`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_task_archiver.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-### Usage Modes
-
-| Mode | Flag | Description |
-|------|------|-------------|
-| Dry-run | `--dry-run` | Show what would be archived (default) |
-| Archive | `--archive` | Actually delete tasks |
-| Force | `--force` | Skip confirmation prompt |
-
-## Stale Rules
-
-| Rule | Condition | Approval Required |
-|------|-----------|------------------|
-| Shopping list items | Any task in "Shopping" list | ❌ Never archived (protected) |
-| No due date + no #today | No date, no priority tag | ✅ Auto-approve |
-| Completed > 3 days | Task completed + 3 days | ✅ Auto-approve |
-| Overdue > 30 days | Due date passed + 30 days | ✅ Auto-approve |
-| Overdue > 1 year | Due date passed + 365 days | ✅ Auto-approve |
-
-## Approval Logic
-
-Note: Tasks overdue for 7-30 days were previously flagged for approval, but this was silenced to reduce noise. Now only tasks > 30 days are actioned (auto-archived).
-
-```
-Task identified as stale
-        │
-        ▼
-┌───────────────────────────────┐
-│ Check: Shopping list item?   │
-└───────────────────────────────┘
-        │ Yes
-        ▼
-   [SKIP - Protected]
-
-        │ No
-        ▼
-┌───────────────────────────────┐
-│ Check: Auto-approve rules?   │
-│ - No due date, no #today    │
-│ - Completed > 3 days         │
-│ - Overdue > 30 days         │
-│ - Overdue > 1 year           │
-└───────────────────────────────┘
-        │ Matches
-        ▼
-   [AUTO-APPROVE]
-
-        │ No match
-        ▼
-┌───────────────────────────────┐
-│ Request Telegram approval    │
-│ via Rules Engine            │
-└───────────────────────────────┘
-        │
-        ▼
-   [AWAIT RESPONSE]
-```
-
-## Inputs
-
-| Source | Data | Used For |
-|--------|------|----------|
-| Google Tasks API | All task lists | Task identification |
-| G10_google_tasks_sync | Authentication | Service connection |
-
-## Processing Logic
-
-1. **Fetch Tasks** - Get all tasks from all lists (including completed), skip Archive list
-2. **Filter Shopping** - Exclude tasks from "Shopping" lists (persistent items)
-3. **Analyze** - Check each task against stale rules
-4. **Categorize** - Group by reason (completed, overdue, no due date)
-5. **Approval Check** - Auto-approve extreme stale (>30d) or require Telegram approval (7-30d)
-6. **Display/Summary** - Show results or delete based on mode
-
-## Outputs
-
-| Output | Destination | Format |
-|--------|-------------|--------|
-| Console Report | Stdout | Text |
-| Activity Log | `system_activity_log` | PostgreSQL |
-
-### Dry-Run Example Output
-
-```
-🗑️ G11_task_archiver: DRY-RUN Mode
-============================================================
-
-📋 Fetching all tasks...
-✅ Using User Token
-   Found 41 total tasks
-⚖️  Evaluating 2 stale tasks for deletion authority...
-
-📊 Analysis Results:
-   Total tasks analyzed: 41
-   Stale tasks found: 2
-   Authorized for deletion: 1
-
-📋 TASKS TO BE DELETED:
-
-1. ⏰ Monitoring kopernika zrobic
-   List: My Tasks
-   Due: 2026-02-21
-   Reason: Overdue 33 days
-
-🔍 DRY-RUN MODE - No tasks were deleted.
-   To archive: python scripts/G11_task_archiver.py --archive --force
-```
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
+- HTTP requests to configured local or external service endpoints.
 
 ## Dependencies
+### Runtime
+- Python script: `modules/meta/scripts/G11_task_archiver.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-### Systems
-- [S10 Daily Goals Automation](../../20_Systems/S10_Daily-Goals-Automation/README.md)
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.log`
+- `datetime`
+- `googleapiclient.errors`
+- `modules.productivity.scripts.G10_google_tasks_sync`
+- `os`
+- `pathlib`
+- `re`
+- `sys`
 
-### External Services
-- Google Tasks API
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_task_archiver.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-### Scripts
-- `G10_google_tasks_sync.py` - Authentication and API
-
-## Crontab Configuration
-
-```cron
-# Task Archiver - Sundays 10 AM
-0 10 * * 0 cd {{ROOT_LOCATION}}/autonomous-living && .venv/bin/python scripts/G11_task_archiver.py --archive --force >> _meta/daily-logs/task_archiver.log 2>&1
-```
-
-## Error Handling
-
+## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| Auth failure | Service returns None | Log failure |
-| API error | Exception during fetch | Print warning, continue |
-| Delete failure | Exception during delete | Count as failed, log |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
 ## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-- No archive to Obsidian (direct delete per user request)
-- Database credentials via `.env`
-- No secrets in code
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_task_archiver.py`.
 
-## Monitoring
+## Implementation Notes
+- Top-level functions: get_all_tasks, analyze_task, request_deletion_approval, delete_task, run
+- Top-level classes: No top-level classes detected.
 
-- **Success metric:** Tasks analyzed and actioned
-- **Log location:** `_meta/daily-logs/task_archiver.log`
-- **Alert on:** 3 consecutive failures
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `re, pathlib, modules.productivity.scripts.G10_google_tasks_sync, datetime, googleapiclient.errors, os, autonomous_sdk.db_config, sys, autonomous_sdk.log`
 
-## Manual Fallback
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
-If script fails:
-```bash
-cd {{ROOT_LOCATION}}/autonomous-living
-source .venv/bin/activate
-
-# Dry-run first
-python scripts/G11_task_archiver.py --dry-run
-
-# If looks good, archive
-python scripts/G11_task_archiver.py --archive --force
-```
-
-Manual cleanup:
-1. Open Google Tasks (web or mobile)
-2. Filter by due date
-3. Manually delete stale items
-
-## Related Documentation
-
-- [G10 Google Tasks Sync](./G10_google_tasks_sync.md)
-- [G10 Productivity Sync](./G10_productivity_sync.md)
-- [SOP: Daily Task Review & Sync](../../30_Sops/SOP_Daily_Task_Review.md)
-
-## Changelog
-
-| Date | Change |
-|------|--------|
-| 2026-03-19 | Original archiver (overdue > 1 year) |
-| 2026-03-20 | Enhanced with dry-run, multiple rules, completed task cleanup |
-| 2026-03-26 | Added shopping list exclusion, auto-approve >30 days, improved approval logic |
-| 2026-03-28 | Fixed bug: Added missing task/list IDs to Rules Engine context for successful deletion |
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

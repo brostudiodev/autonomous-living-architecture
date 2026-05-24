@@ -1,69 +1,87 @@
 ---
-title: "G10_reflection_generator.py: AI Feedback Loop"
+title: "Automation Spec: G10_reflection_generator.py"
 type: "automation_spec"
 status: "active"
-automation_id: "g10-reflection-generator"
-goal_id: "goal-g10"
-systems: ["S04", "S10"]
-owner: "Michał"
-updated: "2026-03-10"
-review_cadence: "Monthly"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "5{{LONG_IDENTIFIER}}"
 ---
 
-# G10_reflection_generator.py
+# 🤖 Automation Spec: G10_reflection_generator.py
 
 ## Purpose
-Closes the daily feedback loop by generating a personalized, data-driven evening reflection. It synthesizes biological readiness, checked goals, and technical wins into a philosophical "Stoic Coach" briefing, which is then injected directly into the Obsidian Daily Note.
+G10_reflection_generator.py.
 
 ## Scope
 ### In Scope
-- Fetching today's biometrics from `autonomous_health`.
-- Extracting "Checked" Power Goals and "Did" statements from the Daily Note.
-- Identifying the daily "Automation Win" from frontmatter.
-- **Resilient Reporting:** Uses Gemini 1.5 for philosophical synthesis (if API key available) or a logic-based data summary (fallback).
-- Precise injection into the `## 🧠 Reflection` section using regex.
+- Documents the active implementation at `modules/productivity/scripts/G10_reflection_generator.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G10 Intelligent Productivity Time Architecture` within the `productivity` automation domain.
 
 ### Out of Scope
-- Modifying biometrics data (read-only).
-- Managing tomorrow's schedule (delegated to G10_tomorrow_planner).
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Triggers
-- **API Call:** Via `/log_reflection` endpoint.
-- **Manual:** `python3 scripts/G10_reflection_generator.py`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G10_reflection_generator.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Inputs
-- **Obsidian Daily Note:** Source for checked tasks and goal descriptions.
-- **PostgreSQL (`autonomous_health`):** Source for sleep, readiness, and steps.
-- **Gemini 1.5 API:** For "Stoic Coach" persona synthesis.
-
-## Processing Logic
-1.  **Context Scrape:** Reads the current Daily Note and the last 24 hours of biometric data.
-2.  **Logic-Based Analysis:** 
-    - Identifies if output was high despite low readiness (Grit detection).
-    - Checks if North Star goals (G04, G10, G11) were touched.
-3.  **Synthesis:**
-    - **AI Mode:** Feeds context to Gemini with a prompt focusing on "Reality", "Strategic Win", and "Stoic Pivot".
-    - **Fallback Mode:** Generates a structured list of metrics vs. achievements.
-4.  **Injection:** Uses `re.sub` to replace or insert the reflection block under the correct header in the note.
-
-## Outputs
-- **Note Update:** Injects `> [!brain] **AI Evening Reflection**` block into today's note.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md) - API exposure.
-- [S10 Productivity](../../10_Goals/G{{LONG_IDENTIFIER}}/README.md) - Reflection methodology.
+### Runtime
+- Python script: `modules/productivity/scripts/G10_reflection_generator.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Note Missing | `os.path.exists` | Log error, abort | API 200 (with warning) |
-| API Key Missing | `os.getenv` | Trigger logic-based summary | Inline Note tag |
-| Header Missing | `string in content` | Log warning, abort injection | Console |
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `os`
+- `psycopg2`
 
-## Related Documentation
-- [Goal: G10 Productivity Architecture](../../10_Goals/G{{LONG_IDENTIFIER}}/README.md)
-- [Script: G04 Digital Twin API](./G04_digital_twin_api.md)
+## Procedure
+1. Review the script source at `modules/productivity/scripts/G10_reflection_generator.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G10_reflection_generator.py`.
+
+## Implementation Notes
+- Top-level functions: generate_reflection_questions
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, json`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*Created: 2026-03-10 by Digital Twin Assistant*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

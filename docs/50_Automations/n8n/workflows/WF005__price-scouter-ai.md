@@ -41,8 +41,8 @@ Autonomously scrapes major retailer aggregators (Biedronka, Lidl, Dino, Auchan) 
 
 ## Dependencies
 ### Systems
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md)
-- [S04 Digital Twin Hub](../../../20_Systems/S04_Digital-Twin/README.md)
+- [S08 Automation Orchestrator](../../../20_Systems/README.md)
+- [S04 Digital Twin Hub](../../../20_Systems/README.md)
 
 ### External Services
 - n8n Browser Node (headless chromium)

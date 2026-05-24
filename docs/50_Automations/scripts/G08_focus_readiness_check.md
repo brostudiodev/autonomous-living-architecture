@@ -1,53 +1,87 @@
 ---
-title: "Automation Spec: G08 Focus Readiness Pre-Flight"
+title: "Automation Spec: G08_focus_readiness_check.py"
 type: "automation_spec"
 status: "active"
-system_id: "S08"
-goal_id: "goal-g08"
-owner: "Michał"
-updated: "2026-04-01"
-review_cadence: "monthly"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "d7f67ee4306f7bab0d{{LONG_IDENTIFIER}}"
 ---
 
-# 🤖 Automation Spec: G08 Focus Readiness Pre-Flight
+# 🤖 Automation Spec: G08_focus_readiness_check.py
 
-## 🎯 Purpose
-Optimize cognitive performance by monitoring physical workspace variables (CO2, Temperature) in the home office 15 minutes before any scheduled "Deep Work" or "Focus" block.
+## Purpose
+G08_focus_readiness_check.py.
 
-## 📝 Scope
-- **In Scope:** Scanning Google Calendar for upcoming focus blocks; Querying Home Assistant sensors; Sending Telegram alerts.
-- **Out of Scope:** Automatic control of smart home devices (handled by G08 Home Automation); Modification of calendar events.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/home/scripts/G08_focus_readiness_check.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G08 Predictive Smart Home Orchestration` within the `home` automation domain.
 
-## 🔄 Inputs/Outputs
-- **Inputs:** 
-  - Google Calendar Events (via `G10_calendar_client.py`)
-  - `sensor.gabinet_co2`, `sensor.gabinet_temperature` (via Home Assistant API)
-- **Outputs:**
-  - Telegram alert via `G04_digital_twin_notifier.py`
-  - Activity log in `G11_log_system`
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## 🛠️ Dependencies
-- **Systems:** S08 Smart Home Orchestration, S09 Productivity & Time
-- **Services:** Home Assistant, Google Calendar API, Telegram Bot API
-- **Credentials:** `HA_TOKEN` and `TELEGRAM_BOT_TOKEN` in `.env`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G08_focus_readiness_check.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## ⚙️ Logic & Procedure
-1. **Scanning:** Identifies calendar events starting within 15 mins with keywords "Deep Work" or "Focus".
-2. **Threshold Monitoring:** 
-   - **CO2:** Critical > 1000ppm, Warning > 800ppm.
-   - **Temp:** Alert if outside 20-22°C (Optimal focus range).
-3. **Procedure:** Script is called automatically via `G11_global_sync.py` every 15 mins.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
 
-## ⚠️ Failure Modes
+## Dependencies
+### Runtime
+- Python script: `modules/home/scripts/G08_focus_readiness_check.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
+
+### Imports
+- `G04_digital_twin_notifier`
+- `G08_home_monitor`
+- `G10_calendar_client`
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+
+## Procedure
+1. Review the script source at `modules/home/scripts/G08_focus_readiness_check.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
 | Scenario | Detection | Response |
 |---|---|---|
-| HA Unreachable | Timeout error in logs | Check Home Assistant container/network |
-| Calendar Empty | "No events found" in log | Verify G10 Calendar sync/OAuth tokens |
-| Missing Sensor | Sensor state is "unavailable" | Check Zigbee/WiFi sensor connectivity |
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## 🔒 Security Notes
-- **Access Control:** HA API requires Long-Lived Access Token.
-- **Secrets:** All tokens stored in `.env`. No internal IPs in public documentation.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G08_focus_readiness_check.py`.
+
+## Implementation Notes
+- Top-level functions: run_focus_readiness_check
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `G10_calendar_client, datetime, G08_home_monitor, G04_digital_twin_notifier, os, autonomous_sdk.db_config, modules.meta.scripts.G11_log_system`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*System Hardening v5.4 - April 2026*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

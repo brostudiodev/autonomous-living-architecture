@@ -1,29 +1,29 @@
 ---
 title: "Technical Debt Audit Report"
-updated: "2026-04-28 06:15:55"
-total_issues: 34
+updated: "2026-05-21 15:19:06"
+total_issues: 277
 ---
 
 # Technical Debt Audit Report (G11)
 
-**Timestamp:** 2026-04-28 06:15:55
+**Timestamp:** 2026-05-21 15:19:06
 **Overall Health:** 🔴 Critical
 
 ## 📊 Summary
 - **Infrastructure Issues:** 28
-- **Script Metadata Issues:** 6
-- **Dependency Mismatches:** 0
+- **Script Metadata Issues:** 248
+- **Dependency Mismatches:** 1
 
 ---
 
 ## 🏗️ Infrastructure Debt (Docker)
 - 🟡 Service `postgres` may be running as root (No `user` defined)
+- ⚪ Service `pgbouncer` uses `:latest` (Accepted Infrastructure Choice): `edoburu/pgbouncer:latest`
+- 🟡 Service `pgbouncer` may be running as root (No `user` defined)
 - ⚪ Service `n8n-import` uses `:latest` (Accepted Infrastructure Choice): `docker.n8n.io/n8nio/n8n`
 - 🟡 Service `n8n-import` may be running as root (No `user` defined)
 - ⚪ Service `n8n` uses `:latest` (Accepted Infrastructure Choice): `docker.n8n.io/n8nio/n8n`
 - 🟡 Service `n8n` may be running as root (No `user` defined)
-- ⚪ Service `qdrant` uses `:latest` (Accepted Infrastructure Choice): `qdrant/qdrant`
-- 🟡 Service `qdrant` may be running as root (No `user` defined)
 - ⚪ Service `ollama` uses `:latest` (Accepted Infrastructure Choice): `ollama/ollama:latest`
 - 🟡 Service `ollama` may be running as root (No `user` defined)
 - ⚪ Service `ollama-gpu` uses `:latest` (Accepted Infrastructure Choice): `ollama/ollama:latest`
@@ -34,28 +34,270 @@ total_issues: 34
 - 🟡 Service `prometheus` may be running as root (No `user` defined)
 - ⚪ Service `grafana` uses `:latest` (Accepted Infrastructure Choice): `grafana/grafana:latest`
 - 🟡 Service `grafana` may be running as root (No `user` defined)
-- ⚪ Service `authentik-proxy` uses `:latest` (Accepted Infrastructure Choice): `ghcr.io/goauthentik/proxy:latest`
-- 🟡 Service `authentik-proxy` may be running as root (No `user` defined)
 - ⚪ Service `node-exporter` uses `:latest` (Accepted Infrastructure Choice): `prom/node-exporter:latest`
 - 🟡 Service `node-exporter` may be running as root (No `user` defined)
 - ⚪ Service `obsidian` uses `:latest` (Accepted Infrastructure Choice): `lscr.io/linuxserver/obsidian:latest`
 - 🟡 Service `obsidian` may be running as root (No `user` defined)
 - 🟡 Service `redis` may be running as root (No `user` defined)
+- 🟡 Service `rabbitmq` may be running as root (No `user` defined)
+- 🟡 Service `rabbitmq-init` may be running as root (No `user` defined)
 - ⚪ Service `authentik-server` uses `:latest` (Accepted Infrastructure Choice): `${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server:latest}`
 - 🟡 Service `authentik-server` may be running as root (No `user` defined)
 - ⚪ Service `authentik-worker` uses `:latest` (Accepted Infrastructure Choice): `${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server:latest}`
 - 🟡 Service `authentik-worker` may be running as root (No `user` defined)
 
 ## 📜 Script Debt (Metadata & Docs)
+- 🟡 Script `G04_digital_twin_notifier.py` is missing `__version__` string
+- 🟡 Script `G11_self_healing_logic.py` is missing `__version__` string
+- 🟡 Script `G02_substack_sync.py` is missing `__version__` string
+- 🟡 Script `G11_weekly_generator.py` is missing `__version__` string
+- 🟡 Script `G07_amazfit_extractor.py` is missing `__version__` string
+- 🟡 Script `G11_lifestyle_auditor.py` is missing `__version__` string
+- 🟡 Script `G11_weekly_note_generator.py` is missing `__version__` string
+- 🟡 Script `G05_bank_ingest.py` is missing `__version__` string
+- 🟡 Script `G11_db_backup.py` is missing `__version__` string
+- 🟡 Script `G11_rules_engine.py` is missing `__version__` string
+- 🟡 Script `G05_liquidity_rebalancer.py` is missing `__version__` string
+- 🟡 Script `G01_strength_auditor.py` is missing `__version__` string
+- 🟡 Script `G04_life_simulator.py` is missing `__version__` string
+- 🟡 Script `G11_obsidian_safe_sync.py` is missing `__version__` string
+- 🟡 Script `G11_task_scrubber.py` is missing `__version__` string
+- 🟡 Script `G11_unified_intelligence_etl.py` is missing `__version__` string
+- 🟡 Script `G12_index_knowledge.py` is missing `__version__` string
+- 🟡 Script `G11_goal_recommender.py` is missing `__version__` string
+- 🟡 Script `G11_event_emitter.py` is missing `__version__` string
+- 🟡 Script `G10_focus_analyzer.py` is missing `__version__` string
+- 🟡 Script `G04_ghost_schema_reporter.py` is missing `__version__` string
+- 🟡 Script `G10_location_intelligence.py` is missing `__version__` string
+- 🟡 Script `G11_security_auditor.py` is missing `__version__` string
+- 🟡 Script `G11_health_endpoint.py` is missing `__version__` string
+- 🟡 Script `G11_failure_predictor.py` is missing `__version__` string
+- 🟡 Script `G11_friction_discovery.py` is missing `__version__` string
+- 🟡 Script `G05_tax_savings_agent.py` is missing `__version__` string
+- 🟡 Script `G04_domain_isolator.py` is missing `__version__` string
+- 🟡 Script `G03_predictive_validation.py` is missing `__version__` string
 - 🟡 Script `G05_net_worth_snapshot.py` is missing `__version__` string
-- 🟡 Script `G09_setup_career_v2.py` is missing `__version__` string
+- 🟡 Script `G03_price_sync_blix.py` is missing `__version__` string
+- 🟡 Script `G12_goal_progress_orchestrator.py` is missing `__version__` string
+- 🟡 Script `G10_distraction_guard.py` is missing `__version__` string
+- 🟡 Script `G11_ceo_status_report.py` is missing `__version__` string
+- 🟡 Script `G10_activity_analyzer.py` is missing `__version__` string
+- 🟡 Script `G11_intelligence_backfill.py` is missing `__version__` string
+- 🟡 Script `G11_task_syncer.py` is missing `__version__` string
+- 🟡 Script `G10_evening_summarizer.py` is missing `__version__` string
+- 🟡 Script `G04_context_cache_manager.py` is missing `__version__` string
+- 🟡 Script `G03_pantry_suggestor.py` is missing `__version__` string
+- 🟡 Script `G04_relationships_sync.py` is missing `__version__` string
+- 🟡 Script `G01_strength_gains_reporter.py` is missing `__version__` string
+- 🟡 Script `G08_environment_advisor.py` is missing `__version__` string
+- 🟡 Script `G05_budget_rebalancer.py` is missing `__version__` string
+- 🟡 Script `G10_foundation_checker.py` is missing `__version__` string
+- 🟡 Script `G11_trust_engine.py` is missing `__version__` string
+- 🟡 Script `G09_career_evidence_collector.py` is missing `__version__` string
+- 🟡 Script `G03_price_scouter_v2.py` is missing `__version__` string
+- 🟡 Script `G07_verify_connection.py` is missing `__version__` string
+- 🟡 Script `G11_pre_flight_check.py` is missing `__version__` string
+- 🟡 Script `G10_morning_rescheduler.py` is missing `__version__` string
+- 🟡 Script `G11_broken_link_finder.py` is missing `__version__` string
+- 🟡 Script `G10_journal_data_collector.py` is missing `__version__` string
+- 🟡 Script `G10_reflection_generator.py` is missing `__version__` string
+- 🟡 Script `G10_schedule_optimizer.py` is missing `__version__` string
+- 🟡 Script `G12_system_registry.py` is missing `__version__` string
+- 🟡 Script `G11_self_healing_daily.py` is missing `__version__` string
+- 🔴 Script `G11_self_healing_daily.py` lacks a docstring
+- 🟡 Script `G10_bio_load_balancer.py` is missing `__version__` string
+- 🟡 Script `G11_log_system.py` is missing `__version__` string
+- 🟡 Script `G05_budget_friction_predictor.py` is missing `__version__` string
+- 🟡 Script `G11_google_drive_backup.py` is missing `__version__` string
+- 🟡 Script `G04_system_velocity_reporter.py` is missing `__version__` string
+- 🟡 Script `G09_career_data_provider.py` is missing `__version__` string
+- 🟡 Script `G13_substack_draft_generator.py` is missing `__version__` string
+- 🟡 Script `G11_hygiene_agent.py` is missing `__version__` string
+- 🟡 Script `G12_doc_momentum_tracker.py` is missing `__version__` string
+- 🟡 Script `G04_relationship_sentinel.py` is missing `__version__` string
+- 🟡 Script `G12_link_maintainer.py` is missing `__version__` string
+- 🟡 Script `G11_friction_resolver.py` is missing `__version__` string
+- 🟡 Script `G11_stall_detector.py` is missing `__version__` string
+- 🟡 Script `G11_predictive_decision_advisor.py` is missing `__version__` string
+- 🟡 Script `G09_relationship_harvester.py` is missing `__version__` string
+- 🟡 Script `G02_brand_orchestrator.py` is missing `__version__` string
+- 🟡 Script `G09_sync_daily_goals.py` is missing `__version__` string
+- 🟡 Script `G04_roi_tracker.py` is missing `__version__` string
+- 🟡 Script `G10_calendar_enforcer.py` is missing `__version__` string
+- 🟡 Script `G11_decision_proposer.py` is missing `__version__` string
+- 🟡 Script `G07_telemetry_prompter.py` is missing `__version__` string
+- 🟡 Script `G11_decision_handler.py` is missing `__version__` string
+- 🟡 Script `G10_productivity_roi_reporter.py` is missing `__version__` string
+- 🟡 Script `G01_training_injector.py` is missing `__version__` string
+- 🟡 Script `G12_context_resumer.py` is missing `__version__` string
+- 🟡 Script `G10_focus_intelligence.py` is missing `__version__` string
+- 🟡 Script `G11_meta_mapper.py` is missing `__version__` string
+- 🟡 Script `G04_snapshot_manager.py` is missing `__version__` string
+- 🟡 Script `G10_tomorrow_planner.py` is missing `__version__` string
+- 🟡 Script `G10_training_load_balancer.py` is missing `__version__` string
+- 🟡 Script `G10_ai_memory_generator.py` is missing `__version__` string
+- 🟡 Script `G11_system_audit.py` is missing `__version__` string
+- 🟡 Script `G04_trend_forecaster.py` is missing `__version__` string
+- 🟡 Script `G11_inbox_processor_pro.py` is missing `__version__` string
+- 🟡 Script `G11_self_healing_engine.py` is missing `__version__` string
+- 🟡 Script `G10_today_status.py` is missing `__version__` string
+- 🟡 Script `G10_mood_engine.py` is missing `__version__` string
+- 🟡 Script `G05_finance_optimizer.py` is missing `__version__` string
+- 🟡 Script `G11_ceo_weekly_briefing.py` is missing `__version__` string
+- 🟡 Script `G09_career_growth_reporter.py` is missing `__version__` string
+- 🟡 Script `G04_digital_twin_api.py` is missing `__version__` string
+- 🟡 Script `G08_home_monitor.py` is missing `__version__` string
+- 🟡 Script `G03_predictive_inventory_engine.py` is missing `__version__` string
+- 🟡 Script `G05_preemptive_rebalancer.py` is missing `__version__` string
+- 🟡 Script `G08_pre_bed_advisor.py` is missing `__version__` string
+- 🟡 Script `G09_technical_win_harvester.py` is missing `__version__` string
+- 🟡 Script `G09_autonomous_did_logger.py` is missing `__version__` string
+- 🟡 Script `G03_household_manifest.py` is missing `__version__` string
+- 🟡 Script `G08_environmental_sleep_auditor.py` is missing `__version__` string
+- 🟡 Script `G10_google_tasks_fetch_all.py` is missing `__version__` string
+- 🟡 Script `G11_logistics_enforcer.py` is missing `__version__` string
+- 🟡 Script `G02_idea_generator.py` is missing `__version__` string
+- 🟡 Script `G11_maintenance_batcher.py` is missing `__version__` string
+- 🟡 Script `G11_suggestion_scrubber.py` is missing `__version__` string
+- 🟡 Script `G11_script_health.py` is missing `__version__` string
+- 🟡 Script `G12_standardize_links.py` is missing `__version__` string
+- 🟡 Script `G11_strategic_auditor.py` is missing `__version__` string
+- 🟡 Script `G10_calendar_client.py` is missing `__version__` string
+- 🟡 Script `G03_appliance_monitor.py` is missing `__version__` string
+- 🟡 Script `G04_startup_probe.py` is missing `__version__` string
+- 🟡 Script `G10_task_sync.py` is missing `__version__` string
+- 🟡 Script `G11_db_event_bridge.py` is missing `__version__` string
+- 🟡 Script `G10_mission_briefing.py` is missing `__version__` string
+- 🟡 Script `G11_mission_refractor.py` is missing `__version__` string
+- 🟡 Script `G11_autonomy_promoter.py` is missing `__version__` string
+- 🟡 Script `G12_auto_did_logger.py` is missing `__version__` string
+- 🟡 Script `G02_content_harvester.py` is missing `__version__` string
+- 🟡 Script `G10_weekly_rollup.py` is missing `__version__` string
+- 🟡 Script `G11_startup_probe.py` is missing `__version__` string
+- 🟡 Script `G12_documentation_audit.py` is missing `__version__` string
+- 🟡 Script `G04_digital_twin_listener.py` is missing `__version__` string
+- 🟡 Script `G05_auto_rebalance_trigger.py` is missing `__version__` string
+- 🟡 Script `G07_auth_helper.py` is missing `__version__` string
+- 🟡 Script `G12_knowledge_agent.py` is missing `__version__` string
+- 🟡 Script `G11_journal_backfiller.py` is missing `__version__` string
+- 🟡 Script `G03_pantry_one_click.py` is missing `__version__` string
+- 🟡 Script `G02_linkedin_drafter.py` is missing `__version__` string
+- 🟡 Script `G07_weight_sync.py` is missing `__version__` string
+- 🟡 Script `G06_learning_sync.py` is missing `__version__` string
+- 🟡 Script `G07_health_recovery_pro.py` is missing `__version__` string
+- 🟡 Script `G11_global_sync.py` is missing `__version__` string
+- 🟡 Script `G11_friction_harvester.py` is missing `__version__` string
+- 🟡 Script `G10_zone_in_orchestrator.py` is missing `__version__` string
+- 🟡 Script `G10_intelligence_sync.py` is missing `__version__` string
+- 🟡 Script `G11_logistics_calendar_sync.py` is missing `__version__` string
+- 🟡 Script `G01_progress_analyzer.py` is missing `__version__` string
+- 🟡 Script `G06_learning_ingester.py` is missing `__version__` string
+- 🟡 Script `G01_training_planner.py` is missing `__version__` string
+- 🟡 Script `G13_content_idea_generator.py` is missing `__version__` string
+- 🟡 Script `G11_tech_debt_monitor.py` is missing `__version__` string
+- 🟡 Script `G11_time_reallocator.py` is missing `__version__` string
+- 🟡 Script `G13_linkedin_draft_generator.py` is missing `__version__` string
+- 🟡 Script `G13_substack_scheduler.py` is missing `__version__` string
+- 🟡 Script `G11_failure_resolver.py` is missing `__version__` string
+- 🟡 Script `G11_mission_aggregator.py` is missing `__version__` string
+- 🟡 Script `G09_ai_skill_analyzer.py` is missing `__version__` string
+- 🟡 Script `G10_weekly_roi_report.py` is missing `__version__` string
+- 🟡 Script `G12_stale_docs_monitor.py` is missing `__version__` string
+- 🟡 Script `G10_google_tasks_sync.py` is missing `__version__` string
+- 🟡 Script `G04_morning_briefing_sender.py` is missing `__version__` string
+- 🟡 Script `G08_focus_readiness_check.py` is missing `__version__` string
+- 🟡 Script `G12_vault_janitor.py` is missing `__version__` string
+- 🟡 Script `G11_db_recovery_shield.py` is missing `__version__` string
+- 🟡 Script `G11_task_archiver.py` is missing `__version__` string
+- 🟡 Script `G11_event_listener.py` is missing `__version__` string
+- 🟡 Script `G07_health_anomaly_monitor.py` is missing `__version__` string
+- 🟡 Script `G11_decision_pattern_analyzer.py` is missing `__version__` string
+- 🟡 Script `G01_progressive_overload.py` is missing `__version__` string
+- 🟡 Script `G09_career_sync.py` is missing `__version__` string
+- 🟡 Script `G02_content_performance.py` is missing `__version__` string
+- 🟡 Script `G11_weekly_mission_drafter.py` is missing `__version__` string
+- 🟡 Script `G11_tools_health.py` is missing `__version__` string
+- 🟡 Script `G11_system_sanity_auditor.py` is missing `__version__` string
+- 🟡 Script `G11_auto_discover.py` is missing `__version__` string
+- 🟡 Script `G04_life_sentinel.py` is missing `__version__` string
+- 🟡 Script `G07_health_trend_reporter.py` is missing `__version__` string
+- 🟡 Script `G10_micro_slot_triage.py` is missing `__version__` string
+- 🟡 Script `G06_learning_deadline_recalculator.py` is missing `__version__` string
+- 🟡 Script `G05_budget_rebalancer_pro.py` is missing `__version__` string
+- 🟡 Script `G11_populate_kb.py` is missing `__version__` string
+- 🟡 Script `G03_promo_ingestor.py` is missing `__version__` string
+- 🟡 Script `G08_focus_orchestrator.py` is missing `__version__` string
+- 🟡 Script `G03_meal_planner.py` is missing `__version__` string
 - 🟡 Script `G12_weekly_note_backfiller.py` is missing `__version__` string
-- 🔴 Script `G12_weekly_note_backfiller.py` lacks a docstring
-- 🟡 Script `G04_api_audit_test.py` is missing `__version__` string
-- 🔴 Script `G04_api_audit_test.py` lacks a docstring
+- 🟡 Script `G12_semantic_search.py` is missing `__version__` string
+- 🟡 Script `G11_unified_health_dashboard.py` is missing `__version__` string
+- 🟡 Script `G11_strategic_summarizer.py` is missing `__version__` string
+- 🟡 Script `G10_daily_pattern_analyzer.py` is missing `__version__` string
+- 🟡 Script `G04_digital_friction_monitor.py` is missing `__version__` string
+- 🟡 Script `G03_cart_aggregator.py` is missing `__version__` string
+- 🟡 Script `G11_experiment_engine.py` is missing `__version__` string
+- 🟡 Script `G11_technical_failure_harvester.py` is missing `__version__` string
+- 🟡 Script `G12_auto_documenter.py` is missing `__version__` string
+- 🟡 Script `G11_documentation_security_scanner.py` is missing `__version__` string
+- 🟡 Script `G11_weekly_briefing_bot.py` is missing `__version__` string
+- 🟡 Script `G04_knowledge_decay_monitor.py` is missing `__version__` string
+- 🟡 Script `G11_mission_control.py` is missing `__version__` string
+- 🟡 Script `G11_failure_analyzer.py` is missing `__version__` string
+- 🟡 Script `G04_health_probe.py` is missing `__version__` string
+- 🟡 Script `G11_system_reliability_auditor.py` is missing `__version__` string
+- 🟡 Script `G11_vision_monitor.py` is missing `__version__` string
+- 🟡 Script `G10_caffeine_cutoff.py` is missing `__version__` string
+- 🟡 Script `G07_withings_direct_sync.py` is missing `__version__` string
+- 🟡 Script `G10_productivity_sync.py` is missing `__version__` string
+- 🟡 Script `G01_monthly_reporter.py` is missing `__version__` string
+- 🟡 Script `G07_bio_nutrition_agent.py` is missing `__version__` string
+- 🟡 Script `G05_ollama_wrapper.py` is missing `__version__` string
+- 🟡 Script `G05_finance_learner.py` is missing `__version__` string
+- 🟡 Script `G07_endpoint_discovery.py` is missing `__version__` string
+- 🟡 Script `G06_study_velocity.py` is missing `__version__` string
+- 🟡 Script `G08_contextual_security.py` is missing `__version__` string
+- 🟡 Script `G03_predictive_pantry_decay.py` is missing `__version__` string
+- 🟡 Script `G10_activate_calendar.py` is missing `__version__` string
+- 🟡 Script `G11_apply_rbac_shield.py` is missing `__version__` string
+- 🟡 Script `G11_approval_prompter.py` is missing `__version__` string
+- 🟡 Script `G05_finance_sync.py` is missing `__version__` string
+- 🟡 Script `G07_supplement_orchestrator.py` is missing `__version__` string
+- 🟡 Script `G11_script_inventory_manager.py` is missing `__version__` string
+- 🟡 Script `G04_personal_context_sync.py` is missing `__version__` string
+- 🟡 Script `G11_system_vital_sentinel.py` is missing `__version__` string
+- 🟡 Script `G12_connectivity_mapper.py` is missing `__version__` string
+- 🟡 Script `G11_task_triage_pro.py` is missing `__version__` string
+- 🟡 Script `G02_content_pipeline_manager.py` is missing `__version__` string
+- 🟡 Script `G05_liquidity_optimizer.py` is missing `__version__` string
+- 🟡 Script `G10_schedule_negotiator.py` is missing `__version__` string
+- 🟡 Script `G11_roadmap_enforcer.py` is missing `__version__` string
+- 🟡 Script `G10_meeting_briefing.py` is missing `__version__` string
+- 🟡 Script `G05_finance_anomaly_detector.py` is missing `__version__` string
+- 🟡 Script `G09_market_scout_handler.py` is missing `__version__` string
+- 🟡 Script `G11_self_healing_supervisor.py` is missing `__version__` string
+- 🟡 Script `G02_substack_scout.py` is missing `__version__` string
+- 🟡 Script `G09_activity_log_generator.py` is missing `__version__` string
+- 🟡 Script `G04_digital_twin_engine.py` is missing `__version__` string
+- 🟡 Script `G05_llm_categorizer.py` is missing `__version__` string
+- 🟡 Script `G02_content_generator.py` is missing `__version__` string
+- 🟡 Script `G10_activitywatch_sync.py` is missing `__version__` string
+- 🟡 Script `G07_illness_detector.py` is missing `__version__` string
+- 🟡 Script `G07_zepp_sync.py` is missing `__version__` string
+- 🟡 Script `G11_behavioral_monitor.py` is missing `__version__` string
+- 🟡 Script `G11_system_heartbeat.py` is missing `__version__` string
+- 🟡 Script `G13_content_draft_agent.py` is missing `__version__` string
+- 🟡 Script `G08_hardware_monitor.py` is missing `__version__` string
+- 🟡 Script `G10_focus_enforcer.py` is missing `__version__` string
+- 🟡 Script `G11_dependency_graph.py` is missing `__version__` string
+- 🟡 Script `G05_fire_forecaster.py` is missing `__version__` string
+- 🟡 Script `G11_self_healing_client.py` is missing `__version__` string
+- 🟡 Script `G09_career_strategist.py` is missing `__version__` string
+- 🟡 Script `G04_logistics_sync.py` is missing `__version__` string
+- 🟡 Script `G11_quick_wins.py` is missing `__version__` string
+- 🟡 Script `G04_digital_twin_monitor.py` is missing `__version__` string
 
 ## 📦 Dependency Debt (Environment)
-_Local environment matches Docker requirements._
+- 🔴 Dependency `\` found in Docker but missing in local .venv
 
 ---
 *Report auto-generated by G11_tech_debt_monitor.py*

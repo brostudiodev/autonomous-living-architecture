@@ -120,11 +120,11 @@ Or from Router:
 ## Dependencies
 
 ### Systems
-- [S04 Digital Twin](../../../20_Systems/S04_Digital-Twin/README.md) - Status source
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md) - Workflow execution
+- [S04 Digital Twin](../../../20_Systems/README.md) - Status source
+- [S08 Automation Orchestrator](../../../20_Systems/README.md) - Workflow execution
 
 ### Called By
-- [ROUTER_Intelligent-Hub.md](./ROUTER_Intelligent-Hub.md) - Via `/status` command
+- [ROUTER_Intelligent-Hub.md](ROUTER_Intelligent-Hub.md) - Via `/status` command
 
 ### External Services
 - **Digital Twin API** (Port 5677) - Status data provider

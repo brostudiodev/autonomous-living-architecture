@@ -1,60 +1,92 @@
 ---
-title: "G12: Auto Did Logger"
-type: "automation"
+title: "Automation Spec: G12_auto_did_logger.py"
+type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-28"
-goal_id: "goal-g12"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "94878bc0f909cbeb966bea8e2bdeabbf89e10070906030e72ede68d7196345ea"
 ---
 
-# G12: Auto Did Logger
+# 🤖 Automation Spec: G12_auto_did_logger.py
 
 ## Purpose
-The `G12_auto_did_logger.py` is a "Zero-Touch Documentation" tool that automatically captures daily accomplishments from various system sources and injects them into the Obsidian Daily Note. This eliminates the need for manual tracking of technical progress.
+G12_auto_did_logger.py.
 
 ## Scope
-- **In Scope:**
-    - Scanning Git commits for goal-related changes.
-    - Scanning PostgreSQL `system_activity_log` for script successes.
-    - Scanning Google Tasks for completed items.
-    - Updating the "Did" section of each goal in the current Daily Note.
-- **Out Scope:**
-    - Editing goal roadmaps directly (handled by `G09_sync_daily_goals.py`).
-    - Logging manual (non-digital) activities.
+### In Scope
+- Documents the active implementation at `modules/docs/scripts/G12_auto_did_logger.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G12 Complete Process Documentation` within the `docs` automation domain.
+
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
 ## Inputs/Outputs
-- **Inputs:**
-    - Git Repository (`{{ROOT_LOCATION}}/autonomous-living`)
-    - PostgreSQL Database (`digital_twin_michal.system_activity_log`)
-    - Google Tasks API (Completed tasks in last 24h)
-    - Current Daily Note (`Obsidian Vault/01_Daily_Notes/YYYY-MM-DD.md`)
-- **Outputs:**
-    - Updated Daily Note with "Did" logs for each touched goal.
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G12_auto_did_logger.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
+
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-- **Systems:** [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md), [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
-- **Services:** Google Tasks API
-- **Scripts:** [G11_log_system.py](./G11_log_system.md), [G10_google_tasks_sync.py](./G10_google_tasks_sync.md)
+### Runtime
+- Python script: `modules/docs/scripts/G12_auto_did_logger.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G11_log_system`
+- `modules.productivity.scripts.G10_google_tasks_sync`
+- `os`
+- `pathlib`
+- `psycopg2`
+- `re`
+- `subprocess`
+- `sys`
 
 ## Procedure
-This script is executed automatically by the `autonomous_daily_manager.py` (during morning sync) and `autonomous_evening_manager.py` (before shutdown), and can be triggered manually:
-```bash
-{{ROOT_LOCATION}}/autonomous-living/.venv/bin/python3 scripts/G12_auto_did_logger.py
-```
+1. Review the script source at `modules/docs/scripts/G12_auto_did_logger.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
 ## Failure Modes
 | Scenario | Detection | Response |
 |---|---|---|
-| Database Connection Fail | Error log: "❌ DB Error" | Check PostgreSQL container status and `.env` credentials. |
-| Google Tasks Auth Expired | Error log: "❌ Tasks Error" | Run `G10_google_tasks_sync.py --reauth` to refresh token. |
-| Daily Note Missing | Error log: "❌ Daily note not found" | Ensure `fill-daily.sh` has run for the current day. |
-| Regex Match Failure | No update in note | Check if Daily Note structure matches the expected `**GXX**` pattern. |
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
 ## Security Notes
-- Uses `google_tasks_token.pickle` for API access.
-- Accesses PostgreSQL via `.env` credentials.
-- No sensitive data is logged to the Daily Note; only task titles and commit messages.
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
 ## Owner + Review Cadence
-- **Owner:** Michał
-- **Review Cadence:** Monthly audit of logging accuracy.
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G12_auto_did_logger.py`.
+
+## Implementation Notes
+- Top-level functions: get_goal_id_from_name, get_recent_activity, get_git_commits, get_tasks_activity, update_daily_note
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `re, psycopg2, pathlib, datetime, os, autonomous_sdk.db_config, modules.meta.scripts.G11_log_system, sys, subprocess, modules.productivity.scripts.G10_google_tasks_sync`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

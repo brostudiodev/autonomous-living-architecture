@@ -22,7 +22,7 @@ updated: "2026-02-15"
 ### Productivity System Metrics
 | Metric | Target | How measured | Frequency | Owner |
 |---|---:|---|---|---|
-| **Planning ROI** | > 10 mins/day | [Autonomy ROI Tracker](../G04_Digital-Twin-Ecosystem/Systems.md) | Daily | Digital Twin |
+| **Planning ROI** | > 10 mins/day | [Autonomy ROI Tracker](../G02_Automationbro-Recognition/Systems.md) | Daily | Digital Twin |
 | **Readiness Adherence** | > 80% | [G10_tomorrow_planner.py](../../50_Automations/scripts/G10_tomorrow_planner.md) | Weekly | Digital Twin |
 | **Deep Work Hours** | > 15h/week | RescueTime / Calendar Audit | Weekly | Michał |
 

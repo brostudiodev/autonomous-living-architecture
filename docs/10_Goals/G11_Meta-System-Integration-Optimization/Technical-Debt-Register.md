@@ -36,7 +36,7 @@ To track, categorize, and prioritize architectural shortcuts, outdated dependenc
 ---
 
 ## 📅 Monthly Audit Procedure
-1. Run `python3 scripts/G11_tech_debt_monitor.py`
+1. Run `python3 modules/meta/scripts/G11_tech_debt_monitor.py`
 2. Review the generated `Technical-Debt-Audit-Report.md`
 3. Update the Register (this file) with new items.
 4. Schedule "Debt Clearance" tasks for the following month.
@@ -44,4 +44,4 @@ To track, categorize, and prioritize architectural shortcuts, outdated dependenc
 ---
 ## 🔗 References
 - [Documentation Standard](../Documentation-Standard.md)
-- [G11 Roadmap](./Roadmap.md)
+- [G11 Roadmap](../G02_Automationbro-Recognition/Roadmap.md)

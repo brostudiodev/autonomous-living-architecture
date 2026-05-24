@@ -12,7 +12,7 @@ goal_id: "goal-g03"
 ## KPI list
 | Metric | Target | How measured | Frequency | Owner |
 |---|---:|---|---|---|
-| **Procurement ROI** | > 15 mins/week | [Autonomy ROI Tracker](../G04_Digital-Twin-Ecosystem/Systems.md) | Weekly | Digital Twin |
+| **Procurement ROI** | > 15 mins/week | [Autonomy ROI Tracker](../G02_Automationbro-Recognition/Systems.md) | Weekly | Digital Twin |
 | **Stockout Rate** | < 1 item/month | Pantry Audit | Monthly | Michał |
 | **Manifest Accuracy** | > 90% | Manual Review | Weekly | Michał |
 

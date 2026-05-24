@@ -1,53 +1,87 @@
 ---
-title: "G11: Automated Database Backup"
+title: "Automation Spec: G11_db_backup.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G11_db_backup.py"
-goal_id: "goal-g11"
-systems: ["S03"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "4558c998e68{{LONG_IDENTIFIER}}"
 ---
 
-# G11: Automated Database Backup
+# 🤖 Automation Spec: G11_db_backup.py
 
 ## Purpose
-Ensures disaster recovery capability by performing daily logical backups (`pg_dump`) of all seven core PostgreSQL databases in the autonomous ecosystem.
+G11_db_backup.py.
 
-## Triggers
-- **Automated:** Executed as part of the `G11_global_sync.py` registry.
-- **Manual:** `python3 scripts/G11_db_backup.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_db_backup.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-## Inputs
-- PostgreSQL Instance: Localhost (Port 5432).
-- Credentials: `DB_PASSWORD` from `.env`.
-- Database List: `autonomous_health`, `autonomous_finance`, `autonomous_pantry`, `autonomous_training`, `autonomous_learning`, `autonomous_life_logistics`, `digital_twin_michal`.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Preparation:** Checks for existence of standardized backup directory (`_meta/backups/db/`).
-2.  **Container Discovery:** Autonomously identifies the active PostgreSQL Docker container using `docker ps`.
-3.  **Authentication (Syntax Repair):** Uses `docker exec -e PGPASSWORD=${DB_PASSWORD}` for secure, non-interactive execution within the container environment, resolving previous syntax errors with legacy password handling.
-4.  **Execution:** Loops through the database list and executes `pg_dump` via the identified container.
-5.  **Verification:** Checks exit codes for each dump operation and cleans up incomplete files on failure.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_db_backup.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Storage:** Normalized `.sql` backup files in `_meta/backups/db/` with datestamped filenames (e.g., `autonomous_health_2026-04-18.sql`).
-- **Centralized Logging:** Reports `SUCCESS`, `PARTIAL`, or `FAILURE` status to `system_activity_log`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
+### Runtime
+- Python script: `modules/meta/scripts/G11_db_backup.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-### External Tools
-- `pg_dump` (PostgreSQL client utility)
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `subprocess`
+- `sys`
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Disk Full | `pg_dump` exit code 1 | Log failure | System Activity Log |
-| Permission Denied | Folder write error | Log failure | System Activity Log |
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_db_backup.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Manual Fallback
-If backups fail:
-1.  Manually run `pg_dump` from the command line.
-2.  Use a GUI tool (like pgAdmin or DBeaver) to export the database schemas and data.
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_db_backup.py`.
+
+## Implementation Notes
+- Top-level functions: run_backups
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `datetime, os, autonomous_sdk.db_config, modules.meta.scripts.G11_log_system, sys, subprocess`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

@@ -1,57 +1,90 @@
 ---
-title: "G04: Trend Forecaster"
+title: "Automation Spec: G04_trend_forecaster.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G04_trend_forecaster"
-goal_id: "goal-g04"
-systems: ["S04"]
-owner: "Michał"
-updated: "2026-04-19"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "9ebb9cb0fa26a52eb984d62740a0ca37c0801309a0c6db9cc43015f58fb03b40"
 ---
 
-# G04: Trend Forecaster
+# 🤖 Automation Spec: G04_trend_forecaster.py
 
 ## Purpose
-Provides predictive analytics for the Digital Twin ecosystem. Uses linear regression to estimate the date a specific metric target (e.g., 15% body fat) will be reached based on historical trends.
+G04_trend_forecaster.py.
 
-## Features
-- **Linear Regression Modeling:** Calculates the rate of change and R-squared confidence.
-- **Smoothing:** Uses a 7-day rolling average to reduce noise from daily fluctuations.
-- **Multi-Domain Support:** Handles health (weight, body fat) and finance metrics.
-- **Unlocked Long-Term Analysis (Updated Apr 19):** Support for up to **3650 days (10 years)** of historical data. Prediction limits extended to 10 years to support long-term life goals.
-- **Confidence Scoring:** Categorizes predictions as High/Medium/Low based on R² values.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G04_trend_forecaster.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G04 Digital Twin Ecosystem` within the `meta` automation domain.
 
-## Triggers
-- **On-Demand:** Called by Agent Zero when a user asks "When will I reach [target]?"
-- **API:** Exposed via the Digital Twin API for programmatic forecasting.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Inputs
-- **Metric Name:** (e.g., `body_fat`, `weight`)
-- **Target Value:** (numeric)
-- **Domain:** (e.g., `health`, `finance`)
-- **History Period:** Defaults to 3650 days.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G04_trend_forecaster.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Target Date:** (YYYY-MM-DD)
-- **Days Remaining:** (integer)
-- **R-Squared:** Accuracy of the linear fit.
-- **Formatted Report:** Human-readable summary for Telegram/Obsidian.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Python Libraries
-- `numpy`, `pandas`, `psycopg2`
-- `scikit-learn` (optional, falls back to `numpy.polyfit`)
+### Runtime
+- Python script: `modules/meta/scripts/G04_trend_forecaster.py`
+- Trigger mode: Manual Execution, CLI with Arguments
+- Databases: PostgreSQL
 
-### Databases
-- `autonomous_health`
-- `autonomous_finance`
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `numpy`
+- `os`
+- `pandas`
+- `psycopg2`
+- `sys`
 
-## Error Handling
-| Failure Scenario | Detection | Response |
+## Procedure
+1. Review the script source at `modules/meta/scripts/G04_trend_forecaster.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
 |---|---|---|
-| Insufficient Data | `< 5` data points | Return "Insufficient data" error |
-| Moving Away from Target | Negative/Positive slope check | Return "Moving away from target" warning |
-| R² < 0.2 | R-squared calculation | Flag as "Very Low Confidence" |
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G04_trend_forecaster.py`.
+
+## Implementation Notes
+- Top-level functions: get_data, forecast
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution, CLI with Arguments
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, pandas, numpy, datetime, os, autonomous_sdk.db_config, json, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*Updated: 2026-04-19 | Predictive Intelligence Layer v2.0*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

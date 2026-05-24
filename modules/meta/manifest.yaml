@@ -1,0 +1,26 @@
+name: meta
+version: 1
+description: "Kernel Meta-System: Self-Healing, Failure Analysis & Stability Monitoring"
+core: true
+sync_tier: 3
+databases:
+  - digital_twin_michal
+depends_on:
+  - postgres
+  - rabbitmq
+api_routes:
+  - /api/v1/meta
+env_vars:
+  - VENV_PYTHON
+capabilities:
+  - name: "self_healing"
+    description: "Automatically retries failed scripts and clears stale lock files."
+    api_endpoints: ["/api/v1/meta/heal"]
+    events_emitted: ["system_healed"]
+  - name: "failure_analysis"
+    description: "Categorizes and analyzes technical friction patterns."
+    api_endpoints: ["/api/v1/meta/failures/analyze"]
+  - name: "stability_monitoring"
+    description: "Calculates success rates and reliability scores for core services."
+    api_endpoints: ["/api/v1/meta/stability"]
+    events_emitted: ["stability_report"]

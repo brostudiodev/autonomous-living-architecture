@@ -33,7 +33,7 @@ Template workflow for creating new n8n service workflows. Used as a starting poi
 
 ## Dependencies
 ### Systems
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md)
+- [S08 Automation Orchestrator](../../../20_Systems/README.md)
 
 ## Manual Fallback
 Create new workflow from scratch in n8n editor.

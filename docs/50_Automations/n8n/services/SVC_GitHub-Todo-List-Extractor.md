@@ -249,7 +249,7 @@ To add a new goal:
 
 ## Related Documentation
 
-*   [Goal Documentation Standard](../../../../10_Goals/Documentation-Standard.md)
-*   [SOP: Weekly Review](../../../../30_Sops/Weekly-Review-SOP.md)
-*   [System: S03 Data Layer](../../../../20_Systems/S03_Data-Layer/README.md)
-*   [System: S10 Daily Goals Automation](../../../../20_Systems/S10_Daily-Goals-Automation/README.md)
+*   [Goal Documentation Standard](../../../10_Goals/Documentation-Standard.md)
+*   [SOP: Weekly Review](../../../30_Sops/Weekly-Review-SOP.md)
+*   [System: S03 Data Layer](../../../20_Systems/README.md)
+*   [System: S10 Daily Goals Automation](../../../20_Systems/README.md)

@@ -382,9 +382,9 @@ This project demonstrates **enterprise-grade autonomous living** - the same prin
 
 ## Next Steps
 
-- **[Project in a Nutshell](./01_Project-in-a-nutshell.md)** - The high-level overview
-- **[The 12 Goals](../10_Goals/README.md)** - What's actually being built
-- **[Navigation Guide](./How-to-navigate.md)** - How to explore this documentation
+- **[Project in a Nutshell](01_Project-in-a-nutshell.md)** - The high-level overview
+- **[The 12 Goals](../20_Systems/README.md)** - What's actually being built
+- **[Navigation Guide](How-to-navigate.md)** - How to explore this documentation
 
 ---
 

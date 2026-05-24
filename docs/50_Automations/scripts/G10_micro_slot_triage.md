@@ -1,53 +1,87 @@
 ---
-title: "Automation Spec: G10 Micro-Slot Triage"
+title: "Automation Spec: G10_micro_slot_triage.py"
 type: "automation_spec"
 status: "active"
-system_id: "S10"
-goal_id: "goal-g10"
-owner: "Michał"
-updated: "2026-04-01"
-review_cadence: "monthly"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "4d520{{LONG_IDENTIFIER}}"
 ---
 
-# 🤖 Automation Spec: G10 Micro-Slot Triage
+# 🤖 Automation Spec: G10_micro_slot_triage.py
 
-## 🎯 Purpose
-Maximize productivity by identifying 15-45 minute gaps in the Google Calendar and suggesting "Quick Win" or "Admin" tasks via Telegram. Reduces decision fatigue during transitions.
+## Purpose
+G10_micro_slot_triage.py.
 
-## 📝 Scope
-- **In Scope:** Calendar gap identification; Google Task list filtering; Telegram suggestions.
-- **Out of Scope:** Automated scheduling of tasks into calendar; Deletion of tasks.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/productivity/scripts/G10_micro_slot_triage.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G10 Intelligent Productivity Time Architecture` within the `productivity` automation domain.
 
-## 🔄 Inputs/Outputs
-- **Inputs:** 
-  - Google Calendar (via `G10_calendar_client.py`)
-  - Google Tasks (via `G10_google_tasks_sync.py`)
-- **Outputs:**
-  - Proactive Telegram alert
-  - Activity log in `G11_log_system`
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## 🛠️ Dependencies
-- **Systems:** S09 Productivity & Time, S10 Daily Goals Automation
-- **Services:** Google Calendar API, Google Tasks API, Telegram Bot API
-- **Credentials:** `TELEGRAM_BOT_TOKEN`, `CLIENT_SECRET_FILE`, `TOKEN_FILE`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G10_micro_slot_triage.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## ⚙️ Logic & Procedure
-1. **Gap Detection:** Calculates intervals between today's timed calendar events.
-2. **Task Prioritization:** 
-   - Searches the "Suggestions" task list first.
-   - Fallback to "My Tasks" filtering for "ADMIN" or "REVIEW" keywords.
-3. **Trigger:** Automated via `G11_global_sync.py` every 15-30 mins.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
 
-## ⚠️ Failure Modes
+## Dependencies
+### Runtime
+- Python script: `modules/productivity/scripts/G10_micro_slot_triage.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
+
+### Imports
+- `G04_digital_twin_notifier`
+- `G10_calendar_client`
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G11_log_system`
+- `modules.productivity.scripts.G10_google_tasks_sync`
+- `os`
+
+## Procedure
+1. Review the script source at `modules/productivity/scripts/G10_micro_slot_triage.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
 | Scenario | Detection | Response |
 |---|---|---|
-| Google Auth Error | "Permission error" in logs | Run `G10_google_tasks_sync.py --reauth` |
-| No Gaps Found | Silent log entry "No suitable gaps" | Expected behavior for busy days |
-| No Tasks | "Found gap, no tasks" in log | Verify tasks exist in "Suggestions" or "Admin" lists |
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## 🔒 Security Notes
-- **Access Control:** Uses OAuth 2.0 with restricted scopes for Google APIs.
-- **Secrets:** All tokens/secrets stored in `.env` or encrypted pickle files.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G10_micro_slot_triage.py`.
+
+## Implementation Notes
+- Top-level functions: parse_time, parse_end_time, run_micro_slot_triage
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `G10_calendar_client, datetime, G04_digital_twin_notifier, os, autonomous_sdk.db_config, modules.meta.scripts.G11_log_system, modules.productivity.scripts.G10_google_tasks_sync`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*System Hardening v5.4 - April 2026*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

@@ -30,8 +30,8 @@ A production-ready n8n sub-workflow that connects the Intelligent-Hub to the Dig
 
 ## Dependencies
 ### Systems
-- [Digital Twin System](../../../20_Systems/S04_Digital-Twin/README.md)
-- [Productivity & Time](../../../20_Systems/S09_Productivity-Time/README.md)
+- [Digital Twin System](../../../20_Systems/README.md)
+- [Productivity & Time](../../../20_Systems/README.md)
 
 ### External Services
 - **Digital Twin API:** Running on `{{INTERNAL_IP}}:5677`.

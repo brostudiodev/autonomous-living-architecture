@@ -1,56 +1,53 @@
 ---
-title: "G04_digital_twin_notifier.py: Telegram Notification Hub"
+title: "Archived Automation Spec: digital-twin-notifier"
 type: "automation_spec"
-status: "active"
-automation_id: "digital-twin-notifier"
-goal_id: "goal-g04"
-systems: ["S04", "S08"]
+status: "archived"
 owner: "Michał"
-updated: "2026-02-24"
+updated: "2026-05-23"
 ---
 
-# G04_digital_twin_notifier.py: Telegram Notification Hub
+# Archived Automation Spec: digital-twin-notifier
 
 ## Purpose
-Provides a centralized, reusable utility for all autonomous scripts to send Markdown-formatted notifications to the user via Telegram.
+Preserves the historical documentation record for `digital-twin-notifier` after no matching active Python script was found in `scripts/` or `modules/<domain>/scripts/`.
 
-## Triggers
-- **Internal Call:** Imported and called by other scripts (e.g., `G04_morning_briefing_sender.py`, `autonomous_daily_manager.py`).
-- **Manual Test:** `python3 scripts/G04_digital_twin_notifier.py "Test message"`
+## Scope
+### In Scope
+- Records that this automation spec is archived and is not part of the active production script surface.
+- Provides a stable name for historical cross-references and migration review.
 
-## Inputs
-- **Environment Variables:** `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` (loaded from root `.env`).
-- **Function Arguments:** Message text and optional parse mode.
+### Out of Scope
+- Runtime behavior, scheduler configuration, and operational ownership for a live script.
+- New production changes or active automation guarantees.
 
-## Processing Logic
-1. Load credentials from `.env`.
-2. Send POST request to Telegram Bot API `sendMessage` endpoint.
-3. Handle basic request exceptions.
+## Inputs/Outputs
+### Inputs
+- Historical references to `digital-twin-notifier` in older documentation or migration notes.
 
-## Outputs
-- **Telegram Message:** Instant push notification to the user's device.
+### Outputs
+- Archived documentation status only. No active runtime output is expected from this record.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
-- [S08 Automation Orchestrator](../../20_Systems/S08_Automation-Orchestrator/README.md)
+- No active script dependency is currently registered for this documentation file.
+- If this automation is restored, create or identify the active script and regenerate the spec with `G12_auto_documenter.py`.
 
-### External Services
-- **Telegram Bot API:** Message delivery service.
+## Procedure
+1. Search for an active implementation before using this document operationally.
+2. If no script exists, keep this file archived.
+3. If a script is restored, update `status` to `active`, add `script_hash`, and regenerate the spec.
+4. Re-run `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-### Credentials
-- `TELEGRAM_BOT_TOKEN`: Secret token from BotFather.
-- `TELEGRAM_CHAT_ID`: User's unique chat ID.
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Archived doc is mistaken for an active automation | No matching script exists in the active script directories | Locate or recreate the script before scheduling or invoking it. |
+| Historical link points here | Link resolves to an archived spec | Use the archive status to decide whether to update or remove the reference. |
+| Automation is restored | New script appears with this stem | Regenerate this spec as active documentation with a current `script_hash`. |
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Missing .env | `None` returned for env vars | Log error and return `False` | Script console output |
-| API Timeout | `requests.exceptions.Timeout` | Log error and return `False` | Script console output |
-| Invalid Token | `401 Unauthorized` | Log error and return `False` | Script console output |
+## Security Notes
+- Do not add secrets, raw tokens, passwords, or internal infrastructure addresses to archived documentation.
+- Use placeholders such as `[API_KEY]`, `{{DB_PASSWORD}}`, and `{{INTERNAL_IP}}` for any historical configuration notes.
 
-## Manual Fallback
-```bash
-# Manual CURL test
-curl -X POST https://api.telegram.org/bot<TOKEN>/sendMessage -d chat_id=<ID>&text="Manual Alert"
-```
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Quarterly archive review, or immediately if a matching script is restored.

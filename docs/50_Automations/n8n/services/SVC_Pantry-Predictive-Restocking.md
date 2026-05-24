@@ -59,4 +59,4 @@ The service will execute the following logic weekly:
 ## 7. Related Documentation
 - [Automation Spec: WF105 Pantry Management](../workflows/WF105__pantry-management.md)
 - [Data Schema: S03 Pantry](../../../20_Systems/S03_Data-Layer/Pantry-Schema.md)
-- [Sub-Project Master: Pantry Management System](../../../10_Goals/G03_Autonomous-Household-Operations/README.md)
+- [Sub-Project Master: Pantry Management System](../../../20_Systems/README.md)

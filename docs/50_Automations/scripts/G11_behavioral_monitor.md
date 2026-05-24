@@ -1,164 +1,89 @@
 ---
-title: "G11_behavioral_monitor.py: Behavioral Anomaly Detection"
+title: "Automation Spec: G11_behavioral_monitor.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G11_behavioral_monitor"
-goal_id: "goal-g11"
-systems: ["S11", "S04"]
-owner: "Michał"
-updated: "2026-03-16"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "{{LONG_IDENTIFIER}}"
 ---
 
-# G11: Behavioral Monitor (Anomaly Detection)
+# 🤖 Automation Spec: G11_behavioral_monitor.py
 
 ## Purpose
-Monitors behavioral patterns and detects anomalies that may indicate:
-- Skipped routines (journaling, workouts, medication)
-- Declining engagement (reduced task completion, fewer interactions)
-- Health warning signs (sleep patterns, activity changes)
-- Autonomy drift (increasing manual overrides)
+G11_behavioral_monitor.py.
 
 ## Scope
 ### In Scope
-- Tracking behavioral events (journaling, workouts, learning sessions)
-- Detecting missed patterns against baselines
-- Alerting on behavioral anomalies
-- Providing actionable recommendations
+- Documents the active implementation at `modules/meta/scripts/G11_behavioral_monitor.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
 ### Out of Scope
-- Direct intervention (only monitors and alerts)
-- Long-term trend analysis (beyond 30 days)
-- Complex pattern recognition (ML-based)
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Triggers
-- **Passive:** Called by G11_daily_orchestrator
-- **Manual:** `python3 G11_behavioral_monitor.py --check`
-- **Scheduled:** Daily via `G11_global_sync.py`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_behavioral_monitor.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Inputs
-- **Baselines:** Hardcoded behavior expectations
-- **Database:** `digital_twin_michal`
-- **External:** Can integrate with any data source via `log_event()`
-
-## Processing Logic
-1. **Load Baselines:** Read expected frequencies for each behavior
-2. **Query Events:** Count events in lookback period
-3. **Compare:** Check against threshold
-4. **Detect Anomaly:** If threshold exceeded, create alert
-5. **Log:** Store in `behavioral_anomalies` table
-
-## Outputs
-- **DB Records:** `behavioral_events`, `behavioral_anomalies` tables
-- **Alerts:** Actionable messages about detected issues
-- **Stats:** Behavioral tracking statistics
-
-## Failure Modes
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| DB connection fail | psycopg2 Error | Skip logging | Console |
-| No baseline defined | KeyError | Skip behavior | Console |
-| Table missing | CREATE TABLE IF NOT EXISTS | Auto-create | None |
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md) - Database storage
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md) - Event data
+### Runtime
+- Python script: `modules/meta/scripts/G11_behavioral_monitor.py`
+- Trigger mode: Manual Execution, CLI with Arguments
+- Databases: PostgreSQL
 
-### External Services
-- PostgreSQL (digital_twin_michal)
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `os`
+- `psycopg2`
+- `sys`
+- `typing`
 
-### Credentials
-- DB credentials from `.env`
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_behavioral_monitor.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
 ## Security Notes
-- All data stored locally in PostgreSQL
-- No external API calls
-- Anomaly data is personal - handle with care
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
 ## Owner + Review Cadence
-- **Owner:** Michał
-- **Review Cadence:** Weekly (review anomalies)
-- **Last Review:** 2026-03-16
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_behavioral_monitor.py`.
+
+## Implementation Notes
+- Top-level functions: main
+- Top-level classes: BehavioralMonitor
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution, CLI with Arguments
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, json, typing, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-
-## Monitored Behaviors
-
-| Behavior ID | Expected | Threshold | Alert Message Template |
-|-------------|----------|-----------|------------------------|
-| journaling | daily | 3 days | "You've skipped journaling {count} days. Historically this precedes poor decisions." |
-| workout | weekly | 2 misses | "You've missed {count} scheduled workouts. Check readiness and adjust schedule." |
-| grocery_planning | weekly | 1 miss | "No grocery planning this week. Pantry may need attention." |
-| financial_review | weekly | 1 miss | "No financial review this week. Budget may be drifting." |
-| learning_session | daily | 3 misses | "You've missed {count} learning sessions. Exam prep may be at risk." |
-| social_contact | weekly | 14 days | "No social contact in {count} days. Relationship maintenance needed." |
-| manual_override | daily | 5/week | "You've overridden {count} autonomous decisions this week. System may need tuning." |
-
----
-
-## Usage Examples
-
-### Check All Behaviors
-```bash
-python3 scripts/G11_behavioral_monitor.py --check
-```
-
-### Log an Event
-```bash
-python3 scripts/G11_behavioral_monitor.py --log journaling 1 '{"source": "daily_note"}'
-```
-
-### List Unacknowledged Anomalies
-```bash
-python3 scripts/G11_behavioral_monitor.py --anomalies
-```
-
-### Acknowledge an Anomaly
-```bash
-python3 scripts/G11_behavioral_monitor.py --ack 42
-```
-
-### Get Behavior Stats
-```bash
-python3 scripts/G11_behavioral_monitor.py --stats journaling
-```
-
----
-
-## Integration
-
-### Auto-Logging from Daily Notes
-The monitor can be integrated into `autonomous_daily_manager.py` to automatically log:
-- Journaling completion
-- Workout completion
-- Learning session completion
-
-### Example Integration
-```python
-from G11_behavioral_monitor import BehavioralMonitor
-
-monitor = BehavioralMonitor()
-
-# After parsing daily note
-if completed_journaling:
-    monitor.log_event("journaling", 1, {"source": "daily_note"})
-    
-if completed_workout:
-    monitor.log_event("workout", 1, {"type": "HIT", "duration": 45})
-
-# In morning briefing
-anomalies = monitor.get_unacknowledged_anomalies()
-for a in anomalies:
-    print(f"⚠️ {a['message']}")
-```
-
----
-
-## Related Documentation
-- [Autonomy Upgrade Plan](../../10_Goals/Autonomy-Upgrade-Plan.md)
-- [G11 Rules Engine](G11_rules_engine.md)
-- [G11 Experiment Engine](G11_experiment_engine.md)
-- [G11 Self-Healing Supervisor](G11_self_healing_supervisor.md)
-
----
-*Updated: 2026-03-16 by Digital Twin Assistant*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

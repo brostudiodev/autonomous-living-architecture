@@ -1,38 +1,88 @@
 ---
-title: "G11: Logistics to Calendar Sync"
+title: "Automation Spec: G11_logistics_calendar_sync.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G11_logistics_calendar_sync"
-goal_id: "goal-g11"
-systems: ["S04", "S11"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "3e6dd{{LONG_IDENTIFIER}}"
 ---
 
-# G11: Logistics to Calendar Sync
+# 🤖 Automation Spec: G11_logistics_calendar_sync.py
 
 ## Purpose
-Automatically synchronizes upcoming administrative and life deadlines (Car inspection, insurance, legal dates) from the `autonomous_life_logistics` database to Google Calendar as all-day events.
+G11_logistics_calendar_sync.py.
 
-## Triggers
-- Scheduled: Part of the `autonomous_daily_manager.py` daily sync cycle.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_logistics_calendar_sync.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-## Inputs
-- Database: `autonomous_life_logistics.items` (Filtered for `due_date` within next 30 days).
-- Google Calendar API (via `G10_calendar_client.py`).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Query:** Fetch all pending items with a due date in the next 30 days.
-2. **Deduplicate:** Check existing calendar events for the same title to prevent spam.
-3. **Format:** Create a "Yellow" (colorId: 5) all-day event with the category and notes in the description.
-4. **Push:** Insert into the primary Google Calendar.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_logistics_calendar_sync.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- Google Calendar Events (e.g., "📦 Car: Inspection").
-- Activity Log entry.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Google API Error | Exception caught | Skip sync, log failure | Log Critical |
-| DB Timeout | psycopg2 error | Wait and retry | Log Warning |
+## Dependencies
+### Runtime
+- Python script: `modules/meta/scripts/G11_logistics_calendar_sync.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `G10_calendar_client`
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `os,`
+- `psycopg2`
+
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_logistics_calendar_sync.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_logistics_calendar_sync.py`.
+
+## Implementation Notes
+- Top-level functions: sync_logistics_to_calendar
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, G10_calendar_client, datetime, os, autonomous_sdk.db_config, os,, modules.meta.scripts.G11_log_system`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

@@ -1,58 +1,87 @@
 ---
-title: "G11_pre_flight_check.py: Sync Integrity Audit"
+title: "Automation Spec: G11_pre_flight_check.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G11_pre_flight_check"
-goal_id: "goal-g11"
-systems: ["S11", "S03"]
-owner: "Michał"
-updated: "2026-03-13"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "484b7e0b04503bf2c2f38aa691984001ed29d4cc775ef3b11deb17e2669b0ca3"
 ---
 
-# G11: Pre-Flight Sync Integrity Check
+# 🤖 Automation Spec: G11_pre_flight_check.py
 
 ## Purpose
-Ensures that the Daily Note is not generated with stale data by verifying today's biometrics (Zepp) and weight (Withings) are present in the database. If missing, it attempts a manual sync before proceeding.
+G11_pre_flight_check.py.
 
-## Triggers
-- **When:** Automatically triggered by `G11_global_sync.py` before the Daily Note generation.
-- **Manual:** `python3 G11_pre_flight_check.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_pre_flight_check.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-## Inputs
-- **PostgreSQL Databases:** `autonomous_health` (biometrics table).
-- **Environment:** Database credentials from `.env`.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Initial Audit:** Queries the database for records matching `CURRENT_DATE`.
-2. **Missing Data Detection:**
-    - If `readiness_score` is missing → Triggers `G07_zepp_sync.py`.
-    - If `weight_kg` is missing → Triggers `withings_to_sheets.py` followed by `G07_weight_sync.py`.
-3. **Re-verification:** Performs a second query to confirm the new data was successfully ingested.
-4. **Graceful Exit:** Provides a success/partial status report but allows the orchestrator to continue (preventing a system-wide block).
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_pre_flight_check.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Console Log:** Detailed status of each critical data source.
-- **Database State:** Updated biometric records for the current day.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [G07 Predictive Health](../../10_Goals/G07_Predictive-Health-Management/README.md)
+### Runtime
+- Python script: `modules/meta/scripts/G11_pre_flight_check.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### External Services
-- Zepp Cloud API (via sub-script)
-- Withings API (via sub-script)
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `os`
+- `psycopg2`
+- `subprocess`
+- `sys`
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| DB Connection Failure | Exception in `psycopg2` | Log error, exit status 0 | Standard error log |
-| Sub-sync Failure | Subprocess exit code != 0 | Log specific missing source | Part of global sync report |
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_pre_flight_check.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Monitoring
-- **Success metric:** 100% data freshness for current day before Daily Note generation.
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_pre_flight_check.py`.
+
+## Implementation Notes
+- Top-level functions: check_sync_status, run_sync, main
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, sys, subprocess`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*Related Documentation:*
-- [G11_global_sync.md](G11_global_sync.md)
-- [G07_zepp_sync.md](G07_zepp_sync.md)
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

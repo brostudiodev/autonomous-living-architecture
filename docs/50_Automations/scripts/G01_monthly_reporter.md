@@ -1,48 +1,89 @@
 ---
-title: "G01: Monthly Health Reporter"
+title: "Automation Spec: G01_monthly_reporter.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G01_monthly_reporter"
-goal_id: "goal-g01"
-systems: ["S01", "S03"]
-owner: "Michał"
-updated: "2026-03-20"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "{{LONG_IDENTIFIER}}"
 ---
 
-# G01: Monthly Health Reporter
+# 🤖 Automation Spec: G01_monthly_reporter.py
 
 ## Purpose
-Generates a monthly executive summary of body composition (weight, body fat) and HIT training performance (sessions, TUT).
+G01_monthly_reporter.py.
 
-## Triggers
-- Scheduled: Part of the `G11_global_sync.py` registry (Runs only on the 1st of each month).
-- Manual: `python3 G01_monthly_reporter.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/training/scripts/G01_monthly_reporter.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G01 Target Body Fat` within the `training` automation domain.
 
-## Inputs
-- `autonomous_training` database (Workouts/Sets tables)
-- `autonomous_health` database (Biometrics table)
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Training Stats:** Aggregate total workout count and average Time Under Tension (TUT) for the current/previous month.
-2.  **Health Stats:** Calculate weight and body fat delta (start vs. end of month).
-3.  **Insight Generation:** Determine if weight is trending down and if performance is progressing (TUT > 60s).
-4.  **Markdown Export:** Write to `docs/10_Goals/G01_Target-Body-Fat/artifacts/reports/YYYY-MM_Monthly_Health_Report.md`.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G01_monthly_reporter.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- Markdown report file in goal artifacts.
-- Console status log.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S01 Observability](../../20_Systems/S01_Observability-Monitoring/README.md)
+### Runtime
+- Python script: `modules/training/scripts/G01_monthly_reporter.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| DB Connection Fail | Exception caught | Log error to console | G11 Sync Log |
-| Missing Data | Empty query result | Return "N/A" for metrics | Report still generated |
+### Imports
+- `autonomous_sdk.db_config`
+- `calendar`
+- `datetime`
+- `os`
+- `pathlib`
+- `psycopg2`
+- `sys`
 
-## Monitoring
-- Success metric: Monthly report file exists on the 1st of the month.
-- Audit: Check `docs/10_Goals/G01_Target-Body-Fat/artifacts/reports/`.
+## Procedure
+1. Review the script source at `modules/training/scripts/G01_monthly_reporter.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G01_monthly_reporter.py`.
+
+## Implementation Notes
+- Top-level functions: get_monthly_stats, generate_report
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, pathlib, calendar, datetime, os, autonomous_sdk.db_config, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

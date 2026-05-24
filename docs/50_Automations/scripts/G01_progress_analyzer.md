@@ -1,53 +1,87 @@
 ---
-title: "G01: Progress Analyzer (Body Composition)"
+title: "Automation Spec: G01_progress_analyzer.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G01_progress_analyzer.py"
-goal_id: "goal-g01"
-systems: ["S03", "S06"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "f7a47c5889afaf4a9e7b78c{{LONG_IDENTIFIER}}"
 ---
 
-# G01: Progress Analyzer (Body Composition)
+# 🤖 Automation Spec: G01_progress_analyzer.py
 
 ## Purpose
-Calculates high-fidelity trends for Weight and Body Fat % using 7-day moving averages. This provides a more accurate picture of progress toward the 15% Body Fat target by smoothing out daily biological fluctuations.
+G01_progress_analyzer.py.
 
-## Triggers
-- **Automated:** Executed as part of the `G11_global_sync.py` registry.
-- **Manual:** `python3 scripts/G01_progress_analyzer.py`
-- **Dashboard:** Injected into the "Director's Insights" section of the Daily Note.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/training/scripts/G01_progress_analyzer.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G01 Target Body Fat` within the `training` automation domain.
 
-## Inputs
-- PostgreSQL Database: `autonomous_health`
-- Table: `biometrics` (requires `weight_kg` and `body_fat_pct`).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Data Retrieval:** Fetches all historical weight and body fat records sorted by date.
-2.  **Rolling Average:** Uses Pandas to calculate a 7-day rolling mean for both metrics.
-3.  **Delta Calculation:** Compares today's 7-day average against the average from 7 days ago.
-4.  **Baseline Comparison:** Compares current metrics against the Jan 2026 baseline (20.8%).
-5.  **Target Analysis:** Calculates the remaining gap to the 15.0% Body Fat goal.
-6.  **Projection:** Calculates estimated date to reach 15% target based on 30-day linear regression of BF% changes.
-7.  **Milestone Alerts:** Generates a "Monthly Photo Log" reminder on the 1st of each month.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G01_progress_analyzer.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Markdown Report:** A trend summary including +/- changes, baseline progress, gap analysis, and projections.
-- **Centralized Logging:** Reports `SUCCESS` or `FAILURE` to `system_activity_log`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S06 Health Performance System](../../20_Systems/S06_Health-Performance/README.md)
+### Runtime
+- Python script: `modules/training/scripts/G01_progress_analyzer.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Missing Data | < 3 days of measurements | Return "Insufficient data" warning | System Activity Log |
-| DB Error | `psycopg2` exception | Log failure | System Activity Log |
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `pandas`
+- `psycopg2`
 
-## Manual Fallback
-If trend analysis is unavailable:
-1.  Manually review weight logs in the Withings or Zepp apps.
-2.  Check the `biometrics` table directly via SQL.
+## Procedure
+1. Review the script source at `modules/training/scripts/G01_progress_analyzer.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G01_progress_analyzer.py`.
+
+## Implementation Notes
+- Top-level functions: analyze_body_composition
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, pandas, datetime, os, autonomous_sdk.db_config, modules.meta.scripts.G11_log_system`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

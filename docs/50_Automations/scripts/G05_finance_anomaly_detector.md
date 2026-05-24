@@ -1,52 +1,89 @@
 ---
-title: "G05: Financial Anomaly Detector"
+title: "Automation Spec: G05_finance_anomaly_detector.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G05_finance_anomaly_detector"
-goal_id: "goal-g05"
-systems: ["S05"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "3d37{{LONG_IDENTIFIER}}"
 ---
 
-# G05: Financial Anomaly Detector
+# 🤖 Automation Spec: G05_finance_anomaly_detector.py
 
 ## Purpose
-Monitors category-level spending to detect unusual spikes or hidden subscription costs. It distinguishes between "real" anomalies and planned expenses by cross-referencing spending with the expense calendar.
+G05_finance_anomaly_detector.py.
 
-## Triggers
-- **Scheduled:** Part of the `autonomous_daily_manager.py` daily sync cycle.
-- **Manual:** `python3 scripts/G05_finance_anomaly_detector.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/finance/scripts/G05_finance_anomaly_detector.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G05 Autonomous Financial Command Center` within the `finance` automation domain.
 
-## Inputs
-- **PostgreSQL:** `transactions`, `categories`, `expense_calendar`.
-- **Logic:** Rolling 3-month average + Current Month Expected Expenses.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Query Current:** Aggregate total expense per sub-category for the current month.
-2.  **Query History:** Calculate the average monthly expense per category for the previous 3 months (Lagging Indicators).
-3.  **Query Expectations:** Pull planned large expenses from `expense_calendar` (Forward-Looking Context).
-4.  **Smart Filtering (Contextual Analysis):**
-    -   Identify categories where current spend is >100 PLN AND >20% above the historical average.
-    -   **False Positive Check:** If the spike matches a planned expense in the `expense_calendar` (within 10%), it is auto-ignored.
-    -   **Criticality Check:** Spikes in categories containing "Other" (uncategorized) or deviations >100% are flagged as CRITICAL.
-5.  **Contextual Reporting:** For each anomaly, the script identifies the largest single transaction contributing to the spike.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G05_finance_anomaly_detector.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Markdown Report:** Injected into the Daily Note.
-- **Telegram Alert:** Proactive notification sent for CRITICAL anomalies (e.g., unrecognized spikes or budget-breaking "Other" entries).
-- **Activity Log:** Reports `SUCCESS` regardless of finding, with the number of anomalies found as the value.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
-## 📜 Changelog
-| Date | Change |
-|------|--------|
-| 2026-03-10 | Initial implementation |
-| 2026-04-09 | Added contextual filtering via expense_calendar |
-| 2026-04-16 | Bugfix: Standardized log status to SUCCESS for anomalies to improve reliability metrics |
+## Dependencies
+### Runtime
+- Python script: `modules/finance/scripts/G05_finance_anomaly_detector.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Insufficient Data | <3 months history | Gracefully exit with "Insufficient data" | Log Info |
-| Missing Calendar | Empty `expense_calendar` | Proceed with simple average-based detection | Log Warning |
-| DB Error | psycopg2 error | Exit with error | Log Failure |
+### Imports
+- `G04_digital_twin_notifier`
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `pandas`
+- `psycopg2`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/finance/scripts/G05_finance_anomaly_detector.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G05_finance_anomaly_detector.py`.
+
+## Implementation Notes
+- Top-level functions: detect_financial_anomalies
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, pandas, datetime, os, autonomous_sdk.db_config, G04_digital_twin_notifier, modules.meta.scripts.G11_log_system, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

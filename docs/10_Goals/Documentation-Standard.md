@@ -65,8 +65,8 @@ docs/10_Goals/
 
 ## Enabling systems
 List systems that will carry this goal:
-- [S03 Data Layer](../20_Systems/S03_Data-Layer/README.md)
-- [S04 Digital Twin](../20_Systems/S04_Digital-Twin/README.md)
+- [S03 Data Layer](../20_Systems/README.md)
+- [S04 Digital Twin](../20_Systems/README.md)
 
 ## Traceability (Outcome → System → Automation → SOP)
 | Outcome | System | Automation | SOP/Runbook |
@@ -88,7 +88,7 @@ Always use relative paths from the current file location:
 ../../50_Automations/n8n/workflows/WF001__daily-sync.md
 
 # From automation to SOP
-../../30_Sops/Daily-Review-SOP.md
+../30_Sops/Daily-Review-SOP.md
 ```
 
 ## Quality Standards

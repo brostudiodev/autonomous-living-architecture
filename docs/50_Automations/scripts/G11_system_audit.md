@@ -1,50 +1,86 @@
 ---
-title: "G11: Data Integrity Auditor"
+title: "Automation Spec: G11_system_audit.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G11_system_audit.py"
-goal_id: "goal-g11"
-systems: ["S03", "S11"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "3{{LONG_IDENTIFIER}}"
 ---
 
-# G11: Data Integrity Auditor
+# 🤖 Automation Spec: G11_system_audit.py
 
 ## Purpose
-Performs high-level semantic validation of data across multiple domains (Health, Finance, Pantry) to ensure technical connectivity is matched by data logical accuracy. This prevents "Garbage In, Garbage Out" scenarios.
+G11_system_audit.py.
 
-## Triggers
-- **Automated:** Executed as part of the `G11_global_sync.py` registry.
-- **Manual:** `python3 scripts/G11_system_audit.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_system_audit.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-## Inputs
-- PostgreSQL Databases: `autonomous_health`, `autonomous_finance`, `autonomous_pantry`.
-- Logic Rules: Defined within the script (e.g., weight range, transaction volume).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Health Check:** Verifies today's weight entry exists and falls within a human-reasonable range (40kg - 150kg).
-2.  **Finance Check:** Monitors for unusually high transaction counts (>50 per day) which may indicate sync duplication.
-3.  **Budget Check:** Flags extreme utilization spikes (>500%) in the current month.
-4.  **Pantry Check:** Scans for negative stock values which indicate logging errors.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_system_audit.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Centralized Logging:** Reports `SUCCESS` if no anomalies are found, or `WARNING` with detailed issue descriptions.
-- **Console:** Markdown report of detected issues.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S11 Meta-System Integration](../../20_Systems/S11_Meta-System-Integration/README.md)
+### Runtime
+- Python script: `modules/meta/scripts/G11_system_audit.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| DB Down | `psycopg2` connection error | Skip domain, log warning | System Activity Log |
-| Schema Mismatch | SQL Execution error | Log failure, notify admin | System Activity Log |
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.log`
+- `datetime`
+- `os`
+- `psycopg2`
 
-## Manual Fallback
-If integrity issues are flagged:
-1.  Review raw database records for the flagged domain.
-2.  Check for upstream API changes (Zepp, Withings, Google Sheets).
-3.  Correct the data manually via SQL or Google Sheets sync.
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_system_audit.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_system_audit.py`.
+
+## Implementation Notes
+- Top-level functions: check_anomaly, run_integrity_audit
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, autonomous_sdk.log`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

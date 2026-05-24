@@ -1,53 +1,86 @@
 ---
-title: "G11: Quick Wins"
+title: "Automation Spec: G11_quick_wins.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G11_quick_wins"
-goal_id: "goal-g11"
-systems: ["S04", "S10"]
-owner: "Michał"
-updated: "2026-04-02"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "59ce08c023cd5fe000fef5e{{LONG_IDENTIFIER}}"
 ---
 
-# G11: Quick Wins
+# 🤖 Automation Spec: G11_quick_wins.py
 
 ## Purpose
-Aggregates the top 3 most urgent and actionable items across multiple domains (Logistics, Pantry, Roadmap Tasks) to provide a "Zero-Thought Execution Zone" at the top of the Daily Note.
+G11_quick_wins.py.
 
-## Triggers
-- Scheduled: Part of the `autonomous_daily_manager.py` cycle (06:00 daily).
-- Manual: Running `G11_quick_wins.py` directly.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_quick_wins.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-## Inputs
-- `autonomous_life_logistics` table (PostgreSQL)
-- `pantry_inventory` table (PostgreSQL)
-- Google Tasks API (via `G10_google_tasks_sync.py`)
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Logistics:** Fetch top 2 items due soonest (ascending order) that are due within the next **3 days**.
-2.  **Pantry:** Fetch top 1 item with lowest stock ratio (quantity/threshold).
-3.  **Course Prep (NEW Mar 28):** Fetch upcoming courses starting within 3 days.
-4.  **Finance (NEW Mar 28):** Fetch the most severe financial anomaly (e.g., fraudulent/unusual spend).
-5.  **Missions:** Fetch top 1 task tagged with `#deep` or `#roadmap` from Google Tasks.
-6.  Combine into a Markdown checklist format.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_quick_wins.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- Markdown string injected into the `%%QUICK_WINS%%` marker in the Daily Note.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
+### Runtime
+- Python script: `modules/meta/scripts/G11_quick_wins.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### External Services
-- Google Tasks API
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `os`
+- `psycopg2`
+- `sys`
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| DB Connection Fail | Exception caught | Log error, return empty string | System Activity Log |
-| API Fail | Exception caught | Skip task injection | Log warning |
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_quick_wins.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Monitoring
-- Success metric: Section populated in Daily Note.
-- Dashboard: G11 Connectivity Matrix.
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_quick_wins.py`.
+
+## Implementation Notes
+- Top-level functions: get_quick_wins
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

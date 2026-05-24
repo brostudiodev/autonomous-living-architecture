@@ -1,60 +1,90 @@
 ---
-title: "script: G11 Meta-Rules Engine"
+title: "Automation Spec: G11_rules_engine.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G11_rules_engine"
-goal_id: "goal-g11"
-systems: ["S11", "S04"]
-owner: "Michał"
-updated: "2026-04-14"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "a80ddc9aa8472{{LONG_IDENTIFIER}}"
 ---
 
-# script: G11_rules_engine.py
+# 🤖 Automation Spec: G11_rules_engine.py
 
 ## Purpose
-The decision authority core of the Autonomous Living Ecosystem. It evaluates domain-specific actions against the `autonomy_policies.yaml` to decide whether an action can be performed automatically (`AUTO_ACT`) or requires human intervention (`ASK_HUMAN`).
+G11_rules_engine.py.
 
-## 🚀 Enhancements (Apr 14)
-1. **Rich Reporting & Payloads:** Standardized the `decision_requests.payload` to always include `recommended_action`, `reason`, and `description` (from policy config). This ensures that n8n and Telegram always have the necessary context for human approval.
-2. **Flexible Deduplication:** Instead of exact JSON matching, the engine now uses domain-specific keys for deduplication (e.g., `category` for household procurement, `amount` for finance). This prevents redundant requests for the same item/transaction within a 24-hour window.
-3. **Policy-Driven Descriptions:** Now pulls human-readable descriptions directly from `autonomy_policies.yaml` to provide better context in automated reports.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_rules_engine.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-## Triggers
-- **Library Call:** Called by other scripts (e.g., `G05_budget_rebalancer.py`, `G05_llm_categorizer.py`, `G01_training_planner.py`) to validate actions.
-- **Manual:** `python3 scripts/G11_rules_engine.py` for testing policy evaluation.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Inputs
-- **Config:** `scripts/autonomy_policies.yaml` (Centralized thresholds).
-- **Database:** `digital_twin_michal` (Check approval history for auto-promotion).
-- **Context:** Action-specific data (amounts, scores, boolean flags) passed by calling scripts.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_rules_engine.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Processing Logic
-1.  **Policy Loading:** Loads rules from YAML, checking global and domain-specific settings.
-2.  **Cognitive Penalty (NEW Mar 28):** 
-    - If `poor_sleep_penalty` is enabled for the policy, it queries `autonomous_health.biometrics` for today's sleep score.
-    - If **Sleep Score < 70**, it applies a **50% reduction** to all numeric thresholds (e.g., `max_amount_pln`) to mitigate decision-making risks from fatigue.
-3.  **Deduplication (24h Cooldown):** Before creating a `PENDING` request, it checks for any identical request (same domain, policy, and payload) processed within the last 24 hours.
-3.  **Condition Evaluation:** Compares provided context against policy thresholds (e.g., `max_amount_pln`, `is_trusted`).
-4.  **Confidence-Based Auto-Promotion (Relaxed History):** 
-    -   If a specific request type has been approved manually 3+ times, the engine auto-promotes it to `AUTO_ACT`.
-    -   **Optimization:** For `financial.auto_categorize`, the history check **ignores the amount**, allowing a merchant to be auto-promoted regardless of the specific transaction value.
-5.  **Audit Logging:** Every judgment is logged to the `autonomous_decisions` table for transparency.
-
-## Outputs
-- **DecisionType (Enum):** `AUTO_ACT`, `ASK_HUMAN`, `DENIED`, or `LOG_ONLY`.
-- **Database Entry:** A new row in `decision_requests` (if `ASK_HUMAN`).
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
+### Runtime
+- Python script: `modules/meta/scripts/G11_rules_engine.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| DB Connection Fail | Exception caught | Fallback to `ASK_HUMAN` (Safe mode) | Log warning |
-| Missing Policy | Policy key not found | Return `DENIED` | Log error |
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `enum`
+- `json`
+- `os`
+- `psycopg2`
+- `sys`
+- `yaml`
+
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_rules_engine.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_rules_engine.py`.
+
+## Implementation Notes
+- Top-level functions: No top-level functions detected.
+- Top-level classes: DecisionType, RulesEngine
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, yaml, json, enum, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*Governance:*
-This script is the primary enforcer of the [Decision Authority Framework](../../60_Decisions_adrs/Adr-0017-Decision-Authority-Framework.md).
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

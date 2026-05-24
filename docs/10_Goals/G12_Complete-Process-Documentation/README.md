@@ -69,11 +69,11 @@ Ensure all autonomous living systems, goals, and automations are comprehensively
 - Static site generators (MkDocs)
 
 ## Key Links
-- Outcomes: [Outcomes.md](Outcomes.md)
-- Metrics: [Metrics.md](Metrics.md)
-- Systems: [Systems.md](Systems.md)
-- Roadmap: [Roadmap.md](Roadmap.md)
-- Activity Log: [Activity-log.md](Activity-log.md)
+- Outcomes: [Outcomes.md](../G02_Automationbro-Recognition/Outcomes.md)
+- Metrics: [Metrics.md](../G02_Automationbro-Recognition/Metrics.md)
+- Systems: [Systems.md](../G02_Automationbro-Recognition/Systems.md)
+- Roadmap: [Roadmap.md](../G02_Automationbro-Recognition/Roadmap.md)
+- Activity Log: [Activity-log.md](../Activity-log.md)
 - Documentation Standard: [Documentation-Standard.md](../Documentation-Standard.md)
 - Automation Template: [../../50_Automations/templates/automation-specification-template.md](../../50_Automations/templates/automation-specification-template.md)
 
@@ -114,3 +114,8 @@ Building and maintaining this level of technical rigor is a massive investment. 
 <a href='https://ko-fi.com/michalnowakowski' target='_blank'><img height='60' style='border:0px;height:60px;' src='https://storage.ko-fi.com/cdn/kofi3.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
 **Support my hard work in engineering a fully autonomous life.** Every coffee fuels another line of code, another automated insight, and another step toward the 2026 North Star. Your contributions help maintain the infrastructure and research shared in this open-source blueprint.
+
+## Portability & Spawning
+The ecosystem is now 100% portable. 
+- Refer to [[SPAWN.md|SPAWN.md]] for fresh deployments.
+- Refer to [[FOLDER_STRUCTURE.md|FOLDER_STRUCTURE.md]] for architectural governance.

@@ -2,43 +2,91 @@
 title: "Automation Spec: G10_meeting_briefing.py"
 type: "automation_spec"
 status: "active"
-created: "2026-03-13"
-updated: "2026-03-29"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "b345453bc{{LONG_IDENTIFIER}}"
 ---
 
 # 🤖 Automation Spec: G10_meeting_briefing.py
 
-## 📝 Overview
-**Purpose:** Provides context-aware briefings for upcoming calendar events. It bridges the gap between structured schedule data and unstructured historical notes in the Obsidian Vault. To maintain a high signal-to-noise ratio, Telegram notifications for successful briefings are disabled, while internal ROI logging and error alerting remain active.
-**Goal Alignment:** G10 (Intelligent Productivity) & G04 (Digital Twin Intelligence)
+## Purpose
+G10_meeting_briefing.py.
+
+## Scope
+### In Scope
+- Documents the active implementation at `modules/productivity/scripts/G10_meeting_briefing.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G10 Intelligent Productivity Time Architecture` within the `productivity` automation domain.
+
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
+
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G10_meeting_briefing.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
+
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
+
+## Dependencies
+### Runtime
+- Python script: `modules/productivity/scripts/G10_meeting_briefing.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `G04_digital_twin_notifier`
+- `G05_ollama_wrapper`
+- `G10_calendar_client`
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `modules.meta.scripts.G04_digital_twin_engine`
+- `os`
+- `os,`
+- `psycopg2`
+- `re`
+
+## Procedure
+1. Review the script source at `modules/productivity/scripts/G10_meeting_briefing.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G10_meeting_briefing.py`.
+
+## Implementation Notes
+- Top-level functions: get_training_intelligence, summarize_context, generate_meeting_briefings
+- Top-level classes: No top-level classes detected.
 
 ## ⚡ Technical Details
 - **Language:** Python
-- **Triggers:** Cron (morning run before 09:00) or real-time (within 120 mins of event).
-- **Databases:** `autonomous_training` (for workout intelligence).
-- **Dependencies:** `G04_digital_twin_engine`, `G04_digital_twin_notifier`, `G10_calendar_client`, `G05_ollama_wrapper`.
-
-## 🛠️ Logic Flow
-1. **Event Retrieval:** Fetches today's events from Google Calendar via `G10_calendar_client`.
-2. **Context Discovery:**
-    - Cleans meeting titles from common prefixes/emojis.
-    - Performs a weighted keyword search across the Obsidian Vault.
-    - **Noise Filter:** Strictly ignores non-Markdown files, templates, retrospectives, and monthly summaries.
-    - **Prioritization:** Weighs results from `02_Projects` and `01_Daily_Notes` higher.
-3. **Domain Intelligence:**
-    - Detects "Training" or "Workout" events.
-    - Queries the training database for last session results and current HIT progression targets (Overload targets).
-4. **AI Summarization:** Uses `G05_ollama_wrapper` (Gemini Flash or Ollama) to generate a 2-3 bullet point summary of the found context.
-5. **Formatting:** Strips Obsidian-style internal links and formats the payload for Telegram readability.
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `re, psycopg2, G10_calendar_client, datetime, os, G04_digital_twin_notifier, autonomous_sdk.db_config, os,, json, G05_ollama_wrapper, modules.meta.scripts.G04_digital_twin_engine`
 
 ## 📤 Outputs
-- **Internal State:** Context is processed and prepared for the system.
-- **ROI Logging:** Automatically logs "Professional Productivity" time saved (5 mins/event).
-- **Error Alerting:** Sends a Telegram notification only if the briefing process encounters a critical failure.
-
-## ⚠️ Known Issues / Maintenance
-- **LLM Dependency:** AI summaries require a configured `GEMINI_API_KEY` or local Ollama instance.
-- **Search Latency:** Large vault searches can take 2-5 seconds depending on keyword complexity.
+- See Inputs/Outputs section above.
 
 ---
-*Updated: 2026-03-29 by Digital Twin Assistant*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

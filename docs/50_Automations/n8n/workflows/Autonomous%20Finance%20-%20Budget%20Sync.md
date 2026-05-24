@@ -129,7 +129,7 @@ parseAmount("1 234,56") → 1234.56
 
 ## Related Documentation
 
-- [G05 Financial Command Center](../10_Goals/G05_Autonomous-Financial-Command-Center/Roadmap.md)
-- [Autonomous Finance - 2026 Data Sync](./Autonomous%20Finance%20-%202026%20Data%20Sync.md)
-- [Budget Alert SOP](./WF102__finance-budget-alerts.md)
-- [Monthly Budget Review SOP](../30_Sops/Monthly-Budget-Review.md)
+- [G05 Financial Command Center](../../../10_Goals/G02_Automationbro-Recognition/Roadmap.md)
+- [Autonomous Finance - 2026 Data Sync](Autonomous%20Finance%20-%202026%20Data%20Sync.md)
+- [Budget Alert SOP](WF102__finance-budget-alerts.md)
+- [Monthly Budget Review SOP](../../../30_Sops/Monthly-Budget-Review.md)

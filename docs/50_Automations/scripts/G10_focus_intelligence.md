@@ -1,156 +1,91 @@
 ---
-title: "G10_focus_intelligence: Focus Mode Status Check"
+title: "Automation Spec: G10_focus_intelligence.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G10_focus_intelligence"
-goal_id: "goal-g10"
-systems: ["S04", "S07", "S08"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "0e8f{{LONG_IDENTIFIER}}"
 ---
 
-# G10_focus_intelligence: Focus Mode Status Check
+# 🤖 Automation Spec: G10_focus_intelligence.py
 
 ## Purpose
+G10_focus_intelligence.py.
 
-Queries readiness score (from G07 biometrics) and office environment (from G08 Home Assistant) to generate actionable focus recommendations. Provides intelligence layer for deep work readiness without direct device control.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/productivity/scripts/G10_focus_intelligence.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G10 Intelligent Productivity Time Architecture` within the `productivity` automation domain.
 
-## Triggers
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-- **Scheduled:** Daily at 6:00 AM via `autonomous_daily_manager.py`
-- **Manual:** `python scripts/G10_focus_intelligence.py`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G10_focus_intelligence.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Inputs
-
-| Source | Data | Used For |
-|--------|------|----------|
-| Digital Twin Engine | Readiness score, sleep score, HRV | Focus state evaluation |
-| G08 Home Monitor | Office occupancy, PC power, temperature | Environment scoring |
-| PostgreSQL | `digital_twin_michal` database | System activity logging |
-
-## Processing Logic
-
-1. **Fetch Readiness Data** - Get biometrics from Digital Twin Engine
-   - Readiness score (0-100)
-   - Sleep score
-   - HRV value
-
-2. **Fetch Environment Data** - Query Home Assistant via `G08_home_monitor`
-   - Office occupancy (Combined motion + time-fenced occupancy)
-   - **Dual Power State:** Monitoring both Desktop PC and Laptop
-   - Temperature
-
-3. **Evaluate Focus State** - Calculate composite score
-   ```
-   readiness >= 85 → "peak"
-   readiness >= 70 → "good"
-   readiness >= 50 → "moderate"
-   readiness < 50  → "low"
-   
-   environment_score = base(50) + occupancy(+30/-20) + temp(+10/-10) + computing(+10)
-   ```
-
-4. **Generate Recommendations** - Based on state + environment
-   - Peak + empty office → "Deep work time"
-   - Low readiness → "Recovery mode"
-   - High temp → "Open window"
-   - Computing off + peak → "Turn on PC/Laptop"
-
-5. **Build Report** - Markdown output for injection into `%%FOCUS%%` marker.
-
-## Outputs
-
-| Output | Location | Format |
-|--------|----------|--------|
-| Focus Intel Report | Daily note `%%FOCUS%%` marker | Markdown |
-| Log File | `_meta/daily-logs/focus_intel_YYYYMMDD.txt` | Text |
-| Activity Log | `system_activity_log` table | PostgreSQL |
-
-### Example Output
-
-```markdown
-### 🧠 Focus Mode Intelligence (G10)
-**Status Check:** 🚀 PEAK
-
-| Metric | Value |
-|--------|-------|
-| Readiness | 87/100 |
-| Sleep Score | 92 |
-| HRV | 6ms |
-
-**Office Environment:**
-- Occupancy: ⚠️ Occupied
-- Computing: ✅ Active
-  - PC: OFF | Laptop: 61.9W
-- Temperature: 23.0°C
-
-**💡 Recommendations:**
-- 🚀 Peak readiness detected - ideal for deep work or complex tasks
-- ⚠️ Office is occupied - consider alternative workspace
-```
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
+### Runtime
+- Python script: `modules/productivity/scripts/G10_focus_intelligence.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-### Systems
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md) - Readiness data source
-- [S07 Smart Home](../../20_Systems/S07_Smart-Home/README.md) - Environment sensors
-- [S08 Automation Orchestrator](../../20_Systems/S08_Automation-Orchestrator/README.md) - Integration
+### Imports
+- `G08_home_monitor`
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G04_digital_twin_engine`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `os,`
+- `pathlib`
+- `sys`
 
-### External Services
-- Home Assistant REST API (`http://{{INTERNAL_IP}}:8123`)
-- PostgreSQL (`digital_twin_michal`)
+## Procedure
+1. Review the script source at `modules/productivity/scripts/G10_focus_intelligence.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-### Scripts
-- `G04_digital_twin_engine.py` - Digital Twin state provider
-- `G08_home_monitor.py` - Home Assistant data fetcher
-- `G11_log_system.py` - Activity logging
-
-## Error Handling
-
+## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| Digital Twin offline | Exception in `DigitalTwinEngine()` | Return error report, log failure |
-| HA sensors unavailable | Exception in `get_home_status()` | Show "Unknown" values, continue |
-| Database write fails | `psycopg2` exception | Print warning, don't crash |
-| No readiness data | Empty biometrics dict | Show "N/A" values |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
 ## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-- No direct device control (read-only)
-- HA webhook integration **NOT implemented** (future phase)
-- No sensitive data in logs
-- Database credentials via `.env`
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G10_focus_intelligence.py`.
 
-## Monitoring
+## Implementation Notes
+- Top-level functions: get_focus_environment_status, get_readiness_info, evaluate_focus_readiness, get_environment_recommendations, generate_focus_briefing, build_report, run
+- Top-level classes: No top-level classes detected.
 
-- **Success metric:** Report generated and saved to file
-- **Alert on:** 3 consecutive failures
-- **Dashboard:** Check `system_activity_log` for failures
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `pathlib, G08_home_monitor, datetime, os, autonomous_sdk.db_config, os,, modules.meta.scripts.G11_log_system, sys, modules.meta.scripts.G04_digital_twin_engine`
 
-## Manual Fallback
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
-If script fails:
-```bash
-cd {{ROOT_LOCATION}}/autonomous-living
-source .venv/bin/activate
-python scripts/G10_focus_intelligence.py
-```
-
-Manual check in Home Assistant:
-```bash
-curl http://{{INTERNAL_IP}}:8123/api/states/binary_sensor.lumi_lumi_sensor_motion_aq2_occupancy
-```
-
-## Related Documentation
-
-- [G10 Roadmap](../../10_Goals/G{{LONG_IDENTIFIER}}/Roadmap.md)
-- [G08 Smart Home Monitor](./G08_home_monitor.md)
-- [G10 Schedule Optimizer](./G10_schedule_optimizer.md)
-- [SOP: Daily Briefing Management](../../30_Sops/Daily-Briefing-Management.md)
-
-## Changelog
-
-| Date | Change |
-|------|--------|
-| 2026-03-20 | Initial implementation |
-| 2026-03-20 | Integrated into `autonomous_daily_manager.py` |
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

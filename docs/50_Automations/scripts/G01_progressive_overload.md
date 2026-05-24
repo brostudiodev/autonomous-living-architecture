@@ -1,59 +1,89 @@
 ---
-title: "G01: Progressive Overload Analyzer (HIT-Focused)"
+title: "Automation Spec: G01_progressive_overload.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G01_progressive_overload.py"
-goal_id: "goal-g01"
-systems: ["S07", "S11"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "826b6a790c{{LONG_IDENTIFIER}}"
 ---
 
-# G01: Progressive Overload Analyzer (HIT-Focused)
+# 🤖 Automation Spec: G01_progressive_overload.py
 
 ## Purpose
-Ensures training progression by analyzing Time Under Tension (TUT) and intensity in High-Intensity Training (HIT) sessions. The system autonomously evaluates and approves weight increases when muscular failure is being reached too late (TUT > 90s).
+G01_progressive_overload.py.
 
-## Key Features
-- **Effort-First Logic:** Prioritizes intensity and TUT over Reps x Sets volume.
-- **Progression Triggers:** Specifically alerts when TUT exceeds the 90-second threshold for any exercise.
-- **Autonomous Decisioning:** Integrates with `G11_rules_engine` to auto-approve weight increases based on `health.auto_weight_increase` policy.
-- **Noise Reduction:** Automatically hides exercises that are stable or haven't yet reached the TUT threshold.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/training/scripts/G01_progressive_overload.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G01 Target Body Fat` within the `training` automation domain.
 
-## Triggers
-- **Scheduled:** Part of the `autonomous_daily_manager.py` daily dashboard generation.
-- **Manual:** `python3 scripts/G01_progressive_overload.py`
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Inputs
-- **Database:** `autonomous_training` (Tables: `workout_sets`, `exercises`).
-- **KPI:** `max_tut` (Time Under Tension in seconds).
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G01_progressive_overload.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Processing Logic
-1.  **Data Retrieval:** Fetches the last 3 sessions for every exercise in the database.
-2.  **TUT Evaluation:**
-    *   If **TUT > 90 seconds**: Suggests increasing the weight by 2.0kg.
-    *   **Policy Evaluation:** Calls `G11_rules_engine` with `health.auto_weight_increase` policy and current performance context.
-    *   **Autonomous Action:** If the engine returns `AUTO_ACT`, the report marks the increase as **🚀 AUTO-ACT**.
-    *   **NEW:** If **TUT <= 90 seconds**, the exercise is skipped from the report to maintain focus.
-3.  **Reporting:** Generates a formatted Markdown report for injection into the Obsidian Daily Note.
-
-## Outputs
-- **Markdown Report:** Injected into the `%%TRAINING_DETAILS%%` section of the Daily Note.
-- **System Activity Log:** Records a `SUCCESS` entry with the count of TUT alerts generated.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S07 Predictive Health Management](../../10_Goals/G07_Predictive-Health-Management/README.md)
-- [G01 Target Body Fat](../../10_Goals/G01_Target-Body-Fat/README.md)
+### Runtime
+- Python script: `modules/training/scripts/G01_progressive_overload.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| No Training Data | Empty DataFrame | Returns "No training data available" | Log Info |
-| DB Connectivity | `psycopg2.OperationalError` | Log failure, abort analysis | System Activity Log |
-| Missing TUT Data | `None` in `max_tut` column | Defaults to 0s for that session | Log Warning |
+### Imports
+- `G11_rules_engine`
+- `autonomous_sdk.db_config`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `pandas`
+- `pathlib`
+- `psycopg2`
+- `sys`
 
-## Manual Fallback
-If the analyzer provides incorrect suggestions:
-1.  Verify the `workout_sets` table in the `autonomous_training` database for manual entry errors.
-2.  Adjust the 90s threshold directly in `scripts/G01_progressive_overload.py` if training goals shift.
+## Procedure
+1. Review the script source at `modules/training/scripts/G01_progressive_overload.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G01_progressive_overload.py`.
+
+## Implementation Notes
+- Top-level functions: analyze_progressive_overload
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `G11_rules_engine, psycopg2, pathlib, pandas, os, autonomous_sdk.db_config, modules.meta.scripts.G11_log_system, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

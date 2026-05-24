@@ -1,71 +1,89 @@
 ---
-title: "G05_bank_ingest.py: Bank Statement CSV Ingestion"
+title: "Automation Spec: G05_bank_ingest.py"
 type: "automation_spec"
 status: "active"
-automation_id: "g05-bank-ingest"
-goal_id: "goal-g05"
-systems: ["S03"]
-owner: "Michał"
-updated: "2026-03-02"
-review_cadence: "Monthly"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "2ecdfa{{LONG_IDENTIFIER}}"
 ---
 
-# G05_bank_ingest.py
+# 🤖 Automation Spec: G05_bank_ingest.py
 
 ## Purpose
-Provides a command-line interface for ingesting bank transaction statements exported as CSV files into the `autonomous_finance` database. It bridges the gap between manual bank exports and automated financial analysis.
+G05_bank_ingest.py.
 
 ## Scope
 ### In Scope
-- Parsing CSV statements from common Polish banks (ING, mBank, etc.).
-- Mapping CSV columns to the `transactions` table schema.
-- Preventing duplicate entries via `transaction_id` hash and DB constraints.
-- Cleaning and normalizing amount and currency data.
+- Documents the active implementation at `modules/finance/scripts/G05_bank_ingest.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G05 Autonomous Financial Command Center` within the `finance` automation domain.
 
 ### Out of Scope
-- Direct API integration with banks (handled by Q3 roadmap items).
-- Real-time transaction monitoring.
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Triggers
-- **Manual:** `python3 scripts/G05_bank_ingest.py <file_path> [bank_type]`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G05_bank_ingest.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Inputs
-- **CSV File:** Exported bank statement.
-- **Bank Type:** (Optional) Hint for column mapping (e.g., `ing`, `mbank`).
-- **PostgreSQL:** `transactions` table schema.
-
-## Processing Logic
-1.  **File Validation:** Checks if the provided CSV path exists.
-2.  **Mapping:** Identifies columns for date, description, amount, and merchant based on the bank type.
-3.  **Normalization:** Converts European numeric formats (commas, spaces) to standard SQL floats.
-4.  **Deduplication:** Generates a unique `transaction_id` hash for each row.
-5.  **Ingestion:** Executes an `INSERT ... ON CONFLICT DO NOTHING` statement to ensure data integrity.
-
-## Outputs
-- **PostgreSQL:** New rows in the `transactions` table.
-- **Console Log:** Count of successfully ingested transactions.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md) - PostgreSQL persistence.
+### Runtime
+- Python script: `modules/finance/scripts/G05_bank_ingest.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### External Services
-- None (100% Local).
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.events`
+- `csv`
+- `datetime`
+- `os`
+- `psycopg2`
+- `sys`
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Invalid Column Mapping | `KeyError` | Log mapping error and skip row | Console |
-| DB Connection Fail | `psycopg2.connect()` | Exit with error | Console |
-| Encoding Error | `UnicodeDecodeError` | Retry with `utf-8-sig` | Console |
+## Procedure
+1. Review the script source at `modules/finance/scripts/G05_bank_ingest.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
 ## Security Notes
-- **Privacy:** 100% Private. Financial statements are processed locally.
-- **Credentials:** Uses DB credentials from `.env`.
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-## Manual Fallback
-Transactions can be manually entered into the `transactions` table via SQL or the Google Sheets source.
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G05_bank_ingest.py`.
 
-## Related Documentation
-- [Goal: G05 Autonomous Financial Command Center](../../10_Goals/G05_Autonomous-Financial-Command-Center/README.md)
-- [System: S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
+## Implementation Notes
+- Top-level functions: ingest_csv
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, csv, os, autonomous_sdk.db_config, autonomous_sdk.events, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

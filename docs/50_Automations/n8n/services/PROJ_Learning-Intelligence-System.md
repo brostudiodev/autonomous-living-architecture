@@ -51,8 +51,8 @@ The **Learning Intelligence System** is an advanced AI agent (G06) designed to a
 
 ## Dependencies
 ### Systems
-- [Certification Exams (G06)](../../../10_Goals/G06_Certification-Exams/README.md)
-- [Data Layer (S03)](../../../20_Systems/S03_Data-Layer/README.md) - Database: `autonomous_learning`.
+- [Certification Exams (G06)](../../../20_Systems/README.md)
+- [Data Layer (S03)](../../../20_Systems/README.md) - Database: `autonomous_learning`.
 
 ## Error Handling
 | Failure Scenario | Detection | Response |

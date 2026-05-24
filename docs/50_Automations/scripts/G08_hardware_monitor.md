@@ -1,65 +1,90 @@
 ---
-title: "G08_hardware_monitor: Host Machine Resilience"
+title: "Automation Spec: G08_hardware_monitor.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G08_hardware_monitor"
-goal_id: "goal-g08"
-systems: ["S01", "S08"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "a7332f2e03d338badbc46346a0bb363fe33b88faf82a72e51e6d4491d42c94ed"
 ---
 
-# G08_hardware_monitor: Host Machine Resilience
+# 🤖 Automation Spec: G08_hardware_monitor.py
 
 ## Purpose
-Monitors the physical host machine's health and performance metrics to ensure system uptime and prevent data corruption during resource-exhaustion events. Integrated with Glances for real-time telemetry.
+G08_hardware_monitor.py.
 
-## Triggers
-- **Scheduled:** Part of the daily global sync.
-- **Manual:** `python scripts/G08_hardware_monitor.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/home/scripts/G08_hardware_monitor.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G08 Predictive Smart Home Orchestration` within the `home` automation domain.
 
-## Inputs
-- **Glances API:** `http://localhost:61208/api/3` (CPU, RAM, Disk, Swap).
-- **Home Assistant:** (Legacy fallback for power monitoring).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Thresholds & Alerts
-| Metric | Critical Threshold | Action |
-|--------|-------------------|--------|
-| **CPU** | > 90% | Telegram Alert + Critical Log |
-| **RAM** | > 90% | Telegram Alert + Critical Log |
-| **Disk (/)** | > 90% | Telegram Alert + Critical Log |
-| **Swap** | > 80% | Warning Log |
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G08_hardware_monitor.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Processing Logic
-1. **Metric Retrieval:** Queries the local Glances REST API for host-level performance data.
-2. **Threshold Audit:** Compares metrics against the critical thresholds defined above.
-3. **Alerting:**
-    - If thresholds are breached: Sends a detailed Telegram notification via `G04_digital_twin_notifier`.
-    - Logs a `CRITICAL` status to the `system_activity_log` for visibility in the Daily Note.
-4. **Resilience Policy:** Triggers the `behavioral.hardware_stress_alert` policy in the Rules Engine for potential automated load-shedding.
-
-## Outputs
-- **Activity Log:** `system_activity_log` (PostgreSQL).
-- **Telegram:** Real-time stress alerts.
-- **Quick Wins:** Critical issues appear in the "System Health" section of the Daily Note.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- HTTP requests to configured local or external service endpoints.
 
 ## Dependencies
-### Services
-- **Glances:** Must be running as a systemd service on port 61208.
-- **Digital Twin Notifier:** For Telegram delivery.
+### Runtime
+- Python script: `modules/home/scripts/G08_hardware_monitor.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-## Error Handling
+### Imports
+- `G04_digital_twin_notifier`
+- `G11_rules_engine`
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `os,`
+- `requests`
+- `subprocess`
+
+## Procedure
+1. Review the script source at `modules/home/scripts/G08_hardware_monitor.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| Glances API Down | HTTP Connection Error | Log failure, notify via backup channel |
-| Missing Thresholds | YAML loading error | Use hardcoded defaults |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## Monitoring
-- **Success metric:** 100% detection of CPU spikes during heavy LLM testing.
-- **ROI:** Prevents manual system reboots by proactive load-shedding.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-## Changelog
-| Date | Change |
-|------|--------|
-| 2026-03-05 | Initial hardware monitoring (basic free -m) |
-| 2026-03-28 | Switched to Glances API for comprehensive host telemetry and automated Telegram alerts |
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G08_hardware_monitor.py`.
+
+## Implementation Notes
+- Top-level functions: get_glances_vitals, monitor_hardware
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `G11_rules_engine, datetime, os, G04_digital_twin_notifier, autonomous_sdk.db_config, os,, modules.meta.scripts.G11_log_system, subprocess, requests`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

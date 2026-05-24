@@ -3,28 +3,31 @@ title: "G11: Systems"
 type: "goal_systems"
 status: "active"
 owner: "Michał"
-updated: "2026-04-02"
+updated: "2026-05-19"
 goal_id: "goal-g11"
 ---
 
 # Systems
 
 ## Enabling systems
-- [S11 Intelligence Router](../../20_Systems/S11_Meta-System-Integration/README.md) - Meta-system coordination.
-- [S04 Digital Twin Hub](../../20_Systems/S04_Digital-Twin/README.md) - Strategic direction.
-- [S03 Data Layer (Multi-DB)](../../20_Systems/S03_Data-Layer/README.md) - Foundation for all system data.
+- [S11 Intelligence Router](../../20_Systems/README.md) - Meta-system coordination.
+- [S04 Digital Twin Hub](../../20_Systems/README.md) - Strategic direction.
+- [S03 Data Layer (Multi-DB)](../../20_Systems/README.md) - Foundation for all system data.
+- **RabbitMQ (Message Broker)** - Foundation for real-time Event-Driven Architecture (EDA).
 
 ## Traceability (Outcome → System → Automation → SOP/Runbook)
 
 | Outcome | System | Automation | SOP/Runbook |
 |---------|--------|------------|-------------|
-| **Unified Infrastructure Orchestration** | **S11 Router** | [docker-compose.yml](../../../docker-compose.yml) | [RB004: Infrastructure Consolidation](../../40_Runbooks/RB004_Infrastructure_Consolidation.md) |
+| **Real-Time Event Distribution** | **RabbitMQ** | [G11_event_emitter.py](../../50_Automations/scripts/G11_event_emitter.md) | [IMPL_RabbitMQ_EDA_Strategy](../../60_Decisions_adrs/IMPL_RabbitMQ_EDA_Strategy.md) |
+| **Unified Infrastructure Orchestration** | **S11 Router** | [docker-compose.yml](../../40_Runbooks/RB004_Infrastructure_Consolidation.md) |
 | **API Security Enforcement** | S04 Digital Twin | [G04_digital_twin_api.py](../../50_Automations/scripts/G04_digital_twin_api.md) | [API-Security-Migration-Runbook.md](../../40_Runbooks/G11/API-Security-Migration-Runbook.md) |
 | **Weekly Pattern Analysis** | **S11 Router** | **[SVC_Decision-Pattern-Analyzer](../../50_Automations/n8n/services/SVC_Decision-Pattern-Analyzer.md)** | - |
 | **Evening Reflection Bridge** | **S11 Router** | **[SVC_Automated-Reflection-Bridge](../../50_Automations/n8n/services/SVC_Automated-Reflection-Bridge.md)** | - |
 | **Autonomous Friction Detection** | **S11 Router** | **[SVC_Autonomous-Friction-Resolver](../../50_Automations/n8n/services/SVC_Autonomous-Friction-Resolver.md)** | - |
 | Quick Wins Generation | S10 Productivity | [G11_quick_wins.md](../../50_Automations/scripts/G11_quick_wins.md) | [SOP: Daily Dashboard Review](../../30_Sops/Daily-Dashboard-Review.md) |
-| Unified System Synchronization | S11 Router | [G11_global_sync.md](../../50_Automations/scripts/G11_global_sync.md) (Retry-Aware) | - |
+| Unified System Synchronization | S11 Router | [G11_global_sync.md](../../50_Automations/scripts/G11_global_sync.md) (Modular Kernel) | - |
+| **Modular Path Hardening** | **S11 Router** | **Core SDK Path Normalization** | [RB005: Modular Migration Cleanup](../../40_Runbooks/G11/RB005_Modular_Migration_Cleanup.md) |
 | Dynamic Connectivity Mapping | S11 Router | [G12_connectivity_mapper.md](../../50_Automations/scripts/G12_connectivity_mapper.md) | - |
 | Bulk Decision Authority | S11 Router | [G11_bulk_approval_authority.md](../../50_Automations/scripts/G11_bulk_approval_authority.md) | [Autonomy-Rules-Runbook.md](../../40_Runbooks/G11/Autonomy-Rules-Runbook.md) |
 | **Autonomy Promotion** | **S11 Router** | **[G11_autonomy_promoter.md](../../50_Automations/scripts/G11_autonomy_promoter.md)** | - |
@@ -52,7 +55,8 @@ goal_id: "goal-g11"
 | **System Self-Healing** | S11 Router | [G11 Self-Healing Logic](../../50_Automations/scripts/G11_self_healing_logic.md) | [SOP: System Maintenance](../../30_Sops/System-Maintenance-SOP.md) |
 | **Stall Detector** | S11 Router | [G11_stall_detector.md](../../50_Automations/scripts/G11_stall_detector.md) | - |
 | **Enterprise Data Protection** | S03 Data Layer | [G11 Recovery Shield](../../50_Automations/scripts/G11_db_recovery_shield.md) | [SOP: Disaster Recovery](../../30_Sops/G11_Disaster_Recovery_SOP.md) |
-| Rapid Dashboard Sync | S11 Router | [Parallel Daily Manager](../../50_Automations/scripts/autonomous_daily_manager.md) | [SOP: System Maintenance](../../30_Sops/System-Maintenance-SOP.md) |
+| **API Quota Management** | S11 Meta Kernel | [sync_helpers.py](../../../autonomous_sdk/utils/sync_helpers.py) | [SyncGuard Utility](../../20_Systems/S11_Meta_Kernel/SyncGuard-Utility.md) |
+| Rapid Dashboard Sync | S11 Router | [Parallel Daily Manager](../../50_Automations/scripts/autonomous_daily_manager.md) | [Modular Refactor: 2026-05-21] |
 
 ---
 *Updated: 2026-03-28 by Digital Twin Assistant*

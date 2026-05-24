@@ -31,7 +31,7 @@ The Mood & Energy Engine autonomously calculates and suggests daily intelligence
 
 ## Procedure
 - **Daily Execution:** Automatically triggered by `G11_global_sync.py` at 06:00.
-- **Manual Trigger:** `python3 scripts/G10_mood_engine.py`
+- **Manual Trigger:** `python3 modules/productivity/scripts/G10_mood_engine.py`
 
 ## Failure Modes
 | Scenario | Detection | Response |

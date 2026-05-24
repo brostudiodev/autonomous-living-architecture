@@ -109,7 +109,7 @@ HTML table with columns: Status, Workflow, ID, Details, Last Run
 ## Dependencies
 
 ### Systems
-- [S01: Observability & Monitoring](../../../20_Systems/S01_Observability-Monitoring/README.md)
+- [S01: Observability & Monitoring](../../../20_Systems/README.md)
 
 ### External Services
 - n8n API (via n8n account credential)
@@ -188,9 +188,9 @@ If the monitor fails:
 
 ## Related Documentation
 
-: Observability &- [S01 Monitoring](../../../20_Systems/S01_Observability-Monitoring/README.md)
-- [G11: Meta-System Integration & Optimization](../G11_Meta-System-Integration-Optimization/README.md)
-- [Adr-0010: Hub and Spoke Integration](../../60_Decisions_adrs/Adr-0010-Hub-and-Spoke-Integration.md)
+: Observability &- [S01 Monitoring](../../../20_Systems/README.md)
+- [G11: Meta-System Integration & Optimization](../../../20_Systems/README.md)
+- [Adr-0010: Hub and Spoke Integration](../../../60_Decisions_adrs/Adr-0010-Hub-and-Spoke-Integration.md)
 
 ## Changelog
 

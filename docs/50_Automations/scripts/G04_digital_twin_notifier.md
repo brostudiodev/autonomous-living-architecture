@@ -1,55 +1,81 @@
 ---
-title: "G04_digital_twin_notifier: Unified Communication Layer"
+title: "Automation Spec: G04_digital_twin_notifier.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G04_digital_twin_notifier"
-goal_id: "goal-g04"
-systems: ["S04"]
-owner: "Michał"
-updated: "2026-04-14"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "ebadd4fd{{LONG_IDENTIFIER}}"
 ---
 
-# G04_digital_twin_notifier: Unified Communication Layer
+# 🤖 Automation Spec: G04_digital_twin_notifier.py
 
 ## Purpose
-Provides a centralized, reliable interface for all system scripts to communicate with Michał via Telegram. It abstracts away message splitting, error handling, and formatting modes.
+G04_digital_twin_notifier.py.
 
-## 🚀 Enhancements (Apr 14)
-1. **Rich Error Diagnosis:** Updated to always print the full Telegram API response text on failure (e.g., HTTP 400). This enables instant diagnosis of formatting or character escaping issues.
-2. **Atomic Message Splitting:** Ensures that messages exceeding 4096 characters are split into manageable segments to prevent silent drop-offs.
-3. **Flexible Parse Modes:** Supports `HTML`, `Markdown`, or `None` (Plain Text) with clean payload construction and robust error handling for each mode.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G04_digital_twin_notifier.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G04 Digital Twin Ecosystem` within the `meta` automation domain.
 
-## Triggers
-- **Library Call:** Imported and called by almost all G-series scripts for status alerts, briefings, and decision prompts.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Inputs
-- **Text:** The message content to send.
-- **Parse Mode:** `HTML` (default), `Markdown`, or `None`.
-- **Reply Markup:** Optional JSON for inline buttons/keyboards.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G04_digital_twin_notifier.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Processing Logic
-1. **Credential Check:** Verifies `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` exist in the environment.
-2. **Chunking:** If the message exceeds 4000 characters, it is split into a list of smaller messages to comply with Telegram's 4096-character limit.
-3. **Transmission:** 
-   - Iterates through message chunks.
-   - Sends POST requests to `https://api.telegram.org/bot[TOKEN]/sendMessage`.
-   - Checks HTTP status code. If not 200, prints the raw response text for debugging.
-4. **Resilience:** Catches connection exceptions and logs them without crashing the calling script.
-
-## Outputs
-- **Telegram Broadcast:** One or more messages delivered to the user.
-- **Console Log:** Success confirmation or detailed error reports.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
+### Runtime
+- Python script: `modules/meta/scripts/G04_digital_twin_notifier.py`
+- Trigger mode: Manual or scheduler invocation.
+- Databases: None detected by static scan.
 
-### Credentials
-- `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` via `.env`
+### Imports
+- `core.notifier`
+
+## Procedure
+1. Review the script source at `modules/meta/scripts/G04_digital_twin_notifier.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
 ## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| Invalid Formatting | HTTP 400 + "Can't parse entities" | Prints exact error; returns False |
-| Message Too Long | HTTP 400 + "Message too long" | Automatic splitting should prevent this |
-| Network Timeout | requests.exceptions.Timeout | Catches, prints, and returns False |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G04_digital_twin_notifier.py`.
+
+## Implementation Notes
+- Top-level functions: No top-level functions detected.
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual or Scheduled Execution
+- **Databases:** None
+- **Dependencies:** `core.notifier`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

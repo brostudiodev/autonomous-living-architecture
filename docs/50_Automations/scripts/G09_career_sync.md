@@ -1,72 +1,88 @@
 ---
-title: "G09_career_sync.py: Career Intelligence Data Ingestion"
+title: "Automation Spec: G09_career_sync.py"
 type: "automation_spec"
 status: "active"
-automation_id: "g09-career-sync"
-goal_id: "goal-g09"
-systems: ["S03", "S04"]
-owner: "Michał"
-updated: "2026-03-02"
-review_cadence: "Quarterly"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "3b2f006d{{LONG_IDENTIFIER}}"
 ---
 
-# G09_career_sync.py
+# 🤖 Automation Spec: G09_career_sync.py
 
 ## Purpose
-Initializes and maintains the Career Intelligence database (`autonomous_career`). It tracks professional development metrics including skill proficiency levels and brand impact (LinkedIn/Public recognition) to provide data-driven insights for career growth.
+Runs the career sync automation for Automated Career Intelligence.
 
 ## Scope
 ### In Scope
-- Database schema management for career metrics.
-- Tracking of skill proficiency (0-100%).
-- Tracking of brand impact metrics (platform, metric name, value).
-- Integration with G04 Digital Twin for insight generation.
+- Documents the active implementation at `modules/career/scripts/G09_career_sync.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G09 Automated Career Intelligence` within the `career` automation domain.
 
 ### Out of Scope
-- Automatic scraping of LinkedIn (requires manual data provision or specific API integration).
-- Resume generation (handled by separate G09 tools).
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Triggers
-- **Manual:** `python3 scripts/G09_career_sync.py`
-- **Scheduled:** Intended for weekly execution (TBD).
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G09_career_sync.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Inputs
-- **Environment Variables:** DB credentials via `.env`.
-- **Manual Data:** Proficiency levels and metrics provided via DB upserts or helper files.
-
-## Processing Logic
-1.  **DB Initialization:** Ensures the `autonomous_career` database exists.
-2.  **Schema Enforcement:** Creates `skill_metrics` and `brand_impact` tables if they do not exist.
-3.  **Data Synchronization:** (Currently a placeholder) Designed to pull metrics from external professional platforms.
-
-## Outputs
-- **PostgreSQL Tables:** Populated `skill_metrics` and `brand_impact` tables.
-- **Console Logs:** Confirmation of database readiness.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Console output for manual runs or scheduler logs.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md) - PostgreSQL persistence.
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md) - Consumes career data for insights.
+### Runtime
+- Python script: `modules/career/scripts/G09_career_sync.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### External Services
-- None (currently local DB only).
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `os`
+- `pathlib`
+- `psycopg2`
+- `sys`
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| DB Connection Fail | `psycopg2.connect()` | Exit with error | Console |
-| Permission Denied | SQL execution | Log error and exit | Console |
+## Procedure
+1. Review the script source at `modules/career/scripts/G09_career_sync.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
 ## Security Notes
-- **Privacy:** 100% Local. Professional metrics are stored in the local PostgreSQL instance.
-- **Credentials:** Uses standard `.env` configuration.
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-## Manual Fallback
-Skills and brand metrics can be updated manually via SQL:
-```sql
-INSERT INTO skill_metrics (skill_name, proficiency_level) VALUES ('Python', 85);
-```
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G09_career_sync.py`.
 
-## Related Documentation
-- [Goal: G09 Automated Career Intelligence](../../10_Goals/G09_Automated-Career-Intelligence/README.md)
-- [System: S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
+## Implementation Notes
+- Top-level functions: setup_db, sync_career_metrics
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, pathlib, datetime, os, autonomous_sdk.db_config, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

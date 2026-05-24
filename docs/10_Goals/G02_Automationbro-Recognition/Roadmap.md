@@ -20,16 +20,17 @@ goal_id: "goal-g02"
 - [x] Create initial public-facing "architecture patterns" derived from private repo ✅ (Implemented via sync-to-public.py)
 - [x] Integrate content metrics with Digital Twin Dashboard ✅ (Feb 24)
 - [x] Plan Q2 content calendar based on early engagement data
-  > [!note] Article ideas stored in: [Q2-Content-Calendar.md](./Q2-Content-Calendar.md)
+  > [!note] Article ideas stored in: [Q2-Content-Calendar.md](Q2-Content-Calendar.md)
 
 - [x] **G02 Content Pipeline:** Unified idea-to-draft workflow with automated scheduling and performance feedback loop ✅ (Mar 26)
 
 ## Q2 (Apr–Jun) - Optimization Phase
 
-> [!tip] 🚀 **Q2 Focus: Optimize Existing Systems**
-- [ ] **System Stability Audit:** Verify all content automations working reliably
-  - [ ] **Sub-task: Substack Sync Check** - Ensure metrics sync without gaps
-  - [ ] **Sub-task: LinkedIn Drafter Check** - Verify automated posting works
+> [!tip] 🚀 **Q2 Focus: System Stability Audit**
+- [x] **System Stability Audit:** Verify all content automations working reliably ✅ (May 05)
+  - [x] **Sub-task: Substack Sync Check** - Ensure metrics sync without gaps ✅ (May 05)
+  - [x] **Sub-task: LinkedIn Drafter Check** - Verify automated posting works ✅ (May 05)
+
 - [ ] **Missing Automation Implementation:**
   - [ ] **Sub-task: YouTube Automation** - Launch AI avatar video workflow
   - [ ] **Sub-task: Engagement Analytics** - Build sentiment analysis for content feedback

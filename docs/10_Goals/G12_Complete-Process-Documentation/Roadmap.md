@@ -3,7 +3,7 @@ title: "G12: Roadmap"
 type: "goal_roadmap"
 status: "active"
 owner: "Michał"
-updated: "2026-04-02"
+updated: "2026-05-03"
 goal_id: "goal-g12"
 ---
 
@@ -26,13 +26,14 @@ goal_id: "goal-g12"
 ## Q2 (Apr–Jun) - Optimization Phase
 
 > [!tip] 🚀 **Q2 Focus: System Stability & Minor Improvements**
-- [ ] **System Stability Audit:** Verify documentation automations working reliably
-  - [ ] **Sub-task: WF105 Check** - Ensure activity log generation runs without errors
-  - [ ] **Sub-task: Auto-Documenter Check** - Verify Gemini doc generation works
-  - [ ] **Sub-task: Link Maintainer Check** - Test cross-reference updates
+- [x] **System Stability Audit:** ✅ (May 03)
+  - [x] **Sub-task: Infrastructure Hardening (Phase 5)** - Migrated external volumes to relative paths for portability ✅ (May 03)
+  - [x] **Sub-task: WF105 Check** - Ensure activity log generation runs without errors ✅ (May 03)
+  - [x] **Sub-task: Auto-Documenter Check** - Verify Gemini doc generation works ✅ (May 03)
+  - [x] **Sub-task: Link Maintainer Check** - Test cross-reference updates ✅ (May 03)
 - [ ] **Minor Improvements:**
-  - [ ] **Sub-task: Search Optimization** - Improve documentation search (pre-Q3)
-  - [ ] **Sub-task: Audit Refinement** - Streamline monthly audit process
+  - [x] **Sub-task: Search Optimization** - Improve documentation search (Hybrid Grep + Qdrant) ✅ (May 06)
+  - [x] **Sub-task: Audit Refinement** - Streamline monthly audit process ✅ (May 06)
 
 - [x] **Documentation Integrity Audit:** Implement a script to detect missing weekly notes and resolve broken Wikilinks. ✅ (Apr 27 - G12_weekly_note_backfiller.py)
 - [x] **Vault Navigation Cleanup:** Resolved 700+ broken links by backfilling missing 2025/2026 weekly reviews. ✅ (Apr 27)
@@ -52,13 +53,13 @@ goal_id: "goal-g12"
 - [x] **Documentation Integrity Hardening:** Fixed `G12_documentation_audit.py` to support Docker-native paths. Synchronized `Daily Note Template.md` with active surgical markers to ensure dashboard reliability. ✅ (Apr 25)
 
 > [!tip] 🚀 **Multi-User Spawn Documentation**
-- [ ] **docker-compose documentation:** Create docker-compose.draft.md explaining unified compose
-- [ ] **Folder structure docs:** Create docs/FOLDER_STRUCTURE.md with spawnable structure
-- [ ] **SPAWN procedure:** Create docs/SPAWN.md step-by-step spawn guide
-- [ ] **Environment template:** Create .env.example with all required variables
+- [x] **docker-compose documentation:** Create docker-compose.draft.md explaining unified compose ✅ (May 06)
+- [x] **Folder structure docs:** Create docs/FOLDER_STRUCTURE.md with spawnable structure ✅ (May 06)
+- [x] **SPAWN procedure:** Create docs/SPAWN.md step-by-step spawn guide ✅ (May 06)
+- [x] **Environment template:** Create .env.example with all required variables ✅ (May 06)
 
 ## Q3 (Jul–Sep)
-- [ ] Develop a search and knowledge retrieval system for all documentation
+- [x] Develop a hybrid search and knowledge retrieval system for all documentation (Keyword Grep + Qdrant Semantic Search) ✅ (May 06)
 - [ ] Establish a change management process for documentation updates
 - [ ] Automate documentation deployment to a dedicated knowledge base (e.g., static site generator)
 - [ ] **Conduct Q3 audit of all goals against GDS (monthly)**

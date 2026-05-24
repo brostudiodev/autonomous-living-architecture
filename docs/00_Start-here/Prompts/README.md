@@ -12,7 +12,7 @@ This folder contains copy/paste prompts for generating documentation that matche
 
 ## Available prompts
 - [LLM Documentation Generator](Llm-documentation-generator.md) (also outputs a `Systems.md.patch` snippet to update the goal traceability table)
-- [External LLM Prompts (no repo access)](External-Llm/README.md)
+- [External LLM Prompts (no repo access)](../../20_Systems/README.md)
 
 ## Rules
 - Goals must always be referenced as `goal-gXX` (e.g. `goal-g01`).

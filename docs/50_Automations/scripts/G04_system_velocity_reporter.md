@@ -1,58 +1,90 @@
 ---
-title: "G04: System Velocity Reporter"
+title: "Automation Spec: G04_system_velocity_reporter.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G04__system_velocity_reporter"
-goal_id: "goal-g04"
-systems: ["S04", "S01"]
-owner: "Michał"
-updated: "2026-03-21"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "80489b358f400053{{LONG_IDENTIFIER}}"
 ---
 
-# G04: System Velocity Reporter
+# 🤖 Automation Spec: G04_system_velocity_reporter.py
 
 ## Purpose
-Generates a weekly "Momentum Report" by comparing the current state of the Digital Twin with historical snapshots from 7 days ago. Tracks velocity in Finance, Health, Productivity, and Logistics.
+G04_system_velocity_reporter.py.
 
-## Triggers
-- **Scheduled:** Weekly on Saturdays at 07:00 AM via `G11_global_sync.py`.
-- **Manual:** Can be run on-demand to gauge current momentum.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G04_system_velocity_reporter.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G04 Digital Twin Ecosystem` within the `meta` automation domain.
 
-## Inputs
-- **Snapshots:** `context_snapshot` (JSONB) from `strategic_memory` table in `DB_TWIN`.
-- **Activity Logs:** Task completion data from `system_activity_log`.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Snapshot Retrieval:** Fetches today's latest context and the context from exactly 7 days ago.
-2. **Metric Comparison:**
-    - **Finance:** Calculates Net Worth delta and change in active budget breaches.
-    - **Health:** Compares latest Readiness Score against the previous week's score.
-    - **Productivity:** Aggregates `items_processed` from activity logs for the last 7 days.
-    - **Household:** Compares the number of low-stock pantry items.
-3. **Trend Classification:** Assigns status icons (📈, 📉, ⚖️) based on the direction of change.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G04_system_velocity_reporter.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Markdown Report:** A dedicated file `Velocity-Report-YYYY-WW.md` saved to the Obsidian Vault.
-- **Activity Log:** Success/Failure logged to `system_activity_log`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin Hub](../../20_Systems/S04_Digital-Twin/README.md)
-- [S01 Observability & Monitoring](../../20_Systems/S01_Observability-Monitoring/README.md)
+### Runtime
+- Python script: `modules/meta/scripts/G04_system_velocity_reporter.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### External Services
-- Obsidian (File system access)
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `pathlib`
+- `psycopg2`
+- `sys`
 
-### Credentials
-- Database credentials in `.env`
+## Procedure
+1. Review the script source at `modules/meta/scripts/G04_system_velocity_reporter.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Missing Snapshot | Query returns 0 rows | Log Warning, abort report | None |
-| JSON Parse Error | malformed JSONB | Log Failure | Log Warning |
-| File Write Error | OS Exception | Log Failure | Log Warning |
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## Monitoring
-- Success metric: Weekly report file exists in Obsidian.
-- Alert on: Failure in `system_activity_log`.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G04_system_velocity_reporter.py`.
+
+## Implementation Notes
+- Top-level functions: get_snapshot, get_completed_tasks_count, generate_velocity_report
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, pathlib, datetime, os, autonomous_sdk.db_config, json, modules.meta.scripts.G11_log_system, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

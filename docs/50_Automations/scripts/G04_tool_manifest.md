@@ -1,51 +1,53 @@
 ---
-title: "Automation Spec: G04 Tool Manifest"
+title: "Archived Automation Spec: G04_tool_manifest"
 type: "automation_spec"
-status: "active"
-automation_id: "G04_tool_manifest"
-goal_id: "goal-g04"
-systems: ["S04"]
+status: "archived"
 owner: "Michał"
-updated: "2026-04-01"
+updated: "2026-05-23"
 ---
 
-# 🤖 Automation Spec: G04 Tool Manifest
+# Archived Automation Spec: G04_tool_manifest
 
 ## Purpose
-The `G04_tool_manifest.json` file acts as the primary registry for mapping G-series scripts to agent-executable tools. It allows the Digital Twin API to expose a dynamic set of capabilities to n8n and other client systems without manual code changes.
+Preserves the historical documentation record for `G04_tool_manifest` after no matching active Python script was found in `scripts/` or `modules/<domain>/scripts/`.
 
-## Inputs
-- **File:** `scripts/_meta/G04_tool_manifest.json`.
-- **Schema:** JSON array of tool objects.
+## Scope
+### In Scope
+- Records that this automation spec is archived and is not part of the active production script surface.
+- Provides a stable name for historical cross-references and migration review.
 
-## Tool Metadata Format
-```json
-{
-  "id": "unique_tool_id",
-  "domain": "goal_domain (e.g., finance)",
-  "script": "script_filename.py",
-  "description": "Functional description for the AI Agent",
-  "parameters": {}
-}
-```
+### Out of Scope
+- Runtime behavior, scheduler configuration, and operational ownership for a live script.
+- New production changes or active automation guarantees.
 
-## Processing Logic
-1.  **Discovery:** 
-    - `GET /tools`: Returns metadata for tools, supporting domain filtering (e.g., `?domain=finance`).
-    - `GET /tool/list`: Returns the complete definitive list of all registered tools.
-    - `GET /tool/help`: Returns a human-readable and AI-optimized guide for using the tool framework.
-2.  **Validation:** When `POST /execute_tool` is called, the API verifies the `tool_id` exists in this manifest before execution.
+## Inputs/Outputs
+### Inputs
+- Historical references to `G04_tool_manifest` in older documentation or migration notes.
+
+### Outputs
+- Archived documentation status only. No active runtime output is expected from this record.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin Registry](../../20_Systems/S04_Digital-Twin/Tool-Registry.md)
+- No active script dependency is currently registered for this documentation file.
+- If this automation is restored, create or identify the active script and regenerate the spec with `G12_auto_documenter.py`.
+
+## Procedure
+1. Search for an active implementation before using this document operationally.
+2. If no script exists, keep this file archived.
+3. If a script is restored, update `status` to `active`, add `script_hash`, and regenerate the spec.
+4. Re-run `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
 ## Failure Modes
-| Failure Scenario | Detection | Response |
+| Scenario | Detection | Response |
 |---|---|---|
-| Invalid JSON | API logs error on startup/reload | Validate JSON syntax. |
-| Missing Script | `execute_tool` returns 400 | Verify the `script` path in the manifest. |
+| Archived doc is mistaken for an active automation | No matching script exists in the active script directories | Locate or recreate the script before scheduling or invoking it. |
+| Historical link points here | Link resolves to an archived spec | Use the archive status to decide whether to update or remove the reference. |
+| Automation is restored | New script appears with this stem | Regenerate this spec as active documentation with a current `script_hash`. |
 
-## Manual Fallback
-Tools can still be executed manually via the command line:
-`python3 scripts/[script_name].py`
+## Security Notes
+- Do not add secrets, raw tokens, passwords, or internal infrastructure addresses to archived documentation.
+- Use placeholders such as `[API_KEY]`, `{{DB_PASSWORD}}`, and `{{INTERNAL_IP}}` for any historical configuration notes.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Quarterly archive review, or immediately if a matching script is restored.

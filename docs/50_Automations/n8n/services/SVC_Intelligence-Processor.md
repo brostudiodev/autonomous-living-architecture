@@ -242,12 +242,12 @@ tags: [relevant tags]
 ## Dependencies
 
 ### Systems
-- [S04 Digital Twin](../../../20_Systems/S04_Digital-Twin/README.md) - State queries
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md) - Workflow execution
-- [S11 Meta-System Integration](../../../20_Systems/S11_Meta-System-Integration/README.md) - Cross-system coordination
+- [S04 Digital Twin](../../../20_Systems/README.md) - State queries
+- [S08 Automation Orchestrator](../../../20_Systems/README.md) - Workflow execution
+- [S11 Meta-System Integration](../../../20_Systems/README.md) - Cross-system coordination
 
 ### Called By
-- [ROUTER_Intelligent-Hub.md](./ROUTER_Intelligent-Hub.md) - Primary caller
+- [ROUTER_Intelligent-Hub.md](ROUTER_Intelligent-Hub.md) - Primary caller
 
 ### Workflows Called
 - **SVC_Response-Dispatcher** (ID: `pag6IhR3yLeBUpR4cb8L9`) - Progress and completion notifications

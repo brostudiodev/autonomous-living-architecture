@@ -222,12 +222,12 @@ Multi-format input detection and content extraction service that identifies inpu
 ## Dependencies
 
 ### Systems
-- [S04 Digital Twin](../../../20_Systems/S04_Digital-Twin/README.md) - State queries
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md) - Workflow execution
-- [S11 Meta-System Integration](../../../20_Systems/S11_Meta-System-Integration/README.md) - Cross-system coordination
+- [S04 Digital Twin](../../../20_Systems/README.md) - State queries
+- [S08 Automation Orchestrator](../../../20_Systems/README.md) - Workflow execution
+- [S11 Meta-System Integration](../../../20_Systems/README.md) - Cross-system coordination
 
 ### Called By
-- [ROUTER_Intelligent-Hub.md](./ROUTER_Intelligent-Hub.md) - Primary caller
+- [ROUTER_Intelligent-Hub.md](ROUTER_Intelligent-Hub.md) - Primary caller
 
 ### Sub-Workflows
 - **SVC_Youtube_Transcript** (ID: `wH4hbIMadI4Gh2lq`) - YouTube transcript extraction

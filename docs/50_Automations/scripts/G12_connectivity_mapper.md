@@ -1,52 +1,91 @@
 ---
-title: "G12: Dynamic Connectivity Mapper"
+title: "Automation Spec: G12_connectivity_mapper.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G12_connectivity_mapper"
-goal_id: "goal-g12"
-systems: ["S04", "S11"]
-owner: "Michał"
-updated: "2026-03-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "f0b955bd{{LONG_IDENTIFIER}}"
 ---
 
-# G12: Dynamic Connectivity Mapper
+# 🤖 Automation Spec: G12_connectivity_mapper.py
 
 ## Purpose
-Generates a real-time architectural visualization of the autonomous system by crawling `Systems.md` files and correlating them with live activity logs. This provides 100% visibility into system health and goal-to-automation traceability.
+G12_connectivity_mapper.py.
 
-## Triggers
-- **Manual:** `python scripts/G12_connectivity_mapper.py`
-- **Web UI:** Triggered when visiting `GET /map` on the Digital Twin API.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/docs/scripts/G12_connectivity_mapper.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G12 Complete Process Documentation` within the `docs` automation domain.
 
-## Inputs
-- **Documentation:** `docs/10_Goals/*/Systems.md` (Traceability tables).
-- **Database:** `digital_twin_michal.system_activity_log` (Latest status per script).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Directory Crawl:** Iterates through all goal directories in `docs/10_Goals/`.
-2. **Table Parsing:** Uses regex to extract `Goal -> System` and `System -> Automation` relationships from Markdown tables.
-3. **Health Correlation:** Queries the database for the latest status (`SUCCESS`, `FAILURE`, or `UNKNOWN`) of each identified automation.
-4. **Graph Synthesis:** Generates a Mermaid.js string with custom styling classes for health-based color coding.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G12_connectivity_mapper.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Mermaid String:** Served via `GET /map/data`.
-- **Interactive UI:** Rendered HTML at `GET /map`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin Hub](../../20_Systems/S04_Digital-Twin/README.md)
-- [S11 Meta-System Integration](../../20_Systems/S11_Meta-System-Integration/README.md)
+### Runtime
+- Python script: `modules/docs/scripts/G12_connectivity_mapper.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-## Error Handling
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.log`
+- `datetime`
+- `json`
+- `os`
+- `pathlib`
+- `psycopg2`
+- `re`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/docs/scripts/G12_connectivity_mapper.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| Broken Table | Regex fail | Skip row, log warning |
-| DB Error | psycopg2 exception | Set status to `UNKNOWN` |
-| Path Missing | `os.path.exists` | Show error node in Mermaid |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## Monitoring
-- **Success metric:** 100% coverage of documented goal-to-automation links.
-- **Visual Validation:** All nodes in `/map` correctly reflect statuses from `system_activity_log`.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-## Manual Fallback
-If the dynamic map fails, refer to the static version in [Obsidian Vault/G11_System_Connectivity_Map.md](../../../../Obsidian Vault/G11_System_Connectivity_Map.md).
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G12_connectivity_mapper.py`.
+
+## Implementation Notes
+- Top-level functions: clean_script_name, get_latest_status, generate_connectivity_map
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `re, psycopg2, pathlib, datetime, os, autonomous_sdk.db_config, json, sys, autonomous_sdk.log`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

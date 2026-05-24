@@ -1,0 +1,29 @@
+name: health
+version: 1
+description: "Predictive Health Management & Biometric Analysis"
+core: false
+sync_tier: 0
+databases:
+  - autonomous_health
+depends_on:
+  - postgres
+env_vars:
+  - WITHINGS_CLIENT_ID: "{{WITHINGS_CLIENT_ID}}" WITHINGS_CLIENT_SECRET: "{{GENERIC_API_SECRET}}" ZEPP_EMAIL
+  - ZEPP_PASSWORD
+api_routes:
+  - /api/v1/health
+  - /api/v1/biometrics
+  - /api/v1/recovery
+capabilities:
+  - name: "biometric_sync"
+    description: "Synchronizes data from Zepp (Amazfit) and Withings APIs."
+    api_endpoints: ["/api/v1/health/sync/zepp", "/api/v1/health/sync/withings"]
+    events_emitted: ["biometrics_updated"]
+  - name: "illness_detection"
+    description: "Analyzes HRV and Sleep trends to detect oncoming illness or fatigue."
+    api_endpoints: ["/api/v1/health/anomalies"]
+    events_emitted: ["health_anomaly_detected"]
+  - name: "recovery_analysis"
+    description: "Calculates biological readiness scores and HRV-based recovery insights."
+    api_endpoints: ["/api/v1/health/recovery"]
+    events_emitted: ["recovery_report_generated"]

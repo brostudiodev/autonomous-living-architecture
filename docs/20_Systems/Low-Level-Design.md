@@ -3,10 +3,33 @@ title: "Low-Level Design Documentation"
 type: "documentation"
 status: "active"
 owner: "Michał"
-updated: "2026-04-25"
+updated: "2026-05-19"
 ---
 
 # Low-Level Design Documentation
+---
+
+## 🛠️ **CORE SERVICES & SDK (autonomous_sdk)**
+
+The system utilizes a centralized SDK to provide unified access to core infrastructure, ensuring consistency across all 13 modules.
+
+### **1. Database Service (db_config)**
+Standardizes connection pooling and path resolution for all domain databases.
+- **Key Configs:** `DB_TWIN`, `DB_HEALTH`, `DB_FINANCE`, `DB_PANTRY`, `DB_LOGISTICS`, `DB_TRAINING`, `DB_LEARNING`, `DB_CAREER`.
+- **Shadow Mode:** Controlled via `SHADOW_MODE=true` env var. Intercepts all `INSERT/UPDATE/DELETE` operations during validation phases.
+
+### **2. Event Service (events)**
+Provides a unified interface for emitting system-wide telemetry to RabbitMQ.
+- **Routing Pattern:** `[domain].[severity].[action]`
+- **Implementation:** Proxies events to the `life.events` topic exchange.
+
+### **3. Logging Service (log)**
+Handles structured activity logging with automatic persistence to `system_activity_log`.
+- **Auto-Telemetry:** Emits `meta.info.activity_logged` event on every success/failure.
+- **Failure Notification:** Automatically triggers Telegram alerts for `CRITICAL` severity logs.
+
+---
+
 
 ## Overview
 
@@ -120,18 +143,30 @@ response_schema:
     data: object
     processing_time_ms: integer
 
-#### **Digital Twin Central API**
-```yaml
-endpoint: /status
-method: GET
-port: 5677
-authentication: Internal Network / Bearer Token (Roadmap)
-purpose: Aggregated life state summary and AI command hub (Port 5677)
+#### **Intelligence Layer Services (n8n)**
 
-endpoint: /docs
-method: GET
-purpose: Interactive Swagger/OpenAPI documentation
-```
+| Service | Endpoint | Input Schema | Output Schema |
+| :--- | :--- | :--- | :--- |
+| `SVC_LLM_Categorize` | `/llm/categorize` | `{transaction: {}, categories: []}` | `{category: "", is_breach: bool, reasoning: ""}` |
+| `SVC_LLM_Generate-Idea`| `/llm/generate-idea` | `{domain: "", action: "", payload: {}}` | `{title: "", hook: "", key_points: [], why: ""}` |
+| `SVC_LLM_Draft-Content` | `/llm/draft-content` | `{target: "", title: "", hook: "", points: []}` | `{output: "Markdown text"}` |
+| `SVC_LLM_Decision` | `/llm/decision-proposal` | `{domain: "", proposal: "", reason: ""}` | `{decision: "APPROVED_AUTO", logic: ""}` |
+
+### **Event Schema (AMQP)**
+All system events are emitted via the `autonomous_sdk.events` service and follow a standardized schema:
+```json
+{
+  "event_id": "uuid",
+  "timestamp": "iso-date (UTC/Z)",
+  "source": "script_name.py",
+  "domain": "finance",
+  "action": "bank_ingest_complete",
+  "severity": "INFO | WARNING | CRITICAL",
+  "payload": {
+      "items_processed": 10,
+      "details": "..."
+  }
+}
 ```
 
 ---
@@ -1171,4 +1206,4 @@ This low-level design documentation provides the technical specifications needed
 
 The system is designed for scalability, maintainability, and operational excellence while maintaining the sophisticated integration between all 12 goals and supporting infrastructure.
 
-*Last updated: 2026-04-16*
+*Last updated: 2026-05-19*

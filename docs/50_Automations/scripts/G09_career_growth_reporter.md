@@ -1,54 +1,89 @@
 ---
-title: "G09: Professional Impact Synthesis"
+title: "Automation Spec: G09_career_growth_reporter.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G09_career_growth_reporter.py"
-goal_id: "goal-g09"
-systems: ["S04", "S09"]
-owner: "Michał"
-updated: "2026-03-11"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "d9aaec4{{LONG_IDENTIFIER}}"
 ---
 
-# G09: Professional Impact Synthesis
+# 🤖 Automation Spec: G09_career_growth_reporter.py
 
 ## Purpose
-Autonomously synthesizes technical achievements, "Million Dollar Ideas", and project wins from the Digital Twin's strategic memory into a concise, professional impact summary. This maintains a live career portfolio with zero manual effort.
+G09_career_growth_reporter.py.
 
-## Triggers
-- **Automated:** Executed weekly or as part of the `G11_global_sync.py` registry.
-- **Manual:** `python3 scripts/G09_career_growth_reporter.py`
-- **Dashboard:** Injected into the "Director's Insights" section of the Daily Note.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/career/scripts/G09_career_growth_reporter.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G09 Automated Career Intelligence` within the `career` automation domain.
 
-## Inputs
-- PostgreSQL Database: `digital_twin_michal`
-- Table: `strategic_memory` (filtered for last 7 days).
-- LLM Engine: Gemini 1.5 Flash.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Achievement Harvesting:** Collects all memory entries of type 'achievement', 'insight', or 'million_dollar_idea' from the past week.
-2.  **AI Synthesis:** Sends the raw data to Gemini with a "Professional Brand Strategist" prompt.
-3.  **Refinement:** Structures the output into exactly 3 bold, high-impact bullet points focused on technical leadership and architectural wins.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G09_career_growth_reporter.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Markdown Report:** 3-bullet summary injected into Obsidian.
-- **Centralized Logging:** Reports `SUCCESS` or `FAILURE` to `system_activity_log`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
-- [S09 Automated Career Intelligence](../../10_Goals/G09_Automated-Career-Intelligence/README.md)
+### Runtime
+- Python script: `modules/career/scripts/G09_career_growth_reporter.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### External Services
-- Google Gemini API
+### Imports
+- `G05_ollama_wrapper`
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `psycopg2`
+- `requests`
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| No Memories Found | SQL query returns empty | Skip report, return "No new wins" | System Activity Log |
-| API Error | `requests` timeout | Log failure | System Activity Log |
+## Procedure
+1. Review the script source at `modules/career/scripts/G09_career_growth_reporter.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Manual Fallback
-If career synthesis is unavailable:
-1.  Manually review the `strategic_memory` table.
-2.  Review Git commit history for technical wins.
-3.  Copy wins into the Digital Twin UI: "/career/generate_growth_report".
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G09_career_growth_reporter.py`.
+
+## Implementation Notes
+- Top-level functions: generate_growth_summary
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, json, modules.meta.scripts.G11_log_system, G05_ollama_wrapper, requests`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

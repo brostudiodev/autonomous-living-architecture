@@ -30,8 +30,8 @@ An n8n service workflow that triggers the global synchronization process across 
 
 ## Dependencies
 ### Systems
-- [S11 Meta-System Integration](../../../20_Systems/S11_Meta-System-Integration/README.md)
-- [Digital Twin API](../../../scripts/G04_digital_twin_api.py)
+- [S11 Meta-System Integration](../../../20_Systems/README.md)
+- [Digital Twin API](../../../modules/meta/scripts/G04_digital_twin_api.py)
 
 ## Error Handling
 | Failure Scenario | Detection | Response | Alert |

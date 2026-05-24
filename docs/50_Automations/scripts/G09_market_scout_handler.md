@@ -2,36 +2,87 @@
 title: "Automation Spec: G09_market_scout_handler.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G09_market_scout_handler"
-goal_id: "goal-g09"
-systems: ["S04", "S11"]
-owner: "Michał"
-updated: "2026-04-27"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "3c5d00c8325{{LONG_IDENTIFIER}}"
 ---
 
 # 🤖 Automation Spec: G09_market_scout_handler.py
 
 ## Purpose
-Acts as the system executor for career intelligence. It receives skill gap reports from the `SVC_Career-Market-Scout` n8n workflow, autonomously updates system-wide market demand metadata, and translates findings into actionable "Learning Sprint" proposals.
+G09_market_scout_handler.py.
 
-## Triggers
-- **API Call:** Triggered by n8n via the `POST /career/report_gap` endpoint.
-- **Manual:** `python3 G09_market_scout_handler.py '{"skill": "...", "demand": "..."}'`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/career/scripts/G09_market_scout_handler.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G09 Automated Career Intelligence` within the `career` automation domain.
 
-## Inputs
-- **Gap Data:** JSON object containing `skill`, `demand`, `current_level`, and `source`.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **System Intelligence Update:** Autonomously updates the `skill_inventory` in `autonomous_career` with fresh market demand (Low/Med/High/Critical).
-2. **Trend Tracking:** Logs an entry to `market_pulse` for historical analysis of skill desirability.
-3. **Decision Proposal:** Calls `G11_decision_proposer` to create a `career.skill_gap_alert` decision.
-4. **Reasoning:** Generates a justification string based on market demand vs system baseline.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G09_market_scout_handler.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Database Update:** Updated `market_demand` in skill inventory.
-- **Trend Record:** Historical demand point in `market_pulse`.
-- **Decision Request:** A new `PENDING` request in the Digital Twin triage for a "Learning Sprint".
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
-## Related Documentation
-- [Goal: G09 Career Intelligence](../../10_Goals/G09_Automated-Career-Intelligence/README.md)
-- [Workflow: Career Market Scout](../n8n/workflows/SVC_Career-Market-Scout.md)
+## Dependencies
+### Runtime
+- Python script: `modules/career/scripts/G09_market_scout_handler.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `G11_decision_proposer`
+- `autonomous_sdk.db_config`
+- `json`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `psycopg2`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/career/scripts/G09_market_scout_handler.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G09_market_scout_handler.py`.
+
+## Implementation Notes
+- Top-level functions: update_market_demand, handle_market_gap
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, G11_decision_proposer, os, autonomous_sdk.db_config, json, modules.meta.scripts.G11_log_system, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

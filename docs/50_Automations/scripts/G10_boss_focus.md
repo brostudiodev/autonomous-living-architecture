@@ -1,43 +1,53 @@
 ---
-title: "G10 Boss Focus"
-type: "automation"
-status: "active"
+title: "Archived Automation Spec: G10_boss_focus"
+type: "automation_spec"
+status: "archived"
 owner: "Michał"
-updated: "2026-04-24"
+updated: "2026-05-23"
 ---
 
-# G10: Boss Focus (Zero-Friction Context Switching)
+# Archived Automation Spec: G10_boss_focus
 
 ## Purpose
-Enables instantaneous switching between life domains by preparing the digital environment (IDE, Docs, URLs) for a specific goal, bypassing the daily mission if necessary.
+Preserves the historical documentation record for `G10_boss_focus` after no matching active Python script was found in `scripts/` or `modules/<domain>/scripts/`.
 
 ## Scope
-- **In Scope:** Manual goal focusing, IDE folder/file opening, Roadmap navigation.
-- **Out Scope:** Changing the actual "Golden Mission" in the database (only overrides the local `zone_in.sh`).
+### In Scope
+- Records that this automation spec is archived and is not part of the active production script surface.
+- Provides a stable name for historical cross-references and migration review.
+
+### Out of Scope
+- Runtime behavior, scheduler configuration, and operational ownership for a live script.
+- New production changes or active automation guarantees.
 
 ## Inputs/Outputs
-- **Inputs:** Goal ID (e.g., `G04`).
-- **Outputs:** Updated `zone_in.sh` in the repository root.
+### Inputs
+- Historical references to `G10_boss_focus` in older documentation or migration notes.
+
+### Outputs
+- Archived documentation status only. No active runtime output is expected from this record.
 
 ## Dependencies
-- **Systems:** VS Code/Cursor, Obsidian.
-- **Scripts:** `G10_zone_in_orchestrator.py`.
+- No active script dependency is currently registered for this documentation file.
+- If this automation is restored, create or identify the active script and regenerate the spec with `G12_auto_documenter.py`.
 
 ## Procedure
-
-### Using Boss Focus
-1. **Command:** `python3 scripts/G10_zone_in_orchestrator.py GXX`
-2. **Execute:** Run `./zone_in.sh` to apply the environment changes.
+1. Search for an active implementation before using this document operationally.
+2. If no script exists, keep this file archived.
+3. If a script is restored, update `status` to `active`, add `script_hash`, and regenerate the spec.
+4. Re-run `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
 ## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| Invalid Goal ID | Script defaults to root folder | Provide a valid G01-G12 ID |
-| Log not found | Briefing shows "None recorded" | Manually log your first action in `Activity-log.md` |
+|---|---|---|
+| Archived doc is mistaken for an active automation | No matching script exists in the active script directories | Locate or recreate the script before scheduling or invoking it. |
+| Historical link points here | Link resolves to an archived spec | Use the archive status to decide whether to update or remove the reference. |
+| Automation is restored | New script appears with this stem | Regenerate this spec as active documentation with a current `script_hash`. |
 
 ## Security Notes
-- No external APIs used. Operates entirely on the local filesystem.
+- Do not add secrets, raw tokens, passwords, or internal infrastructure addresses to archived documentation.
+- Use placeholders such as `[API_KEY]`, `{{DB_PASSWORD}}`, and `{{INTERNAL_IP}}` for any historical configuration notes.
 
 ## Owner + Review Cadence
-- **Owner:** Michał
-- **Review:** Bi-monthly.
+- Owner: Michał
+- Review cadence: Quarterly archive review, or immediately if a matching script is restored.

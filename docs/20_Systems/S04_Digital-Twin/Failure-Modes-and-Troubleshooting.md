@@ -4,9 +4,9 @@ type: "troubleshooting_guide"
 status: "active"
 system_id: "S04"
 goal_id: "goal-g04"
-version: "1.0"
+version: "1.1"
 owner: "Michał"
-updated: "2026-04-17"
+updated: "2026-05-10"
 ---
 
 # Digital Twin Failure Modes & Troubleshooting
@@ -17,6 +17,12 @@ This document tracks identified failure modes in the Digital Twin API and Engine
 
 | Scenario | Detection | Response |
 |----------|-----------|----------|
+| **Permission Denied (I/O)** | `PermissionError` in `G11_db_backup.py` or `G11_journal_backfiller.py`. | **Hardening:** `digital-twin-api` now runs as `root`. If error persists, check host directory permissions (must allow UID 0/root). |
+| **Missing GPG Module** | `ModuleNotFoundError: No module named 'gnupg'` in `G11_db_recovery_shield.py`. | **Hardening:** Ensure `python-gnupg` is in `Dockerfile` and `gnupg` system package is installed via `apt`. |
+| **Docker Socket Failure** | `docker logs`: "Got permission denied while trying to connect to the Docker daemon socket". | **Hardening:** Ensure `/var/run/docker.sock` is mapped in `docker-compose.yml` and container is running as `root`. |
+| **Path Mismatch (Container)** | Script fails to find `/docs/10_Goals` or `/_meta`. | **Hardening:** 1-to-1 path mapping enabled. Host paths are mirrored in container to satisfy hardcoded script logic. |
+| **Volume Shadowing** | Tool manifest missing (0 tools available) in API logs. | **Fix:** Ensure volume mappings don't overlap (e.g., mapping `./_meta` to `/app/_meta` when `./scripts` is already mapped to `/app`). Use specific absolute paths for data. |
+| **Tool Audit Timeout** | API status **DEGRADED** for complex scripts. `error`: "Command timed out after 5s". | **Fix:** Increased audit timeout in `G04_digital_twin_api.py` to 30s. |
 | **Engine Parameter Mismatch** | `TypeError` in `monitor_state.json` or `docker logs`: "get_health_status() got an unexpected keyword argument 'target_date'" | Ensure `get_full_context` sets `self.target_date` and calls sub-methods without parameters. |
 | **Command Translation Error** | `sys.argv` parsing failure in `G11_decision_handler.py`. Flags like `--all` being treated as integer IDs. | Update entry point logic to check for flags (`startswith("-")`) before assigning to `target_id`. |
 | **Stale Health Blockers** | UI Status is **CRITICAL** but logs are clean. Check `system_health_md` for "ImportError" or "Address in use". | Manually clear `_meta/automation_health.json` on host and container. Reset the JSON to `{"status": "Healthy", "failures": []}`. |
@@ -28,7 +34,7 @@ This document tracks identified failure modes in the Digital Twin API and Engine
 | **Offline Domain DB** | API fails to start or crashes on domain query. | **Startup Resilience:** Engine now uses Lazy Load. API will boot even if DBs are down. Broken domains return "Degraded" response instead of 500. |
 | **Stale Lockfiles** | Daily sync or Managers fail to start with "Already running". | **Self-Healing:** `G11_self_healing_logic.py` now autonomously clears locks from both `/tmp/` and `scripts/` if >30 mins old. |
 | Container Failure | API process crashes silently. | **Observability:** Docker `healthcheck` now monitors `/health/ready`. Container will auto-restart if health fails for 3 consecutive 30s checks. |
-| **Intermittent Domain Instability** | API returns "Degraded" for specific sections. `docker logs`: "Circuit OPENED for 'health'". | **Circuit Breaker:** System is auto-protecting. Wait 60s for auto-reset, or probe with `python3 scripts/G04_health_probe.py [domain]`. |
+| **Intermittent Domain Instability** | API returns "Degraded" for specific sections. `docker logs`: "Circuit OPENED for 'health'". | **Circuit Breaker:** System is auto-protecting. Wait 60s for auto-reset, or probe with `python3 modules/meta/scripts/G04_health_probe.py [domain]`. |
 | **Stale API Response on Failure** | n8n gets data but with `report: "❌ Error: ..."` and `200 OK`. | **Resilience Standard:** This is expected. The error in `report` indicates a backend failure while keeping the API pipe open. |
 
 
@@ -56,7 +62,7 @@ WHERE script_name = '[FAILED_SCRIPT_NAME]'
 
 ### 3. Verification Checklist
 After applying fixes:
-1.  Run `python3 scripts/G04_digital_twin_monitor.py` -> Ensure no "Engine failure" alerts.
+1.  Run `python3 modules/meta/scripts/G04_digital_twin_monitor.py` -> Ensure no "Engine failure" alerts.
 2.  `curl http://localhost:5677/health/ready` -> Ensure global readiness.
 3.  `curl http://localhost:5677/health/domain/finance` -> Check specific domain circuit status.
 4.  Check Digital Twin UI -> Light should be **Green**.

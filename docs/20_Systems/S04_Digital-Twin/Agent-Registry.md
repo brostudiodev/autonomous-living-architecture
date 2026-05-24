@@ -6,7 +6,7 @@ system_id: "S04"
 goal_id: "goal-g04"
 version: "1.1"
 owner: "Michał"
-updated: "2026-04-12"
+updated: "2026-05-10"
 ---
 
 # S04: Agent Registry
@@ -121,7 +121,7 @@ The ecosystem operates on a **Supervisor-Specialist** model. **Agent Zero** acts
 
 ## 🔒 Security & Scope Control
 - **Manifest Tags:** Agents are restricted to tools tagged with their specific `domain`.
-- **API Access:** Restricted to domain-specific endpoints as defined in [Tool Mapping Spec](./Tool-Mapping-Spec.md).
+- **API Access:** Restricted to domain-specific endpoints as defined in [Tool Mapping Spec](Tool-Mapping-Spec.md).
 - **Audit Rule:** Every agent action is logged in the `system_activity_log` for Supervisor (Agent Zero) review.
 
 ---

@@ -1,0 +1,25 @@
+name: brand
+version: 1
+description: "Automationbro Recognition & Content Performance"
+core: false
+sync_tier: 2
+databases:
+  - digital_twin_michal
+depends_on:
+  - postgres
+api_routes:
+  - /api/v1/brand
+  - /api/v1/content
+env_vars:
+  - GOOGLE_SHEET_ID_FINANCE
+capabilities:
+  - name: "performance_tracking"
+    description: "Aggregates social media engagement and subscriber growth metrics."
+    api_endpoints: ["/api/v1/brand/status"]
+    events_emitted: ["brand_metrics_updated"]
+  - name: "substack_sync"
+    description: "Synchronizes Substack articles to Obsidian and tracks subscriber metrics."
+    events_emitted: ["substack_synced"]
+  - name: "performance_analysis"
+    description: "Analyzes audience growth trends and predicts target achievement."
+    api_endpoints: ["/api/v1/brand/analysis"]

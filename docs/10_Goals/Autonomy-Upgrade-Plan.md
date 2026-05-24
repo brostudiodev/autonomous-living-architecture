@@ -55,12 +55,12 @@ For each domain, upgrade criteria include:
 
 ## Implementation
 
-See [G11 Roadmap](./G11_Meta-System-Integration-Optimization/Roadmap.md) for detailed quarterly milestones.
+See [G11 Roadmap](G02_Automationbro-Recognition/Roadmap.md) for detailed quarterly milestones.
 
 ## Related Documentation
 
 - [Autonomy Rules Runbook](../40_Runbooks/G11/Autonomy-Rules-Runbook.md)
-- [G11 Meta-System Integration](./G11_Meta-System-Integration-Optimization/README.md)
+- [G11 Meta-System Integration](../20_Systems/README.md)
 
 ---
 *Owner: Michał*

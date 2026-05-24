@@ -10,8 +10,8 @@ updated: "2026-02-24"
 # Systems
 
 ## Enabling systems
-- [S07 Smart Home](../../20_Systems/S07_Smart-Home/README.md) - MariaDB & Home Assistant platform.
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md) - Integration and dashboarding.
+- [S07 Smart Home](../../20_Systems/README.md) - MariaDB & Home Assistant platform.
+- [S04 Digital Twin](../../20_Systems/README.md) - Integration and dashboarding.
 
 ## Traceability (Outcome → System → Automation → SOP)
 | Outcome | System | Automation | SOP |

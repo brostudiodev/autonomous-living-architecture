@@ -122,9 +122,9 @@ Provides daily smart home status updates including indoor/outdoor temperatures, 
 ## Dependencies
 
 ### Systems
-- [S04 Digital Twin](../../../20_Systems/S04_Digital-Twin/README.md) - Data aggregation
-- [S07 Smart Home System](../../../20_Systems/S07_Smart-Home/README.md) - Home Assistant integration
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md) - Workflow execution
+- [S04 Digital Twin](../../../20_Systems/README.md) - Data aggregation
+- [S07 Smart Home System](../../../20_Systems/README.md) - Home Assistant integration
+- [S08 Automation Orchestrator](../../../20_Systems/README.md) - Workflow execution
 
 ### External Services
 - **Home Assistant** - Smart home sensors and devices

@@ -55,6 +55,6 @@ Examples: "zużyliśmy 2 jajka na śniadanie" "kupiliśmy 3 paczki makaronu w Bi
 - **Monthly:** Review Slownik for duplicate categories
 
 ## Related Documentation
-- [Pantry Management System](../../10_Goals/G03_Autonomous-Household-Operations/README.md)
+- [Pantry Management System](../../20_Systems/README.md)
 - [Automation: WF105](../../50_Automations/n8n/workflows/WF105__pantry-management.md)
 - [Troubleshooting Runbook](../../40_Runbooks/Household/Pantry-System-Failure.md)

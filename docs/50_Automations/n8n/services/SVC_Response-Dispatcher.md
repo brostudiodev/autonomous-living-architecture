@@ -177,15 +177,15 @@ Universal response formatting and delivery service that routes system outputs to
 ## Dependencies
 
 ### Systems
-- [S04 Digital Twin](../../../20_Systems/S04_Digital-Twin/README.md) - State queries
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md) - Workflow execution
-- [S11 Meta-System Integration](../../../20_Systems/S11_Meta-System-Integration/README.md) - Cross-system coordination
+- [S04 Digital Twin](../../../20_Systems/README.md) - State queries
+- [S08 Automation Orchestrator](../../../20_Systems/README.md) - Workflow execution
+- [S11 Meta-System Integration](../../../20_Systems/README.md) - Cross-system coordination
 
 ### Called By
-- [ROUTER_Intelligent-Hub.md](./ROUTER_Intelligent-Hub.md) - Primary caller
-- [SVC_Command-Handler.md](./SVC_Command-Handler.md)
-- [SVC_Intelligence-Processor.md](./SVC_Intelligence-Processor.md)
-- [SVC_Google-Calendar.md](./SVC_Google-Calendar.md)
+- [ROUTER_Intelligent-Hub.md](ROUTER_Intelligent-Hub.md) - Primary caller
+- [SVC_Command-Handler.md](SVC_Command-Handler.md)
+- [SVC_Intelligence-Processor.md](SVC_Intelligence-Processor.md)
+- [SVC_Google-Calendar.md](SVC_Google-Calendar.md)
 - And all other service workflows
 
 ### External Services

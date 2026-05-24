@@ -33,8 +33,8 @@ Retrieves all active tasks from the Digital Twin API's `/tasks` endpoint and ret
 
 ## Dependencies
 ### Systems
-- [S04 Digital Twin](../../../20_Systems/S04_Digital-Twin/README.md) - Source API.
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md) - n8n Execution engine.
+- [S04 Digital Twin](../../../20_Systems/README.md) - Source API.
+- [S08 Automation Orchestrator](../../../20_Systems/README.md) - n8n Execution engine.
 
 ### External Services
 - Digital Twin API (running on port 5677).

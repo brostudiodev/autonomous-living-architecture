@@ -1,44 +1,86 @@
 ---
-title: "Technical Win Harvester (G09)"
+title: "Automation Spec: G09_technical_win_harvester.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-02"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "8bb79fa4c4852dddc{{LONG_IDENTIFIER}}"
 ---
 
-# Purpose
-The **Technical Win Harvester** (`G09_technical_win_harvester.py`) automates the collection of engineering achievements for career tracking. It eliminates the need for manual end-of-day reflection by pulling data directly from source control.
+# 🤖 Automation Spec: G09_technical_win_harvester.py
 
-# Scope
-- **In Scope:** Specified local git repositories, commits authored by the user today.
-- **Out Scope:** Repositories not in the config list, merge commits, non-conventional commit messages.
+## Purpose
+G09_technical_win_harvester.py.
 
-# Harvesting Logic
-- **Detection:** Runs `git log --since=00:00:00`.
-- **Filtering:** Only includes commits starting with `feat:`, `fix:`, `refactor:`, `docs:`, `perf:`, or `sys:`.
-- **Formatting:** Formats as `#🏆win` tags for Obsidian searchability.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/career/scripts/G09_technical_win_harvester.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G09 Automated Career Intelligence` within the `career` automation domain.
 
-# Inputs/Outputs
-- **Inputs:** Local Git history.
-- **Outputs:** Markdown list of technical wins for the `CAREER_WINS` collapsible section.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-# Dependencies
-- **Systems:** S11 (Meta-System), G09 (Automated Career Intelligence)
-- **Tools:** `git` CLI
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G09_technical_win_harvester.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-# Procedure
-- Automatically executed by `autonomous_daily_manager.py` during the daily sync.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
 
-# Failure Modes
+## Dependencies
+### Runtime
+- Python script: `modules/career/scripts/G09_technical_win_harvester.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
+
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.log`
+- `datetime`
+- `os`
+- `os,`
+- `subprocess`
+
+## Procedure
+1. Review the script source at `modules/career/scripts/G09_technical_win_harvester.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| Repo Missing | Path not found | Skips repo; logs warning. |
-| Git Error | subprocess exit code != 0 | Skips repo; ensures sync continues. |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-# Security Notes
-- Read-only access to commit messages.
-- No source code or secrets are extracted.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-# Owner + Review Cadence
-- **Owner:** Michał
-- **Review:** Quarterly (Review career growth report based on harvested wins)
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G09_technical_win_harvester.py`.
+
+## Implementation Notes
+- Top-level functions: get_git_commits, harvest_wins, generate_report
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `datetime, os, autonomous_sdk.db_config, os,, subprocess, autonomous_sdk.log`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

@@ -1,51 +1,53 @@
 ---
-title: "G10: Daily Reflection Logger"
+title: "Archived Automation Spec: log_reflection"
 type: "automation_spec"
-status: "active"
-automation_id: "log_reflection.py"
-goal_id: "goal-g10"
-systems: ["S10"]
+status: "archived"
 owner: "Michał"
-updated: "2026-03-19"
+updated: "2026-05-23"
 ---
 
-# G10: Daily Reflection Logger
+# Archived Automation Spec: log_reflection
 
 ## Purpose
-Provides a standardized method for logging evening reflections (mood, energy, highlights) into the Obsidian daily note. It supports both interactive CLI usage and automated logging via the Telegram bot.
+Preserves the historical documentation record for `log_reflection` after no matching active Python script was found in `scripts/` or `modules/<domain>/scripts/`.
 
-## Triggers
-- **Manual (Interactive):** `python3 scripts/log_reflection.py`
-- **Manual (Obsidian):** Triggered via `[🧠 Log Evening Reflection]` button in Daily Note.
-- **Remote (Telegram):** Triggered via `/reflect` command in the Digital Twin Bot.
+## Scope
+### In Scope
+- Records that this automation spec is archived and is not part of the active production script surface.
+- Provides a stable name for historical cross-references and migration review.
 
-## Inputs
-- **Command Line Arguments:** `--mood`, `--energy`, `--highlight`, `--frustration` (optional).
-- **Interactive Prompts:** If no arguments are provided.
-- **Target File:** `01_Daily_Notes/YYYY-MM-DD.md`.
+### Out of Scope
+- Runtime behavior, scheduler configuration, and operational ownership for a live script.
+- New production changes or active automation guarantees.
 
-## Processing Logic
-1.  **Argument Parsing:** Determines if running in interactive or automated mode.
-2.  **Mapping:** Converts numeric IDs (1-5) to human-readable labels (e.g., `1` → `😄 great`).
-3.  **File Access:** Locates the current day's Obsidian note.
-4.  **Surgical Update:** Uses regex to precisely replace the `mood:`, `energy:`, `highlight:`, and `frustration:` fields in the YAML frontmatter without disturbing other data.
+## Inputs/Outputs
+### Inputs
+- Historical references to `log_reflection` in older documentation or migration notes.
 
-## Outputs
-- **Obsidian Vault:** Updated frontmatter in the current Daily Note.
+### Outputs
+- Archived documentation status only. No active runtime output is expected from this record.
 
 ## Dependencies
-### Systems
-- [S10 Daily Goals Automation](../../20_Systems/S10_Daily-Goals-Automation/README.md)
-- [G04 Digital Twin Bot](../../10_Goals/G04_Digital-Twin-Ecosystem/README.md)
+- No active script dependency is currently registered for this documentation file.
+- If this automation is restored, create or identify the active script and regenerate the spec with `G12_auto_documenter.py`.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Note Not Found | `os.path.exists` failure | Log error, abort | Console Error |
-| YAML Syntax Error | Regex mismatch | Skip update | Console Error |
-| Invalid ID | Key not in map | Fallback to "3 - normal" or "😐 ok" | Console Warn |
+## Procedure
+1. Search for an active implementation before using this document operationally.
+2. If no script exists, keep this file archived.
+3. If a script is restored, update `status` to `active`, add `script_hash`, and regenerate the spec.
+4. Re-run `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Manual Fallback
-If the logger fails:
-1.  Open the Obsidian Daily Note manually.
-2.  Edit the YAML frontmatter directly using the provided drop-down lists or manual typing.
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Archived doc is mistaken for an active automation | No matching script exists in the active script directories | Locate or recreate the script before scheduling or invoking it. |
+| Historical link points here | Link resolves to an archived spec | Use the archive status to decide whether to update or remove the reference. |
+| Automation is restored | New script appears with this stem | Regenerate this spec as active documentation with a current `script_hash`. |
+
+## Security Notes
+- Do not add secrets, raw tokens, passwords, or internal infrastructure addresses to archived documentation.
+- Use placeholders such as `[API_KEY]`, `{{DB_PASSWORD}}`, and `{{INTERNAL_IP}}` for any historical configuration notes.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Quarterly archive review, or immediately if a matching script is restored.

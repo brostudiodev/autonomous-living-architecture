@@ -36,8 +36,8 @@ Syncs expense/calendar data from Google Sheets "Expense Calendar" tab to Postgre
 
 ## Dependencies
 ### Systems
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md) - n8n.
-- [S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md) - PostgreSQL.
+- [S08 Automation Orchestrator](../../../20_Systems/README.md) - n8n.
+- [S03 Data Layer](../../../20_Systems/README.md) - PostgreSQL.
 
 ### External Services
 - Google Sheets API ("Zestawienie_finansowe-2026_FG_AI").

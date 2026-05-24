@@ -1,186 +1,83 @@
 ---
-title: "db_config.py - Centralized Database Configuration and Logging"
+title: "Automation Spec: db_config.py"
 type: "automation_spec"
 status: "active"
-automation_id: "db_config"
-goal_id: "goal-g12"
-systems: ["S03", "S04"]
-owner: "Michał"
-updated: "2026-04-09"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "5e7e77d0c{{LONG_IDENTIFIER}}"
 ---
 
-# db_config.py - Centralized Database Configuration and Logging
+# 🤖 Automation Spec: db_config.py
 
 ## Purpose
-Provides a **single source of truth** for all database connections, logging infrastructure, and system-wide configurations (like Timezone) across the entire autonomous living ecosystem. Eliminates duplicated configurations in 50+ scripts.
+db_config.py - Shim for Modular SDK version.
 
 ## Scope
-
 ### In Scope
-- Centralized database connection configurations for all 8 databases
-- Shared logging infrastructure with consistent formatting
-- Global constants (e.g., `TIMEZONE`)
-- Environment variable management via `.env`
-- Migration utilities for existing scripts
+- Documents the active implementation at `scripts/db_config.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `Shared operational automation` within the `legacy` automation domain.
 
 ### Out of Scope
-- Connection pooling (future enhancement)
-- Database schema management
-- Migration scripts for data
-
----
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
 ## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `db_config.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-### Configuration Inputs
-| Input | Source | Description |
-|-------|--------|-------------|
-| `DB_USER` | `.env` | Database username |
-| `DB_PASSWORD` | `.env` | Database password |
-| `DB_HOST` | `.env` | Database host (default: localhost) |
-| `DB_PORT` | `.env` | Database port (default: 5432) |
-| `TIMEZONE` | `.env` | System-wide timezone (default: Europe/Warsaw) |
-
-### Global Constants
-| Constant | Type | Value / Source |
-|----------|------|----------------|
-| `TIMEZONE`| string | `os.getenv("TIMEZONE", "Europe/Warsaw")` |
-
-### Database Outputs
-| Variable | Database | Purpose |
-|----------|----------|---------|
-| `DB_FINANCE` | autonomous_finance | Financial tracking |
-| `DB_TRAINING` | autonomous_training | Workout/fitness data |
-| `DB_PANTRY` | autonomous_pantry | Household inventory |
-| `DB_HEALTH` | autonomous_health | Biometrics/health |
-| `DB_TWIN` | digital_twin_michal | Core system state |
-| `DB_LEARNING` | autonomous_learning | Study/certifications |
-| `DB_LOGISTICS` | autonomous_life_logistics | Life admin |
-| `DB_CAREER` | autonomous_career | Career tracking |
-
----
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
 
 ## Dependencies
+### Runtime
+- Python script: `scripts/db_config.py`
+- Trigger mode: Manual or scheduler invocation.
+- Databases: None detected by static scan.
 
-### Systems
-- **S03 Data Layer:** PostgreSQL databases
-- **S04 Digital Twin:** Uses for all DB connections
+### Imports
+- `os`
+- `pathlib`
+- `sys`
 
-### Credentials Required
-- PostgreSQL access (user/password from `.env`)
-- All 8 databases must be accessible
-
-### Files Using This
-- [G04_digital_twin_engine.py](./G04_digital_twin_engine.md) - ✅ Migrated (DB & TZ)
-- [G04_digital_twin_api.py](./G04_digital_twin_api.md) - ✅ Migrated (DB & TZ)
-- [G10_calendar_enforcer.py](./G10_calendar_enforcer.md) - ✅ Migrated (TZ)
-- [G07_zepp_sync.py](./G07_zepp_sync.md) - ✅ Migrated (TZ)
-- [G10_calendar_client.py](./G10_calendar_client.md) - ✅ Migrated (TZ)
-- [G10_location_intelligence.py](./G10_location_intelligence.md) - ✅ Migrated (TZ)
-- [G05_llm_categorizer.py](./G05_llm_categorizer.md)
-- [G11_decision_handler.py](./G11_decision_handler.md)
-- 160+ additional scripts
-
----
-
-## Usage
-
-### Basic Import
-```python
-from db_config import DB_TWIN, DB_FINANCE, DB_PANTRY, DB_HEALTH, TIMEZONE
-import psycopg2
-
-# Connect to database
-conn = psycopg2.connect(**DB_TWIN)
-
-# Use system timezone
-print(f"Current timezone: {TIMEZONE}")
-```
-
-### With Logging
-```python
-from db_config import setup_logger
-
-logger = setup_logger(__file__)
-logger.info("Starting my script...")
-
-# Use consistent logging throughout
-logger.warning("Something went wrong")
-logger.error("Critical failure")
-```
-
-### Get Database by Name
-```python
-from db_config import get_db_config
-
-# Dynamically get database config
-db = get_db_config('finance')  # Returns DB_FINANCE dict
-```
-
----
-
-## Migration Guide
-
-### Before (50+ files had this)
-```python
-# In each script - DUPLICATED!
-import os
-from dotenv import load_dotenv
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-load_dotenv(os.path.join(SCRIPT_DIR, '..', '.env'))
-
-DB_BASE = {
-    "user": "root",
-    "password": os.getenv("DB_PASSWORD", "admin"),
-    "host": os.getenv("DB_HOST", "localhost"),
-    "port": "5432"
-}
-DB_FINANCE = {**DB_BASE, "dbname": "autonomous_finance"}
-```
-
-### After (use centralized config)
-```python
-from db_config import DB_FINANCE, DB_TWIN, setup_logger
-logger = setup_logger(__file__)
-```
-
----
+## Procedure
+1. Review the script source at `scripts/db_config.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
 ## Failure Modes
-
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| `.env` file missing | `FileNotFoundError` | Script fails - restore `.env` from backup |
-| DB credentials wrong | `psycopg2.OperationalError` | Check `.env` DB_PASSWORD |
-| DB host unreachable | Connection timeout | Check DB_HOST network connectivity |
-| Database doesn't exist | `psycopg2.OperationalError` | Create database or fix dbname |
-
----
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
 ## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-- **Credentials:** Stored in `.env` file, never committed to git
-- **Access:** All scripts read from same `.env`
-- **Audit:** Changing password = single file edit, not 50+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `db_config.py`.
 
----
+## Implementation Notes
+- Top-level functions: No top-level functions detected.
+- Top-level classes: No top-level classes detected.
 
-## Owner & Review
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual or Scheduled Execution
+- **Databases:** None
+- **Dependencies:** `sys, pathlib, os`
 
-- **Owner:** Michał
-- **Review Cadence:** Monthly (via G12 Documentation Audit)
-- **Last Updated:** 2026-04-15
-- **Migration Status:** Core scripts ✅ migrated (Timezone centralization complete)
-
----
-
-## Related Documentation
-
-- [Documentation Standard](../../10_Goals/Documentation-Standard.md)
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
-- [G12 Meta-System Integration Optimization](../../10_Goals/G11_Meta-System-Integration-Optimization/README.md)
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-
-*Created: 2026-04-09 | Part of G12 Infrastructure Optimization*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

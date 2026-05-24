@@ -1,0 +1,30 @@
+name: {{ name }}
+version: {{ version | default(1) }}
+description: "{{ description }}"
+core: false
+sync_tier: {{ sync_tier | default(2) }}
+databases:
+  - {{ database | default('digital_twin_michal') }}
+depends_on:
+  - postgres
+{% if env_vars %}
+env_vars:
+{% for var in env_vars %}
+  - {{ var }}
+{% endfor %}
+{% endif %}
+api_routes:
+  - /api/v1/{{ name }}
+capabilities:
+{% for cap in capabilities %}
+  - name: "{{ cap.name }}"
+    description: "{{ cap.description }}"
+    api_endpoints:
+    {% for ep in cap.api_endpoints %}
+      - "{{ ep }}"
+    {% endfor %}
+    events_emitted:
+    {% for ev in cap.events_emitted %}
+      - "{{ ev }}"
+    {% endfor %}
+{% endfor %}

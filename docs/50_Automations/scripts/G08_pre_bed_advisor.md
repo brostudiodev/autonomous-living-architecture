@@ -1,114 +1,86 @@
 ---
-title: "G08_pre_bed_advisor: Proactive Sleep Environment Advisor"
+title: "Automation Spec: G08_pre_bed_advisor.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G08_pre_bed_advisor"
-goal_id: "goal-g08"
-systems: ["S07", "S08"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "6{{LONG_IDENTIFIER}}"
 ---
 
-# G08_pre_bed_advisor: Proactive Sleep Environment Advisor
+# 🤖 Automation Spec: G08_pre_bed_advisor.py
 
 ## Purpose
+G08_pre_bed_advisor.py.
 
-Predicts and optimizes sleep recovery by auditing the bedroom environment before bedtime. Sends proactive Telegram alerts at 21:00 if conditions (temperature) are sub-optimal, allowing the user to adjust the environment (ventilation/cooling) before 22:30.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/home/scripts/G08_pre_bed_advisor.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G08 Predictive Smart Home Orchestration` within the `home` automation domain.
 
-## Triggers
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-- **Scheduled:** Daily at 21:00 via **crontab**
-- **Manual:** `python scripts/G08_pre_bed_advisor.py`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G08_pre_bed_advisor.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Inputs
-
-| Source | Data | Used For |
-|--------|------|----------|
-| Home Assistant | Bedroom temperature sensor | Environment audit |
-| System Clock | Current hour | Trigger validation |
-| PostgreSQL | `digital_twin_michal` database | System activity logging |
-
-## Processing Logic
-
-1. **Check Hour** - Logic ensures advice is relevant to pre-bed window (typically 21:00).
-
-2. **Fetch Temperature** - Query Home Assistant for `sensor.temperature_humidity_sensor_8700_temperature`.
-   - Fallback to generic temperature sensors if specific ID is missing.
-
-3. **Audit Against Ideal Range** - Target range is 16.0°C - 20.0°C.
-   - Temp > 20.0°C → "Bedroom too warm" (Action required).
-   - Temp < 16.0°C → "Bedroom too cold" (Action required).
-   - Within range → "Environment optimal" (No action required).
-
-4. **Proactive Advice** - If action is required, send Telegram alert with specific instructions (e.g., "Open a window now").
-
-## Outputs
-
-| Output | Location | Format |
-|--------|----------|--------|
-| Sleep Prep Alert | Telegram Messenger | Push Notification |
-| Activity Log | `system_activity_log` table | PostgreSQL |
-
-### Example Alert
-
-```text
-🌙 **PRE-BED SLEEP ADVISOR** 🌙
-
-⚠️ **Bedroom is too warm:** 22.4°C
-Ideal range is 16.0-20.0°C.
-👉 **Action:** Open a window or turn on the AC/Fan now to cool it down before 22:30.
-```
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
 
 ## Dependencies
+### Runtime
+- Python script: `modules/home/scripts/G08_pre_bed_advisor.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-### Systems
-- [S07 Smart Home](../../20_Systems/S07_Smart-Home/README.md) - Temperature sensors
-- [S08 Automation Orchestrator](../../20_Systems/S08_Automation-Orchestrator/README.md) - Integration
+### Imports
+- `G04_digital_twin_notifier`
+- `G08_home_monitor`
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G11_log_system`
+- `os`
 
-### Scripts
-- `G08_home_monitor.py` - Home Assistant data fetcher
-- `G04_digital_twin_notifier.py` - Telegram notification engine
-- `G11_log_system.py` - Activity logging
+## Procedure
+1. Review the script source at `modules/home/scripts/G08_pre_bed_advisor.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Error Handling
-
+## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| HA unreachable | Exception in `get_ha_states()` | Log failure, no alert |
-| Sensor missing | `temp is None` after search | Log warning |
-| Telegram API error | Return `False` from `send_telegram_message()` | Log failure |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
 ## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-- No direct device control (notification-only)
-- Respects Mandate G08: No automated environmental control
-- HA token stored in `.env`
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G08_pre_bed_advisor.py`.
 
-## Monitoring
+## Implementation Notes
+- Top-level functions: advise_sleep_prep
+- Top-level classes: No top-level classes detected.
 
-- **Success metric:** Advisor runs and evaluates conditions nightly
-- **Alert on:** Failure to reach Home Assistant
-- **Dashboard:** Check `system_activity_log` for `G08_pre_bed_advisor`
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `G08_home_monitor, datetime, G04_digital_twin_notifier, os, autonomous_sdk.db_config, modules.meta.scripts.G11_log_system`
 
-## Manual Fallback
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
-If script fails:
-```bash
-cd {{ROOT_LOCATION}}/autonomous-living
-source .venv/bin/activate
-python scripts/G08_pre_bed_advisor.py
-```
-
-## Related Documentation
-
-- [G08 Roadmap](../../10_Goals/G08_Predictive-Smart-Home-Orchestration/Roadmap.md)
-- [G08 Environmental Sleep Auditor](./G08_environmental_sleep_auditor.md)
-- [G08 Home Monitor](./G08_home_monitor.md)
-
-## Changelog
-
-| Date | Change |
-|------|--------|
-| 2026-03-23 | Initial implementation (v1.0) |
-| 2026-03-23 | Integrated into `G11_global_sync.py` |
-| 2026-03-27 | Moved to 21:00 crontab to prevent early morning alerts. |
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

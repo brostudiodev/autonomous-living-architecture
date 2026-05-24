@@ -37,7 +37,7 @@ Fetches YouTube video transcripts and provides AI-powered summarization. Used in
 
 ## Dependencies
 ### Systems
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md)
+- [S08 Automation Orchestrator](../../../20_Systems/README.md)
 
 ### External Services
 - YouTube Data API v3.

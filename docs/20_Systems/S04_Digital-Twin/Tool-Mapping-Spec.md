@@ -6,7 +6,7 @@ system_id: "S04"
 goal_id: "goal-g04"
 version: "1.1"
 owner: "Michał"
-updated: "2026-04-12"
+updated: "2026-05-10"
 ---
 
 # S04: Tool Mapping & Agent Access Control

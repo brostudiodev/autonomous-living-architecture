@@ -2,37 +2,90 @@
 title: "Automation Spec: G09_autonomous_did_logger.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G09_autonomous_did_logger"
-goal_id: "goal-g09"
-systems: ["S04", "S11", "S12"]
-owner: "Michał"
-updated: "2026-04-09"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "a39328e0c45{{LONG_IDENTIFIER}}"
 ---
 
 # 🤖 Automation Spec: G09_autonomous_did_logger.py
 
 ## Purpose
-Closes the loop between system execution and documentation. It automatically extracts "RESOLVED" decisions from the Digital Twin and logs them as accomplishments in the corresponding Goal Activity Logs (`Activity-log.md`), eliminating manual progress tracking for autonomous actions.
+G09_autonomous_did_logger.py.
 
-## Triggers
-- **Daily Sync:** Part of the `G11_global_sync.py` pipeline.
-- **Manual:** `python3 G09_autonomous_did_logger.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/career/scripts/G09_autonomous_did_logger.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G09 Automated Career Intelligence` within the `career` automation domain.
 
-## Inputs
-- **Decision Data:** `decision_requests` table where status is `RESOLVED` and resolution date is today.
-- **Goal Mapping:** Internal mapping of system domains (e.g., `financial`) to Goal IDs (e.g., `G05`).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Decision Fetch:** Retrieves all actions completed by the system today.
-2. **Goal Resolution:** Maps each action to its parent Power Goal.
-3. **Log Formatting:** Translates technical payloads into human-readable "Did" statements (prefixed with `🤖 [AUTONOMOUS]`).
-4. **File Update:** Appends/Updates the `Activity-log.md` in the target goal's documentation folder using the `GoalSyncEngine`.
-5. **Deduplication:** Marks logged decisions in the database to prevent duplicate entries.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G09_autonomous_did_logger.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Markdown Logs:** Updated `Activity-log.md` files across the `docs/10_Goals/` directory.
-- **Database Update:** Status flag in `resolution_result`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
-## Related Documentation
-- [Goal: G12 Process Documentation](../../10_Goals/G12_Complete-Process-Documentation/README.md)
-- [Script: G09 Daily Goal Sync](./G09_sync_daily_goals.md)
+## Dependencies
+### Runtime
+- Python script: `modules/career/scripts/G09_autonomous_did_logger.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `G04_digital_twin_engine`
+- `G09_sync_daily_goals`
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `psycopg2`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/career/scripts/G09_autonomous_did_logger.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G09_autonomous_did_logger.py`.
+
+## Implementation Notes
+- Top-level functions: No top-level functions detected.
+- Top-level classes: AutonomousDidLogger
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `G04_digital_twin_engine, psycopg2, datetime, os, G09_sync_daily_goals, autonomous_sdk.db_config, json, modules.meta.scripts.G11_log_system, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

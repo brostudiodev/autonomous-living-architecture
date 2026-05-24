@@ -2,51 +2,86 @@
 title: "Automation Spec: G13_content_idea_generator.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G13_content_idea_generator"
-goal_id: "goal-g13"
-systems: ["S12", "S13"]
-owner: "Michał"
-updated: "2026-04-27"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "54b06f54{{LONG_IDENTIFIER}}"
 ---
 
-# G13: Content Idea Generator
+# 🤖 Automation Spec: G13_content_idea_generator.py
 
 ## Purpose
-Harvests achievements from all 12 Power Goals and synthesizes them into actionable content ideas for LinkedIn and Substack, ensuring your brand content is grounded in real-world technical wins.
+G13_content_idea_generator.py.
 
-## Triggers
-- **Scheduled:** Part of the `autonomous_weekly_manager.py` or `G11_global_sync.py` cycles.
-- **Manual:** Can be run anytime to generate a fresh content harvest.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/content/scripts/G13_content_idea_generator.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G13 Autonomous Content Engine` within the `content` automation domain.
 
-## Inputs
-- **Goal Activity Logs:** `docs/10_Goals/*/Activity-log.md` (Scans last 7 days of entries).
-- **Career Intelligence:** Strategic themes from `G09_career_strategist.py` (Market Demand + Skill Gaps).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Strategic Guidance:** Interrogates the Career Strategist to identify which skills need professional visibility.
-2. **Achievement Extraction:** Parses markdown activity logs using regex to find `**Action:**` and `**Code:**` markers.
-3. **Idea Synthesis:** 
-    - Tech wins -> LinkedIn "Architecture Deep Dive"
-    - Productivity wins -> Substack "Personal OS Concept"
-    - Learning wins -> LinkedIn "Continuous Learning"
-4. **Markdown Generation:** Compiles a formatted "Content Harvest" document with strategic focus at the top.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G13_content_idea_generator.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Content Harvest File:** `Obsidian Vault/00_Inbox/Content Ideas/YYYY-MM-DD - Content Harvest.md`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
 
 ## Dependencies
-### Systems
-- [S12 LinkedIn Ideas](../../20_Systems/S12_LinkedIn-Ideas-System/README.md)
-- [S13 Substack Ideas](../../20_Systems/S13_Substack-Notes-Ideas-System/README.md)
+### Runtime
+- Python script: `modules/content/scripts/G13_content_idea_generator.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-### Modules
-- `G09_career_strategist.py` (Internal library import).
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `os`
+- `pathlib`
+- `re`
+- `sys`
+- `typing`
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Career Strategist Fail | Exception | Log warning, proceed without strategic guidance | None |
-| Missing Activity Logs | 0 entries found | Log SUCCESS with 0 items, skip generation | None |
+## Procedure
+1. Review the script source at `modules/content/scripts/G13_content_idea_generator.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Monitoring
-- **Success metric:** Harvest file created in Obsidian.
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G13_content_idea_generator.py`.
+
+## Implementation Notes
+- Top-level functions: parse_activity_log, get_goal_name_from_log, generate_content_ideas, generate_markdown, get_strategic_career_advice, main
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `re, pathlib, datetime, os, autonomous_sdk.db_config, typing, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

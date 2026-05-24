@@ -1,60 +1,87 @@
 ---
-title: "Automation Spec: Autonomous Evening Manager"
+title: "Automation Spec: autonomous_evening_manager.py"
 type: "automation_spec"
 status: "active"
-system_id: "S10"
-goal_id: "goal-g10"
-owner: "Michał"
-updated: "2026-04-04"
-review_cadence: "monthly"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "d854a7b4ce4b{{LONG_IDENTIFIER}}"
 ---
 
-# 🤖 Automation Spec: Autonomous Evening Manager
+# 🤖 Automation Spec: autonomous_evening_manager.py
 
-## 🎯 Purpose
-Automate the transition from high-velocity execution to deep recovery (The "Cognitive Shutdown"). Orchestrates a multi-stage process for data reflection, tomorrow's planning, and content creation to ensure optimal sleep quality and a Frictionless Morning.
+## Purpose
+autonomous_evening_manager.py.
 
-## 📝 Scope
-- **In Scope:** 
-  - Unified orchestration of G10 (Journal/Memory/Foundation/Patterns).
-  - Autonomous content draft generation (G13).
-  - Tomorrow's strategic mission briefing (G10).
-  - Bedroom environment checks (G08).
-  - Unified Telegram briefing.
-- **Out of Scope:** Automatic device control (handled by Home Assistant).
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/autonomous_evening_manager.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `Shared operational automation` within the `meta` automation domain.
 
-## 🔄 Inputs/Outputs
-- **Inputs:** 
-  - Today's Technical Wins (G09)
-  - Tomorrow's Mission Context (G10)
-  - Bedroom Environment (G08)
-- **Outputs:**
-  - Content Drafts in Obsidian Inbox (G13)
-  - Daily Pattern Analysis in Daily Note (G10)
-  - Unified Telegram Briefing
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## 🛠️ Logic & Procedure (Updated Apr 07)
-1. **Trigger:** Global Sync running after 18:00 (or manual with `--force`).
-2. **Phase 1: Foundation:** Runs Journal Collector, AI Memory Generator, Foundation Checker (now with Weather), and Pattern Analyzer.
-3. **Phase 2: Content:** Triggers G13 Content Draft Agent to generate LinkedIn/Substack drafts.
-4. **90-Minute Shutdown Optimizer (NEW Apr 07):**
-    - Calculates dynamic **Target Sleep** and **Light-Dimming (Cutoff)** times.
-    - If tomorrow has a meeting before 08:30 → Shifts sleep 45 mins earlier.
-    - If Biological Readiness is < 65 → Shifts sleep 30 mins earlier (Recovery Mode).
-5. **Phase 3: Planning:** Fetches tomorrow's roadmap missions and calendar events.
-6. **Phase 4: Environment:** Checks bedroom readiness (Temp/CO2).
-7. **Phase 5: Notification:** Sends the final "Cognitive Shutdown" briefing to Telegram, including personalized sleep/cutoff recommendations and reasoning.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `autonomous_evening_manager.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
 
-## ⚠️ Failure Modes
+## Dependencies
+### Runtime
+- Python script: `modules/meta/scripts/autonomous_evening_manager.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
+
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `html`
+- `os`
+- `pathlib`
+- `re`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/meta/scripts/autonomous_evening_manager.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
 | Scenario | Detection | Response |
 |---|---|---|
-| Script Failures | Traceback/Log | Orchestrator skips failed phase, continues to others. |
-| Missing Wins | G13 check | Skips content generation for the day. |
-| Planner Error | "Maintain focus" fallback | Verify `G10_tomorrow_planner` health. |
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## 🔒 Security Notes
-- **Secrets:** Uses standard environment variables for tokens. No sensitive mission data is exported beyond Telegram.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `autonomous_evening_manager.py`.
+
+## Implementation Notes
+- Top-level functions: calculate_dynamic_cutoff, format_to_html, run_evening_orchestration
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `re, pathlib, datetime, os, autonomous_sdk.db_config, html, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*Unified Shutdown v6.0 - April 2026*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

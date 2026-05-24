@@ -3,7 +3,7 @@ title: "S04: Tool Registry & Agent Execution"
 type: "system_spec"
 status: "active"
 owner: "Michał"
-updated: "2026-04-01"
+updated: "2026-05-10"
 ---
 
 # S04: Tool Registry & Agent Execution
@@ -24,7 +24,7 @@ The Tool Registry provides a unified, domain-driven interface for Agent Zero and
     - **Output:** Execution status (SUCCESS/FAILURE), raw script output, exit code.
 
 ## Dependencies
-- **Systems:** [S04 Digital Twin Engine](../../20_Systems/S04_Digital-Twin/README.md), [G11 Centralized Logger](../../50_Automations/scripts/G11_log_system.md).
+- **Systems:** [S04 Digital Twin Engine](../README.md), [G11 Centralized Logger](../../50_Automations/scripts/G11_log_system.md).
 - **Files:** `scripts/_meta/G04_tool_manifest.json`.
 
 ## Procedure

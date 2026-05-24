@@ -185,9 +185,9 @@ SELECT * FROM cron.job_run_details ORDER BY end_time DESC LIMIT 10;
 
 ## Related Documentation
 
-- [S03 Data Layer](./S03_Data-Layer/README.md) - Database scheduling
-- [S08 Automation Orchestrator](./S08_Automation-Orchestrator/README.md) - n8n management
-- [Service Registry](./Service-Registry.md) - All scheduled services
+- [S03 Data Layer](README.md) - Database scheduling
+- [S08 Automation Orchestrator](README.md) - n8n management
+- [Service Registry](Service-Registry.md) - All scheduled services
 - [G11 Obsidian Safe Sync](../50_Automations/scripts/G11_obsidian_safe_sync.md) - Safe synchronization protocol
 
 ---

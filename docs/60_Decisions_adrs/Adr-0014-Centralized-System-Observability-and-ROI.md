@@ -74,8 +74,8 @@ CREATE TABLE autonomy_roi (
 - ✅ **Spokes:** G03, G05, and G10 integrated with ROI logging.
 
 ## Related Decisions
-- [Adr-0004](./Adr-0004-Digital-Twin-Architecture.md) - Digital Twin as Central Hub
-- [Adr-0010](./Adr-0010-Hub-and-Spoke-Integration.md) - Hub-and-Spoke Integration Pattern
+- [Adr-0004](Adr-0004-Digital-Twin-Architecture.md) - Digital Twin as Central Hub
+- [Adr-0010](Adr-0010-Hub-and-Spoke-Integration.md) - Hub-and-Spoke Integration Pattern
 
 ---
 *Last updated: 2026-03-08*

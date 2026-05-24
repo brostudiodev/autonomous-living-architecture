@@ -27,8 +27,8 @@ Weekly strategic reflection and planning to maintain momentum toward quarterly g
 | 10:00 | `G11_task_archiver.py` | Stale task cleanup |
 
 ## Related Documentation
-- [SOP: Weekly Review Process](./Weekly-Review-Process.md)
-- [G10 Intelligent Productivity Time Architecture](../10_Goals/G{{LONG_IDENTIFIER}}/README.md)
+- [SOP: Weekly Review Process](Weekly-Review-Process.md)
+- [G10 Intelligent Productivity Time Architecture](../20_Systems/README.md)
 
 ---
 *Owner: Michał*

@@ -1,173 +1,91 @@
 ---
-title: "G10_weekly_rollup: Weekly Aggregation & Trends"
+title: "Automation Spec: G10_weekly_rollup.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G10_weekly_rollup"
-goal_id: "goal-g10"
-systems: ["S04", "S11"]
-owner: "Michał"
-updated: "2026-03-20"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "5d59db3f0{{LONG_IDENTIFIER}}"
 ---
 
-# G10_weekly_rollup: Weekly Aggregation & Trends
+# 🤖 Automation Spec: G10_weekly_rollup.py
 
 ## Purpose
+G10_weekly_rollup.py.
 
-Aggregates 7 days of journal data to generate weekly statistics, trend analysis, and recommendations. No LLM required - uses rule-based analysis.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/productivity/scripts/G10_weekly_rollup.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G10 Intelligent Productivity Time Architecture` within the `productivity` automation domain.
 
-## Triggers
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-- **Scheduled:** Sundays at 21:00 via crontab
-- **Manual:** `python scripts/G10_weekly_rollup.py`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G10_weekly_rollup.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Inputs
-
-| Source | Data | Purpose |
-|--------|------|---------|
-| Journal Data | `_meta/journal_data/daily/*.json` | Last 7 days |
-
-## Processing Logic
-
-### 1. Load Week Data
-- Read all `daily/*.json` files from past 7 days
-- Require minimum 3 days of data
-
-### 2. Calculate Readiness Stats
-```
-- Average readiness
-- Min/Max values
-- Trend: improving / declining / stable
-```
-
-### 3. Calculate Goals Stats
-```
-- Total completed
-- Completion rate
-- Daily average
-```
-
-### 4. Calculate Automation Stats
-```
-- Successful runs
-- Failures
-- Time saved (hours)
-```
-
-### 5. Detect Health Patterns
-Keywords: tired, dizzy, headache, sick, sleep
-Reports if mentioned 2+ times
-
-### 6. Day-of-Week Analysis
-- Which day has best average readiness
-- Which day has worst average readiness
-
-### 7. Generate Recommendations
-```
-- If declining trend: "Consider more rest"
-- Best day scheduling: "Schedule hard tasks on X"
-- Health flags: "Investigate recurring mentions"
-```
-
-### 8. Save Outputs
-- Markdown file to `_meta/journal_data/weekly/`
-- Obsidian note to `02_Projects/Weekly Reviews/`
-
-## Outputs
-
-| Output | Location | Format |
-|--------|----------|--------|
-| Weekly Report | `_meta/journal_data/weekly/Week-N.md` | Markdown |
-| Obsidian Note | `02_Projects/Weekly Reviews/Wnn.md` | Markdown |
-
-### Example Output
-
-```markdown
-## 📊 Weekly Summary
-
-**Week 12** (2026-03-14 - 2026-03-20)
-
-### 🏃 Readiness
-
-| Metric | Value |
-|--------|-------|
-| Avg | 82/100 |
-| Best | 94/100 |
-| Worst | 65/100 |
-| Trend | ⬆️ improving |
-
-### 🎯 Goals
-
-| Metric | Value |
-|--------|-------|
-| Completed | 23 |
-| Rate | 71% |
-| Daily Avg | 3.3 |
-
-### 🤖 Automation
-
-| Metric | Value |
-|--------|-------|
-| Runs | 47 successful |
-| Failures | 3 |
-| Time Saved | ~4.5 hours |
-
-### ⚠️ Health Flags
-
-This week you mentioned:
-- energy: 5x
-- sleep: 3x
-
-### 📅 Day Patterns
-
-| Metric | Day |
-|--------|-----|
-| 🏆 Best | Thursday |
-| ⚠️ Needs Work | Monday |
-
-### 💡 Recommendations
-
-- Schedule hard tasks on Thursday
-- Investigate recurring health mentions
-- Keep up the good work! 🎉
-```
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
+### Runtime
+- Python script: `modules/productivity/scripts/G10_weekly_rollup.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-### Scripts
-- `G10_journal_data_collector.py` - Data source
-- `G11_log_system.py` - Activity logging
+### Imports
+- `autonomous_sdk.db_config`
+- `collections`
+- `datetime`
+- `json`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `re`
+- `statistics`
+- `sys`
 
-### Files
-- `_meta/journal_data/daily/YYYY-MM-DD.json` (7 files)
+## Procedure
+1. Review the script source at `modules/productivity/scripts/G10_weekly_rollup.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Crontab Configuration
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-```cron
-# Weekly Rollup - Sundays at 21:00
-0 21 * * 0 cd {{ROOT_LOCATION}}/autonomous-living && .venv/bin/python scripts/G10_weekly_rollup.py >> _meta/daily-logs/weekly_rollup.log 2>&1
-```
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-## Error Handling
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G10_weekly_rollup.py`.
 
-| Scenario | Response |
-|----------|----------|
-| < 3 days of data | Warning, skip |
-| No data at all | Exit with warning |
+## Implementation Notes
+- Top-level functions: get_week_dates, load_week_data, calculate_readiness_stats, calculate_trend, calculate_goals_stats, calculate_automation_stats, detect_health_patterns, detect_day_of_week_patterns, generate_weekly_report, save_weekly_report, create_or_update_weekly_note, run
+- Top-level classes: No top-level classes detected.
 
-## Monitoring
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `re, datetime, os, autonomous_sdk.db_config, collections, json, modules.meta.scripts.G11_log_system, statistics, sys`
 
-- **Success:** Report generated
-- **Log:** Check `weekly_rollup.log`
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
-## Related Documentation
-
-- [G10 Journal Data Collector](./G10_journal_data_collector.md)
-- [G10 Daily Pattern Analyzer](./G10_daily_pattern_analyzer.md)
-- [SOP: Evening Automation System](../../30_Sops/Evening-Automation-System.md)
-
-## Changelog
-
-| Date | Change |
-|------|--------|
-| 2026-03-20 | Initial implementation |
-| 2026-04-16 | Bugfix: Fixed misindented except block in detect_day_of_week_patterns |
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

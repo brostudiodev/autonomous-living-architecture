@@ -38,8 +38,8 @@ Automated morning briefing that queries the workout database to determine the op
 
 ## Dependencies
 ### Systems
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md) - n8n Execution engine.
-- [S07 Predictive Health Management](../../../20_Systems/S06_Health-Performance/README.md) - Health database.
+- [S08 Automation Orchestrator](../../../20_Systems/README.md) - n8n Execution engine.
+- [S07 Predictive Health Management](../../../20_Systems/README.md) - Health database.
 
 ### External Services
 - PostgreSQL database (`autonomous_training`).

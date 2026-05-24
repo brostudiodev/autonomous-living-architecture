@@ -4,32 +4,40 @@ type: "system"
 status: "active"
 system_id: "system-s04"
 owner: "Michał"
-updated: "2026-04-09"
+updated: "2026-05-10"
 review_cadence: "monthly"
 ---
 
-# S04: Digital Twin
+# S04: Digital Twin (Cognitive Cortex)
 
 ## Purpose
-The central intelligence hub and orchestration layer for the autonomous living ecosystem. It serves as "Agent Zero"—a strategic partner that aggregates cross-domain data, identifies correlations, and generates proactive guidance to achieve the 2026 North Star.
+The **Cognitive Cortex and Memory Node** of the autonomous living ecosystem. It serves as "Agent Zero"—a strategic partner that aggregates cross-domain data, provides deep reasoning, and maintains the long-term strategic memory required to achieve the 2026 North Star. 
+
+Unlike a traditional "Hub," S04 acts as an intelligent observer and advisor within a decentralized mesh of agents.
 
 ## Scope
 ### In Scope
 - **Agent Zero:** Natural language interface using Gemini 1.5 Flash.
-- **Strategic Memory:** Contextual persistence via PostgreSQL.
-- **Mission Briefings:** Proactive morning and evening guidance.
-- **Decision Engine:** Interactive Approval/Denial of system-proposed actions.
-- **Total Recall (SQL Interface):** Dynamic, read-only SQL querying across all system databases (Health, Finance, Twin, Training), enabling complex cross-domain analysis.
-- **REST API:** High-density state retrieval for n8n and mobile apps.
-
-## Architecture
-- **Intelligence:** Google Gemini 1.5 Flash (via n8n workflows).
-- **Agent Core:** Decoupled `G04_agent_zero_core.py` module for agent logic and command processing.
-- **Engine Layer:** `G04_digital_twin_engine.py` with **Lazy Database Initialization**.
-- **Domain Isolation:** **Circuit Breaker** pattern implemented via decorators to prevent cascading failures if a specific domain database (e.g., Health, Finance) is offline.
+- **Cognitive Memory:** Long-term context persistence via PostgreSQL.
+- **Strategic Briefings:** Proactive morning and evening guidance.
+- **Decision Engine (DPI Enhanced):** Interactive Approval/Denial of system-proposed actions with structured **Decision Pattern Intelligence (DPI)** tracking (Reasoning, Constraints, Outcomes).
+...
 - **Persistence:** `digital_twin_michal` database (PostgreSQL) + 7 domain databases.
-- **Interface:** REST API (FastAPI) with standardized n8n-compatible responses.
+- **Decision Pattern Intelligence (NEW):**
+    - **Structured Reasoning:** Every autonomous proposal now captures the "Why" (strategic rationale) in a dedicated `reasoning` column.
+    - **Policy Constraints:** JSONB tracking of environmental limits (budget caps, readiness thresholds) that influenced the decision.
+    - **Outcome Mapping:** Captures `expected_outcome` before execution and `observed_outcome` after audits to facilitate "Intelligence Pattern" learning.
+- **Interface:** REST API (FastAPI) + **Real-time WebSocket Bridge** with standardized n8n-compatible responses.
 - **Health & Observability:** Integrated liveness/readiness checks, per-domain probing, and Docker health monitoring.
+- **Infrastructure Hardening (NEW):** 
+    - **Root-Mode Execution:** API runs as `root` to enable maintenance operations (backups, docker socket interaction).
+    - **Docker Socket Access:** `/var/run/docker.sock` mapped for G11 backup orchestration.
+    - **Path Transparency:** Absolute host paths (`{{ROOT_LOCATION}}/...`) are mapped to the container to ensure 100% compatibility with legacy scripts.
+    - **Audit Resiliency:** 30s timeout window for complex tool health audits.
+- **Event-Driven Architecture (NEW):**
+    - **Application-Level Producers:** Digital Twin Engine and Logging System emit real-time RabbitMQ events (`LifeEvents`) for critical activities and ROI wins.
+    - **Database-Level CDC:** Native PostgreSQL triggers + `db-event-bridge` service provide sub-second Change Data Capture (CDC) for core tables.
+    - **WebSocket Bridge:** FastAPI background worker acts as a RabbitMQ consumer, broadcasting all system events to connected dashboard clients via `/ws`.
 
 ## Digital Twin API Spec
 
@@ -38,9 +46,12 @@ The central intelligence hub and orchestration layer for the autonomous living e
 |----------|--------|---------|--------|
 | `/health/live` | GET | Liveness check (process up) | JSON |
 | `/health/ready`| GET | Readiness check (All 8 DBs + Engine) | JSON |
+| `/ws` | WS | Real-time system event stream (RabbitMQ bridge) | JSON Stream |
+| `/emit` | POST | Manually emit an event to the life.events bus | JSON |
+| `/state/update`| POST | Push real-time telemetry from external agents | JSON |
 | `/cache/status` | GET | Cache age and staleness audit | Standardized JSON |
 | `/cache/refresh`| POST | Manual Uber-Context refresh trigger | Standardized JSON |
-| `/tools/health`| GET | Runtime validation of all 61+ tools | JSON |
+| `/tools/health`| GET | Runtime validation of 144 validated tools | JSON |
 | `/all` | GET | Full system context aggregation | Standardized JSON |
 | `/status` | GET | Quick glance at system health | Standardized JSON |
 | `/suggested` | GET | The day's autonomous mission report | Standardized JSON |
@@ -92,15 +103,17 @@ The central intelligence hub and orchestration layer for the autonomous living e
 - **System S03:** Data Layer for state persistence.
 - **System S10:** Google Tasks for task synchronization.
 - **System S11:** Meta-system integration for sync loops.
+- **RabbitMQ:** Message broker for real-time life telemetry.
 - **External:** Google Gemini API (API Key in `.env`).
 
 ## Related Documentation
-- [Goal: G04 Digital Twin Ecosystem](../../10_Goals/G04_Digital-Twin-Ecosystem/README.md)
-- [Goal: G11 Meta-System Integration](../../10_Goals/G11_Meta-System-Integration-Optimization/README.md)
-- [System Spec: Agent Registry](./Agent-Registry.md)
-- [System Spec: Tool Mapping](./Tool-Mapping-Spec.md)
+- [Goal: G04 Digital Twin Ecosystem](../README.md)
+- [Goal: G11 Meta-System Integration](../README.md)
+- [System Spec: Connectivity Map](Connectivity-Map-Spec.md)
+- [System Spec: Agent Registry](Agent-Registry.md)
+- [System Spec: Tool Mapping](Tool-Mapping-Spec.md)
 - [Script: Digital Twin Engine](../../50_Automations/scripts/G04_digital_twin_engine.md)
 - [Script: Mission Control](../../50_Automations/scripts/G11_mission_control.md)
 
 ---
-*Updated: 2026-03-23 by Digital Twin Assistant*
+*Updated: 2026-05-01 by Digital Twin Assistant*

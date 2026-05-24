@@ -1,0 +1,16 @@
+from fastapi import APIRouter, Depends
+from core.registry import registry
+
+router = APIRouter(prefix="/api/v1/{{ name }}", tags=["{{ name }}"])
+
+def get_module():
+    return registry.get_module("{{ name }}")
+
+@router.get("/health")
+async def health_check(mod = Depends(get_module)):
+    return {"status": "healthy", "module": mod.name}
+
+@router.post("/sync")
+async def trigger_sync(mod = Depends(get_module)):
+    mod.sync()
+    return {"status": "triggered"}

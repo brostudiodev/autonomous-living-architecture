@@ -1,138 +1,89 @@
 ---
-title: "G10_journal_data_collector: Daily Data Collection"
+title: "Automation Spec: G10_journal_data_collector.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G10_journal_data_collector"
-goal_id: "goal-g10"
-systems: ["S04", "S11"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "e32e02c4354ad528f6093d07407f47901744050b05004e1948fab7efa868a4eb"
 ---
 
-# G10_journal_data_collector: Daily Data Collection
+# 🤖 Automation Spec: G10_journal_data_collector.py
 
 ## Purpose
+G10_journal_data_collector.py.
 
-Collects all daily context from multiple sources and saves to JSON for pattern analysis and LLM processing. Provides complete data foundation for the journal system.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/productivity/scripts/G10_journal_data_collector.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G10 Intelligent Productivity Time Architecture` within the `productivity` automation domain.
 
-## Triggers
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-- **Scheduled:** Daily at 18:00 via `autonomous_evening_manager.py`
-- **Manual:** `python scripts/G10_journal_data_collector.py`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G10_journal_data_collector.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Inputs
-
-| Source | Data | Purpose |
-|--------|------|---------|
-| Daily Note | Goals, journal, flags | Parse daily context |
-| Digital Twin Engine | Health, finance | System state |
-| `system_activity_log` | Automation runs | Track wins |
-| `autonomous_decisions` | Decisions made | Context |
-
-## Processing Logic
-
-1. **Parse Daily Note**
-   - Extract completed goals (G01-G12)
-   - Get highlight/frustration entries
-   - Find "One thing to remember"
-   - Count flagged items
-
-2. **Query System Activity**
-   - Last 24h automation runs
-   - Success/failure counts
-   - Time saved calculations
-
-3. **Query Decisions**
-   - Today's autonomous decisions
-   - Confidence scores
-
-4. **Get Health Summary**
-   - Readiness score
-   - Sleep score
-   - HRV value
-
-5. **Get Finance Summary**
-   - Budget alerts
-   - Month progress
-
-6. **Save to JSON**
-   - Output: `_meta/journal_data/daily/YYYY-MM-DD.json`
-
-## Outputs
-
-| Output | Location | Format |
-|--------|----------|--------|
-| Daily Data | `_meta/journal_data/daily/YYYY-MM-DD.json` | JSON |
-
-### Example Output
-
-```json
-{
-  "date": "2026-03-20",
-  "collected_at": "2026-03-20T18:30:00",
-  "daily_note": {
-    "exists": true,
-    "goals_completed": ["G10: Focus Intelligence", "G04: Digital Twin"],
-    "goals_total": 8,
-    "flags": ["⚠️ Budget alert"],
-    "one_thing": "🤖 Automation saves time daily"
-  },
-  "system_activity": {
-    "successful": 12,
-    "failed": 1,
-    "total_time_saved_minutes": 45
-  },
-  "health": {
-    "readiness_score": 87,
-    "sleep_score": 92,
-    "hrv_ms": 8
-  },
-  "finance": {
-    "active_budget_alerts": 2
-  }
-}
-```
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
+### Runtime
+- Python script: `modules/productivity/scripts/G10_journal_data_collector.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### Systems
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
-- [S11 Meta-System Integration](../../20_Systems/S11_Meta-System-Integration/README.md)
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.log`
+- `datetime`
+- `json`
+- `modules.meta.scripts.G04_digital_twin_engine`
+- `os`
+- `sys`
 
-### Scripts
-- `G04_digital_twin_engine.py` - State provider
-- `G11_log_system.py` - Activity logging
+## Procedure
+1. Review the script source at `modules/productivity/scripts/G10_journal_data_collector.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Error Handling
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-| Scenario | Response |
-|----------|----------|
-| Daily note not found | Return empty data, continue |
-| Database query fails | Log warning, continue |
-| Digital Twin fails | Return empty health/finance |
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-## Data Storage
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G10_journal_data_collector.py`.
 
-```
-_meta/journal_data/
-├── daily/
-│   ├── 2026-03-14.json
-│   ├── 2026-03-15.json
-│   └── ...
-└── weekly/
-    └── Week-12-2026-03-20.md
-```
+## Implementation Notes
+- Top-level functions: get_today_date_str, get_daily_note_path, parse_daily_note, get_system_activity, get_autonomous_decisions, get_health_summary, get_finance_summary, collect_daily_data, save_to_file, run
+- Top-level classes: No top-level classes detected.
 
-## Related Documentation
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `datetime, os, autonomous_sdk.db_config, json, sys, modules.meta.scripts.G04_digital_twin_engine, autonomous_sdk.log`
 
-- [G10 Daily Pattern Analyzer](./G10_daily_pattern_analyzer.md)
-- [G10 Weekly Rollup](./G10_weekly_rollup.md)
-- [SOP: Evening Automation System](../../30_Sops/Evening-Automation-System.md)
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
-## Changelog
-
-| Date | Change |
-|------|--------|
-| 2026-03-20 | Initial implementation |
-| 2026-03-20 | Fixed database column alignment (`items_processed` and `timestamp` fields) |
-| 2026-03-21 | **Multi-Signal Journaling Integration:** Upgraded logic to detect journaling from *any* of the three sections (Decisions, Emotions, or Interactions). Integrated direct logging to `G11_behavioral_monitor` for real-time autonomy tracking. |
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

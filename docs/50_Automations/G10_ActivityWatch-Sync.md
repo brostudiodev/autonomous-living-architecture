@@ -22,7 +22,7 @@ Synchronizes passive time tracking telemetry from the ActivityWatch server into 
 - **Outputs:** `digital_twin_michal.public.activity_watch_events` table.
 
 ## Dependencies
-- **System:** [S09 Productivity & Time Architecture](../20_Systems/S09_Productivity-Time/README.md)
+- **System:** [S09 Productivity & Time Architecture](../20_Systems/README.md)
 - **Service:** `activitywatch` container (aw-server).
 - **Database:** `DB_TWIN` (PostgreSQL).
 
@@ -31,7 +31,7 @@ The script is integrated into the `G11_global_sync.py` loop and runs every 10-15
 
 ### Manual Execution
 ```bash
-{{ROOT_LOCATION}}/autonomous-living/.venv/bin/python3 scripts/G10_activitywatch_sync.py
+{{ROOT_LOCATION}}/autonomous-living/.venv/bin/python3 modules/productivity/scripts/G10_activitywatch_sync.py
 ```
 
 ## Failure Modes

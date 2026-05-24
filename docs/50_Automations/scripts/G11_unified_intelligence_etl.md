@@ -1,68 +1,85 @@
 ---
-title: "G11_unified_intelligence_etl.py: Multi-Domain Data Warehouse"
+title: "Automation Spec: G11_unified_intelligence_etl.py"
 type: "automation_spec"
 status: "active"
-automation_id: "g11-unified-intelligence-etl"
-goal_id: "goal-g11"
-systems: ["S03", "S04", "S11"]
-owner: "Michał"
-updated: "2026-03-10"
-review_cadence: "Quarterly"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "309788ea7ff39dbc7bf452e{{LONG_IDENTIFIER}}"
 ---
 
-# G11_unified_intelligence_etl.py
+# 🤖 Automation Spec: G11_unified_intelligence_etl.py
 
 ## Purpose
-The primary ETL (Extract, Transform, Load) engine for the system's "Life Data Warehouse". It consolidates fragmented data from domain-specific databases (Health, Finance, Pantry, Training) into a single, unified `daily_intelligence` table. This enables high-fidelity cross-domain analysis and long-term performance modeling.
+G11_unified_intelligence_etl.py.
 
 ## Scope
 ### In Scope
-- Extracting daily metrics from 4+ independent PostgreSQL databases.
-- Normalizing currency (PLN), time (minutes), and biological scores.
-- Performing UPSERT operations to maintain daily data integrity.
-- Supporting historical backfills via `G11_intelligence_backfill.py`.
+- Documents the active implementation at `modules/meta/scripts/G11_unified_intelligence_etl.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
 ### Out of Scope
-- Real-time event streaming (strictly daily batches).
-- Multi-user data isolation (Person 001 only).
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Triggers
-- **Scheduled:** Daily via `autonomous_daily_manager.py`.
-- **Manual:** `python3 scripts/G11_unified_intelligence_etl.py`
-- **Backfill:** `python3 scripts/G11_intelligence_backfill.py` (30-day window).
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_unified_intelligence_etl.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Inputs
-- **Database: autonomous_health:** Sleep Score, Readiness, HRV, Steps, Calories.
-- **Database: autonomous_finance:** Daily Spend (PLN), Budget alerts.
-- **Database: autonomous_pantry:** Low stock count.
-- **Database: autonomous_training:** Workout presence, Recovery score.
-- **Database: digital_twin_michal:** Autonomy ROI (Minutes saved).
-
-## Processing Logic
-1.  **Extract:** Sequential connections to domain databases to fetch current day aggregates.
-2.  **Transform:**
-    - Coalescing NULL values to 0.
-    - Consolidating budget alerts from `v_budget_performance`.
-    - Calculating workout status from binary presence in `workouts` table.
-3.  **Load:** UPSERT (Insert on conflict update) into `digital_twin_michal.daily_intelligence`.
-
-## Outputs
-- **Unified Table:** `daily_intelligence` (Master record for analytical queries).
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md) - Host for consolidated table.
-- [S11 Meta-System](../../20_Systems/S11_Meta-System-Integration/README.md) - Logic owner.
+### Runtime
+- Python script: `modules/meta/scripts/G11_unified_intelligence_etl.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Domain DB Offline | `psycopg2` error | Log specific domain fail, proceed with others | ETL Warning |
-| UPSERT Conflict | Primary Key Error | Abort specific date, continue | Critical Error |
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `os`
+- `psycopg2`
 
-## Related Documentation
-- [Goal: G11 Meta-System Integration](../../10_Goals/G11_Meta-System-Integration-Optimization/README.md)
-- [API: /intelligence/best_day](./G04_digital_twin_api.md)
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_unified_intelligence_etl.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_unified_intelligence_etl.py`.
+
+## Implementation Notes
+- Top-level functions: run_unified_etl
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `datetime, psycopg2, os, autonomous_sdk.db_config`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*Created: 2026-03-10 by Digital Twin Assistant*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

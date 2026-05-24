@@ -35,9 +35,9 @@ Syncs health/biometric data from Zepp (Amazfit) cloud to local PostgreSQL databa
 
 ## Dependencies
 ### Systems
-- [S04 Digital Twin](../../../20_Systems/S04_Digital-Twin/README.md) - Source API.
-- [S07 Predictive Health Management](../../../20_Systems/S06_Health-Performance/README.md) - Health DB.
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md) - n8n Execution.
+- [S04 Digital Twin](../../../20_Systems/README.md) - Source API.
+- [S07 Predictive Health Management](../../../20_Systems/README.md) - Health DB.
+- [S08 Automation Orchestrator](../../../20_Systems/README.md) - n8n Execution.
 
 ### External Services
 - Zepp/Amazfit Cloud API.

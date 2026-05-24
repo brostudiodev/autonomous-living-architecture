@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connectivity Map | Digital Twin</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --bg: #f3f4f6;
+            --card: #ffffff;
+            --text: #1f2937;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --goal: #f9f;
+            --system: #bbf;
+            --success: #10b981;
+            --failure: #ef4444;
+            --unknown: #9ca3af;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            flex-direction: row;
+        }
+
+        /* Sidebar Styling (Back on the Left) */
+        .sidebar-container {
+            position: relative;
+            display: flex;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .sidebar {
+            width: 320px;
+            background: var(--card);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            overflow-y: auto;
+            height: 100vh;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.05);
+            transition: width 0.3s ease, padding 0.3s ease, border 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+            width: 0;
+            padding: 0;
+            overflow: hidden;
+            border-right: none;
+        }
+
+        .toggle-btn {
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 60px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-left: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+        .toggle-btn:hover { color: var(--primary); background: var(--bg); }
+
+        /* Main Map View */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar h2 { font-size: 1.25rem; margin-top: 0; display: flex; align-items: center; gap: 10px; }
+        .sidebar h3 { font-size: 0.9rem; text-transform: uppercase; color: var(--text-muted); margin-top: 25px; margin-bottom: 10px; letter-spacing: 0.05em; }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-hover); }
+        .btn-secondary { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
+        .btn-secondary:hover { background: var(--border); }
+
+        .filter-group {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .filter-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .filter-item.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .quick-filters {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .header {
+            padding: 15px 30px;
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 { margin: 0; font-size: 1.5rem; }
+
+        #map-container {
+            flex: 1;
+            background: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #mermaid-graph {
+            width: 100%;
+            height: 100%;
+            cursor: grab;
+        }
+        #mermaid-graph:active { cursor: grabbing; }
+
+        /* Custom styling for Mermaid nodes */
+        .mermaid .node rect, .mermaid .node circle, .mermaid .node polygon {
+            stroke-width: 2px !important;
+        }
+        .mermaid .node text {
+            font-family: 'Inter', sans-serif !important;
+            font-weight: 700 !important;
+            fill: #000 !important;
+        }
+        
+        /* Legend overlays (Now on the Right) */
+        .legend-overlay {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            backdrop-filter: blur(4px);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 0.8rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            z-index: 5;
+        }
+
+        .legend-item { display: flex; align-items: center; gap: 8px; }
+        .legend-dot { width: 12px; height: 12px; border-radius: 2px; border: 1px solid rgba(0,0,0,0.1); }
+
+        /* Loader */
+        .loader {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255,255,255,0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            display: none;
+        }
+        .spinner {
+            width: 40px; height: 40px;
+            border: 4px solid var(--border);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="sidebar-container">
+        <div class="sidebar" id="sidebar">
+            <h2>🕸️ Map Explorer</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">Interactive System Connectivity & Traceability Matrix.</p>
+            
+            <button class="btn btn-primary" onclick="loadMap()">🔄 Update View</button>
+
+            <h3>Quick Filters</h3>
+            <div class="quick-filters">
+                <button class="btn btn-secondary" onclick="selectAll('G')">🎯 All Goals (G)</button>
+                <button class="btn btn-secondary" onclick="selectAll('S')">⚙️ All Systems (S)</button>
+                <button class="btn btn-secondary" onclick="clearAll()">🧹 Clear All</button>
+                <button class="btn btn-secondary" onclick="resetAndLoad()">🌐 Show Full System</button>
+            </div>
+
+            <h3>Goals (G-Series)</h3>
+            <div class="filter-group" id="goal-filters">
+                <!-- Populated by JS -->
+            </div>
+
+            <h3>Systems (S-Series)</h3>
+            <div class="filter-group" id="system-filters">
+                <!-- Populated by JS -->
+            </div>
+
+            <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border); font-size: 0.75rem; color: var(--text-muted);">
+                v2.1.0 • Built for 2026 Autonomy
+            </div>
+        </div>
+        <div class="toggle-btn" onclick="toggleSidebar()" title="Toggle Explorer">
+            <span id="toggle-icon">◀</span>
+        </div>
+    </div>
+
+    <div class="main">
+        <header class="header">
+            <h1>System Connectivity Map</h1>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-secondary" onclick="panZoom?.zoomIn()">➕</button>
+                <button class="btn btn-secondary" onclick="panZoom?.zoomOut()">➖</button>
+                <button class="btn btn-secondary" onclick="panZoom?.reset()">🏠</button>
+                <a href="/" style="text-decoration: none;">
+                    <button class="btn btn-secondary" style="background: #1f2937; color: white; border: none;">← Back</button>
+                </a>
+            </div>
+        </header>
+
+        <div id="map-container">
+            <div id="loader" class="loader">
+                <div class="spinner"></div>
+                <p style="margin-top: 15px; font-weight: 600;">Mapping System...</p>
+            </div>
+            <div id="mermaid-graph" class="mermaid">
+                graph TD
+                Start[Initializing...]
+            </div>
+
+            <div class="legend-overlay">
+                <div class="legend-item"><div class="legend-dot" style="background:var(--goal)"></div> Goal (G)</div>
+                <div class="legend-item"><div class="legend-dot" style="background:var(--system)"></div> System (S)</div>
+                <div class="legend-item"><div class="legend-dot" style="background:var(--success)"></div> Success</div>
+                <div class="legend-item"><div class="legend-dot" style="background:var(--failure)"></div> Failure</div>
+                <div class="legend-item"><div class="legend-dot" style="background:var(--unknown); border-style: dashed;"></div> Unknown</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const GOALS = [
+            "G01", "G02", "G03", "G04", "G05", "G06", 
+            "G07", "G08", "G09", "G10", "G11", "G12", "G13"
+        ];
+        const SYSTEMS = [
+            "S00", "S01", "S02", "S03", "S04", "S05", 
+            "S06", "S07", "S08", "S09", "S10", "S11", "S12", "S13"
+        ];
+
+        let activeFilters = new Set();
+        let panZoom = null;
+
+        function initFilters() {
+            const goalContainer = document.getElementById('goal-filters');
+            const systemContainer = document.getElementById('system-filters');
+
+            GOALS.forEach(g => {
+                const item = document.createElement('div');
+                item.className = 'filter-item';
+                item.textContent = g;
+                item.onclick = () => toggleFilter(g, item);
+                goalContainer.appendChild(item);
+            });
+
+            SYSTEMS.forEach(s => {
+                const item = document.createElement('div');
+                item.className = 'filter-item';
+                item.textContent = s;
+                item.onclick = () => toggleFilter(s, item);
+                systemContainer.appendChild(item);
+            });
+        }
+
+        function toggleFilter(id, element) {
+            if (activeFilters.has(id)) {
+                activeFilters.delete(id);
+                element.classList.remove('active');
+            } else {
+                activeFilters.add(id);
+                element.classList.add('active');
+            }
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const icon = document.getElementById('toggle-icon');
+            sidebar.classList.toggle('collapsed');
+            icon.textContent = sidebar.classList.contains('collapsed') ? '▶' : '◀';
+            
+            // Resize map after transition without resetting zoom/fit
+            setTimeout(() => {
+                if (panZoom) panZoom.resize();
+            }, 300);
+        }
+
+        function selectAll(prefix) {
+            const items = document.querySelectorAll('.filter-item');
+            items.forEach(item => {
+                if (item.textContent.startsWith(prefix)) {
+                    activeFilters.add(item.textContent);
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        function clearAll() {
+            activeFilters.clear();
+            document.querySelectorAll('.filter-item').forEach(i => i.classList.remove('active'));
+        }
+
+        function resetAndLoad() {
+            clearAll();
+            loadMap();
+        }
+
+        mermaid.initialize({ 
+            startOnLoad: false,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#ffffff',
+                primaryTextColor: '#000000',
+                primaryBorderColor: '#3b82f6',
+                lineColor: '#6b7280',
+                secondaryColor: '#f3f4f6',
+                tertiaryColor: '#ffffff',
+            },
+            flowchart: {
+                useMaxWidth: false,
+                htmlLabels: true,
+                curve: 'basis',
+                padding: 40
+            }
+        });
+
+        async function loadMap() {
+            const loader = document.getElementById('loader');
+            const graphDiv = document.getElementById('mermaid-graph');
+            
+            loader.style.display = 'flex';
+            
+            if (panZoom) {
+                panZoom.destroy();
+                panZoom = null;
+            }
+
+            try {
+                const filters = Array.from(activeFilters).join(',');
+                const url = filters ? `/map/data?filters=${filters}` : '/map/data';
+                
+                const response = await fetch(url);
+                const root = await response.json();
+                const mermaidData = root.data?.mermaid || root.mermaid;
+                
+                if (mermaidData) {
+                    graphDiv.innerHTML = mermaidData;
+                    graphDiv.removeAttribute('data-processed');
+                    
+                    await mermaid.run({
+                        nodes: [graphDiv],
+                    });
+
+                    // Initialize SVG Pan Zoom after Mermaid renders
+                    const svg = graphDiv.querySelector('svg');
+                    if (svg) {
+                        svg.style.width = '100%';
+                        svg.style.height = '100%';
+                        panZoom = svgPanZoom(svg, {
+                            zoomEnabled: true,
+                            controlIconsEnabled: false,
+                            fit: true,
+                            center: true,
+                            minZoom: 0.05,
+                            maxZoom: 50
+                        });
+                        
+                        // Start with a larger zoom (2x of fitted size)
+                        panZoom.zoom(2.0);
+                        panZoom.center();
+                    }
+                } else {
+                    graphDiv.innerHTML = "graph TD\n    Error[No data found]";
+                }
+            } catch (err) {
+                console.error(err);
+                graphDiv.innerHTML = `graph TD\n    Error["${err.message}"]`;
+            } finally {
+                loader.style.display = 'none';
+            }
+        }
+
+        window.onload = () => {
+            initFilters();
+            loadMap();
+        };
+    </script>
+</body>
+</html>

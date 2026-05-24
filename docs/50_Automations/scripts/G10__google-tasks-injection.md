@@ -1,73 +1,53 @@
 ---
-title: "G10: Google Tasks Injection"
+title: "Archived Automation Spec: G10__google-tasks-injection"
 type: "automation_spec"
-status: "active"
-automation_id: "G10__google-tasks-injection"
-goal_id: "goal-g10"
-systems: ["S04", "S09", "S10"]
+status: "archived"
 owner: "Michał"
-updated: "2026-03-02"
+updated: "2026-05-23"
 ---
 
-# G10: Google Tasks Injection
+# Archived Automation Spec: G10__google-tasks-injection
 
 ## Purpose
-Proactively pushes dynamic task recommendations (from Health, Finance, and Roadmap) into the "Today's Autonomous Focus" Google Tasks list.
+Preserves the historical documentation record for `G10__google-tasks-injection` after no matching active Python script was found in `scripts/` or `modules/<domain>/scripts/`.
 
-## Triggers
-- **Manual:** Triggered via Digital Twin API `POST /tasks/sync_recommendations`.
-- **Planned:** To be integrated into the morning briefing workflow.
+## Scope
+### In Scope
+- Records that this automation spec is archived and is not part of the active production script surface.
+- Provides a stable name for historical cross-references and migration review.
 
-## Inputs
-- **Digital Twin Engine State:** (PostgreSQL: `autonomous_health`, `autonomous_finance`, `autonomous_pantry`).
-- **Roadmap Data:** Markdown files in `docs/10_Goals/G*/Roadmap.md`.
-- **Google API Credentials:** `client_secret.json` and `google_tasks_token.pickle`.
+### Out of Scope
+- Runtime behavior, scheduler configuration, and operational ownership for a live script.
+- New production changes or active automation guarantees.
 
-## Processing Logic
-1. **Analyze State:** `DigitalTwinEngine` evaluates biological readiness, budget breaches, and low pantry stock.
-2. **Roadmap Scan:** Extracts the first uncompleted Q1 task from each active goal.
-3. **Task Synthesis:** Generates a list of structured recommendations with priorities and notes.
-4. **Deduplication:** Checks the target Google Task list for existing, uncompleted tasks with the same title.
-5. **Injection:** Calls Google Tasks API to create new tasks for missing recommendations.
+## Inputs/Outputs
+### Inputs
+- Historical references to `G10__google-tasks-injection` in older documentation or migration notes.
 
-## Outputs
-- **Google Tasks:** New entries in the "Today's Autonomous Focus" list.
-- **API Response:** JSON report summarizing synced tasks and any errors.
+### Outputs
+- Archived documentation status only. No active runtime output is expected from this record.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
-- [S09 Productivity & Time](../../20_Systems/S09_Productivity-Time/README.md)
-- [S10 Task Management](../../20_Systems/S10_Daily-Goals-Automation/README.md)
+- No active script dependency is currently registered for this documentation file.
+- If this automation is restored, create or identify the active script and regenerate the spec with `G12_auto_documenter.py`.
 
-### External Services
-- **Google Tasks API:** Requires OAuth2 authentication.
+## Procedure
+1. Search for an active implementation before using this document operationally.
+2. If no script exists, keep this file archived.
+3. If a script is restored, update `status` to `active`, add `script_hash`, and regenerate the spec.
+4. Re-run `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-### Credentials
-- `scripts/client_secret.json`: Google Cloud Console credentials.
-- `scripts/google_tasks_token.pickle`: User-authorized refresh token.
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Archived doc is mistaken for an active automation | No matching script exists in the active script directories | Locate or recreate the script before scheduling or invoking it. |
+| Historical link points here | Link resolves to an archived spec | Use the archive status to decide whether to update or remove the reference. |
+| Automation is restored | New script appears with this stem | Regenerate this spec as active documentation with a current `script_hash`. |
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Token Expired | API returns 401 | `G10_google_tasks_sync` attempts refresh | Log in API console |
-| Network Offline | `requests` exception | Returns 500 error to caller | Log in `api_5678.log` |
-| Duplicate Title | Logic matches existing title | Skips creation (Idempotent) | Silent (Expected) |
+## Security Notes
+- Do not add secrets, raw tokens, passwords, or internal infrastructure addresses to archived documentation.
+- Use placeholders such as `[API_KEY]`, `{{DB_PASSWORD}}`, and `{{INTERNAL_IP}}` for any historical configuration notes.
 
-## Monitoring
-- **Success metric:** Task count in Google Tasks matches engine recommendations.
-- **Alert on:** API failure in `Digital Twin` logs.
-
-## Manual Fallback
-If the API call fails, tasks can be manually added from the recommendations displayed in the `Daily Note` or by calling the script directly:
-```bash
-# To view recommendations without syncing
-curl http://localhost:5677/tasks/recommendations
-
-# To trigger sync
-curl -X POST http://localhost:5677/tasks/sync_recommendations
-```
-
-## Related Documentation
-- [SOP: Daily-Task-Review](../../30_Sops/SOP_Daily_Task_Review.md)
-- [System: S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Quarterly archive review, or immediately if a matching script is restored.

@@ -55,8 +55,8 @@ EXCLUDE_PATHS = [
     '.venv/',                   # Local environment
     '_meta/',                   # Daily logs/backups
     '.env',                     # Secrets
-    'scripts/withings_tokens.json', # Auth tokens
-    'scripts/google_credentials.json', # Service accounts
+    'config/auth/withings_tokens.json', # Auth tokens
+    'config/auth/google_credentials.json', # Service accounts
     'infrastructure/',          # Real infrastructure configs
 ]
 ```

@@ -64,8 +64,8 @@ Device status is tracked via:
 
 ## Related Documentation
 
-- [G08 Smart Home System](../../10_Goals/G08_Predictive-Smart-Home-Orchestration/README.md)
-- [S07 Smart Home System](../../20_Systems/S07_Smart-Home/README.md)
+- [G08 Smart Home System](../../20_Systems/README.md)
+- [S07 Smart Home System](../../20_Systems/README.md)
 
 ---
 *Owner: Michał*

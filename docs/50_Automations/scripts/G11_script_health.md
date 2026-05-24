@@ -2,38 +2,87 @@
 title: "Automation Spec: G11_script_health.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-19"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "6aa4fe0ccea{{LONG_IDENTIFIER}}"
 ---
 
 # 🤖 Automation Spec: G11_script_health.py
 
-## 📝 Overview
-**Purpose:** Provides a per-script health status monitoring and reporting interface. It analyzes the success rates and failure patterns for individual scripts to isolate problematic components.
-**Goal Alignment:** G11 Meta-System Integration & Continuous Optimization.
+## Purpose
+G11_script_health.py.
+
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_script_health.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
+
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
+
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_script_health.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
+
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
+
+## Dependencies
+### Runtime
+- Python script: `modules/meta/scripts/G11_script_health.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `os`
+- `psycopg2`
+- `sys`
+- `typing`
+
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_script_health.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_script_health.py`.
+
+## Implementation Notes
+- Top-level functions: get_script_health
+- Top-level classes: No top-level classes detected.
 
 ## ⚡ Technical Details
-- **Language:** Python 3.x
-- **Triggers:** Manual Execution / API Call (via G11_tools_health.py)
-- **Databases:** PostgreSQL (digital_twin_michal)
-- **Dependencies:** `psycopg2`, `db_config`, `datetime`
-
-## 🛠️ Logic Flow
-1. **Fetch Metrics:** Retrieves total runs, successes, and failures for a specific script name from the last 7 days of `system_activity_log`.
-2. **Error Capture:** Fetches the last 3 error details and timestamps for the script.
-3. **Status Heuristic:**
-   - **HEALTHY:** Success rate >= 90% and run within last 24h.
-   - **FLAKY:** Success rate < 90%.
-   - **CRITICAL:** Success rate < 50%.
-   - **STALE:** Last run was more than 24 hours ago.
-   - **UNKNOWN:** No data in the last 7 days.
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, typing, sys`
 
 ## 📤 Outputs
-- **JSON Object:** Contains `status`, `success_rate`, `total_runs`, `failures`, `last_run`, and `recent_errors`.
-
-## ⚠️ Known Issues / Maintenance
-- Depends on the accuracy of the `system_activity_log` table.
-- Does not account for scripts that are intended to run less frequently than once per 24h (will mark as STALE).
+- See Inputs/Outputs section above.
 
 ---
-*Updated: 2026-04-19 by Digital Twin Assistant*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

@@ -109,7 +109,7 @@ You are the Household Partner Assistant. You only have access to PANTRY and GROC
 
 ## Related Documentation
 
-- [ROUTER: Intelligent Hub](./ROUTER_Intelligent_Hub.md)
-- [SVC: AI Agent Interactive](./WF001_Agent_Router.md)
-- [G03 Household Operations](../10_Goals/G03_Autonomous-Household-Operations/Roadmap.md)
-- [Pantry Management](./WF105__pantry-management.md)
+- [ROUTER: Intelligent Hub](ROUTER_Intelligent_Hub.md)
+- [SVC: AI Agent Interactive](WF001_Agent_Router.md)
+- [G03 Household Operations](../../../10_Goals/G02_Automationbro-Recognition/Roadmap.md)
+- [Pantry Management](WF105__pantry-management.md)

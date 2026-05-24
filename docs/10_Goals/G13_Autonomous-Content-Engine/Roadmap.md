@@ -12,8 +12,8 @@ goal_id: "goal-g13"
 ## Q2 (Apr–Jun)
 - [x] Initial Content Harvesting Pipeline established.
 - [x] LinkedIn and Substack draft generators deployed to `scripts/archive/`.
-- [ ] **Unified Content Draft Agent:** Merge individual generators into `G13_content_draft_agent.py`.
-- [ ] **Sanity Checker:** Improve the `SANITY_CHECK` logic for the scheduler.
+- [x] **Unified Content Draft Agent:** Merge individual generators into `G13_content_draft_agent.py`. ✅ (May 03)
+- [x] **Sanity Checker:** Improve the `SANITY_CHECK` logic for the scheduler. ✅ (May 05)
 - [ ] **Inbox Cleanup:** Automatically archive drafts older than 14 days if not published.
 
 ## Q3 (Jul–Sep)

@@ -15,7 +15,8 @@ updated: "2026-02-25"
 Automates the synchronization of household inventory and dictionary data from the `Magazynek_domowy` Google Sheet to the `autonomous_pantry` PostgreSQL database. This service ensures that the Digital Twin has the most current view of household resources, enabling predictive restocking and expiration alerts.
 
 ## Triggers
-- **Scheduled:** Runs every 6 hours via n8n Schedule Trigger.
+- **Event-Driven (EDA):** Triggered via RabbitMQ topic `pantry.*.sync_requested` on the `life.events` exchange (Queue: `n8n-pantry-sync`).
+- **Legacy:** Cron trigger decommissioned (May 22, 2026) to prevent redundant executions.
 - **Manual:** Can be executed manually within the n8n editor for immediate synchronization.
 
 ## Inputs
@@ -50,8 +51,8 @@ Automates the synchronization of household inventory and dictionary data from th
 
 ## Dependencies
 ### Systems
-- [S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md): PostgreSQL instance hosting the `autonomous_pantry` database.
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md): n8n instance for workflow execution.
+- [S03 Data Layer](../../../20_Systems/README.md): PostgreSQL instance hosting the `autonomous_pantry` database.
+- [S08 Automation Orchestrator](../../../20_Systems/README.md): n8n instance for workflow execution.
 
 ### External Services
 - **Google Sheets API:** Source of truth for inventory data.
@@ -86,9 +87,9 @@ SELECT upsert_pantry_item(
 ```
 
 ## Related Documentation
-- [Goal: G03 Autonomous Household Operations](../../../10_Goals/G03_Autonomous-Household-Operations/README.md)
-- [System: S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md)
-- [SOP: Pantry Inventory Update](../../30_Sops/Pantry-Inventory-Update-SOP.md)
+- [Goal: G03 Autonomous Household Operations](../../../20_Systems/README.md)
+- [System: S03 Data Layer](../../../20_Systems/README.md)
+- [SOP: Pantry Inventory Update](../../../30_Sops/Pantry-Inventory-Update-SOP.md)
 
 ## Owner + Review Cadence
 - **Owner:** Michał

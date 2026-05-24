@@ -98,9 +98,9 @@ Amazfit/Zepp API → G07_zepp_sync.py → PostgreSQL (autonomous_health)
 ## Dependencies
 
 ### Systems
-- [S04 Digital Twin](../../../20_Systems/S04_Digital-Twin/README.md) - Health sync endpoint
-- [S06 Health Performance System](../../../20_Systems/S06_Health-Performance/README.md) - Health data processing
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md) - Workflow execution
+- [S04 Digital Twin](../../../20_Systems/README.md) - Health sync endpoint
+- [S06 Health Performance System](../../../20_Systems/README.md) - Health data processing
+- [S08 Automation Orchestrator](../../../20_Systems/README.md) - Workflow execution
 
 ### Scripts
 - **G07_zepp_sync.py** - Primary sync script for Zepp API data

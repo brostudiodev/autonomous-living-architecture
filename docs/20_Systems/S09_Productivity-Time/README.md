@@ -15,7 +15,7 @@ Transforms biological readiness and strategic goals into a concrete daily schedu
 ## Key Components
 - **Calendaring:** Google Calendar API, `G10_calendar_enforcer.py`.
 - **Task Management:** Google Tasks API, `G11_task_triage_pro.py`.
-- **Telemetry:** [ActivityWatch Telemetry](./ActivityWatch.md) (aw-server).
+- **Telemetry:** [ActivityWatch Telemetry](ActivityWatch.md) (aw-server).
 - **Optimization:** `G10_schedule_negotiator.py`, `G10_focus_intelligence.py`.
 
 ---

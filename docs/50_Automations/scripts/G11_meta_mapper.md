@@ -2,43 +2,89 @@
 title: "Automation Spec: G11_meta_mapper.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G11_meta_mapper"
-goal_id: "goal-g11"
-systems: ["S03", "S04"]
-owner: "Michał"
-updated: "2026-04-16"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "ea60dbcdefeb26{{LONG_IDENTIFIER}}"
 ---
 
 # 🤖 Automation Spec: G11_meta_mapper.py
 
-## 📝 Overview
-**Purpose:** Maps cross-domain data entities and provides freshness metrics for the Digital Twin. It acts as a bridge between various PostgreSQL databases to ensure the system knows when the last update for each domain occurred.
-**Goal Alignment:** G11 Meta-System Integration & Optimization.
+## Purpose
+G11_meta_mapper.py.
+
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_meta_mapper.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
+
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
+
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_meta_mapper.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
+
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Console output for manual runs or scheduler logs.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
+- HTTP requests to configured local or external service endpoints.
+
+## Dependencies
+### Runtime
+- Python script: `modules/meta/scripts/G11_meta_mapper.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `os`
+- `psycopg2`
+- `requests`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_meta_mapper.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_meta_mapper.py`.
+
+## Implementation Notes
+- Top-level functions: check_goal_infra, get_last_db_activity, get_twin_freshness, check_api_health, run_doc_audit, generate_map
+- Top-level classes: No top-level classes detected.
 
 ## ⚡ Technical Details
 - **Language:** Python
-- **Triggers:** Called by `autonomous_daily_manager.py` and other orchestration scripts.
-- **Databases:** PostgreSQL (finance, training, learning)
-- **Dependencies:** `psycopg2, datetime, os, requests`
-
-## 🛠️ Logic Flow
-1. **Freshness Tracking:** Queries `MAX(transaction_date)`, `MAX(workout_date)`, or `MAX(updated_at)` from specific tables to determine the last sync time.
-2. **Digital Twin Mapping:** Connects to the `digital_twin_updates` table to track when high-level entities (e.g., Person, Home) were last refreshed.
-3. **API Health Check:** Probes the Digital Twin REST API status to ensure availability.
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, sys, requests`
 
 ## 📤 Outputs
-- Freshness timestamps (formatted strings or "Offline"/"Never").
-- API status indicators.
-
-## ⚠️ Known Issues / Maintenance
-- **Fixed (2026-04-16):** Resolved syntax error (missing parenthesis) in `get_twin_freshness` database query.
-
-## 📜 Changelog
-| Date | Change |
-|------|--------|
-| 2026-02-20 | Initial draft |
-| 2026-03-05 | Prototype deployment |
-| 2026-04-16 | Bugfix: Fixed syntax error in cur.execute call (missing parenthesis) |
+- See Inputs/Outputs section above.
 
 ---
-*Generated by G12 Structural Documenter (Deterministic)*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

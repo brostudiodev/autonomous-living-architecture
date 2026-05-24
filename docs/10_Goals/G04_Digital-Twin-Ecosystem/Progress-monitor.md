@@ -4,7 +4,7 @@ type: "progress_monitor"
 status: "active"
 goal_id: "goal-g04"
 created: "2026-02-11"
-last_updated: "2026-04-19"
+last_updated: "2026-05-24"
 version: "1.2"
 ---
 
@@ -25,6 +25,20 @@ version: "1.2"
 ---
 
 ## ✅ Major Achievements
+
+### Connectivity Map V2 & Script Logging Standardization (May 20, 2026) - MILESTONE
+**Implementation Summary:**
+- **Interactive Map Explorer**: Completely redesigned the `/map` interface with a toggleable sidebar for real-time filtering of Goals (G-series) and Systems (S-series).
+- **Advanced Navigation**: Integrated `svg-pan-zoom` library, enabling smooth panning and high-depth zooming (up to 50x) while maintaining zoom state during UI transitions.
+- **System-Wide Logging Standardization**: Migrated **20+ modular scripts** to the centralized `autonomous_sdk.log.log_activity` service.
+- **Visibility Restoration**: Resolved "Unknown" status issues on the map by ensuring every major automation properly reports success/failure to the activity log.
+- **GDS Documentation**: Authored `SOP: Modular Script Logging Standard` and updated the technical specification for the Connectivity Map.
+
+**Technical Specifications:**
+- **Files Modified**: `core/api.py`, `modules/docs/scripts/G12_connectivity_mapper.py`, `autonomous_sdk/static/map.html`, and 20+ scripts in `modules/*/scripts/`.
+- **New Features**: Right-hand interactive sidebar, 50x zoom depth, persistent zoom logic, server-side node filtering.
+- **Verification**: Verified 100% operational visibility on the Connectivity Map; confirmed `log_activity` event emission from modular scripts.
+
 
 ### April 2026 Resilience & Dependency Alignment (April 25)
 **Implementation Summary:**

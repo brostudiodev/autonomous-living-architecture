@@ -123,7 +123,7 @@ const parsed = parseFloat(String(amount).replace(',', '.'));
 
 ## Related Documentation
 
-- [G05 Financial Command Center](../10_Goals/G05_Autonomous-Financial-Command-Center/Roadmap.md)
-- [Autonomous Finance - Budget Sync](./Autonomous%20Finance%20-%20Budget%20Sync.md)
-- [G05 Bank Data Ingestion SOP](../30_Sops/SOP-Bank-Data-Ingestion.md)
-- [Autonomous Finance Database Schema](../20_Systems/S03_Data-Layer/README.md)
+- [G05 Financial Command Center](../../../10_Goals/G02_Automationbro-Recognition/Roadmap.md)
+- [Autonomous Finance - Budget Sync](Autonomous%20Finance%20-%20Budget%20Sync.md)
+- [G05 Bank Data Ingestion SOP](../../../30_Sops/SOP-Bank-Data-Ingestion.md)
+- [Autonomous Finance Database Schema](../../../20_Systems/README.md)

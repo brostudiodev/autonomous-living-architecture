@@ -12,7 +12,7 @@ updated: "2026-02-15"
 # Financial Command Center - Real Savings Intelligence V2
 
 Note: The currently provisioned Grafana dashboard is **V2 - Fixed** (UID `financial-command-center-real-v2-fixed`).
-See: [Financial-Command-Center-V2-Fixed.md](./Financial-Command-Center-V2-Fixed.md)
+See: [Financial-Command-Center-V2-Fixed.md](Financial-Command-Center-V2-Fixed.md)
 
 ## Purpose
 This Grafana dashboard provides real-time visualization and monitoring of financial data, specifically focusing on a "Real Savings Rate" and overall financial health metrics. It aims to offer complete financial situational awareness for autonomous wealth building, addressing issues with traditional savings rate calculations.
@@ -106,7 +106,7 @@ SELECT period_date AS time, total_expense AS Total_Expenses FROM v_monthly_pnl W
 -   **data_source_filter:** Data source selection (Atomic/Historical) - Custom variable.
 
 ## Dependencies
--   **System:** [S03 Data Layer](../../S03_Data-Layer/README.md) - PostgreSQL views and functions for data queries.
+-   **System:** [S03 Data Layer](../../README.md) - PostgreSQL views and functions for data queries.
 -   **PostgreSQL Database:** `autonomous_finance` (host: `{{INTERNAL_IP}}:5432`).
 -   **Grafana Server:** Hosting and visualization.
 
@@ -118,6 +118,6 @@ SELECT period_date AS time, total_expense AS Total_Expenses FROM v_monthly_pnl W
     *   Re-check the SQL Query Formatting Requirements section above. Any deviation can cause silent failures or syntax errors.
 
 ## Related Documentation
--   [S05: Observability & Dashboards](../README.md) - Parent system documentation.
--   [G05: Autonomous Finance Data & Command Center](../../../10_Goals/G05_Autonomous-Financial-Command-Center/README.md) - Primary goal.
+-   [S05: Observability & Dashboards](../../README.md) - Parent system documentation.
+-   [G05: Autonomous Finance Data & Command Center](../../README.md) - Primary goal.
 

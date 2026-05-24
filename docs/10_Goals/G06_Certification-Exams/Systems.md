@@ -10,8 +10,8 @@ updated: "2026-02-24"
 # Systems
 
 ## Enabling systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md) - Dedicated `autonomous_learning` database.
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md) - Progress visualization.
+- [S03 Data Layer](../../20_Systems/README.md) - Dedicated `autonomous_learning` database.
+- [S04 Digital Twin](../../20_Systems/README.md) - Progress visualization.
 
 ## Traceability (Outcome → System → Automation → SOP)
 | Outcome | System | Automation | SOP |

@@ -1,55 +1,90 @@
 ---
-title: "G02: LinkedIn Content Drafter"
+title: "Automation Spec: G02_linkedin_drafter.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G02_linkedin_drafter.py"
-goal_id: "goal-g02"
-systems: ["S02", "S04"]
-owner: "Michał"
-updated: "2026-03-11"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "5{{LONG_IDENTIFIER}}"
 ---
 
-# G02: LinkedIn Content Drafter
+# 🤖 Automation Spec: G02_linkedin_drafter.py
 
 ## Purpose
-Automatically generates high-engagement LinkedIn post drafts from newly published Substack articles in the Obsidian Vault. This closes the gap between long-form writing and social distribution.
+Runs the linkedin drafter automation for Automationbro Recognition.
 
-## Triggers
-- **Automated:** Executed as part of the `G11_global_sync.py` registry (following Substack sync).
-- **Manual:** `python3 scripts/G02_linkedin_drafter.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/brand/scripts/G02_linkedin_drafter.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G02 Automationbro Recognition` within the `brand` automation domain.
 
-## Inputs
-- **Substack Articles:** Markdown files in `04_Resources/Automationbro/Articles/`.
-- **LLM Engine:** Gemini 1.5 Flash (via Google AI API).
-- **Context:** Strategic intent and system state from the Digital Twin.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Content Discovery:** Identifies the most recently modified `.md` file in the Substack articles directory.
-2.  **Synthesis:** Sends the first 4000 characters of the article to Gemini with a specialized "Content Strategist" prompt.
-3.  **Formatting:** Structure the output with a "Hook," "Insights," "The Why," and a "Call to Action."
-4.  **Storage:** Saves the result as a new Markdown draft in `00_Inbox/LinkedIn-Drafts/` with metadata tags.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G02_linkedin_drafter.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Obsidian Note:** A ready-to-review LinkedIn draft.
-- **Centralized Logging:** Reports `SUCCESS` or `FAILURE` to `system_activity_log`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
+- HTTP requests to configured local or external service endpoints.
 
 ## Dependencies
-### Systems
-- [S12 LinkedIn Ideas System](../../20_Systems/S12_LinkedIn-Ideas-System/README.md)
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
+### Runtime
+- Python script: `modules/brand/scripts/G02_linkedin_drafter.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### External Services
-- Google Gemini API (Flash 1.5)
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `pathlib`
+- `requests`
+- `sys`
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| No Articles Found | Empty glob list | Log warning, exit gracefully | System Activity Log |
-| API Timeout | `requests` timeout | Log failure, retry next sync | System Activity Log |
-| Missing API Key | `os.getenv` is None | Log critical error | System Activity Log |
+## Procedure
+1. Review the script source at `modules/brand/scripts/G02_linkedin_drafter.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Manual Fallback
-If drafts are not generated:
-1.  Verify that `G02_substack_sync.py` has successfully downloaded the latest article.
-2.  Check the `system_activity_log` for Gemini API errors.
-3.  Manually copy article text into the Digital Twin UI with the prompt: "Draft a LinkedIn post for this."
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G02_linkedin_drafter.py`.
+
+## Implementation Notes
+- Top-level functions: generate_linkedin_draft, check_upcoming_courses_for_posts
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `pathlib, datetime, os, autonomous_sdk.db_config, modules.meta.scripts.G11_log_system, sys, requests`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

@@ -2,37 +2,86 @@
 title: "Automation Spec: G09_career_data_provider.py"
 type: "automation_spec"
 status: "active"
-created: "2026-03-06"
-updated: "2026-03-06"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "5f99e5f777efa30d6b2956a{{LONG_IDENTIFIER}}"
 ---
 
 # 🤖 Automation Spec: G09_career_data_provider.py
 
-## 📝 Overview
-**Purpose:** Fetches raw career goals, progress metrics, and recent study history from the `autonomous_learning` database to serve as context for external AI agents (n8n).
-**Goal Alignment:** G09 (Automated Career Intelligence)
+## Purpose
+G09_career_data_provider.py.
+
+## Scope
+### In Scope
+- Documents the active implementation at `modules/career/scripts/G09_career_data_provider.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G09 Automated Career Intelligence` within the `career` automation domain.
+
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
+
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G09_career_data_provider.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
+
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
+
+## Dependencies
+### Runtime
+- Python script: `modules/career/scripts/G09_career_data_provider.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `os`
+- `psycopg2`
+
+## Procedure
+1. Review the script source at `modules/career/scripts/G09_career_data_provider.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G09_career_data_provider.py`.
+
+## Implementation Notes
+- Top-level functions: get_career_context
+- Top-level classes: No top-level classes detected.
 
 ## ⚡ Technical Details
 - **Language:** Python
-- **Triggers:** On-Demand via API (`GET /career_data`) or Health Audit.
-- **Databases:** PostgreSQL (`autonomous_learning`)
-- **Dependencies:** `psycopg2`, `json`, `datetime`
-- **Environment:** Standard `.env` DB credentials.
-
-## 🛠️ Logic Flow
-1. **Goal Retrieval:** Fetches all active `career_goals` (e.g., AWS, Six Sigma).
-2. **History Retrieval:** Fetches the last 30 `study_sessions` with notes and impact scores.
-3. **Progress Calculation:** Computes total hours vs. required hours for each active goal.
-4. **Data Formatting:** Returns a structured JSON object optimized for LLM context injection.
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, json`
 
 ## 📤 Outputs
-- **JSON Object:**
-  - `goals`: List of active targets.
-  - `progress`: Calculated completion percentages and gaps.
-  - `history`: Chronological log of recent learning activities.
-
-## ⚠️ Known Issues / Maintenance
-- **Data Quality:** Relies on accurate logging in `study_sessions` to calculate progress correctly.
+- See Inputs/Outputs section above.
 
 ---
-*Generated for n8n Integration.*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

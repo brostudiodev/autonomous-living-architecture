@@ -1,0 +1,30 @@
+name: finance
+version: 1
+description: "Autonomous Financial Command Center: Wealth tracking & Budgeting"
+core: false
+sync_tier: 2
+databases:
+  - autonomous_finance
+depends_on:
+  - postgres
+api_routes:
+  - /api/v1/finance
+env_vars:
+  - GOOGLE_SHEET_ID_FINANCE
+  - N8N_URL
+  - N8N_LLM_WEBHOOK_PATH
+  - N8N_API_KEY
+capabilities:
+  - name: "bank_sync"
+    description: "Synchronizes bank transactions from Google Sheets to PostgreSQL."
+    api_endpoints: ["/api/v1/finance/sync"]
+    events_emitted: ["sync_complete"]
+  - name: "ai_categorization"
+    description: "Automatically categorizes 'Other' transactions using LLM intelligence."
+    api_endpoints: ["/api/v1/finance/categorize"]
+  - name: "wealth_tracking"
+    description: "Monitors net worth, assets, and FIRE progress."
+    api_endpoints: ["/api/v1/finance/net-worth"]
+  - name: "anomaly_detection"
+    description: "Detects budget breaches and unusual spending patterns."
+    api_endpoints: ["/api/v1/finance/anomalies"]

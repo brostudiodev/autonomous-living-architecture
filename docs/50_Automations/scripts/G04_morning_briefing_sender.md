@@ -1,52 +1,89 @@
 ---
-title: "G04_morning_briefing_sender: Daily Strategic Broadcast"
+title: "Automation Spec: G04_morning_briefing_sender.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G04_morning_briefing_sender"
-goal_id: "goal-g04"
-systems: ["S04", "S10"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "622a4{{LONG_IDENTIFIER}}"
 ---
 
-# G04_morning_briefing_sender: Daily Strategic Broadcast
+# 🤖 Automation Spec: G04_morning_briefing_sender.py
 
 ## Purpose
-Synthesizes the "Primary Directive" and current status from the Digital Twin Engine into a high-impact Telegram briefing. This ensures the user starts the day with total alignment on the North Star and immediate tactical wins.
+G04_morning_briefing_sender.py.
 
-## 🚀 Enhancements (Apr 14)
-1. **HTML-Primary Delivery:** Updated to use `parse_mode="HTML"` to support the rich formatting (bolding, code blocks) used by the `DigitalTwinEngine`.
-2. **Reliability Fallback:** Implemented a silent retry mechanism that falls back to `Plain Text` if HTML parsing fails at the Telegram API level.
-3. **System Activity Integration:** Now records success/failure to the `system_activity_log` for systematic monitoring of broadcast reliability.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G04_morning_briefing_sender.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G04 Digital Twin Ecosystem` within the `meta` automation domain.
 
-## Triggers
-- **System Sync:** Part of the `G11_global_sync.py` morning pipeline (06:15).
-- **Manual:** `python3 G04_morning_briefing_sender.py`
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Inputs
-- **Digital Twin Engine:** Generates the `suggested_report` using latest metrics.
-- **System Activity Log:** Checked to prevent duplicate briefings on the same day.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G04_morning_briefing_sender.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Processing Logic
-1. **Deduplication:** Checks `system_activity_log` for a `SUCCESS` entry for `MORNING_BRIEFING` or `G04_morning_briefing_sender` today.
-2. **Synthesis:** Calls `DigitalTwinEngine.generate_suggested_report()` to build the briefing content.
-3. **Broadcasting:** 
-   - Attempts to send via Telegram with HTML formatting.
-   - If `requests` raises an error (likely due to unescaped characters), it retries with `parse_mode=None` (Plain Text).
-4. **Finalization:** Logs the success/failure status to the database.
-
-## Outputs
-- **Telegram Message:** Detailed morning briefing.
-- **System Activity Log:** Success/Failure signal.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
-- [G04_digital_twin_notifier.py](./G04_digital_twin_notifier.md)
+### Runtime
+- Python script: `modules/meta/scripts/G04_morning_briefing_sender.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.log`
+- `core.engine`
+- `datetime`
+- `modules.meta.scripts.G04_digital_twin_notifier`
+- `os`
+- `psycopg2`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/meta/scripts/G04_morning_briefing_sender.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
 ## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| Telegram API Error | HTTP 400 (Bad Request) | Automatic Plain Text fallback |
-| API Token Missing | .env check | Log FAILURE to DB; Exit |
-| Engine Crash | Exception caught | Log FAILURE with traceback; Exit |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G04_morning_briefing_sender.py`.
+
+## Implementation Notes
+- Top-level functions: was_sent_today, send_morning_briefing
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, core.engine, modules.meta.scripts.G04_digital_twin_notifier, sys, autonomous_sdk.log`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

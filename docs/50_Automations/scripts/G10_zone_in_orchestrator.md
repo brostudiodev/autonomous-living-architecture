@@ -1,43 +1,87 @@
 ---
-title: "Zone-In Orchestrator (G10)"
+title: "Automation Spec: G10_zone_in_orchestrator.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-02"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "385{{LONG_IDENTIFIER}}"
 ---
 
-# Purpose
-The **Zone-In Orchestrator** (`G10_zone_in_orchestrator.py`) minimizes context-switching friction by automatically preparing the user's environment for their top daily mission. It eliminates the "setup time" by generating an executable bridge between the strategic mission and the technical workspace.
+# 🤖 Automation Spec: G10_zone_in_orchestrator.py
 
-# Scope
-- **In Scope:** Generating `zone_in.sh`, mapping Goal IDs to repository paths and roadmaps.
-- **Out Scope:** Managing browser tabs beyond initial URL launch or controlling IDE internal states.
+## Purpose
+G10_zone_in_orchestrator.py.
 
-# Logic
-- **Context Extraction:** Identifies the primary goal (e.g., G04, G09) from the top-ranked mission in `G11_mission_aggregator`.
-- **Script Generation:** Writes a shell script that uses `code` (IDE), `xdg-open` (Roadmap), and `obsidian://` (App focus) to ready the workspace.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/productivity/scripts/G10_zone_in_orchestrator.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G10 Intelligent Productivity Time Architecture` within the `productivity` automation domain.
 
-# Inputs/Outputs
-- **Inputs:** Top 1 mission from the Mission Aggregator.
-- **Outputs:** `~/Documents/autonomous-living/zone_in.sh` (Executable).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-# Dependencies
-- **Systems:** S10 (Daily Goals Automation), G10 (Intelligent Productivity)
-- **Tools:** `git`, `code` (Cursor/VSCode), `xdg-utils`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G10_zone_in_orchestrator.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-# Procedure
-- Executed automatically as part of the daily morning sync.
-- The user simply types `./zone_in.sh` in the terminal to begin their deep work block.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
 
-# Failure Modes
-| Scenario | Response |
-|----------|----------|
-| No Missions Found | Script exits without overwriting the existing `zone_in.sh`. |
-| Unknown Context | Falls back to opening the root repository and main README. |
+## Dependencies
+### Runtime
+- Python script: `modules/productivity/scripts/G10_zone_in_orchestrator.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-# Security Notes
-- Script generation is local and restricted to the user's home directory.
+### Imports
+- `G11_mission_aggregator`
+- `autonomous_sdk.db_config`
+- `os`
+- `os,`
+- `re`
+- `sys`
 
-# Owner + Review Cadence
-- **Owner:** Michał
-- **Review:** Monthly (update context mappings for new projects)
+## Procedure
+1. Review the script source at `modules/productivity/scripts/G10_zone_in_orchestrator.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G10_zone_in_orchestrator.py`.
+
+## Implementation Notes
+- Top-level functions: get_last_activity_context, get_context_mapping, generate_zone_in
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `re, os, autonomous_sdk.db_config, os,, G11_mission_aggregator, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

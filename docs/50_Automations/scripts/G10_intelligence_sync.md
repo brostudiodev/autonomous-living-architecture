@@ -1,38 +1,90 @@
 ---
-title: "Intelligence DB Sync (G10)"
+title: "Automation Spec: G10_intelligence_sync.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G10_intelligence_sync.py"
-goal_id: "goal-g10"
-owner: "Michał"
-updated: "2026-04-04"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "9c{{LONG_IDENTIFIER}}"
 ---
 
-# 🤖 Intelligence DB Sync
+# 🤖 Automation Spec: G10_intelligence_sync.py
 
-## 📝 Overview
-**Purpose:** Synchronizes Obsidian daily note metrics into the `daily_intelligence` PostgreSQL table. This enables long-term historical analysis, correlation detection, and multi-day trend reporting that would be token-inefficient to perform via raw file parsing.
-**Goal Alignment:** G10 Intelligent Productivity (Data Integrity)
+## Purpose
+G10_intelligence_sync.py.
+
+## Scope
+### In Scope
+- Documents the active implementation at `modules/productivity/scripts/G10_intelligence_sync.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G10 Intelligent Productivity Time Architecture` within the `productivity` automation domain.
+
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
+
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G10_intelligence_sync.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
+
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
+
+## Dependencies
+### Runtime
+- Python script: `modules/productivity/scripts/G10_intelligence_sync.py`
+- Trigger mode: Manual Execution, CLI with Arguments
+- Databases: PostgreSQL
+
+### Imports
+- `argparse`
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `os`
+- `psycopg2`
+- `re`
+- `yaml`
+
+## Procedure
+1. Review the script source at `modules/productivity/scripts/G10_intelligence_sync.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G10_intelligence_sync.py`.
+
+## Implementation Notes
+- Top-level functions: parse_frontmatter, clean_selection, clean_int, sync_note_to_db, run_sync
+- Top-level classes: No top-level classes detected.
 
 ## ⚡ Technical Details
 - **Language:** Python
-- **Triggers:** Called by `autonomous_evening_manager.py` (Daily sync) and manual (Backfill).
-- **Databases:** `digital_twin_michal`
-- **Dependencies:** `psycopg2`, `pyyaml`
-
-## 🛠️ Logic Flow
-1. **Extraction:** Surgically parses the YAML frontmatter of `YYYY-MM-DD.md` files.
-2. **Cleaning:** 
-   - **Selection Logic:** If `mood` or `energy` contain multiple options (template defaults), they are ignored (stored as `NULL`).
-   - **Type Casting:** Converts energy strings (e.g., "5 - peak") to integers.
-3. **Upsert:** Uses `ON CONFLICT (intelligence_date) DO UPDATE` to ensure the database stays in sync with the latest note edits.
+- **Triggers:** Manual Execution, CLI with Arguments
+- **Databases:** PostgreSQL
+- **Dependencies:** `re, psycopg2, datetime, os, autonomous_sdk.db_config, yaml, json, argparse`
 
 ## 📤 Outputs
-- **Postgres:** Populated `daily_intelligence` table.
-- **Log:** Success/Failure counts per run.
-
-## ⚠️ Known Issues / Maintenance
-- **Schema Sync:** If new fields are added to the Daily Note frontmatter, they must be manually added to this script and the DB schema.
+- See Inputs/Outputs section above.
 
 ---
-*Unified Data Intelligence - April 2026*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

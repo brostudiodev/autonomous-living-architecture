@@ -842,18 +842,18 @@ Supported Commands:
 Related Documentation
 Core Services
 
-    [WF001: ROUTER_Intelligence-Hub](./WF001_Agent_Router.md)
-    [WF003: SVC_Response-Dispatcher](./WF003__svc-response-dispatcher.md)
-    [WF004: SVC_Intelligence-Processor](./WF004__intelligence-hub-input.md)
-    [WF005: SVC_Input-Normalizer](./WF005__svc-input-normalizer.md)
+    [WF001: ROUTER_Intelligence-Hub](WF001_Agent_Router.md)
+    [WF003: SVC_Response-Dispatcher](WF003__svc-response-dispatcher.md)
+    [WF004: SVC_Intelligence-Processor](WF004__intelligence-hub-input.md)
+    [WF005: SVC_Input-Normalizer](WF005__svc-input-normalizer.md)
 
 Sub-Services (Domain Specialists)
 
-    [WF010: PROJ_Inventory-Management](./WF010__proj-inventory-management.md)
-    [WF011: PROJ_Training-Intelligence-System](./WF011__proj-training-intelligence-system.md)
-    [WF012: PROJ_Personal-Budget-Intelligence-System](./WF0{{LONG_IDENTIFIER}}.md)
-    [WF013: SVC_Github-Autonomous-Evening-Planner](./WF0{{LONG_IDENTIFIER}}.md)
-    [WF014: SVC_GitHub-Todo-List-Extractor](./WF014__svc-github-todo-list-extractor.md)
+    [WF010: PROJ_Inventory-Management](WF010__proj-inventory-management.md)
+    [WF011: PROJ_Training-Intelligence-System](WF011__proj-training-intelligence-system.md)
+    [WF012: PROJ_Personal-Budget-Intelligence-System](WF0{{LONG_IDENTIFIER}}.md)
+    [WF013: SVC_Github-Autonomous-Evening-Planner](WF0{{LONG_IDENTIFIER}}.md)
+    [WF014: SVC_GitHub-Todo-List-Extractor](WF014__svc-github-todo-list-extractor.md)
 
 Systems
 

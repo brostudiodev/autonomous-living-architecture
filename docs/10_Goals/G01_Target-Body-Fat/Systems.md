@@ -10,8 +10,8 @@ goal_id: "goal-g01"
 # Systems
 
 ## Enabling systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md) - Training logs and measurements.
-- [S06 Health Performance](../../20_Systems/S06_Health-Performance/README.md) - Progressive overload logic.
+- [S03 Data Layer](../../20_Systems/README.md) - Training logs and measurements.
+- [S06 Health Performance](../../20_Systems/README.md) - Progressive overload logic.
 
 ## Traceability (Outcome → System → Automation → SOP/Runbook)
 

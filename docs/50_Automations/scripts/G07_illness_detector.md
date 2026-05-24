@@ -1,38 +1,88 @@
 ---
-title: "Automation Spec: G07 Illness & Fatigue Detector"
+title: "Automation Spec: G07_illness_detector.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-03"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "e0399b9b69{{LONG_IDENTIFIER}}"
 ---
 
-# 🧬 G07 Illness & Fatigue Detector
+# 🤖 Automation Spec: G07_illness_detector.py
 
-## 🎯 Purpose
-Autonomously monitors biological signals (HRV, Sleep Score, Readiness) to identify oncoming illness or severe overtraining. This script provides a deterministic health safeguard that triggers recovery actions before symptoms become debilitating.
+## Purpose
+G07_illness_detector.py.
 
-## 🏗️ Architecture
-- **Trigger:** Runs daily after `G07_zepp_sync.py` ingestion.
-- **Logic:** Statistical comparison of today's biometrics against a 7-day rolling average.
-- **Action:** Triggers Telegram alerts and calls `G10_bio_load_balancer.py` for schedule pivoting.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/health/scripts/G07_illness_detector.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G07 Predictive Health Management` within the `health` automation domain.
 
-## 🛠️ Implementation Details
-- **Script:** `scripts/G07_illness_detector.py`
-- **Language:** Python 3
-- **Primary Tool:** `psql`, `numpy` (for statistical analysis)
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## 🔗 Dependencies
-- **Database:** `autonomous_health` (biometrics table)
-- **Schedule Agent:** `G10_bio_load_balancer.py`
-- **Notification:** `G04_digital_twin_notifier.py`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G07_illness_detector.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## ⚠️ Failure Modes & Recovery
-- **Zero Historical Data:** Script skips detection (Minimum 2 days required).
-- **Outlier Data (Bad Sync):** Handled via 30% drop threshold to avoid false positives from minor fluctuations.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
-## 🔄 Rollback & Maintenance
-- **Rollback:** Disable in `G11_global_sync.py`.
-- **Maintenance:** Detection thresholds (30% HRV drop) can be tuned in the script as the HRV baseline evolves.
+## Dependencies
+### Runtime
+- Python script: `modules/health/scripts/G07_illness_detector.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `G04_digital_twin_notifier`
+- `autonomous_sdk.db_config`
+- `datetime`
+- `numpy`
+- `os`
+- `psycopg2`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/health/scripts/G07_illness_detector.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G07_illness_detector.py`.
+
+## Implementation Notes
+- Top-level functions: get_health_metrics, run_detection
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, numpy, datetime, os, G04_digital_twin_notifier, autonomous_sdk.db_config, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*Generated by Gemini CLI 2026-04-03.*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

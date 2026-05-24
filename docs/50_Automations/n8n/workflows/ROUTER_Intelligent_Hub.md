@@ -119,7 +119,7 @@ Triggers → Normalizer → Auth → Converge → Format Detector → Intent Cla
 
 ## Related Documentation
 
-- [ROUTER_Partner_Hub](./ROUTER_Partner_Hub.md)
-- [SVC: Format Detector](./WF005__svc-input-normalizer.md)
-- [SVC: AI Agent Interactive](./WF001_Agent_Router.md)
-- [S04 Digital Twin](../20_Systems/S04_Digital-Twin/README.md)
+- [ROUTER_Partner_Hub](ROUTER_Partner_Hub.md)
+- [SVC: Format Detector](WF005__svc-input-normalizer.md)
+- [SVC: AI Agent Interactive](WF001_Agent_Router.md)
+- [S04 Digital Twin](../../../20_Systems/README.md)

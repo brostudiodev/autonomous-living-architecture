@@ -1,69 +1,88 @@
 ---
-title: "G05: Budget Rebalancer (v2.0)"
+title: "Automation Spec: G05_budget_rebalancer.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G05_budget_rebalancer"
-goal_id: "goal-g05"
-systems: ["S05", "S11"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "74eac90034430aa00dde2d7{{LONG_IDENTIFIER}}"
 ---
 
-# G05: Budget Rebalancer (v2.1)
+# 🤖 Automation Spec: G05_budget_rebalancer.py
 
 ## Purpose
-Identifies budget breaches and generates resolution suggestions using a tiered priority system. It first attempts to use global income surplus (Buffer-First) before raiding other planned categories. **As of v2.1, all rebalancing actions require human-in-the-loop approval to prevent unauthorized threshold increases.**
+G05_budget_rebalancer.py.
 
-## Triggers
-- **Daily Manager:** Part of the `autonomous_daily_manager.py` cycle (Suggestion mode).
-- **Global Sync:** Executed as a consumer script in `G11_global_sync.py` (Suggestion mode).
-- **Manual Execute:** `python3 G05_budget_rebalancer.py --execute` for forced database and sheet update (Human-triggered).
+## Scope
+### In Scope
+- Documents the active implementation at `modules/finance/scripts/G05_budget_rebalancer.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G05 Autonomous Financial Command Center` within the `finance` automation domain.
 
-## Tiered Resolution Logic (v2.1)
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-### 🔴 Breach Detection
-Identifies categories where actual spending (`actual_amount`) exceeds the monthly budget (`budget_amount`).
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G05_budget_rebalancer.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-### 🛡️ Tier 1: Buffer-First (Income Surplus Suggestion)
-- **Source:** Fetches `net_savings` from `v_monthly_pnl` (Income - Expenses).
-- **Rule:** If a breach is detected and a global surplus exists, the system suggests increasing the target budget using these unallocated funds.
-- **Safety:** Leaves a minimum **500 PLN** safety floor in the income buffer.
-- **Authority:** **LIMITED** (Human-in-the-loop). Even buffer usage must be approved via Telegram command `/approve [id]`.
-
-### 💸 Tier 2: Category Reallocation (Surplus Raiding)
-- **Source:** Finds `Low/Medium` priority categories with remaining funds.
-- **Spending Floor Safeguard:** **CRITICAL:** The system can only take from the **REMAINING** surplus (Budget - Spent). It is physically impossible for the system to reduce a budget below what has already been spent in that month.
-- **Rule:** Leaves a 20% safety buffer in the source category.
-- **Policy:** Evaluates amount and priority via `G11_rules_engine` (set to `Limited` authority).
-
-## Processing Logic
-1.  **Ingestion:** Loads transactions and budget states from `autonomous_finance`.
-2.  **PnL Context:** Fetches current month Net Savings and Savings Rate.
-3.  **Resolution Loop:** For each breach, applies Tier 1 then Tier 2 logic and generates a `Decision Request`.
-4.  **Database Update:** Only executed if `--execute` flag is present (via manual approval handler).
-5.  **Synchronization:** Calls `G05_finance_sync.py` after a successful update.
-
-## Changelog
-| Date | Change |
-|------|--------|
-| 2026-03-20 | Initial budget rebalancing logic |
-| 2026-03-28 | Implemented Sleep-Driven Safety thresholds |
-| 2026-04-13 | v2.0: Implemented Buffer-First logic and Spending Floor Safeguard. |
-| 2026-04-21 | **v2.1: Disabled autonomous execution. Shifted to 'Human-in-the-Loop' suggestion model.** |
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-- **Database:** `autonomous_finance` (PostgreSQL).
-- **Views:** `v_budget_performance`, `v_monthly_pnl`.
-- **Sync:** `G05_finance_sync.py`.
+### Runtime
+- Python script: `modules/finance/scripts/G05_budget_rebalancer.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-## Error Handling
-| Failure Scenario | Detection | Response |
+### Imports
+- `G04_digital_twin_notifier`
+- `autonomous_sdk.db_config`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `pandas`
+- `psycopg2`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/finance/scripts/G05_budget_rebalancer.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
 |---|---|---|
-| Buffer Exhausted | `income_buffer < 50` | Fall back to Tier 2 (Category Reallocation). |
-| Total Insolvency | All surpluses < 1 PLN | Report breach as "Unresolved" in Daily Note. |
-| Duplicate IDs | Repo logic check | Duplicate budget IDs (with spaces) are ignored or cleaned. |
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G05_budget_rebalancer.py`.
+
+## Implementation Notes
+- Top-level functions: get_rebalancing_suggestions
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, pandas, os, G04_digital_twin_notifier, autonomous_sdk.db_config, modules.meta.scripts.G11_log_system, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*Related Documentation:*
-- [G05_budget_rebalancer_pro.md](G05_budget_rebalancer_pro.md)
-- [autonomy_policies.yaml](../../../scripts/autonomy_policies.yaml)
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

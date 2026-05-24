@@ -2,63 +2,91 @@
 title: "Automation Spec: G11_decision_handler.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G11_decision_handler"
-goal_id: "goal-g11"
-systems: ["S11", "S04"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "7{{LONG_IDENTIFIER}}"
 ---
 
 # 🤖 Automation Spec: G11_decision_handler.py
 
 ## Purpose
-The execution engine for human-approved decisions and **Implicit Autonomy** actions. It scans the Obsidian Daily Note for `#approve_NN` markers, processes specific IDs from the Telegram Bot, or executes high-trust actions automatically to authorized system actions across all domains.
+G11_decision_handler.py.
 
-## Triggers
-- **Implicit Approval:** Automatically triggered by `G11_decision_proposer.py` for high-trust policies.
-- **Daily Note Scan:** Part of the `autonomous_daily_manager.py` cycle.
-- **Telegram Callback:** Triggered via the Digital Twin API when a user clicks "Approve" on a mobile notification.
-- **Manual:** `python3 G11_decision_handler.py [ID]` to force-execute a specific request.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_decision_handler.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-## Inputs
-- **Obsidian Daily Note:** `YYYY-MM-DD.md` (Checked for `- [x] #approve_NN`).
-- **Database:** `digital_twin_michal.decision_requests` (Fetches payload and policy).
-- **Environment:** `.env` for database and API credentials.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Resilience (Circuit Breaker):** Integrates with `G04_domain_isolator`. If the `decision_handler` domain is flagged as unstable, the script fast-fails to prevent cascading system hangs.
-2.  **Identification:** Extracts IDs from checked tasks in the Daily Note or receives them from the API.
-3.  **State Verification (Hardening):** Strictly verifies that a decision request is in `PENDING` status before execution (unless explicitly overridden by a specific ID from a trusted source), preventing duplicate actions or race conditions.
-4.  **Action Routing:** Matches the `domain.policy_key` to specific execution functions:
-    -   `meta.roadmap_task_enforcement`: Injects high-priority tasks into Google Tasks.
-    -   `career.content_scheduling`: Finalizes and schedules Substack drafts.
-    -   `financial.auto_categorize` / `auto_budget_rebalance`: Updates PostgreSQL and Google Sheets.
-    -   `household.auto_procurement`: Adds shopping tasks and refreshes manifest.
-    -   `productivity.focus_block_adjustment`: Re-optimizes schedule and updates Daily Note.
-5.  **Cascading Resolution (NEW):** Automatically identifies and marks all older `PENDING` requests for the same item (e.g., same transaction or same pantry restock) as `SUPERSEDED`. This eliminates "approval storms" and prevents redundant execution of historical requests.
-6.  **Status Update:** Marks the request as `RESOLVED` (Success) or `FAILED` (Error) in the database with a timestamp and detailed resolution result.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_decision_handler.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Cross-System Actions:** Updates to Google Sheets, Google Tasks, and PostgreSQL databases.
-- **Activity Log:** Records the execution result in the `system_activity_log`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S11 Meta-System](../../20_Systems/S11_Meta-System-Integration/README.md)
+### Runtime
+- Python script: `modules/meta/scripts/G11_decision_handler.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### External Services
-- Google Sheets API
-- Google Tasks API
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `modules.meta.scripts.G04_digital_twin_notifier`
+- `modules.meta.scripts.G04_domain_isolator`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `psycopg2`
+- `re`
+- `sys`
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Sheet Row Not Found | `worksheet.find()` fails | Log error, mark request as `FAILED` | System Activity Log |
-| API Rate Limit | `gspread` exception | Wait/Retry or fail with error | Log warning |
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_decision_handler.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Manual Fallback
-If an approval fails to execute:
-1.  Check the `system_activity_log` for the specific error (e.g., "Transaction ID not found").
-2.  Manually execute the action (e.g., categorize in Google Sheets).
-3.  Mark the request as `RESOLVED` in the database manually.
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_decision_handler.py`.
+
+## Implementation Notes
+- Top-level functions: get_today_note, run_post_decision_audit, link_friction_to_resolution, process_approvals, is_auto_approvable, execute_action
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `re, psycopg2, datetime, os, autonomous_sdk.db_config, modules.meta.scripts.G04_digital_twin_notifier, json, modules.meta.scripts.G11_log_system, modules.meta.scripts.G04_domain_isolator, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

@@ -1,68 +1,92 @@
 ---
-title: "G05: Financial Data Synchronization Engine"
+title: "Automation Spec: G05_finance_sync.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G05_finance_sync.py"
-goal_id: "goal-g05"
-systems: ["S03", "S05"]
-owner: "Michał"
-updated: "2026-04-18"
+created: "2026-05-24"
+updated: "2026-05-24"
+script_hash: "fb35e508c39{{LONG_IDENTIFIER}}"
 ---
 
-# G05: Financial Data Synchronization Engine
+# 🤖 Automation Spec: G05_finance_sync.py
 
 ## Purpose
-Orchestrates the bidirectional transfer of financial records (Transactions and Budgets) between the primary Google Sheet and the PostgreSQL `autonomous_finance` database. This script ensures high-fidelity data alignment between the planning layer (Sheets) and the execution layer (Postgres/Autonomous Rebalancing).
+G05_finance_sync.py.
 
-## Key Features
-- **Bidirectional Sync:** Can sync data from Sheets to DB (default) and from DB back to Sheets (`--to-sheets` flag).
-- **Autonomous Tracking:** Automatically adds and populates `AI changes` and `AI date` columns in Google Sheets to track modifications made by the Digital Twin.
-- **Hybrid Operation Logic:** Works in tandem with n8n workflows (WF109/WF110) using shared database functions.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/finance/scripts/G05_finance_sync.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G05 Autonomous Financial Command Center` within the `finance` automation domain.
 
-## Triggers
-- **Automated (Sheets -> DB):** Part of the `G11_global_sync.py` registry.
-- **Automated (DB -> Sheets):** Triggered by `G05_budget_rebalancer.py --execute`.
-- **Manual:** 
-  - `python3 scripts/G05_finance_sync.py` (Sheets to DB)
-  - `python3 scripts/G05_finance_sync.py --to-sheets` (DB to Sheets)
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Inputs
-- **Google Sheet ID:** `{{SPREADSHEET_ID}}`
-- **Worksheets:** `Budget` (for planning), `Transactions` (for actuals).
-- **Credentials:** `google_credentials_digital-twin-michal.json` (Service Account).
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G05_finance_sync.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Processing Logic (DB -> Sheets)
-1.  **Fetch Active Budgets:** Retrieves all active budgets for the current month from PostgreSQL.
-2.  **Header Verification:** Checks if `AI changes` and `AI date` columns exist in the `Budget` worksheet; creates them if missing.
-3.  **Delta Detection:** Compares DB amounts with Sheet amounts using `budget_id` matched against the Sheet's `Transaction_ID` column.
-4.  **Batch Update:** Updates changed rows in a single API call (`update_cells`) including a description of the change and a timestamp.
-
-## Changelog
-- **2026-03-20:** Corrected matching logic to use `budget_id` (matched to `Transaction_ID` column in Budget tab). Removed dependency on non-existent `subcategories` table.
-
-## Outputs
-- **PostgreSQL:** Updated `budgets` and `transactions` tables.
-- **Google Sheets:** Updated `Budget_Amount`, `AI changes`, and `AI date` columns.
-- **Centralized Logging:** Reports `SUCCESS` or `FAILURE` to `system_activity_log`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S05 Finance System](../../10_Goals/G05_Autonomous-Financial-Command-Center/README.md)
+### Runtime
+- Python script: `modules/finance/scripts/G05_finance_sync.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### External Services
-- Google Sheets API
-- Google Drive API
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.events`
+- `datetime`
+- `google.oauth2.service_account`
+- `gspread`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `pathlib`
+- `psycopg2`
+- `re`
+- `sys`
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Sheet ID Not Found | `gspread` exception | Log error, abort sync | System Activity Log |
-| Column Missing | `ValueError` in index | Script creates missing columns | Log info |
-| Auth Expired | API 401 error | Log failure | CRITICAL Log alert |
+## Procedure
+1. Review the script source at `modules/finance/scripts/G05_finance_sync.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Manual Fallback
-If data remains stale:
-1.  Verify the Google Sheet connectivity.
-2.  Run `python3 scripts/G05_finance_sync.py --to-sheets` manually to verify DB-to-Sheet flow.
-3.  Check the `AI changes` column in the Google Sheet for the last recorded autonomous action.
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G05_finance_sync.py`.
+
+## Implementation Notes
+- Top-level functions: get_sheets_client, parse_num, sync_finance_from_sheets, sync_budgets_from_sheets, sync_budgets_to_sheets
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `pathlib, os, autonomous_sdk.db_config, sys, modules.meta.scripts.G11_log_system, datetime, psycopg2, gspread, google.oauth2.service_account, autonomous_sdk.events, re`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

@@ -84,10 +84,10 @@ Transform calendar management into a frictionless, AI-driven system where natura
 - Time tracking apps (future)
 
 ## Key Links
-- Outcomes: [Outcomes.md](Outcomes.md)
-- Metrics: [Metrics.md](Metrics.md)
-- Systems: [Systems.md](Systems.md)
-- Roadmap: [Roadmap.md](Roadmap.md)
+- Outcomes: [Outcomes.md](../G02_Automationbro-Recognition/Outcomes.md)
+- Metrics: [Metrics.md](../G02_Automationbro-Recognition/Metrics.md)
+- Systems: [Systems.md](../G02_Automationbro-Recognition/Systems.md)
+- Roadmap: [Roadmap.md](../G02_Automationbro-Recognition/Roadmap.md)
 - Mood Engine: [Mood-Engine.md](Mood-Engine.md)
 
 ### 🚀 Execution & Automation
@@ -97,8 +97,8 @@ This goal is orchestrated via the **G04 Digital Twin API** and the **Daily Manag
 - **Mood Engine:** `G10_mood_engine.py` autonomously calculates suggested daily markers.
 - **Data sources:** Obsidian Daily Notes (`wins`), G10 Calendar Client (`events`), Roadmap (`missions`), Zepp API (`readiness`).
 - **Notification:** Delivered via n8n to Telegram using the `/tomorrow` command.
-- Activity Log: [Activity-log.md](Activity-log.md)
-- Progress Monitor: [Progress-monitor.md](Progress-monitor.md)
+- Activity Log: [Activity-log.md](../Activity-log.md)
+- Progress Monitor: [Progress-monitor.md](../G02_Automationbro-Recognition/Progress-monitor.md)
 
 ## Procedure
 1. **Daily:** Use calendar agent for scheduling

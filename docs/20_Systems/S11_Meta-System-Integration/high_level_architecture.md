@@ -4,7 +4,7 @@ type: "architecture"
 status: "active"
 system_id: "S11"
 owner: "Michał"
-updated: "2026-02-16"
+updated: "2026-05-19"
 ---
 
 # ROUTER_Intelligence-Hub: High-Level Architectural Blocks
@@ -43,12 +43,11 @@ updated: "2026-02-16"
 **The "Specialists" - Execute domain-specific logic**
 
 **Core Function:** Route to specialized processing based on classified intent
-- **Command Processor** - System commands, help, status, tools
-- **Intelligence Capture** - AI analysis and Second Brain integration
-- **Calendar Manager** - Google Calendar operations and scheduling
-- **Question Handler** - LLM-based conversational AI
-- **Task Manager** - Task creation and management
-- **Specialized Services** - Inventory, Finance, Training systems
+- **Command Processor:** System commands, status audits, tool discovery.
+- **Intelligence Capture:** AI analysis and Obsidian Second Brain integration.
+- **Domain Orchestrators:** 13 specialized modules (Health, Finance, Career, Content, etc.).
+- **Calendar & Task Managers:** Google Ecosystem operations and autonomous triage.
+- **Self-Healing Engine:** Automatic repair of system-wide failures and friction.
 
 ### Stage 5: Response Preparation & Formatting
 **The "Formatter" - Structure results for delivery**

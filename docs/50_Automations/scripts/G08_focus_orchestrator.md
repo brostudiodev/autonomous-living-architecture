@@ -1,73 +1,85 @@
 ---
-title: "G08_focus_orchestrator.py: Focus Mode"
+title: "Automation Spec: G08_focus_orchestrator.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G08_focus_orchestrator"
-goal_id: "goal-g08"
-systems: ["S07", "S08"]
-owner: "Michał"
-updated: "2026-03-09"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "{{LONG_IDENTIFIER}}"
 ---
 
-# G08: Focus Mode Orchestrator
+# 🤖 Automation Spec: G08_focus_orchestrator.py
 
 ## Purpose
-Automates the physical and digital environment for "Deep Work" and "Professional" blocks. It provides intelligent environment suggestions based on biological state.
+G08_focus_orchestrator.py.
 
-## ⚠️ CRITICAL MANDATE
-**DO NOT ENABLE OR UNCOMMENT HOME ASSISTANT CONTROL LOGIC.** 
-Michał has explicitly requested that this script **NOT** trigger any HA services (lights, sockets, etc.) until further notice. This is a hard constraint for all AI agents.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/home/scripts/G08_focus_orchestrator.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G08 Predictive Smart Home Orchestration` within the `home` automation domain.
 
-## Triggers
-- **When:** Scheduled via `G11_global_sync.py` (runs periodically).
-- **Manual:** `python3 G08_focus_orchestrator.py`
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Inputs
-- **Digital Twin State:** Sleep score and readiness via `G04_digital_twin_engine`.
-- **Environment Variables:** `HA_TOKEN`, `HASS_URL`.
-- **System Time:** `datetime.now()`.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G08_focus_orchestrator.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Processing Logic
-1. **Biological Check:** Fetches the latest sleep score from `G04_digital_twin_engine`.
-2. **Energy Pivot:** If sleep score < 75, sets `energy_pivot = True`.
-3. **Time Analysis:**
-    - **06:00–09:00 (Weekdays):** Identifies "Deep Work" session.
-    - **09:00 (Weekdays):** Identifies "Professional" transition.
-    - **21:30+:** Identifies "Wind Down".
-4. **Environment Suggestion:**
-    - If `Deep Work` + `High Energy`: Suggests "Deep Focus" environment.
-    - If `Deep Work` + `Low Energy`: Suggests "Soft Lighting / Recovery" environment.
-5. **HA Service Calls (STALLED):** Logic exists to call HA REST API but is currently blocked by user mandate.
-
-## Outputs
-- **Console Logs:** Descriptive state of focus mode and environment recommendations.
-- **HA Blocked Logs:** `🚫 HA Control Blocked` messages for all attempted service calls.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- HTTP requests to configured local or external service endpoints.
 
 ## Dependencies
-### Systems
-- [S07 Smart Home](../../20_Systems/S07_Smart-Home/README.md)
-- [S08 Automation Orchestrator](../../20_Systems/S08_Automation-Orchestrator/README.md)
+### Runtime
+- Python script: `modules/home/scripts/G08_focus_orchestrator.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-### External Services
-- Home Assistant REST API (Currently disabled)
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `os`
+- `requests`
 
-### Credentials
-- `HA_TOKEN` (stored in `.env`)
+## Procedure
+1. Review the script source at `modules/home/scripts/G08_focus_orchestrator.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| HA API Timeout | Exception caught in `call_ha_service` | Log error, continue | None |
-| Engine Offline | Exception in `DigitalTwinEngine` import/init | Default to high energy, log warning | Console |
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## Monitoring
-- **Success metric:** Script executes without crash.
-- **Alert on:** 3 consecutive engine connection failures.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-## Manual Fallback
-Users must manually adjust lights and power sockets via the Home Assistant App or physical switches as the automated control is explicitly disabled.
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G08_focus_orchestrator.py`.
+
+## Implementation Notes
+- Top-level functions: call_ha_service, manage_focus_mode
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `datetime, requests, os, autonomous_sdk.db_config`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*Related Documentation:*
-- [G04_digital_twin_engine.md](G04_digital_twin_engine.md)
-- [G11_global_sync.md](G11_global_sync.md)
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

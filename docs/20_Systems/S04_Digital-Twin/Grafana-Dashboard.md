@@ -4,7 +4,7 @@ type: "system_dashboard_spec"
 status: "planning"
 system_id: "S04"
 owner: "Michał"
-updated: "2026-02-09"
+updated: "2026-05-10"
 ---
 
 # S04: Digital Twin Grafana Dashboard
@@ -53,7 +53,7 @@ The Digital Twin Grafana Dashboard will be part of the overarching S01 Observabi
 **Data Source:** S01 Observability metrics, potentially S03 (system telemetry).
 **Panels:**
 - **Data Ingestion Latency:** Graph showing delays in data ingestion pipelines.
-- **API Health:** Status of the GraphQL API.
+- **API Health:** Status of the FastAPI REST API (Port 5677).
 - **Data Quality Alerts:** Number of data quality issues detected in Digital Twin entities.
 
 ## Implementation Notes
@@ -67,8 +67,8 @@ The Digital Twin Grafana Dashboard will be part of the overarching S01 Observabi
 -   Develop data quality checks for ingested data.
 
 ## Related Documentation
-- [Digital Twin Data Models](./Data-Models.md)
-- [Digital Twin Data Ingestion Pipelines](./Data-Ingestion.md)
-- [Digital Twin GraphQL API](./GraphQL-API.md)
-- [S01 Observability & Dashboards](../S05_Observability-Dashboards/README.md)
-- [S03 Data Layer README](../../20_Systems/S03_Data-Layer/README.md)
+- [Digital Twin Data Models](Data-Models.md)
+- [Digital Twin Data Ingestion Pipelines](Data-Ingestion.md)
+- [Digital Twin REST API](REST-API.md)
+- [S01 Observability & Dashboards](../README.md)
+- [S03 Data Layer README](../README.md)

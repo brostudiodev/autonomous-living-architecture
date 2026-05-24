@@ -1,50 +1,88 @@
 ---
-title: "G05: Autonomous Budget Rebalance Trigger"
+title: "Automation Spec: G05_auto_rebalance_trigger.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G05_auto_rebalance_trigger.py"
-goal_id: "goal-g05"
-systems: ["S03", "S05"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "7886ff493a3255d066fa94c5803f1ca9fa79ea6388a6772ad2e4e497c3c82f47"
 ---
 
-# G05: Autonomous Budget Rebalance Trigger
+# 🤖 Automation Spec: G05_auto_rebalance_trigger.py
 
 ## Purpose
-Monitors the `autonomy_policies.yaml` configuration and automatically executes budget rebalancing if `FULL` authority is granted. This transitions budget management from "manual review" to "autonomous execution."
+G05_auto_rebalance_trigger.py.
 
-## Triggers
-- **Scheduled:** Part of the `G11_global_sync.py` daily synchronization cycle.
-- **Manual:** `python3 scripts/G05_auto_rebalance_trigger.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/finance/scripts/G05_auto_rebalance_trigger.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G05 Autonomous Financial Command Center` within the `finance` automation domain.
 
-## Inputs
-- **Autonomy Policy:** `scripts/autonomy_policies.yaml` (Checks `financial.auto_budget_rebalance`).
-- **Scripts:** `G05_budget_rebalancer.py` (The execution engine).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Policy Check:** Reads `autonomy_policies.yaml`.
-2.  **Authority Validation:** Verifies if `enabled: true` and `authority_level: "full"`.
-3.  **Execution:** If authorized, runs `G05_budget_rebalancer.py --execute` in a subprocess.
-4.  **Reporting:** Logs success/failure to `system_activity_log`.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G05_auto_rebalance_trigger.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Subprocess Trigger:** Executes the rebalancing script which updates DB and Google Sheets.
-- **System Activity Log:** Records the autonomous action.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S05 Finance System](../../10_Goals/G05_Autonomous-Financial-Command-Center/README.md)
-- [G11 Rules Engine](../../10_Goals/G11_Meta-System-Integration-Optimization/README.md)
+### Runtime
+- Python script: `modules/finance/scripts/G05_auto_rebalance_trigger.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Policy Disabled | `enabled: false` | Script exits gracefully | Log Info |
-| Subprocess Error | `CalledProcessError` | Log failure | System Activity Log |
-| Policy Missing | `KeyError` | Log error | System Activity Log |
+### Imports
+- `autonomous_sdk.db_config`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `subprocess`
+- `sys`
+- `yaml`
 
-## Manual Fallback
-To run rebalancing without full autonomy enabled:
-1.  Use the `[💸 Execute Budget Rebalancing]` button in the Obsidian Daily Note.
-2.  Or manually run `python3 scripts/G05_budget_rebalancer.py --execute`.
+## Procedure
+1. Review the script source at `modules/finance/scripts/G05_auto_rebalance_trigger.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G05_auto_rebalance_trigger.py`.
+
+## Implementation Notes
+- Top-level functions: trigger_auto_rebalance
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `os, autonomous_sdk.db_config, yaml, modules.meta.scripts.G11_log_system, sys, subprocess`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

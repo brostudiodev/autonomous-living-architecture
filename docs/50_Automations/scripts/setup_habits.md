@@ -1,56 +1,53 @@
 ---
-title: "G11: Habits System Setup"
+title: "Archived Automation Spec: setup_habits"
 type: "automation_spec"
-status: "active"
-automation_id: "setup_habits"
-goal_id: "goal-g11"
-systems: ["S04"]
+status: "archived"
 owner: "Michał"
-updated: "2026-03-25"
+updated: "2026-05-23"
 ---
 
-# G11: Habits System Setup
+# Archived Automation Spec: setup_habits
 
 ## Purpose
-Initializes and seeds the `habits` table in the Digital Twin database to support decoupled habit tracking.
+Preserves the historical documentation record for `setup_habits` after no matching active Python script was found in `scripts/` or `modules/<domain>/scripts/`.
 
-## Triggers
-- **Manual:** Executed once to initialize the system or add new base habits.
-- **Workflow:** Part of the G11 meta-system maintenance cycle.
+## Scope
+### In Scope
+- Records that this automation spec is archived and is not part of the active production script surface.
+- Provides a stable name for historical cross-references and migration review.
 
-## Inputs
-- **PostgreSQL Connection:** Requires access to the `digital_twin_michal` database.
-- **Environment Variables:** `DB_PASSWORD`, `DB_USER`, `DB_HOST`.
+### Out of Scope
+- Runtime behavior, scheduler configuration, and operational ownership for a live script.
+- New production changes or active automation guarantees.
 
-## Processing Logic
-1. **Schema Creation:** Creates the `habits` table with columns: `id`, `habit_name`, `frequency`, `last_completed`, `streak`, and `category`.
-2. **Seeding:** Injects foundational habits (e.g., "Filip: Szczotkowanie zębów") if the table is empty.
-3. **Commit:** Finalizes database transactions.
+## Inputs/Outputs
+### Inputs
+- Historical references to `setup_habits` in older documentation or migration notes.
 
-## Outputs
-- **Database Table:** `habits` table in `digital_twin_michal`.
-- **Seed Data:** Initial rows for core daily/weekly maintenance tasks.
+### Outputs
+- Archived documentation status only. No active runtime output is expected from this record.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
+- No active script dependency is currently registered for this documentation file.
+- If this automation is restored, create or identify the active script and regenerate the spec with `G12_auto_documenter.py`.
 
-### External Services
-- PostgreSQL instance (Local/Docker)
+## Procedure
+1. Search for an active implementation before using this document operationally.
+2. If no script exists, keep this file archived.
+3. If a script is restored, update `status` to `active`, add `script_hash`, and regenerate the spec.
+4. Re-run `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-### Credentials
-- Database root credentials via `.env`.
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Archived doc is mistaken for an active automation | No matching script exists in the active script directories | Locate or recreate the script before scheduling or invoking it. |
+| Historical link points here | Link resolves to an archived spec | Use the archive status to decide whether to update or remove the reference. |
+| Automation is restored | New script appears with this stem | Regenerate this spec as active documentation with a current `script_hash`. |
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| DB Connection Failure | Exception caught | Log error and exit | Log error |
-| Table Collision | Table already exists | Skips creation, proceed to seed | None |
-| Duplicate Seeds | Unique constraint violation | Catch and skip | Log warning |
+## Security Notes
+- Do not add secrets, raw tokens, passwords, or internal infrastructure addresses to archived documentation.
+- Use placeholders such as `[API_KEY]`, `{{DB_PASSWORD}}`, and `{{INTERNAL_IP}}` for any historical configuration notes.
 
-## Monitoring
-- **Success Metric:** `SELECT COUNT(*) FROM habits;` returns > 0.
-
-## Manual Fallback
-If the script fails, habits must be manually inserted via `psql` or a database GUI.
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Quarterly archive review, or immediately if a matching script is restored.

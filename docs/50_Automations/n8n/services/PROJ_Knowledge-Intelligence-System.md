@@ -41,7 +41,7 @@ The workflow follows a linear intelligence pipeline:
 8.  **Output Formatting:** `Format Response` + `Return to Router` (JS Code) packages the final answer.
 
 # Dependencies
-- **Systems:** [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md), [S12 Complete Process Documentation](../../20_Systems/S12_Complete-Process-Documentation/README.md)
+- **Systems:** [S04 Digital Twin](../../../20_Systems/README.md), [S12 Complete Process Documentation](../../../20_Systems/README.md)
 - **AI Model:** Google Gemini (via `googlePalmApi` credentials).
 - **Tools:** 
     - `VaultSearch`: n8n Workflow tool for deep vault searches.

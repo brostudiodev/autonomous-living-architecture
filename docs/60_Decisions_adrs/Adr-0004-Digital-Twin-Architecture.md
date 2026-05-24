@@ -1,50 +1,33 @@
 ---
-title: "Adr-0004: Digital Twin as Central Hub"
+title: "Adr-0004: Digital Twin as Cognitive Cortex"
 type: "decision"
 status: "accepted"
 date: "2025-08-15"
+updated: "2026-05-12"
 deciders: ["Michał"]
-consulted: []
-informed: []
 ---
 
-# Adr-0004: Digital Twin as Central Hub
+# Adr-0004: Digital Twin as Cognitive Cortex (Evolution from Hub)
 
 ## Status
-Accepted
+Accepted (v3.0 - Transitioned to Cognitive Cortex)
 
 ## Context
-The autonomous-living ecosystem has 12 different goals/systems that need to communicate and share data:
-- Financial systems (G05) need to inform budget decisions across all goals
-- Health data (G01, G07) needs to influence time and resource allocation
-- Documentation (G12) needs to feed content generation (G02)
-- Household operations (G03) need financial constraints from G05
-
-Without a central coordination system, I face:
-- Data silos between systems
-- Manual coordination overhead
-- Inconsistent state across systems
-- No unified user interface
-- Duplicate functionality across systems
-- Difficulty making cross-domain optimizations
+**Historical Note:** This ADR originally defined G04 as the "Central Hub" (Hub-and-Spoke). As of Q2 2026, the Hub-and-Spoke model has been superseded by the **Life-Nervous-System Architecture (Adr-0031)**.
 
 ## Decision
-I will implement G04 Digital Twin as the central intelligence hub and data aggregator for the entire ecosystem.
+G04 Digital Twin is no longer the mandatory "Router" for all system traffic. Instead, it has been elevated to the **Cognitive Cortex and Memory Node** of the ecosystem.
 
-### **Architecture Pattern**
-- **Hub-and-Spoke Model:** Digital Twin (G04) as central hub
-- **Data Aggregation:** All systems push data to Digital Twin
-- **Intelligence Layer:** AI processing provides cross-domain insights
-- **Multi-Channel Interface:** Single point for user interaction
-- **Event-Driven Coordination:** Digital Twin orchestrates cross-system actions
+### **New Architecture Pattern**
+- **Mesh Node:** Digital Twin acts as a high-level subscriber to the RabbitMQ event bus.
+- **Cognitive Layer:** Focuses on multi-domain reasoning, long-term memory, and semantic search.
+- **State Observer:** Maintains the holistic state of the user by aggregating events into the Digital Twin database, but does not block other agents from communicating directly.
 
-### **Core Responsibilities**
-1. **Data Aggregation:** Collect data from all goal systems every 8 hours
-2. **Context Provision:** Provide unified context to all other systems
-3. **Intelligence Processing:** AI-powered analysis of cross-domain data
-4. **Communication Interface:** Multi-channel user interaction (Telegram, webhooks)
-5. **Orchestration:** Coordinate actions across multiple systems
-6. **State Management:** Maintain consistent state across ecosystem
+### **Core Responsibilities (Updated)**
+1. **Long-Term Memory:** Persisting high-fidelity state snapshots from the event bus.
+2. **Semantic Cortex:** Providing RAG (Retrieval-Augmented Generation) context to other agents via `/query` and `/status` endpoints.
+3. **Deep Reasoning:** Handling complex queries that require historical cross-domain analysis.
+4. **Identity Management:** Serving as the source of truth for "Personal Context" (Bio, Preferences, Goals).
 
 ### **Technical Implementation**
 ```python
@@ -164,10 +147,10 @@ To enable real-time, low-latency access to the Digital Twin's state for the Inte
 - Poor user experience
 
 ## Related Decisions
-- [Adr-0003](./Adr-0003-Technology-Stack-Selection.md) - Technology Stack Selection
-- [Adr-0007](./Adr-0007-Multi-Channel-Data-Ingestion.md) - Multi-Channel Data Ingestion
-- [Adr-0010](./Adr-0010-Hub-and-Spoke-Integration.md) - Hub-and-Spoke Integration Pattern
-- [Adr-0016](./Adr-0016-Event-Driven-Architecture.md) - Event-Driven Architecture
+- [Adr-0003](Adr-0003-Technology-Stack-Selection.md) - Technology Stack Selection
+- [Adr-0007](Adr-0007-Multi-Channel-Data-Ingestion.md) - Multi-Channel Data Ingestion
+- [Adr-0010](Adr-0010-Hub-and-Spoke-Integration.md) - Hub-and-Spoke Integration Pattern
+- [Adr-0016](Adr-0016-Event-Driven-Architecture.md) - Event-Driven Architecture
 
 ## Metrics
 

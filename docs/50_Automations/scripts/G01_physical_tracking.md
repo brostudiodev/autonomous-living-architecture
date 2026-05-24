@@ -1,63 +1,53 @@
 ---
-title: "G01: Streamlined Physical Tracking"
+title: "Archived Automation Spec: G01_physical_tracking"
 type: "automation_spec"
-status: "active"
-automation_id: "g01-physical-tracking"
-goal_id: "goal-g01"
-systems: ["S03", "S04"]
+status: "archived"
 owner: "Michał"
-updated: "2026-03-02"
-review_cadence: "Monthly"
+updated: "2026-05-23"
 ---
 
-# G01 Physical Tracking
+# Archived Automation Spec: G01_physical_tracking
 
 ## Purpose
-Standardizes the tracking of physical markers for the "Reach Target Body Fat" goal. Following a simplification pivot, the system now focuses exclusively on Body Weight, Waist Circumference, and Monthly Photos, removing complex bodybuilding-specific measurements to reduce friction and increase compliance.
+Preserves the historical documentation record for `G01_physical_tracking` after no matching active Python script was found in `scripts/` or `modules/<domain>/scripts/`.
 
 ## Scope
 ### In Scope
-- Manual/Scale logging of body weight (kg).
-- Manual logging of waist circumference (cm) every 15 days.
-- Monthly progress photo status tracking.
-- Visualization of waist/weight trends in the Digital Twin.
+- Records that this automation spec is archived and is not part of the active production script surface.
+- Provides a stable name for historical cross-references and migration review.
 
 ### Out of Scope
-- Chest, Arms, Legs, and other bodybuilding metrics.
-- Direct image storage in PostgreSQL (Obsidian handles photos).
+- Runtime behavior, scheduler configuration, and operational ownership for a live script.
+- New production changes or active automation guarantees.
 
-## Triggers
-- **Manual Input:** Data entered into the `physical_measurements` table via SQL or helper scripts.
-- **Reporting:** Daily via `G04_digital_twin_engine.py`.
+## Inputs/Outputs
+### Inputs
+- Historical references to `G01_physical_tracking` in older documentation or migration notes.
 
-## Inputs
-- **PostgreSQL (`autonomous_health`):**
-    - `biometrics`: Source for body weight.
-    - `physical_measurements`: Source for waist and photo status.
-
-## Processing Logic
-1.  **State Fetch:** The Digital Twin Engine queries the latest row from `physical_measurements`.
-2.  **Trend Analysis:** Compares current weight/waist against the monthly baseline.
-3.  **Insight Generation:** If the waist trend is stable but weight is up, it may suggest a calorie/water retention check. If the waist is down, it confirms fat loss regardless of weight.
-
-## Outputs
-- **Twin Insights:** Confirmation of "Physical Markers" in the daily intelligence report.
-- **Obsidian Dashboard:** Dataview or Twin-API driven charts showing waist progress.
+### Outputs
+- Archived documentation status only. No active runtime output is expected from this record.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md) - PostgreSQL persistence.
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md) - Analysis and reporting.
+- No active script dependency is currently registered for this documentation file.
+- If this automation is restored, create or identify the active script and regenerate the spec with `G12_auto_documenter.py`.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Missing Entry | Query returns 0 rows | Prompt for measurement in `/suggested` | Telegram |
-| Outlier Data | Logic check (e.g. Waist < 50cm) | Log warning and use previous valid entry | Console |
+## Procedure
+1. Search for an active implementation before using this document operationally.
+2. If no script exists, keep this file archived.
+3. If a script is restored, update `status` to `active`, add `script_hash`, and regenerate the spec.
+4. Re-run `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Archived doc is mistaken for an active automation | No matching script exists in the active script directories | Locate or recreate the script before scheduling or invoking it. |
+| Historical link points here | Link resolves to an archived spec | Use the archive status to decide whether to update or remove the reference. |
+| Automation is restored | New script appears with this stem | Regenerate this spec as active documentation with a current `script_hash`. |
 
 ## Security Notes
-- **Privacy:** Physical dimensions are strictly local and private. No cloud sync for raw measurement data.
+- Do not add secrets, raw tokens, passwords, or internal infrastructure addresses to archived documentation.
+- Use placeholders such as `[API_KEY]`, `{{DB_PASSWORD}}`, and `{{INTERNAL_IP}}` for any historical configuration notes.
 
-## Related Documentation
-- [Goal: G01 Reach Target Body Fat](../../10_Goals/G01_Target-Body-Fat/README.md)
-- [Goal: G07 Predictive Health](../../10_Goals/G07_Predictive-Health-Management/README.md)
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Quarterly archive review, or immediately if a matching script is restored.

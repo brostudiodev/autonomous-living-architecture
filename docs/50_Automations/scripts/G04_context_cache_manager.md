@@ -1,47 +1,91 @@
 ---
-title: "G04: Context Cache Manager"
+title: "Automation Spec: G04_context_cache_manager.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G04_context_cache_manager"
-goal_id: "goal-g04"
-systems: ["S04"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "33{{LONG_IDENTIFIER}}"
 ---
 
-# G04: Context Cache Manager
+# 🤖 Automation Spec: G04_context_cache_manager.py
 
 ## Purpose
-The **Context Cache Manager** (`G04_context_cache_manager.py`) is a high-performance utility designed to solve timeout issues in the Digital Twin Uber-Context endpoint (`/all`). It pre-calculates the entire system state (aggregating from 7+ databases) and stores it as a ready-to-serve JSON blob.
+G04_context_cache_manager.py.
 
-## Triggers
-- **Scheduled:** Runs every 10 minutes (`*/10 * * * *`) via crontab.
-- **On-Demand:** Can be triggered manually to force a cache refresh.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G04_context_cache_manager.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G04 Digital Twin Ecosystem` within the `meta` automation domain.
 
-## Inputs
-- **Databases:** `autonomous_finance`, `autonomous_health`, `autonomous_training`, `digital_twin_michal`.
-- **API Internal Calls:** `engine.get_full_context()`, `format_dashboard()`, `generate_report()`.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Data Aggregation:** Executes all "heavy" data gathering logic (readiness, finance alerts, health trends, reliability logs).
-2. **Snapshot Construction:** Builds a unified `uber_context` JSON object.
-3. **Formatted Report:** Pre-renders the Markdown version of the dashboard.
-4. **PostgreSQL Persistence:** Performs an `UPSERT` on the `digital_twin_updates` table with `entity_type='uber_context'`.
-5. **Redis Persistence (v7.1 Migration):** Pushes the aggregated `uber_context` JSON directly to Redis under the key `twin:context:all` with a 1-hour TTL.
-6. **Logging:** Records success/failure in `system_activity_log`.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G04_context_cache_manager.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Redis (Fast):** Shared state in `twin:context:all`.
-- **PostgreSQL (Persistent):** Updated `state_data` in `digital_twin_updates`.
-- **System Log:** `SUCCESS` entry in `system_activity_log`.
-
-## Performance Impact
-- **Before Caching:** `/all` response time ~5-15 seconds (frequent timeouts in n8n).
-- **After Caching:** `/all` response time < 50 milliseconds.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-- **Engine:** `G04_digital_twin_engine.py`.
-- **Dashboards:** `G11_unified_health_dashboard.py`, `G11_system_reliability_auditor.py`.
+### Runtime
+- Python script: `modules/meta/scripts/G04_context_cache_manager.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `G11_system_reliability_auditor`
+- `G11_unified_health_dashboard`
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `modules.meta.scripts.G04_digital_twin_engine`
+- `os`
+- `psycopg2`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/meta/scripts/G04_context_cache_manager.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G04_context_cache_manager.py`.
+
+## Implementation Notes
+- Top-level functions: refresh_uber_context_cache
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, G11_unified_health_dashboard, json, sys, modules.meta.scripts.G04_digital_twin_engine, G11_system_reliability_auditor`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*Updated: 2026-04-23 | Initial implementation of high-frequency system state caching.*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

@@ -1,67 +1,93 @@
 ---
-title: "G10_tomorrow_planner: Mission Briefing Generator"
+title: "Automation Spec: G10_tomorrow_planner.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G10_tomorrow_planner"
-goal_id: "goal-g10"
-systems: ["S04", "S10"]
-owner: "Michał"
-updated: "2026-03-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "4afa4f2e3dd2a7a9{{LONG_IDENTIFIER}}"
 ---
 
-# G10_tomorrow_planner: Mission Briefing Generator
+# 🤖 Automation Spec: G10_tomorrow_planner.py
 
 ## Purpose
-Generates a comprehensive "Mission Briefing" for the upcoming day, summarizing accomplishments from today, identifying strategic priorities, and alerting on critical upcoming events (like courses or health recovery needs).
+G10_tomorrow_planner.py.
 
-## Triggers
-- **Scheduled:** Part of the `G11_global_sync.py` evening cycle.
-- **Manual:** `python scripts/G10_tomorrow_planner.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/productivity/scripts/G10_tomorrow_planner.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G10 Intelligent Productivity Time Architecture` within the `productivity` automation domain.
 
-## Inputs
-- **Completed Goals:** `docs/10_Goals/**/Activity-log.md` (Matches today's date).
-- **Calendar:** Google Calendar API (Tomorrow's events).
-- **Digital Twin State:** `DigitalTwinEngine` (Health readiness, Finance alerts, Pantry stock).
-- **Roadmap:** `DigitalTwinEngine.get_roadmap_mins()` (Q2 milestones).
-- **Courses (NEW Mar 28):** `autonomous_learning.courses` (Courses starting within 3 days).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Accomplishment Tracking:** Scans goal activity logs for "Action" entries from today.
-2. **Calendar Fetching:** Retrieves all timed and all-day events for tomorrow.
-3. **Strategic Intelligence:** 
-    - Evaluates health (workout gap, sleep score).
-    - Checks finance (budget alert count).
-    - Monitors pantry (critical stock count).
-    - **NEW (Mar 28):** Alerts on upcoming course starts (e.g., AI Architect Class).
-4. **Roadmap Prioritization:** Fetches the top 5 relevant roadmap missions.
-5. **Formatting:** Generates a structured Markdown briefing for the daily note and a Telegram-optimized summary.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G10_tomorrow_planner.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Markdown:** Injected into the Daily Note via `autonomous_daily_manager.py`.
-- **Telegram:** Sends "Mission Briefing" summary to the user.
-- **ROI:** Logs 10 minutes of saved cognitive load per execution.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
-- [S10 Daily Goals Automation](../../20_Systems/S10_Daily-Goals-Automation/README.md)
+### Runtime
+- Python script: `modules/productivity/scripts/G10_tomorrow_planner.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### External Services
-- Google Calendar API
+### Imports
+- `G04_digital_twin_notifier`
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.log`
+- `datetime`
+- `html`
+- `json`
+- `os`
+- `pathlib`
+- `psycopg2`
+- `re`
+- `sys`
 
-## Error Handling
+## Procedure
+1. Review the script source at `modules/productivity/scripts/G10_tomorrow_planner.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| Calendar API Error | Exception caught | Skip calendar section, log error |
-| DB Connection Fail | Exception caught | Use partial context (cached or skip) |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## Monitoring
-- **Success metric:** Briefing generated and delivered by 21:00 nightly.
-- **ROI:** Tracked via `G04_roi_tracker`.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-## Changelog
-| Date | Change |
-|------|--------|
-| 2026-03-05 | Initial mission briefing script |
-| 2026-03-23 | Added strategic intelligence from G04 state |
-| 2026-03-28 | Integrated course readiness logic and roadmap missions |
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G10_tomorrow_planner.py`.
+
+## Implementation Notes
+- Top-level functions: get_today_completions, get_tomorrow_events, get_strategic_intelligence, get_roadmap_tactics, get_preparation_checklist, get_first_90_minutes_priority, generate_tomorrow_plan, format_as_text
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `re, psycopg2, pathlib, datetime, os, G04_digital_twin_notifier, autonomous_sdk.db_config, json, html, sys, autonomous_sdk.log`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

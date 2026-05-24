@@ -42,8 +42,8 @@ The **Relationship Intelligence System** is an AI agent designed to help Michał
 
 ## Dependencies
 ### Systems
-- [Automated Career Intelligence (G09)](../../../10_Goals/G09_Automated-Career-Intelligence/README.md)
-- [Data Layer (S03)](../../../20_Systems/S03_Data-Layer/README.md) - PostgreSQL storage (`autonomous_life_logistics`).
+- [Automated Career Intelligence (G09)](../../../20_Systems/README.md)
+- [Data Layer (S03)](../../../20_Systems/README.md) - PostgreSQL storage (`autonomous_life_logistics`).
 
 ### External Services
 - **PostgreSQL Database:** Stores contact details, categories, and maintenance schedules.

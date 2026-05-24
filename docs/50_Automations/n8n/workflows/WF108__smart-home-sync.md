@@ -82,5 +82,5 @@ ORDER BY last_changed DESC;
 3. Set up alerts for offline devices
 
 ## Files
-- [MariaDB connection docs](../S07_Smart-Home/MariaDB.md)
+- [MariaDB connection docs](../../../20_Systems/S07_Smart-Home/MariaDB.md)
 - [Device inventory](../../../10_Goals/G08_Predictive-Smart-Home-Orchestration/DEVICE_INVENTORY.md)

@@ -48,8 +48,8 @@ This workflow automates the ingestion of financial transaction data from a desig
 
 ## Dependencies
 ### Systems
--   [S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md) (PostgreSQL `autonomous_finance` database)
--   [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md) (n8n instance)
+-   [S03 Data Layer](../../../20_Systems/README.md) (PostgreSQL `autonomous_finance` database)
+-   [S08 Automation Orchestrator](../../../20_Systems/README.md) (n8n instance)
 
 ### External Services
 -   Google Sheets API (for reading transaction data)

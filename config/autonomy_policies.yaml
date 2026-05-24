@@ -1,0 +1,197 @@
+domains:
+  behavioral:
+    anomaly_alert:
+      action: push_telegram_alert
+      authority_level: full
+      conditions:
+        missed_days_threshold: true
+        severity: high
+      description: Alert for significant behavioral or system anomalies.
+      enabled: true
+    autonomy_drift_alert:
+      action: notify_tuning_needed
+      authority_level: full
+      conditions:
+        override_days: 7
+        override_rate_above: 5
+      description: Monitoring for autonomy drift (too many manual overrides).
+      enabled: true
+    hardware_stress_alert:
+      action: push_telegram_alert
+      authority_level: full
+      conditions:
+        ram_usage_above: 95
+        swap_usage_above: 80
+      description: Alert for critical hardware resource stress (RAM/Swap).
+      enabled: true
+  career:
+    content_scheduling:
+      action: schedule_substack_post
+      authority_level: limited
+      description: Automated scheduling of content posts to Substack.
+      enabled: true
+    skill_gap_alert:
+      action: generate_learning_plan
+      authority_level: full
+      conditions:
+        market_demand_change: -15
+        your_skill_level: declining
+      description: Identify gaps between market demand and current skills.
+      enabled: true
+  experiment:
+    auto_evaluate:
+      action: evaluate_and_recommend
+      authority_level: limited
+      conditions:
+        duration_complete: true
+        min_samples: 5
+      description: Analyze completed experiments and recommend next steps.
+      enabled: true
+    auto_start:
+      action: start_next_experiment
+      authority_level: limited
+      conditions:
+        cooldown_days: 7
+        previous_complete: true
+      description: Automatically start the next scheduled experiment.
+      enabled: false
+  financial:
+    auto_account_rebalance:
+      action: execute_account_transfer
+      authority_level: full
+      conditions:
+        max_amount_pln: 5000
+        min_source_balance_pln: 2000
+      description: Movement of funds between accounts for liquidity management.
+      enabled: true
+    auto_budget_rebalance:
+      action: execute_rebalance
+      authority_level: full
+      conditions:
+        max_rebalance_amount_pln: 2000
+        savings_rate_above: 0.1
+        surplus_priority_below: 4
+      description: Reallocating budget from surplus to deficit categories.
+      enabled: true
+    auto_categorize:
+      action: approve_transaction
+      authority_level: full
+      conditions:
+        max_amount_pln: 2000
+        min_confidence: 0.8
+        trusted_merchants_only: true
+      description: AI-powered transaction categorization based on history.
+      enabled: true
+      limits:
+        monthly_total_pln: 10000
+    auto_investment:
+      action: suggest_etf_allocation
+      authority_level: limited
+      conditions:
+        cash_reserve_months: 6
+        savings_rate_above: 0.6
+      description: Automated ETF allocation suggestions based on cash reserves.
+      enabled: false
+  health:
+    auto_environment:
+      action: notify_only
+      authority_level: none
+      description: Optimization suggestions for sleep and work environment.
+      enabled: false
+    auto_weight_increase:
+      action: log_progression
+      authority_level: full
+      conditions:
+        form_rating_above: 4
+        max_weight_increase_kg: 5
+        min_tut_seconds: 90
+      description: Progressive overload weight increase based on TUT and form.
+      enabled: true
+    auto_workout_adjustment:
+      action: downgrade_to_recovery
+      authority_level: full
+      conditions:
+        hrv_suppression_pct: 10
+        is_safe_downgrade: true
+        readiness_below: 70
+      description: Adjustment of training intensity based on readiness/HRV.
+      enabled: true
+    burnout_detection:
+      action: force_rest_day
+      authority_level: full
+      conditions:
+        declining_productivity: true
+        low_hrv_days: 3
+        poor_sleep_days: 2
+      description: Early warning for physical or mental burnout signs.
+      enabled: true
+  household:
+    auto_order_trusted:
+      action: auto_order
+      authority_level: full
+      conditions:
+        price_below: 75
+        stock_below_threshold: true
+        trusted_item: true
+      description: One-click ordering for verified, essential household items.
+      enabled: true
+      limits:
+        monthly_total_pln: 500
+    auto_procurement:
+      action: add_to_shopping_list
+      authority_level: full
+      conditions:
+        critical_stock_only: false
+        price_variance_max: 2.0
+      description: Intelligence-led pantry restocking and shopping cart updates.
+      enabled: true
+      limits:
+        weekly_items: 50
+  meta:
+    roadmap_task_enforcement:
+      action: inject_roadmap_task
+      authority_level: full
+      description: Active injection of roadmap tasks into daily execution zone.
+      enabled: true
+  productivity:
+    auto_schedule_optimization:
+      action: update_daily_note
+      authority_level: full
+      description: Dynamic schedule adjustment based on daily performance.
+      enabled: true
+    focus_block_adjustment:
+      action: switch_to_recovery_schedule
+      authority_level: full
+      conditions:
+        auto_act_threshold: 60
+        is_weekday: true
+        readiness_below: 65
+      description: Shielding deep work blocks when readiness is high.
+      enabled: true
+    stale_task_deletion:
+      action: delete_task
+      authority_level: full
+      conditions:
+        overdue_days_above: 30
+      description: Autonomous cleanup of tasks older than 30 days.
+      enabled: true
+  social:
+    birthday_check:
+      action: reminder_and_suggest_gift
+      authority_level: full
+      conditions:
+        birthday_within_days: 7
+      description: Relationship maintenance for upcoming birthdays.
+      enabled: true
+    relationship_reminder:
+      action: add_to_tasks
+      authority_level: full
+      conditions:
+        days_since_contact: 30
+      description: Proactive social check-ins to maintain connection health.
+      enabled: true
+global_settings:
+  autonomy_enabled: true
+  human_in_the_loop_fallback: true
+  log_decisions_to_db: true
+  safety_mode: false

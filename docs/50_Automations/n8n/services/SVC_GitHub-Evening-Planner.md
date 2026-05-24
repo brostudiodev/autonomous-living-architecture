@@ -33,8 +33,8 @@ Reads GitHub repository structure and generates evening planning context from co
 
 ## Dependencies
 ### Systems
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md)
-- [S12 Documentation System](../../../20_Systems/S12_Documentation-Glossary/README.md)
+- [S08 Automation Orchestrator](../../../20_Systems/README.md)
+- [S12 Documentation System](../../../20_Systems/README.md)
 
 ### External Services
 - GitHub API.

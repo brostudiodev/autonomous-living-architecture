@@ -1,60 +1,86 @@
 ---
-title: "Life Expiry Sentinel (G04)"
+title: "Automation Spec: G04_life_sentinel.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-19"
+created: "2026-05-24"
+updated: "2026-05-24"
+script_hash: "4209da0595e0db64{{LONG_IDENTIFIER}}"
 ---
 
-# Purpose
-The **Life Expiry Sentinel** (`G04_life_sentinel.py`) is a proactive monitoring agent for critical life documents, asset maintenance, and appliance health. It eliminates the mental load of tracking expiry dates and maintenance schedules by autonomously alerting the user based on tiered urgency thresholds and a 90-day lookahead.
+# 🤖 Automation Spec: G04_life_sentinel.py
 
-# Scope
-- **In Scope:** Identity documents (Passport, ID), Asset maintenance (Car, Home), Health checkups, Subscriptions, Warranties, **Yearly Anniversaries (Birthdays, Wedding, etc.)**, **Appliance Maintenance (Cycles or Time-based)**.
-- **Out Scope:** Daily tasks or calendar events without a specific `alert_threshold_days` or `maintenance_period_days`.
+## Purpose
+G04_life_sentinel.py.
 
-# Alert Threshold Logic
-The sentinel uses a tiered escalation model based on days remaining until `due_date`, next anniversary occurrence, or maintenance due date:
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G04_life_sentinel.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G04 Digital Twin Ecosystem` within the `meta` automation domain.
 
-| Tier | Window | Marker | Mission Weight |
-|------|--------|--------|----------------|
-| **EMERGENCY** | < 7 days or OVERDUE | 🚨 | 31 (Critical) |
-| **CELEBRATION** | Within threshold (Anniv) | 🎁 | 21 (High) |
-| **URGENT** | 8 - 30 days | ⚠️ | 21 (High) |
-| **WARNING** | 31 - 90 days | ℹ️ | 11 (Standard) |
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-- **Anniversary Logic (NEW Apr 14):** Automatically calculates the next occurrence of a yearly event based on the `original_date` in the `anniversaries` table.
-- **Appliance Maintenance Logic (NEW Apr 19):**
-    - **Cycle-based:** Triggers `🚨 EMERGENCY` when `cycles_since_maintenance` exceeds `maintenance_threshold`.
-    - **Time-based:** Triggers `⚠️ URGENT` 7 days before and `🚨 EMERGENCY` on the day of maintenance (based on `last_maintenance_date + maintenance_period_days`).
-- **Filtering:** Items are only reported if `CURRENT_DATE + 90 days >= due_date`.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G04_life_sentinel.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-# Inputs/Outputs
-- **Inputs:** `autonomous_life_logistics` and `anniversaries` (DB_LOGISTICS), `appliance_status` (DB_TWIN).
-- **Outputs:** High-priority mission items for the `G11_mission_aggregator`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
-# Dependencies
-- **Systems:** S04 (Digital Twin), S11 (Meta-System), G04 (Logistics), G03 (Household Ops)
-- **Database:** `autonomous_life_logistics`, `digital_twin_michal`
+## Dependencies
+### Runtime
+- Python script: `modules/meta/scripts/G04_life_sentinel.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-# Procedure
-- Automatically executed as part of the daily sync via `autonomous_daily_manager.py`.
-- Results are ranked with a base Weight of 11, boosted to 21 (Urgent) or 31 (Emergency).
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `os`
+- `psycopg2`
+- `sys`
 
-# Failure Modes
+## Procedure
+1. Review the script source at `modules/meta/scripts/G04_life_sentinel.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| DB Connection Fail | Script logs error | Sentinel skips check; Mission Aggregator continues with other sources. |
-| Missing Threshold | NULL value in DB | No alert sent (Expected behavior). |
-| Overdue Item | `days_left < 0` | Marked as `🚨 EMERGENCY` and `OVERDUE` in the mission list. |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-# Security Notes
-- Accesses logistical metadata only.
-- Database credentials stored in `.env`.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-# Owner + Review Cadence
-- **Owner:** Michał
-- **Review:** Monthly (verify sync integrity between Google Sheets and DB)
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G04_life_sentinel.py`.
+
+## Implementation Notes
+- Top-level functions: get_upcoming_alerts, generate_report
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `os, autonomous_sdk.db_config, sys, datetime, psycopg2`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*Updated: 2026-04-14 | Integrated yearly anniversary tracking logic.*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

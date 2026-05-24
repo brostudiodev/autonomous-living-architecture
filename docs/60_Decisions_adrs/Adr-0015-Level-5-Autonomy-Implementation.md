@@ -35,8 +35,8 @@ We will implement a "Zero-Click" autonomous loop by:
 - **Full Autonomy for all domains:** Rejected for safety reasons (Health and large Financial transfers still require human oversight).
 
 ## Related Decisions
-- [Adr-0010](./Adr-0010-Hub-and-Spoke-Integration.md) - Infrastructure for cross-domain communication.
-- [Adr-0014](./Adr-00{{LONG_IDENTIFIER}}.md) - Monitoring the impact of these autonomous actions.
+- [Adr-0010](Adr-0010-Hub-and-Spoke-Integration.md) - Infrastructure for cross-domain communication.
+- [Adr-0014](Adr-00{{LONG_IDENTIFIER}}.md) - Monitoring the impact of these autonomous actions.
 
 ## Metrics
 - **Time Saved:** Measured via `autonomy_roi` table.

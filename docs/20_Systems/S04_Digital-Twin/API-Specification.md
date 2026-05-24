@@ -4,9 +4,9 @@ type: "system_spec"
 status: "active"
 system_id: "S04"
 goal_id: "goal-g04"
-version: "6.0"
+version: "7.3"
 owner: "Michał"
-updated: "2026-04-17"
+updated: "2026-05-10"
 ---
 
 # S04: Digital Twin API Master Registry
@@ -14,36 +14,33 @@ updated: "2026-04-17"
 ## 🎯 Purpose
 The Digital Twin API is the central nervous system of the autonomous ecosystem. It translates raw database states and script execution results into actionable intelligence for n8n, Telegram, and the Web UI.
 
-## ⚠️ Mandatory Response Standard
-Every endpoint **MUST** return a JSON object with these keys to maintain n8n compatibility:
-- `report`: Primary human-readable Markdown/Text.
-- `response_text`: Duplicate of `report` (for Telegram).
-- `content`: Duplicate of `report` (for legacy parsers).
-- `data`: (Optional) Structured JSON data for programmatic use.
+## ⚡ Event-Driven Architecture (NEW v7.1)
+The system now supports real-time, event-driven updates via RabbitMQ and WebSockets, drastically reducing latency and enabling instant reactions to life events.
+
+| Endpoint | Method | Description | Primary Logic / Source |
+|---|---|---|---|
+| `/ws` | WS | **Event Stream.** Real-time WebSocket bridge for system events. | `manager.broadcast()` |
+| `/emit` | POST | **Event Trigger.** Manually inject an event into the life.events bus. | `G11_event_emitter.py` |
+| `/state/update`| POST | **Telemetry.** External agents push snapshots to the Twin. | `engine.update_entity_state()` |
 
 ---
 
-## 🏥 Health & Observability (NEW v6.0)
+## 🏥 Health & Observability
 
-Endpoints designed for Docker healthchecks and monitoring.
+Endpoints designed for Docker healthchecks, monitoring, and system integrity audits.
 
 | Endpoint | Method | Description | Primary Logic / Source |
 |---|---|---|---|
 | `/health/live` | GET | **Liveness.** Confirms the FastAPI process is running. | Static response |
-| `/health/ready`| GET | **Readiness.** Probes all 8 domain DBs and engine status. | `G04_startup_probe.py` |
+| `/health/ready`| ANY | **Readiness.** Probes all 8 domain DBs and engine status. | `G04_startup_probe.py` |
+| `/health/domain/{name}` | GET | **Domain Health.** Check connectivity for a specific database. | `engine.check_db(name)` |
+| `/system_health`| ANY | **Ops Monitor.** 24h script success report and reliability score. | `engine.get_system_reliability()` |
+| `/system/activity`| GET | **Activity Log.** Detailed stream of recent script executions. | `system_activity_log` table |
+| `/system/gaps` | GET | **Integrity Audit.** Scans for missing docs or failing syncs. | `engine.detect_system_gaps()` |
+| `/tools/health`| GET | **Manifest Audit.** Verifies existence and syntax of all tools. | `registry.get_tools()` |
 | `/cache/status` | GET | **Cache Audit.** Check age and status of the Uber-Context cache. | `digital_twin_updates` table |
 | `/cache/refresh`| ANY | **Cache Control.** Force refresh of the Uber-Context (/all). | `G04_context_cache_manager.py` |
-| `/tools/health`| GET | **Manifest Audit.** Verifies existence and syntax of 61+ tools. | `registry.get_tools()` + `py_compile` |
-
----
-
-## 🛠️ Restoration & Recovery Guide
-If the API fails (e.g., 404s or 500s) or reports a **CRITICAL** state:
-1.  **Check Detailed Troubleshooting:** [Failure Modes & Troubleshooting](./Failure-Modes-and-Troubleshooting.md)
-2.  **Check Process:** `ps aux | grep G04_digital_twin_api.py`.
-3.  **Check Container:** `docker logs digital-twin-api`.
-4.  **Verify Script Path:** Ensure all imported scripts (G01–G12) exist in `scripts/`.
-5.  **Restart Logic:** After any change, run `docker restart digital-twin-api`.
+| `/audit` | ANY | **Governance.** Documentation integrity and compliance check. | `G12_documentation_audit.py` |
 
 ---
 
@@ -51,107 +48,89 @@ If the API fails (e.g., 404s or 500s) or reports a **CRITICAL** state:
 
 | Endpoint | Method | Description | Primary Logic / Source |
 |---|---|---|---|
-| `/reflection` | GET | **Inquiry.** Fetch today's personalized reflection questions for n8n. | `G10_reflection_generator.py` |
-| `/reflection` | POST | **Injection.** Submit reflection answers from n8n to Obsidian. | `G10_evening_summarizer.py` |
-| `/finance/alerts`| GET | **Alert Monitor.** Clean list of budget breaches for n8n. | `engine.get_finance_alerts()` |
-| `/health/readiness`| GET | **Bio-Audit.** Granular breakdown of biological/operational/financial readiness. | `engine.get_readiness_detail()` |
-| `/system/activity`| GET | **Reliability.** 24h success rate and recent failure details. | `engine.get_system_reliability()` |
-| `/all` | GET/POST | **Uber-Context.** Full state for LLM reasoning. | `engine.get_full_context()` |
-| `/status` | GET/POST | **The Glance.** Summary of Health, Finance, Focus. | `engine.generate_summary()` |
-| `/suggested` | GET/POST | **Director's Report.** Connectivity, Insights, Schedule. | `engine.generate_suggested_report()` |
-| `/tomorrow` | GET/POST | **Planning.** Tomorrow's mission briefing & events. | `G10_tomorrow_planner.py` |
-| `/today` | GET/POST | **Live Dashboard.** Current Obsidian Daily Note. | `G10_today_status.py` |
-| `/os` | GET/POST | **Personal Meta-Optimization.** Freshness & Warnings. | `engine.get_system_freshness()` |
-| `/roi` | GET/POST | **Value Analysis.** Total time saved today. | `engine.get_roi_summary()` |
-| `/vision` | GET/POST | **North Star.** Power Goals & Mission progress. | `G11_vision_monitor.py` |
-| `/todos` | GET/POST | **Agenda.** Consolidated Google Tasks. | `G10_google_tasks_sync.py` |
-| `/tasks` | GET/POST | **Recommendations.** Biometric-aware next steps. | `engine.get_task_recommendations()` |
-| `/search` | GET/POST | **Vault Query.** Keyword search in Obsidian. | `engine.search_vault(query)` |
-| `/memory` | GET/POST | **Strategic Archive.** Last 20 advice items and decisions. | `engine.get_memory_status()` |
-| `/strategic_audit` | GET/POST | **Truth-First Audit.** Intent vs. Reality analysis. | `G11_strategic_auditor.py` |
-| `/simulate` | GET/POST | **Projection.** Q4 goal completion likelihood. | Static heuristic (Engine) |
-| `/chat` | POST | **Terminal.** Handles NL and Slash commands (e.g., `/approve [ID]`, `/approve all`, `/deny [ID]`). | `AgentZero.ask()` |
+| `/chat` | POST | **Terminal.** Handles NL and Slash commands. | `AgentZero.ask()` |
+| `/ask` | POST | **Agent Bridge.** Alias for /chat used by n8n tools. | `AgentZero.ask()` |
+| `/search` | ANY | **Hybrid Search.** Keyword (Grep) + Semantic (Qdrant) retrieval. | `engine.search_docs()` |
+| `/all` | ANY | **Uber-Context.** Full state for LLM reasoning. | `engine.get_full_context()` |
+| `/status` | ANY | **The Glance.** Current Health, Finance, and Focus summary. | `engine.generate_summary()` |
+| `/readiness` | ANY | **Unified Readiness.** Biological + Operational + Financial score. | `engine.get_readiness_score()` |
+| `/suggested` | ANY | **Director's Report.** Insights, suggested schedule, missions. | `engine.generate_suggested_report()` |
+| `/strategic_audit` | GET | **Truth-First Audit.** Alignment between intent and reality. | `G11_strategic_auditor.py` |
+| `/vision` | ANY | **North Star.** Power Goals and Roadmap mission progress. | `G11_vision_monitor.py` |
+| `/simulate` | ANY | **Projection.** Predictive Q4 goal completion likelihood. | `G04_life_simulator.py` |
+| `/memory` | ANY | **Strategic Archive.** Last 20 advice items and decisions. | `engine.get_memory_status()` |
+| `/memory/operation`| POST | **Operational Memory.** Store lessons learned/patterns. | `engine.record_operational_memory()` |
+| `/reflection` | GET | **Stoic Coach.** Fetch today's personalized questions. | `G10_reflection_generator.py` |
+| `/reflection/submit`| POST | **Injection.** Process and store reflection answers. | `G10_evening_summarizer.py` |
 
 ---
 
-## 🛠️ Agentic Tool Framework (NEW v1.0)
-
-The Tool Framework allows agents to discover and execute G-series scripts autonomously without manual n8n workflow creation.
+## 💸 Finance & Wealth Intelligence
 
 | Endpoint | Method | Description | Primary Logic / Source |
 |---|---|---|---|
-| `/tools` | GET | **Discovery.** List all registered tools with descriptions. | `registry.get_tools()` |
-| `/tool/list` | GET | **Alias.** Definitive list for AI tool discovery. | `registry.get_tools()` |
-| `/tool/help` | GET | **Documentation.** Human/AI guide for the framework. | `generate_tool_help_text()` |
-| `/execute_tool`| POST | **Action.** Execute a script by its ID. Body: `{"tool_id": "...", "params": {"key": "value"}}`. | `registry.execute_tool()` |
-| `/chat` (Slash) | POST | **Shortcut.** Execute via `/tool/execute [ID]` or list via `/tools`. | `AgentZero.ask()` |
+| `/finance` | ANY | **Wealth Status.** Active budget alerts and breach count. | `engine.get_finance_status()` |
+| `/finance/details`| ANY | **Deep Dive.** Monthly P&L with **Person-Specific** filtering. | `engine.get_finance_details()` |
+| `/finance/alerts` | GET | **Alert Monitor.** Clean list of active breaches for n8n. | `engine.get_finance_alerts()` |
+| `/finance/forecast`| GET | **Cashflow.** Runway and burn-rate projections. | `engine.generate_finance_forecast()` |
+| `/forecast` | ANY | **Predictive Metrics.** Body Fat / Weight / Finance projections. | `G04_trend_forecaster.py` |
 
 ---
 
-## ⚖️ Decision Engine (The Approval Loop)
-
-
-The Decision Engine allows the system to propose high-confidence actions that require human consent before execution.
+## 🧬 Health & Biological Context
 
 | Endpoint | Method | Description | Primary Logic / Source |
 |---|---|---|---|
-| `/decisions/pending` | GET | **Inbox.** Fetch all `PENDING` decision requests. | `digital_twin_michal.decision_requests` |
-| `/decisions/resolve` | POST | **Action.** Approve or Deny a specific request ID. | `G11_decision_handler.py` |
-| `/chat` (Slash) | POST | **Shortcut.** Use `/approve [ID]`, `/approve all`, or `/deny [ID]` for quick triage. | `AgentZero` -> `G11_decision_handler.py` |
-
-### **Approval Workflow:**
-1.  **Generation:** `G11_decision_proposer.py` (via Global Sync) inserts `PENDING` requests.
-2.  **Notification:** `G11_approval_prompter.py` sends a Telegram message with Inline Buttons.
-3.  **Action:** User clicks "Approve" (Telegram) or types `/approve [ID]` (Chat/Terminal).
-4.  **Execution:** `G11_decision_handler.py` performs the actual domain change (e.g., rebalancing budgets).
-
+| `/health` | ANY | **Bio-Vitals.** Sleep, HRV, Steps, and Readiness summary. | `engine.get_health_status()` |
+| `/health/history`| ANY | **Historical Vitals.** Full biometric state for a specific date. | `engine.get_historical_health()` |
+| `/health/trend` | ANY | **Trend Analysis.** Multi-period sleep and biometric patterns. | `engine.get_sleep_trend()` |
+| `/hydration` | ANY | **Liquid Log.** Today's Water vs. Caffeine balance. | `AgentZero.get_water_total()` |
+| `/personal` | ANY | **Identity.** CV, Health Baselines, and Personal Identity context. | `engine.get_personal_status()` |
+| `/workout` | ANY | **Physical.** Recent HIT sessions and exercise highlights. | `engine.get_workout_detail()` |
+| `/workout/stats` | ANY | **Progression.** Aggregate training metrics (1-10 year view). | `engine.get_workout_stats()` |
+| `/best_day` | ANY | **Peak Optimization.** Peak day performance correlation analysis. | `engine.get_best_day_insight()` |
 
 ---
+
+## 🛒 Logistics & Smart Home
 
 | Endpoint | Method | Description | Primary Logic / Source |
 |---|---|---|---|
-| `/health` | GET/POST | **Biological Vitals.** Readiness, Sleep, HRV, Trends. | `engine.get_health_status()` |
-| `/hydration` | GET/POST | **Liquid Log.** Today's Water/Caffeine totals. | `AgentZero.get_water_total()` |
-| `/finance` | GET/POST | **Wealth Status.** Budget alerts and breaches. | `engine.get_finance_status()` |
-| `/forecast` | GET/POST | **Cashflow.** 30-day outflow projection. | Finance DB View |
-| `/pantry` | GET/POST | **Logistics.** Low stock and expiring items. | `engine.get_pantry_status()` |
-| `/workout` | GET/POST | **Physical.** Last 5 sessions & progression. | `engine.get_workout_detail()` |
-| `/career` | GET/POST | **Professional.** Skill gaps and proficiency. | `engine.get_career_status()` |
-| `/home_status` | GET/POST | **Environment.** Temp, device health, battery. | `G08_home_monitor.py` |
-| `/home_security`| GET/POST | **Protection.** Alarm, motion, cameras. | `G08_home_monitor.py` |
-| `/home_lights` | GET/POST | **Lighting.** List of active (ON) lights. | `G08_home_monitor.py` |
-| `/report` | GET/POST | **Strategic Summary.** Monthly progress report. | `G01_monthly_reporter.py` |
-| `/growth_report`| GET/POST | **Impact Hub.** Technical wins synthesis. | `G09_career_growth_reporter.py` |
-| `/best_day` | GET/POST | **Performance.** Peak day correlation analysis. | `engine.get_historical_trends()` |
+| `/pantry` | ANY | **Inventory.** Low stock alerts and expiring items. | `engine.get_pantry_status()` |
+| `/pantry/inventory`| ANY | **Full Stock.** Complete dump of all pantry items and locations. | `engine.get_pantry_details()` |
+| `/pantry/suggestions`| ANY | **Procurement.** AI-driven shopping recommendations. | `pantry_sync.py` |
+| `/shopping_list` | ANY | **Manifest.** Generate the weekly household manifest. | `G03_household_manifest.py` |
+| `/shopping/populate_cart`| POST | **Execution.** Push manifest items to Google Tasks. | `G03_cart_aggregator.py` |
+| `/logistics_sync`| ANY | **Deadlines.** Sync legal and administrative documents. | `G04_logistics_sync.py` |
+| `/home_status` | ANY | **Environment.** Temperature, device health, and occupancy. | `G08_home_monitor.py` |
+| `/home_security`| ANY | **Protection.** Perimeter alarm and camera status. | `G08_home_monitor.py` |
+| `/home_lights` | ANY | **Lighting.** List of active illumination and status. | `G08_home_monitor.py` |
 
 ---
 
-## ⚡ Actions & Synchronization
+## ⚙️ Operations & Tool Framework
 
 | Endpoint | Method | Description | Primary Logic / Source |
 |---|---|---|---|
-| `/sync` | GET/POST | **Global Sync.** Triggers 30+ scripts (Async). | `G11_global_sync.py` |
-| `/health_sync` | GET/POST | **Biometric Extract.** Force Zepp/Amazfit sync. | `G07_zepp_sync.py` |
-| `/scale_sync` | GET/POST | **Weight Sync.** Force Withings API extraction. | `withings_to_sheets.py` |
-| `/substack_sync`| GET/POST | **Content Sync.** Posts to Obsidian. | `G02_substack_sync.py` |
-| `/logistics_sync`| GET/POST | **Deadlines.** Sync legal/admin documents. | `G04_logistics_sync.py` |
-| `/shopping_list`| GET/POST | **Procurement.** Generate shopping manifest. | `G03_household_manifest.py` |
-| `/shopping/populate_cart` | POST | **One-Click Cart.** Push to Google Tasks. | `G03_cart_aggregator.py` |
-| `/log_coffee` | GET/POST | **Caffeine.** Log 100mg cup + 250ml water hydration. Returns total with timestamp. | `AgentZero.log_caffeine()` |
-| `/log_water` | GET/POST | **Water.** Log 250ml glass + return total with timestamp (HH:MM:SS - DD.MM.YYYY). | `AgentZero.log_water()` |
-| `/log_reflection`| GET/POST | **Evening.** Generate Stoic coach reflection. | `G10_reflection_generator.py` |
-| `/log_event` | POST | **Memory.** Record manual decision/event. | `engine.save_to_memory()` |
-| `/harvest` | GET/POST | **Idea Gen.** Trigger content idea harvesting. | `G02_content_harvester.py` |
-| `/system_health`| GET/POST | **Ops Monitor.** 24h script success report. | `G11_log_system.md` |
-| `/audit` | GET/POST | **Governance.** Documentation integrity check. | `G12_documentation_audit.py` |
-| `/map` | GET/POST | **Connectivity.** Goal dependency matrix. | `G11_meta_mapper.py` |
+| `/sync` | ANY | **Global Sync.** Triggers asynchronous execution of all domains. | `G11_global_sync.py` |
+| `/health_sync` | ANY | **Bio-Extract.** Force cloud sync for sleep/biometrics. | `G07_zepp_sync.py` |
+| `/scale_sync` | ANY | **Weight Sync.** Force Withings API data extraction. | `withings_to_sheets.py` |
+| `/substack_sync`| ANY | **Content Sync.** Sync Substack posts to Obsidian. | `G02_substack_sync.py` |
+| `/pantry_sync` | ANY | **Stock Sync.** Force pantry inventory update. | `pantry_sync.py` |
+| `/tools` | ANY | **Discovery.** List all 144 validated tools. | `registry.get_tools()` |
+| `/execute_tool`| POST | **Autonomous Act.** Execute a G-series tool by ID. | `registry.execute_tool()` |
+| `/repair` | POST | **Self-Heal.** Execute a specific system repair action. | `G11_self_healing_engine.py` |
+| `/harvest` | ANY | **Idea Gen.** Trigger content idea harvesting pipeline. | `G02_content_harvester.py` |
+| `/approve/{id}` | ANY | **One-Click Approval.** Direct execution of a pending decision. | `G11_decision_handler.py` |
+| `/deny/{id}` | ANY | **One-Click Denial.** Direct rejection of a pending decision. | `G11_decision_handler.py` |
 
 ---
 
-## 🖥️ UI & Development
-- **Root (`/`):** Serves `scripts/static/index.html` (Mission Control).
-- **Help (`/help`):** Returns the directory of all valid commands.
-- **Ask (`/ask`):** Alias for `/chat` used by n8n Agent tools.
+## 🖥️ Interfaces
+- **Mission Control (`/`):** The primary web interface for the Twin.
+- **Dependency Map (`/map`):** Interactive visualization of goal connectivity.
+- **Data Map (`/map/data`):** Underlying JSON for the connectivity matrix.
+- **Directory (`/help`):** Dynamic directory of all available API commands.
 
 ---
-*Generated by Digital Twin AI Assistant - March 2026*
+*Last Updated: 2026-05-06 - Documentation v7.3 Alignment*

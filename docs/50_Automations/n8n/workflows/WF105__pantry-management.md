@@ -328,7 +328,7 @@ Is Chat? = true → Send to Chat
 | Memory Buffer | d63b9372-e55f-4ea1-a413-c24e4f46c7f2 |
 
 ## Related Documentation
-- [Sub-Project Master](../../../10_Goals/G03_Autonomous-Household-Operations/README.md)
+- [Sub-Project Master](../../../20_Systems/README.md)
 - [Data Schema](../../../20_Systems/S03_Data-Layer/Pantry-Schema.md)
 - [Daily Operations SOP](../../../30_Sops/Home/Pantry-Management.md)
 - Workflow Export: `WF105__pantry-management.json` (not committed yet; export from n8n and add here)

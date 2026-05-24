@@ -515,7 +515,7 @@ CREATE TABLE learning_by_technology (
 
 ## Cross-References
 
-- Gap Analysis: [GAP_Digital_Twin_Data_Streams.md](./GAP_Digital_Twin_Data_Streams.md)
+- Gap Analysis: [GAP_Digital_Twin_Data_Streams.md](GAP_Digital_Twin_Data_Streams.md)
 - Updated Roadmaps:
   - G05: Financial Deep Metrics added
   - G06: Learning Effectiveness added  

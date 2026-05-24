@@ -4,7 +4,7 @@ type: "goal"
 status: "active"
 goal_id: "goal-g13"
 owner: "Michał"
-updated: "2026-04-21"
+updated: "2026-05-23"
 review_cadence: "monthly"
 ---
 
@@ -46,15 +46,19 @@ To bridge the gap between "doing the work" and "sharing the work." G13 automates
 
 ## Dependencies
 ### Systems
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
+- [S04 Digital Twin](../../20_Systems/README.md)
+- [S03 Data Layer](../../20_Systems/README.md)
 
 ### External
 - Google Gemini API
 - LinkedIn/Substack APIs
 
 ## Key Links
+- Outcomes: [Outcomes.md](Outcomes.md)
+- Metrics: [Metrics.md](Metrics.md)
+- Systems: [Systems.md](Systems.md)
 - Roadmap: [Roadmap.md](Roadmap.md)
+- Progress Monitor: [Progress-monitor.md](Progress-monitor.md)
 - Activity Log: [Activity-log.md](Activity-log.md)
 
 ## Failure Modes

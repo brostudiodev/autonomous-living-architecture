@@ -3,29 +3,30 @@ title: "G04: Systems"
 type: "goal_systems"
 status: "active"
 owner: "Michał"
-updated: "2026-04-25"
+updated: "2026-05-01"
 goal_id: "goal-g04"
 ---
 
 # Systems
 
 ## Enabling systems
-- [S03 Data Layer (Multi-DB)](../../20_Systems/S03_Data-Layer/README.md) - Storage for `digital_twin_michal`.
-- [S04 Digital Twin Hub](../../20_Systems/S04_Digital-Twin/README.md) - The core intelligence hub.
-- [S11 Intelligence Router](../../20_Systems/S11_Meta-System-Integration/README.md) - Input/Output orchestration.
+- [S03 Data Layer (Multi-DB)](../../20_Systems/README.md) - Storage for `digital_twin_michal`.
+- [S04 Digital Twin Hub](../../20_Systems/README.md) - The core intelligence hub.
+- [S11 Intelligence Router](../../20_Systems/README.md) - Input/Output orchestration.
+- **RabbitMQ (Message Broker)** - For real-time state change events.
 - **SVC_Language-Gate (n8n)** - Mandatory translation and intent normalization layer.
 
 ## Traceability (Outcome → System → Automation → SOP/Runbook)
 
 | Outcome | System | Automation | SOP/Runbook |
 |---------|--------|------------|-------------|
-| Strategic Brain & Reasoning | S04 Digital Twin | [G04_digital_twin_engine.md](../../50_Automations/scripts/G04_digital_twin_engine.md) | [ADR-0020](../../60_Decisions_adrs/ADR-0020-Language-Standard-Hardening.md) |
-| Cross-Platform API Access | S04 Digital Twin | [G04_digital_twin_api.md](../../50_Automations/scripts/G04_digital_twin_api.md) | - |
+| Strategic Brain & Reasoning | S04 Digital Twin | [core.engine](../../core/engine.py) | [Adr-0020](../../60_Decisions_adrs/Adr-0020-Language-Standard-Hardening.md) |
+| Cross-Platform API Access | S04 Digital Twin | [core.api](../../core/api.py) | [RB_G04_001](../../40_Runbooks/G04/Restoration-and-Modularization.md) |
 | Strategic Memory | S03 Data Layer | PostgreSQL: `strategic_memory` | - |
-| Multi-Channel Ingest | S11 Router | [n8n: Language Gate](../../20_Systems/S11_Meta-System-Integration/README.md) | - |
+| Multi-Channel Ingest | S11 Router | [n8n: Language Gate](../../20_Systems/README.md) | - |
 | Morning Mission Briefing | S04 Digital Twin | [G04_morning_briefing_sender.py](../../50_Automations/scripts/G04_morning_briefing_sender.md) | - |
 | Autonomous Dashboard | S10 Automation | [autonomous_daily_manager.py](../../50_Automations/scripts/autonomous_daily_manager.md) | - |
-| Autonomy ROI Tracking | S04 Digital Twin | [G04_autonomy_roi_tracker.md](../../50_Automations/scripts/G04_autonomy_roi_tracker.md) | - |
+| **Autonomy ROI (Real-Time)** | S04 Digital Twin | [G04_digital_twin_engine.md](../../50_Automations/scripts/G04_digital_twin_engine.md) -> **RabbitMQ** | [IMPL_RabbitMQ_EDA_Strategy](../../60_Decisions_adrs/IMPL_RabbitMQ_EDA_Strategy.md) |
 | Hydration & Caffeine Persistence | S03 Data Layer | PostgreSQL: `water_log`, `caffeine_log` | - |
 | System Activity Logging | S04 Digital Twin | PostgreSQL: `system_activity_log` | - |
 | Proactive System Monitoring | S04 Digital Twin | [G04_digital_twin_monitor.md](../../50_Automations/scripts/G04_digital_twin_monitor.md) | - |

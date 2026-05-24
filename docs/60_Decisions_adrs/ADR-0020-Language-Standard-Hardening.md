@@ -1,12 +1,12 @@
 ---
-title: "ADR-0020: Language Standard Hardening (English-Only Core)"
+title: "Adr-0020: Language Standard Hardening (English-Only Core)"
 type: "adr"
 status: "accepted"
 owner: "Michał"
 updated: "2026-04-24"
 ---
 
-# ADR-0020: Language Standard Hardening (English-Only Core)
+# Adr-0020: Language Standard Hardening (English-Only Core)
 
 ## Context
 The system has historically used a hybrid of Polish and English keywords for intent detection, flag analysis (health/productivity), and data parsing. With the deployment of `SVC_Language-Gate` in n8n, all incoming user requests are automatically translated to English before reaching the Python core and Digital Twin API.

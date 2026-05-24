@@ -1,138 +1,91 @@
 ---
-title: "G10_foundation_checker: Tomorrow's Foundation Prep"
+title: "Automation Spec: G10_foundation_checker.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G10_foundation_checker"
-goal_id: "goal-g10"
-systems: ["S04", "S09"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "ba695c2e02e5fa5ad0ee2d20f16979551a6bd4f263b8d96ca188061afee33695"
 ---
 
-# G10_foundation_checker: Tomorrow's Foundation Prep
+# 🤖 Automation Spec: G10_foundation_checker.py
 
 ## Purpose
+G10_foundation_checker.py.
 
-Prepares tomorrow's foundation checklist by analyzing calendar events, priority tasks, and pantry status. Updates the daily note's Foundation First section automatically.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/productivity/scripts/G10_foundation_checker.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G10 Intelligent Productivity Time Architecture` within the `productivity` automation domain.
 
-## Triggers
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-- **Scheduled:** Daily at 18:00 via `autonomous_evening_manager.py`
-- **Manual:** `python scripts/G10_foundation_checker.py`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G10_foundation_checker.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Inputs
-
-| Source | Data | Used For |
-|--------|------|----------|
-| Google Calendar API | Tomorrow's events | Meeting prep, time requirements |
-| Google Tasks API | Priority tasks (#today, #roadmap) | Top 3 tasks |
-| Digital Twin Engine | Pantry low stock | Lunch prep |
-| Open-Meteo API | Tomorrow's forecast | Gear suggestions (boots, umbrella) |
-
-## Processing Logic
-
-1. **Weather Check (NEW Apr 07)** - Query Open-Meteo for Warsaw
-   - Extract temp range and precipitation
-   - Map weather codes to gear suggestions (e.g., 🌧️ → Waterproof boots)
-
-2. **Get Tomorrow's Events** - Query Google Calendar for next day
-...
-6. **Update Daily Note** - Write to Foundation First section
-   - **Dynamic Checkbox Labels:** Refines labels for Clothes (weather summary), Lunch (pantry status), and Bag (calendar load).
-
-## Outputs
-
-| Output | Destination | Format |
-|--------|-------------|--------|
-| Daily Note Update | Today's note Foundation First | Markdown |
-
-### Example Output
-
-```markdown
-**🌦️ Weather:** 5.2°C to 12.5°C, 2.1mm precip
-- 🌧️ Rain expected: Wear waterproof boots and take an umbrella.
-
-**📅 Tomorrow (Wednesday, Apr 08):**
-- 09:00: Team Sync
-- 14:00: Deep Work
-
-**🎒 Prep Status:**
-- 🛒 Low food items: jajka, chleb
-- 📝 Meeting tomorrow - prepare notes
-
-**🎯 Top 3 Priorities (First 90 min):**
-1. Fix frontmatter bug #today
-2. G10: Weather integration #roadmap
-3. Sync logistics #urgent
-```
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
+- HTTP requests to configured local or external service endpoints.
 
 ## Dependencies
+### Runtime
+- Python script: `modules/productivity/scripts/G10_foundation_checker.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-### Systems
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md) - Pantry data
-- [S09 Productivity & Time](../../20_Systems/S09_Productivity-Time/README.md) - Tasks/Calendar
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.log`
+- `datetime`
+- `modules.meta.scripts.G04_digital_twin_engine`
+- `os`
+- `re`
+- `requests`
+- `sys`
 
-### External Services
-- Google Calendar API
-- Google Tasks API
+## Procedure
+1. Review the script source at `modules/productivity/scripts/G10_foundation_checker.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-### Scripts
-- `G04_digital_twin_engine.py` - Pantry state
-- `G10_calendar_client.py` - Calendar access
-- `G10_google_tasks_sync.py` - Tasks access
-
-## Error Handling
-
+## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| Calendar API fails | Exception | Skip calendar section |
-| Tasks API fails | Exception | Use roadmap mins fallback |
-| Digital Twin fails | Exception | Skip pantry section |
-| Daily note not found | File check | Log warning |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
 ## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-- Read-only API access (calendar, tasks)
-- No device control
-- Database credentials via `.env`
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G10_foundation_checker.py`.
 
-## Monitoring
+## Implementation Notes
+- Top-level functions: get_tomorrow_date_str, get_tomorrow_file_path, get_tomorrow_events, get_priority_tasks, get_pantry_status, get_tomorrow_weather, analyze_tomorrow_needs, build_foundation_report, inject_marker, update_daily_note, run
+- Top-level classes: No top-level classes detected.
 
-- **Success metric:** Foundation section updated
-- **Log location:** Check `system_activity_log`
-- **Alert on:** 3 consecutive failures
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `re, datetime, os, autonomous_sdk.db_config, sys, modules.meta.scripts.G04_digital_twin_engine, requests, autonomous_sdk.log`
 
-## Manual Fallback
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
-If script fails:
-```bash
-cd {{ROOT_LOCATION}}/autonomous-living
-source .venv/bin/activate
-python scripts/G10_foundation_checker.py
-
-# Manual check:
-# 1. Open Google Calendar (tomorrow)
-# 2. Check pantry low stock
-# 3. Review today's tasks
-# 4. Fill Foundation First manually
-```
-
-## Weather Integration (Future)
-
-Weather check is handled separately via n8n workflow. To integrate:
-1. Query Open-Meteo API or Home Assistant
-2. Add "Clothes" section with weather recommendation
-3. Example: "Rain expected - bring jacket"
-
-## Related Documentation
-
-- [G10 Schedule Optimizer](./G10_schedule_optimizer.md)
-- [G10 AI Memory Generator](./G10_ai_memory_generator.md)
-- [Autonomous Evening Manager](./autonomous_evening_manager.md)
-- [SOP: Daily Task Review & Sync](../../30_Sops/SOP_Daily_Task_Review.md)
-
-## Changelog
-
-| Date | Change |
-|------|--------|
-| 2026-03-20 | Initial implementation |
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

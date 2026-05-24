@@ -31,9 +31,9 @@ goal_id: "goal-g03"
 - [x] **System Stability Audit:** ✅ (Apr 16)
   - [x] **Sub-task: Pantry Sync Check** - Ensure Google Sheets to PostgreSQL sync without gaps ✅ (Apr 16)
   - [x] **Sub-task: PRICE_SCOUTER v2** - Fixed path mapping and script failure in sync loop ✅ (Apr 16)
-- [ ] **Minor Improvements:**
-  - [ ] **Sub-task: Appliance Monitor Optimization** - Fine-tune power monitoring thresholds
-  - [ ] **Sub-task: Burn Rate Calibration** - Adjust predictive consumption based on recent accuracy
+- [x] **Minor Improvements:**
+  - [x] **Sub-task: Appliance Monitor Optimization** - Fine-tune power monitoring thresholds ✅ (May 05)
+  - [x] **Sub-task: Burn Rate Calibration** - Adjust predictive consumption based on recent accuracy ✅ (May 05)
 
 > [!tip] 🚀 **High-Impact Autonomy Tasks**
 - [x] **Price Intelligence (G03-PI):** Cheapest Basket algorithm for Lidl vs Biedronka vs Dino - provide recommendations ✅ (Mar 23)

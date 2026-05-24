@@ -31,16 +31,17 @@ updated: "2026-04-16"
 ## Q2 (Apr–Jun) - Optimization Phase
 
 > [!tip] 🚀 **Q2 Focus: System Stability & Missing Agent Implementation**
-- [ ] **System Stability Audit:** Verify productivity automations working reliably
-  - [ ] **Sub-task: Evening Manager Check** - Ensure 18:00 workflow runs without errors
-  - [ ] **Sub-task: Daily Manager Check** - Verify morning briefing triggers correctly
-  - [ ] **Sub-task: Calendar Sync Check** - Test Google Calendar integration
+- [x] **System Stability Audit:** Verify productivity automations working reliably ✅ (May 06)
+  - [x] **Sub-task: Evening Manager Check** - Ensure 18:00 workflow runs without errors ✅ (May 06)
+  - [x] **Sub-task: Daily Manager Check** - Verify morning briefing triggers correctly ✅ (May 06)
+  - [x] **Sub-task: Calendar Sync Check** - Test Google Calendar integration ✅ (May 06)
 - [x] **Missing n8n Agent Implementation:** ✅ (Apr 15)
   - [x] **Sub-task: n8n Productivity Agent** - Implement native n8n agent for calendar/task orchestration ✅ (Apr 15)
     - [x] **Sub-task: Agent Design** - Create n8n workflow with LangChain for productivity domain ✅ (Apr 15)
     - [x] **Sub-task: Calendar Integration** - Connect to Google Calendar API ✅ (Apr 15)
     - [x] **Sub-task: Tasks Integration** - Connect to Google Tasks API ✅ (Apr 15)
     - [x] **Sub-task: Smart Scheduling** - LLM-powered optimal time block suggestions ✅ (Apr 15)
+- [x] **Task Triage Hardening:** Autonomous hygiene for tasks > 14 days (Excluding Goals/Commitments) ✅ (May 06)
 - [ ] **Minor Features:**
   - [ ] **Sub-task: Location Intelligence** - Complete address validation for calendar events
   - [ ] **Sub-task: Focus Pattern Analysis** - Complete AI-driven analysis implementation
@@ -91,17 +92,15 @@ updated: "2026-04-16"
 > [!note] ⚠️ **n8n Productivity Agent moved to Q2** - Implementation will happen in Q2 for optimization
 
 > [!tip] 🚀 **Remaining Q3 Tasks:**
-- [ ] Implement AI "Schedule Negotiator" (Agent optimizes calendar based on energy)
-  - [ ] **Sub-task: Conversation Memory** - Store productivity queries in PostgreSQL for context
-  - [ ] **Sub-task: Focus Pattern Analysis** - Use LLM to analyze when you're most productive
-  - [ ] **Sub-task: Smart Scheduling** - Let LLM suggest optimal time blocks based on energy cycles
-- [ ] Implement AI "Schedule Negotiator" (Agent optimizes calendar based on energy)
-- [x] **Dynamic Load Balancing:** Automatically adjust schedule based on Amazfit Readiness Score ✅ (Apr 03)
-- [x] **Automated generation of daily/weekly productivity ROI reports** ✅ (Apr 03)
-- [ ] Smart break management based on cognitive load indicators
-- [ ] Integration with evening planning workflow for next-day "Pre-Commitment"
+- [x] **AI "Schedule Negotiator" (G10-SN):** Agent optimizes calendar based on energy and resolves human conflicts ✅ (May 07)
+  - [x] **Sub-task: Conflict Resolution** - Reconciles ideal bio-blocks with existing human calendar events ✅ (May 07)
+  - [x] **Sub-task: Biometric Integration** - Triggered by real-time `health.biometrics_updated` events ✅ (May 07)
+  - [x] **Sub-task: Focus Shield Sync** - Automatically enforcements negotiated blocks to Google Calendar ✅ (May 07)
+- [ ] **Sub-task: Focus Pattern Analysis** - Complete AI-driven analysis implementation
+- [ ] **Sub-task: Location Intelligence** - Complete address validation for calendar events
 
-> [!tip] 🚀 **ActivityWatch Integration (Digital Footprint)** ✅
+
+- [x] **ActivityWatch Integration (Digital Footprint)** ✅
 > **Status:** Core infrastructure complete - collecting data
 > **Gap:** G10 productivity optimization has blind spot - doesn't know actual screen time or interruption patterns.
 > **Solution:** ActivityWatch running in Docker provides passive window/app tracking.
@@ -110,15 +109,15 @@ updated: "2026-04-16"
   - [x] **Sub-task: Database Schema** - `activity_watch_events` table ready ✅
   - [x] **Sub-task: Sync Script** - `G10_activitywatch_sync.py` tested ✅
   - [x] **Sub-task: Watchers** - `aw-watcher-window` + `aw-watcher-afk` running ✅
-- [ ] **Data Ingestion Pipeline:** Build automated sync
-  - [ ] **Sub-task: n8n Workflow** - Create n8n workflow for scheduled ActivityWatch sync
-  - [ ] **Sub-task: Hourly Sync** - Sync every hour to capture daily patterns
-  - [ ] **Sub-task: Daily Brief Injection** - Add productivity stats to morning briefing
-- [ ] **Productivity Analysis:**
-  - [ ] **Sub-task: Daily Focus Report** - Calculate productive vs unproductive hours
-  - [ ] **Sub-task: App Category Breakdown** - Development, Social, Entertainment, etc.
-  - [ ] **Sub-task: Focus Score Calculation** - Score based on uninterrupted blocks
-  - [ ] **Sub-task: Distraction Alerts** - Warn when entering unproductive apps
+- [x] **Data Ingestion Pipeline:** Build automated sync ✅
+  - [x] **Sub-task: n8n Workflow** - Create n8n workflow for scheduled ActivityWatch sync ✅
+  - [x] **Sub-task: Hourly Sync** - Sync every hour to capture daily patterns ✅
+  - [x] **Sub-task: Daily Brief Injection** - Add productivity stats to morning briefing ✅
+- [x] **Productivity Analysis:** ✅
+  - [x] **Sub-task: Daily Focus Report** - Calculate productive vs unproductive hours ✅
+  - [x] **Sub-task: App Category Breakdown** - Development, Social, Entertainment, etc. ✅
+  - [x] **Sub-task: Focus Score Calculation** - Score based on uninterrupted blocks ✅
+  - [x] **Sub-task: Distraction Alerts** - Warn when entering unproductive apps (G10_distraction_guard.py) ✅
 - [ ] **Dashboard & Visualization:**
   - [ ] **Sub-task: Daily Dashboard** - Real-time screen time in Obsidian
   - [ ] **Sub-task: Weekly Summary** - Productivity trends with ActivityWatch data

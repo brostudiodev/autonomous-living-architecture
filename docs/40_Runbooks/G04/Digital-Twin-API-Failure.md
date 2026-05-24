@@ -32,7 +32,7 @@ ss -tunlp | grep 5677
 2. **If running as a script (Manual):**
    ```bash
    sudo fuser -k 5677/tcp
-   {{ROOT_LOCATION}}/autonomous-living/.venv/bin/python3 scripts/G04_digital_twin_api.py &
+   {{ROOT_LOCATION}}/autonomous-living/.venv/bin/python3 modules/meta/scripts/G04_digital_twin_api.py &
    ```
 
 ## Scenario 2: Internal Server Error (500)

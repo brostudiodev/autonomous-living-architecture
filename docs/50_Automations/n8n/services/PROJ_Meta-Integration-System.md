@@ -42,18 +42,18 @@ The **Meta-Integration System** is the strategic "Chief of Staff" agent for the 
 
 ## Dependencies
 ### Systems
-- [Meta-System Integration (G11)](../../../10_Goals/G11_Meta-System-Integration-Optimization/README.md)
-- [Digital Twin Ecosystem (G04)](../../../10_Goals/G04_Digital-Twin-Ecosystem/README.md)
+- [Meta-System Integration (G11)](../../../20_Systems/README.md)
+- [Digital Twin Ecosystem (G04)](../../../20_Systems/README.md)
 
 ## Error Handling
 | Failure Scenario | Detection | Response |
 |----------|-----------|----------|
 | Context Overload | Context > 32k tokens | Agent uses specialized summary tools to compress history. |
 | DB Timeout | PostgreSQL node error | Supervisor (G11) attempts auto-restart of the DB container. |
-| Tool Conflict | Concurrent tool calls | Implementation of strict LISTEN/NOTIFY locking (ADR-0016). |
+| Tool Conflict | Concurrent tool calls | Implementation of strict LISTEN/NOTIFY locking (Adr-0016). |
 
 ## Security Notes
-- **Authority:** High-level system control; sensitive execution requires dual-factor confirmation (ADR-0015).
+- **Authority:** High-level system control; sensitive execution requires dual-factor confirmation (Adr-0015).
 - **Auditing:** Every decision analyzed is logged to the meta-audit trail.
 
 ---

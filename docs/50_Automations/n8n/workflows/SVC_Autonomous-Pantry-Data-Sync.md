@@ -117,7 +117,7 @@ Synchronizes household inventory data from Google Sheets (Magazynek_domowy) to P
 
 ## Related Documentation
 
-- [G03 Autonomous Household Operations](../10_Goals/G03_Autonomous-Household-Operations/Roadmap.md)
-- [Pantry Management](./WF105__pantry-management.md)
-- [Autonomous Pantry Database Schema](../20_Systems/S03_Data-Layer/README.md)
-- [Google Sheets Integration SOP](../30_Sops/Pantry-Inventory-Update-SOP.md)
+- [G03 Autonomous Household Operations](../../../10_Goals/G02_Automationbro-Recognition/Roadmap.md)
+- [Pantry Management](WF105__pantry-management.md)
+- [Autonomous Pantry Database Schema](../../../20_Systems/README.md)
+- [Google Sheets Integration SOP](../../../30_Sops/Pantry-Inventory-Update-SOP.md)

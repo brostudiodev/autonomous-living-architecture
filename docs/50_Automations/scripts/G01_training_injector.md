@@ -1,57 +1,89 @@
 ---
-title: "Automation Spec: G01 Training Injector"
+title: "Automation Spec: G01_training_injector.py"
 type: "automation_spec"
 status: "active"
-system_id: "S10"
-goal_id: "goal-g01"
-owner: "Michał"
-updated: "2026-04-01"
-review_cadence: "monthly"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "250009b79f34450ad50da7d0b94b2c705c892218f15816459fd9f351ae2c185c"
 ---
 
-# 🤖 Automation Spec: G01 Training Injector
+# 🤖 Automation Spec: G01_training_injector.py
 
-## 🎯 Purpose
-Frictionless HIT workout execution by pre-populating target weights and TUT (Time Under Tension) from historical data directly into the Obsidian Daily Note when biological readiness is sufficient.
+## Purpose
+G01_training_injector.py.
 
-## 📝 Scope
-- **In Scope:** Reading historical workout data from PostgreSQL; Checking biometric readiness; Injecting Markdown tables into Daily Notes.
-- **Out of Scope:** Manual workout logging (handled by `smart_log_workout.py`); Long-term trend analysis (handled by `G01_progress_analyzer.py`).
+## Scope
+### In Scope
+- Documents the active implementation at `modules/training/scripts/G01_training_injector.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G01 Target Body Fat` within the `training` automation domain.
 
-## 🔄 Inputs/Outputs
-- **Inputs:** 
-  - `autonomous_training.workout_sets` (Historical targets)
-  - Biometric Readiness Score (via Digital Twin Engine)
-- **Outputs:**
-  - Markdown block injected into the current Daily Note under `## 🏋️ Training`.
-  - Activity log in `G11_log_system`.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## 🛠️ Dependencies
-- **Systems:** S10 Daily Goals Automation, S03 Data Layer (PostgreSQL)
-- **Services:** Digital Twin Engine (for health state)
-- **Credentials:** PostgreSQL credentials (via db_config)
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G01_training_injector.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## ⚙️ Logic & Procedure
-1. **Readiness Check:** If `readiness_score < 65`, the script skips injection to encourage recovery.
-2. **Target Retrieval:** Identifies the most recent workout template used from PostgreSQL and fetches the last recorded weights and TUT for those exercises.
-3. **Injection:** Searches the current Daily Note for `## 🏋️ Training` and injects a formatted status table.
-4. **Trigger:** Automated via `G11_global_sync.py`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
-## 📜 Changelog
-| Date | Change |
-|------|--------|
-| 2026-04-01 | Initial spec created |
-| 2026-04-16 | Bugfix: Migrated from CSV to PostgreSQL; Fixed target_date initialization in Engine |
+## Dependencies
+### Runtime
+- Python script: `modules/training/scripts/G01_training_injector.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-## ⚠️ Failure Modes
+### Imports
+- `G04_digital_twin_engine`
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `psycopg2`
+- `re`
+
+## Procedure
+1. Review the script source at `modules/training/scripts/G01_training_injector.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
 | Scenario | Detection | Response |
 |---|---|---|
-| CSV Missing | FileNotFoundError in logs | Check `{{ROOT_LOCATION}}/Training/` path |
-| No Daily Note | "Daily Note not found" in log | Ensure `autonomous_daily_manager.py` ran first |
-| Readiness Unknown| Defaults to skip | Verify Zepp/Withings sync health |
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## 🔒 Security Notes
-- **Secrets:** No sensitive data involved in this automation.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G01_training_injector.py`.
+
+## Implementation Notes
+- Top-level functions: get_last_workout_data, inject_workout
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `G04_digital_twin_engine, re, psycopg2, datetime, os, autonomous_sdk.db_config, modules.meta.scripts.G11_log_system`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*System Hardening v5.4 - April 2026*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

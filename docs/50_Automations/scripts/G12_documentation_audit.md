@@ -2,43 +2,89 @@
 title: "Automation Spec: G12_documentation_audit.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G12_documentation_audit"
-goal_id: "goal-g12"
-systems: ["S04", "S11"]
-owner: "Michał"
-updated: "2026-04-16"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "e23a90066bc96299ce37978efc4ac0caa921f938586da45620fd6d61bc9d04cf"
 ---
 
 # 🤖 Automation Spec: G12_documentation_audit.py
 
-## 📝 Overview
-**Purpose:** Maintains documentation integrity by auditing the file system. It ensures all goals and systems have the required file sets, valid YAML frontmatter, and traceable internal links.
-**Goal Alignment:** G12 Complete Process Documentation.
+## Purpose
+G12_documentation_audit.py.
+
+## Scope
+### In Scope
+- Documents the active implementation at `modules/docs/scripts/G12_documentation_audit.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G12 Complete Process Documentation` within the `docs` automation domain.
+
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
+
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G12_documentation_audit.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
+
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
+
+## Dependencies
+### Runtime
+- Python script: `modules/docs/scripts/G12_documentation_audit.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
+
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.log`
+- `datetime`
+- `hashlib`
+- `os`
+- `pathlib`
+- `re`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/docs/scripts/G12_documentation_audit.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G12_documentation_audit.py`.
+
+## Implementation Notes
+- Top-level functions: No top-level functions detected.
+- Top-level classes: DocAuditor
 
 ## ⚡ Technical Details
 - **Language:** Python
-- **Triggers:** Daily Sync, Manual, Programmatic (via Digital Twin Engine)
-- **Databases:** None (File System analysis)
-- **Dependencies:** `os, re, datetime, pathlib`
-
-## 🛠️ Logic Flow
-1. **Goal Audit:** Scans `docs/10_Goals` for standard file sets (`README.md`, `Outcomes.md`, `Metrics.md`, `Systems.md`, `Roadmap.md`) and frontmatter.
-2. **System Audit:** Scans `docs/20_Systems` for existence of `README.md`.
-3. **Traceability:** Verifies that internal links in `Systems.md` files point to existing system or automation files.
-4. **Scoring:** Calculates a percentage-based health score based on errors found.
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `pathlib, hashlib, os, autonomous_sdk.log, autonomous_sdk.db_config, datetime, re, sys`
 
 ## 📤 Outputs
-- **G12_Documentation_Audit_Report.md**: A detailed markdown report of all documentation gaps and broken links.
-- **Score Object**: Returned by `run_audit()` for integration into the Digital Twin health dashboard.
-
-## ⚠️ Known Issues / Maintenance
-- Folder discovery regex must be strictly maintained to only audit `GXX_` pattern folders.
-
-## 📜 Changelog
-| Date | Change |
-|------|--------|
-| 2026-03-05 | Initial implementation |
-| 2026-04-16 | Bugfix: Fixed goal folder discovery regex; added run_audit() programmatic entry point. |
+- See Inputs/Outputs section above.
 
 ---
-*Generated by G12 Structural Documenter (Deterministic)*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

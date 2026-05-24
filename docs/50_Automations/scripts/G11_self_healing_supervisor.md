@@ -2,73 +2,90 @@
 title: "Automation Spec: G11_self_healing_supervisor.py"
 type: "automation_spec"
 status: "active"
-created: "2026-03-06"
-updated: "2026-04-13"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "5{{LONG_IDENTIFIER}}"
 ---
 
 # 🤖 Automation Spec: G11_self_healing_supervisor.py
 
-## 📝 Overview
-**Purpose:** Standardizes system health checks and provides an LLM-ready "Self-Healing" interface for fixing broken automations. Version 2.5 (Registry Hardening).
-**Goal Alignment:** G11 (Meta-System Integration & Optimization)
+## Purpose
+G11_self_healing_supervisor.py.
+
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_self_healing_supervisor.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
+
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
+
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_self_healing_supervisor.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
+
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
+
+## Dependencies
+### Runtime
+- Python script: `modules/meta/scripts/G11_self_healing_supervisor.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.events`
+- `autonomous_sdk.log`
+- `datetime`
+- `json`
+- `os`
+- `pathlib`
+- `subprocess`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_self_healing_supervisor.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_self_healing_supervisor.py`.
+
+## Implementation Notes
+- Top-level functions: find_script, get_all_g11_scripts, get_production_scripts, run_audit, attempt_repair, notify_fatal, generate_llm_fix_prompt
+- Top-level classes: No top-level classes detected.
 
 ## ⚡ Technical Details
 - **Language:** Python
-- **Triggers:** 
-  1. **Every Sync:** Runs as the first step of `G11_global_sync.py`.
-  2. **Morning Mission:** Triggered by `fill-daily.sh` before dashboard generation.
-  3. **On-Demand:** Triggered via `GET /health_audit` or manual CLI execution.
-- **Environment:** Respects `AUDIT_MODE=1` to perform non-destructive checks.
-
-## 🛠️ Logic Flow
-1. **Script Discovery:** Iterates through a registry of core automation scripts.
-    - **Expanded Registry (Apr 13):** Now monitors `G11_db_recovery_shield.py` and other G-series scripts.
-    - **Circular Guard:** `autonomous_daily_manager.py` removed from registry to prevent recursive loops.
-2. **Health Probe:** Executes each script with `AUDIT_MODE=1`.
-3. **Auto-Repair (NEW Mar 28):**
-    - Identifies known failure patterns (DB connectivity, stale tokens, missing directories).
-    - Executes corrective actions (restart Docker container, remove stale pickle, create dirs).
-    - **Self-Healing Loop:** Re-audits scripts after repair to verify the fix.
-4. **Data Integrity Check:** Triggers `G11_pre_flight_check.py` to ensure physical sensor data is current.
-5. **Log Persistence:** Saves results to `_meta/automation_health.json` and logs to `system_activity_log`.
-
-## 🩹 Targeted Repair Protocols
-The supervisor implements specific repair logic for detected failure patterns:
-
-### 1. Auth Token Recovery (Self-Healing)
-- **Detection:** `token invalid`, `expired`, or `unauthorized`.
-- **Target Files:** `google_tasks_token.pickle`, `zepp_token.json`, `withings_tokens.json`.
-- **Action:** Deletes the stale token file, allowing the next execution to trigger a fresh login flow.
-
-### 2. Database Lock Mitigation
-- **Detection:** `lock` error in a Finance-related script (`G05`).
-- **Action:** Restarts the `postgres` container to clear hanging sessions and deadlocks.
-
-### 3. Rate Limit Cooldowns
-- **Detection:** `429` (Too Many Requests) in `G07_zepp_sync.py`.
-- **Action:** Logs a "Cooldown Required" status and skips the current retry to prevent account suspension.
-
-### 4. Bytecode & Attribute Sanitization
-- **Detection:** `magic number`, `AttributeError`, or `not found`.
-- **Action:** Recursively deletes all `__pycache__` directories in the workspace to force clean compilation.
-
-## 🩹 Auto-Repair Decision Matrix
-| Issue | Signature | Action |
-|-------|-----------|--------|
-| DB Connectivity | `connection to server...` | `docker restart postgres` |
-| Stale Auth Tokens | `token invalid` or `expired` | `rm [TOKEN_FILE]` |
-| Rate Limiting | `429` / `rate limit` | `Skip/Cooldown` |
-| Missing Logs/Meta | `no such file... _meta` | `mkdir -p _meta/daily-logs` |
-| Bytecode Corrupt | `magic number`, `AttributeError` | `find . -name __pycache__ -delete` |
-| Missing Module | `No module named '...'` | `pip install [module]` |
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `pathlib, datetime, os, autonomous_sdk.db_config, json, autonomous_sdk.events, sys, subprocess, autonomous_sdk.log`
 
 ## 📤 Outputs
-- **`_meta/automation_health.json`**: Historical record of system health.
-- **LLM Fix Prompt**: Accessible via `--prompt` flag or API.
-- **API Endpoint**: `GET /health_audit` for real-time reporting.
-
-## ⚠️ Known Issues / Maintenance
-- **Audit Implementation:** Child scripts must implement `AUDIT_MODE` logic to be fully compatible. Unsupported scripts will run normally but may time out or perform side effects.
+- See Inputs/Outputs section above.
 
 ---
-*Generated for G11 System Resilience.*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

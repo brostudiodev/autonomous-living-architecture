@@ -1,44 +1,86 @@
 ---
-title: "Autonomous Goal Recommender (G11)"
+title: "Automation Spec: G11_goal_recommender.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-02"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "{{LONG_IDENTIFIER}}"
 ---
 
-# Purpose
-The **Goal Recommender** (`G11_goal_recommender.py`) autonomously selects three Power Goals for the day. This eliminates manual decision-making by analyzing real-time data from health, finance, and system operations.
+# 🤖 Automation Spec: G11_goal_recommender.py
 
-# Scope
-- **In Scope:** Readiness Score (G07), Financial Anomalies (G05), System Failures (G11), Roadmap Gaps (G12).
-- **Out Scope:** Manual commitment overrides (Obsidian manual selection).
+## Purpose
+G11_goal_recommender.py.
 
-# Inputs/Outputs
-- **Inputs:** 
-  - `biometrics` table (Readiness)
-  - `autonomous_decisions` table (Finance)
-  - `system_activity_log` (Failures)
-- **Outputs:** Recommended Goal IDs and justification report for the Daily Note.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_goal_recommender.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-# Dependencies
-- **Systems:** S04 (Digital Twin), G11 (Meta-System), G07 (Predictive Health), G05 (Autonomous Finance)
-- **Database:** `digital_twin_michal` (unified state)
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-# Procedure
-- Automated by `autonomous_daily_manager.py` during the morning sync.
-- Can be run manually: `python3 scripts/G11_goal_recommender.py`.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_goal_recommender.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-# Failure Modes
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
+
+## Dependencies
+### Runtime
+- Python script: `modules/meta/scripts/G11_goal_recommender.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `os`
+- `psycopg2`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_goal_recommender.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
 | Scenario | Detection | Response |
-|----------|-----------|----------|
-| No Biometrics | Query returns empty | Fallback to default readiness (75) |
-| Multi-Goal Tie | Logic conflict | Use Meta (G11) and Docs (G12) as defaults |
-| Logic Error | script_activity_log failure | User must manually select goals in Obsidian |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-# Security Notes
-- Read-only database access.
-- Credentials managed via `.env`.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
-# Owner + Review Cadence
-- **Owner:** Michał
-- **Review:** Monthly (Goal G11 audit)
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_goal_recommender.py`.
+
+## Implementation Notes
+- Top-level functions: get_system_state, recommend_goals, generate_report
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

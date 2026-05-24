@@ -47,6 +47,6 @@ Address systemic flakes in the morning sync process, resolve architectural confl
 - **Reduced Friction:** Morning Briefing is now 30% shorter by removing redundant audit tasks.
 
 ## Related Documentation
-- [G04 Digital Twin Engine](../../../20_Systems/S04_Digital-Twin/README.md)
+- [G04 Digital Twin Engine](../../../20_Systems/README.md)
 - [G11 Global Sync](../../../50_Automations/scripts/G11_global_sync.md)
 - [Daily Note Interface Spec](../../../20_Systems/S04_Digital-Twin/Daily-Note-Interface-Spec.md)

@@ -1,38 +1,86 @@
 ---
-title: "Automation Spec: G10 Bio-Feedback Load Balancer"
+title: "Automation Spec: G10_bio_load_balancer.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-03"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "9adac82aa47606f73{{LONG_IDENTIFIER}}"
 ---
 
-# 🧘 G10 Bio-Feedback Load Balancer
+# 🤖 Automation Spec: G10_bio_load_balancer.py
 
-## 🎯 Purpose
-Automatically re-calculates the day's cognitive load based on biometric readiness data. If biological recovery is insufficient, it autonomously pivots the schedule to prevent burnout.
+## Purpose
+G10_bio_load_balancer.py.
 
-## 🏗️ Architecture
-- **Trigger:** Runs during the morning sync or whenever fresh Zepp data is ingested.
-- **Logic:** Compares `readiness_score` against a hard threshold (Default: 65).
-- **Action:** If threshold breached, triggers `G10_schedule_optimizer.py` with `--recovery` mode.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/productivity/scripts/G10_bio_load_balancer.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G10 Intelligent Productivity Time Architecture` within the `productivity` automation domain.
 
-## 🛠️ Implementation Details
-- **Script:** `scripts/G10_bio_load_balancer.py`
-- **Language:** Python 3
-- **Primary Tool:** `psql`, `subprocess` (to trigger schedule re-generation)
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## 🔗 Dependencies
-- **Database:** `autonomous_health` (biometrics table)
-- **Orchestrator:** `G10_schedule_optimizer.py`
-- **Notification:** `G04_digital_twin_notifier.py`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G10_bio_load_balancer.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## ⚠️ Failure Modes & Recovery
-- **Missing Zepp Data:** Script skips execution (Safe fallback: assume normal energy).
-- **Optimizer Failure:** Notifies user via Telegram that autonomous pivot failed.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
-## 🔄 Rollback & Maintenance
-- **Rollback:** Manual override in Obsidian Daily Note (Schedule section).
-- **Maintenance:** Threshold (65) should be adjusted based on long-term pattern analysis.
+## Dependencies
+### Runtime
+- Python script: `modules/productivity/scripts/G10_bio_load_balancer.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `os`
+- `psycopg2`
+- `sys`
+
+## Procedure
+1. Review the script source at `modules/productivity/scripts/G10_bio_load_balancer.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G10_bio_load_balancer.py`.
+
+## Implementation Notes
+- Top-level functions: get_today_readiness, rebalance_schedule
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*Generated by Gemini CLI 2026-04-03.*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

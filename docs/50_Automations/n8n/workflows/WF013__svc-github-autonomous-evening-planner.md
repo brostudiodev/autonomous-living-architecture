@@ -50,8 +50,8 @@ The workflow has three main paths based on the command:
 
 ## Dependencies
 ### Systems
-- [S09 Productivity-Time](../../../20_Systems/S09_Productivity-Time/README.md)
-- [S10 Daily-Goals-Automation](../../../20_Systems/S10_Daily-Goals-Automation/README.md)
+- [S09 Productivity-Time](../../../20_Systems/README.md)
+- [S10 Daily-Goals-Automation](../../../20_Systems/README.md)
 
 ### External Services
 - GitHub API
@@ -80,4 +80,4 @@ The workflow has three main paths based on the command:
 If the automation fails, the `Execution.md` and `Activity-log.md` files can be updated manually in the GitHub repository.
 
 ## Related Documentation
-- [WF002: SVC_Command-Handler](./WF002__svc-command-handler.md)
+- [WF002: SVC_Command-Handler](WF002__svc-command-handler.md)

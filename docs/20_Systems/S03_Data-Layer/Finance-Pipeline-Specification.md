@@ -50,7 +50,7 @@ This document details the cross-system architecture for synchronizing manual fin
 
 ## Monitoring & Manual Fallback
 - **Sync Status:** Checked daily via `G11_ceo_status_report.py`.
-- **Manual Sync:** Run `python3 scripts/G11_global_sync.py` to force an immediate pull from Google Sheets.
+- **Manual Sync:** Run `python3 modules/meta/scripts/G11_global_sync.py` to force an immediate pull from Google Sheets.
 - **Verification:** Query the DB directly:
   ```sql
   SELECT MAX(updated_at) FROM transactions;

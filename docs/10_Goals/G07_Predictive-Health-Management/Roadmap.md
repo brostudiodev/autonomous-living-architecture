@@ -38,7 +38,7 @@ goal_id: "goal-g07"
 - [ ] Implement "Recovery-First" scheduling (G07 feeds G10 Dynamic Scheduler)
 - [x] **Illness & Fatigue Detector (G07-ID):** Autonomous anomaly detection for HRV/Readiness drops ✅ (Apr 03)
 - [ ] Automate supplement/nutrition recommendations based on biometric load
-- [ ] Achieve 100% automated health baseline monitoring
+- [x] Achieve 100% automated health baseline monitoring ✅ (May 05)
 
 > [!tip] 🚀 **NEW: Body Signals & Internal State Tracking**
 > **Gap:** G07 health predictions incomplete without internal signals beyond wearables.
@@ -48,9 +48,9 @@ goal_id: "goal-g07"
 - [ ] **Supplement Compliance:** Automated tracking of supplement intake
   - [ ] **Sub-task: Supplement Schedule** - Define daily/weekly supplement protocol
   - [ ] **Sub-task: Compliance Dashboard** - Track missed doses, adherence rate
-- [ ] **Stress Self-Assessment:** Periodic check-ins throughout day
-  - [ ] **Sub-task: Mood Triggers** - Log what caused stress spikes
-  - [ ] **Sub-task: Recovery Correlation** - Link stress to sleep/HRV
+- [x] **Stress Self-Assessment:** Periodic check-ins throughout day ✅ (May 05 via Mood Engine)
+  - [x] **Sub-task: Mood Triggers** - Log what caused stress spikes ✅ (May 05)
+  - [x] **Sub-task: Recovery Correlation** - Link stress to sleep/HRV ✅ (May 05)
 - [ ] **Bloodwork Integration:** Periodic biomarker tracking
   - [ ] **Sub-task: Manual Entry Form** - Easy input for lab results
   - [ ] **Sub-task: Trend Dashboard** - Vitamin D, cholesterol, etc.

@@ -1,40 +1,86 @@
 ---
-title: "G05: Budget Rebalancer Pro"
+title: "Automation Spec: G05_budget_rebalancer_pro.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G05_budget_rebalancer_pro"
-goal_id: "goal-g05"
-systems: ["S05"]
-owner: "Michał"
-updated: "2026-04-13"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "4f4865d9b0d2e2{{LONG_IDENTIFIER}}"
 ---
 
-# G05: Budget Rebalancer Pro
+# 🤖 Automation Spec: G05_budget_rebalancer_pro.py
 
 ## Purpose
-Advanced budget rebalancing agent that proactively identifies breaches and resolves them using a multi-tiered strategy. It prioritizes global income bandwidth before suggesting category-to-category transfers.
+G05_budget_rebalancer_pro.py.
 
-## Triggers
-- **Autonomous Trigger:** Triggered by the Finance Hub whenever a transaction breach is detected.
-- **Manual Trigger:** `/approve rebalance` command in Telegram.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/finance/scripts/G05_budget_rebalancer_pro.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G05 Autonomous Financial Command Center` within the `finance` automation domain.
 
-## Tiered Resolution Logic
-1.  **Tier 1: Income Buffer:** Checks `v_monthly_pnl` for unallocated income (`net_savings`). If available, it increases the budget directly from the buffer (maintaining a 500 PLN floor).
-2.  **Tier 2: Surplus Reallocation:** Identifies `Low/Medium` priority categories with available funds.
-    - **Spending Floor Safeguard:** Only funds from the *remaining* amount (Budget - Spent) can be reallocated. The system cannot cut a budget below actual spending.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Detection:** Scan all active budgets for the current month.
-2.  **Context Loading:** Fetch global PnL state to determine "Income Buffer" availability.
-3.  **Plan Generation:** Create a resolution plan prioritizing Tier 1 then Tier 2.
-4.  **Auto-Approval:** If configured with `--auto`, it executes the plan immediately. Otherwise, it generates a proposal for Telegram.
-5.  **Execution:** Performs atomic updates to the `budgets` table and triggers a sync to Google Sheets.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G05_budget_rebalancer_pro.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- Telegram Notification with proposal details.
-- Updated budget records in PostgreSQL.
-- Synced state in Google Sheets.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
+
+## Dependencies
+### Runtime
+- Python script: `modules/finance/scripts/G05_budget_rebalancer_pro.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `pandas`
+- `psycopg2`
+
+## Procedure
+1. Review the script source at `modules/finance/scripts/G05_budget_rebalancer_pro.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G05_budget_rebalancer_pro.py`.
+
+## Implementation Notes
+- Top-level functions: rebalance_budgets
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, pandas, os, autonomous_sdk.db_config, modules.meta.scripts.G11_log_system`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*Related Documentation:*
-- [G05_budget_rebalancer.md](G05_budget_rebalancer.md)
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

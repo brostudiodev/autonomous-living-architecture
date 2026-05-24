@@ -1,44 +1,92 @@
 ---
-title: "G10: Schedule Negotiator"
-type: "automation"
-status: "deprecated"
-owner: "Michał"
-updated: "2026-04-16"
-goal_id: "goal-g10"
+title: "Automation Spec: G10_schedule_negotiator.py"
+type: "automation_spec"
+status: "active"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "30bfaa43{{LONG_IDENTIFIER}}"
 ---
 
-# G10: Schedule Negotiator (n8n Migrated)
-
-> [!danger] **DEPRECATED**
-> The standalone Python script `G10_schedule_negotiator.py` has been archived. This automation is now entirely managed by **n8n** to ensure reliability and better LLM orchestration.
+# 🤖 Automation Spec: G10_schedule_negotiator.py
 
 ## Purpose
-The schedule negotiation process gathers biological context (Readiness, HRV) and task context (Google Tasks) to optimize the day's plan.
+Runs the schedule negotiator automation for Intelligent Productivity Time Architecture.
 
-## Orchestration (n8n)
-- **Trigger:** Scheduled daily at 06:05 (CET) or triggered via Telegram `/negotiate`.
-- **Workflow:** `WF010_Schedule-Negotiator`
-- **Actions:**
-    1. Fetch biometrics via `Digital Twin API`.
-    2. Fetch tasks via `Google Tasks API`.
-    3. LLM-based reasoning for schedule optimization.
-    4. Update Google Calendar via `G10_calendar_enforcer.py`.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/productivity/scripts/G10_schedule_negotiator.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G10 Intelligent Productivity Time Architecture` within the `productivity` automation domain.
+
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
+
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G10_schedule_negotiator.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
+
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Console output for manual runs or scheduler logs.
+- Database reads or writes according to the configured data connection.
+- HTTP requests to configured local or external service endpoints.
+
+## Dependencies
+### Runtime
+- Python script: `modules/productivity/scripts/G10_schedule_negotiator.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `dotenv`
+- `json`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `psycopg2`
+- `requests`
+- `sys`
 
 ## Procedure
-This automation no longer runs as a local Python script. It is triggered by the n8n orchestrator.
-To manually trigger:
-- Use Telegram command: `/negotiate`
-- Or manually start the n8n workflow `WF010_Schedule-Negotiator`.
-
-## Archive Status
-The original script is located in `scripts/archive/G10_schedule_negotiator.py` for reference.
+1. Review the script source at `modules/productivity/scripts/G10_schedule_negotiator.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
 ## Failure Modes
 | Scenario | Detection | Response |
 |---|---|---|
-| n8n Webhook Offline | Connection Error | Fallback to local rule-based `G10_schedule_optimizer.py`. |
-| Biometric Data Stale | Warning in log | Use 70% readiness as conservative default. |
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
 ## Owner + Review Cadence
-- **Owner:** Michał
-- **Review Cadence:** Monthly audit of schedule accuracy and "Assumed & Acted" success rate.
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G10_schedule_negotiator.py`.
+
+## Implementation Notes
+- Top-level functions: get_biological_context, negotiate_schedule
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, json, modules.meta.scripts.G11_log_system, sys, dotenv, requests`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

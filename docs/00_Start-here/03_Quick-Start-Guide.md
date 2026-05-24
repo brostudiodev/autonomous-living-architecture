@@ -63,7 +63,7 @@ In my private environment, I run a global sync supervisor to pull data from heal
 
 ### "Where are my dashboards?"
 Go to `http://localhost:3003` for Grafana. I use automated provisioning for my data sources.
-- **How to prepare:** See [S05: Observability Dashboards](../20_Systems/S05_Observability-Dashboards/README.md).
+- **How to prepare:** See [S05: Observability Dashboards](../20_Systems/README.md).
 
 ### "How do I talk to my Digital Twin?"
 I interact with my system via a Telegram bot.
@@ -75,4 +75,4 @@ I use a custom auditor to keep my 1000+ files linked correctly.
 
 ---
 
-**Next Step:** Read [02: What Is Autonomous Living?](./02_What-Is-Autonomous-Living.md) to understand the philosophy behind these steps.
+**Next Step:** Read [02: What Is Autonomous Living?](02_What-Is-Autonomous-Living.md) to understand the philosophy behind these steps.

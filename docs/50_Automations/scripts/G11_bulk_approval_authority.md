@@ -1,60 +1,53 @@
 ---
-title: "WF: G11 Bulk Approval Authority"
+title: "Archived Automation Spec: G11_bulk_approval_authority"
 type: "automation_spec"
-status: "active"
-automation_id: "G11_bulk_approval_authority"
-goal_id: "goal-g11"
-systems: ["S11"]
+status: "archived"
 owner: "Michał"
-updated: "2026-03-27"
+updated: "2026-05-23"
 ---
 
-# G11: Bulk Approval Authority
+# Archived Automation Spec: G11_bulk_approval_authority
 
 ## Purpose
-Enables one-tap approval of all pending system decisions (Level 4/5 autonomy) via the `/approve all` Telegram command.
+Preserves the historical documentation record for `G11_bulk_approval_authority` after no matching active Python script was found in `scripts/` or `modules/<domain>/scripts/`.
 
-## Triggers
-- **Manual:** User sends `/approve all` to the Telegram bot.
-- **Scheduled:** Potential for end-of-day bulk resolution (Future).
+## Scope
+### In Scope
+- Records that this automation spec is archived and is not part of the active production script surface.
+- Provides a stable name for historical cross-references and migration review.
 
-## Inputs
-- **Database:** `digital_twin_michal.decision_requests` (Filter: `status = 'PENDING'`)
-- **Telegram:** Bot command trigger
+### Out of Scope
+- Runtime behavior, scheduler configuration, and operational ownership for a live script.
+- New production changes or active automation guarantees.
 
-## Processing Logic
-1. Telegram Bot receives `/approve all`.
-2. Bot calls `G11_decision_handler.py --all`.
-3. Handler fetches all IDs from `decision_requests` where `status = 'PENDING'`.
-4. Handler iterates through each request and executes the corresponding domain action.
-5. Handler updates the status of each request to `RESOLVED` / `SUCCESS`.
+## Inputs/Outputs
+### Inputs
+- Historical references to `G11_bulk_approval_authority` in older documentation or migration notes.
 
-## Outputs
-- **Telegram:** Confirmation message with the number of processed approvals.
-- **Database:** Updated `decision_requests` and `autonomous_decisions` logs.
-- **System Change:** Execution of individual actions (Bank transfers, shopping list additions, etc.)
+### Outputs
+- Archived documentation status only. No active runtime output is expected from this record.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin Hub](../../20_Systems/S04_Digital-Twin/README.md)
-- [S11 Meta-System Integration](../../20_Systems/S11_Meta-System-Integration/README.md)
+- No active script dependency is currently registered for this documentation file.
+- If this automation is restored, create or identify the active script and regenerate the spec with `G12_auto_documenter.py`.
 
-### External Services
-- Telegram Bot API
-- Domain-specific APIs (Google Sheets, Google Tasks)
+## Procedure
+1. Search for an active implementation before using this document operationally.
+2. If no script exists, keep this file archived.
+3. If a script is restored, update `status` to `active`, add `script_hash`, and regenerate the spec.
+4. Re-run `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| Execution failure | Action returns `False` | Mark request as `FAILED`, continue to next | Report count of failures to Telegram |
-| DB Connectivity | psycopg2 exception | Script exits with error | Notify via Telegram |
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Archived doc is mistaken for an active automation | No matching script exists in the active script directories | Locate or recreate the script before scheduling or invoking it. |
+| Historical link points here | Link resolves to an archived spec | Use the archive status to decide whether to update or remove the reference. |
+| Automation is restored | New script appears with this stem | Regenerate this spec as active documentation with a current `script_hash`. |
 
-## Monitoring
-- Success metric: Number of `RESOLVED` requests in `digital_twin_michal`.
-- Alert on: Any bulk run where `FAILED` count > 0.
+## Security Notes
+- Do not add secrets, raw tokens, passwords, or internal infrastructure addresses to archived documentation.
+- Use placeholders such as `[API_KEY]`, `{{DB_PASSWORD}}`, and `{{INTERNAL_IP}}` for any historical configuration notes.
 
-## Manual Fallback
-If the bulk command fails:
-1. Approve requests individually via Telegram buttons.
-2. Manually check the Daily Note and approve by checking `#approve_ID` boxes.
-3. Run the handler manually: `python3 scripts/G11_decision_handler.py <ID>`
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Quarterly archive review, or immediately if a matching script is restored.

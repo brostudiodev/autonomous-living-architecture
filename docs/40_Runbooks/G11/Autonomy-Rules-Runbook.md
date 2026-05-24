@@ -164,19 +164,19 @@ Approve?
 2. **View pending approvals:**
    ```bash
    # Query pending decisions
-   python scripts/G11_decision_handler.py --status
+   python modules/meta/scripts/G11_decision_handler.py --status
    ```
 
 3. **Force retry failed decision:**
    ```bash
    # Retry specific decision
-   python scripts/G11_decision_handler.py --retry {request_id}
+   python modules/meta/scripts/G11_decision_handler.py --retry {request_id}
    ```
 
 4. **Cancel pending decision:**
    ```bash
    # Cancel pending approval
-   python scripts/G11_decision_handler.py --cancel {request_id}
+   python modules/meta/scripts/G11_decision_handler.py --cancel {request_id}
    ```
 
 ## Safety Guardrails
@@ -222,12 +222,12 @@ schedule:
 
 ## Related Documentation
 
-- [G11 Meta-System Integration](../../10_Goals/G11_Meta-System-Integration-Optimization/README.md)
+- [G11 Meta-System Integration](../../20_Systems/README.md)
 - [G11 Decision Handler Automation](../../50_Automations/scripts/G11_decision_handler.md)
 - [Telegram Approval SOP](../../30_Sops/Telegram-Approval-SOP.md)
-- [G05 Financial Systems](../../10_Goals/G05_Autonomous-Financial-Command-Center/README.md)
-- [G03 Household Systems](../../10_Goals/G03_Autonomous-Household-Operations/README.md)
-- [G10 Productivity Systems](../../10_Goals/G{{LONG_IDENTIFIER}}/README.md)
+- [G05 Financial Systems](../../20_Systems/README.md)
+- [G03 Household Systems](../../20_Systems/README.md)
+- [G10 Productivity Systems](../../20_Systems/README.md)
 
 ---
 

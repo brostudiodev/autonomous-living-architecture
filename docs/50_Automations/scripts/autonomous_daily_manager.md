@@ -1,47 +1,92 @@
 ---
-title: "Daily Note Manager (S10/G12)"
+title: "Automation Spec: autonomous_daily_manager.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-24"
+updated: "2026-05-24"
+script_hash: "555b74b6502affd39cdfe8c470e3c425dc9b532a73d2a2e47c0bafba69fb21b1"
 ---
 
-# Purpose
-The **Daily Note Manager** (`autonomous_daily_manager.py`) is the core orchestrator of the daily "Single Source of Truth." It executes all sub-scripts in parallel, fetches system state, and surgically injects data into the Obsidian Daily Note.
+# 🤖 Automation Spec: autonomous_daily_manager.py
 
-# Scope
-- **In Scope:** Parallel script execution, YAML frontmatter restoration, surgical marker injection, goal refraction logic.
-- **Out Scope:** Long-running background processes or external API listeners.
+## Purpose
+Runs the autonomous daily manager operational utility.
 
-# Core Logic Enhancements (Apr 13)
-1.  **Parallel Execution:** Uses `ThreadPoolExecutor` to run 50+ scripts concurrently, reducing sync time by ~70%.
-2.  **Manual Approval Processing:** Executes `G11_decision_handler.py` to scan the Daily Note for manual `#approve_[ID]` markers. Bulk auto-approval (`--all`) is disabled to prevent race conditions and ensure human-in-the-loop for sensitive actions.
-3.  **Nutrition Auto-fill:** Automatically populates `calories` and `protein` frontmatter fields using `selected_meal.json` (G03 integration).
-4.  **Golden Mission Integration:** Injects the Top 5 ranked missions from `G11_mission_aggregator.py`.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/autonomous_daily_manager.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `Shared operational automation` within the `meta` automation domain.
 
-# Inputs/Outputs
-- **Inputs:** `selected_meal.json`, `triaged_tasks.json`, PostgreSQL `digital_twin_michal`.
-- **Outputs:** Fully populated `YYYY-MM-DD.md` in Obsidian Vault.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-# Dependencies
-- **Systems:** S04, S10, S11
-- **Files:** Obsidian Daily Note Template, `.env`
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `autonomous_daily_manager.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-# Procedure
-- Triggered by file-watchers or manual execution.
-- **Locking:** Uses `/tmp/autonomous_daily_manager.lock` to prevent recursive loops and has a 5-minute cooldown.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
-# Failure Modes
-| Scenario | Response |
-|----------|----------|
-| Script Failure | Parallel executor logs failure; dashboard shows ⚠️ status. |
-| Template Missing | Script aborts to prevent corrupted note creation. |
-| DB Offline | Frontmatter restoration skips dynamic fields; logs error. |
+## Dependencies
+### Runtime
+- Python script: `modules/meta/scripts/autonomous_daily_manager.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-# Security Notes
-- Sanitizes all injected strings to prevent Markdown/YAML breakage.
-- Uses absolute paths for reliability in different execution environments.
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.log`
+- `datetime`
+- `json`
+- `os`
+- `pathlib`
+- `psycopg2`
+- `re`
+- `subprocess`
+- `sys`
 
-# Owner + Review Cadence
-- **Owner:** Michał
-- **Review:** Monthly (Audit dashboard markers and performance)
+## Procedure
+1. Review the script source at `modules/meta/scripts/autonomous_daily_manager.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `autonomous_daily_manager.py`.
+
+## Implementation Notes
+- Top-level functions: find_script, create_from_template, inject_marker, wrap_collapsible, get_google_tasks_md, get_roadmap_missions_md, get_reflection_summary_md, get_habits_md, get_pending_requests, get_journal_context, get_pattern_analysis, update_daily_note
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `pathlib, os, autonomous_sdk.db_config, sys, datetime, psycopg2, json, autonomous_sdk.log, subprocess, re`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

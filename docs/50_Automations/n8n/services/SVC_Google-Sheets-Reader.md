@@ -63,8 +63,8 @@ Generic, reusable Google Sheets reader service that can be called by other workf
 
 ## Dependencies
 ### Systems
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md) - n8n Execution engine.
-- [S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md) - Google Sheets storage.
+- [S08 Automation Orchestrator](../../../20_Systems/README.md) - n8n Execution engine.
+- [S03 Data Layer](../../../20_Systems/README.md) - Google Sheets storage.
 
 ### External Services
 - Google Sheets API (OAuth2).

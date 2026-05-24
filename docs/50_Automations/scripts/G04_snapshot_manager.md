@@ -1,58 +1,85 @@
 ---
-title: "G04: Digital Twin Snapshot Manager"
+title: "Automation Spec: G04_snapshot_manager.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G04_snapshot_manager"
-goal_id: "goal-g04"
-systems: ["S04", "S03"]
-owner: "Michał"
-updated: "2026-03-19"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "5709e8039cb5efc694{{LONG_IDENTIFIER}}"
 ---
 
-# G11: Digital Twin Snapshot Manager
+# 🤖 Automation Spec: G04_snapshot_manager.py
 
 ## Purpose
-Enables the "Temporal Memory" of the Digital Twin by capturing and persisting the complete system state (Health, Finance, Logistics, etc.) into a historical archive. This allows for long-term trend analysis and prevents data loss when real-time tables are updated or truncated.
+G04_snapshot_manager.py.
 
-## Triggers
-- **Scheduled:** Daily at **00:01** via Crontab.
-- **Manual:** `python3 G04_snapshot_manager.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G04_snapshot_manager.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G04 Digital Twin Ecosystem` within the `meta` automation domain.
 
-## Inputs
-- **Digital Twin State:** Aggregated data from `G04_digital_twin_engine.py`.
-- **Target Database:** `digital_twin_michal` (Table: `twin_state_snapshots`).
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  Initializes the `DigitalTwinEngine` to gather the most recent data from all sub-databases.
-2.  Determines the `snapshot_date`. By default (if run at 00:01), it snapshots the state for the day that just concluded.
-3.  Serializes the entire `state` dictionary into a JSONB format.
-4.  Executes an `UPSERT` into the `twin_state_snapshots` table, ensuring only one snapshot exists per date.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G04_snapshot_manager.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Database Entry:** A new row in `public.twin_state_snapshots` containing the `snapshot_date` and `state_json`.
-- **Log Entry:** Status recorded in `_meta/daily-logs/snapshot_manager.log`.
-
-## Data Schema
-| Column | Type | Description |
-|---|---|---|
-| `id` | SERIAL | Primary Key |
-| `snapshot_date` | DATE | The date being archived (Unique) |
-| `state_json` | JSONB | Complete Digital Twin state dictionary |
-| `created_at` | TIMESTAMP | Actual time of archival |
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
 
 ## Dependencies
-### Systems
-- [S04 Digital Twin Hub](../../20_Systems/S04_Digital-Twin/README.md)
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
+### Runtime
+- Python script: `modules/meta/scripts/G04_snapshot_manager.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-### External Services
-- PostgreSQL (JSONB support required).
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G04_digital_twin_engine`
+- `os`
+- `sys`
 
-## Error Handling
-- **Database Connection Failure:** Retries internally; if fails, logs to `snapshot_manager.log` and exits with code 1.
-- **Serialization Error:** If non-serializable objects (like raw datetime) are found, the custom `json_serial` helper converts them to ISO strings.
+## Procedure
+1. Review the script source at `modules/meta/scripts/G04_snapshot_manager.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G04_snapshot_manager.py`.
+
+## Implementation Notes
+- Top-level functions: main
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `datetime, os, autonomous_sdk.db_config, sys, modules.meta.scripts.G04_digital_twin_engine`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
 
 ---
-*Related Documentation:*
-- [G04_digital_twin_engine.md](G04_digital_twin_engine.md)
-- [G04_Digital-Twin-Ecosystem Roadmap](../../10_Goals/G04_Digital-Twin-Ecosystem/Roadmap.md)
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

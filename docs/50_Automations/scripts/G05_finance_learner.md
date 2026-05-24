@@ -2,35 +2,86 @@
 title: "Automation Spec: G05_finance_learner.py"
 type: "automation_spec"
 status: "active"
-created: "2026-03-06"
-updated: "2026-03-06"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "30d782{{LONG_IDENTIFIER}}"
 ---
 
 # 🤖 Automation Spec: G05_finance_learner.py
 
-## 📝 Overview
-**Purpose:** Implements a feedback loop for the financial categorization engine by learning from manual user corrections in Obsidian.
-**Goal Alignment:** G05 (Autonomous Financial Command Center)
+## Purpose
+G05_finance_learner.py.
+
+## Scope
+### In Scope
+- Documents the active implementation at `modules/finance/scripts/G05_finance_learner.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G05 Autonomous Financial Command Center` within the `finance` automation domain.
+
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
+
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G05_finance_learner.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
+
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
+
+## Dependencies
+### Runtime
+- Python script: `modules/finance/scripts/G05_finance_learner.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `os`
+- `psycopg2`
+- `re`
+
+## Procedure
+1. Review the script source at `modules/finance/scripts/G05_finance_learner.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G05_finance_learner.py`.
+
+## Implementation Notes
+- Top-level functions: get_category_map, parse_corrections, update_merchant_mapping, run_learner
+- Top-level classes: No top-level classes detected.
 
 ## ⚡ Technical Details
 - **Language:** Python
-- **Triggers:** Scheduled daily via `G11_global_sync.py`
-- **Databases:** PostgreSQL (`autonomous_finance`)
-- **Dependencies:** `psycopg2`, `python-dotenv`, `re`, `datetime`
-
-## 🛠️ Logic Flow
-1. **Fetch Knowledge:** Retrieves the current category map (Name -> ID) from PostgreSQL.
-2. **Scan Obsidian:** Reads the last 3 Obsidian daily notes to find the `### 💸 Financial Corrections` section.
-3. **Parse Correction:** Identifies `[Merchant Name]: [Category Name]` patterns.
-4. **Learn & Update:** Upserts the correction into the `merchants` table, setting the `default_category_id` for that merchant.
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `re, psycopg2, datetime, os, autonomous_sdk.db_config`
 
 ## 📤 Outputs
-- Database updates to `merchants` table.
-- Console logs of successful learning events.
-
-## ⚠️ Known Issues / Maintenance
-- **Parsing Strictness:** Requires the format `Merchant: Category` to work correctly.
-- **Accuracy:** Relies on the user providing correct category names from the defined system list.
+- See Inputs/Outputs section above.
 
 ---
-*Updated for 2026 Autonomy Milestone.*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

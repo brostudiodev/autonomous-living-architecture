@@ -1,41 +1,89 @@
 ---
-title: "G08: Contextual Security Agent"
-type: "automation"
+title: "Automation Spec: G08_contextual_security.py"
+type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-28"
-goal_id: "goal-g08"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "9d32452a8d392cf7{{LONG_IDENTIFIER}}"
 ---
 
-# G08: Contextual Security Agent
+# 🤖 Automation Spec: G08_contextual_security.py
 
 ## Purpose
-Proposes home security and energy-saving actions based on the user's calendar ("Away" status) and external weather conditions.
+G08_contextual_security.py.
 
 ## Scope
-- **In Scope:**
-    - Checking Google Calendar for out-of-home locations.
-    - Checking weather conditions (Temperature/Sky).
-    - Proposing HA "Away Mode" or blind adjustments.
-- **Out Scope:**
-    - Direct device control (delegated to Home Assistant via Decision Engine).
+### In Scope
+- Documents the active implementation at `modules/home/scripts/G08_contextual_security.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G08 Predictive Smart Home Orchestration` within the `home` automation domain.
+
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
 ## Inputs/Outputs
-- **Inputs:**
-    - Google Calendar API
-    - Weather API (Open-Meteo)
-- **Outputs:**
-    - `decision_requests` in `digital_twin_michal`.
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G08_contextual_security.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
+
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-- **Systems:** [S07 Smart Home System](../../20_Systems/S04_Digital-Twin/README.md)
-- **External:** Home Assistant API
+### Runtime
+- Python script: `modules/home/scripts/G08_contextual_security.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `psycopg2`
+- `requests`
 
 ## Procedure
-```bash
-{{ROOT_LOCATION}}/autonomous-living/.venv/bin/python3 scripts/G08_contextual_security.py
-```
+1. Review the script source at `modules/home/scripts/G08_contextual_security.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
 ## Owner + Review Cadence
-- **Owner:** Michał
-- **Review Cadence:** Monthly review of decision accuracy.
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G08_contextual_security.py`.
+
+## Implementation Notes
+- Top-level functions: get_away_status, get_weather_context, propose_home_actions
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, json, modules.meta.scripts.G11_log_system, requests`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

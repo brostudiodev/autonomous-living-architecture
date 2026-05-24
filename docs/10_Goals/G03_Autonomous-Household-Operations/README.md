@@ -80,11 +80,11 @@ Create AI-powered household management systems that automate daily operations, o
 - PostgreSQL database
 
 ## Key Links
-- Outcomes: [Outcomes.md](Outcomes.md)
-- Metrics: [Metrics.md](Metrics.md)
-- Systems: [Systems.md](Systems.md)
-- Roadmap: [Roadmap.md](Roadmap.md)
-- Activity Log: [Activity-log.md](Activity-log.md)
+- Outcomes: [Outcomes.md](../G02_Automationbro-Recognition/Outcomes.md)
+- Metrics: [Metrics.md](../G02_Automationbro-Recognition/Metrics.md)
+- Systems: [Systems.md](../G02_Automationbro-Recognition/Systems.md)
+- Roadmap: [Roadmap.md](../G02_Automationbro-Recognition/Roadmap.md)
+- Activity Log: [Activity-log.md](../Activity-log.md)
 - Pantry Workflow: [../../50_Automations/n8n/services/PROJ_Inventory-Management.md](../../50_Automations/n8n/services/PROJ_Inventory-Management.md)
 
 ## Procedure

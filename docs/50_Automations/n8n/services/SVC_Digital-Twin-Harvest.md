@@ -32,10 +32,10 @@ Triggers the "Automationbro Content Harvester" script via the Digital Twin API. 
 
 ## Dependencies
 ### Systems
-- [G02 Automationbro Recognition](../../../10_Goals/G02_Automationbro-Recognition/README.md) - Primary goal.
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md) - Script executor.
+- [G02 Automationbro Recognition](../../../20_Systems/README.md) - Primary goal.
+- [S08 Automation Orchestrator](../../../20_Systems/README.md) - Script executor.
 
 ## Manual Fallback
 ```bash
-./.venv/bin/python scripts/G02_content_harvester.py
+./.venv/bin/python modules/brand/scripts/G02_content_harvester.py
 ```

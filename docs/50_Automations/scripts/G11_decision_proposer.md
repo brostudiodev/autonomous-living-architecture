@@ -1,73 +1,89 @@
 ---
-title: "G11_decision_proposer: Proactive Strategy Engine"
+title: "Automation Spec: G11_decision_proposer.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G11_decision_proposer"
-goal_id: "goal-g11"
-systems: ["S04", "S08"]
-owner: "Michał"
-updated: "2026-04-14"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "6d3acd589c42a28b8f900ce744e72bfe2eeb04ee6e518445b6742f06a4a32428"
 ---
 
-# G11_decision_proposer: Proactive Strategy Engine
+# 🤖 Automation Spec: G11_decision_proposer.py
 
 ## Purpose
-Analyzes the current state of all technical systems (Health, Finance, Logistics, Pantry, Roadmap) via the Digital Twin Engine and automatically generates high-confidence **Decision Requests** for human approval or **Implicit Actions** for high-trust domains.
+G11_decision_proposer.py.
 
-## 🚀 Enhancements (Apr 14)
-1. **Rich Reporting & Standardized Payloads:** Harmonized `propose_decision` with `RulesEngine` to include `recommended_action`, `reason`, and `description` in the database payload. This ensures that the "Decision" reported by Meta-Integration or n8n is never `null`.
-2. **Subprocess Execution Fix:** Standardized the `G11_decision_handler.py` trigger to use a clean argument list for better reliability.
-3. **Policy-Driven Context:** Now dynamically loads policy descriptions to enrich human-in-the-loop requests.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_decision_proposer.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-## Triggers
-- **System Sync:** Part of the `G11_global_sync.py` pipeline.
-- **Manual:** `python3 G11_decision_proposer.py`
-- **Roadmap:** Triggered by `G11_roadmap_enforcer.py` for Q2 task backlog.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Inputs
-- **Digital Twin State:** Unified context from `G04_digital_twin_engine.py`.
-- **Autonomy Policies:** `autonomy_policies.yaml` for authority level checks.
-- **Databases:** `autonomous_health`, `autonomous_finance`, `autonomous_pantry`, `autonomous_life_logistics`.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_decision_proposer.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Processing Logic
-0. **Autonomy Check (NEW):**
-   - Loads `autonomy_policies.yaml` at runtime.
-   - For every proposal, checks the `authority_level` of the (domain, policy) pair.
-   - If `authority_level == 'full'`, the request is marked as `APPROVED` and passed to the execution handler immediately (Implicit Autonomy).
-1. **Health Audit:**
-...
-4. **Logistics Audit:**
-   - Detects deadlines within 3 days.
-   - Proposes "Task Injection" for urgent document/payment handling.
-5. **Roadmap Enforcement (NEW):**
-   - Receives tasks from `G11_roadmap_enforcer.py`.
-   - Injects them as `meta.roadmap_task_enforcement` decisions.
-6. **Deduplication:**
-   - Checks `decision_requests` table to ensure identical pending requests aren't duplicated.
-
-## Outputs
-- **Database Entry:** New row in `digital_twin_michal.decision_requests` with `PENDING` status.
-- **Console Log:** Summary of generated proposals.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md)
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
+### Runtime
+- Python script: `modules/meta/scripts/G11_decision_proposer.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### Credentials
-- Database credentials via `.env`
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `json`
+- `modules.meta.scripts.G04_digital_twin_engine`
+- `os`
+- `psycopg2`
+- `sys`
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| DB Connection Fail | psycopg2 Exception | Exit with error | Logged to `system_activity_log` |
-| Invalid Payload | JSON/Key error | Skip specific proposal | Console warning |
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_decision_proposer.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Monitoring
-- Success metric: Number of proposals generated per run.
-- Dashboard: Digital Twin API `/status`.
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## Related Documentation
-- [G11_approval_prompter](./G11_approval_prompter.md)
-- [G11_decision_handler](./G11_decision_handler.md)
-- [S04 Digital Twin API Specification](../../20_Systems/S04_Digital-Twin/API-Specification.md)
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_decision_proposer.py`.
+
+## Implementation Notes
+- Top-level functions: No top-level functions detected.
+- Top-level classes: DecisionProposer
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, json, sys, modules.meta.scripts.G04_digital_twin_engine`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

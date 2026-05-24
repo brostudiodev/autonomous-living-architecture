@@ -68,9 +68,9 @@ I built this ecosystem to prove that the same patterns that run a Fortune 500 co
 ---
 
 ## 🧭 Ready to Explore?
-*   **[What Is Autonomous Living?](./02_What-Is-Autonomous-Living.md)** - **START HERE if you're not technical.** Plain language explanation of automation vs autonomy, what you can achieve, and how to start.
-*   **[Principles](../00_Start-here/Principles.md):** The core philosophy of this project.
-*   **[The 12 Goals](../10_Goals/README.md):** See exactly what I am automating.
+*   **[What Is Autonomous Living?](02_What-Is-Autonomous-Living.md)** - **START HERE if you're not technical.** Plain language explanation of automation vs autonomy, what you can achieve, and how to start.
+*   **[Principles](Principles.md):** The core philosophy of this project.
+*   **[The 12 Goals](../20_Systems/README.md):** See exactly what I am automating.
 *   **[The Tech Stack](../20_Systems/README.md):** For the engineers who want to see the "wires."
 
 ---

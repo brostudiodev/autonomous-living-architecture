@@ -1,0 +1,18 @@
+name: content
+version: 1
+description: "Autonomous Content Engine & Draft Generation"
+core: false
+sync_tier: 2
+databases:
+  - autonomous_career
+depends_on:
+  - postgres
+api_routes:
+  - /api/v1/content
+env_vars:
+  - N8N_LLM_DRAFT_URL
+capabilities:
+  - name: "idea_generation"
+    description: "Harvests content ideas from journals and daily learning activities."
+    api_endpoints: ["/api/v1/content/status"]
+    events_emitted: ["idea_harvested"]

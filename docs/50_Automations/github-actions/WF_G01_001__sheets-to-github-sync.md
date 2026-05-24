@@ -52,7 +52,7 @@ Automatically export training data from Google Sheets to Git-versioned CSVs ever
 
 ## Dependencies
 ### Systems
-- [S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md)
+- [S03 Data Layer](../../20_Systems/README.md)
 
 ### External Services
 - Google Sheets (published CSV export)

@@ -1,44 +1,87 @@
 ---
-title: "Weekly Mission Drafter (G11)"
+title: "Automation Spec: G11_weekly_mission_drafter.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-updated: "2026-04-02"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "09450679e48e9402fbbe3803e130a15e873e3355b1114a4cd6e9056f0b7ba06a"
 ---
 
-# Purpose
-The **Weekly Mission Drafter** (`G11_weekly_mission_drafter.py`) automates the strategic planning phase for the upcoming week. It eliminates the manual effort of reviewing 12 separate roadmaps by autonomously identifying next-step tasks and drafting a structured review note.
+# 🤖 Automation Spec: G11_weekly_mission_drafter.py
 
-# Scope
-- **In Scope:** Scanning `docs/10_Goals/*/Roadmap.md`, identifying "Pending" tasks in the Q2 section, creating new `.md` files in the Reviews directory.
-- **Out Scope:** Updating the actual status of tasks (handled by the Goal Progress Orchestrator).
+## Purpose
+G11_weekly_mission_drafter.py.
 
-# Logic
-- **Selection:** Picks the first 2 "Pending" (`- [ ]`) tasks from each goal's Q2 section.
-- **Dating:** Targets the upcoming ISO week (W+1).
-- **Format:** Generates a full Markdown note with sections for Suggested Focus, Retrospective, and Energy tracking.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_weekly_mission_drafter.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-# Inputs/Outputs
-- **Inputs:** All 12 Goal Roadmaps.
-- **Outputs:** `Obsidian Vault/03_Areas/A - Systems/Reviews/YYYY-WXX.md`.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-# Dependencies
-- **Systems:** S10 (Daily Goals Automation), G11 (Meta-System)
-- **Files:** Obsidian Vault path.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_weekly_mission_drafter.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-# Procedure
-- Automatically executed by `autonomous_daily_manager.py` during the sync.
-- Deduplication: Skips generation if the file already exists.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
 
-# Failure Modes
-| Scenario | Response |
-|----------|----------|
-| Roadmap Format Changed | Regex might fail to find Q2; script logs warning. |
-| Goal Deleted | Script ignores non-existent paths. |
+## Dependencies
+### Runtime
+- Python script: `modules/meta/scripts/G11_weekly_mission_drafter.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-# Security Notes
-- Read access to roadmaps, Write access to the Reviews directory.
+### Imports
+- `autonomous_sdk`
+- `datetime`
+- `os`
+- `pathlib`
+- `re`
+- `sys`
 
-# Owner + Review Cadence
-- **Owner:** Michał
-- **Review:** Monthly (verify quality of suggested focus)
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_weekly_mission_drafter.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_weekly_mission_drafter.py`.
+
+## Implementation Notes
+- Top-level functions: get_upcoming_week, scan_roadmaps, draft_weekly_note
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `re, pathlib, datetime, autonomous_sdk, os, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

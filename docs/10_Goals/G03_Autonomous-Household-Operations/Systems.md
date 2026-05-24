@@ -10,9 +10,9 @@ goal_id: "goal-g03"
 # Systems
 
 ## Enabling systems
-- [S03 Data Layer](../../20_Systems/S03_Data-Layer/README.md) - Primary storage via `autonomous_pantry` database.
-- [S04 Digital Twin Hub](../../20_Systems/S04_Digital-Twin/README.md) - Contextual intelligence and alerting.
-- [S10 Daily Goals Automation](../../20_Systems/S10_Daily-Goals-Automation/README.md) - Google Tasks synchronization.
+- [S03 Data Layer](../../20_Systems/README.md) - Primary storage via `autonomous_pantry` database.
+- [S04 Digital Twin Hub](../../20_Systems/README.md) - Contextual intelligence and alerting.
+- [S10 Daily Goals Automation](../../20_Systems/README.md) - Google Tasks synchronization.
 
 ## Traceability (Outcome → System → Automation → SOP/Runbook)
 

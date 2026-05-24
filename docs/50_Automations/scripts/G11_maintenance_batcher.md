@@ -2,64 +2,88 @@
 title: "Automation Spec: G11_maintenance_batcher.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G11_maintenance_batcher"
-goal_id: "goal-g11"
-systems: ["S11", "S08", "S07"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "d474ca45bd40d2b07b6462cf57ebd289a4344e14a16b4702c6957f2382b6fb8f"
 ---
 
 # 🤖 Automation Spec: G11_maintenance_batcher.py
 
 ## Purpose
-Reduces daily cognitive load and "alert fatigue" by batching non-critical hardware and logistics maintenance tasks into a single weekly "Sunday Admin" task. It acts as a triage layer between raw sensor data/deadlines and the user's active task list.
+G11_maintenance_batcher.py.
 
-## Triggers
-- **Daily Sync:** Executed as part of `G11_global_sync.py`.
-- **Manual:** `python3 G11_maintenance_batcher.py` to check current maintenance state.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_maintenance_batcher.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-## Inputs
-- **Home Assistant API:** Fetches battery levels for all connected sensors via `G08_home_monitor.py`.
-- **Database:** `autonomous_life_logistics` (Fetches items due within 7 days).
-- **Environment:** `.env` for Home Assistant URL and Token.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Data Collection:**
-    -   Scans HA states for all entities containing `battery` in their ID.
-    -   Queries the logistics database for any item with a `due_date` within the next 7 days that is not marked as `DONE` or `Completed`.
-2.  **Triage & Batching:**
-    -   **Sunday Logic:** If the current day is Sunday, it aggregates all identified items into a single consolidated Google Task: `🛠️ Sunday Admin: Maintenance & Hardware`.
-    -   **Weekday Logic:** If it's not Sunday, the script remains silent unless a critical threshold is met.
-3.  **Critical Overrides:**
-    -   **Battery Critical:** If any battery level is `< 5%`, an immediate Telegram alert is sent regardless of the day.
-    -   **Logistics Overdue:** If any logistics item is past its `due_date`, an immediate Telegram alert is sent.
-4.  **Logging:** Records the number of items batched or alerted in the `system_activity_log`.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_maintenance_batcher.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Google Tasks:** A single consolidated task in the "Today's Autonomous Focus" list (on Sundays).
-- **Telegram Notification:** Critical alerts for immediate action (any day).
-- **Activity Log:** Success/Failure status recorded in `system_activity_log`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S07 Smart Home](../../20_Systems/S07_Smart-Home/README.md)
-- [S08 Automation Orchestrator](../../20_Systems/S08_Automation-Orchestrator/README.md)
-- [S11 Meta-System](../../20_Systems/S11_Meta-System-Integration/README.md)
+### Runtime
+- Python script: `modules/meta/scripts/G11_maintenance_batcher.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### External Services
-- Home Assistant (REST API)
-- Google Tasks API
-- Telegram Bot API
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.events`
+- `autonomous_sdk.log`
+- `datetime`
+- `os`
+- `pathlib`
+- `psycopg2`
+- `sys`
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| HA API Offline | Connection timeout/error | Log error, skip battery check | System Activity Log |
-| DB Query Failure | `psycopg2` exception | Log error, skip logistics check | System Activity Log |
-| Google Tasks Error | API exception | Log error, fallback to Telegram | System Activity Log |
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_maintenance_batcher.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Manual Fallback
-If the Sunday task is not created:
-1.  Run the script manually: `python3 G11_maintenance_batcher.py`.
-2.  Check `G11_log_system` for errors related to HA or Google Tasks.
-3.  Manually review the "Battery" section in the Grafana dashboard or the `autonomous_life_logistics` table.
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_maintenance_batcher.py`.
+
+## Implementation Notes
+- Top-level functions: get_low_batteries, get_upcoming_logistics, run_batcher
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, pathlib, datetime, os, autonomous_sdk.db_config, autonomous_sdk.events, sys, autonomous_sdk.log`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

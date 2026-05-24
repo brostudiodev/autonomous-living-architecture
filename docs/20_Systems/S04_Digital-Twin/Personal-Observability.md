@@ -5,7 +5,7 @@ status: "active"
 goal_id: "goal-g10"
 system_id: "S04"
 owner: "Michał"
-updated: "2026-04-19"
+updated: "2026-05-10"
 ---
 
 # S04: Personal Observability Architecture
@@ -54,8 +54,8 @@ This system ensures that every strategic decision is grounded in historical real
 
 ## 🔗 Related Components
 - [Digital Twin Strategy](../../10_Goals/G04_Digital-Twin-Ecosystem/Digital-twin-strategy.md)
-- [G11 Meta-System Architecture](../S11_Meta-System-Integration/README.md)
-- [Daily Note Interface Spec](./Daily-Note-Interface-Spec.md)
+- [G11 Meta-System Architecture](../README.md)
+- [Daily Note Interface Spec](Daily-Note-Interface-Spec.md)
 
 ---
 *Updated: 2026-04-19 | Personal Observability v1.0*

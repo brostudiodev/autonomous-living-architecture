@@ -4,20 +4,22 @@
 
 ### 1. **Goal Structure & Organization**
 
-**Foundation Tier (4, 5, 10, 12)** as enablers is now **Operational**:
-- **G4 (Digital Twin)**: Central nervous system - **ACTIVE**. Aggregates data across 50+ endpoints and 5 databases.
-- **G5 (Financial Command)**: Resource layer - **ACTIVE**. Automated rebalancing and friction forecasting integrated.
-- **G10 (Productivity Architecture)**: Time allocation engine - **ACTIVE**. Bio-optimized scheduling and ROI tracking live.
-- **G12 (Documentation)**: Knowledge capture - **ACTIVE**. Automated documentation and DID-logging operational.
+**Foundation Tier (4, 5, 10, 11, 12)** is now **Operational (May 2026)**:
+- **G4 (Digital Twin)**: Central nervous system - **ACTIVE**. Aggregates data across 50+ endpoints.
+- **G5 (Financial Command)**: Resource layer - **ACTIVE**. Automated rebalancing and budget reactivity live.
+- **G10 (Productivity Architecture)**: Time allocation engine - **ACTIVE**. Bio-optimized scheduling operational.
+- **G11 (Meta-System)**: System optimization - **ACTIVE**. Centralized n8n Intelligence Gateway (v3.2) deployed.
+- **G12 (Documentation)**: Knowledge capture - **ACTIVE**. Continuous documentation audit and resumption synthesis live.
 
-### 2. **Data Flow Architecture (Hybrid Loop)**
+### 2. **Data Flow Architecture (Intelligence/Execution Split)**
 
-**Implemented Flow (March 2026):**
+**Implemented Flow (May 2026):**
 ```
-Manual Context (Obsidian "Power Goals") + Automated Telemetry (API/DB) 
-  → G12 Goal Orchestrator 
-  → Central Intelligence (PostgreSQL) 
-  → Activity Logs & Substack Content
+Telemetry (Python Body) 
+  → G05 Bridge (Standardized payload) 
+  → n8n Gateway (Strategic Brain) 
+  → Standardized JSON reasoning 
+  → Python Execution (DB/API/Notifications)
 ```
 
 **Tracking Mechanisms:**

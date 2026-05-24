@@ -3,15 +3,21 @@ title: "LinkedIn Ideas System"
 type: "system"
 status: "active"
 owner: "Michał"
-updated: "2026-03-17"
+updated: "2026-05-01"
 goal_id: "goal-g02"
 systems: ["S04", "S08"]
 ---
 
 # LinkedIn Ideas System
 
+- **System ID:** S12
+- **Status:** Active
+- **Goal Alignment:** [G02 Automationbro Recognition](../README.md)
+- **Roadmap:** [Goal Roadmap](../../10_Goals/G02_Automationbro-Recognition/Roadmap.md)
+- **Primary Owner:** Michał
+
 ## Purpose
-Automated generation and management of LinkedIn post ideas extracted from daily notes, Q2 Content Calendar, and system wins. Provides a curated backlog of content ideas with pre-written drafts that focus on universal benefits anyone can achieve.
+Automated generation and management of LinkedIn post ideas extracted from daily notes, system wins, and strategic skill gaps. Provides a curated backlog of content ideas with pre-written drafts that focus on universal benefits anyone can achieve.
 
 ## Intent
 Enable consistent LinkedIn content creation (3x/week) with minimal effort by:
@@ -24,7 +30,7 @@ Enable consistent LinkedIn content creation (3x/week) with minimal effort by:
 ## Scope
 
 ### In Scope
-- Idea generation from: Daily Notes, Q2 Calendar, System Wins
+- Idea generation from: Daily Notes, Career Skill Gaps (G09), System Wins
 - Pre-written drafts with "benefits for everyone" angle
 - Persistent storage in Obsidian Vault
 - Manual approval workflow (human in the loop)
@@ -46,7 +52,7 @@ Enable consistent LinkedIn content creation (3x/week) with minimal effort by:
 │                 │     │   (This System)  │     │  (Obsidian Vault)  │
 ├─────────────────┤     ├──────────────────┤     ├─────────────────────┤
 │ • Daily Notes   │     │ • Extract wins   │     │ • IDEA-*.md files  │
-│ • Q2 Calendar   │     │ • Match topics  │     │ • README index     │
+│ • Skill Gaps    │     │ • Match topics  │     │ • README index     │
 │ • System Wins   │     │ • Generate draft│     │ • Status tracking  │
 └─────────────────┘     └──────────────────┘     └─────────────────────┘
                               │
@@ -64,7 +70,7 @@ Enable consistent LinkedIn content creation (3x/week) with minimal effort by:
 | Source | Description | Frequency |
 |--------|-------------|-----------|
 | **Daily Notes** | automation_win, director_insight, system_status | Daily (when filled) |
-| **Q2 Content Calendar** | 20 planned topics for Apr-Jun 2026 | One-time + updates |
+| **G09 Strategist**| Skill gap events (Market demand signals) | Real-time (EDA) |
 | **System Wins** | Time saved, automation achievements | From daily notes |
 | **Manual Input** | Human-added ideas | On-demand |
 
@@ -219,7 +225,7 @@ Obsidian Vault/
 
 ### Monthly (Idea Generation)
 1. Scan recent daily notes for wins
-2. Check Q2 Calendar for upcoming topics
+2. Check strategic skill gaps (G09)
 3. Generate 3-5 new ideas
 4. Add to Ideas Basket with status "🆕 New"
 
@@ -229,14 +235,12 @@ Obsidian Vault/
 
 ### Systems
 - **S04 Digital Twin** - For extracting insights from daily notes
-- **S08 Automation Orchestrator** - For scheduled idea generation (future)
+- **S11 Meta-System** - For reacting to real-time skill gaps
+- **S08 Automation Orchestrator** - For scheduled idea generation
 
 ### External
 - Obsidian Vault (storage)
 - Git (sync to autonomous-living)
-
-### Credentials
-- None required (text-based system)
 
 ---
 
@@ -255,21 +259,21 @@ Obsidian Vault/
 
 - **Owner:** Michał
 - **Review Cadence:** Monthly
-- **Last Updated:** 2026-03-17
+- **Last Updated:** 2026-05-01
 
 ---
 
 ## Key Links
 
-- Q2 Content Calendar: [Q2 Content Calendar](docs/10_Goals/G02_Automationbro-Recognition/Q2-Content-Calendar.md)
-- G02 Goal: [G02 README](docs/10_Goals/G02_Automationbro-Recognition/README.md)
+- G02 Goal: [G02 README](../README.md)
+- G02 Roadmap: [G02 Roadmap](../../10_Goals/G02_Automationbro-Recognition/Roadmap.md)
 - Ideas Basket: `[[Obsidian Vault/02_Projects/LinkedIn Ideas Basket/README|Ideas Basket]]` (Vault Reference)
 
 ---
 
 ## Future Enhancements
 
-- [ ] Automated weekly idea generation script
+- [x] Automated reactive idea generation (May 01)
 - [ ] Integration with G02_substack_sync for article→LinkedIn repurposing
 - [ ] Analytics tracking (views, engagement)
 - [ ] YouTube Ideas Basket (separate system)
@@ -277,4 +281,4 @@ Obsidian Vault/
 
 ---
 
-*Last Updated: 2026-03-17*
+*Last Updated: 2026-05-01*

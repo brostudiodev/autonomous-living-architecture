@@ -43,8 +43,8 @@ The **Finance Intelligence System** is an AI-powered agent designed to manage an
 
 ## Dependencies
 ### Systems
-- [Autonomous Finance (G05)](../../../10_Goals/G05_Autonomous-Financial-Command-Center/README.md)
-- [Data Layer (S03)](../../../20_Systems/S03_Data-Layer/README.md) - PostgreSQL storage (`autonomous_finance`).
+- [Autonomous Finance (G05)](../../../20_Systems/README.md)
+- [Data Layer (S03)](../../../20_Systems/README.md) - PostgreSQL storage (`autonomous_finance`).
 
 ### External Services
 - **PostgreSQL Database:** Primary source of truth for transactions and budgets.

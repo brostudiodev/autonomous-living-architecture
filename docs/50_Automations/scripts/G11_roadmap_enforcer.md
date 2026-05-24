@@ -2,46 +2,87 @@
 title: "Automation Spec: G11_roadmap_enforcer.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G11_roadmap_enforcer"
-goal_id: "goal-g11"
-systems: ["S11", "S04"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "24f5e8{{LONG_IDENTIFIER}}"
 ---
 
 # 🤖 Automation Spec: G11_roadmap_enforcer.py
 
 ## Purpose
-Systematically scans all goal roadmaps for the current quarter (Q2 2026) and injects pending tasks into the Triage system as decision requests. This ensures roadmap milestones are converted into actionable tasks without manual oversight.
+G11_roadmap_enforcer.py.
 
-## Triggers
-- **Daily Sync:** Part of the `G11_global_sync.py` pipeline.
-- **Manual:** `python3 G11_roadmap_enforcer.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_roadmap_enforcer.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-## Inputs
-- **Roadmap Files:** `docs/10_Goals/*/Roadmap.md`.
-- **Logic:** Identifies the `## Q2 (Apr–Jun)` section and extracts `- [ ]` or `- [/]` items.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Goal Discovery:** Iterates through all goal folders in `docs/10_Goals/`.
-2. **Parsing:** Uses regex to isolate the Q2 section of each `Roadmap.md`.
-3. **Extraction:** Collects all pending and in-progress tasks.
-4. **Injection:** Calls `DecisionProposer.propose_decision` with the `meta.roadmap_task_enforcement` policy.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_roadmap_enforcer.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Decision Requests:** Injected into `digital_twin_michal.decision_requests`.
-- **System Activity Log:** Records the number of tasks injected.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Console output for manual runs or scheduler logs.
+- File or serialized data output as defined by the script implementation.
 
 ## Dependencies
-### Systems
-- [S11 Meta-System](../../20_Systems/S11_Meta-System-Integration/README.md)
-- [S04 Digital Twin](../../20_Systems/S04_Digital-Twin/README.md)
+### Runtime
+- Python script: `modules/meta/scripts/G11_roadmap_enforcer.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-## Error Handling
-| Failure Scenario | Detection | Response | Alert |
-|---|---|---|---|
-| File Not Found | `os.path.exists()` fails | Skip specific goal | Console warning |
-| Regex Fail | No match for Q2 | Log as "No tasks found" | System Activity Log |
+### Imports
+- `G11_decision_proposer`
+- `autonomous_sdk.db_config`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `re`
+- `sys`
 
-## Monitoring
-- Success metric: Number of Q2 tasks successfully injected into Triage.
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_roadmap_enforcer.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_roadmap_enforcer.py`.
+
+## Implementation Notes
+- Top-level functions: extract_q2_tasks, run_enforcer
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `re, G11_decision_proposer, os, autonomous_sdk.db_config, modules.meta.scripts.G11_log_system, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

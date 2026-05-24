@@ -2,34 +2,87 @@
 title: "Automation Spec: G12_link_maintainer.py"
 type: "automation_spec"
 status: "active"
-created: "2026-03-06"
-updated: "2026-03-06"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "2f88d336d2{{LONG_IDENTIFIER}}"
 ---
 
 # 🤖 Automation Spec: G12_link_maintainer.py
 
-## 📝 Overview
-**Purpose:** Autonomously identifies broken Markdown and WikiLinks across the documentation library and Obsidian Vault to maintain system traceability.
-**Goal Alignment:** G12 (Complete Process Documentation)
+## Purpose
+G12_link_maintainer.py.
+
+## Scope
+### In Scope
+- Documents the active implementation at `modules/docs/scripts/G12_link_maintainer.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G12 Complete Process Documentation` within the `docs` automation domain.
+
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
+
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G12_link_maintainer.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
+
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+
+## Dependencies
+### Runtime
+- Python script: `modules/docs/scripts/G12_link_maintainer.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
+
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.log`
+- `datetime`
+- `json`
+- `os`
+- `pathlib`
+- `re`
+
+## Procedure
+1. Review the script source at `modules/docs/scripts/G12_link_maintainer.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G12_link_maintainer.py`.
+
+## Implementation Notes
+- Top-level functions: find_broken_links, run_maintenance
+- Top-level classes: No top-level classes detected.
 
 ## ⚡ Technical Details
 - **Language:** Python
-- **Triggers:** Scheduled via `G11_global_sync.py` or On-Demand via `G11_self_healing_supervisor.py`.
-- **Databases:** None (File system scan).
-- **Dependencies:** `os`, `re`, `json`, `pathlib`
-
-## 🛠️ Logic Flow
-1. **Directory Crawl:** Deep-scans `docs/` and `Obsidian Vault/` for Markdown files.
-2. **Link Extraction:** Uses regex to find both standard `[text](path)` and `[[WikiLinks]]`.
-3. **Target Validation:** Verifies if the target file or anchor exists on disk.
-4. **Issue Logging:** Aggregates all broken references into `_meta/broken_links.json`.
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `re, pathlib, datetime, os, autonomous_sdk.db_config, json, autonomous_sdk.log`
 
 ## 📤 Outputs
-- **`_meta/broken_links.json`**: Machine-readable log of all broken references.
-- **Audit Signal:** Non-zero exit code if paths are invalid, alerting the Self-Healing Supervisor.
-
-## ⚠️ Known Issues / Maintenance
-- **Performance:** Scanning the full Obsidian Vault can be time-consuming; uses a flat list check for WikiLinks to optimize.
+- See Inputs/Outputs section above.
 
 ---
-*Generated for Documentation Integrity.*
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

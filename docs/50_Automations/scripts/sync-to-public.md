@@ -1,50 +1,53 @@
 ---
-title: "Automation Spec: sync-to-public.py"
+title: "Archived Automation Spec: sync-to-public"
 type: "automation_spec"
-status: "active"
-automation_id: "sync_to_public"
-goal_id: "goal-g12"
+status: "archived"
 owner: "Michał"
-updated: "2026-03-31"
+updated: "2026-05-23"
 ---
 
-# 🤖 Automation Spec: sync-to-public.py
+# Archived Automation Spec: sync-to-public
 
 ## Purpose
-Enforces a "Secure by Design" publishing workflow. It synchronizes the private `autonomous-living` repository with the public `autonomous-living-architecture` repository while ensuring that 100% of sensitive data (IPs, tokens, passwords, PII) is either redacted or replaced with placeholders.
+Preserves the historical documentation record for `sync-to-public` after no matching active Python script was found in `scripts/` or `modules/<domain>/scripts/`.
 
-## Strictest Security Protocol
-This script employs a **Zero-Trust Sanitization** model:
-1.  **Exclusion:** Entire directories (scripts, infrastructure, .env) are blocked from the public repo.
-2.  **Sanitization:** Known patterns (IPs, Emails, Tokens) are replaced with `{{PLACEHOLDER}}` tags.
-3.  **Fail-Safe (NEW):** After sanitization, the script performs a "Deep Scan" for raw sensitive patterns (e.g., `192-dot-168-dot-x-dot-x`, raw JWTs, `passwd=`). **If any raw secret is found, the entire sync operation aborts immediately.**
+## Scope
+### In Scope
+- Records that this automation spec is archived and is not part of the active production script surface.
+- Provides a stable name for historical cross-references and migration review.
 
-## Triggers
-- **Manual:** `python3 sync-to-public.py` (after major architectural updates).
-- **Recommended:** Always run with `--dry-run` first to audit changes.
+### Out of Scope
+- Runtime behavior, scheduler configuration, and operational ownership for a live script.
+- New production changes or active automation guarantees.
 
-## Inputs
-- **Private Repo:** `{{ROOT_LOCATION}}/autonomous-living`
-- **Public Repo Target:** `{{ROOT_LOCATION}}/autonomous-living-architecture`
-- **Regex Library:** Comprehensive patterns for IPs, Tokens, and Database credentials.
+## Inputs/Outputs
+### Inputs
+- Historical references to `sync-to-public` in older documentation or migration notes.
 
-## Sanitization Categories
-| Category | Action | Result |
+### Outputs
+- Archived documentation status only. No active runtime output is expected from this record.
+
+## Dependencies
+- No active script dependency is currently registered for this documentation file.
+- If this automation is restored, create or identify the active script and regenerate the spec with `G12_auto_documenter.py`.
+
+## Procedure
+1. Search for an active implementation before using this document operationally.
+2. If no script exists, keep this file archived.
+3. If a script is restored, update `status` to `active`, add `script_hash`, and regenerate the spec.
+4. Re-run `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
 |---|---|---|
-| **Internal IPs** | Matches `192-dot-168-dot-x-dot-x, `10.x.x.x` | `{{INTERNAL_IP}}` |
-| **Telegram** | Matches specific Bot Tokens & Chat IDs | `{{TELEGRAM_BOT_TOKEN}}` |
-| **Cloud APIs** | Matches Gemini, Withings keys | `{{API_KEY}}` |
-| **Passwords** | Matches `password: "{{GENERIC_API_SECRET}}"`, `passwd = "{{GENERIC_API_SECRET}}"` | `{{DB_PASSWORD}}` |
-| **System Paths** | Matches `/home/{{USER}}/...` | `/home/{{USER}}/...` |
-| **Identity** | Matches Owner Name, Emails | `{{EMAIL}}`, `Michal` |
+| Archived doc is mistaken for an active automation | No matching script exists in the active script directories | Locate or recreate the script before scheduling or invoking it. |
+| Historical link points here | Link resolves to an archived spec | Use the archive status to decide whether to update or remove the reference. |
+| Automation is restored | New script appears with this stem | Regenerate this spec as active documentation with a current `script_hash`. |
 
-## Error Handling & Fail-Safes
-- **Uncommitted Changes:** Script warns and asks for confirmation if the private repo has uncommitted work (prevents syncing "dirty" or experimental states).
-- **Post-Sanitization Verification:** If `verify_no_secrets()` returns `False`, the script calls `sys.exit(1)`. No files are written to the public repository if a breach is detected in memory.
-- **Binary Files:** Binary files (images, etc.) are copied directly but never analyzed/sanitized (risk of corruption).
+## Security Notes
+- Do not add secrets, raw tokens, passwords, or internal infrastructure addresses to archived documentation.
+- Use placeholders such as `[API_KEY]`, `{{DB_PASSWORD}}`, and `{{INTERNAL_IP}}` for any historical configuration notes.
 
-## Manual Verification (Mandatory)
-Even with the Fail-Safe, the owner should:
-1.  Navigate to the public repo.
-2.  Run `git diff` to ensure no unexpected data is being pushed.
-3.  Verify that placeholders like `{{INTERNAL_IP}}` are correctly applied.
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Quarterly archive review, or immediately if a matching script is restored.

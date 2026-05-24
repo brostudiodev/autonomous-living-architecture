@@ -1,54 +1,93 @@
 ---
-title: "G09: Relationship Harvester"
+title: "Automation Spec: G09_relationship_harvester.py"
 type: "automation_spec"
 status: "active"
-owner: "Michał"
-goal_id: "goal-g09"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "86efcda6008{{LONG_IDENTIFIER}}"
 ---
 
-# G09: Relationship Harvester
+# 🤖 Automation Spec: G09_relationship_harvester.py
 
 ## Purpose
-Automates social logging by correlating Google Calendar events with the Relationships database. It eliminates the friction of manual "Last Contact" updates by recognizing meeting names and participants.
+G09_relationship_harvester.py.
 
 ## Scope
 ### In Scope
-- Fetching today's events from the Primary Google Calendar.
-- Matching event titles/descriptions against names in the `relationships` table.
-- Updating `last_contact_date` for matched individuals.
-- Logging successful discoveries to `system_activity_log`.
+- Documents the active implementation at `modules/career/scripts/G09_relationship_harvester.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G09 Automated Career Intelligence` within the `career` automation domain.
 
 ### Out of Scope
-- Syncing from Google Sheets (handled by `G04_relationships_sync.py`).
-- Automatic contact (messaging) people.
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
 ## Inputs/Outputs
-### Input
-- **Source:** Google Calendar API (via `G10_calendar_client`).
-- **Reference:** PostgreSQL `autonomous_life_logistics.public.relationships`.
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G09_relationship_harvester.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-### Output
-- **Target:** PostgreSQL `relationships` table (`last_contact_date` column).
-- **Audit:** `system_activity_log`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
+
+## Dependencies
+### Runtime
+- Python script: `modules/career/scripts/G09_relationship_harvester.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
+
+### Imports
+- `G10_calendar_client`
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.events`
+- `datetime`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `pathlib`
+- `psycopg2`
+- `re`
+- `sys`
+- `yaml`
 
 ## Procedure
-### Manual Execution
-```bash
-python3 G09_relationship_harvester.py
-```
+1. Review the script source at `modules/career/scripts/G09_relationship_harvester.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Logic
-1. Fetch all people from the DB.
-2. Fetch today's calendar events.
-3. For each event, check if any person's name (case-insensitive) appears in the title or description.
-4. If found, update the database record for that person with today's date.
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## Integration
-- **Orchestrator:** `autonomous_daily_manager.py` (runs in parallel).
-- **Synergy:** Works with `G04_relationship_sentinel.py` to prevent false reminders for people recently met.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
 
 ## Owner + Review Cadence
-- **Owner:** Michał
-- **Review:** Bi-weekly.
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G09_relationship_harvester.py`.
+
+## Implementation Notes
+- Top-level functions: get_people_list, log_interaction, harvest_from_calendar, harvest_from_obsidian, run
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `re, psycopg2, pathlib, G10_calendar_client, datetime, os, autonomous_sdk.db_config, yaml, modules.meta.scripts.G11_log_system, autonomous_sdk.events, sys`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
 ---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

@@ -1,48 +1,90 @@
 ---
-title: "WF: G11 Autonomy Promotion Agent"
+title: "Automation Spec: G11_autonomy_promoter.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G11_autonomy_promoter"
-goal_id: "goal-g11"
-systems: ["S11"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "cf{{LONG_IDENTIFIER}}"
 ---
 
-# G11: Autonomy Promotion Agent
+# 🤖 Automation Spec: G11_autonomy_promoter.py
 
 ## Purpose
-A self-evolving meta-system that monitors user decision patterns and autonomously upgrades system authority. It implements an "Earned Trust" model by promoting policies from `limited` to `full` autonomy after a proven track record of successful human approvals.
+G11_autonomy_promoter.py.
 
-## Triggers
-- **Scheduled:** Daily as part of `G11_global_sync.py`.
-- **Manual:** `python scripts/G11_autonomy_promoter.py`
+## Scope
+### In Scope
+- Documents the active implementation at `modules/meta/scripts/G11_autonomy_promoter.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G11 Meta-System Integration Optimization` within the `meta` automation domain.
 
-## Inputs
-- **Database:** `digital_twin_michal.decision_requests` (Historical resolutions).
-- **Policy Config:** `scripts/autonomy_policies.yaml`.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1. **Approval Audit:** Queries the last 20 resolved requests for each unique policy in the database.
-2. **Trust Evaluation:** Checks if all 20 consecutive resolutions were `APPROVED` and resulted in `SUCCESS`.
-3. **Authority Upgrade:** If the trust threshold (20) is met and the current level is `limited`, it programmatically updates `autonomy_policies.yaml` to `authority_level: full`.
-4. **Notification:** Sends a Telegram "Promotion Alert" detailing which policy has gained autonomous authority.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G11_autonomy_promoter.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Configuration:** Updated `autonomy_policies.yaml`.
-- **Telegram:** Achievement notification for the user.
-- **Log:** Entry in `system_activity_log`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- File or serialized data output as defined by the script implementation.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S11 Meta-System Integration](../../20_Systems/S11_Meta-System-Integration/README.md)
+### Runtime
+- Python script: `modules/meta/scripts/G11_autonomy_promoter.py`
+- Trigger mode: Manual Execution
+- Databases: PostgreSQL
 
-### Scripts
-- `G04_digital_twin_notifier.py` (Telegram alerts)
+### Imports
+- `autonomous_sdk.db_config`
+- `datetime`
+- `modules.meta.scripts.G04_digital_twin_notifier`
+- `modules.meta.scripts.G11_log_system`
+- `os`
+- `os,`
+- `psycopg2`
+- `yaml`
 
-## Monitoring
-- **Success metric:** System authority levels align with real-world human trust data.
-- **Alert on:** YAML write failures or DB connectivity issues.
+## Procedure
+1. Review the script source at `modules/meta/scripts/G11_autonomy_promoter.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
 
-## Manual Fallback
-If automatic promotion is not desired, the user can manually revert the `authority_level` in `autonomy_policies.yaml` or increase the `TRUST_THRESHOLD` in the script.
+## Failure Modes
+| Scenario | Detection | Response |
+|---|---|---|
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
+
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G11_autonomy_promoter.py`.
+
+## Implementation Notes
+- Top-level functions: get_promotion_candidates, promote_policies, run_promoter
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** PostgreSQL
+- **Dependencies:** `psycopg2, datetime, os, autonomous_sdk.db_config, modules.meta.scripts.G04_digital_twin_notifier, yaml, os,, modules.meta.scripts.G11_log_system`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

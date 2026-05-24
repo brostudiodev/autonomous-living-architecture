@@ -254,7 +254,7 @@ The Evening Automation System prepares for the next day and generates daily insi
 0 18 * * * cd {{ROOT_LOCATION}}/autonomous-living && .venv/bin/python scripts/autonomous_evening_manager.py >> _meta/daily-logs/evening_manager.log 2>&1
 
 # Task Archiver - Sundays at 10:00
-0 10 * * 0 cd {{ROOT_LOCATION}}/autonomous-living && .venv/bin/python scripts/G11_task_archiver.py --archive --force >> _meta/daily-logs/task_archiver.log 2>&1
+0 10 * * 0 cd {{ROOT_LOCATION}}/autonomous-living && .venv/bin/python modules/meta/scripts/G11_task_archiver.py --archive --force >> _meta/daily-logs/task_archiver.log 2>&1
 ```
 
 ---
@@ -281,9 +281,9 @@ cd {{ROOT_LOCATION}}/autonomous-living
 source .venv/bin/activate
 
 # Run individual scripts
-python scripts/G10_ai_memory_generator.py
-python scripts/G10_foundation_checker.py
-python scripts/G11_mission_control.py
+python modules/productivity/scripts/G10_ai_memory_generator.py
+python modules/productivity/scripts/G10_foundation_checker.py
+python modules/meta/scripts/G11_mission_control.py
 ```
 
 ---
@@ -291,9 +291,9 @@ python scripts/G11_mission_control.py
 ## Dependencies
 
 ### Systems
-- [S04 Digital Twin](../20_Systems/S04_Digital-Twin/README.md)
-- [S09 Productivity & Time](../20_Systems/S09_Productivity-Time/README.md)
-- [S11 Meta-System Integration](../20_Systems/S11_Meta-System-Integration/README.md)
+- [S04 Digital Twin](../20_Systems/README.md)
+- [S09 Productivity & Time](../20_Systems/README.md)
+- [S11 Meta-System Integration](../20_Systems/README.md)
 
 ### Scripts
 | Script | Purpose |
@@ -320,8 +320,8 @@ python scripts/G11_mission_control.py
 - [G11_mission_control.md](../50_Automations/scripts/G11_mission_control.md)
 
 ### System Docs
-- [G10 Roadmap](../10_Goals/G{{LONG_IDENTIFIER}}/Roadmap.md)
-- [G11 Roadmap](../10_Goals/G11_Meta-System-Integration-Optimization/Roadmap.md)
+- [G10 Roadmap](../10_Goals/G02_Automationbro-Recognition/Roadmap.md)
+- [G11 Roadmap](../10_Goals/G02_Automationbro-Recognition/Roadmap.md)
 
 ---
 

@@ -242,7 +242,7 @@ Script will check:
 - `max_effort` / `form_ok` → (`TRUE`, `FALSE`)
 - `recovered_1_5` / `mood_1_5` → (`1`, `2`, `3`, `4`, `5`)
 
-**Status:** Tracked in [G01 Roadmap Q1](../../10_Goals/G01_Target-Body-Fat/Roadmap.md)
+**Status:** Tracked in [G01 Roadmap Q1](../../10_Goals/G02_Automationbro-Recognition/Roadmap.md)
 
 ---
 
@@ -257,8 +257,8 @@ Script will check:
 ---
 
 ## Related Documentation
-- **Goal:** [G01 Target Body Fat](../../10_Goals/G01_Target-Body-Fat/README.md)
-- **Training System:** [Training/README.md](../../10_Goals/G01_Target-Body-Fat/Training/README.md)
+- **Goal:** [G01 Target Body Fat](../../20_Systems/README.md)
+- **Training System:** [Training/README.md](../../20_Systems/README.md)
 - **Automation:** [WF_G01_001 Sheets Sync](../../50_Automations/github-actions/WF_G01_001__sheets-to-github-sync.md)
 - **Runbook (failures):** [Sheets Sync Failure](../../40_Runbooks/G01/Sheets-Sync-Failure.md)
 - **Exercise reference:** [exercises.yml](../../10_Goals/G01_Target-Body-Fat/Training/config/exercises.yml)

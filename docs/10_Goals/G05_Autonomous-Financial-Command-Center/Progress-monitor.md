@@ -4,7 +4,7 @@ type: "progress_monitor"
 status: "active"
 goal_id: "goal-g05"
 created: "2026-02-11"
-last_updated: "2026-04-19"
+last_updated: "2026-05-24"
 version: "1.1"
 ---
 
@@ -16,16 +16,28 @@ version: "1.1"
 
 ---
 
-## 🎯 Executive Summary - Q1 2026 Progress
+## 🎯 Executive Summary - Q2 2026 Progress
 
 ### Overall Completion Status
-- **Q1 Progress**: Foundational Phase Complete ✅
-- **Current Phase**: Optimization & Intelligence
-- **Key Focus**: Transaction categorization and anomaly detection
+- **Q1 Progress**: 100% Complete ✅
+- **Q2 Progress**: 60% Complete 🚀
+- **Current Phase**: Modular Intelligence & Bank Integration
+- **Key Focus**: AI categorization and modular kernel consolidation
 
 ---
 
 ## ✅ Major Achievements
+
+### Modular Kernel Migration (May 2026)
+**Implementation Summary:**
+- **Script Consolidation:** Successfully migrated 9 standalone finance scripts (Finance Sync, LLM Categorizer, Budget Rebalancer, Net Worth Snapshot, etc.) into the `modules/finance/` modular framework.
+- **AI Triage Integration:** Consolidated the `G05_llm_categorizer.py` logic into `Module.categorize_transactions()`, enabling automated transaction cleanup as part of the core sync loop.
+- **Observability:** Integrated finance metrics with the modular `sync()` heartbeat, emitting standard `LifeEvents` for net worth updates and budget breaches.
+
+**Technical Specifications:**
+- **Consolidated Logic:** `Module.sync_wealth()`, `Module.categorize_transactions()`, `Module.detect_anomalies()`.
+- **Infrastructure:** Updated Digital Twin API to expose wealth and anomaly status modularly.
+- **Cleanup:** Archived 9 root scripts to `scripts/archive/`.
 
 ### Complete Documentation Package Deployment (January 27, 2026)
 **Implementation Summary:**

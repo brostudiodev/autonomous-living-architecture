@@ -3,7 +3,7 @@ title: "Architecture Diagrams"
 type: "documentation"
 status: "active"
 owner: "Michał"
-updated: "2026-04-25"
+updated: "2026-05-19"
 ---
 
 # Autonomous Living Architecture Diagrams
@@ -20,55 +20,48 @@ This is the fundamental design principle governing all system architecture:
 
 ```mermaid
 graph TB
-    subgraph "🐍 PYTHON = BODY (Data & Execution)"
-        PYTHON_SCRIPTS["Domain Scripts<br/>(G07, G05, G03...)"]
-        DATA_LAYER["S03 Data Layer<br/>(PostgreSQL)"]
-        EXTERNAL_APIS["External APIs<br/>(Zepp, Banks, Withings)"]
+    subgraph "🐍 PYTHON = BODY (Execution)"
+        SDK["Autonomous SDK<br/>(DB, Events, Logs)"]
+        EO["EDA Orchestrator<br/>(G11_event_listener.py)"]
+        DOMAIN_SCRIPTS["13 Domain Modules<br/>(G01-G13)"]
+        BRIDGE["DB-Event-Bridge<br/>(G11_db_event_bridge.py)"]
         
-        EXTERNAL_APIS --> PYTHON_SCRIPTS
-        PYTHON_SCRIPTS --> DATA_LAYER
+        EO --> DOMAIN_SCRIPTS
+        DOMAIN_SCRIPTS --> SDK
     end
 
-    subgraph "🧠 n8n = BRAIN (Intelligence & Routing)"
-        N8N_ROUTER["WF001 Agent Router<br/>(Intent Classification)"]
-        N8N_AI["Gemini LLM<br/>(Reasoning & Synthesis)"]
-        N8N_WORKFLOWS["Sub-Workflows<br/>(Calendar, Finance, Inventory)"]
+    subgraph "🧠 n8n = BRAIN (Intelligence)"
+        SVC_LLM["SVC_LLM_* Services<br/>(Categorize, Idea, Draft)"]
+        N8N_ROUTER["EVENT_Universal-Autonomy-Orchestrator<br/>(Strategic Routing)"]
         
-        N8N_ROUTER --> N8N_AI
-        N8N_ROUTER --> N8N_WORKFLOWS
+        N8N_ROUTER --> SVC_LLM
     end
 
-    subgraph "📱 USER INTERFACE"
-        TELEGRAM_USER["Telegram User"]
-        OBSIDIAN_NOTE["Obsidian Daily Note"]
-        GRAFANA["Grafana Dashboards"]
+    subgraph "📡 BACKBONE (RabbitMQ)"
+        RMQ{{"life.events<br/>(RabbitMQ Broker)"}}
     end
 
-    subgraph "🔄 BIDIRECTIONAL FLOW"
-        USER_TO_SYSTEM["Direction 2: User Commands<br/>(Telegram → System)"]
-        SYSTEM_TO_USER["Direction 1: Data Ingestion<br/>(APIs → PostgreSQL → User)"]
+    subgraph "🗄️ DATA (PostgreSQL)"
+        DB[(PostgreSQL DBs<br/>with Universal Triggers)]
     end
 
-    %% Direction 1: Data Ingestion
-    EXTERNAL_APIS -->|"1. Pull data"| PYTHON_SCRIPTS
-    PYTHON_SCRIPTS -->|"2. Write to DB"| DATA_LAYER
-    DATA_LAYER -->|"3. Aggregate"| PYTHON_SCRIPTS
-    PYTHON_SCRIPTS -->|"4. Inject into Obsidian"| OBSIDIAN_NOTE
+    %% Reactive Flow
+    DB -- "1. pg_notify" --> BRIDGE
+    BRIDGE -- "2. AMQP Emit" --> RMQ
+    RMQ -- "3. Consume" --> EO
+    RMQ -- "3b. Consume" --> N8N_ROUTER
     
-    %% Direction 2: User Commands
-    TELEGRAM_USER -->|"1. Send command"| N8N_ROUTER
-    N8N_ROUTER -->|"2. Route to AI/Workflow"| N8N_AI
-    N8N_AI -->|"3. Execute action"| N8N_WORKFLOWS
-    N8N_WORKFLOWS -->|"4. Update DB/API"| DATA_LAYER
+    %% Brain-to-Hand Bridge
+    EO -- "4. Sync Call" --> SVC_LLM
+    DOMAIN_SCRIPTS -- "5. Emit Outcome" --> RMQ
     
-    %% Outbound Notifications
-    PYTHON_SCRIPTS -->|"5. Notify user"| TELEGRAM_USER
-    DATA_LAYER -->|"3b. Visualize"| GRAFANA
+    %% User Interface
+    N8N_ROUTER -- "6. Notify Strategy" --> TELEGRAM["Telegram User"]
 
-    style PYTHON_SCRIPTS fill:#e1f5fe
+    style EO fill:#e1f5fe
     style N8N_ROUTER fill:#f3e5f5
-    style DATA_LAYER fill:#fff3e0
-    style N8N_AI fill:#f3e5f5
+    style DB fill:#fff3e0
+    style RMQ fill:#e8f5e9
 ```
 
 ### Pattern Rules
@@ -101,12 +94,14 @@ flowchart TB
         end
 
         subgraph "🐍 PYTHON SCRIPTS (Body)"
-            G07_SYNC["G07_zepp_sync.py<br/>06:15, 13:15, 16:15"]
-            G07_WEIGHT["G07_weight_sync.py"]
-            G05_SYNC["G05_finance_sync.py"]
-            G05_BANK["G05_bank_ingest.py"]
-            G03_SYNC["G03_pantry_sync.py"]
-            G09_SYNC["G09_career_sync.py"]
+            SDK["Autonomous SDK Foundation"]
+            G07_SYNC["Health Sync"]
+            G05_SYNC["Finance Sync"]
+            G03_SYNC["Pantry Sync"]
+            G09_SYNC["Career Sync"]
+            OTHER_SYNC["Brand, Learning, Content..."]
+            
+            G07_SYNC & G05_SYNC & G03_SYNC & G09_SYNC & OTHER_SYNC --> SDK
         end
 
         subgraph "S03 Data Layer"
@@ -290,11 +285,14 @@ graph TB
     end
 
     subgraph "🐍 Data Processing Layer (Python = Body)"
-        PROCESSOR[Content Processor<br/>Multi-format Support]
-        ROUTER[Intelligent Router<br/>Intent Classification]
-        INGESTION[Data Ingestion<br/>06:00, 13:00, 16:00 Cron]
-        GHOST[G04 Ghost Schema<br/>Self-Calibration]
-        SYNC_SCRIPTS["Domain Scripts<br/>G07, G05, G03..."]
+        SDK["Autonomous SDK<br/>Unified Kernel"]
+        PROCESSOR[Content Processor]
+        ROUTER[Intelligent Router]
+        INGESTION[Data Ingestion]
+        GHOST[G04 Ghost Schema]
+        SYNC_SCRIPTS["13 Domain Modules"]
+        
+        SYNC_SCRIPTS & INGESTION & ROUTER --> SDK
     end
 
     subgraph "Domain Systems Layer"
@@ -821,4 +819,4 @@ graph TB
 
 ## 📚 Related Documentation
 
-- **[Goal Correlation Map](./Goal-Correlation-Map.md)** - Shows how all 12 goals interconnect via Digital Twin with data flow diagrams and correlation matrix
+- **[Goal Correlation Map](Goal-Correlation-Map.md)** - Shows how all 12 goals interconnect via Digital Twin with data flow diagrams and correlation matrix

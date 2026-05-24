@@ -31,8 +31,8 @@ Monitors upcoming planned expenses and sends alerts. Runs daily at 8 AM to notif
 
 ## Dependencies
 ### Systems
-- [S08 Automation Orchestrator](../../../20_Systems/S08_Automation-Orchestrator/README.md)
-- [S03 Data Layer](../../../20_Systems/S03_Data-Layer/README.md)
+- [S08 Automation Orchestrator](../../../20_Systems/README.md)
+- [S03 Data Layer](../../../20_Systems/README.md)
 
 ### External Services
 - Telegram Bot (AndrzejSmartBot).

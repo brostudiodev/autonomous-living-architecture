@@ -1,55 +1,90 @@
 ---
-title: "G10: Calendar Enforcer (The Focus Shield)"
+title: "Automation Spec: G10_calendar_enforcer.py"
 type: "automation_spec"
 status: "active"
-automation_id: "G10_calendar_enforcer"
-goal_id: "goal-g10"
-systems: ["S10"]
-owner: "Michał"
-updated: "2026-04-28"
+created: "2026-05-23"
+updated: "2026-05-23"
+script_hash: "4ff5fe575eb8{{LONG_IDENTIFIER}}"
 ---
 
-# G10: Calendar Enforcer (The Focus Shield)
+# 🤖 Automation Spec: G10_calendar_enforcer.py
 
 ## Purpose
-Physically synchronizes the AI-optimized daily schedule into Google Calendar. This acts as a "Focus Shield" by blocking time for Deep Work, Health, and Admin, making the plan visible and enforceable across all devices.
+G10_calendar_enforcer.py.
 
-## Triggers
-- **Manual:** Triggered via Telegram/API endpoint `/calendar/enforce`.
-- **Planned:** Future integration into the 07:00 Morning Launchpad.
+## Scope
+### In Scope
+- Documents the active implementation at `modules/productivity/scripts/G10_calendar_enforcer.py`.
+- Covers deterministic execution behavior, dependencies, operational outputs, and failure handling.
+- Supports `G10 Intelligent Productivity Time Architecture` within the `productivity` automation domain.
 
-## Inputs
-- **Schedule Data:** Provided by `G10_schedule_optimizer.py` (Structured Blocks).
-- **Google Calendar API:** Primary calendar access.
+### Out of Scope
+- Strategic reasoning, LLM prompt design, and human prioritization decisions unless explicitly implemented in the script.
+- Runtime data, generated logs, credentials, and local machine-specific values.
+- Deprecated root proxy behavior when a modular implementation exists.
 
-## Processing Logic
-1.  **Clearance:** Identifies and deletes any existing events for today that were marked with the `🤖 Auto-generated` tag to ensure a clean sync.
-2.  **Mapping:** Iterates through the optimized blocks (e.g., 06:00-08:00 -> Deep Work).
-3.  **Color Coding:** Assigns specific Google Calendar colors based on task type:
-    *   **Grape (3):** Deep Work / Roadmap Missions.
-    *   **Sage (2):** Health / Training.
-    *   **Graphite (11):** Standard Work / Core Professional.
-    *   **Flamingo (4):** Admin / Email / Finance.
-    *   **Basil (10):** Recovery / Rest.
-4.  **Injection:** Creates new "Busy" events in the primary Google Calendar.
+## Inputs/Outputs
+### Inputs
+- CLI arguments, scheduler context, environment variables, and local configuration consumed by `G10_calendar_enforcer.py`.
+- Repository data files, databases, or service APIs referenced by the imported dependencies.
 
-## Outputs
-- **Google Calendar:** Populated time blocks for the current day.
-- **Audit Log:** Recorded in `system_activity_log`.
+### Outputs
+- Structured log entries through `autonomous_sdk.log` or the configured logger when available.
+- Database reads or writes according to the configured data connection.
 
 ## Dependencies
-### Systems
-- [S10 Intelligent Productivity](../../10_Goals/G{{LONG_IDENTIFIER}}/README.md)
+### Runtime
+- Python script: `modules/productivity/scripts/G10_calendar_enforcer.py`
+- Trigger mode: Manual Execution
+- Databases: None detected by static scan.
 
-### External Services
-- **Google Calendar API:** Using service account credentials.
+### Imports
+- `autonomous_sdk.db_config`
+- `autonomous_sdk.log`
+- `datetime`
+- `googleapiclient.errors`
+- `json`
+- `modules.productivity.scripts.G10_calendar_client`
+- `os`
+- `re`
+- `sys`
 
-## Error Handling
-| Failure Scenario | Detection | Response |
+## Procedure
+1. Review the script source at `modules/productivity/scripts/G10_calendar_enforcer.py` before changing behavior.
+2. Run the script from the repository root with the project virtual environment when manual execution is required.
+3. Check structured logs and scheduler output after execution.
+4. Update this spec whenever the script changes and refresh `script_hash`.
+5. Regenerate the G12 documentation audit with `.venv/bin/python modules/docs/scripts/G12_documentation_audit.py`.
+
+## Failure Modes
+| Scenario | Detection | Response |
 |---|---|---|
-| Auth Failure | Script log | Verify `google_credentials_digital-twin-michal.json` |
-| Overlapping Events | API check | Current logic clears 🤖 events first; manual events remain. |
-| Timezone Mismatch | API check | Defaults to centralized `db_config.TIMEZONE`. |
+| Missing configuration or credentials | Script exits non-zero, logs an exception, or reports missing environment values | Restore the required environment variable or config entry using placeholders in documentation. |
+| Database or service unavailable | Connection timeout, HTTP error, or database exception in logs | Verify the dependent service, then rerun after connectivity is restored. |
+| Input data shape changed | Validation error, empty result, or unexpected exception | Compare current input payloads with the script assumptions and update parser logic or upstream producer. |
+| Documentation drift | G12 audit reports hash mismatch or stale spec | Re-run the documenter or update this spec manually with the current behavior. |
 
-## Manual Fallback
-If the enforcer fails, Michał must manually block time in the Google Calendar app based on the suggestions in the Obsidian Daily Note.
+## Security Notes
+- Do not document raw secrets, tokens, passwords, or internal infrastructure addresses.
+- Use environment variable names or placeholders such as `${ENV_VAR_NAME}`, `[API_KEY]`, and `{{INTERNAL_IP}}`.
+- Treat generated logs and exported datasets as potentially sensitive if they include personal, financial, health, or household data.
+
+## Owner + Review Cadence
+- Owner: Michał
+- Review cadence: Monthly, and immediately after code changes affecting `G10_calendar_enforcer.py`.
+
+## Implementation Notes
+- Top-level functions: get_color_for_block, enforce_schedule
+- Top-level classes: No top-level classes detected.
+
+## ⚡ Technical Details
+- **Language:** Python
+- **Triggers:** Manual Execution
+- **Databases:** None
+- **Dependencies:** `re, datetime, googleapiclient.errors, os, autonomous_sdk.db_config, json, sys, modules.productivity.scripts.G10_calendar_client, autonomous_sdk.log`
+
+## 📤 Outputs
+- See Inputs/Outputs section above.
+
+---
+*Generated by G12 Structural Documenter (Hardened v1.2.0)*

@@ -1,12 +1,12 @@
 ---
-title: "ADR-0013: Security Hardening & Secrets Management"
+title: "Adr-0013: Security Hardening & Secrets Management"
 type: "adr"
 status: "accepted"
 date: "2026-03-03"
 owner: "Michał"
 ---
 
-# ADR-0013: Security Hardening & Secrets Management
+# Adr-0013: Security Hardening & Secrets Management
 
 ## Context
 Multiple scripts in the `scripts/` directory previously contained hardcoded credentials (API keys, passwords, client secrets). This posed a security risk and made the repository difficult to share or move to public version control (Git).

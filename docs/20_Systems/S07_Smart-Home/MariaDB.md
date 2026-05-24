@@ -10,7 +10,7 @@ updated: "2026-02-16"
 # Home Assistant MariaDB
 
 > [!info] **LEGACY/ANALYTICS NOTICE**
-> Direct MariaDB access is now a **Secondary** integration method. For real-time state extraction and event-driven automation, use the **Home Assistant REST API** via `scripts/G08_home_monitor.py`. This SQL-based method is reserved for deep historical analytics and complex batch reporting.
+> Direct MariaDB access is now a **Secondary** integration method. For real-time state extraction and event-driven automation, use the **Home Assistant REST API** via `modules/home/scripts/G08_home_monitor.py`. This SQL-based method is reserved for deep historical analytics and complex batch reporting.
 
 ## Connection Details
 
