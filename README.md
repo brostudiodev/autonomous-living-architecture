@@ -101,3 +101,12 @@ I believe in the power of open-source knowledge. You are free to:
 ---
 
 *Built for 2026. Designed for Autonomy. Engineered for Excellence.*
+
+---
+
+## 📖 Free E-book: Automation-First Living
+
+Just want the quick version? Get the free 37-page guide — **real systems, real
+examples, no jargon** (pay-what-you-like, free forever):
+
+👉 [Download the e-book](ebooks/Automation-First-Living-A-Real-World-Blueprint.pdf) · [Preview](ebooks/) · [Support on Ko-fi](https://ko-fi.com/michalnowakowski)
