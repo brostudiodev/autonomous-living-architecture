@@ -109,4 +109,4 @@ I believe in the power of open-source knowledge. You are free to:
 Just want the quick version? Get the free 37-page guide — **real systems, real
 examples, no jargon** (pay-what-you-like, free forever):
 
-👉 [Download the e-book](ebooks/Automation-First-Living-A-Real-World-Blueprint.pdf) · [Preview](ebooks/) · [Support on Ko-fi](https://ko-fi.com/michalnowakowski)
+👉 [Download the e-book](ebooks/Automation-First-Living-A-Real-World-Blueprint.pdf) · [Preview](ebooks/) · [Get it on Ko-fi (pay what you like)](https://ko-fi.com/s/530e7883ea)

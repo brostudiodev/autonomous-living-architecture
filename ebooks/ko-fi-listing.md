@@ -3,6 +3,8 @@
 Ready-to-paste copy + exact configuration for the ko-fi product.
 All steps are manual (ko-fi is Michał's account).
 
+**LIVE product:** https://ko-fi.com/s/530e7883ea
+
 ## 1. Create the product
 
 ko-fi.com → **Shop** → **Add Product**

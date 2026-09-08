@@ -44,7 +44,7 @@ this open-source blueprint going.
 | 🔧 Keep the homelab running | 19 zł |
 | 🚀 One step closer to the North Star | 49 zł |
 
-<a href='https://ko-fi.com/michalnowakowski' target='_blank'><img height='60' style='border:0px;height:60px;' src='https://storage.ko-fi.com/cdn/kofi3.png?v=3' border='0' alt='Get the ebook - Buy Me a Coffee at ko-fi.com' /></a>
+<a href='https://ko-fi.com/s/530e7883ea' target='_blank'><img height='60' style='border:0px;height:60px;' src='https://storage.ko-fi.com/cdn/kofi3.png?v=3' border='0' alt='Get the ebook - Buy Me a Coffee at ko-fi.com' /></a>
 
 ## 💌 Continue the journey
 
