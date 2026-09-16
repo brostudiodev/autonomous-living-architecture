@@ -47,9 +47,7 @@ ko-fi.com → **Shop** → **Add Product**
 
 > Thank you! Your download is on its way.
 >
-> 🔗 Get the free link anytime: the public GitHub copy is always there, even at
-> 0 zł:
-> https://github.com/brostudiodev/autonomous-living-architecture/tree/main/ebooks
+> 🔗 Get the e-book anytime, free: https://ko-fi.com/s/530e7883ea
 >
 > Continue the journey: https://automationbro.substack.com
 >

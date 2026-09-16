@@ -12,8 +12,8 @@ and work**, all pulled into one self-running loop.
 
 **Real systems. Real examples. No jargon.**
 
-[![Download the free ebook](cover.jpg)](Automation-First-Living-A-Real-World-Blueprint.pdf)
-*Click the cover to download the PDF (37 pages, free).*
+[![Get the free ebook on Ko-fi](cover.jpg)](https://ko-fi.com/s/530e7883ea)
+*Click the cover to get the e-book on Ko-fi (37 pages, free).*
 
 ---
 
