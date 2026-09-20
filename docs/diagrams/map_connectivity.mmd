@@ -1,0 +1,350 @@
+graph TD
+    classDef goal fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef system fill:#bbf,stroke:#333,stroke-width:1px;
+    classDef success fill:#cfc,stroke:#080,stroke-width:1px;
+    classDef failure fill:#fcc,stroke:#800,stroke-width:2px;
+    classDef warning fill:#ffd,stroke:#aa0,stroke-width:1px;
+    classDef dormant fill:#eee,stroke:#c60,stroke-width:1px;
+    classDef inactive fill:#f2f2f2,stroke:#666,stroke-width:1px,stroke-dasharray: 4 4;
+    classDef unknown fill:#eee,stroke:#999,stroke-width:1px,stroke-dasharray: 5 5;
+    G01(("G01 - Target Body Fat")):::goal
+    G02(("G02 - Automationbro Recognition")):::goal
+    G03(("G03 - Autonomous Household")):::goal
+    G04(("G04 - Digital Twin Ecosystem")):::goal
+    G05(("G05 - Autonomous Financial Command")):::goal
+    G06(("G06 - Certification Exams")):::goal
+    G07(("G07 - Predictive Health")):::goal
+    G08(("G08 - Predictive Smart Home")):::goal
+    G09(("G09 - Automated Career Intelligence")):::goal
+    G10(("G10 - Intelligent Productivity")):::goal
+    G11(("G11 - Meta-System Integration")):::goal
+    G12(("G12 - Complete Process Documentation")):::goal
+    G13(("G13 - Autonomous Content Engine")):::goal
+    G10_Google_Tasks["G10, Google Tasks"]:::system
+    G11["G11"]:::system
+    Hermes_Agent["Hermes Agent"]:::system
+    Modular_SDK["Modular SDK"]:::system
+    RabbitMQ["RabbitMQ"]:::system
+    S01["S01 - Monitoring"]:::system
+    S03["S03 - Data & Messaging"]:::system
+    S04["S04 - Digital Twin"]:::system
+    S05["S05 - Observability Dashboards"]:::system
+    S06["S06 - Health Performance"]:::system
+    S07["S07 - Smart Home"]:::system
+    S08["S08 - Automation Orchestrator"]:::system
+    S09["S09 - Productivity Time"]:::system
+    S10["S10 - Daily Note Prep"]:::system
+    S11["S11 - Meta-System Integration"]:::system
+    G07_weight_sync["G07_weight_sync"]:::success
+    training_sync["training_sync"]:::success
+    G01_strength_gains_reporter["G01_strength_gains_reporter"]:::success
+    G01_progressive_overload["G01_progressive_overload"]:::success
+    G01_training_planner["G01_training_planner"]:::success
+    G03_cart_aggregator["G03_cart_aggregator"]:::success
+    G01_monthly_reporter["G01_monthly_reporter"]:::success
+    G02_substack_sync["G02_substack_sync"]:::success
+    G02_content_harvester["G02_content_harvester"]:::success
+    G02_brand_orchestrator["G02_brand_orchestrator"]:::success
+    G02_linkedin_drafter["G02_linkedin_drafter"]:::success
+    G02_idea_generator["G02_idea_generator"]:::dormant
+    sync_to_public["sync_to_public"]:::success
+    G02_community_scout["G02_community_scout"]:::success
+    G02_video_script_generator["G02_video_script_generator"]:::success
+    G02_roi_visualizer["G02_roi_visualizer"]:::success
+    G02_tech_stack_tracker["G02_tech_stack_tracker"]:::success
+    G03_pantry_suggestor["G03_pantry_suggestor"]:::success
+    G03_predictive_validation["G03_predictive_validation"]:::success
+    G11_approval_prompter["G11_approval_prompter"]:::warning
+    G11_decision_handler["G11_decision_handler"]:::success
+    G03_promo_ingestor["G03_promo_ingestor"]:::success
+    G10_google_tasks_sync["G10_google_tasks_sync"]:::success
+    G03_meal_planner["G03_meal_planner"]:::success
+    G03_appliance_monitor["G03_appliance_monitor"]:::success
+    G03_price_scouter["G03_price_scouter"]:::success
+    G04_digital_twin_engine["G04_digital_twin_engine"]:::success
+    G04_digital_twin_api["G04_digital_twin_api"]:::success
+    G04_morning_briefing_sender["G04_morning_briefing_sender"]:::success
+    autonomous_daily_manager["autonomous_daily_manager"]:::success
+    G04_digital_twin_monitor["G04_digital_twin_monitor"]:::success
+    G04_relationships_sync["G04_relationships_sync"]:::success
+    G04_system_velocity_reporter["G04_system_velocity_reporter"]:::success
+    G04_ghost_schema_reporter["G04_ghost_schema_reporter"]:::success
+    G04_personal_context_sync["G04_personal_context_sync"]:::success
+    G05_llm_categorizer["G05_llm_categorizer"]:::success
+    G11_event_listener_Trigger_budget_breach["G11_event_listener (Trigger: budget_breach)"]:::success
+    G05_budget_rebalancer["G05_budget_rebalancer"]:::success
+    G05_finance_sync["G05_finance_sync"]:::success
+    finance_rebalance["finance_rebalance"]:::success
+    G05_net_worth_snapshot["G05_net_worth_snapshot"]:::success
+    G11_mission_aggregator["G11_mission_aggregator"]:::success
+    G05_liquidity_rebalancer["G05_liquidity_rebalancer"]:::success
+    G05_financial_intelligence_report["G05_financial_intelligence_report"]:::success
+    G05_impulse_classifier["G05_impulse_classifier"]:::dormant
+    G05_subscription_price_monitor["G05_subscription_price_monitor"]:::success
+    G05_budget_breach_executor["G05_budget_breach_executor"]:::success
+    G06_learning_sync["G06_learning_sync"]:::success
+    G06_learning_ingester["G06_learning_ingester"]:::success
+    G07_zepp_sync["G07_zepp_sync"]:::success
+    G07_withings_direct_sync["G07_withings_direct_sync"]:::success
+    G07_health_recovery_pro["G07_health_recovery_pro"]:::success
+    G07_health_anomaly_monitor["G07_health_anomaly_monitor"]:::success
+    G07_workout_adjustment_executor["G07_workout_adjustment_executor"]:::success
+    G07_evening_restorative_handler["G07_evening_restorative_handler"]:::dormant
+    G08_resource_healer["G08_resource_healer"]:::success
+    G08_hardware_monitor["G08_hardware_monitor"]:::success
+    G08_home_monitor["G08_home_monitor"]:::success
+    G08_focus_orchestrator["G08_focus_orchestrator"]:::success
+    G08_focus_readiness_check["G08_focus_readiness_check"]:::dormant
+    G08_environment_advisor["G08_environment_advisor"]:::success
+    G08_predictive_scene_executor["G08_predictive_scene_executor"]:::success
+    G09_career_strategist["G09_career_strategist"]:::success
+    g09_activity_log_generator["g09_activity_log_generator"]:::dormant
+    G09_market_scout_handler["G09_market_scout_handler"]:::success
+    G09_skill_gap_learning_executor["G09_skill_gap_learning_executor"]:::success
+    G10_evening_summarizer["G10_evening_summarizer"]:::success
+    G10_log_reflection["G10_log_reflection"]:::success
+    G11_task_archiver["G11_task_archiver"]:::success
+    G11_mission_refractor["G11_mission_refractor"]:::success
+    G10_productivity_sync["G10_productivity_sync"]:::success
+    G10_calendar_enforcer["G10_calendar_enforcer"]:::success
+    G10_focus_intelligence["G10_focus_intelligence"]:::success
+    G10_journal_data_collector["G10_journal_data_collector"]:::success
+    G10_ai_memory_generator["G10_ai_memory_generator"]:::inactive
+    G10_foundation_checker["G10_foundation_checker"]:::inactive
+    G10_daily_pattern_analyzer["G10_daily_pattern_analyzer"]:::inactive
+    G10_weekly_rollup["G10_weekly_rollup"]:::success
+    autonomous_evening_manager["autonomous_evening_manager"]:::success
+    G10_schedule_optimizer["G10_schedule_optimizer"]:::success
+    G10_location_intelligence["G10_location_intelligence"]:::success
+    G10_mood_engine["G10_mood_engine"]:::success
+    G10_activity_analyzer["G10_activity_analyzer"]:::success
+    G10_recovery_debt_forecaster["G10_recovery_debt_forecaster"]:::success
+    G10_meeting_move_executor["G10_meeting_move_executor"]:::dormant
+    G11_event_emitter["G11_event_emitter"]:::success
+    G11_quick_wins["G11_quick_wins"]:::success
+    G11_global_sync["G11_global_sync"]:::success
+    G12_connectivity_mapper["G12_connectivity_mapper"]:::success
+    G11_bulk_approval_authority["G11_bulk_approval_authority"]:::success
+    G11_autonomy_promoter["G11_autonomy_promoter"]:::success
+    G05_auto_rebalance_trigger["G05_auto_rebalance_trigger"]:::success
+    G11_ceo_weekly_briefing["G11_ceo_weekly_briefing"]:::success
+    G11_meta_mapper["G11_meta_mapper"]:::success
+    G11_rules_engine["G11_rules_engine"]:::success
+    G11_system_audit["G11_system_audit"]:::success
+    G11_strategic_summarizer["G11_strategic_summarizer"]:::success
+    G11_task_syncer["G11_task_syncer"]:::success
+    G11_maintenance_batcher["G11_maintenance_batcher"]:::success
+    G11_hygiene_agent["G11_hygiene_agent"]:::success
+    G11_decision_proposer["G11_decision_proposer"]:::success
+    G11_action_executor["G11_action_executor"]:::success
+    G11_self_healing_repair["G11_self_healing_repair"]:::success
+    G11_suggestion_scrubber["G11_suggestion_scrubber"]:::success
+    G11_goal_recommender["G11_goal_recommender"]:::success
+    G11_technical_failure_harvester["G11_technical_failure_harvester"]:::success
+    G11_failure_analyzer["G11_failure_analyzer"]:::success
+    G11_populate_kb["G11_populate_kb"]:::success
+    G11_self_healing_logic["G11_self_healing_logic"]:::success
+    G11_stall_detector["G11_stall_detector"]:::success
+    parallel_daily_manager["parallel_daily_manager"]:::success
+    G11_hermes_agent["G11_hermes_agent"]:::dormant
+    G11_goal_registry_sync["G11_goal_registry_sync"]:::success
+    G11_value_function["G11_value_function"]:::success
+    G11_utility_calculator["G11_utility_calculator"]:::dormant
+    G11_pareto_generator["G11_pareto_generator"]:::success
+    G11_post_mortem["G11_post_mortem"]:::success
+    G11_prescriptive_proposer["G11_prescriptive_proposer"]:::success
+    n8n_deploy_tools_v25["n8n_deploy_tools_v25"]:::dormant
+    G12_auto_documenter["G12_auto_documenter"]:::success
+    G12_documentation_audit["G12_documentation_audit"]:::success
+    G12_stale_docs_monitor["G12_stale_docs_monitor"]:::success
+    G12_link_maintainer["G12_link_maintainer"]:::success
+    G10_productivity_data_contributor["G10_productivity_data_contributor"]:::success
+    G13_content_idea_generator["G13_content_idea_generator"]:::success
+    G13_content_draft_agent["G13_content_draft_agent"]:::success
+    G13_linkedin_draft_generator["G13_linkedin_draft_generator"]:::success
+    G13_substack_draft_generator["G13_substack_draft_generator"]:::warning
+    G13_substack_scheduler["G13_substack_scheduler"]:::success
+    G13_content_publish_executor["G13_content_publish_executor"]:::success
+    S03 --> G07_weight_sync
+    G01 --> S03
+    S03 --> training_sync
+    S06 --> G01_strength_gains_reporter
+    G01 --> S06
+    S06 --> G01_progressive_overload
+    S06 --> G01_training_planner
+    S03 --> G03_cart_aggregator
+    S01 --> G01_monthly_reporter
+    G01 --> S01
+    S08 --> G02_substack_sync
+    G02 --> S08
+    S08 --> G02_content_harvester
+    S08 --> G02_brand_orchestrator
+    S08 --> G02_linkedin_drafter
+    S08 --> G02_idea_generator
+    S08 --> sync_to_public
+    S08 --> G02_community_scout
+    S08 --> G02_video_script_generator
+    S04 --> G02_roi_visualizer
+    G02 --> S04
+    S08 --> G02_tech_stack_tracker
+    G03 --> S03
+    S03 --> G03_pantry_suggestor
+    S04 --> G03_predictive_validation
+    G03 --> S04
+    S04 --> G11_approval_prompter
+    S10 --> G03_cart_aggregator
+    G03 --> S10
+    S08 --> G11_decision_handler
+    G03 --> S08
+    S03 --> G03_promo_ingestor
+    S10 --> G10_google_tasks_sync
+    S03 --> G03_meal_planner
+    S07 --> G03_appliance_monitor
+    G03 --> S07
+    S08 --> G03_price_scouter
+    S04 --> G04_digital_twin_engine
+    S04 --> G04_digital_twin_api
+    G04 --> S04
+    G04 --> S03
+    S04 --> G04_morning_briefing_sender
+    S10 --> autonomous_daily_manager
+    G04 --> S10
+    S04 --> G04_digital_twin_monitor
+    S04 --> G04_relationships_sync
+    S04 --> G04_system_velocity_reporter
+    S04 --> G04_ghost_schema_reporter
+    S04 --> G04_personal_context_sync
+    G05 --> S03
+    S03 --> G05_llm_categorizer
+    S11 --> G11_event_listener_Trigger_budget_breach
+    G05 --> S11
+    S05 --> G05_budget_rebalancer
+    G05 --> S05
+    G05 --> S08
+    S03 --> G05_finance_sync
+    S05 --> finance_rebalance
+    S05 --> G05_net_worth_snapshot
+    S05 --> G11_mission_aggregator
+    S05 --> G05_liquidity_rebalancer
+    S03 --> G05_financial_intelligence_report
+    S03 --> G05_impulse_classifier
+    S05 --> G05_subscription_price_monitor
+    S05 --> G05_budget_breach_executor
+    G05 --> S04
+    S03 --> G06_learning_sync
+    G06 --> S03
+    S03 --> G06_learning_ingester
+    S06 --> G07_zepp_sync
+    G07 --> S06
+    S06 --> G07_withings_direct_sync
+    S03 --> autonomous_daily_manager
+    G07 --> S03
+    S06 --> G07_health_recovery_pro
+    S06 --> G07_health_anomaly_monitor
+    S06 --> G07_workout_adjustment_executor
+    S03 --> G07_workout_adjustment_executor
+    S03 --> G07_evening_restorative_handler
+    S08 --> G08_resource_healer
+    G08 --> S08
+    S08 --> G08_hardware_monitor
+    S07 --> G08_home_monitor
+    G08 --> S07
+    S07 --> G08_focus_orchestrator
+    S07 --> G08_focus_readiness_check
+    S07 --> G08_environment_advisor
+    G08 --> S04
+    S07 --> G08_predictive_scene_executor
+    S03 --> G09_career_strategist
+    G09 --> S03
+    S11 --> G09_career_strategist
+    G09 --> S11
+    S10 --> g09_activity_log_generator
+    G09 --> S10
+    S03 --> G09_market_scout_handler
+    S11 --> G09_skill_gap_learning_executor
+    G10 --> S10
+    G10 --> S04
+    S10 --> G10_evening_summarizer
+    S10 --> G10_log_reflection
+    S10 --> G11_task_archiver
+    S10 --> G11_mission_refractor
+    S09 --> G10_productivity_sync
+    G10 --> S09
+    S09 --> G10_calendar_enforcer
+    S04 --> G10_focus_intelligence
+    S04 --> G10_journal_data_collector
+    S04 --> G10_ai_memory_generator
+    S09 --> G10_foundation_checker
+    S04 --> G10_daily_pattern_analyzer
+    S04 --> G10_weekly_rollup
+    S10 --> autonomous_evening_manager
+    S09 --> G10_schedule_optimizer
+    S09 --> G10_location_intelligence
+    S04 --> G10_mood_engine
+    S09 --> G10_activity_analyzer
+    G10 --> S08
+    S09 --> G10_recovery_debt_forecaster
+    S08 --> G10_meeting_move_executor
+    RabbitMQ --> G11_event_emitter
+    G11 --> RabbitMQ
+    G11 --> S11
+    G11 --> S04
+    S10 --> G11_quick_wins
+    G11 --> S10
+    S11 --> G11_global_sync
+    S11 --> G12_connectivity_mapper
+    S11 --> G11_bulk_approval_authority
+    S11 --> G11_autonomy_promoter
+    S11 --> G05_auto_rebalance_trigger
+    S11 --> G11_task_archiver
+    S11 --> G11_ceo_weekly_briefing
+    S11 --> G11_meta_mapper
+    S11 --> G11_rules_engine
+    S11 --> G11_system_audit
+    S11 --> G11_strategic_summarizer
+    S11 --> G11_task_syncer
+    S11 --> G11_maintenance_batcher
+    S11 --> G11_hygiene_agent
+    S11 --> G11_decision_proposer
+    S11 --> G11_decision_handler
+    S11 --> G11_action_executor
+    S11 --> G11_self_healing_repair
+    S11 --> G11_suggestion_scrubber
+    S04 --> G11_mission_aggregator
+    S04 --> G11_goal_recommender
+    S11 --> G11_technical_failure_harvester
+    S11 --> G11_failure_analyzer
+    S11 --> G11_populate_kb
+    S11 --> G11_self_healing_logic
+    G11 --> S03
+    S11 --> G11_stall_detector
+    G11 --> Modular_SDK
+    S11 --> parallel_daily_manager
+    Hermes_Agent --> G11_hermes_agent
+    G11 --> Hermes_Agent
+    S04 --> G11_goal_registry_sync
+    S04 --> G11_value_function
+    S04 --> G11_utility_calculator
+    S04 --> G11_pareto_generator
+    S04 --> G11_post_mortem
+    S11 --> G11_prescriptive_proposer
+    S04 --> n8n_deploy_tools_v25
+    S10 --> G12_auto_documenter
+    G12 --> S10
+    S04 --> G12_auto_documenter
+    G12 --> S04
+    S10 --> G12_documentation_audit
+    G12 --> S11
+    S10 --> G12_stale_docs_monitor
+    S10 --> G12_link_maintainer
+    S04 --> G10_productivity_data_contributor
+    S04 --> G13_content_idea_generator
+    G13 --> S04
+    S08 --> G13_content_draft_agent
+    G13 --> S08
+    S08 --> G13_linkedin_draft_generator
+    S08 --> G13_substack_draft_generator
+    G10_Google_Tasks --> G13_substack_scheduler
+    G13 --> G10_Google_Tasks
+    G10_Google_Tasks --> G13_content_publish_executor
+    G13 --> G11

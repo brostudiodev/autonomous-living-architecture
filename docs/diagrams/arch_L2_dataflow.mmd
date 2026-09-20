@@ -1,0 +1,37 @@
+graph TD
+    subgraph ING["Direction 1 · Data Ingestion"]
+        EXT["External Sources<br/>(Withings, Banks, Telemetry, Content)"]:::ext
+        PY["Python Scripts (Body)<br/>Deterministic executors"]:::body
+        EXT -->|"sync"| PY
+    end
+    subgraph MEM["Memory · PostgreSQL"]
+        PG[("8 Domain DBs<br/>Single Source of Truth")]:::db
+        BRIDGE["DB-Event-Bridge<br/>pg_notify → AMQP"]:::body
+        PG --> BRIDGE
+    end
+    subgraph EVT["Nervous System · RabbitMQ"]
+        RMQ{{"life.events<br/>topic exchange"}}:::mq
+    end
+    subgraph BRAIN["Direction 2 · Intelligence (n8n)"]
+        ROUTER["Universal-Autonomy-Orchestrator<br/>Intent routing"]:::brain
+        LLM["Google Gemini LLM<br/>Reasoning & synthesis"]:::brain
+        ROUTER -->|"categorize"| LLM
+    end
+    subgraph OUT["Reactions · Execution & Notification"]
+        EXEC["G11 Action Executors<br/>(approval-gated)"]:::body
+        NOTIFY["G04_notifier"]:::body
+        TG["Telegram User"]:::io
+        EXEC --> NOTIFY
+        NOTIFY -->|"Receipt"| TG
+    end
+    PY -->|"1. write"| PG
+    BRIDGE -->|"2. emit"| RMQ
+    RMQ -->|"3. consume"| ROUTER
+    LLM -->|"4. decide"| EXEC
+    TG -.->|"user command"| ROUTER
+    classDef ext fill:#fff3e0,stroke:#f59e0b;
+    classDef body fill:#e1f5fe,stroke:#0ea5e9;
+    classDef db fill:#ffedd5,stroke:#f97316;
+    classDef mq fill:#fef3c7,stroke:#f59e0b;
+    classDef brain fill:#f3e5f5,stroke:#9333ea;
+    classDef io fill:#e8f5e9,stroke:#22c55e;

@@ -1,0 +1,19 @@
+graph LR
+    PROP["G10 Recovery Forecaster<br/>G11 Prescriptive Proposer<br/>G05 Finance Monitor"]:::body
+    REQ[("decision_requests<br/>PENDING")]:::db
+    TG["Telegram<br/>Approve / Deny links"]:::io
+    HANDLER["G11 decision_handler"]:::body
+    EXEC["G11 action_executor<br/>16 executors"]:::body
+    TRUST["G11 trust_engine<br/>limited → full"]:::body
+    SWITCH["G11 governance_switch<br/>full_autonomy_mode"]:::body
+    RULES["autonomy_policies.yaml"]:::db
+    PROP -->|"propose"| REQ
+    REQ -->|"approve/deny"| TG
+    TG --> HANDLER
+    HANDLER --> EXEC
+    EXEC -->|"Observed outcome"| TRUST
+    TRUST --> RULES
+    SWITCH -->|"forces APPOVED"| REQ
+    classDef body fill:#e1f5fe,stroke:#0ea5e9;
+    classDef db fill:#ffedd5,stroke:#f97316;
+    classDef io fill:#e8f5e9,stroke:#22c55e;

@@ -1,0 +1,46 @@
+graph LR
+    classDef core fill:#161b22,stroke:#58a6ff,color:#e6edf3;
+    classDef ora fill:#0d1117,stroke:#f0883e,color:#e6edf3;
+    classDef local fill:#161b22,stroke:#3fb950,color:#e6edf3;
+    PANGOLIN["Pangolin / VPN ingress<br/><i>internet</i><br/><small>VPN tunnel · reverse proxy · internet gateway</small>"]
+    AIPC["AI-PC<br/><i>ai-pc</i><br/><small>stores + runs LLM models · GPU inference · Ollama/vLLM backend</small>"]
+    HOST["Proxmox Host<br/><i>proxmox-host</i><br/><small>QEMU · pve-firewall · HA noVNC</small>"]
+    N8N["n8n-vm<br/><i>{{INTERNAL_IP}}</i><br/><small>n8n · RabbitMQ · postgres · node-exporter · pushgateway</small>"]
+    LITELLM["litellm-vm<br/><i>{{INTERNAL_IP}}</i><br/><small>litellm:4000 · open-webui · grafana · postgres</small>"]
+    SERVICES["services-vm<br/><i>{{INTERNAL_IP}}</i><br/><small>authentik (server+worker+postgresql)</small>"]
+    ORACLE["Oracle Cloud VM<br/><i>oracle-cloud</i><br/><small>prometheus:9094 · grafana:3000 · status:3001 · uptime-kuma</small>"]
+    HA["Home Assistant<br/><i>{{INTERNAL_IP}}</i><br/><small>Core :8123 · lovelace · integrations</small>"]
+    TWIN["Digital Twin API<br/><i>5677</i><br/><small>core/api.py · arch.html · psycopg2</small>"]
+    BRIDGE["DB-Event-Bridge<br/><i>per-VM /opt</i><br/><small>pg_notify → AMQP → RabbitMQ life.events</small>"]
+    HERMES["hermes (n8n-vm tunnel)<br/><i>127.0.0.1</i><br/><small>hermes-litellm-tunnel :4000 · /hermes/vms</small>"]
+    class HOST ora
+    class ORACLE ora
+    class HA ora
+    class N8N local
+    class LITELLM local
+    class SERVICES local
+    class TWIN local
+    class BRIDGE local
+    class HERMES local
+    class PANGOLIN local
+    class AIPC local
+    INTERNET(["Internet / WAN"]) --> PANGOLIN
+    PANGOLIN --|site → VPN|--> N8N
+    PANGOLIN --|VPN gateway|--> ORACLE
+    N8N --|pg_notify|--> BRIDGE
+    BRIDGE --|AMQP|--> N8N
+    N8N --|SSH tunnel :4000|--> LITELLM
+    N8N --|REST :8123|--> HA
+    HA --|webhook|--> N8N
+    LITELLM --|model :11434|--> AIPC
+    AIPC --|tokens|--> LITELLM
+    N8N --|direct :8000|--> AIPC
+    LITELLM --|:4000|--> ORACLE
+    ORACLE --|scrape|--> LITELLM
+    N8N --|prometheus :9094|--> ORACLE
+    SERVICES --|OIDC|--> ORACLE
+    TWIN --|postgres :6432|--> N8N
+    HERMES --|ssh :4000|--> LITELLM
+    HOST --|QEMU|--> N8N
+    HOST --|QEMU|--> LITELLM
+    HOST --|QEMU|--> SERVICES

@@ -1,0 +1,40 @@
+graph TB
+    subgraph HOST["Docker Host (Homelab)"]
+        N8N["n8n (Brain)<br/>Workflow Engine"]:::brain
+        TWIN["Digital Twin API<br/>Port 5677"]:::body
+        EDA["EDA Orchestrator<br/>RabbitMQ consumer"]:::body
+        PG[("PostgreSQL 16 + pgvector<br/>8 domain DBs")]:::db
+        PGB["PgBouncer<br/>Port 6432"]:::body
+        RMQ{{"RabbitMQ<br/>life.events"}}:::mq
+        REST[("Redis · Qdrant")]:::db
+        N8N --> PGB
+        EDA --> RMQ
+        TWIN --> PGB
+        PGB --> PG
+    end
+    subgraph CLOUD["Cloud (litellm-vm / Oracle)"]
+        PROM["Prometheus"]:::obs
+        GRAF["Grafana"]:::obs
+        AUTH["Authentik SSO"]:::obs
+        EDGE["Pangolin Edge"]:::obs
+        PROM --> GRAF
+    end
+    subgraph EXT2["External Platforms"]
+        TGA["Telegram API"]:::io
+        GOOG["Google (Sheets · Calendar)"]:::io
+        GITHUB2["GitHub"]:::io
+        WITH2["Withings"]:::io
+    end
+    N8N --> TGA
+    TWIN --> GOOG
+    PGB --> GITHUB2
+    EDA --> WITH2
+    PROM --> N8N
+    AUTH --> TWIN
+    EDGE --> N8N
+    classDef brain fill:#f3e5f5,stroke:#9333ea;
+    classDef body fill:#e1f5fe,stroke:#0ea5e9;
+    classDef db fill:#ffedd5,stroke:#f97316;
+    classDef mq fill:#fef3c7,stroke:#f59e0b;
+    classDef obs fill:#dcfce7,stroke:#22c55e;
+    classDef io fill:#f1f5f9,stroke:#64748b;

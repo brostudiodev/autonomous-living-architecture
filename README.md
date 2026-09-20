@@ -21,6 +21,80 @@ Most modern solutions rely either on simple "if-this-then-that" automation or pu
 
 ---
 
+## 📡 The System Is Live — See It Running
+
+This is not a paper architecture. The system below runs 24/7 in a self-hosted homelab and exposes live dashboards.
+Every screenshot in this section is captured from the running instance.
+
+| | |
+|---|---|
+| **Digital Twin · Mission Control** — real-time vitals, agent status, and system health in one cockpit | **Architecture Map** — layered view from the North Star goal down to individual data flows |
+| ![Mission Control](docs/90_Attachments/screenshots/00-mission-control.png) | ![Architecture Map](docs/90_Attachments/screenshots/01-architecture-map.png) |
+| **Connectivity Map** — every service, platform, and what talks to what | **VM Connections** — which machines exist and how they reach each other |
+| ![Connectivity Map](docs/90_Attachments/screenshots/02-connectivity-map.png) | ![VM Connections](docs/90_Attachments/screenshots/03-vm-connections.png) |
+| **Daily AI Health Report** — the system reads biometric + lifestyle data and outputs an actionable briefing every morning | |
+| ![Health Report](docs/90_Attachments/screenshots/04-health-report.png) | |
+
+> 💡 All dashboards are mermaid-based and also exportable as diagrams — see
+> [`docs/diagrams/`](docs/diagrams/).
+
+---
+
+## 🧭 System Architecture at a Glance
+
+```mermaid
+graph TB
+    subgraph HOST["Docker Host (Homelab)"]
+        N8N["n8n (Brain)<br/>Workflow Engine"]:::brain
+        TWIN["Digital Twin API<br/>Port 5677"]:::body
+        EDA["EDA Orchestrator<br/>RabbitMQ consumer"]:::body
+        PG[("PostgreSQL 16 + pgvector<br/>8 domain DBs")]:::db
+        PGB["PgBouncer<br/>Port 6432"]:::body
+        RMQ{{"RabbitMQ<br/>life.events"}}:::mq
+        REST[("Redis · Qdrant")]:::db
+        N8N --> PGB
+        EDA --> RMQ
+        TWIN --> PGB
+        PGB --> PG
+    end
+    subgraph CLOUD["Cloud (litellm-vm / Oracle)"]
+        PROM["Prometheus"]:::obs
+        GRAF["Grafana"]:::obs
+        AUTH["Authentik SSO"]:::obs
+        EDGE["Pangolin Edge"]:::obs
+        PROM --> GRAF
+    end
+    subgraph EXT2["External Platforms"]
+        TGA["Telegram API"]:::io
+        GOOG["Google (Sheets · Calendar)"]:::io
+        GITHUB2["GitHub"]:::io
+        WITH2["Withings"]:::io
+    end
+    N8N --> TGA
+    TWIN --> GOOG
+    PGB --> GITHUB2
+    EDA --> WITH2
+    PROM --> N8N
+    AUTH --> TWIN
+    EDGE --> N8N
+    classDef brain fill:#f3e5f5,stroke:#9333ea;
+    classDef body fill:#e1f5fe,stroke:#0ea5e9;
+    classDef db fill:#ffedd5,stroke:#f97316;
+    classDef mq fill:#fef3c7,stroke:#f59e0b;
+    classDef obs fill:#dcfce7,stroke:#22c55e;
+    classDef io fill:#f1f5f9,stroke:#64748b;
+```
+
+Detailed, layer-by-layer mermaid graphs live in [`docs/diagrams/`](docs/diagrams/):
+
+- [`arch_L1_dataflow.mmd`](docs/diagrams/arch_L1_dataflow.mmd) — North Star → 15 goals → systems
+- [`arch_L2_infra.mmd`](docs/diagrams/arch_L2_infra.mmd) — homelab / cloud / external platforms
+- [`arch_L2_autonomy.mmd`](docs/diagrams/arch_L2_autonomy.mmd) — automation vs. autonomy boundary
+- [`arch_L3_dataflow.mmd`](docs/diagrams/arch_L3_dataflow.mmd) — per-system data flows
+- [`map_connectivity.mmd`](docs/diagrams/map_connectivity.mmd) — full service connectivity map
+- [`vms_connections.mmd`](docs/diagrams/vms_connections.mmd) — VM-to-VM topology
+
+---
 ## 🎯 The Philosophy: "Share the Blueprint, Let Others Build Their Own House"
 
 This repository demonstrates how to architect resilient, integrated autonomous living ecosystems using enterprise methodologies (**ITIL 4, PRINCE2**) applied to daily life. 
