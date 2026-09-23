@@ -1,5 +1,7 @@
 # 🤖 Autonomous Living: The Life Engineering Blueprint
 
+**New here?** Read [Start here. The Map I Never Drew](https://automationbro.substack.com/p/start-here-the-map-i-never-drew) — the thinking behind this blueprint, in plain English.
+
 ## The Mission: Architecting a Fully Autonomous Life
 
 This repository is not about building another AI chatbot. It is a comprehensive **Enterprise-Grade Blueprint** for shifting your life from manual management to **Autonomous Execution**.
