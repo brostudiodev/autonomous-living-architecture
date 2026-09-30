@@ -2,6 +2,8 @@
 
 **New here?** Read [Start here. The Map I Never Drew](https://automationbro.substack.com/p/start-here-the-map-i-never-drew) — the thinking behind this blueprint, in plain English.
 
+**Want the evidence first?** Read [Seven years of hardware](docs/seven-years-of-hardware.md) — seven years of running this in one real house: six Arduino Megas, 6 km of cable, the three things that actually broke, and what I would wire differently.
+
 ## The Mission: Architecting a Fully Autonomous Life
 
 This repository is not about building another AI chatbot. It is a comprehensive **Enterprise-Grade Blueprint** for shifting your life from manual management to **Autonomous Execution**.
@@ -70,6 +72,14 @@ This repository contains two implementation phases. Pick the one that matches yo
 | **[autonomy_phase](https://github.com/brostudiodev/autonomous-living-architecture/tree/autonomy_phase)** | 🏛️ **Enterprise architects** | Guardrail-based | Event-driven, hardened security (RBAC, Authentik SSO, PgBouncer), full observability stack, decoupled systems. For those ready to delegate decisions within boundaries. |
 
 > **💡 Recommendation:** Browse both to understand the full vision. For your first autonomous living build, start with `automation_phase` — it's battle-tested, lower risk, and gives you immediate value. Move to `autonomy_phase` once your infrastructure is stable and you're ready to trust the system with autonomous decisions.
+
+---
+
+## 📓 Field Notes
+
+Reference material from running this architecture in a real house, not a lab.
+
+- **[Seven years of hardware](docs/seven-years-of-hardware.md)** — six Arduino Megas on one USB hub, ~400 entities, 6 km of CAT5. The three things that broke in seven years were all physical, and none of them was an automation. Includes the naming convention, the automations I removed, and the wiring I would do differently.
 
 ---
 
